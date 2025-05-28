@@ -52,6 +52,10 @@ def main():
     print("Snapping fake trajectory to road network...")
     trajectory_privacy.snap_to_road_network()
 
+    # Also snap real trajectory to road network for consistent visualization
+    print("Snapping real trajectory to road network...")
+    trajectory_privacy.snap_real_trajectory_to_road_network()
+
     # Visualize both trajectories
     print("Creating visualization...")
     map_viz = trajectory_privacy.visualize_trajectories(zoom_start=14)

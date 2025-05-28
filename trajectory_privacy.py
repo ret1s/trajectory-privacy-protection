@@ -225,6 +225,27 @@ class TrajectoryPrivacy:
 
         self.fake_trajectory = snapped_trajectory
 
+    def snap_real_trajectory_to_road_network(self):
+        """
+        Snap real trajectory points to nearest roads for realistic representation.
+        """
+        if self.graph is None or len(self.real_trajectory) == 0:
+            return
+
+        snapped_trajectory = []
+
+        for lat, lon in self.real_trajectory:
+            # Find nearest node in graph
+            nearest_node = ox.distance.nearest_nodes(self.graph, lon, lat)
+
+            # Get node coordinates
+            node = self.graph.nodes[nearest_node]
+            snapped_lat, snapped_lon = node['y'], node['x']
+
+            snapped_trajectory.append((snapped_lat, snapped_lon))
+
+        self.real_trajectory = snapped_trajectory
+
     def visualize_trajectories(self, center=None, zoom_start=15):
         """
         Visualize real and fake trajectories on an interactive map.
