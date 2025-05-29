@@ -121,16 +121,22 @@ class TrajectoryPrivacy:
         # Store real point
         self.real_trajectory.append((lat, lon))
 
-        # Apply geo-indistinguishability mechanism to get initial fake point
-        fake_lat, fake_lon = self.geo_indist.add_noise(lat, lon)
+        # First try to find a point on an alternative road
+        alternative_point = self._find_alternative_road(lat, lon, min_distance=50, max_distance=min(150, self.qos_radius * 0.9))
 
-        # Ensure fake point is valid (not in building, water, etc.)
-        attempts = 0
-        max_attempts = 10
-
-        while (not self.is_valid_location(fake_lat, fake_lon)) and attempts < max_attempts:
+        # If we found a suitable alternative road point that meets QoS requirements
+        if alternative_point and self._check_qos(lat, lon, alternative_point[0], alternative_point[1]):
+            fake_lat, fake_lon = alternative_point
+        else:
+            # Fall back to the geo-indistinguishability mechanism
             fake_lat, fake_lon = self.geo_indist.add_noise(lat, lon)
-            attempts += 1
+
+            # Ensure fake point is valid (not in building, water, etc.)
+            attempts = 0
+            max_attempts = 10
+            while (not self.is_valid_location(fake_lat, fake_lon)) and attempts < max_attempts:
+                fake_lat, fake_lon = self.geo_indist.add_noise(lat, lon)
+                attempts += 1
 
         # Ensure continuity with previous fake points
         if len(self.fake_trajectory) > 0:
@@ -384,3 +390,61 @@ class TrajectoryPrivacy:
 
         return metrics
 
+    def _find_alternative_road(self, lat, lon, min_distance=50, max_distance=150):
+        """
+        Find a point on a different road than the current one.
+
+        Args:
+            lat: Latitude of real point
+            lon: Longitude of real point
+            min_distance: Minimum distance (meters) from original point
+            max_distance: Maximum distance (meters) from original point
+
+        Returns:
+            Tuple of (alt_lat, alt_lon) on a different road, or None if not found
+        """
+        if self.graph is None:
+            return None
+
+        # Find the nearest edge for the original point
+        original_edge = ox.distance.nearest_edges(self.graph, lon, lat)
+
+        # Get all edges within the max_distance
+        nearby_edges = []
+        for u, v, data in self.graph.edges(data=True):
+            # Skip the original edge and its reverse
+            if (u == original_edge[0] and v == original_edge[1]) or \
+               (u == original_edge[1] and v == original_edge[0]):
+                continue
+
+            # Get the edge geometry
+            if 'geometry' in data:
+                edge_geom = data['geometry']
+            else:
+                # Create a straight line if no geometry
+                u_x, u_y = self.graph.nodes[u]['x'], self.graph.nodes[u]['y']
+                v_x, v_y = self.graph.nodes[v]['x'], self.graph.nodes[v]['y']
+                edge_geom = LineString([(u_x, u_y), (v_x, v_y)])
+
+            # Calculate distance from point to edge
+            point = Point(lon, lat)
+            dist = point.distance(edge_geom) * 111000  # Rough conversion to meters
+
+            # Consider edges at an appropriate distance
+            if min_distance <= dist <= max_distance:
+                nearby_edges.append((u, v, dist, edge_geom))
+
+        # Sort by distance (prefer roads further away but still within max_distance)
+        nearby_edges.sort(key=lambda x: x[2], reverse=True)
+
+        # Try to find a suitable point on an alternative road
+        for _, _, _, edge_geom in nearby_edges[:10]:  # Try from the top 10 candidates
+            # Project point onto the edge
+            projected_point = edge_geom.interpolate(edge_geom.project(Point(lon, lat)))
+            alt_lon, alt_lat = projected_point.x, projected_point.y
+
+            # Check if the point is valid
+            if self.is_valid_location(alt_lat, alt_lon):
+                return alt_lat, alt_lon
+
+        return None
