@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>LBS Privacy Simulator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root { --panel:#ffffff; --ink:#1a202c; --muted:#64748b; --line:#e2e8f0; }
+  * { box-sizing:border-box; margin:0; }
+  body { font-family:-apple-system,'Segoe UI',sans-serif; color:var(--ink); display:flex; height:100vh; }
+  #map { flex:1; }
+  aside { width:340px; padding:16px; overflow-y:auto; background:var(--panel); border-left:1px solid var(--line); }
+  h1 { font-size:17px; margin-bottom:4px; }
+  .sub { font-size:12px; color:var(--muted); margin-bottom:14px; }
+  label { font-size:12px; font-weight:600; display:block; margin:10px 0 4px; }
+  select, input[type=range] { width:100%; }
+  .epsval { font-size:12px; color:var(--muted); }
+  button { margin-top:12px; width:100%; padding:9px; border:0; border-radius:8px; background:#2563eb; color:#fff; font-weight:600; cursor:pointer; }
+  button:disabled { background:#94a3b8; }
+  .views { margin-top:14px; font-size:12.5px; line-height:1.5; }
+  .views div { display:flex; align-items:center; gap:7px; }
+  .dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
+  .stat { display:flex; justify-content:space-between; font-size:12.5px; padding:3px 0; border-bottom:1px dashed var(--line); }
+  .stat b { font-variant-numeric:tabular-nums; }
+  #stepinfo { margin-top:12px; background:#f8fafc; border:1px solid var(--line); border-radius:8px; padding:10px; font-size:12.5px; }
+  .usecase { margin-top:14px; font-size:11.5px; color:var(--muted); line-height:1.45; }
+  .poihit { color:#059669; font-weight:700; } .poimiss { color:#dc2626; font-weight:700; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<aside>
+  <h1>LBS Privacy Simulator</h1>
+  <div class="sub">GeoLife (Bắc Kinh) · lưới đường OSM · tấn công HMM trực tuyến</div>
+
+  <label>Quỹ đạo thật (GeoLife)</label>
+  <select id="traj">
+    {% for t in trajectories %}
+    <option value="{{ t.i }}">#{{ t.i }} — user {{ t.user }} ({{ t.n }} điểm)</option>
+    {% endfor %}
+  </select>
+
+  <label>Cơ chế bảo vệ</label>
+  <select id="mech">
+    <option value="temporal_road_exponential">T-REM (đề xuất, có ràng buộc thời gian)</option>
+    <option value="road_exponential">REM (đề xuất, tĩnh)</option>
+    <option value="baseline_thesis">Baseline internship-2</option>
+    <option value="planar_laplace">Planar Laplace (Geo-I gốc)</option>
+  </select>
+
+  <label>ε (per meter) <span class="epsval" id="epsval">0.02</span></label>
+  <input type="range" id="eps" min="0.005" max="0.05" step="0.005" value="0.02">
+
+  <button id="run">▶ Chạy mô phỏng</button>
+
+  <div class="views">
+    <div><span class="dot" style="background:#16a34a"></span> User view — vị trí thật</div>
+    <div><span class="dot" style="background:#dc2626"></span> LBS view — vị trí đã làm nhiễu</div>
+    <div><span class="dot" style="background:#111827"></span> Attacker — ước lượng HMM</div>
+    <div><span class="dot" style="background:#f59e0b"></span> POI trả về từ query "gần tôi"</div>
+  </div>
+
+  <div id="summary" style="margin-top:14px"></div>
+  <div id="stepinfo">Chọn quỹ đạo, cơ chế và ε rồi bấm chạy.</div>
+
+  <div class="usecase">
+    <b>Use case đang mô phỏng:</b> người dùng vừa di chuyển vừa hỏi LBS
+    "3 hiệu thuốc gần tôi nhất". Server chỉ thấy điểm đỏ; nếu POI trả về
+    trùng với đáp án đúng (điểm xanh) thì QoS được giữ. Kẻ tấn công (điểm
+    đen) chỉ thấy chuỗi điểm đỏ và cố lần theo người dùng bằng lọc Bayes.
+  </div>
+</aside>
+
+<script>
+const map = L.map('map').setView([39.99, 116.32], 14);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  { attribution:'© OpenStreetMap' }).addTo(map);
+
+let layers = L.layerGroup().addTo(map);
+let timer = null;
+
+document.getElementById('eps').oninput = e =>
+  document.getElementById('epsval').textContent = e.target.value;
+
+document.getElementById('run').onclick = async () => {
+  const btn = document.getElementById('run');
+  btn.disabled = true; btn.textContent = 'Đang mô phỏng…';
+  if (timer) clearInterval(timer);
+  layers.clearLayers();
+
+  const q = new URLSearchParams({
+    traj: document.getElementById('traj').value,
+    mech: document.getElementById('mech').value,
+    eps: document.getElementById('eps').value,
+    seed: Math.floor(Math.random()*1e6),
+  });
+  const res = await fetch('/simulate?' + q);
+  const data = await res.json();
+  btn.disabled = false; btn.textContent = '▶ Chạy mô phỏng';
+
+  const s = data.summary;
+  document.getElementById('summary').innerHTML =
+    `<div class="stat"><span>Độ lệch trung bình</span><b>${s.mean_disp} m</b></div>
+     <div class="stat"><span>QoS (≤ ${data.qos_radius}m)</span><b>${(s.qos*100).toFixed(0)}%</b></div>
+     <div class="stat"><span>Điểm nằm trên đường</span><b>${(s.on_road*100).toFixed(0)}%</b></div>
+     <div class="stat"><span>Sai số attacker (TB)</span><b>${s.mean_attacker_err} m</b></div>
+     <div class="stat"><span>k-NN POI recall</span><b>${(s.knn_recall*100).toFixed(0)}%</b></div>
+     <div class="stat"><span>Ngân sách ε toàn quỹ đạo</span><b>${s.epsilon_total}</b></div>`;
+
+  const steps = data.steps;
+  map.fitBounds(L.latLngBounds(steps.map(x => x.real)));
+
+  const realLine = L.polyline([], {color:'#16a34a', weight:3}).addTo(layers);
+  const relLine  = L.polyline([], {color:'#dc2626', weight:3, dashArray:'6 5'}).addTo(layers);
+  const attLine  = L.polyline([], {color:'#111827', weight:2, dashArray:'2 6'}).addTo(layers);
+  let realM = null, relM = null, attM = null, qosC = null, pois = [];
+
+  let i = 0;
+  timer = setInterval(() => {
+    if (i >= steps.length) { clearInterval(timer); return; }
+    const st = steps[i];
+    realLine.addLatLng(st.real); relLine.addLatLng(st.released); attLine.addLatLng(st.attacker);
+    if (realM) { layers.removeLayer(realM); layers.removeLayer(relM);
+                 layers.removeLayer(attM); layers.removeLayer(qosC);
+                 pois.forEach(p => layers.removeLayer(p)); pois = []; }
+    qosC = L.circle(st.real, {radius:data.qos_radius, color:'#16a34a', weight:1,
+                              fillOpacity:0.04}).addTo(layers);
+    realM = L.circleMarker(st.real, {radius:7, color:'#16a34a', fillColor:'#16a34a', fillOpacity:1}).addTo(layers);
+    relM  = L.circleMarker(st.released, {radius:7, color:'#dc2626', fillColor:'#dc2626', fillOpacity:1}).addTo(layers);
+    attM  = L.circleMarker(st.attacker, {radius:6, color:'#111827', fillColor:'#111827', fillOpacity:1}).addTo(layers);
+    st.poi_reported.forEach(p => pois.push(
+      L.circleMarker(p, {radius:5, color:'#f59e0b', fillColor:'#f59e0b', fillOpacity:0.9}).addTo(layers)));
+
+    const cls = st.poi_hits === 3 ? 'poihit' : (st.poi_hits === 0 ? 'poimiss' : '');
+    document.getElementById('stepinfo').innerHTML =
+      `<b>Bước ${i+1}/${steps.length}</b> · ${st.t}<br>
+       Độ lệch báo cáo: <b>${st.disp} m</b><br>
+       Sai số attacker: <b>${st.attacker_err} m</b><br>
+       POI đúng: <span class="${cls}">${st.poi_hits}/3</span>`;
+    i++;
+  }, 350);
+};
+</script>
+</body>
+</html>

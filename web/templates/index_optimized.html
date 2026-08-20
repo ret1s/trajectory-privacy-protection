@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trajectory Privacy Protection - Optimized Demo</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Leaflet Draw CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    
+    <!-- Custom CSS -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        
+        .header {
+            height: 60px;
+            background: #2c3e50;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            flex-grow: 1;
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #map {
+            flex: 1;
+            position: relative;
+        }
+        
+        .controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            width: 320px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .control-group {
+            margin-bottom: 15px;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        
+        .control-group input[type="range"] {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        
+        .control-group .value-display {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .control-group input[type="checkbox"] {
+            margin-right: 8px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .button-group-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+        
+        .btn-primary:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #c0392b;
+        }
+        
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #229954;
+        }
+        
+        .btn-terminal {
+            background: #34495e;
+            color: white;
+        }
+        
+        .btn-terminal:hover {
+            background: #2c3e50;
+        }
+        
+        .metrics {
+            margin-top: 20px;
+            padding: 15px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .metrics h3 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .metric-label {
+            color: #7f8c8d;
+        }
+        
+        .metric-value {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        
+        .legend h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 3px;
+            margin-right: 10px;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .info-box {
+            background: #3498db;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .cache-info {
+            background: #27ae60;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        /* Terminal Styles */
+        .terminal-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 250px;
+            background: #1e1e1e;
+            border-top: 2px solid #34495e;
+            transition: transform 0.3s ease;
+            z-index: 1001;
+        }
+        
+        .terminal-container.hidden {
+            transform: translateY(100%);
+        }
+        
+        .terminal-header {
+            background: #2c3e50;
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .terminal-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .terminal-title::before {
+            content: ">";
+            font-family: monospace;
+            font-weight: bold;
+        }
+        
+        .terminal-close {
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+        
+        .terminal-close:hover {
+            opacity: 1;
+        }
+        
+        .terminal-content {
+            height: calc(100% - 45px);
+            overflow-y: auto;
+            padding: 10px 15px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .terminal-line {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .terminal-timestamp {
+            color: #7f8c8d;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+        
+        .terminal-message {
+            flex: 1;
+        }
+        
+        .terminal-line.info .terminal-message {
+            color: #3498db;
+        }
+        
+        .terminal-line.success .terminal-message {
+            color: #2ecc71;
+        }
+        
+        .terminal-line.warning .terminal-message {
+            color: #f39c12;
+        }
+        
+        .terminal-line.error .terminal-message {
+            color: #e74c3c;
+        }
+        
+        /* Adjust map height when terminal is visible */
+        .main-content.terminal-visible #map {
+            margin-bottom: 250px;
+        }
+        
+        /* Terminal toggle button */
+        .terminal-toggle {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: #34495e;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+        
+        .terminal-toggle:hover {
+            background: #2c3e50;
+        }
+        
+        .point-counter {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Trajectory Privacy Protection - Optimized Demo</h1>
+    </div>
+    
+    <div class="main-content" id="mainContent">
+        <div id="map"></div>
+        
+        <div class="point-counter" id="pointCounter">
+            Points: 0
+        </div>
+        
+        <div class="controls">
+            <div class="info-box">
+                Click on the map to draw a route, then click "Process Route" to see the privacy-protected trajectory.
+            </div>
+            
+            <div class="control-group">
+                <label for="epsilon">Privacy Parameter (ε)</label>
+                <input type="range" id="epsilon" min="0.01" max="1" step="0.01" value="0.1">
+                <div class="value-display" id="epsilon-value">0.1</div>
+                <small style="color: #7f8c8d;">Lower values = stronger privacy</small>
+            </div>
+            
+            <div class="control-group">
+                <label for="qos">Quality of Service Radius (meters)</label>
+                <input type="range" id="qos" min="50" max="300" step="5" value="175">
+                <div class="value-display" id="qos-value">175m</div>
+                <small style="color: #7f8c8d;">Maximum distance from real location</small>
+            </div>
+            
+            <div class="control-group">
+                <label>
+                    <input type="checkbox" id="use-interpolation">
+                    Interpolate to 20 points
+                </label>
+                <small style="color: #7f8c8d;">Enable if you want exactly 20 points</small>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn-primary" id="process-btn" disabled>Process Route</button>
+                <button class="btn-secondary" id="clear-btn">Clear Map</button>
+            </div>
+            
+            <div class="button-group-vertical">
+                <button class="btn-success" id="preload-btn">Preload Current View</button>
+                <button class="btn-secondary" id="clear-cache-btn">Clear Cache</button>
+            </div>
+            
+            <div class="loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 10px; color: #7f8c8d;">Processing route...</p>
+            </div>
+            
+            <div class="metrics" id="metrics">
+                <h3>Privacy Metrics</h3>
+                <div class="metric">
+                    <span class="metric-label">Average Distance:</span>
+                    <span class="metric-value" id="avg-distance">-</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Maximum Distance:</span>
+                    <span class="metric-value" id="max-distance">-</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">QoS Satisfaction:</span>
+                    <span class="metric-value" id="qos-satisfaction">-</span>
+                </div>
+            </div>
+            
+            <div class="cache-info">
+                💡 <strong>Tip:</strong> Click "Preload Current View" to download and cache the road network for faster processing!
+            </div>
+        </div>
+        
+        <div class="legend">
+            <h4>Legend</h4>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #3498db;"></div>
+                <span>User-drawn Route</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #27ae60;"></div>
+                <span>Real Trajectory (snapped to roads)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #e74c3c;"></div>
+                <span>Fake Trajectory (privacy-protected)</span>
+            </div>
+        </div>
+        
+        <button class="terminal-toggle" id="terminal-toggle">
+            Show Console
+        </button>
+    </div>
+    
+    <!-- Terminal Container -->
+    <div class="terminal-container hidden" id="terminal">
+        <div class="terminal-header">
+            <div class="terminal-title">System Console</div>
+            <div class="terminal-close" id="terminal-close">×</div>
+        </div>
+        <div class="terminal-content" id="terminal-content">
+            <div class="terminal-line info">
+                <span class="terminal-timestamp">--:--:--</span>
+                <span class="terminal-message">Console initialized. Waiting for connection...</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Leaflet Draw JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    
+    <!-- Socket.IO -->
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    
+    <!-- Application JS -->
+    <script>
+        // Initialize Socket.IO connection
+        const socket = io();
+        
+        // Terminal functionality
+        const terminal = document.getElementById('terminal');
+        const terminalContent = document.getElementById('terminal-content');
+        const terminalToggle = document.getElementById('terminal-toggle');
+        const terminalClose = document.getElementById('terminal-close');
+        const mainContent = document.getElementById('mainContent');
+        let terminalVisible = false;
+        
+        function toggleTerminal() {
+            terminalVisible = !terminalVisible;
+            if (terminalVisible) {
+                terminal.classList.remove('hidden');
+                mainContent.classList.add('terminal-visible');
+                terminalToggle.textContent = 'Hide Console';
+                // Scroll to bottom
+                terminalContent.scrollTop = terminalContent.scrollHeight;
+            } else {
+                terminal.classList.add('hidden');
+                mainContent.classList.remove('terminal-visible');
+                terminalToggle.textContent = 'Show Console';
+            }
+        }
+        
+        terminalToggle.addEventListener('click', toggleTerminal);
+        terminalClose.addEventListener('click', toggleTerminal);
+        
+        // Socket.IO event handlers
+        socket.on('connect', function() {
+            addTerminalLine('Connected to server', 'success');
+        });
+        
+        socket.on('disconnect', function() {
+            addTerminalLine('Disconnected from server', 'error');
+        });
+        
+        socket.on('console_output', function(data) {
+            addTerminalLine(data.message, data.level, data.timestamp);
+        });
+        
+        function addTerminalLine(message, level = 'info', timestamp = null) {
+            const line = document.createElement('div');
+            line.className = `terminal-line ${level}`;
+            
+            const time = document.createElement('span');
+            time.className = 'terminal-timestamp';
+            time.textContent = timestamp || new Date().toLocaleTimeString('en-US', { hour12: false });
+            
+            const msg = document.createElement('span');
+            msg.className = 'terminal-message';
+            msg.textContent = message;
+            
+            line.appendChild(time);
+            line.appendChild(msg);
+            terminalContent.appendChild(line);
+            
+            // Auto-scroll to bottom if near bottom
+            if (terminalContent.scrollHeight - terminalContent.scrollTop < terminalContent.clientHeight + 100) {
+                terminalContent.scrollTop = terminalContent.scrollHeight;
+            }
+            
+            // Limit terminal history to 1000 lines
+            while (terminalContent.children.length > 1000) {
+                terminalContent.removeChild(terminalContent.firstChild);
+            }
+        }
+        
+        // Initialize map centered on San Francisco
+        const map = L.map('map').setView([37.7749, -122.4194], 13);
+        
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        
+        // Layer groups for different trajectory types
+        const drawnRoute = L.layerGroup().addTo(map);
+        const realTrajectory = L.layerGroup().addTo(map);
+        const fakeTrajectory = L.layerGroup().addTo(map);
+        
+        // Store drawn points
+        let routePoints = [];
+        let currentPolyline = null;
+        
+        // Update point counter
+        function updatePointCounter() {
+            document.getElementById('pointCounter').textContent = `Points: ${routePoints.length}`;
+        }
+        
+        // Update slider values
+        document.getElementById('epsilon').addEventListener('input', function() {
+            document.getElementById('epsilon-value').textContent = this.value;
+        });
+        
+        document.getElementById('qos').addEventListener('input', function() {
+            document.getElementById('qos-value').textContent = this.value + 'm';
+        });
+        
+        // Map click handler for drawing route
+        map.on('click', function(e) {
+            const point = {
+                lat: e.latlng.lat,
+                lng: e.latlng.lng
+            };
+            
+            routePoints.push(point);
+            updatePointCounter();
+            addTerminalLine(`Added point ${routePoints.length}: ${point.lat.toFixed(6)}, ${point.lng.toFixed(6)}`, 'info');
+            
+            // Add marker
+            L.circleMarker([point.lat, point.lng], {
+                radius: 5,
+                fillColor: '#3498db',
+                color: '#2980b9',
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.8
+            }).addTo(drawnRoute);
+            
+            // Update polyline
+            if (routePoints.length > 1) {
+                if (currentPolyline) {
+                    drawnRoute.removeLayer(currentPolyline);
+                }
+                
+                currentPolyline = L.polyline(routePoints.map(p => [p.lat, p.lng]), {
+                    color: '#3498db',
+                    weight: 3,
+                    opacity: 0.8
+                }).addTo(drawnRoute);
+            }
+            
+            // Enable process button if we have at least 2 points
+            if (routePoints.length >= 2) {
+                document.getElementById('process-btn').disabled = false;
+            }
+        });
+        
+        // Preload area button
+        document.getElementById('preload-btn').addEventListener('click', async function() {
+            const bounds = map.getBounds();
+            const areaBounds = [
+                bounds.getSouth() - 0.01,
+                bounds.getWest() - 0.01,
+                bounds.getNorth() + 0.01,
+                bounds.getEast() + 0.01
+            ];
+            
+            // Show terminal if not visible
+            if (!terminalVisible) {
+                toggleTerminal();
+            }
+            
+            try {
+                const response = await fetch('/preload_area', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        bounds: areaBounds
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to preload area');
+                }
+                
+                addTerminalLine(`Area preloaded successfully! ${data.nodes || ''} nodes cached`, 'success');
+                
+            } catch (error) {
+                addTerminalLine('Error preloading area: ' + error.message, 'error');
+            }
+        });
+        
+        // Clear cache button
+        document.getElementById('clear-cache-btn').addEventListener('click', async function() {
+            try {
+                const response = await fetch('/clear_cache', {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    addTerminalLine('Cache cleared successfully', 'success');
+                } else {
+                    throw new Error('Failed to clear cache');
+                }
+                
+            } catch (error) {
+                addTerminalLine('Error clearing cache: ' + error.message, 'error');
+            }
+        });
+        
+        // Process route button handler
+        document.getElementById('process-btn').addEventListener('click', async function() {
+            if (routePoints.length < 2) {
+                alert('Please draw a route with at least 2 points');
+                return;
+            }
+            
+            // Show terminal if not visible
+            if (!terminalVisible) {
+                toggleTerminal();
+            }
+            
+            // Show loading
+            document.querySelector('.loading').style.display = 'block';
+            document.getElementById('process-btn').disabled = true;
+            document.getElementById('metrics').style.display = 'none';
+            
+            // Clear previous results
+            realTrajectory.clearLayers();
+            fakeTrajectory.clearLayers();
+            
+            try {
+                const response = await fetch('/process_route', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        route: routePoints,
+                        epsilon: parseFloat(document.getElementById('epsilon').value),
+                        qos_radius: parseFloat(document.getElementById('qos').value),
+                        use_interpolation: document.getElementById('use-interpolation').checked
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to process route');
+                }
+                
+                // Draw real trajectory (snapped to roads)
+                if (data.real_trajectory && data.real_trajectory.length > 0) {
+                    const realPoints = data.real_trajectory.map(p => [p.lat, p.lng]);
+                    
+                    L.polyline(realPoints, {
+                        color: '#27ae60',
+                        weight: 4,
+                        opacity: 0.8
+                    }).addTo(realTrajectory);
+                    
+                    // Add markers
+                    data.real_trajectory.forEach((point, idx) => {
+                        L.circleMarker([point.lat, point.lng], {
+                            radius: 4,
+                            fillColor: '#27ae60',
+                            color: '#229954',
+                            weight: 2,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        }).addTo(realTrajectory)
+                        .bindPopup(`Real Point ${idx + 1}`);
+                    });
+                }
+                
+                // Draw fake trajectory
+                if (data.fake_trajectory && data.fake_trajectory.length > 0) {
+                    const fakePoints = data.fake_trajectory.map(p => [p.lat, p.lng]);
+                    
+                    L.polyline(fakePoints, {
+                        color: '#e74c3c',
+                        weight: 4,
+                        opacity: 0.8,
+                        dashArray: '10, 5'
+                    }).addTo(fakeTrajectory);
+                    
+                    // Add markers
+                    data.fake_trajectory.forEach((point, idx) => {
+                        L.circleMarker([point.lat, point.lng], {
+                            radius: 4,
+                            fillColor: '#e74c3c',
+                            color: '#c0392b',
+                            weight: 2,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        }).addTo(fakeTrajectory)
+                        .bindPopup(`Fake Point ${idx + 1}`);
+                    });
+                }
+                
+                // Update metrics
+                if (data.metrics) {
+                    document.getElementById('avg-distance').textContent = data.metrics.avg_distance + ' m';
+                    document.getElementById('max-distance').textContent = data.metrics.max_distance + ' m';
+                    document.getElementById('qos-satisfaction').textContent = data.metrics.qos_satisfaction + '%';
+                    document.getElementById('metrics').style.display = 'block';
+                }
+                
+                // Fit map to show all trajectories
+                const allPoints = [];
+                if (data.real_trajectory) {
+                    allPoints.push(...data.real_trajectory.map(p => [p.lat, p.lng]));
+                }
+                if (data.fake_trajectory) {
+                    allPoints.push(...data.fake_trajectory.map(p => [p.lat, p.lng]));
+                }
+                if (allPoints.length > 0) {
+                    map.fitBounds(allPoints);
+                }
+                
+            } catch (error) {
+                alert('Error processing route: ' + error.message);
+                console.error('Error:', error);
+                addTerminalLine('Error: ' + error.message, 'error');
+            } finally {
+                document.querySelector('.loading').style.display = 'none';
+                document.getElementById('process-btn').disabled = false;
+            }
+        });
+        
+        // Clear map button handler
+        document.getElementById('clear-btn').addEventListener('click', function() {
+            drawnRoute.clearLayers();
+            realTrajectory.clearLayers();
+            fakeTrajectory.clearLayers();
+            routePoints = [];
+            currentPolyline = null;
+            updatePointCounter();
+            document.getElementById('process-btn').disabled = true;
+            document.getElementById('metrics').style.display = 'none';
+            addTerminalLine('Map cleared', 'info');
+        });
+    </script>
+</body>
+</html>

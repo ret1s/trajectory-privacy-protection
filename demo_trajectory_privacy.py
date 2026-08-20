@@ -3,7 +3,7 @@ Demo script for trajectory privacy protection.
 """
 import folium
 import numpy as np
-from trajectory_privacy import TrajectoryPrivacy
+from core.trajectory_privacy import TrajectoryPrivacy
 import os
 import datetime
 import random
@@ -53,7 +53,7 @@ def generate_realistic_trajectory(center_lat, center_lon, target_length=20, max_
         try:
             # Calculate path using shortest path
             path = nx.shortest_path(G, start_node, node, weight='length')
-            path_length = sum(ox.utils_graph.get_route_edge_attributes(G, path, 'length'))
+            path_length = nx.shortest_path_length(G, start_node, node, weight='length')
 
             # Consider nodes that create paths of suitable length
             if 500 < path_length < max_distance:
@@ -226,7 +226,8 @@ def main():
 
     # Generate timestamp for the filename
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_file = f"trajectory_privacy_map_{timestamp}.html"
+    os.makedirs("outputs", exist_ok=True)
+    output_file = os.path.join("outputs", f"trajectory_privacy_map_{timestamp}.html")
 
     # Save the map
     map_viz.save(output_file)
