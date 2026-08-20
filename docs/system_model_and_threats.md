@@ -1,9 +1,10 @@
 # System Model & Threat Grounding
 
 *Đối chiếu các giả định của luận văn với hệ thống LBS thực tế được triển khai
-(khảo sát 2026-08-20, mọi claim có nguồn dẫn). Tài liệu này trả lời ba câu hỏi:
-(1) "bán kính QoS" có thật không, (2) cơ chế đặt ở đâu và nhận data ra sao trong
-thực tế, (3) các tấn công có thật để dựng scenario.*
+(khảo sát 2026-08-20, mọi claim có nguồn dẫn). Tài liệu này trả lời bốn chủ đề:
+(1) "bán kính QoS" có thật không (§1); (2) cấu trúc bài toán chuẩn & "privacy
+budget"/composition thật sự là gì (§2); (3) cơ chế đặt ở đâu và nhận data ra sao
+(§3); (4) các tấn công có thật để dựng scenario (§4).*
 
 ---
 
@@ -56,9 +57,126 @@ của nó — và (b) phát biểu xác suất (α,δ), *không* phải hard cap
 
 ---
 
-## 2. Cơ chế đặt ở đâu, nhận data ra sao (system model)
+## 2. Cấu trúc bài toán chuẩn & "privacy budget" (composition)
 
-### 2.1 Ba mô hình kiến trúc và deployment thực tế
+*Trả lời trực tiếp lo ngại: "privacy budget" tự đặt KHÔNG dùng được vì Geo-I là*
+***metric-DP*** *— ε là **mức riêng tư của MỘT lần công bố**, không phải một "túi ngân*
+*sách" tiêu dần. Dưới đây là (a) cách bài toán được đặt chuẩn trong literature để bám,*
+*(b) đối tượng "budget" đúng, (c) regime phơi lộ thật → đơn vị bảo vệ đúng cho GeoLife.*
+
+### 2.1 Bài toán chuẩn (canonical LPPM formulation) — bộ khung để follow
+
+Ba paper nền (Shokri S&P 2011; Andrés et al. CCS 2013; Bordenabe et al. CCS 2014)
+hợp thành **một pipeline nhất quán**: `prior → cơ chế → quan sát → suy luận adversary →
+hai metric đối ngẫu (privacy = sai số adversary; utility = quality loss)`. Đây là "bài
+toán đã đặt ra" luận văn nên dùng đúng ký hiệu:
+
+| Thành phần | Ký hiệu | Ý nghĩa |
+|---|---|---|
+| Tập vị trí (secrets) | **𝒳** (regions R) | vị trí thật khả dĩ, đã rời rạc hóa |
+| Tập điểm công bố | **𝒵** | output mà LBS/adversary thấy |
+| Prior / mobility profile | **π** (Markov trong Shokri) | phân bố trên 𝒳; kiến thức nền của adversary |
+| Cơ chế obfuscation (LPPM) | **f(z\|x) = K(x)(z) = k_{xz}** | kernel ngẫu nhiên: điểm giả z từ điểm thật x |
+| Quality / utility loss | **Q = Σ π_x k_{xz} d_Q(x,z)**, hoặc (α,δ)-usefulness (§1.4) | suy giảm chất lượng dịch vụ kỳ vọng |
+| Guarantee (Geo-I) | **k_{xz} ≤ e^{ε·d(x,x′)}·k_{x′z}** | metric DP; "ε·r trong bán kính r" |
+| Metric privacy | posterior Bayes Pr(x̂\|z); **expected inference error** Σ Pr(x̂\|z)·d(x̂,x) | privacy = adversary tối ưu sai bao nhiêu |
+
+- **Shokri S&P 2011** — bộ khung đo ⟨U, A, LPPM, O, ADV, METRIC⟩: event = ⟨u,r,t⟩,
+  prior = ma trận chuyển Markov, privacy metric = **expected estimation error**
+  ("correctness"), *không phải* entropy/k-anonymity. Tách rõ **sporadic** vs
+  **continuous** exposure. [DOI](https://dl.acm.org/doi/10.1109/SP.2011.18) ·
+  [companion sporadic PETS'11](https://link.springer.com/chapter/10.1007/978-3-642-22263-4_4)
+- **Andrés et al. CCS 2013** — kernel K(z\|x); `K(x)(Z) ≤ e^{ε·d(x,x′)}·K(x′)(Z)`;
+  planar Laplace `D_ε(x₀)(x)=(ε²/2π)e^{−ε·d}`, radius ~ Gamma(2, 1/ε); utility =
+  (α,δ)-usefulness. [arXiv 1212.1984](https://arxiv.org/abs/1212.1984)
+- **Bordenabe et al. CCS 2014** — bài toán tối ưu (LP): *minimize Σ π_x k_{xz} d_Q(x,z)
+  s.t. Geo-I + Σ_z k_{xz}=1*. [arXiv 1402.5029](https://arxiv.org/abs/1402.5029)
+
+→ Design tension = privacy–utility trade-off chuẩn: **tối đa sai số adversary (Shokri)
+/ thỏa ε-Geo-I (Andrés) trong khi tối thiểu Q (Bordenabe)**. Bám đúng khung này thì mọi
+metric trong `evaluation/` đã có chỗ đứng lý thuyết.
+
+### 2.2 "Privacy budget" — vì sao khái niệm tự đặt không khớp, đối tượng ĐÚNG là gì
+
+1. **Geo-I là metric DP** (Chatzikokolakis et al. PETS 2013, *"Broadening DP Using
+   Metrics"*, [DOI](https://doi.org/10.1007/978-3-642-39077-7_5)): ε là *"riêng tư trên
+   mỗi đơn vị khoảng cách"*, **vô nghĩa nếu tách khỏi metric**. Luôn phát biểu
+   **"εr-indistinguishable ở bán kính r"**, *không* gọi ε trần trụi là "budget".
+2. **Không có "túi tiêu hao" trong định nghĩa gốc.** ε là *mức* của MỘT release. Khi công
+   bố lặp T điểm với nhiễu ε-Geo-I độc lập, **composition tuần tự** cho
+   **ε·T-geo-indistinguishability** trên cả quỹ đạo — Andrés et al. phát biểu thẳng
+   *"n query → nε"* và **tự nhận là loose/impractical** (do các điểm tương quan). Đây là
+   **trần worst-case trung thực** cần báo cáo, và là baseline mà REM/T-REM cải thiện.
+   → Trực giác "budget" của bạn **không sai**, chỉ cần gắn vào đối tượng đúng dưới đây.
+3. **Đối tượng "budget" đúng = w-event ε-DP** (Kellaris, Papadopoulos, Xiao, **Papadias**,
+   VLDB 2014, [PDF](http://www.vldb.org/pvldb/vol7/p1155-kellaris.pdf)): quỹ đạo là một
+   *stream* điểm. `w=1` → **event-level** (bảo vệ 1 điểm); `w=T` → **user-level** (bảo vệ
+   cả trace). **Theorem 3 (quy tắc load-bearing):** tổng các ε_i trên **MỌI cửa sổ trượt
+   dài w** phải ≤ ε: `∀i: Σ_{k=i−w+1}^{i} ε_k ≤ ε`. Đây **chính xác** là "budget trượt"
+   mà trực giác của bạn đang với tới — không phải một túi toàn cục bí ẩn. Ưu điểm: sai số
+   phụ thuộc w, **không phụ thuộc độ dài stream** (utility không rơi theo thời gian).
+
+### 2.3 Ba họ "làm tốt hơn nε" (nơi trú đúng của ý tưởng budget)
+
+Tất cả nằm dưới ràng buộc Theorem 3 và khác nhau ở **cách rải budget cửa sổ cố định**:
+
+- **Predictive mechanism / budget manager** (Chatzikokolakis, Palamidessi, Stronati,
+  PETS 2014, [arXiv 1311.4008](https://arxiv.org/abs/1311.4008)): mỗi bước có
+  prediction Ω + noisy test (tốn ε_θ nhỏ) + hard step (tốn ε_N lớn) **chỉ khi dự đoán
+  sai**. Tiêu kỳ vọng/bước `ρ = ε_θ + (1−PR)·ε_N`. → budget hiệu dụng **≪ n·ε** khi di
+  chuyển dễ đoán. **Cùng họ tư tưởng với T-REM** ("không tiêu khi release chẳng lộ gì
+  mới" / điều kiện reachability).
+- **Chiến lược rải w-event** (Kellaris Uniform/Sample/**BD**/**BA**; RescueDP, Wang et al.
+  INFOCOM 2016, mở rộng **IEEE TDSC** 2018): **sampling/skip** kéo giãn budget — chỉ trả
+  khi release "đáng", thu hồi budget khi timestamp cũ trượt khỏi cửa sổ.
+- **δ-location set DP** (Xiao & Xiong CCS 2015, [arXiv 1410.5919](https://arxiv.org/abs/1410.5919)):
+  gấp tương quan thời gian vào **adjacency biến thiên theo thời gian** (Markov posterior)
+  thay vì chia budget; mỗi timestamp release 1 điểm với ε cố định (*không* composition
+  chéo thời gian). Rò rỉ **tích lũy** được định lượng ở follow-up Cao et al. ICDE 2017
+  (Temporal Privacy Leakage). PIVE (Yu, Liu, Pu, NDSS 2017) = budget cá nhân hóa theo
+  error bound — *caveat*: [arXiv 2101.12602](https://arxiv.org/abs/2101.12602) chỉ ra
+  guarantee LDP của PIVE có lỗi hình thức, phải cite kèm phê bình.
+
+### 2.4 Regime phơi lộ THẬT & đơn vị bảo vệ (sporadic / continuous / periodic)
+
+| Regime | Đơn vị bảo vệ | Ví dụ app + mật độ tài liệu hóa |
+|---|---|---|
+| **Sporadic / one-shot** (điểm độc lập) | **1 query** | "restaurants near me" (Places), check-in Foursquare, tra thời tiết. **Đây đúng regime mà planar-Laplace & optimal-LP Geo-I thiết kế cho.** |
+| **Continuous / dense stream** (tương quan mạnh) | **session/trip hoặc cả stream** | Nav turn-by-turn; **Strava ~1s**; **Uber webhook mặc định 4s** ([docs](https://developer.uber.com/docs/guest-rides/references/api/webhooks/driver-location)); live sharing. Per-point independence **hỏng** → nhiễu per-point rò qua tương quan. |
+| **Periodic / sampled** | **per-interval → per-day** | geofence wake-up; refresh thời tiết; **RTB bidstream ~17 fix/máy/ngày** ở precision ~1m (FTC Gravy, [EPIC](https://epic.org/ftc-takes-action-against-data-brokers-for-selling-sensitive-location-data/)). Càng dày càng giống continuous. |
+
+Ranh giới **không sắc**: Mendes et al. PoPETs 2020 cho thấy "coi độc lập được hay không"
+phụ thuộc tần suất, không có mốc hình thức. Tần suất tăng → sporadic bào mòn thành
+continuous.
+
+### 2.5 GeoLife là continuous/dense — KHÔNG sporadic → structure đúng cho luận văn
+
+- GeoLife: 182 user, 17.621 trajectory, **91% log dày 1–5s hoặc 5–10m**, mỗi trajectory
+  là chuỗi điểm (lat,lon,alt) có timestamp ([user guide MSR](https://www.microsoft.com/en-us/research/publication/geolife-gps-trajectory-dataset-user-guide/)).
+  Nhịp 1–5s nằm ở **đầu dày của regime continuous** (dày hơn Uber 4s, ngang Strava 1s).
+- **Vì thế structure áp dụng là mức-quỹ-đạo, có nhận thức tương quan thời gian.** Giả định
+  per-point independence chống lưng các optimal-Geo-I mechanism **KHÔNG giữ**:
+  - Bordenabe CCS 2014 nguyên văn *"focus on the case of **sporadic** location disclosure
+    … can be considered independent"*.
+  - Andrés CCS 2013 cũng *"considers reports independent … discarding the threat from
+    correlation"*.
+  → Các kết quả "optimal Geo-I" (Shokri CCS'12, Bordenabe CCS'14) là **per-release /
+  sporadic**: **dùng được để nói chất lượng 1 release, KHÔNG dùng được làm guarantee mức
+  quỹ đạo**. Với quỹ đạo phải quay về ε·T (trần trung thực) hoặc khung stream (§2.2–2.3).
+
+**Câu framing cho luận văn:** *GeoLife hiện thực hóa regime continuous-exposure (chuỗi GPS
+dày 1–5s), nơi đơn vị bảo vệ tự nhiên là trajectory/session. Các kết quả optimal-mechanism
+của Geo-I (Andrés CCS'13, Bordenabe CCS'14) được chứng minh dưới giả định **sporadic** (các
+release độc lập) nên không phủ trực tiếp; mở rộng khung correctness của Shokri và guarantee
+Geo-I sang quỹ đạo tương quan **trên road network** chính là khe hở mà T-REM lấp.* Phát biểu
+"budget" của luận văn nên là **budget trượt w-event** (§2.2) + báo cáo ε·T làm trần, đặt
+predictive/δ-location-set làm hướng beat-nε — thay cho một túi ngân sách toàn cục tự đặt.
+
+---
+
+## 3. Cơ chế đặt ở đâu, nhận data ra sao (system model)
+
+### 3.1 Ba mô hình kiến trúc và deployment thực tế
 
 | Mô hình | Cơ chế đặt ở đâu | Ai đã deploy | Ghi chú cho luận văn |
 |---|---|---|---|
@@ -66,7 +184,7 @@ của nó — và (b) phát biểu xác suất (α,δ), *không* phải hard cap
 | **Trusted anonymizer / k-anonymity cloaking** | Máy chủ proxy trung gian | **Chưa từng có LBS thương mại nào deploy** (Yahoo Fire Eagle 2008–2013 là broker coarsening-by-policy, không phải k-anonymity, đã chết) | Lý do chính đáng để luận văn *bỏ* hướng k-anonymity. |
 | **Server-side aggregation DP** | Máy chủ, chỉ bảo vệ aggregate | Google COVID Mobility (ε=1,76/user-day, δ=0), Meta Movement Range (ε=2/user-day), SafeGraph, Placer.ai | **Chỉ bảo vệ publication, KHÔNG bảo vệ collection** — raw trace vẫn tồn tại. Google 2024 chuyển Timeline về on-device chính là thừa nhận rủi ro này. |
 
-### 2.2 Sự thật quan trọng: chưa ai chạy local DP trên GPS thô
+### 3.2 Sự thật quan trọng: chưa ai chạy local DP trên GPS thô
 
 - Apple có local-DP thật (emoji ε=4, QuickType ε=8...) nhưng **vị trí vắng mặt
   khỏi danh sách** — với location Apple dùng heuristic (rotating trip ID, cắt
@@ -81,7 +199,7 @@ của nó — và (b) phát biểu xác suất (α,δ), *không* phải hard cap
   "academic có đảm bảo nhưng chưa deploy được / industry deploy được nhưng không
   có đảm bảo" mà luận văn lấp vào giữa.
 
-### 2.3 Tính khả thi on-device (đã đo trên chính data của project)
+### 3.3 Tính khả thi on-device (đã đo trên chính data của project)
 
 - Graph Bắc Kinh của project: 77.727 nodes / 208.994 edges = **33MB pickle**;
   nếu pack mảng float32/int32 chỉ **~2,5MB**. Nhỏ hơn một tập podcast.
@@ -92,7 +210,7 @@ của nó — và (b) phát biểu xác suất (α,δ), *không* phải hard cap
   không cảm nhận được, **và cache output cho query lặp** — tiền lệ đúng cho việc
   T-REM điều kiện trên điểm đã công bố.
 
-### 2.4 Payload một request LBS thật chứa gì
+### 3.4 Payload một request LBS thật chứa gì
 
 - Places Nearby Search: `location=lat,lng` + `radius` + `key` (+keyword/type) —
   đúng interface 1 điểm + bán kính cho cơ chế point-perturbation.
@@ -101,7 +219,7 @@ của nó — và (b) phát biểu xác suất (α,δ), *không* phải hard cap
   giữ **toàn bộ chuỗi release dưới một identifier** (FTC: Gravy xử lý 17 tỷ
   tín hiệu/ngày, ~17 fix/máy/ngày). Khớp đúng threat model Bayesian+HMM.
 
-### 2.5 System model đề xuất cho luận văn (mỗi phần gắn tiền lệ đã ship)
+### 3.5 System model đề xuất cho luận văn (mỗi phần gắn tiền lệ đã ship)
 
 1. **Cơ chế chạy client-side** (mô hình local), tại tầng OS location hoặc callback
    của app. Tiền lệ: LocationFudger + iOS approximate (ship cho hàng tỷ máy),
@@ -121,7 +239,7 @@ của nó — và (b) phát biểu xác suất (α,δ), *không* phải hard cap
 
 ---
 
-## 3. Các tấn công có thật → taxonomy scenario
+## 4. Các tấn công có thật → taxonomy scenario
 
 Mỗi scenario: (a) khả năng adversary, (b) data thấy, (c) thuộc tính phòng thủ đối
 ứng → gắn với cơ chế/metric đã có trong `core/mechanisms.py`, `evaluation/`.
@@ -151,12 +269,21 @@ Mỗi scenario: (a) khả năng adversary, (b) data thấy, (c) thuộc tính ph
 
 ---
 
-## 4. Ba việc cần đưa vào luận văn từ khảo sát này
+## 5. Việc cần đưa vào luận văn từ khảo sát này
 
-1. **Viết lại QoS thành (α,δ)-usefulness** (Ch4/Ch5) — bỏ ngôn ngữ "hard cap",
+1. **Viết chương Problem Formulation theo khung chuẩn** (Ch3/Ch4) dùng §2.1 (bộ
+   khung Shokri/Andrés/Bordenabe: 𝒳, π, f(z\|x), Q, ε-Geo-I, expected inference
+   error) — dùng đúng ký hiệu literature, không tự chế.
+2. **Phát biểu lại "privacy budget" theo §2.2** — bỏ khái niệm túi toàn cục tự đặt;
+   nêu ε là *mức* metric-DP của 1 release, ε·T là trần trung thực (composition tuần
+   tự), và **budget trượt w-event ε-DP** (Kellaris VLDB'14, Theorem 3) là đối tượng
+   đúng; đặt predictive-mechanism / δ-location-set làm hướng "beat-nε". Đóng khung
+   GeoLife là **continuous exposure** (§2.5) → nêu rõ optimal-Geo-I là *sporadic* nên
+   không phủ trace dày ⇒ đây là gap T-REM lấp.
+3. **Viết lại QoS thành (α,δ)-usefulness** (Ch4/Ch5) — bỏ ngôn ngữ "hard cap",
    giữ đúng cách đo hiện có (bảng đã đo QoS = P[d≤200m]).
-2. **Thêm chương/section System Model** (Ch4) dùng §2.5 — nêu rõ local model,
+4. **Thêm chương/section System Model** (Ch4) dùng §3.5 — nêu rõ local model,
    cơ chế biết gì, adversary thấy gì, kèm tiền lệ đã ship + con số on-device 33MB.
-3. **Viết lại chương đánh giá quanh taxonomy S1–S8** (Ch3/Ch5) — mỗi scenario có
+5. **Viết lại chương đánh giá quanh taxonomy S1–S8** (Ch3/Ch5) — mỗi scenario có
    ví dụ tấn công thật, biến "chúng tôi nghĩ trông thực tế" thành "đối ứng vụ X
    có thật". Bổ sung S4 (averaging) làm limitation/future work đã định lượng.
