@@ -26,6 +26,7 @@ experiments/    run_benchmark.py — mechanisms × ε on real GeoLife trajectori
 web/            Flask apps: app.py (interactive demo), app_optimized.py,
                   simulator.py (LBS privacy simulator, user/LBS/attacker views)
 legacy/         Archived, unmaintained prototypes (see legacy/README.md)
+thesis/         LaTeX thesis draft (compile: cd thesis && latexmk -xelatex main.tex)
 docs/           internship_2.pdf + research_notes.md (datasets/metrics/SOTA survey)
 outputs/        Generated maps, benchmark_results.json
 demo_trajectory_privacy.py   CLI demo (no web server needed)

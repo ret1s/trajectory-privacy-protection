@@ -1,0 +1,45 @@
+\chapter{Tổng kết}
+\label{ch:tongket}
+
+\section{Kết quả đạt được}
+
+Tính đến bản cập nhật này, luận văn đã: (1)~chỉ ra và chứng minh hình thức hai
+lỗi phá vỡ đảm bảo Geo-I trong pipeline Thực tập 2, cùng một lỗi hiện thực về
+phân phối bán kính nhiễu; (2)~đề xuất REM --- cơ chế lũy thừa trên tập đỉnh lưới
+đường với chứng minh $\eps$-Geo-I đầy đủ, cho đầu ra nằm trên đường theo cấu
+trúc; (3)~đề xuất T-REM --- bổ sung trọng số khả đạt chỉ phụ thuộc thông tin
+công khai, được chứng minh không làm thay đổi đảm bảo per-point trong khi đóng
+kênh tấn công liên kết vận tốc; (4)~xây dựng bộ khung đánh giá theo chuẩn văn
+liệu (tấn công Bayes tối ưu, tấn công theo dõi HMM, quality loss, k-NN POI,
+các độ đo tính thực tế) và benchmark trên dữ liệu GPS thật; (5)~xây dựng hệ
+thống mô phỏng ba góc nhìn gắn với các kịch bản sử dụng đời thực.
+
+\section{Hạn chế hiện tại}
+
+(1)~Thực nghiệm mới trên một thành phố, 20 quỹ đạo, một seed --- cần mở rộng
+quy mô và thêm Porto Taxi làm dataset thứ hai với khoảng tin cậy thống kê.
+(2)~Tuyên bố ``kháng tấn công tái tạo'' mới dựa trên lập luận cấu trúc; cần
+kiểm chứng bằng cách chạy trực tiếp RAoPT~\cite{buchholz2022raopt}.
+(3)~Hiện thực REM dùng cắt ngưỡng bán kính ứng viên quanh điểm thật
+(Nhận xét~\ref{rmk:cutoff}); dù khối lượng bị cắt dưới $10^{-4}$, phiên bản tập
+ứng viên cố định công khai cần được hình thức hóa trọn vẹn. (4)~Đảm bảo toàn quỹ
+đạo hiện là $T\eps$ theo kết hợp tuần tự; chưa có xử lý hình thức cho tương quan
+thời gian kiểu $\delta$-location set. (5)~Chưa so sánh với GEM
+(metric đường đi ngắn nhất) và PIM.
+
+\section{Hướng phát triển}
+
+\begin{enumerate}
+  \item Chạy tấn công RAoPT (mã nguồn công khai) đối kháng cả bốn cơ chế ---
+  chuẩn đánh giá tối thiểu theo SoK PoPETs 2024~\cite{buchholz2024sok};
+  \item Hiện thực GEM với khoảng cách đường đi ngắn nhất và so sánh REM--GEM
+  theo giao thức của~\cite{takagi2019geo};
+  \item Phiên bản $\delta$-location set trên lưới đường: tập ứng viên là các
+  đỉnh khả đạt từ vùng đã công bố, cho đảm bảo kiểu PIM~\cite{xiao2015protecting}
+  dưới kẻ tấn công Markov;
+  \item Mở rộng thực nghiệm: Porto Taxi (thành phố thứ hai), 100+ quỹ đạo,
+  nhiều seed với khoảng tin cậy, đường cong Pareto riêng tư--tiện ích dày hơn;
+  \item Metric co giãn theo ngữ nghĩa trên đồ thị đường (``elastic GG-I'') ---
+  khoảng trống chưa có công bố chiếm giữ, kết hợp
+  \cite{chatzikokolakis2015elastic} với \cite{takagi2019geo}.
+\end{enumerate}

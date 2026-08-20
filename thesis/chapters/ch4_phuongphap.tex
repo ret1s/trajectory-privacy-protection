@@ -1,0 +1,170 @@
+\chapter{Phương pháp đề xuất}
+\label{ch:phuongphap}
+
+\section{Phân tích baseline Thực tập 2}
+\label{sec:phantichbaseline}
+
+Pipeline Thực tập 2 gồm bốn bước cho mỗi điểm thật $x_t$: (i) cộng nhiễu Laplace
+phẳng với bán kính bị chặn tại ngưỡng QoS $\delta$; (ii) nếu điểm giả rơi vào
+tòa nhà/mặt nước thì lấy mẫu lại (tối đa $N$ lần); (iii) làm mượt liên tục theo
+hai điểm giả trước, có kiểm tra lại QoS so với điểm thật; (iv) làm khớp về đỉnh
+đường gần nhất nếu vẫn thỏa QoS. Hai mệnh đề sau chỉ ra các bước (i)--(iii) phá
+vỡ đảm bảo hình thức.
+
+\begin{menhde}[Chặn bán kính quanh điểm thật phá vỡ Geo-I]
+\label{prop:cap}
+Gọi $M_\delta$ là cơ chế cộng nhiễu với bán kính $r' = \min(r, \delta)$ quanh vị
+trí thật $x$. Khi đó $M_\delta$ không thỏa $\eps$-Geo-I với bất kỳ $\eps$ hữu hạn
+nào trên miền $\mathcal{X}$ có đường kính lớn hơn $2\delta$.
+\end{menhde}
+
+\begin{proof}
+Support của $M_\delta(x)$ là hình tròn đóng $\bar{B}(x, \delta)$. Chọn $x, x'$
+với $\dEu(x, x') > 2\delta$ thì $\bar{B}(x,\delta) \cap \bar{B}(x',\delta) =
+\emptyset$. Với $S = \bar{B}(x, \delta)$ ta có $\Pr[M_\delta(x) \in S] = 1$
+trong khi $\Pr[M_\delta(x') \in S] = 0$; không tồn tại hằng số hữu hạn
+$e^{\eps\, \dEu(x,x')}$ chặn được tỷ số này.
+\end{proof}
+
+\begin{menhde}[Lấy mẫu lại theo vùng cấm phụ thuộc dữ liệu phá vỡ Geo-I]
+\label{prop:reject}
+Cơ chế lấy mẫu lại cho đến khi đầu ra rơi ngoài tập vùng cấm $F$ tương đương với
+cơ chế Laplace phẳng có điều kiện trên biến cố $\{z \notin F\}$; mật độ đầu ra
+tại $z$ trở thành $f(z \mid x) / \Pr_{z' \sim f(\cdot \mid x)}[z' \notin F]$.
+Hằng số chuẩn hóa phụ thuộc vào $x$ và không bị chặn đều theo
+$e^{\eps \dEu(x,x')}$ khi các vùng cấm phân bố bất đối xứng quanh $x$ và $x'$,
+nên đảm bảo $\eps$-Geo-I nói chung không còn.
+\end{menhde}
+
+Cùng với Nhận xét~\ref{rmk:expbug} (bán kính nhiễu lấy sai phân phối), các phân
+tích trên cho thấy $\eps$ danh nghĩa của baseline không phải một đảm bảo hợp lệ;
+mọi so sánh ``cùng $\eps$'' với baseline vì vậy chỉ mang tính tham khảo.
+Ngược lại, phép chiếu đầu ra về đỉnh đường gần nhất ở bước (iv) --- nếu bỏ điều
+kiện kiểm tra QoS so với điểm thật --- là hậu xử lý độc lập dữ liệu và bảo toàn
+mức riêng tư; quan sát này dẫn tới thiết kế dưới đây.
+
+\section{REM: Cơ chế lũy thừa trên lưới đường}
+\label{sec:rem}
+
+Cho đồ thị đường $G = (V, E)$ trích từ OSM cho vùng quan tâm; tập đỉnh $V$ là
+\emph{công khai}. REM chọn trực tiếp một đỉnh làm vị trí công bố:
+
+\begin{dinhnghia}[REM]
+\label{def:rem}
+Với vị trí thật $x$ và ngân sách $\eps$:
+\[
+\Pr[\mathrm{REM}(x) = v] \;=\; \frac{\exp\!\big(-\tfrac{\eps}{2}\,\dEu(x, v)\big)}
+{\sum_{u \in V} \exp\!\big(-\tfrac{\eps}{2}\,\dEu(x, u)\big)},
+\qquad v \in V.
+\]
+\end{dinhnghia}
+
+\begin{dinhly}[REM thỏa $\eps$-Geo-I]
+\label{thm:rem}
+Với mọi $x, x' \in \Real^2$ và mọi $v \in V$:
+$\Pr[\mathrm{REM}(x) = v] \le e^{\eps\,\dEu(x,x')}\,\Pr[\mathrm{REM}(x') = v]$.
+\end{dinhly}
+
+\begin{proof}
+Đặt $Z(x) = \sum_{u \in V} e^{-\frac{\eps}{2} \dEu(x,u)}$. Xét tỷ số
+\[
+\frac{\Pr[\mathrm{REM}(x) = v]}{\Pr[\mathrm{REM}(x') = v]}
+= \underbrace{\frac{e^{-\frac{\eps}{2}\dEu(x,v)}}{e^{-\frac{\eps}{2}\dEu(x',v)}}}_{(A)}
+\cdot \underbrace{\frac{Z(x')}{Z(x)}}_{(B)}.
+\]
+Với $(A)$: theo bất đẳng thức tam giác
+$\dEu(x',v) - \dEu(x,v) \le \dEu(x,x')$, nên
+$(A) = e^{\frac{\eps}{2}(\dEu(x',v) - \dEu(x,v))} \le e^{\frac{\eps}{2}\dEu(x,x')}$.
+Với $(B)$: với mỗi $u \in V$,
+$\dEu(x', u) \ge \dEu(x, u) - \dEu(x, x')$, do đó
+$e^{-\frac{\eps}{2}\dEu(x',u)} \le e^{\frac{\eps}{2}\dEu(x,x')}
+e^{-\frac{\eps}{2}\dEu(x,u)}$. Lấy tổng theo $u$:
+$Z(x') \le e^{\frac{\eps}{2}\dEu(x,x')} Z(x)$, tức
+$(B) \le e^{\frac{\eps}{2}\dEu(x,x')}$. Nhân hai chặn được
+$e^{\eps\,\dEu(x,x')}$.
+\end{proof}
+
+\begin{nhanxet}[Tính thực tế theo cấu trúc]
+Mọi đầu ra của REM là một đỉnh đường: các tấn công lọc theo tính hợp lý không
+gian (map-matching, phát hiện điểm trên mặt nước --- cơ sở của
+RAoPT~\cite{buchholz2022raopt}) không còn thông tin để khai thác.
+Theo~\cite{takagi2019geo}, REM đồng thời thỏa $\eps$-GG-I đối với metric đường
+đi ngắn nhất qua lập luận hậu xử lý.
+\end{nhanxet}
+
+\begin{nhanxet}[Cắt ngưỡng khi hiện thực]
+\label{rmk:cutoff}
+Hiện thực tính tổng chuẩn hóa trên các đỉnh trong bán kính $R$ quanh $x$
+($R = 1500$m mặc định) thay vì toàn bộ $V$. Khối lượng xác suất bị bỏ qua bị
+chặn bởi $|V| \cdot e^{-\eps R / 2} / Z(x)$; với các giá trị $\eps \ge 0{,}005$
+dùng trong thực nghiệm, đại lượng này dưới $10^{-4}$. Phiên bản hình thức hóa
+chặt chẽ (tập ứng viên cố định công khai cho toàn vùng) là công việc đang tiến
+hành.
+\end{nhanxet}
+
+\section{T-REM: Bổ sung ràng buộc thời gian với trọng số công khai}
+\label{sec:trem}
+
+Nhược điểm của REM (và mọi cơ chế nhiễu độc lập theo thời gian) là hai điểm công
+bố liên tiếp có thể cách nhau phi thực tế, tạo tín hiệu cho tấn công liên kết
+vận tốc. T-REM khắc phục bằng trọng số khả đạt tính từ điểm \emph{đã công bố}
+$z_{t-1}$ và khoảng thời gian $\Delta t$ (đều công khai):
+\[
+w_t(v) = \exp\!\Big(-\lambda \cdot \max\big(0,\; \dEu(z_{t-1}, v) - v_{\max}\Delta t - s\big)\Big),
+\]
+với $v_{\max}$ là tốc độ tối đa hợp lý, $s$ là biên nới lỏng, $\lambda$ là hệ số
+phạt. Cơ chế trở thành
+\[
+\Pr[\mathrm{TREM}(x_t) = v \mid z_{t-1}]
+= \frac{w_t(v)\, e^{-\frac{\eps}{2}\dEu(x_t, v)}}
+{\sum_{u \in V} w_t(u)\, e^{-\frac{\eps}{2}\dEu(x_t, u)}}.
+\]
+
+\begin{dinhly}[Trọng số công khai bảo toàn đảm bảo]
+\label{thm:trem}
+Với mọi hàm trọng số $w: V \to (0, 1]$ không phụ thuộc vị trí thật $x_t$ (chỉ
+phụ thuộc $z_{<t}$, $\Delta t$ và các hằng số công khai), cơ chế T-REM thỏa
+$\eps$-Geo-I tại mỗi bước: với mọi $x, x'$ và $v \in V$,
+\[
+\Pr[\mathrm{TREM}(x) = v \mid z_{t-1}] \le e^{\eps\,\dEu(x,x')}\,
+\Pr[\mathrm{TREM}(x') = v \mid z_{t-1}].
+\]
+\end{dinhly}
+
+\begin{proof}
+Lặp lại chứng minh Định lý~\ref{thm:rem} với $Z_w(x) = \sum_u w(u)
+e^{-\frac{\eps}{2}\dEu(x,u)}$. Thừa số $(A)$ không đổi vì $w(v)$ xuất hiện ở cả
+tử và mẫu nên triệt tiêu:
+$(A) = e^{\frac{\eps}{2}(\dEu(x',v)-\dEu(x,v))} \le e^{\frac{\eps}{2}\dEu(x,x')}$.
+Với $(B)$: từng số hạng thỏa $w(u) e^{-\frac{\eps}{2}\dEu(x',u)} \le
+e^{\frac{\eps}{2}\dEu(x,x')} w(u) e^{-\frac{\eps}{2}\dEu(x,u)}$ (trọng số $w(u)
+> 0$ giữ nguyên hai vế), nên $Z_w(x') \le e^{\frac{\eps}{2}\dEu(x,x')} Z_w(x)$.
+Kết luận như Định lý~\ref{thm:rem}. Điều kiện then chốt là $w$ đo được theo
+thông tin công khai: nếu $w$ phụ thuộc $x_t$, thừa số $(A)$ không triệt tiêu và
+lập luận sụp đổ --- đây chính là lỗi của bước làm mượt có kiểm tra QoS trong
+baseline (Mệnh đề~\ref{prop:cap}).
+\end{proof}
+
+\begin{nhanxet}[Ngân sách toàn quỹ đạo]
+Chuỗi $T$ lần công bố tiêu tốn $\eps_{\mathrm{traj}} = T\eps$ theo kết hợp tuần
+tự thích nghi (trọng số $w_t$ chọn theo đầu ra trước đó là hợp lệ trong khuôn
+khổ adaptive composition). Thực nghiệm báo cáo tường minh cả $\eps$ per-point
+lẫn $\eps_{\mathrm{traj}}$.
+\end{nhanxet}
+
+\section{Thuật toán và độ phức tạp}
+
+\begin{enumerate}
+  \item \textbf{Tiền xử lý} (một lần cho vùng quan tâm): dựng đồ thị đường OSM,
+  chiếu các đỉnh về hệ tọa độ phẳng cục bộ, xây KD-tree trên $V$.
+  \item \textbf{Mỗi điểm thật $x_t$}: truy vấn KD-tree lấy tập ứng viên
+  $V_c = V \cap B(x_t, R)$; tính logits
+  $-\tfrac{\eps}{2}\dEu(x_t, u) + \log w_t(u)$ cho $u \in V_c$
+  (REM: $w_t \equiv 1$); lấy mẫu softmax; công bố đỉnh được chọn; cập nhật
+  $z_t$.
+\end{enumerate}
+
+Chi phí mỗi điểm là $O(|V_c|)$ phép tính vector hóa cộng chi phí truy vấn
+KD-tree $O(\log |V|)$; với đồ thị Bắc Kinh 77.727 đỉnh dùng trong thực nghiệm,
+độ trễ thực tế dưới 10ms/điểm trên máy tính cá nhân --- đáp ứng yêu cầu thời
+gian thực của LBS.

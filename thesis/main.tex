@@ -1,0 +1,102 @@
+% Luận văn thạc sĩ — Bảo vệ tính riêng tư cho người dùng dịch vụ dựa trên vị trí
+% Biên dịch: latexmk -xelatex main.tex   (yêu cầu XeLaTeX + font Times New Roman)
+\documentclass[12pt,a4paper,oneside]{report}
+
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\usepackage[margin=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+\usepackage{caption}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{setspace}
+\usepackage[hidelinks,unicode]{hyperref}
+\onehalfspacing
+\setlength{\parskip}{3pt}
+
+% ---- Việt hoá tên tự sinh (không dùng babel/vntex vì BasicTeX thiếu) ----
+\renewcommand{\chaptername}{Chương}
+\renewcommand{\contentsname}{Mục lục}
+\renewcommand{\listfigurename}{Danh sách hình vẽ}
+\renewcommand{\listtablename}{Danh sách bảng}
+\renewcommand{\bibname}{Tài liệu tham khảo}
+\renewcommand{\figurename}{Hình}
+\renewcommand{\tablename}{Bảng}
+\renewcommand{\proofname}{Chứng minh}
+
+% ---- Môi trường định lý ----
+\theoremstyle{plain}
+\newtheorem{dinhly}{Định lý}[chapter]
+\newtheorem{menhde}{Mệnh đề}[chapter]
+\theoremstyle{definition}
+\newtheorem{dinhnghia}{Định nghĩa}[chapter]
+\theoremstyle{remark}
+\newtheorem{nhanxet}{Nhận xét}[chapter]
+
+% ---- Ký hiệu dùng chung ----
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dEu}{d}
+\newcommand{\Real}{\mathbb{R}}
+
+\begin{document}
+
+% ==================== Trang bìa ====================
+\begin{titlepage}
+\centering
+{\large ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH\\
+TRƯỜNG ĐẠI HỌC BÁCH KHOA -- ĐHQG-HCM\\
+KHOA KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH\par}
+\vspace{3cm}
+{\bfseries\large LUẬN VĂN THẠC SĨ (BẢN NHÁP)\par}
+\vspace{0.8cm}
+\rule{0.6\textwidth}{0.4pt}\par
+\vspace{0.6cm}
+{\bfseries\LARGE Bảo vệ tính riêng tư\\cho người dùng dịch vụ\\dựa trên vị trí\par}
+\vspace{0.6cm}
+\rule{0.6\textwidth}{0.4pt}\par
+\vspace{2.5cm}
+\begin{flushleft}
+\hspace{2cm}\textbf{GVHD}: TS. Phan Trọng Nhân \hfill CSE, HCMUT\hspace{2cm}\mbox{}\\[6pt]
+\hspace{2cm}\textbf{Học viên}: Ngô Minh Hạnh \hfill 2470010\hspace{2cm}\mbox{}
+\end{flushleft}
+\vfill
+{Tp. Hồ Chí Minh, cập nhật tháng 8, 2026\par}
+\end{titlepage}
+
+\pagenumbering{roman}
+\tableofcontents
+\listoffigures
+\listoftables
+
+\chapter*{Danh mục từ viết tắt}
+\addcontentsline{toc}{chapter}{Danh mục từ viết tắt}
+\begin{tabular}{ll}
+LBS & Location-based Services (dịch vụ dựa trên vị trí)\\
+DP & Differential Privacy (tính riêng tư vi phân)\\
+Geo-I & Geo-Indistinguishability (bất khả phân biệt vị trí địa lý)\\
+GG-I & Geo-Graph-Indistinguishability\\
+EM & Exponential Mechanism (cơ chế lũy thừa)\\
+REM & Road-network Exponential Mechanism (đề xuất)\\
+T-REM & Temporal Road-network Exponential Mechanism (đề xuất)\\
+QoS & Quality of Service (chất lượng dịch vụ)\\
+HMM & Hidden Markov Model\\
+OSM & OpenStreetMap\\
+PLS & Protection Location Set\\
+\end{tabular}
+
+\cleardoublepage
+\pagenumbering{arabic}
+
+\input{chapters/ch1_gioithieu}
+\input{chapters/ch2_cosolythuyet}
+\input{chapters/ch3_lienquan}
+\input{chapters/ch4_phuongphap}
+\input{chapters/ch5_thucnghiem}
+\input{chapters/ch6_tongket}
+
+\bibliographystyle{unsrt}
+\bibliography{refs}
+
+\end{document}

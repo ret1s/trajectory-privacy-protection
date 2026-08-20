@@ -6,142 +6,307 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
 <style>
-  :root { --panel:#ffffff; --ink:#1a202c; --muted:#64748b; --line:#e2e8f0; }
+  :root {
+    --ink:#1c2420; --muted:#68716b; --line:#e4e6e1; --card:#ffffff;
+    --ground:#f4f4f1; --real:#1a6b52; --released:#c04a2e; --attacker:#2e66b8;
+    --poi:#c98a12; --shadow:0 4px 18px rgba(20,28,23,.10), 0 1px 4px rgba(20,28,23,.06);
+  }
   * { box-sizing:border-box; margin:0; }
-  body { font-family:-apple-system,'Segoe UI',sans-serif; color:var(--ink); display:flex; height:100vh; }
-  #map { flex:1; }
-  aside { width:340px; padding:16px; overflow-y:auto; background:var(--panel); border-left:1px solid var(--line); }
-  h1 { font-size:17px; margin-bottom:4px; }
-  .sub { font-size:12px; color:var(--muted); margin-bottom:14px; }
-  label { font-size:12px; font-weight:600; display:block; margin:10px 0 4px; }
-  select, input[type=range] { width:100%; }
-  .epsval { font-size:12px; color:var(--muted); }
-  button { margin-top:12px; width:100%; padding:9px; border:0; border-radius:8px; background:#2563eb; color:#fff; font-weight:600; cursor:pointer; }
-  button:disabled { background:#94a3b8; }
-  .views { margin-top:14px; font-size:12.5px; line-height:1.5; }
-  .views div { display:flex; align-items:center; gap:7px; }
-  .dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
-  .stat { display:flex; justify-content:space-between; font-size:12.5px; padding:3px 0; border-bottom:1px dashed var(--line); }
-  .stat b { font-variant-numeric:tabular-nums; }
-  #stepinfo { margin-top:12px; background:#f8fafc; border:1px solid var(--line); border-radius:8px; padding:10px; font-size:12.5px; }
-  .usecase { margin-top:14px; font-size:11.5px; color:var(--muted); line-height:1.45; }
-  .poihit { color:#059669; font-weight:700; } .poimiss { color:#dc2626; font-weight:700; }
+  html,body { height:100%; }
+  body { font-family:'Be Vietnam Pro',-apple-system,sans-serif; color:var(--ink);
+         background:var(--ground); font-size:13px; }
+  #map { position:absolute; inset:0; }
+  .card { background:var(--card); border-radius:12px; box-shadow:var(--shadow); }
+
+  /* ---- left control panel ---- */
+  #panel { position:absolute; z-index:1000; top:14px; left:14px; width:280px; padding:16px; }
+  #panel h1 { font-size:15px; font-weight:700; letter-spacing:-0.01em; }
+  #panel .sub { font-size:11px; color:var(--muted); margin:2px 0 12px; }
+  label { display:block; font-size:11px; font-weight:600; color:var(--muted);
+          text-transform:uppercase; letter-spacing:.06em; margin:12px 0 5px; }
+  select { width:100%; padding:7px 8px; border:1px solid var(--line); border-radius:8px;
+           font:inherit; background:var(--card); color:var(--ink); }
+  .seg { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .seg button { padding:7px 4px; border:1px solid var(--line); border-radius:8px;
+                background:var(--card); font:inherit; font-size:12px; cursor:pointer; color:var(--ink); }
+  .seg button.on { border-color:var(--ink); background:var(--ink); color:#fff; font-weight:600; }
+  .epsrow { display:flex; align-items:center; gap:10px; }
+  .epsrow input { flex:1; accent-color:var(--ink); }
+  .epsrow output { font-variant-numeric:tabular-nums; font-weight:600; font-size:12.5px; min-width:44px; }
+  #run { width:100%; margin-top:14px; padding:9px; border:0; border-radius:8px;
+         background:var(--real); color:#fff; font:inherit; font-size:13px; font-weight:600; cursor:pointer; }
+  #run:disabled { opacity:.55; cursor:wait; }
+  .legend { margin-top:14px; padding-top:12px; border-top:1px solid var(--line);
+            display:grid; gap:6px; font-size:12px; }
+  .legend span { display:flex; align-items:center; gap:8px; }
+  .sw { width:14px; height:0; border-top:3px solid; border-radius:2px; }
+  .sw.dash { border-top-style:dashed; }
+  .dotsw { width:9px; height:9px; border-radius:50%; }
+
+  /* ---- right metrics panel ---- */
+  #metrics { position:absolute; z-index:1000; top:14px; right:14px; width:320px;
+             padding:14px 16px; display:none; }
+  #metrics h2 { font-size:11px; font-weight:600; color:var(--muted);
+                text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px; }
+  .chips { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+  .chip { border:1px solid var(--line); border-radius:8px; padding:7px 9px; }
+  .chip b { display:block; font-size:15px; font-variant-numeric:tabular-nums; letter-spacing:-0.01em; }
+  .chip i { font-style:normal; font-size:10px; color:var(--muted); }
+  #chart { margin-top:12px; position:relative; }
+  #chart svg { display:block; width:100%; height:120px; }
+  #chart .chart-legend { display:flex; gap:14px; font-size:11px; color:var(--muted); margin-top:2px; }
+  #chart .chart-legend span { display:flex; align-items:center; gap:5px; }
+  #tip { position:absolute; pointer-events:none; background:var(--ink); color:#fff;
+         font-size:11px; padding:5px 8px; border-radius:6px; white-space:nowrap;
+         transform:translate(-50%,-115%); display:none; font-variant-numeric:tabular-nums; }
+
+  /* ---- bottom playback bar ---- */
+  #playbar { position:absolute; z-index:1000; bottom:16px; left:50%; transform:translateX(-50%);
+             display:none; align-items:center; gap:12px; padding:10px 16px; min-width:420px; }
+  #playbtn { width:34px; height:34px; border-radius:50%; border:0; background:var(--ink);
+             color:#fff; font-size:13px; cursor:pointer; flex:none; }
+  #scrub { flex:1; accent-color:var(--ink); }
+  #steplabel { font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums;
+               min-width:110px; text-align:right; }
+  .stepstat { font-size:12px; font-variant-numeric:tabular-nums; min-width:150px; }
+  .stepstat b { font-weight:600; }
+  @media (max-width:900px) {
+    #metrics { display:none !important; }
+    #panel { width:240px; }
+    #playbar { min-width:0; left:14px; right:14px; transform:none; }
+  }
 </style>
 </head>
 <body>
 <div id="map"></div>
-<aside>
-  <h1>LBS Privacy Simulator</h1>
-  <div class="sub">GeoLife (Bắc Kinh) · lưới đường OSM · tấn công HMM trực tuyến</div>
 
-  <label>Quỹ đạo thật (GeoLife)</label>
+<div id="panel" class="card">
+  <h1>LBS Privacy Simulator</h1>
+  <div class="sub">GeoLife Bắc Kinh · lưới đường OSM · HMM adversary</div>
+
+  <label for="traj">Quỹ đạo thật</label>
   <select id="traj">
     {% for t in trajectories %}
-    <option value="{{ t.i }}">#{{ t.i }} — user {{ t.user }} ({{ t.n }} điểm)</option>
+    <option value="{{ t.i }}">#{{ t.i }} · user {{ t.user }} · {{ t.n }} điểm</option>
     {% endfor %}
   </select>
 
-  <label>Cơ chế bảo vệ</label>
-  <select id="mech">
-    <option value="temporal_road_exponential">T-REM (đề xuất, có ràng buộc thời gian)</option>
-    <option value="road_exponential">REM (đề xuất, tĩnh)</option>
-    <option value="baseline_thesis">Baseline internship-2</option>
-    <option value="planar_laplace">Planar Laplace (Geo-I gốc)</option>
-  </select>
-
-  <label>ε (per meter) <span class="epsval" id="epsval">0.02</span></label>
-  <input type="range" id="eps" min="0.005" max="0.05" step="0.005" value="0.02">
-
-  <button id="run">▶ Chạy mô phỏng</button>
-
-  <div class="views">
-    <div><span class="dot" style="background:#16a34a"></span> User view — vị trí thật</div>
-    <div><span class="dot" style="background:#dc2626"></span> LBS view — vị trí đã làm nhiễu</div>
-    <div><span class="dot" style="background:#111827"></span> Attacker — ước lượng HMM</div>
-    <div><span class="dot" style="background:#f59e0b"></span> POI trả về từ query "gần tôi"</div>
+  <label>Cơ chế</label>
+  <div class="seg" id="mech">
+    <button data-v="temporal_road_exponential" class="on">T-REM</button>
+    <button data-v="road_exponential">REM</button>
+    <button data-v="baseline_thesis">Baseline</button>
+    <button data-v="planar_laplace">Laplace</button>
   </div>
 
-  <div id="summary" style="margin-top:14px"></div>
-  <div id="stepinfo">Chọn quỹ đạo, cơ chế và ε rồi bấm chạy.</div>
-
-  <div class="usecase">
-    <b>Use case đang mô phỏng:</b> người dùng vừa di chuyển vừa hỏi LBS
-    "3 hiệu thuốc gần tôi nhất". Server chỉ thấy điểm đỏ; nếu POI trả về
-    trùng với đáp án đúng (điểm xanh) thì QoS được giữ. Kẻ tấn công (điểm
-    đen) chỉ thấy chuỗi điểm đỏ và cố lần theo người dùng bằng lọc Bayes.
+  <label for="eps">Privacy budget ε (mỗi mét)</label>
+  <div class="epsrow">
+    <input type="range" id="eps" min="0.005" max="0.05" step="0.005" value="0.02">
+    <output id="epsout">0.020</output>
   </div>
-</aside>
+
+  <button id="run">Chạy mô phỏng</button>
+
+  <div class="legend">
+    <span><i class="sw" style="border-color:var(--real)"></i> Vị trí thật (user view)</span>
+    <span><i class="sw dash" style="border-color:var(--released)"></i> Điểm công bố (LBS view)</span>
+    <span><i class="sw dash" style="border-color:var(--attacker)"></i> Ước lượng attacker (HMM)</span>
+    <span><i class="dotsw" style="background:var(--poi)"></i> POI trả về: "3 hiệu thuốc gần tôi"</span>
+  </div>
+</div>
+
+<div id="metrics" class="card">
+  <h2>Toàn quỹ đạo</h2>
+  <div class="chips" id="chips"></div>
+  <div id="chart">
+    <h2 style="margin-top:12px">Theo từng bước (m)</h2>
+    <svg id="csvg" viewBox="0 0 320 120" preserveAspectRatio="none"></svg>
+    <div class="chart-legend">
+      <span><i class="sw" style="border-color:var(--released)"></i> Độ lệch công bố</span>
+      <span><i class="sw" style="border-color:var(--attacker)"></i> Sai số attacker</span>
+    </div>
+    <div id="tip"></div>
+  </div>
+</div>
+
+<div id="playbar" class="card">
+  <button id="playbtn" title="Phát / dừng">▶</button>
+  <input type="range" id="scrub" min="0" max="0" value="0">
+  <div class="stepstat" id="stepstat"></div>
+  <div id="steplabel"></div>
+</div>
 
 <script>
-const map = L.map('map').setView([39.99, 116.32], 14);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  { attribution:'© OpenStreetMap' }).addTo(map);
+const C = { real:'#1a6b52', released:'#c04a2e', attacker:'#2e66b8', poi:'#c98a12' };
+const map = L.map('map', { zoomControl:false }).setView([39.99, 116.32], 14);
+L.control.zoom({ position:'bottomright' }).addTo(map);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+  { attribution:'© OpenStreetMap · © CARTO', maxZoom:19 }).addTo(map);
 
 let layers = L.layerGroup().addTo(map);
-let timer = null;
+let steps = [], idx = 0, playing = null;
+let realLine, relLine, attLine, realM, relM, attM, qosC, connector, poiMs = [], qosR = 200;
 
-document.getElementById('eps').oninput = e =>
-  document.getElementById('epsval').textContent = e.target.value;
+document.querySelectorAll('#mech button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#mech button').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+});
+eps.oninput = () => epsout.value = Number(eps.value).toFixed(3);
 
-document.getElementById('run').onclick = async () => {
-  const btn = document.getElementById('run');
-  btn.disabled = true; btn.textContent = 'Đang mô phỏng…';
-  if (timer) clearInterval(timer);
+run.onclick = async () => {
+  run.disabled = true; run.textContent = 'Đang chạy…';
+  stopPlay();
+  const mech = document.querySelector('#mech .on').dataset.v;
+  const q = new URLSearchParams({ traj:traj.value, mech, eps:eps.value,
+                                  seed:Math.floor(Math.random()*1e6) });
+  const d = await (await fetch('/simulate?' + q)).json();
+  run.disabled = false; run.textContent = 'Chạy mô phỏng';
+
+  steps = d.steps; qosR = d.qos_radius; idx = 0;
+  const s = d.summary;
+  chips.innerHTML = [
+    [s.mean_disp + ' m', 'độ lệch TB'],
+    [(s.qos*100).toFixed(0) + '%', 'QoS ≤ ' + qosR + 'm'],
+    [(s.on_road*100).toFixed(0) + '%', 'trên đường'],
+    [s.mean_attacker_err + ' m', 'sai số attacker'],
+    [(s.knn_recall*100).toFixed(0) + '%', 'POI recall'],
+    [s.epsilon_total, 'ε toàn quỹ đạo'],
+  ].map(([v,l]) => `<div class="chip"><b>${v}</b><i>${l}</i></div>`).join('');
+  document.getElementById('metrics').style.display = 'block';
+  document.getElementById('playbar').style.display = 'flex';
+
   layers.clearLayers();
+  map.fitBounds(L.latLngBounds(steps.map(x => x.real)).pad(0.15));
+  realLine = L.polyline([], { color:C.real, weight:3 }).addTo(layers);
+  relLine  = L.polyline([], { color:C.released, weight:2.5, dashArray:'7 5' }).addTo(layers);
+  attLine  = L.polyline([], { color:C.attacker, weight:2, dashArray:'2 6' }).addTo(layers);
+  realM = relM = attM = qosC = connector = null; poiMs = [];
 
-  const q = new URLSearchParams({
-    traj: document.getElementById('traj').value,
-    mech: document.getElementById('mech').value,
-    eps: document.getElementById('eps').value,
-    seed: Math.floor(Math.random()*1e6),
-  });
-  const res = await fetch('/simulate?' + q);
-  const data = await res.json();
-  btn.disabled = false; btn.textContent = '▶ Chạy mô phỏng';
-
-  const s = data.summary;
-  document.getElementById('summary').innerHTML =
-    `<div class="stat"><span>Độ lệch trung bình</span><b>${s.mean_disp} m</b></div>
-     <div class="stat"><span>QoS (≤ ${data.qos_radius}m)</span><b>${(s.qos*100).toFixed(0)}%</b></div>
-     <div class="stat"><span>Điểm nằm trên đường</span><b>${(s.on_road*100).toFixed(0)}%</b></div>
-     <div class="stat"><span>Sai số attacker (TB)</span><b>${s.mean_attacker_err} m</b></div>
-     <div class="stat"><span>k-NN POI recall</span><b>${(s.knn_recall*100).toFixed(0)}%</b></div>
-     <div class="stat"><span>Ngân sách ε toàn quỹ đạo</span><b>${s.epsilon_total}</b></div>`;
-
-  const steps = data.steps;
-  map.fitBounds(L.latLngBounds(steps.map(x => x.real)));
-
-  const realLine = L.polyline([], {color:'#16a34a', weight:3}).addTo(layers);
-  const relLine  = L.polyline([], {color:'#dc2626', weight:3, dashArray:'6 5'}).addTo(layers);
-  const attLine  = L.polyline([], {color:'#111827', weight:2, dashArray:'2 6'}).addTo(layers);
-  let realM = null, relM = null, attM = null, qosC = null, pois = [];
-
-  let i = 0;
-  timer = setInterval(() => {
-    if (i >= steps.length) { clearInterval(timer); return; }
-    const st = steps[i];
-    realLine.addLatLng(st.real); relLine.addLatLng(st.released); attLine.addLatLng(st.attacker);
-    if (realM) { layers.removeLayer(realM); layers.removeLayer(relM);
-                 layers.removeLayer(attM); layers.removeLayer(qosC);
-                 pois.forEach(p => layers.removeLayer(p)); pois = []; }
-    qosC = L.circle(st.real, {radius:data.qos_radius, color:'#16a34a', weight:1,
-                              fillOpacity:0.04}).addTo(layers);
-    realM = L.circleMarker(st.real, {radius:7, color:'#16a34a', fillColor:'#16a34a', fillOpacity:1}).addTo(layers);
-    relM  = L.circleMarker(st.released, {radius:7, color:'#dc2626', fillColor:'#dc2626', fillOpacity:1}).addTo(layers);
-    attM  = L.circleMarker(st.attacker, {radius:6, color:'#111827', fillColor:'#111827', fillOpacity:1}).addTo(layers);
-    st.poi_reported.forEach(p => pois.push(
-      L.circleMarker(p, {radius:5, color:'#f59e0b', fillColor:'#f59e0b', fillOpacity:0.9}).addTo(layers)));
-
-    const cls = st.poi_hits === 3 ? 'poihit' : (st.poi_hits === 0 ? 'poimiss' : '');
-    document.getElementById('stepinfo').innerHTML =
-      `<b>Bước ${i+1}/${steps.length}</b> · ${st.t}<br>
-       Độ lệch báo cáo: <b>${st.disp} m</b><br>
-       Sai số attacker: <b>${st.attacker_err} m</b><br>
-       POI đúng: <span class="${cls}">${st.poi_hits}/3</span>`;
-    i++;
-  }, 350);
+  scrub.max = steps.length - 1; scrub.value = 0;
+  drawChart();
+  renderStep(0);
+  startPlay();
 };
+
+function renderStep(i) {
+  idx = i; const st = steps[i];
+  realLine.setLatLngs(steps.slice(0, i+1).map(x => x.real));
+  relLine.setLatLngs(steps.slice(0, i+1).map(x => x.released));
+  attLine.setLatLngs(steps.slice(0, i+1).map(x => x.attacker));
+  [realM, relM, attM, qosC, connector, ...poiMs].forEach(m => m && layers.removeLayer(m));
+  poiMs = [];
+  qosC = L.circle(st.real, { radius:qosR, color:C.real, weight:1, fillOpacity:.05,
+                             dashArray:'3 5' }).addTo(layers);
+  connector = L.polyline([st.real, st.released],
+                         { color:'#8a938c', weight:1.5, dashArray:'3 4' }).addTo(layers);
+  realM = L.circleMarker(st.real, { radius:7, color:'#fff', weight:2,
+                                    fillColor:C.real, fillOpacity:1 }).addTo(layers);
+  relM  = L.circleMarker(st.released, { radius:7, color:'#fff', weight:2,
+                                        fillColor:C.released, fillOpacity:1 }).addTo(layers);
+  attM  = L.circleMarker(st.attacker, { radius:6, color:'#fff', weight:2,
+                                        fillColor:C.attacker, fillOpacity:1 }).addTo(layers);
+  st.poi_reported.forEach(p => poiMs.push(
+    L.circleMarker(p, { radius:5, color:'#fff', weight:1.5,
+                        fillColor:C.poi, fillOpacity:.95 }).addTo(layers)));
+  scrub.value = i;
+  steplabel.textContent = `bước ${i+1}/${steps.length} · ${st.t}`;
+  stepstat.innerHTML =
+    `lệch <b style="color:${C.released}">${st.disp}m</b> · ` +
+    `attacker <b style="color:${C.attacker}">${st.attacker_err}m</b> · ` +
+    `POI <b>${st.poi_hits}/3</b>`;
+  moveCursor(i);
+}
+
+function startPlay() {
+  playbtn.textContent = '⏸';
+  playing = setInterval(() => {
+    if (idx >= steps.length - 1) { stopPlay(); return; }
+    renderStep(idx + 1);
+  }, 320);
+}
+function stopPlay() { if (playing) clearInterval(playing); playing = null; playbtn.textContent = '▶'; }
+playbtn.onclick = () => playing ? stopPlay() : (idx >= steps.length-1 && renderStep(0), startPlay());
+scrub.oninput = () => { stopPlay(); renderStep(Number(scrub.value)); };
+
+/* ---- per-step chart: two series, one axis (meters), hover tooltip ---- */
+const svgNS = 'http://www.w3.org/2000/svg';
+let cursorEl = null, chartMax = 1;
+function drawChart() {
+  const svg = document.getElementById('csvg');
+  svg.innerHTML = '';
+  const W = 320, H = 120, padL = 30, padB = 14, padT = 6;
+  const n = steps.length;
+  chartMax = Math.max(...steps.map(s => Math.max(s.disp, s.attacker_err))) * 1.1 || 1;
+  const x = i => padL + (W - padL - 4) * (n === 1 ? 0 : i / (n - 1));
+  const y = v => padT + (H - padT - padB) * (1 - v / chartMax);
+
+  [0, 0.5, 1].forEach(f => {
+    const g = document.createElementNS(svgNS, 'line');
+    const yy = y(chartMax * f / 1.1);
+    g.setAttribute('x1', padL); g.setAttribute('x2', W - 4);
+    g.setAttribute('y1', yy); g.setAttribute('y2', yy);
+    g.setAttribute('stroke', '#e4e6e1'); g.setAttribute('stroke-width', '1');
+    svg.appendChild(g);
+    const t = document.createElementNS(svgNS, 'text');
+    t.setAttribute('x', padL - 4); t.setAttribute('y', yy + 3);
+    t.setAttribute('text-anchor', 'end');
+    t.setAttribute('font-size', '8'); t.setAttribute('fill', '#68716b');
+    t.textContent = Math.round(chartMax * f / 1.1);
+    svg.appendChild(t);
+  });
+  const mkPath = (key, color) => {
+    const p = document.createElementNS(svgNS, 'path');
+    p.setAttribute('d', steps.map((s, i) =>
+      (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(s[key]).toFixed(1)).join(''));
+    p.setAttribute('fill', 'none'); p.setAttribute('stroke', color);
+    p.setAttribute('stroke-width', '2'); p.setAttribute('stroke-linejoin', 'round');
+    svg.appendChild(p);
+  };
+  mkPath('disp', C.released);
+  mkPath('attacker_err', C.attacker);
+
+  cursorEl = document.createElementNS(svgNS, 'line');
+  cursorEl.setAttribute('y1', padT); cursorEl.setAttribute('y2', H - padB);
+  cursorEl.setAttribute('stroke', '#1c2420'); cursorEl.setAttribute('stroke-width', '1');
+  cursorEl.setAttribute('stroke-dasharray', '2 3');
+  svg.appendChild(cursorEl);
+
+  const tip = document.getElementById('tip');
+  svg.onmousemove = e => {
+    const r = svg.getBoundingClientRect();
+    const fx = (e.clientX - r.left) / r.width * W;
+    const i = Math.max(0, Math.min(n - 1, Math.round((fx - padL) / (W - padL - 4) * (n - 1))));
+    const s = steps[i];
+    tip.style.display = 'block';
+    tip.style.left = (x(i) / W * r.width) + 'px';
+    tip.style.top = '20px';
+    tip.textContent = `b${i+1} · lệch ${s.disp}m · attacker ${s.attacker_err}m`;
+    moveCursor(i);
+  };
+  svg.onmouseleave = () => { tip.style.display = 'none'; moveCursor(idx); };
+  svg.onclick = e => {
+    const r = svg.getBoundingClientRect();
+    const fx = (e.clientX - r.left) / r.width * W;
+    const i = Math.max(0, Math.min(n - 1, Math.round((fx - padL) / (W - padL - 4) * (n - 1))));
+    stopPlay(); renderStep(i);
+  };
+  function moveC(i) {
+    cursorEl.setAttribute('x1', x(i)); cursorEl.setAttribute('x2', x(i));
+  }
+  window.moveCursor = moveC;
+  moveC(0);
+}
+window.moveCursor = () => {};
+
+// #auto: tự chạy một lượt khi mở trang (dùng cho demo/screenshot)
+if (location.hash === '#auto') {
+  window.addEventListener('load', () => {
+    run.click();
+    setTimeout(() => { stopPlay(); if (steps.length) renderStep(Math.floor(steps.length * 0.6)); }, 6000);
+  });
+}
 </script>
 </body>
 </html>
