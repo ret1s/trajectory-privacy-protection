@@ -24,21 +24,33 @@ categorical mỗi release, <1ms cho 78k đỉnh (đã đo trong benchmark: ~57s 
 với `rep(cell)` = tâm ô (công khai), không còn dùng toạ độ thật. Phân phối release
 của mọi điểm trong một ô giờ đồng nhất.
 
-### V-003 (memoization lộ revisit pattern; trajectory theorem sai) — **NARROWED**
-Rút lại định lý toàn-quỹ-đạo. Định lý~\ref{thm:smrem} nay **chỉ** phát biểu cho
-vị trí tĩnh lặp lại (transcript $(Z,\dots,Z)$ = hậu xử lý của một mẫu). Thêm
-Nhận xét~\ref{rmk:notrajectory} nêu đúng phản ví dụ $X{=}(a,a)$ vs $X'{=}(a,b)$
-và kết luận: bảo vệ cả pattern revisit cần reuse-decision riêng tư (predictive
-mechanism) = future work. Docstring `StayMemoizedREM` viết lại tương ứng.
+### V-003 (memoization lộ revisit pattern; trajectory theorem sai) — **RESOLVED (nâng cấp vòng 2)**
+Vòng trước: rút lại định lý, thu hẹp SM-REM về static-repeat. Vòng này **giải
+quyết tận gốc**: thêm cơ chế **PR-SM-REM** (`PrivateReuseSMREM`, `core/mechanisms.py`)
+làm quyết định reuse riêng tư bằng noisy-threshold test (predictive mechanism
+Chatzikokolakis PETS'14 + w-event Kellaris VLDB'14). Định lý~\ref{thm:prsmrem}:
+**w-event $\eps_w$-Geo-I** trên cả quỹ đạo; với $X{=}(a,a)$ vs $X'{=}(a,b)$ biến
+cố $\{z_2\ne z_1\}$ giờ có ratio $\le e^{\eps_{\text{test}}d(a,b)}$ thay vì $\infty$.
+SM-REM (static-repeat) giữ nguyên như một điểm trên spectrum.
 
-### V-004 (attacker sai likelihood) — **RESOLVED (REM) / PARTIAL (T-REM,SM-REM)**
-`evaluation/attacks.py`: thêm `precompute_lognorm()` tính log-normalizer $Z(x)$
-đủ trên full support (per ε,scale); `BayesianPointAttack` viết lại với likelihood
-REM chính xác, **prior đều cố định** (không chọn theo $z$), estimator
-**geometric-median** (khớp loss khoảng cách). HMM thêm term $\log Z$. Đặt tên
-trung thực: chính xác cho REM; với T-REM/SM-REM là adversary REM-emission cố định
-áp dụng đồng nhất, **không** tuyên bố Bayes-optimal riêng. Likelihood exact cho
-history/state của T-REM/SM-REM = future.
+### V-004 (attacker sai likelihood) — **RESOLVED**
+`BayesianPointAttack`: likelihood REM chính xác + `precompute_lognorm()` cho $Z(x)$
+đủ full-support + prior đều cố định + geometric-median. **Quan trọng hơn**: thêm
+`AveragingAttack._mle` --- attack **MLE nhất quán** cho repeated-observation
+$\hat x=\arg\max_x[-a\sum d(x,z_i)-n\log Z(x)]$ (Agent 3). Kết quả đa-home cho thấy
+sample-mean là attack SAI (E[Z|x]≠x → plateau chệch); dưới MLE, REM/T-REM **không**
+kháng averaging (25,2m ở n=100). Likelihood exact history-dependent cho T-REM
+(normalizer $Z_t(x,z_{t-1})$, đã derive) và SM-REM (equality-event) = tài liệu hoá,
+implement sequential-exact = future.
+
+### V-005 (averaging one-home/one-seed) — **RESOLVED**
+Thay bằng `experiments/run_averaging_multi.py`: 40 stay-point home thật (21 user),
+8 seed, GPS jitter σ=10m, hai estimator (mean + MLE), success-prob P[err≤r],
+bootstrap CI trên homes (cluster theo user) --- đúng protocol Agent 1
+(Shokri/Dhondt). Bảng~\ref{tab:averaging-multi} trong Ch5 §5.5. Kết luận trung
+thực: SM-REM phẳng thật (147,6m, P[≤50m]=11%), PR-SM-REM cân bằng (47,6m, có
+w-event guarantee), REM/T-REM sụp (25,2m). Eclipse~\cite{niu2020eclipse} thêm làm
+đối thủ trực tiếp.
 
 ## P1 — High
 

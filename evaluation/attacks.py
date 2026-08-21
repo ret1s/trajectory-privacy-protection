@@ -238,47 +238,91 @@ class HMMTrackingAttack:
 
 
 class AveragingAttack:
-    """Repeated-report / home-inference attack (scenario S4).
+    """Repeated-report / home-inference attack (scenario S4), with the CORRECT
+    adversary estimator.
 
-    Models the documented real-world harm (Strava home-zone recovery, Hassan
-    et al. USENIX Sec 2018; data-broker home fingerprinting): the user reports
-    n times from ONE static true location (e.g. home overnight); the adversary
-    averages the released points. For any mechanism that emits fresh
-    independent noise per report, the sample mean of the releases converges to
-    the true point at rate O(1/sqrt(n)) (or faster after de-biasing), so the
-    estimate error collapses as n grows. A mechanism that returns a CONSISTENT
-    release for the same place (memoization) leaves the averaged estimate stuck
-    at the single-release error — averaging buys the adversary nothing.
+    Models the documented harm (Strava home-zone recovery, Hassan et al. USENIX
+    Sec 2018; data-broker home fingerprinting): a user reports n times from one
+    static home; the adversary combines the releases.
 
-    Reported metric: mean distance (m) between the averaged estimate and the
-    true static point, as a function of n. Higher / non-decreasing = private.
+    Two estimators are reported per n, because the estimator choice is the whole
+    story (verifier V-004/V-005; derivation in the exact-likelihood notes):
+
+      * `mean`  — the naive sample mean of the releases. Consistent (→ truth)
+        only when the emission is symmetric about x (planar Laplace). For the
+        exponential mechanisms over a bounded/inhomogeneous vertex set,
+        E[Z|x] ≠ x, so the sample mean is BIASED and plateaus at ‖E[Z|x]−x‖ —
+        it wrongly suggests REM/T-REM "resist" averaging.
+
+      * `mle`   — the consistent maximum-likelihood attack with the exact REM
+        emission and its input-dependent normaliser:
+            x̂ = argmax_{x∈V} [ −a·Σ_i d(x,z_i) − n·logZ(x) ],  a = scale·ε.
+        For REM/T-REM this converges to the truth as n grows (so they do NOT
+        resist repeated observation — the flat mean curve was an estimator
+        artefact). For SM-REM every release is one memoised sample, so the MLE
+        error is independent of n — the anti-averaging property is real, but
+        only within one cache lifetime at one cell.
+
+    `jitter_m` adds Gaussian GPS noise to the true input per report (a
+    stationary user's fixes are not identical), which for a grid-memoised
+    mechanism can spill into neighbouring cells and reintroduce fresh draws.
     """
 
-    def __init__(self, road_network):
+    def __init__(self, road_network, epsilon, emission_scale=0.5, lognorm=None):
         self.rn = road_network
+        self.epsilon = epsilon
+        self.scale = emission_scale
+        self.logZ = (
+            lognorm
+            if lognorm is not None
+            else precompute_lognorm(road_network, epsilon, emission_scale)
+        )
 
-    def run(self, mechanism, home_lat, home_lon, n_reports, times=None):
-        """Emit n_reports from the static home point through `mechanism`, then
-        report the averaged-estimate error. `times` optionally supplies per-
-        report timestamps (a stationary dwell); defaults to 60s spacing."""
+    def _mle(self, releases_xy, cand_radius=1200.0):
+        """Consistent MLE attack: argmax_x [ −a·Σ_i d(x,z_i) − n·logZ(x) ].
+        Candidate x ranges over vertices within `cand_radius` of the release
+        centroid (the argmax provably lies there; this is the attacker's own
+        search-space restriction, and logZ stays the exact full-V normaliser).
+        Uses the released-vertex histogram as the sufficient statistic."""
+        a = self.scale * self.epsilon
+        n = len(releases_xy)
+        centroid = releases_xy.mean(axis=0)
+        cand = np.asarray(self.rn.tree.query_ball_point(centroid, cand_radius), dtype=int)
+        if len(cand) == 0:
+            _, nn = self.rn.tree.query(centroid)
+            cand = np.array([int(nn)])
+        uniq, counts = np.unique(np.round(releases_xy, 3), axis=0, return_counts=True)
+        D = cdist(self.rn.xy[cand], uniq)          # (|cand|, |distinct z|)
+        score = -a * (D * counts).sum(axis=1) - n * self.logZ[cand]
+        return self.rn.xy[cand[int(np.argmax(score))]]
+
+    def run(self, mechanism, home_lat, home_lon, n_reports, times=None,
+            jitter_m=0.0, ks=(1, 2, 5, 10, 20, 50, 100), rng=None):
         import datetime
 
+        rng = rng or np.random.default_rng()
         mechanism.reset()
         if times is None:
             base = datetime.datetime(2008, 10, 23, 2, 0, 0)
             times = [base + datetime.timedelta(seconds=60 * i) for i in range(n_reports)]
 
+        home_xy = np.asarray(self.rn.point_xy(home_lat, home_lon))
+        m_lat, m_lon = 111_132.0, 111_132.0 * np.cos(np.radians(home_lat))
         releases = []
         for i in range(n_reports):
-            zlat, zlon = mechanism.perturb(home_lat, home_lon, t=times[i])
+            lat, lon = home_lat, home_lon
+            if jitter_m > 0:
+                lat = lat + rng.normal(0, jitter_m) / m_lat
+                lon = lon + rng.normal(0, jitter_m) / m_lon
+            zlat, zlon = mechanism.perturb(lat, lon, t=times[i])
             releases.append(self.rn.point_xy(zlat, zlon))
         releases = np.asarray(releases)
 
-        home_xy = np.asarray(self.rn.point_xy(home_lat, home_lon))
-        # Averaged estimate after the first k reports, for a schedule of k.
-        curve = {}
-        for k in (1, 2, 5, 10, 20, 50, 100):
+        mean_curve, mle_curve = {}, {}
+        for k in ks:
             if k <= n_reports:
                 est = releases[:k].mean(axis=0)
-                curve[k] = float(np.hypot(est[0] - home_xy[0], est[1] - home_xy[1]))
-        return curve
+                mean_curve[k] = float(np.hypot(*(est - home_xy)))
+                mx = self._mle(releases[:k])
+                mle_curve[k] = float(np.hypot(*(mx - home_xy)))
+        return {"mean": mean_curve, "mle": mle_curve}

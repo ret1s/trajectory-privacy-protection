@@ -298,14 +298,59 @@ $g=60$m; release snap về đỉnh đường dùng chung nên giá trị nhất 
 thành fingerprint duy nhất.
 \end{nhanxet}
 
-\begin{nhanxet}[Hướng tới guarantee w-event]
-Phát biểu quỹ đạo đầy đủ nên là: \{$\eps_0$-Geo-I Euclid mỗi release tươi\} +
-\{memoized $\Rightarrow$ tính một lần mỗi đỉnh riêng biệt\} + \{$\sum$ ngân sách
-metric-DP $\le \eps_w$ trong mọi cửa sổ $w$ timestamp --- w-event
-DP,~\cite{kellaris2014wevent} Định lý~3, hợp lệ cả khi $M_i$ thấy output trước\};
-nâng $\eps_w$ lên chặn temporal-privacy-leakage~\cite{cao2017tpl} nếu muốn tuyên
-bố correlation-robust. Hình thức hóa đầy đủ w-event trên lưới đường là hướng phát
-triển (Chương~\ref{ch:tongket}).
+\section{PR-SM-REM: reuse riêng tư và đảm bảo w-event}
+\label{sec:prsmrem}
+
+Nhận xét~\ref{rmk:notrajectory} chỉ ra vì sao SM-REM \emph{không} có đảm bảo toàn
+quỹ đạo: quyết định reuse (hit/miss cache) là hàm xác định của pattern revisit bí
+mật. Cách vá nguyên lý (predictive mechanism~\cite{chatzikokolakis2014predictive};
+kế toán w-event~\cite{kellaris2014wevent}) là làm chính \emph{quyết định reuse}
+riêng tư vi phân.
+
+\paragraph{Cơ chế.} Ở mỗi bước $t$, dự đoán $\tilde z_t$ = \emph{điểm đã công bố
+trước đó} $z_{t-1}$ (parrot predictor --- công khai, chỉ là hàm của transcript).
+Chạy \emph{phép thử ngưỡng có nhiễu}:
+\[
+d(x_t, \tilde z_t) + \mathrm{Lap}(1/\eps_{\text{test}}) \le \theta
+\quad\Rightarrow\quad \text{REUSE } \tilde z_t;\qquad
+\text{ngược lại} \Rightarrow \text{RESAMPLE bằng REM}.
+\]
+Reuse tốn đúng $\eps_{\text{test}}$; resample tốn $\eps_{\text{test}}+\eps$.
+$\theta$ là bán kính reuse công khai; trạng thái chỉ phụ thuộc thông tin công
+khai và các release quá khứ, không bao giờ phụ thuộc $x_{\le t}$ thô.
+
+\begin{dinhly}[PR-SM-REM thỏa w-event $\eps_w$-Geo-I]
+\label{thm:prsmrem}
+Vì thống kê $d(x_t,\tilde z_t)$ có độ nhạy metric bằng 1 theo $x_t$ và $\tilde z_t$
+là công khai, phép thử ngưỡng có nhiễu Laplace$(1/\eps_{\text{test}})$ thỏa
+$\eps_{\text{test}}$-Geo-I; công bố bit reuse/resample là hậu xử lý của nó; một
+release tươi thỏa $\eps$-Geo-I (Định lý~\ref{thm:rem}). Do kết hợp theo cửa sổ
+(\cite{kellaris2014wevent} Định lý~3), nếu trong mọi cửa sổ $w$ bước liên tiếp
+tổng ngân sách $w\,\eps_{\text{test}} + (\#\text{resample})\,\eps \le \eps_w$ thì
+cơ chế thỏa \textbf{w-event $\eps_w$-Geo-I}: với mọi cặp tiền tố quỹ đạo khác nhau
+ở $\le w$ bước liên tiếp và mọi transcript $O$,
+$\Pr[M(X)\in O] \le e^{\eps_w \cdot d_\infty(X,X')}\Pr[M(X')\in O]$.
+\end{dinhly}
+
+\begin{proof}[Phác thảo]
+Mỗi bước phân rã thành $M_{t,1}$ (phép thử, $\eps_{\text{test}}$-Geo-I vì query
+độ nhạy 1 + nhiễu Laplace) và $M_{t,2}$ (release REM $\eps$-Geo-I khi resample,
+hoặc ánh xạ đồng nhất chi phí 0 khi reuse). Randomness độc lập mỗi bước + tổng
+ngân sách cửa sổ $\le \eps_w$ cho w-event $\eps_w$-DP theo Định lý~3
+của~\cite{kellaris2014wevent}, nâng sang metric qua định nghĩa Geo-I. Với
+$X=(a,a)$ vs $X'=(a,b)$, biến cố $\{z_2\ne z_1\}$ giờ có tỷ số
+$\le \exp(\eps_{\text{test}}\,d(a,b))$ thay vì $\infty$ --- kênh quyết định đã bị
+chặn, đóng đúng lỗ hổng của Nhận xét~\ref{rmk:notrajectory}.
+\end{proof}
+
+\begin{nhanxet}[Đánh đổi thực nghiệm --- không phải bữa trưa miễn phí]
+So với SM-REM (memo chính xác), PR-SM-REM \emph{yếu hơn} về chống-averaging thực
+nghiệm: nhiễu trên phép thử cho một số resample lọt qua, tạo mẫu tươi cho kẻ tấn
+công (Mục~\ref{sec:averaging-multi}). Đổi lại nó có đảm bảo trajectory (w-event)
+\emph{thật}, còn SM-REM chỉ có đảm bảo static-repeat. Hạn chế trung thực: reuse
+\emph{không} miễn phí (mỗi bước tốn $\eps_{\text{test}}$); w-event chỉ bảo vệ
+$\le w$ bước liên tiếp (mẫu ``về nhà mỗi tối suốt tháng'' không phải một nhóm được
+bảo vệ); $\theta$ phải công khai.
 \end{nhanxet}
 
 \section{Thuật toán và độ phức tạp}

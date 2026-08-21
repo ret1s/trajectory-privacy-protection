@@ -36,9 +36,14 @@ chế mới hoạt động \emph{ngay trên lưới đường}:
   mà tấn công liên kết vận tốc dựa vào (một soft regularizer, không phải hard
   reachable-set).
   \item \textbf{SM-REM}: T-REM bổ sung memoization theo lưới công khai --- cùng
-  một chỗ luôn trả về cùng một điểm công bố --- đóng tấn công averaging tại
-  stay-point (khôi phục địa chỉ nhà), rủi ro thực tế nghiêm trọng nhất mà các
-  cơ chế nhiễu độc lập đều bỏ ngỏ.
+  một chỗ luôn trả về cùng một điểm công bố --- chống tấn công averaging tại
+  stay-point (khôi phục địa chỉ nhà) trong phạm vi một cache-lifetime, rủi ro
+  thực tế nghiêm trọng mà các cơ chế nhiễu độc lập bỏ ngỏ.
+  \item \textbf{PR-SM-REM}: thay quyết định memoize chính xác (vốn rò pattern
+  revisit) bằng \emph{phép thử reuse có nhiễu} (kiểu predictive mechanism +
+  w-event), đạt đảm bảo \emph{trajectory-level} w-event $\eps_w$-Geo-I thật ---
+  đổi một phần sức chống-averaging thực nghiệm lấy một guarantee hợp lệ trên cả
+  chuỗi.
 \end{itemize}
 
 Đồng thời, đối chiếu với hệ thống thực tế dẫn tới việc \emph{phát biểu lại bài
@@ -56,8 +61,8 @@ threat model rút từ các tấn công đã xảy ra thật.
   vào các harm thực tế (Mục~\ref{sec:systemmodel});
   \item Phân tích hình thức các lỗi của pipeline Thực tập 2
   (Mục~\ref{sec:phantichbaseline});
-  \item Ba cơ chế REM, T-REM và SM-REM kèm chứng minh đảm bảo riêng tư
-  (Mục~\ref{sec:rem}, \ref{sec:trem}, \ref{sec:smrem});
+  \item Bốn cơ chế REM, T-REM, SM-REM và PR-SM-REM kèm chứng minh đảm bảo riêng
+  tư (Mục~\ref{sec:rem}, \ref{sec:trem}, \ref{sec:smrem}, \ref{sec:prsmrem});
   \item Bộ khung đánh giá theo chuẩn văn liệu: tấn công suy luận Bayes tối ưu,
   tấn công theo dõi HMM, và tấn công averaging tại stay-point, cùng các độ đo
   tiện ích và tính thực tế (Chương~\ref{ch:thucnghiem});

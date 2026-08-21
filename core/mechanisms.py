@@ -331,3 +331,76 @@ class StayMemoizedREM(TemporalRoadExponential):
         self._cache[cell] = self._last_choice  # exact vertex the sampler chose
         self.distinct_releases += 1
         return latlon
+
+
+class PrivateReuseSMREM(RoadExponential):
+    """Private-Reuse SM-REM — the principled fix for the revisit-pattern leak
+    (verifier V-003), giving a genuine TRAJECTORY-level guarantee instead of the
+    static-repeat-only claim of SM-REM.
+
+    Idea (predictive mechanism, Chatzikokolakis et al. PETS 2014 + w-event
+    accounting, Kellaris et al. VLDB 2014). The "reuse the last release vs draw
+    a fresh one" decision is a function of the secret, so exact memoization
+    leaks the revisit pattern with an unbounded likelihood ratio. Here the
+    decision is made by a NOISY-THRESHOLD test whose only secret-dependent
+    quantity is already differentially private:
+
+        prediction z̃_t = the previous released point (the "parrot" predictor —
+                          public, a function of the transcript only);
+        test:  d(x_t, z̃_t) + Lap(1/ε_test) ≤ θ  ?
+          yes → REUSE z̃_t  (deterministic given the private test outcome;
+                             spends only ε_test, no fresh location budget);
+          no  → RESAMPLE via REM  (spends ε_test + ε).
+
+    Because the test statistic d(x_t, z̃_t) has metric-sensitivity 1 in x_t and
+    z̃_t is public, the test is ε_test-Geo-I; publishing the reuse/resample bit
+    is post-processing of it; a fresh draw is ε-Geo-I (Theorem 4.1). By
+    sequential/window composition the mechanism satisfies **w-event
+    ε_w-geo-indistinguishability**: within any window of w consecutive releases
+    the spent budget w·ε_test + (#resamples)·ε sums to ≤ ε_w (Kellaris Thm 3).
+    State depends ONLY on public info + past releases (never the raw trajectory),
+    which is what closes the revisit-pattern leak: for X=(a,a) vs X'=(a,b) the
+    event {z2≠z1} now has ratio ≤ exp(ε_test·d(a,b)) instead of ∞.
+
+    A static user reuses the first release (θ set near the release displacement),
+    so averaging is still defeated; a moving user resamples once it leaves the
+    θ-ball of the last release. Honest limits: reuse is NOT free (each step pays
+    ε_test); w-event only protects ≤ w contiguous steps (a month of nightly
+    visits is not one protected group); θ must stay public.
+    """
+
+    name = "pr_sm_rem"
+
+    def __init__(self, epsilon, road_network, eps_test=None, theta=200.0, rng=None):
+        super().__init__(epsilon, road_network, rng)
+        self.eps_test = eps_test if eps_test is not None else epsilon
+        self.theta = theta  # public reuse radius (m)
+        self.reset()
+
+    def reset(self):
+        super().reset()
+        self._prev_release_xy = None
+        self._prev_choice = None
+        self.n_test = 0
+        self.n_resample = 0
+
+    def perturb(self, lat, lon, t=None):
+        real_xy = self.rn.point_xy(lat, lon)
+        self.n_test += 1
+        if self._prev_release_xy is not None:
+            dist = float(np.hypot(real_xy[0] - self._prev_release_xy[0],
+                                  real_xy[1] - self._prev_release_xy[1]))
+            noisy = dist + self.rng.laplace(scale=1.0 / self.eps_test)
+            if noisy <= self.theta:
+                # Reuse: output the previous released vertex (deterministic given
+                # the private test outcome). No fresh location budget spent.
+                self._last_choice = self._prev_choice
+                return self.rn.latlon(self._prev_choice)
+        # Resample: fresh REM release.
+        idxs, logits = self._candidate_logits(real_xy)
+        choice = self._sample(idxs, logits)
+        self.n_resample += 1
+        self._last_choice = choice
+        self._prev_choice = choice
+        self._prev_release_xy = tuple(self.rn.xy[choice])
+        return self.rn.latlon(choice)

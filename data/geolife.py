@@ -133,6 +133,73 @@ def load_trajectories(
     return result
 
 
+def detect_stay_points(points, dist_thresh_m=200.0, time_thresh_s=1200.0):
+    """Stay-point detection of Li et al. (ACM GIS 2008) / Zheng et al. (WWW 2009):
+    a maximal run of consecutive fixes staying within `dist_thresh_m` for at
+    least `time_thresh_s` collapses to one stay point at the run's mean
+    coordinate. Defaults 200 m / 20 min are the standard GeoLife values.
+    Returns a list of (lat, lon) stay-point centres."""
+    stays = []
+    n = len(points)
+    i = 0
+    while i < n:
+        j = i + 1
+        while j < n:
+            d = haversine(
+                (points[i][0], points[i][1]), (points[j][0], points[j][1]),
+                unit=Unit.METERS,
+            )
+            if d > dist_thresh_m:
+                break
+            j += 1
+        dt = (points[j - 1][2] - points[i][2]).total_seconds()
+        if dt >= time_thresh_s and j - i >= 2:
+            lat = sum(p[0] for p in points[i:j]) / (j - i)
+            lon = sum(p[1] for p in points[i:j]) / (j - i)
+            stays.append((lat, lon))
+            i = j
+        else:
+            i += 1
+    return stays
+
+
+def load_stay_points(
+    bbox=BEIJING_BBOX,
+    n_homes=60,
+    dist_thresh_m=200.0,
+    time_thresh_s=1200.0,
+    interval_s=60,
+    max_gap_s=600,
+    max_per_user=2,
+    users=None,
+    root=GEOLIFE_ROOT,
+):
+    """Extract a population of real 'significant locations' (stay-point centres)
+    from GeoLife inside `bbox`, for the multi-home averaging study. Caps per
+    user so the population is not dominated by one person's home."""
+    homes = []
+    per_user = {}
+    for user_id, plt in iter_user_files(root, users):
+        if per_user.get(user_id, 0) >= max_per_user:
+            continue
+        raw = parse_plt(plt)
+        inside = [p for p in raw if _in_bbox(p[0], p[1], bbox)]
+        if len(inside) < 5:
+            continue
+        for segment in _split_on_gaps(inside, max_gap_s):
+            pts = resample(segment, interval_s)
+            for lat, lon in detect_stay_points(pts, dist_thresh_m, time_thresh_s):
+                homes.append({"user": user_id, "home": (lat, lon)})
+                per_user[user_id] = per_user.get(user_id, 0) + 1
+                if per_user[user_id] >= max_per_user:
+                    break
+            if per_user.get(user_id, 0) >= max_per_user:
+                break
+        if len(homes) >= n_homes:
+            break
+    return homes[:n_homes]
+
+
 if __name__ == "__main__":
     trajs = load_trajectories(n_trajectories=5)
     print(f"Loaded {len(trajs)} trajectories")
