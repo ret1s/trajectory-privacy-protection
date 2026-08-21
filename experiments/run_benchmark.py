@@ -23,6 +23,7 @@ from core.mechanisms import (
     BaselineThesis,
     RoadExponential,
     TemporalRoadExponential,
+    StayMemoizedREM,
 )
 from evaluation import metrics
 from evaluation.attacks import BayesianPointAttack, HMMTrackingAttack
@@ -39,6 +40,7 @@ def build_mechanisms(eps, rn, rng):
         BaselineThesis(eps, QOS_RADIUS, rn, rng=rng),
         RoadExponential(eps, rn, rng=rng),
         TemporalRoadExponential(eps, rn, rng=rng),
+        StayMemoizedREM(eps, rn, rng=rng),
     ]
 
 
@@ -51,6 +53,7 @@ EMISSION_SCALE = {
     "baseline_thesis": 1.0,
     "road_exponential": 0.5,
     "temporal_road_exponential": 0.5,
+    "stay_memoized_rem": 0.5,
 }
 
 

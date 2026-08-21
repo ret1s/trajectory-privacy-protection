@@ -33,17 +33,32 @@ chế mới hoạt động \emph{ngay trên lưới đường}:
   vào \emph{điểm đã công bố trước đó} --- thông tin công khai --- nên đảm bảo
   riêng tư per-point không đổi, trong khi chuỗi công bố trở nên nhất quán về tốc
   độ, đóng tấn công liên kết vận tốc (velocity-linkage).
+  \item \textbf{SM-REM}: T-REM bổ sung memoization theo lưới công khai --- cùng
+  một chỗ luôn trả về cùng một điểm công bố --- đóng tấn công averaging tại
+  stay-point (khôi phục địa chỉ nhà), rủi ro thực tế nghiêm trọng nhất mà các
+  cơ chế nhiễu độc lập đều bỏ ngỏ.
 \end{itemize}
+
+Đồng thời, đối chiếu với hệ thống thực tế dẫn tới việc \emph{phát biểu lại bài
+toán}: LBS không cần vị trí chính xác mà cần mức granularity tối thiểu theo mục
+đích; ràng buộc chất lượng vì thế được phát biểu dưới dạng $(\alpha,\delta)$-hữu
+dụng ($\Pr[d(x,z)\le\alpha]\ge\delta$, khớp semantics trường \texttt{accuracy}
+mà mọi ứng dụng đang tiêu thụ) thay vì một ngưỡng cứng $\delta$ quanh điểm thật
+(vốn phá vỡ đảm bảo, Mệnh đề~\ref{prop:cap}); và giải thuật được đánh giá theo
+threat model rút từ các tấn công đã xảy ra thật.
 
 Đóng góp của luận văn tính đến bản cập nhật này:
 \begin{enumerate}
+  \item Phát biểu lại bài toán theo mô hình triển khai thực tế (local, on-device,
+  granularity theo mục đích, bảo vệ endpoint) với bảng yêu cầu thiết kế ánh xạ
+  vào các harm thực tế (Mục~\ref{sec:systemmodel});
   \item Phân tích hình thức các lỗi của pipeline Thực tập 2
   (Mục~\ref{sec:phantichbaseline});
-  \item Hai cơ chế REM và T-REM kèm chứng minh đảm bảo riêng tư
-  (Mục~\ref{sec:rem}, \ref{sec:trem});
-  \item Bộ khung đánh giá theo chuẩn văn liệu: tấn công suy luận Bayes tối ưu và
-  tấn công theo dõi HMM khai thác tương quan thời gian, cùng các độ đo tiện ích
-  và tính thực tế (Chương~\ref{ch:thucnghiem});
+  \item Ba cơ chế REM, T-REM và SM-REM kèm chứng minh đảm bảo riêng tư
+  (Mục~\ref{sec:rem}, \ref{sec:trem}, \ref{sec:smrem});
+  \item Bộ khung đánh giá theo chuẩn văn liệu: tấn công suy luận Bayes tối ưu,
+  tấn công theo dõi HMM, và tấn công averaging tại stay-point, cùng các độ đo
+  tiện ích và tính thực tế (Chương~\ref{ch:thucnghiem});
   \item Thực nghiệm trên dữ liệu GPS thật (GeoLife, Bắc Kinh) trên đồ thị đường
   OSM thật, so sánh với Laplace phẳng và baseline Thực tập 2;
   \item Hệ thống mô phỏng trực quan ba góc nhìn (người dùng / máy chủ LBS / kẻ

@@ -1,6 +1,65 @@
 \chapter{Phương pháp đề xuất}
 \label{ch:phuongphap}
 
+\section{Mô hình hệ thống và yêu cầu thiết kế}
+\label{sec:systemmodel}
+
+\paragraph{Reframe bài toán.} Đối chiếu với hệ thống LBS thực tế
+(Chương~\ref{ch:lienquan}) cho thấy dịch vụ không cần vị trí \emph{chính xác} mà
+cần \emph{mức granularity tối thiểu đủ cho một mục đích}. Apple và Android đều
+phơi bày các tầng độ chính xác theo query, xử lý ``significant location''
+on-device và làm mờ điểm đầu/cuối hành trình; quy định (GDPR Điều~5; ngưỡng
+``precise geolocation'' 1.750--1.850 ft của luật bang Mỹ; các lệnh FTC với
+Kochava/X-Mode/InMarket) áp đặt purpose limitation, data minimization và loại trừ
+vị trí nhạy cảm. Tuy nhiên thứ được triển khai thực tế chỉ là \emph{lượng tử hóa
+heuristic không đảm bảo} (snap-to-grid, làm tròn) hoặc \emph{DP hình thức chỉ ở
+phía máy chủ trên dữ liệu tổng hợp}. Luận văn vì thế phát biểu lại bài toán: từ
+``làm nhiễu mỗi điểm trong bán kính QoS $\delta$ toàn cục'' thành \textbf{phát ra
+mức tối thiểu theo mục đích, on-device, trên lưới đường, với đảm bảo nhận thức
+endpoint và tương quan, đánh giá theo threat model rút từ các tấn công thật}.
+
+\paragraph{Mô hình hệ thống.} Cơ chế chạy \emph{client-side} (mô hình local),
+tại tầng vị trí của thiết bị --- tiền lệ đã triển khai cho hàng tỷ máy là Android
+\texttt{LocationFudger} và iOS approximate location, cùng Location Guard/LP-Doctor
+cho planar Laplace. Đây là nơi đặt duy nhất mà đảm bảo giữ được với \emph{mọi} bên
+downstream (máy chủ LBS, ad exchange, data broker, trát tòa). Cơ chế được biết:
+(a)~vị trí thật hiện tại; (b)~\emph{đồ thị đường công khai lưu trên thiết bị} (đo
+được 33MB cho toàn Bắc Kinh, nhỏ hơn nhiều so với bản đồ offline 200--950MB mà
+điện thoại vẫn chứa --- nên điều kiện hóa trên nó không tốn privacy, là
+post-processing); (c)~\emph{các điểm đã CÔNG BỐ trước đó của chính nó} (không phải
+vị trí thật quá khứ). Adversary thấy: điểm công bố on-road cộng metadata tầng
+truyền (timestamp, nội dung query, định danh có thể liên kết) --- mô hình hóa là
+LBS honest-but-curious hoặc broker giữ toàn bộ chuỗi công bố dưới một định danh.
+
+\paragraph{Yêu cầu thiết kế và phạm vi trung thực.} Bảng~\ref{tab:requirements}
+liệt kê các yêu cầu rút từ industry/pháp lý và harm chúng đối ứng. Cơ chế đề xuất
+(REM/T-REM/SM-REM) làm được R1,R3,R4,R5,R6 và một phần R2,R7; \emph{không} tự làm
+được R8 (xoay định danh --- cần policy phía định danh) và R9--R12 (consent, giới
+hạn mục đích/lưu trữ, minh bạch --- thuộc governance phía máy chủ hoặc tầng UX).
+Đây là ranh giới đóng góp cần nêu thẳng: một cơ chế nhiễu tọa độ không thể thay
+thế kiểm soát định danh và quản trị dữ liệu.
+
+\begin{table}[ht]
+\centering
+\caption{Yêu cầu thiết kế R1--R7 (phần cơ chế giải quyết) và harm đối ứng
+(S1--S6, xem Chương~\ref{ch:lienquan}).}
+\label{tab:requirements}
+\small
+\begin{tabular}{clll}
+\toprule
+\# & Yêu cầu & Nguồn & Harm \\
+\midrule
+R1 & Perturbation client-side/on-device & Apple; AOSP; GDPR & tiền đề \\
+R2 & Granularity theo mục đích (chọn từ context công khai) & GDPR 5(1)(c); Micinski'13 & S1,S6 \\
+R3 & Bất khả phân biệt hình thức vị trí gần & W3C; Geo-I & S1,S5 \\
+R4 & Output on-road hợp lệ & LocationFudger; REM & S2 \\
+R5 & Kháng tương quan/velocity (điều kiện trên điểm đã công bố) & Xiao--Xiong; T-REM & S3 \\
+R6 & Ổn định khi báo lặp (anti-averaging) & W3C; RAPPOR; LP-Doctor & S4 \\
+R7 & Bảo vệ endpoint/stay-point hạng nhất & Apple; Strava; Dhondt'22 & S4,S6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \section{Phân tích baseline Thực tập 2}
 \label{sec:phantichbaseline}
 
@@ -84,12 +143,20 @@ $(B) \le e^{\frac{\eps}{2}\dEu(x,x')}$. Nhân hai chặn được
 $e^{\eps\,\dEu(x,x')}$.
 \end{proof}
 
+\begin{nhanxet}[Quan hệ với GEM và điều kiện metric của guarantee]
+REM chính là bản dùng khoảng cách \emph{Euclid} của Graph-Exponential Mechanism
+(GEM) trong~\cite{takagi2019geo}: GEM chấm điểm bằng khoảng cách đường đi ngắn
+nhất $d_s$ và chỉ thỏa $\eps$-GG-I (không có đảm bảo theo Euclid), trong khi REM
+chấm điểm bằng $d_{\text{Euclid}}$ nên Định lý~\ref{thm:rem} cho $\eps$-Geo-I
+\emph{Euclid} thật sự. Điểm mấu chốt: guarantee bám vào metric dùng trong số mũ ---
+dùng Euclid thì phát biểu Euclid, dùng graph thì chỉ được phát biểu GG-I. Việc
+miền đầu ra rời rạc/on-road không phá lập luận exponential mechanism.
+\end{nhanxet}
+
 \begin{nhanxet}[Tính thực tế theo cấu trúc]
 Mọi đầu ra của REM là một đỉnh đường: các tấn công lọc theo tính hợp lý không
 gian (map-matching, phát hiện điểm trên mặt nước --- cơ sở của
 RAoPT~\cite{buchholz2022raopt}) không còn thông tin để khai thác.
-Theo~\cite{takagi2019geo}, REM đồng thời thỏa $\eps$-GG-I đối với metric đường
-đi ngắn nhất qua lập luận hậu xử lý.
 \end{nhanxet}
 
 \begin{nhanxet}[Cắt ngưỡng khi hiện thực]
@@ -146,10 +213,77 @@ baseline (Mệnh đề~\ref{prop:cap}).
 \end{proof}
 
 \begin{nhanxet}[Ngân sách toàn quỹ đạo]
-Chuỗi $T$ lần công bố tiêu tốn $\eps_{\mathrm{traj}} = T\eps$ theo kết hợp tuần
-tự thích nghi (trọng số $w_t$ chọn theo đầu ra trước đó là hợp lệ trong khuôn
-khổ adaptive composition). Thực nghiệm báo cáo tường minh cả $\eps$ per-point
-lẫn $\eps_{\mathrm{traj}}$.
+Chuỗi $T$ lần công bố nhiễu độc lập tiêu tốn $\eps_{\mathrm{traj}} = T\eps$ theo
+kết hợp tuần tự thích nghi (trọng số $w_t$ chọn theo đầu ra trước đó là hợp lệ
+trong khuôn khổ adaptive composition). Đây là trần worst-case trung thực; SM-REM
+(Mục~\ref{sec:smrem}) siết nó xuống theo số vị trí riêng biệt.
+\end{nhanxet}
+
+\section{SM-REM: Memoization chống tấn công averaging tại stay-point}
+\label{sec:smrem}
+
+Mọi cơ chế nhiễu độc lập theo thời gian --- kể cả REM/T-REM --- đều rò rỉ dưới
+\emph{báo cáo lặp từ một vị trí tĩnh}: kẻ tấn công thấy $n$ release độc lập
+$z_1,\dots,z_n$ của cùng một điểm thật $x$ (ví dụ ở nhà qua đêm) và lấy trung
+bình; ước lượng hội tụ về $x$ với sai số $O(1/\sqrt{n})$.
+Đây là phát biểu hình thức trong~\cite{chatzikokolakis2014predictive} (``khi
+người dùng không di chuyển\ldots các vị trí báo cáo tập trung quanh vị trí thật,
+lộ hoàn toàn nó khi số truy vấn tăng''), và là cơ chế đằng sau vụ Strava khôi
+phục địa chỉ nhà (84--95\%, \cite{hassan2018run,dhondt2022run}) cùng home
+fingerprinting của data broker. Đây chính là kịch bản S4 mà bản PTPPM lưới đường
+mới nhất~\cite{min2025road} \emph{tự thừa nhận} bỏ ngỏ vì cơ chế của họ là
+stateless.
+
+\paragraph{Cơ chế.} SM-REM phân hoạch không gian bằng một \emph{lưới công khai cố
+định} kích thước $g$, với đại diện $\mathrm{rep}(C)$ mỗi ô. Lần đầu điểm thật rơi
+vào ô $C$, một release $r_C$ được lấy mẫu bằng luật T-REM và lưu lại; mọi báo cáo
+sau có điểm thật rơi vào $C$ đều trả về \emph{cùng} $r_C$. Vì không còn nhiễu độc
+lập mới để trung bình, báo cáo lặp trong một ô không lộ thêm gì ngoài release đầu
+tiên. Quyết định memoize chỉ dựa trên lưới công khai (memoize mọi lần), nên không
+có phép thử phụ thuộc dữ liệu nào rò rỉ ngân sách.
+
+\begin{dinhly}[Đảm bảo và composition của SM-REM]
+\label{thm:smrem}
+Với lưới công khai cố định và luật memoization trên, SM-REM thỏa
+$\eps$-$d_{\mathcal{X}}$-privacy đối với \emph{giả-metric của lưới}
+$\tilde{d}(x,x') = d(\mathrm{rep}(\mathrm{cell}\,x), \mathrm{rep}(\mathrm{cell}\,x'))$,
+và ngân sách toàn quỹ đạo cộng \emph{một lần trên mỗi ô riêng biệt được thăm}:
+$\eps_{\mathrm{traj}} = (\text{số ô riêng biệt})\cdot\eps$, thay vì $T\eps$.
+Một stay-point tĩnh tốn đúng $\eps$ bất kể thời gian lưu lại.
+\end{dinhly}
+
+\begin{proof}[Phác thảo]
+Sau khi $r_C$ được lấy mẫu, mọi phát ra sau cho $C$ là tra bảng xác định --- hàm
+của một mẫu duy nhất $r_C$ --- nên là hậu xử lý, không tăng mất mát privacy
+(\cite{takagi2019geo}, bổ đề hậu xử lý). Sự kiện tiêu tốn ngân sách duy nhất là
+lần lấy mẫu đầu mỗi ô; với hai quỹ đạo, tỷ số xác suất transcript bị chặn bởi
+$\exp(\eps\,\tilde{d}(x,x'))$ và cộng tuần tự trên các ô riêng biệt. Với $n$ báo
+cáo tĩnh trong một ô, transcript là $(r_C,\dots,r_C)$ có cùng phân phối với một
+mẫu, nên trung bình của kẻ tấn công không giảm phương sai theo $n$.
+\end{proof}
+
+\begin{nhanxet}[Caveat bắt buộc --- gián đoạn ở biên]
+\label{rmk:boundary}
+$\tilde{d} \ne d_{\text{Euclid}}$: hai điểm $x,x'$ sát nhau ($d\to 0$) nhưng nằm
+hai bên biên ô nhận release độc lập, nên tỷ số có thể lớn tới
+$\exp(\eps\cdot\text{cellwidth})$. SM-REM vì thế \emph{không} thỏa $\eps$-Geo-I
+Euclid như REM/T-REM --- nó suy biến thành ``$\eps$-Geo-I ở mức ô''. Đây là đánh
+đổi cơ bản của rời-rạc-hóa phía-đầu-vào: \textbf{không thể vừa có Geo-I Euclid sạch
+vừa có memoization chống averaging từ cùng một tham số}; và đây đúng là lý do
+Android \texttt{LocationFudger} ghép snap-to-grid với offset ngẫu nhiên bền. $g$
+càng lớn thì càng bền với nhiễu GPS nhưng biên rò càng lớn; mặc định $g=60$m ($\approx$
+bán kính ẩn mặc định Strava / \texttt{MINIMUM\_ACCURACY} của AOSP). Release snap về
+đỉnh đường dùng chung nên giá trị nhất quán không tự trở thành fingerprint duy nhất.
+\end{nhanxet}
+
+\begin{nhanxet}[Hướng tới guarantee w-event]
+Phát biểu quỹ đạo đầy đủ nên là: \{$\eps_0$-Geo-I Euclid mỗi release tươi\} +
+\{memoized $\Rightarrow$ tính một lần mỗi đỉnh riêng biệt\} + \{$\sum$ ngân sách
+metric-DP $\le \eps_w$ trong mọi cửa sổ $w$ timestamp --- w-event
+DP,~\cite{kellaris2014wevent} Định lý~3, hợp lệ cả khi $M_i$ thấy output trước\};
+nâng $\eps_w$ lên chặn temporal-privacy-leakage~\cite{cao2017tpl} nếu muốn tuyên
+bố correlation-robust. Hình thức hóa đầy đủ w-event trên lưới đường là hướng phát
+triển (Chương~\ref{ch:tongket}).
 \end{nhanxet}
 
 \section{Thuật toán và độ phức tạp}

@@ -173,3 +173,50 @@ class HMMTrackingAttack:
     def _norm(v):
         s = v.sum()
         return v / s if s > 0 else np.full_like(v, 1.0 / len(v))
+
+
+class AveragingAttack:
+    """Repeated-report / home-inference attack (scenario S4).
+
+    Models the documented real-world harm (Strava home-zone recovery, Hassan
+    et al. USENIX Sec 2018; data-broker home fingerprinting): the user reports
+    n times from ONE static true location (e.g. home overnight); the adversary
+    averages the released points. For any mechanism that emits fresh
+    independent noise per report, the sample mean of the releases converges to
+    the true point at rate O(1/sqrt(n)) (or faster after de-biasing), so the
+    estimate error collapses as n grows. A mechanism that returns a CONSISTENT
+    release for the same place (memoization) leaves the averaged estimate stuck
+    at the single-release error — averaging buys the adversary nothing.
+
+    Reported metric: mean distance (m) between the averaged estimate and the
+    true static point, as a function of n. Higher / non-decreasing = private.
+    """
+
+    def __init__(self, road_network):
+        self.rn = road_network
+
+    def run(self, mechanism, home_lat, home_lon, n_reports, times=None):
+        """Emit n_reports from the static home point through `mechanism`, then
+        report the averaged-estimate error. `times` optionally supplies per-
+        report timestamps (a stationary dwell); defaults to 60s spacing."""
+        import datetime
+
+        mechanism.reset()
+        if times is None:
+            base = datetime.datetime(2008, 10, 23, 2, 0, 0)
+            times = [base + datetime.timedelta(seconds=60 * i) for i in range(n_reports)]
+
+        releases = []
+        for i in range(n_reports):
+            zlat, zlon = mechanism.perturb(home_lat, home_lon, t=times[i])
+            releases.append(self.rn.point_xy(zlat, zlon))
+        releases = np.asarray(releases)
+
+        home_xy = np.asarray(self.rn.point_xy(home_lat, home_lon))
+        # Averaged estimate after the first k reports, for a schedule of k.
+        curve = {}
+        for k in (1, 2, 5, 10, 20, 50, 100):
+            if k <= n_reports:
+                est = releases[:k].mean(axis=0)
+                curve[k] = float(np.hypot(est[0] - home_xy[0], est[1] - home_xy[1]))
+        return curve

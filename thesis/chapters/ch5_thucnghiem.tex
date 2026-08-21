@@ -17,7 +17,8 @@ mạnh --- đúng vùng hoạt động của tấn công HMM), mỗi quỹ đạ
 \paragraph{Cơ chế so sánh.} (1)~Laplace phẳng thuần (Geo-I
 gốc~\cite{andres2013geo}, bán kính Gamma$(2,1/\eps)$, không chặn, không snap);
 (2)~Baseline Thực tập 2 (nhiễu chặn tại QoS + làm mượt + snap có kiểm QoS);
-(3)~REM; (4)~T-REM ($v_{\max} = 25$ m/s, $s = 100$m, $\lambda = 0{,}02$).
+(3)~REM; (4)~T-REM ($v_{\max} = 25$ m/s, $s = 100$m, $\lambda = 0{,}02$);
+(5)~SM-REM (T-REM + memoization lưới công khai $g = 60$m).
 QoS $\delta = 200$m; $\eps \in \{0{,}01;\, 0{,}02;\, 0{,}05\}$ mỗi mét; seed cố
 định 42.
 
@@ -51,18 +52,21 @@ $\eps$ & Cơ chế & Q\_loss & QoS & On-road & Speed-viol & Bayes err & HMM err\
  & Baseline TT2  &  94,9 & 0,99 & 0,97 & 0,00 &  95,6 &  80,2\\
  & \textbf{REM}      & 370,6 & 0,31 & 1,00 & 0,35 & 369,9 & 265,1\\
  & \textbf{T-REM}    & 307,2 & 0,35 & 1,00 & 0,06 & 309,5 & 233,6\\
+ & \textbf{SM-REM}   & 323,2 & 0,34 & 1,00 & 0,04 & 324,2 & 275,7\\
 \midrule
 0,02
  & Laplace phẳng & 102,8 & 0,89 & 0,63 & 0,01 &  98,9 &  78,0\\
  & Baseline TT2  &  80,0 & 1,00 & 0,99 & 0,00 &  79,8 &  74,9\\
  & \textbf{REM}      & 180,2 & 0,67 & 1,00 & 0,06 & 181,8 & 127,4\\
  & \textbf{T-REM}    & 175,8 & 0,66 & 1,00 & 0,01 & 174,3 & 129,2\\
+ & \textbf{SM-REM}   & 173,7 & 0,67 & 1,00 & 0,01 & 173,7 & 144,9\\
 \midrule
 0,05
  & Laplace phẳng &  41,1 & 1,00 & 0,68 & 0,00 &  41,0 &  37,9\\
  & Baseline TT2  &  68,8 & 1,00 & 0,99 & 0,00 &  69,4 &  68,6\\
  & \textbf{REM}      &  72,1 & 0,97 & 1,00 & 0,00 &  73,7 &  64,6\\
  & \textbf{T-REM}    &  75,5 & 0,96 & 1,00 & 0,00 &  76,3 &  67,6\\
+ & \textbf{SM-REM}   &  81,8 & 0,94 & 1,00 & 0,00 &  82,3 &  76,2\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -90,7 +94,52 @@ Bốn quan sát chính từ Bảng~\ref{tab:benchmark}:
   0,59), 100\% trên đường, không rò rỉ vận tốc. Riêng baseline Thực tập 2 có chỉ
   số đẹp ở cùng $\eps$ danh nghĩa nhưng theo Mệnh đề~\ref{prop:cap}
   và~\ref{prop:reject}, $\eps$ đó không phải một đảm bảo hợp lệ.
+  \item \textbf{SM-REM không đánh đổi hiệu năng trên quỹ đạo di chuyển.} Trên
+  trace GeoLife (chủ yếu các ô lưới riêng biệt), SM-REM bám sát T-REM: tại
+  $\eps=0{,}02$ có Q\_loss 173,7m (so 175,8m) và thậm chí riêng tư hơn trước HMM
+  (144,9 so 129,2m). Lợi ích riêng của SM-REM --- chống averaging --- lộ ra ở thí
+  nghiệm stay-point (Mục~\ref{sec:averaging}), không ở bảng quỹ đạo di chuyển này.
 \end{enumerate}
+
+\section{Tấn công averaging tại stay-point (S4)}
+\label{sec:averaging}
+
+Bảng~\ref{tab:benchmark} đo quỹ đạo \emph{di chuyển}. Nhưng harm thực tế nghiêm
+trọng nhất (Strava lộ nhà 84--95\%~\cite{hassan2018run}; home fingerprinting của
+broker) đến từ báo cáo \emph{lặp tại một điểm tĩnh}. Thí nghiệm này mô phỏng một
+người dùng báo cáo $n$ lần từ đúng một điểm ``nhà'' (lấy điểm đầu của quỹ đạo
+GeoLife đầu tiên); kẻ tấn công lấy trung bình các điểm công bố và ta đo khoảng
+cách từ ước lượng trung bình đến nhà thật. Sai số \emph{càng thấp} nghĩa là kẻ
+tấn công \emph{càng thắng}; cơ chế bền nếu sai số \emph{không giảm} theo $n$.
+
+\begin{table}[ht]
+\centering
+\caption{Tấn công averaging: khoảng cách (m) từ ước lượng trung bình của kẻ tấn
+công đến điểm nhà thật, theo số lần báo cáo $n$ ($\eps = 0{,}02$). Thấp = kẻ tấn
+công thắng.}
+\label{tab:averaging}
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+Cơ chế & $n{=}1$ & $n{=}2$ & $n{=}5$ & $n{=}10$ & $n{=}50$ & $n{=}100$ \\
+\midrule
+Laplace phẳng & 104,6 & 123,8 & 48,5 & 35,7 & 24,5 & \textbf{12,4} \\
+Baseline TT2  &  44,4 &  49,5 & 65,5 & 65,9 & 36,3 & 28,6 \\
+REM           & 115,3 & 215,5 & 222,0 & 90,6 & 33,1 & 30,7 \\
+T-REM         & 269,6 &  65,0 & 76,6 & 152,4 & 80,2 & 51,8 \\
+\textbf{SM-REM} & 203,5 & 203,5 & 203,5 & 203,5 & 203,5 & \textbf{203,5} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Bảng~\ref{tab:averaging} cho thấy kết quả dứt khoát: với mọi cơ chế nhiễu độc lập,
+sai số kẻ tấn công \emph{sụp} khi $n$ tăng --- Laplace phẳng về 12,4m ở $n=100$
+(khôi phục nhà tới 12m), REM về 30,7m, T-REM về 51,8m. Riêng \textbf{SM-REM giữ
+nguyên 203,5m ở mọi $n$}: vì mọi báo cáo trả về cùng một release đã memoize, trung
+bình của $n$ bản sao giống hệt không giảm phương sai --- kẻ tấn công không thu được
+gì từ việc lặp. Đây là minh chứng thực nghiệm cho Định lý~\ref{thm:smrem}, và là
+đóng góp đóng đúng kịch bản S4 mà cả bốn cơ chế còn lại (và bản PTPPM
+stateless~\cite{min2025road}) đều bỏ ngỏ.
 
 \section{Hệ thống mô phỏng và kịch bản sử dụng}
 \label{sec:simulator}

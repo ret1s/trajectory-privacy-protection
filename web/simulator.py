@@ -35,6 +35,7 @@ from core.mechanisms import (
     BaselineThesis,
     RoadExponential,
     TemporalRoadExponential,
+    StayMemoizedREM,
 )
 from evaluation.attacks import HMMTrackingAttack
 from evaluation import metrics
@@ -56,12 +57,14 @@ MECHS = {
     "baseline_thesis": lambda eps: BaselineThesis(eps, QOS_RADIUS, RN),
     "road_exponential": lambda eps: RoadExponential(eps, RN),
     "temporal_road_exponential": lambda eps: TemporalRoadExponential(eps, RN),
+    "stay_memoized_rem": lambda eps: StayMemoizedREM(eps, RN),
 }
 EMISSION_SCALE = {
     "planar_laplace": 1.0,
     "baseline_thesis": 1.0,
     "road_exponential": 0.5,
     "temporal_road_exponential": 0.5,
+    "stay_memoized_rem": 0.5,
 }
 
 
