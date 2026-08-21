@@ -74,10 +74,13 @@ class PlanarLaplace:
 
 
 class BaselineThesis:
-    """Internship-2 pipeline: capped noise + continuity smoothing + QoS-checked
-    road snap. (The alternative-road search of the original code is O(|E|)
-    per point and does not change the mechanism's privacy character, so it
-    is omitted here for benchmark tractability.)"""
+    """SIMPLIFIED SURROGATE of the internship-2 pipeline (verifier V-010): capped
+    noise + continuity smoothing + QoS-checked road snap. It OMITS the original
+    pipeline's alternative-road search and the building/water validity/rejection
+    stage, so it is NOT a faithful re-implementation — it is a tractable
+    surrogate for benchmarking, and comparisons against it are labelled
+    accordingly. (The omitted stages change both utility and attack surface;
+    a controlled comparison with the full pipeline is future work.)"""
 
     name = "baseline_thesis"
 
@@ -128,33 +131,37 @@ class BaselineThesis:
 
 
 class RoadExponential:
-    """ε-Geo-I exponential mechanism over road-graph vertices (static)."""
+    """ε-Geo-I exponential mechanism over road-graph vertices (static).
+
+    The candidate/output set is the FULL vertex set V of the (public, fixed)
+    road graph — independent of the true input. This is what makes REM a
+    genuine ε-Geo-I mechanism: the exponential mechanism with score
+    q(x,v) = -d_Euclid(x,v) over a fixed public output range V satisfies
+    ε-Geo-I (the ε/2 constant absorbs the normaliser via the triangle
+    inequality; Theorem 4.1). Using an input-centred cutoff ball V∩B(x,R)
+    instead would make the support depend on the secret input and break the
+    pure guarantee (two ε-close points on opposite sides of a vertex's cutoff
+    boundary give an infinite likelihood ratio) — so no cutoff is used.
+
+    Cost: one 2-norm over |V| rows plus one categorical draw per release,
+    ~sub-millisecond for |V|≈78k, well within LBS real-time budget.
+    """
 
     name = "road_exponential"
 
-    def __init__(self, epsilon, road_network, cutoff_m=1500.0, rng=None):
-        """
-        cutoff_m bounds the candidate search radius for tractability. With
-        exp(-ε/2·d) weights, mass beyond ~10/ε meters is negligible; the
-        default 1500m covers ε ≥ 0.007. The cutoff region is centered on the
-        true point, which technically bounds the guarantee to location pairs
-        whose cutoff disks overlap (same caveat as any truncated Geo-I);
-        with weights ≤ exp(-ε/2·1500) at the boundary the truncation error
-        is < 1e-4 of the probability mass for the ε used here.
-        """
+    def __init__(self, epsilon, road_network, rng=None):
         self.epsilon = epsilon
         self.rn = road_network
-        self.cutoff_m = cutoff_m
         self.rng = rng or np.random.default_rng()
+        self._all = np.arange(len(road_network))
 
     def reset(self):
         self._last_choice = None  # vertex index emitted by the last perturb()
 
     def _candidate_logits(self, real_xy):
-        idxs = self.rn.tree.query_ball_point(real_xy, self.cutoff_m)
-        idxs = np.asarray(idxs, dtype=int)
-        d = np.linalg.norm(self.rn.xy[idxs] - np.asarray(real_xy), axis=1)
-        return idxs, -0.5 * self.epsilon * d
+        """Return (indices, logits) over the FULL fixed vertex set."""
+        d = np.linalg.norm(self.rn.xy - np.asarray(real_xy), axis=1)
+        return self._all, -0.5 * self.epsilon * d
 
     def _sample(self, idxs, logits):
         logits = logits - logits.max()
@@ -182,16 +189,16 @@ class TemporalRoadExponential(RoadExponential):
         v_max=25.0,
         slack_m=100.0,
         lam=0.02,
-        cutoff_m=1500.0,
         rng=None,
     ):
-        super().__init__(epsilon, road_network, cutoff_m, rng)
+        super().__init__(epsilon, road_network, rng)
         self.v_max = v_max          # m/s — plausible top speed for the release
         self.slack_m = slack_m      # tolerance before the penalty kicks in
         self.lam = lam              # penalty rate per meter of excess
         self.reset()
 
     def reset(self):
+        super().reset()  # initialise _last_choice
         self._prev_release_xy = None
         self._prev_t = None
 
@@ -237,38 +244,44 @@ class StayMemoizedREM(TemporalRoadExponential):
     is thus no fresh independent noise to average away — repeated reports from
     one cell reveal nothing beyond the single first release.
 
-    Guarantee (stated precisely — memoization does NOT preserve Euclidean
-    ε-Geo-I; see the caveat). The cell map x -> C is a deterministic PUBLIC
-    partition and memoization is deterministic post-processing of one sample
-    per cell, so:
-      * repeats are free — a static stay-point emits N identical copies of a
-        single sample, carrying the information of one release regardless of
-        N, so the averaging attack gains nothing; and
-      * budget composes over DISTINCT visited cells, not reports:
-        ε_traj = (#distinct cells) · ε   instead of   T · ε
-        (for a dwelling trace #distinct cells << T — the w-event /
-        distinct-location composition view, docs/system_model_and_threats.md §2).
-    Formally the released map satisfies ε-d̃X-privacy w.r.t. the CELL
-    pseudometric d̃(x,x') = d(rep(cell x), rep(cell x')) — i.e. ε-Geo-I *at the
-    granularity of the partition*, the graph-indistinguishability view of
-    Takagi et al. (2020). It is NOT ε-Geo-I in the original Euclidean metric:
-    two points ε-close across a cell boundary receive independent releases
-    (boundary discontinuity, ratio up to exp(ε·cellwidth)). This is the known
-    input-side-discretisation tradeoff — the reason Android's LocationFudger
-    pairs snap-to-grid with a persistent random offset — and the reason one
-    cannot get clean-Euclidean-Geo-I and anti-averaging memoization from the
-    same knob. The memoize trigger here is the public grid alone (memoize
-    every visit), so no data-dependent stay-point test leaks budget.
-    Precedents: RAPPOR permanent randomized response (Erlingsson et al.,
-    CCS 2014); LP-Doctor per-place cached Geo-I (Fawaz et al., USENIX Sec 2015).
+    Guarantee — SCOPE IS DELIBERATELY NARROW (verifier finding V-003). The ONLY
+    rigorous claim is for a STATIC repeated location: if the true input is the
+    same cell C at every report, the transcript (r_C, …, r_C) is deterministic
+    post-processing of ONE sample r_C ~ REM(rep(C)) over the fixed public
+    support, so it inherits that single release's ε-Geo-I (at cell granularity)
+    and, crucially, carries the information of one release regardless of how
+    many times it is reported — the arithmetic-averaging attack gains nothing
+    (RAPPOR permanent randomized response, Erlingsson et al. CCS 2014; LP-Doctor
+    per-place cached Geo-I, Fawaz et al. USENIX Sec 2015).
+
+    What is NOT claimed (and why). We do NOT claim a whole-trajectory theorem
+    such as "ε·(#distinct cells)-Geo-I over arbitrary traces". Exact
+    memoization makes the cache hit/miss pattern a deterministic function of the
+    SECRET revisit pattern, which leaks: for traces X=(a,a) and X'=(a,b) the
+    event {z₂ ≠ z₁} has probability 0 under X but > 0 under X', an unbounded
+    likelihood ratio. The public grid does not make a secret revisit public. A
+    guarantee that also protects the revisit pattern needs the reuse decision
+    itself to be differentially private (predictive-mechanism private test,
+    Chatzikokolakis et al. PETS 2014) — implemented separately as future work,
+    not here.
+
+    Also NOT ε-Geo-I in the original Euclidean metric even per-release: the
+    cell→representative quantisation is input-side discretisation, so two points
+    ε-close across a cell boundary receive independent releases (ratio up to
+    exp(ε·cellwidth)) — the reason Android LocationFudger pairs snap-to-grid
+    with a persistent random offset; one cannot get clean-Euclidean-Geo-I and
+    anti-averaging memoization from the same knob.
 
     `grid_m` trades off jitter-robustness (large cell = a stationary user's GPS
     jitter stays in one cell, so memoization holds) against spatial resolution
     (small cell = distinct nearby places do not collide) and boundary-leak
-    magnitude (larger cell = larger exp(ε·cellwidth) worst case). Default 60m ~
-    the Strava default hidden radius / AOSP MINIMUM_ACCURACY, comfortably above
-    typical urban GPS error (~10-20m). Releases snap to shared road vertices so
-    a consistent value is not itself a unique fingerprint.
+    magnitude (larger cell = larger exp(ε·cellwidth) worst case). Default 60m is
+    chosen to sit comfortably above typical urban GPS error (~10-20m) while
+    keeping cell-boundary leakage small; it is smaller than the deployed
+    coarsening radii it is inspired by (Strava's default hidden-zone and AOSP
+    LocationFudger's minimum accuracy are both ~200m — those are not 60m).
+    Releases snap to shared road vertices so a consistent value is not itself a
+    unique fingerprint.
     """
 
     name = "stay_memoized_rem"
@@ -284,7 +297,14 @@ class StayMemoizedREM(TemporalRoadExponential):
         self.distinct_releases = 0  # = number of cells that spent budget
 
     def _cell(self, xy):
-        return (round(xy[0] / self.grid_m), round(xy[1] / self.grid_m))
+        return (int(np.floor(xy[0] / self.grid_m)), int(np.floor(xy[1] / self.grid_m)))
+
+    def _cell_rep_latlon(self, cell):
+        """Public representative of a cell = its centre, in (lat, lon)."""
+        cx = (cell[0] + 0.5) * self.grid_m
+        cy = (cell[1] + 0.5) * self.grid_m
+        lat, lon = self.rn.proj.to_latlon(cx, cy)
+        return float(lat), float(lon)
 
     def perturb(self, lat, lon, t=None):
         real_xy = self.rn.point_xy(lat, lon)
@@ -300,8 +320,14 @@ class StayMemoizedREM(TemporalRoadExponential):
                 self._prev_t = t
             return self.rn.latlon(choice)
 
-        # Cache miss: sample a fresh T-REM release for this new cell.
-        latlon = super().perturb(lat, lon, t=t)
+        # Cache miss: sample a fresh T-REM release conditioned on the cell's
+        # PUBLIC representative (its centre), NOT the exact private point. This
+        # makes the per-cell release distribution identical for every true
+        # point in the cell — the property the cell-pseudometric statement
+        # requires (V-002). Utility cost is bounded: the representative is
+        # within grid_m/√2 of the true point.
+        rep_lat, rep_lon = self._cell_rep_latlon(cell)
+        latlon = super().perturb(rep_lat, rep_lon, t=t)
         self._cache[cell] = self._last_choice  # exact vertex the sampler chose
         self.distinct_releases += 1
         return latlon

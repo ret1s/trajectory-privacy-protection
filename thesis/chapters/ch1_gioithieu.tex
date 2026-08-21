@@ -26,13 +26,15 @@ chế mới hoạt động \emph{ngay trên lưới đường}:
 
 \begin{itemize}
   \item \textbf{REM} (Road-network Exponential Mechanism): cơ chế lũy thừa trên
-  tập đỉnh của đồ thị đường OSM, thỏa $\eps$-Geo-I hình thức, và mọi vị trí công
-  bố đều nằm trên đường \emph{theo cấu trúc} --- loại bỏ hoàn toàn bề mặt tấn công
-  map-matching.
+  tập đỉnh của đồ thị đường OSM, thỏa $\eps$-Geo-I Euclid hình thức, và mọi vị trí
+  công bố đều nằm trên đường \emph{theo cấu trúc} --- loại bỏ \emph{tín hiệu}
+  off-road mà tấn công map-matching/RAoPT khai thác (mức kháng tấn công cần kiểm
+  chứng trực tiếp).
   \item \textbf{T-REM}: REM bổ sung trọng số khả đạt (reachability) chỉ phụ thuộc
   vào \emph{điểm đã công bố trước đó} --- thông tin công khai --- nên đảm bảo
-  riêng tư per-point không đổi, trong khi chuỗi công bố trở nên nhất quán về tốc
-  độ, đóng tấn công liên kết vận tốc (velocity-linkage).
+  riêng tư per-release không đổi, trong khi \emph{giảm} tín hiệu speed-implausibility
+  mà tấn công liên kết vận tốc dựa vào (một soft regularizer, không phải hard
+  reachable-set).
   \item \textbf{SM-REM}: T-REM bổ sung memoization theo lưới công khai --- cùng
   một chỗ luôn trả về cùng một điểm công bố --- đóng tấn công averaging tại
   stay-point (khôi phục địa chỉ nhà), rủi ro thực tế nghiêm trọng nhất mà các

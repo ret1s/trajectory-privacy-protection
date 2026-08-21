@@ -29,30 +29,75 @@ and the assumed-mechanism approximation for the capped baseline; for the
 exponential mechanisms the exact emission exp(-ε/2·d) is used.
 """
 import numpy as np
+from scipy.spatial.distance import cdist
+
+
+def precompute_lognorm(road_network, epsilon, scale=0.5, chunk=400):
+    """Per-vertex log-normaliser logZ(x) = log Σ_{v∈V} exp(-scale·ε·d(x,v)) of
+    the REM emission over the FULL fixed vertex set V, for every vertex x.
+
+    Needed for the EXACT Bayesian posterior: the REM likelihood is
+    f(z|x) = exp(-scale·ε·d(x,z)) / Z(x), and Z(x) is input-dependent
+    (boundary vertices have fewer nearby neighbours), so omitting logZ(x)
+    biases the adversary's estimate (verifier V-004). Computed once per ε in
+    memory-bounded chunks via cdist. Returns an array of shape (|V|,).
+    """
+    xy = road_network.xy
+    n = len(xy)
+    logZ = np.empty(n)
+    a = scale * epsilon
+    for i in range(0, n, chunk):
+        d = cdist(xy[i : i + chunk], xy)          # (b, n)
+        m = (-a * d).max(axis=1, keepdims=True)
+        logZ[i : i + chunk] = (m.ravel() + np.log(np.exp(-a * d - m).sum(axis=1)))
+    return logZ
+
+
+def _geometric_median(pts, w, iters=8):
+    """Weiszfeld geometric median of weighted points — the estimator that
+    minimises expected Euclidean distance (the loss actually reported), unlike
+    the posterior mean which minimises squared distance (verifier V-004)."""
+    x = (pts * w[:, None]).sum(axis=0)  # seed at the weighted mean
+    for _ in range(iters):
+        dist = np.linalg.norm(pts - x, axis=1)
+        dist = np.maximum(dist, 1e-6)
+        ww = w / dist
+        x = (pts * ww[:, None]).sum(axis=0) / ww.sum()
+    return x
 
 
 class BayesianPointAttack:
-    def __init__(self, road_network, epsilon, emission_scale=1.0, prior_radius=1200.0):
-        """emission_scale: multiplier on ε in the emission (1.0 for planar
-        Laplace-style mechanisms, 0.5 for the exponential mechanisms)."""
+    """Bayesian inference adversary with the EXACT REM emission over the full
+    fixed vertex set and a FIXED (data-independent) uniform prior.
+
+    posterior(x | z) ∝ prior(x) · exp(-scale·ε·d(x,z)) / Z(x)
+                     = exp(-scale·ε·d(z,x) - logZ(x))      (uniform prior)
+
+    The estimate is the geometric median of the posterior (optimal for the
+    Euclidean-distance loss reported). This is exact for REM; for the
+    history/state-dependent mechanisms (T-REM, SM-REM) it is the fixed
+    REM-emission adversary applied uniformly — a well-specified evaluation
+    adversary, NOT claimed to be each mechanism's Bayes-optimal attacker.
+    Pass `lognorm` from precompute_lognorm() (shared across reports/ε)."""
+
+    def __init__(self, road_network, epsilon, emission_scale=0.5, lognorm=None):
         self.rn = road_network
         self.epsilon = epsilon
         self.emission_scale = emission_scale
-        self.prior_radius = prior_radius
+        self.logZ = (
+            lognorm
+            if lognorm is not None
+            else precompute_lognorm(road_network, epsilon, emission_scale)
+        )
 
     def estimate(self, z_lat, z_lon):
-        """Posterior-mean estimate of the true location given one report."""
         z_xy = np.asarray(self.rn.point_xy(z_lat, z_lon))
-        idxs = self.rn.tree.query_ball_point(z_xy, self.prior_radius)
-        idxs = np.asarray(idxs, dtype=int)
-        if len(idxs) == 0:
-            return z_lat, z_lon
-        d = np.linalg.norm(self.rn.xy[idxs] - z_xy, axis=1)
-        logw = -self.emission_scale * self.epsilon * d
-        logw -= logw.max()
-        w = np.exp(logw)
+        d = cdist([z_xy], self.rn.xy)[0]  # z to every vertex
+        logpost = -self.emission_scale * self.epsilon * d - self.logZ
+        logpost -= logpost.max()
+        w = np.exp(logpost)
         w /= w.sum()
-        est_xy = (self.rn.xy[idxs] * w[:, None]).sum(axis=0)
+        est_xy = _geometric_median(self.rn.xy, w)
         lat, lon = self.rn.proj.to_latlon(est_xy[0], est_xy[1])
         return float(lat), float(lon)
 
@@ -68,14 +113,21 @@ class BayesianPointAttack:
 
 
 class HMMTrackingAttack:
+    """Correlation-aware (forward-backward) adversary. Emission includes the
+    input-dependent log-normaliser logZ(x) (mechanism-aware for REM); candidate
+    truncation is enlarged and its coverage of the true-location proxy is
+    tracked (verifier V-004, V-008). Approximate for T-REM/SM-REM (REM-emission
+    model applied uniformly), so report it as such."""
+
     def __init__(
         self,
         road_network,
         epsilon,
-        emission_scale=1.0,
-        candidate_radius=1000.0,
-        max_candidates=800,
+        emission_scale=0.5,
+        candidate_radius=2000.0,
+        max_candidates=2000,
         v_typ=8.0,
+        lognorm=None,
     ):
         self.rn = road_network
         self.epsilon = epsilon
@@ -83,6 +135,9 @@ class HMMTrackingAttack:
         self.candidate_radius = candidate_radius
         self.max_candidates = max_candidates
         self.v_typ = v_typ  # m/s — typical urban speed for the mobility prior
+        self.logZ = lognorm  # per-vertex REM log-normaliser (may be None)
+        self.true_covered = 0
+        self.true_total = 0
 
     def _candidates(self, z_xy):
         idxs = self.rn.tree.query_ball_point(z_xy, self.candidate_radius)
@@ -97,13 +152,20 @@ class HMMTrackingAttack:
         means over the candidate lattice."""
         T = len(released_traj)
         cand, emis = [], []
-        for zlat, zlon in released_traj:
+        for i, (zlat, zlon) in enumerate(released_traj):
             z_xy = np.asarray(self.rn.point_xy(zlat, zlon))
             idxs = self._candidates(z_xy)
             d = np.linalg.norm(self.rn.xy[idxs] - z_xy, axis=1)
             loge = -self.emission_scale * self.epsilon * d
+            if self.logZ is not None:
+                loge = loge - self.logZ[idxs]  # exact input-dependent normaliser
             cand.append(idxs)
             emis.append(loge - loge.max())
+            # Track whether the true-location proxy vertex survives truncation.
+            true_v, _ = self.rn.nearest(real_traj[i][0], real_traj[i][1])
+            self.true_total += 1
+            if true_v in idxs:
+                self.true_covered += 1
 
         # Forward pass (log domain per step, normalized).
         fwd = [None] * T

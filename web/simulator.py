@@ -7,8 +7,9 @@ mechanisms and shows, per timestep, what each party sees:
   * ATTACKER view  — a live HMM-tracking adversary's best estimate from the
                      released stream only (black), with its error
 
-plus a concrete LBS use case running on top: a k-nearest-POI query ("find the
-nearest pharmacies") issued at the released position, scored against the
+plus a concrete LBS use case running on top: a k-nearest-POI query over a fixed
+set of SYNTHETIC POIs (random road vertices, not real amenity=pharmacy nodes;
+verifier V-011) issued at the released position, scored against the
 ground-truth answer — making the privacy/QoS trade-off tangible.
 
 Run from the repo root:

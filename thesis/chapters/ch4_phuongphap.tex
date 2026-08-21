@@ -68,7 +68,10 @@ phẳng với bán kính bị chặn tại ngưỡng QoS $\delta$; (ii) nếu đ
 tòa nhà/mặt nước thì lấy mẫu lại (tối đa $N$ lần); (iii) làm mượt liên tục theo
 hai điểm giả trước, có kiểm tra lại QoS so với điểm thật; (iv) làm khớp về đỉnh
 đường gần nhất nếu vẫn thỏa QoS. Hai mệnh đề sau chỉ ra các bước (i)--(iii) phá
-vỡ đảm bảo hình thức.
+vỡ đảm bảo hình thức. (Trong benchmark Chương~\ref{ch:thucnghiem}, baseline được
+dùng là một \emph{surrogate đơn giản hoá} --- bỏ bước tìm đường thay thế và bước
+reject theo tòa nhà/mặt nước --- nên nhãn ``Baseline TT2 (surrogate)''; so sánh
+đối chứng với pipeline đầy đủ là hướng phát triển.)
 
 \begin{menhde}[Chặn bán kính quanh điểm thật phá vỡ Geo-I]
 \label{prop:cap}
@@ -95,9 +98,13 @@ $e^{\eps \dEu(x,x')}$ khi các vùng cấm phân bố bất đối xứng quanh 
 nên đảm bảo $\eps$-Geo-I nói chung không còn.
 \end{menhde}
 
-Cùng với Nhận xét~\ref{rmk:expbug} (bán kính nhiễu lấy sai phân phối), các phân
-tích trên cho thấy $\eps$ danh nghĩa của baseline không phải một đảm bảo hợp lệ;
-mọi so sánh ``cùng $\eps$'' với baseline vì vậy chỉ mang tính tham khảo.
+Cần phân biệt cho chính xác (theo phản biện V-010): điều kiện hóa trên một tập cho
+phép \emph{cố định, công khai} (độc lập với $x$) vẫn giữ được một chặn
+$2\eps$-Geo-I qua acceptance normalizer; chính \emph{sự phụ thuộc $x$} của vùng
+cấm (và số lần retry hữu hạn) mới là thứ phá vỡ đảm bảo ở đây. Cùng với Nhận
+xét~\ref{rmk:expbug} (bán kính nhiễu lấy sai phân phối), các phân tích cho thấy
+$\eps$ danh nghĩa của baseline không phải một đảm bảo hợp lệ; mọi so sánh
+``cùng $\eps$'' vì vậy chỉ mang tính tham khảo.
 Ngược lại, phép chiếu đầu ra về đỉnh đường gần nhất ở bước (iv) --- nếu bỏ điều
 kiện kiểm tra QoS so với điểm thật --- là hậu xử lý độc lập dữ liệu và bảo toàn
 mức riêng tư; quan sát này dẫn tới thiết kế dưới đây.
@@ -159,14 +166,16 @@ gian (map-matching, phát hiện điểm trên mặt nước --- cơ sở của
 RAoPT~\cite{buchholz2022raopt}) không còn thông tin để khai thác.
 \end{nhanxet}
 
-\begin{nhanxet}[Cắt ngưỡng khi hiện thực]
+\begin{nhanxet}[Tập ứng viên cố định --- không dùng cutoff]
 \label{rmk:cutoff}
-Hiện thực tính tổng chuẩn hóa trên các đỉnh trong bán kính $R$ quanh $x$
-($R = 1500$m mặc định) thay vì toàn bộ $V$. Khối lượng xác suất bị bỏ qua bị
-chặn bởi $|V| \cdot e^{-\eps R / 2} / Z(x)$; với các giá trị $\eps \ge 0{,}005$
-dùng trong thực nghiệm, đại lượng này dưới $10^{-4}$. Phiên bản hình thức hóa
-chặt chẽ (tập ứng viên cố định công khai cho toàn vùng) là công việc đang tiến
-hành.
+Hiện thực lấy tổng chuẩn hóa trên \emph{toàn bộ} tập đỉnh $V$ của đồ thị (cố định,
+công khai), không dùng bất kỳ cutoff nào quanh điểm thật. Đây là điều kiện để
+Định lý~\ref{thm:rem} đúng: nếu cắt support về $V \cap B(x,R)$ (phụ thuộc điểm
+thật $x$), hai điểm $\eps$-sát nhau nhưng ở hai phía biên cutoff của một đỉnh $v$
+cho $P[M(x){=}v]>0$ trong khi $P[M(x'){=}v]=0$ --- likelihood ratio vô hạn, phá
+vỡ pure Geo-I (khối lượng đuôi nhỏ không cứu được). Chi phí full-support cho đồ
+thị Bắc Kinh ($|V|\approx 78$k đỉnh) là một 2-norm vector hóa cộng một lần lấy mẫu
+categorical mỗi release, dưới mili-giây --- trong ngân sách thời gian thực của LBS.
 \end{nhanxet}
 
 \section{T-REM: Bổ sung ràng buộc thời gian với trọng số công khai}
@@ -231,49 +240,62 @@ người dùng không di chuyển\ldots các vị trí báo cáo tập trung qua
 lộ hoàn toàn nó khi số truy vấn tăng''), và là cơ chế đằng sau vụ Strava khôi
 phục địa chỉ nhà (84--95\%, \cite{hassan2018run,dhondt2022run}) cùng home
 fingerprinting của data broker. Đây chính là kịch bản S4 mà bản PTPPM lưới đường
-mới nhất~\cite{min2025road} \emph{tự thừa nhận} bỏ ngỏ vì cơ chế của họ là
-stateless.
+mới nhất~\cite{min2025road} bỏ ngỏ: vì cơ chế của họ là \emph{stateless}
+(Permute-and-Flip lấy mẫu độc lập mỗi timestamp), báo cáo lặp cùng một vị trí thật
+vẫn bị averaging --- đây là suy luận của luận văn từ thiết kế của họ, không phải
+một trích dẫn thừa nhận.
 
 \paragraph{Cơ chế.} SM-REM phân hoạch không gian bằng một \emph{lưới công khai cố
-định} kích thước $g$, với đại diện $\mathrm{rep}(C)$ mỗi ô. Lần đầu điểm thật rơi
-vào ô $C$, một release $r_C$ được lấy mẫu bằng luật T-REM và lưu lại; mọi báo cáo
-sau có điểm thật rơi vào $C$ đều trả về \emph{cùng} $r_C$. Vì không còn nhiễu độc
-lập mới để trung bình, báo cáo lặp trong một ô không lộ thêm gì ngoài release đầu
-tiên. Quyết định memoize chỉ dựa trên lưới công khai (memoize mọi lần), nên không
-có phép thử phụ thuộc dữ liệu nào rò rỉ ngân sách.
+định} kích thước $g$, với đại diện công khai $\mathrm{rep}(C)$ (tâm ô) mỗi ô. Lần
+đầu điểm thật rơi vào ô $C$, một release $r_C$ được lấy mẫu bằng luật T-REM
+\emph{tại $\mathrm{rep}(C)$} (không tại toạ độ thật) và lưu lại; mọi báo cáo sau có
+điểm thật rơi vào $C$ đều trả về \emph{cùng} $r_C$. Sample tại $\mathrm{rep}(C)$
+làm phân phối release của mọi điểm trong một ô giống hệt nhau --- điều kiện cho
+phát biểu mức-ô. Quyết định memoize chỉ dựa trên lưới công khai (memoize mọi lần),
+không có phép thử phụ thuộc dữ liệu.
 
-\begin{dinhly}[Đảm bảo và composition của SM-REM]
+\begin{dinhly}[Đảm bảo cho vị trí tĩnh lặp lại --- phạm vi hẹp có chủ ý]
 \label{thm:smrem}
-Với lưới công khai cố định và luật memoization trên, SM-REM thỏa
-$\eps$-$d_{\mathcal{X}}$-privacy đối với \emph{giả-metric của lưới}
-$\tilde{d}(x,x') = d(\mathrm{rep}(\mathrm{cell}\,x), \mathrm{rep}(\mathrm{cell}\,x'))$,
-và ngân sách toàn quỹ đạo cộng \emph{một lần trên mỗi ô riêng biệt được thăm}:
-$\eps_{\mathrm{traj}} = (\text{số ô riêng biệt})\cdot\eps$, thay vì $T\eps$.
-Một stay-point tĩnh tốn đúng $\eps$ bất kể thời gian lưu lại.
+Cố định một vị trí thật $x$ thuộc ô $C$ và cho người dùng báo cáo $x$ đúng $T$
+lần. Gọi $Z \sim \mathrm{REM}(\mathrm{rep}(C))$ là release đầu. Transcript
+$(Z,\dots,Z)$ là hậu xử lý xác định của \emph{một} mẫu $Z$, nên: (i) thừa hưởng
+đảm bảo $\eps$-Geo-I mức-ô của $Z$; và (ii) mang đúng lượng thông tin của một
+release bất kể $T$ --- trung bình số học của $T$ bản sao giống hệt không giảm
+phương sai, nên tấn công averaging (S4) không thu được gì.
 \end{dinhly}
 
-\begin{proof}[Phác thảo]
-Sau khi $r_C$ được lấy mẫu, mọi phát ra sau cho $C$ là tra bảng xác định --- hàm
-của một mẫu duy nhất $r_C$ --- nên là hậu xử lý, không tăng mất mát privacy
-(\cite{takagi2019geo}, bổ đề hậu xử lý). Sự kiện tiêu tốn ngân sách duy nhất là
-lần lấy mẫu đầu mỗi ô; với hai quỹ đạo, tỷ số xác suất transcript bị chặn bởi
-$\exp(\eps\,\tilde{d}(x,x'))$ và cộng tuần tự trên các ô riêng biệt. Với $n$ báo
-cáo tĩnh trong một ô, transcript là $(r_C,\dots,r_C)$ có cùng phân phối với một
-mẫu, nên trung bình của kẻ tấn công không giảm phương sai theo $n$.
+\begin{proof}
+Sau khi $Z$ được lấy mẫu, mọi phát ra sau là tra bảng xác định trả về $Z$ --- một
+hàm của riêng $Z$ --- nên bất biến hậu xử lý (\cite{takagi2019geo}, bổ đề hậu xử
+lý) cho (i). Với (ii), phân phối của $(Z,\dots,Z)$ đồng nhất với phân phối của
+$Z$; ước lượng trung bình $\frac1T\sum Z = Z$ có cùng phân bố với một mẫu đơn, độc
+lập với $T$.
 \end{proof}
 
-\begin{nhanxet}[Caveat bắt buộc --- gián đoạn ở biên]
+\begin{nhanxet}[Điều KHÔNG được khẳng định --- và vì sao (V-003)]
+\label{rmk:notrajectory}
+Ta \emph{không} khẳng định một định lý toàn-quỹ-đạo kiểu
+``$\eps\cdot(\text{số ô riêng biệt})$-Geo-I trên quỹ đạo tùy ý''. Memoization
+chính xác làm pattern hit/miss của cache trở thành hàm xác định của \emph{pattern
+revisit bí mật}, và pattern này rò rỉ: với hai quỹ đạo $X=(a,a)$ và $X'=(a,b)$
+($b$ ở ô khác), biến cố $\{z_2 \ne z_1\}$ có xác suất $0$ dưới $X$ nhưng $>0$ dưới
+$X'$ --- likelihood ratio vô hạn một chiều. Lưới công khai không làm một lần
+revisit bí mật trở thành công khai. Một đảm bảo bảo vệ cả pattern revisit đòi hỏi
+\emph{quyết định reuse tự nó phải riêng tư vi phân} (phép thử private kiểu
+predictive mechanism~\cite{chatzikokolakis2014predictive}) --- được đặt làm hướng
+phát triển (Chương~\ref{ch:tongket}), không phải phần đã chứng minh ở đây.
+\end{nhanxet}
+
+\begin{nhanxet}[Cũng không phải Geo-I Euclid --- gián đoạn ở biên]
 \label{rmk:boundary}
-$\tilde{d} \ne d_{\text{Euclid}}$: hai điểm $x,x'$ sát nhau ($d\to 0$) nhưng nằm
-hai bên biên ô nhận release độc lập, nên tỷ số có thể lớn tới
+Ngay ở mức một release, quantize $x \to \mathrm{rep}(C)$ là rời-rạc-hóa phía đầu
+vào: hai điểm sát nhau hai bên biên ô nhận release độc lập, tỷ số tới
 $\exp(\eps\cdot\text{cellwidth})$. SM-REM vì thế \emph{không} thỏa $\eps$-Geo-I
-Euclid như REM/T-REM --- nó suy biến thành ``$\eps$-Geo-I ở mức ô''. Đây là đánh
-đổi cơ bản của rời-rạc-hóa phía-đầu-vào: \textbf{không thể vừa có Geo-I Euclid sạch
-vừa có memoization chống averaging từ cùng một tham số}; và đây đúng là lý do
-Android \texttt{LocationFudger} ghép snap-to-grid với offset ngẫu nhiên bền. $g$
-càng lớn thì càng bền với nhiễu GPS nhưng biên rò càng lớn; mặc định $g=60$m ($\approx$
-bán kính ẩn mặc định Strava / \texttt{MINIMUM\_ACCURACY} của AOSP). Release snap về
-đỉnh đường dùng chung nên giá trị nhất quán không tự trở thành fingerprint duy nhất.
+Euclid như REM/T-REM --- \textbf{không thể vừa có Geo-I Euclid sạch vừa có
+memoization chống averaging từ cùng một tham số}; đây đúng là lý do Android
+\texttt{LocationFudger} ghép snap-to-grid với offset ngẫu nhiên bền. Mặc định
+$g=60$m; release snap về đỉnh đường dùng chung nên giá trị nhất quán không tự trở
+thành fingerprint duy nhất.
 \end{nhanxet}
 
 \begin{nhanxet}[Hướng tới guarantee w-event]

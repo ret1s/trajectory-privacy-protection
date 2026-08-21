@@ -29,76 +29,89 @@ QoS $\delta = 200$m; $\eps \in \{0{,}01;\, 0{,}02;\, 0{,}05\}$ mỗi mét; seed 
 của~\cite{xiao2015protecting}); khoảng cách Hausdorff và DTW giữa hai quỹ đạo.
 \emph{Tính thực tế:} tỷ lệ điểm công bố nằm trong 25m của lưới đường; tỷ lệ cặp
 điểm công bố liên tiếp vi phạm tốc độ 30 m/s.
-\emph{Riêng tư:} sai số của tấn công suy luận Bayes tối ưu per-point (posterior
-trên các đỉnh trong bán kính 1200m, prior đều, kẻ tấn công biết cơ chế); và sai
-số của tấn công theo dõi HMM (forward--backward trên lưới ứng viên, ma trận
-chuyển là kernel Laplace của khoảng cách với thang $v_{\mathrm{typ}}\Delta t$)
---- càng \emph{cao} càng riêng tư.
+\emph{Riêng tư:} sai số của \emph{adversary Bayes với emission REM chính xác}
+--- prior đều cố định trên toàn tập đỉnh, likelihood
+$\propto \exp(-\tfrac{\eps}{2}d(x,z))/Z(x)$ với normalizer $Z(x)$ tính đủ trên
+toàn support, estimator là geometric median (khớp loss khoảng cách). Adversary
+này \emph{chính xác} cho REM; với T-REM/SM-REM (likelihood phụ thuộc lịch sử/trạng
+thái) nó là adversary REM-emission cố định áp dụng đồng nhất, \emph{không} tuyên
+bố là Bayes-optimal riêng cho từng cơ chế. Kèm tấn công theo dõi HMM
+(forward--backward, cùng emission có $Z(x)$, cột \emph{cov} = tỷ lệ đỉnh proxy của
+vị trí thật còn trong tập ứng viên sau cắt). Sai số càng \emph{cao} càng riêng tư.
 
 \section{Kết quả}
 
 \begin{table}[ht]
 \centering
-\caption{Kết quả trên 20 quỹ đạo GeoLife (858 điểm), QoS 200m. Bayes/HMM err =
-sai số kẻ tấn công (m), cao hơn là riêng tư hơn. In đậm: cơ chế đề xuất.}
+\caption{Kết quả trên 20 quỹ đạo GeoLife (858 điểm), QoS 200m, seed 42. Bayes/HMM
+err = sai số adversary (m), cao hơn là riêng tư hơn; cov = HMM candidate coverage.
+In đậm: cơ chế đề xuất.}
 \label{tab:benchmark}
 \small
-\begin{tabular}{llrrrrrr}
+\begin{tabular}{llrrrrrrr}
 \toprule
-$\eps$ & Cơ chế & Q\_loss & QoS & On-road & Speed-viol & Bayes err & HMM err\\
+$\eps$ & Cơ chế & Q\_loss & QoS & On-road & Spd-viol & Bayes & HMM & cov\\
 \midrule
 0,01
- & Laplace phẳng & 205,6 & 0,59 & 0,58 & 0,08 & 200,5 & 134,8\\
- & Baseline TT2  &  94,9 & 0,99 & 0,97 & 0,00 &  95,6 &  80,2\\
- & \textbf{REM}      & 370,6 & 0,31 & 1,00 & 0,35 & 369,9 & 265,1\\
- & \textbf{T-REM}    & 307,2 & 0,35 & 1,00 & 0,06 & 309,5 & 233,6\\
- & \textbf{SM-REM}   & 323,2 & 0,34 & 1,00 & 0,04 & 324,2 & 275,7\\
+ & Laplace phẳng & 205,6 & 0,59 & 0,58 & 0,08 & 201,4 & 131,1 & 1,00\\
+ & Baseline TT2 (surrogate) &  94,9 & 0,99 & 0,97 & 0,00 &  93,8 &  81,2 & 1,00\\
+ & \textbf{REM}      & 370,1 & 0,33 & 1,00 & 0,35 & 366,8 & 198,8 & 0,97\\
+ & \textbf{T-REM}    & 285,2 & 0,40 & 1,00 & 0,06 & 282,4 & 185,0 & 0,99\\
+ & \textbf{SM-REM}   & 325,0 & 0,32 & 1,00 & 0,05 & 322,2 & 253,1 & 0,99\\
 \midrule
 0,02
- & Laplace phẳng & 102,8 & 0,89 & 0,63 & 0,01 &  98,9 &  78,0\\
- & Baseline TT2  &  80,0 & 1,00 & 0,99 & 0,00 &  79,8 &  74,9\\
- & \textbf{REM}      & 180,2 & 0,67 & 1,00 & 0,06 & 181,8 & 127,4\\
- & \textbf{T-REM}    & 175,8 & 0,66 & 1,00 & 0,01 & 174,3 & 129,2\\
- & \textbf{SM-REM}   & 173,7 & 0,67 & 1,00 & 0,01 & 173,7 & 144,9\\
+ & Laplace phẳng & 102,8 & 0,89 & 0,63 & 0,01 & 100,5 &  79,1 & 1,00\\
+ & Baseline TT2 (surrogate) &  80,0 & 1,00 & 0,99 & 0,00 &  80,3 &  75,1 & 1,00\\
+ & \textbf{REM}      & 183,9 & 0,62 & 1,00 & 0,06 & 182,4 & 122,4 & 1,00\\
+ & \textbf{T-REM}    & 178,4 & 0,66 & 1,00 & 0,02 & 177,7 & 123,5 & 1,00\\
+ & \textbf{SM-REM}   & 196,6 & 0,59 & 1,00 & 0,01 & 195,7 & 159,2 & 1,00\\
 \midrule
 0,05
- & Laplace phẳng &  41,1 & 1,00 & 0,68 & 0,00 &  41,0 &  37,9\\
- & Baseline TT2  &  68,8 & 1,00 & 0,99 & 0,00 &  69,4 &  68,6\\
- & \textbf{REM}      &  72,1 & 0,97 & 1,00 & 0,00 &  73,7 &  64,6\\
- & \textbf{T-REM}    &  75,5 & 0,96 & 1,00 & 0,00 &  76,3 &  67,6\\
- & \textbf{SM-REM}   &  81,8 & 0,94 & 1,00 & 0,00 &  82,3 &  76,2\\
+ & Laplace phẳng &  41,1 & 1,00 & 0,68 & 0,00 &  43,0 &  37,8 & 1,00\\
+ & Baseline TT2 (surrogate) &  68,8 & 1,00 & 0,99 & 0,00 &  69,6 &  68,8 & 1,00\\
+ & \textbf{REM}      &  76,3 & 0,96 & 1,00 & 0,00 &  76,1 &  66,4 & 1,00\\
+ & \textbf{T-REM}    &  76,9 & 0,95 & 1,00 & 0,00 &  76,9 &  67,3 & 1,00\\
+ & \textbf{SM-REM}   &  75,7 & 0,97 & 1,00 & 0,00 &  75,5 &  69,2 & 1,00\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Bốn quan sát chính từ Bảng~\ref{tab:benchmark}:
+Năm quan sát chính từ Bảng~\ref{tab:benchmark} (số liệu với adversary emission
+chính xác; đọc thận trọng, tránh overclaim):
 
 \begin{enumerate}
   \item \textbf{Tương quan thời gian là mối đe dọa thực.} Tấn công HMM luôn
-  mạnh hơn tấn công per-point: với Laplace phẳng tại $\eps = 0{,}01$, sai số kẻ
-  tấn công giảm từ 200,5m xuống 134,8m ($-33\%$) chỉ nhờ lọc Bayes theo thời
-  gian --- xác nhận thực nghiệm luận điểm của~\cite{xiao2015protecting} và biện
-  minh cho việc chọn HMM làm tấn công đánh giá chính.
+  mạnh hơn tấn công per-point: với Laplace phẳng tại $\eps = 0{,}01$, sai số
+  adversary giảm từ 201,4m (Bayes) xuống 131,1m (HMM, $-35\%$) chỉ nhờ lọc Bayes
+  theo thời gian --- xác nhận thực nghiệm~\cite{xiao2015protecting} và biện minh
+  việc chọn HMM làm tấn công đánh giá chính.
   \item \textbf{Laplace phẳng để lộ bề mặt tấn công thực tế.} 32--42\% điểm công
-  bố rơi ngoài lưới đường --- đúng loại tín hiệu mà RAoPT khai thác. REM/T-REM
-  đạt 100\% trên đường theo cấu trúc.
-  \item \textbf{Ràng buộc thời gian của T-REM có hiệu quả kép.} Tại
-  $\eps = 0{,}01$, tỷ lệ vi phạm tốc độ giảm từ 35\% (REM) xuống 6\%, đồng thời
-  quality loss \emph{giảm} (370,6 $\to$ 307,2m) --- trọng số khả đạt vừa đóng
-  kênh tấn công vận tốc vừa cải thiện tiện ích, với chi phí riêng tư bằng không
-  (Định lý~\ref{thm:trem}).
-  \item \textbf{So sánh công bằng phải theo đường cong trade-off.} Tại mức tiện
-  ích tương đương (Laplace phẳng @$\eps{=}0{,}01$ có Q\_loss 205,6m so với T-REM
-  @$\eps{=}0{,}02$ có Q\_loss 175,8m), sai số kẻ tấn công gần bằng nhau (134,8 so
-  với 129,2m) nhưng T-REM thắng trên mọi trục còn lại: QoS cao hơn (0,66 so với
-  0,59), 100\% trên đường, không rò rỉ vận tốc. Riêng baseline Thực tập 2 có chỉ
-  số đẹp ở cùng $\eps$ danh nghĩa nhưng theo Mệnh đề~\ref{prop:cap}
-  và~\ref{prop:reject}, $\eps$ đó không phải một đảm bảo hợp lệ.
-  \item \textbf{SM-REM không đánh đổi hiệu năng trên quỹ đạo di chuyển.} Trên
-  trace GeoLife (chủ yếu các ô lưới riêng biệt), SM-REM bám sát T-REM: tại
-  $\eps=0{,}02$ có Q\_loss 173,7m (so 175,8m) và thậm chí riêng tư hơn trước HMM
-  (144,9 so 129,2m). Lợi ích riêng của SM-REM --- chống averaging --- lộ ra ở thí
-  nghiệm stay-point (Mục~\ref{sec:averaging}), không ở bảng quỹ đạo di chuyển này.
+  bố rơi ngoài lưới đường --- đúng loại tín hiệu mà RAoPT khai thác. REM/T-REM/
+  SM-REM đạt 100\% trên đường \emph{theo cấu trúc} (đây là structural property,
+  chưa phải bằng chứng attack-resistance --- cần chạy RAoPT trực tiếp, xem
+  Chương~\ref{ch:tongket}).
+  \item \textbf{T-REM giảm tín hiệu speed-implausibility nhưng KHÔNG "đóng"
+  velocity attack.} Tại $\eps = 0{,}01$, T-REM giảm tỷ lệ vi phạm tốc độ từ 35\%
+  (REM) xuống 6\% và \emph{đồng thời} giảm quality loss (370,1 $\to$ 285,2m).
+  Nhưng theo chính metric HMM, T-REM (185,0m) cho adversary error \emph{thấp
+  hơn} REM (198,8m) --- tức T-REM đánh đổi một chút riêng-tư-HMM lấy tính thực tế
+  và tiện ích, chứ không loại bỏ tấn công. Đây là một soft regularizer theo
+  khoảng cách đường thẳng, không phải hard reachable-set.
+  \item \textbf{Trên đường cong trade-off, lợi thế của cơ chế đường là tính thực
+  tế và guarantee hợp lệ, không phải attacker-error thô.} Tại mức tiện ích tương
+  đương (Laplace @$\eps{=}0{,}01$ disp 205,6m, HMM 131,1m so với T-REM
+  @$\eps{=}0{,}02$ disp 178,4m, HMM 123,5m), sai số HMM gần bằng nhau; cơ chế
+  đường \emph{không} thắng trên trục attacker-error. Lợi thế thật của chúng là:
+  100\% trên đường (không có bề mặt map-matching), 0\% vi phạm tốc độ, và
+  $\eps$ là \emph{đảm bảo hợp lệ} --- khác với baseline có $\eps$ danh nghĩa đẹp
+  nhưng theo Mệnh đề~\ref{prop:cap},~\ref{prop:reject} không phải guarantee hợp
+  lệ (nên gọi là ``surrogate'' trong bảng).
+  \item \textbf{SM-REM giữ hiệu năng trên quỹ đạo di chuyển và thêm chống
+  averaging.} Trên trace GeoLife (đa số ô lưới riêng biệt), SM-REM bám sát T-REM
+  về utility (disp 196,6 vs 178,4m tại $\eps{=}0{,}02$; quantize về $\mathrm{rep}(cell)$
+  thêm chút lệch) và cho HMM error cao hơn (159,2 vs 123,5m). Lợi ích riêng của
+  SM-REM --- chống averaging tại stay-point --- lộ ra ở Mục~\ref{sec:averaging},
+  không ở bảng di chuyển này.
 \end{enumerate}
 
 \section{Tấn công averaging tại stay-point (S4)}
@@ -106,17 +119,16 @@ Bốn quan sát chính từ Bảng~\ref{tab:benchmark}:
 
 Bảng~\ref{tab:benchmark} đo quỹ đạo \emph{di chuyển}. Nhưng harm thực tế nghiêm
 trọng nhất (Strava lộ nhà 84--95\%~\cite{hassan2018run}; home fingerprinting của
-broker) đến từ báo cáo \emph{lặp tại một điểm tĩnh}. Thí nghiệm này mô phỏng một
-người dùng báo cáo $n$ lần từ đúng một điểm ``nhà'' (lấy điểm đầu của quỹ đạo
-GeoLife đầu tiên); kẻ tấn công lấy trung bình các điểm công bố và ta đo khoảng
-cách từ ước lượng trung bình đến nhà thật. Sai số \emph{càng thấp} nghĩa là kẻ
-tấn công \emph{càng thắng}; cơ chế bền nếu sai số \emph{không giảm} theo $n$.
+broker) đến từ báo cáo \emph{lặp tại một điểm tĩnh}. Thí nghiệm minh hoạ dưới đây
+cho một người dùng báo cáo $n$ lần từ đúng một điểm ``nhà'' (điểm đầu của quỹ đạo
+GeoLife đầu tiên); kẻ tấn công lấy trung bình các điểm công bố, ta đo khoảng cách
+từ ước lượng trung bình đến nhà thật.
 
 \begin{table}[ht]
 \centering
-\caption{Tấn công averaging: khoảng cách (m) từ ước lượng trung bình của kẻ tấn
-công đến điểm nhà thật, theo số lần báo cáo $n$ ($\eps = 0{,}02$). Thấp = kẻ tấn
-công thắng.}
+\caption{Tấn công averaging (một home, một seed, $\eps = 0{,}02$): khoảng cách (m)
+từ ước lượng trung bình đến nhà thật, theo số lần báo cáo $n$. Đây là minh hoạ
+\emph{cấu trúc}, không phải bằng chứng thống kê (xem chú thích).}
 \label{tab:averaging}
 \small
 \begin{tabular}{lrrrrrr}
@@ -125,21 +137,27 @@ Cơ chế & $n{=}1$ & $n{=}2$ & $n{=}5$ & $n{=}10$ & $n{=}50$ & $n{=}100$ \\
 \midrule
 Laplace phẳng & 104,6 & 123,8 & 48,5 & 35,7 & 24,5 & \textbf{12,4} \\
 Baseline TT2  &  44,4 &  49,5 & 65,5 & 65,9 & 36,3 & 28,6 \\
-REM           & 115,3 & 215,5 & 222,0 & 90,6 & 33,1 & 30,7 \\
-T-REM         & 269,6 &  65,0 & 76,6 & 152,4 & 80,2 & 51,8 \\
-\textbf{SM-REM} & 203,5 & 203,5 & 203,5 & 203,5 & 203,5 & \textbf{203,5} \\
+REM           & 115,3 &  31,2 & 103,1 & 30,5 & 61,9 & 20,7 \\
+T-REM         &  71,2 & 143,9 & 241,4 & 128,6 & 11,8 & 21,3 \\
+\textbf{SM-REM} & 429,6 & 429,6 & 429,6 & 429,6 & 429,6 & \textbf{429,6} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Bảng~\ref{tab:averaging} cho thấy kết quả dứt khoát: với mọi cơ chế nhiễu độc lập,
-sai số kẻ tấn công \emph{sụp} khi $n$ tăng --- Laplace phẳng về 12,4m ở $n=100$
-(khôi phục nhà tới 12m), REM về 30,7m, T-REM về 51,8m. Riêng \textbf{SM-REM giữ
-nguyên 203,5m ở mọi $n$}: vì mọi báo cáo trả về cùng một release đã memoize, trung
-bình của $n$ bản sao giống hệt không giảm phương sai --- kẻ tấn công không thu được
-gì từ việc lặp. Đây là minh chứng thực nghiệm cho Định lý~\ref{thm:smrem}, và là
-đóng góp đóng đúng kịch bản S4 mà cả bốn cơ chế còn lại (và bản PTPPM
-stateless~\cite{min2025road}) đều bỏ ngỏ.
+Điểm cần đọc đúng: với các cơ chế nhiễu độc lập, sai số adversary \emph{giảm} theo
+$n$ (Laplace về 12,4m ở $n=100$ --- khôi phục nhà tới 12m; REM/T-REM cũng giảm
+nhưng nhiễu hơn do full-support có đuôi nặng). Riêng \textbf{SM-REM phẳng tuyệt đối}
+ở mọi $n$: mọi báo cáo trả về cùng một release đã memoize, nên trung bình của $n$
+bản sao giống hệt không giảm phương sai. Đây là hệ quả \emph{tất định} của
+Định lý~\ref{thm:smrem} (đúng cho vị trí tĩnh lặp lại), \emph{không} phải một
+khẳng định thống kê về ``an toàn nhà'': giá trị phẳng 429,6m chỉ là một mẫu đơn ---
+một home, một seed. Tính trên nhiều home/user/seed, error tại $n=100$ của SM-REM
+dao động rộng (verifier V-005), và trung bình số học của các cơ chế đường hội tụ
+về $\mathbb{E}[Z\mid x]$ (có thể lệch khỏi $x$), không nhất thiết về $x$. Đánh giá
+đầy đủ đa-home với khoảng tin cậy và các radius có ý nghĩa là hướng phát triển
+(Chương~\ref{ch:tongket}). Điều bảng này chứng minh chắc chắn: memoization loại bỏ
+\emph{cơ chế} variance-reduction của averaging --- kịch bản S4 mà bản PTPPM
+stateless~\cite{min2025road} bỏ ngỏ.
 
 \section{Hệ thống mô phỏng và kịch bản sử dụng}
 \label{sec:simulator}

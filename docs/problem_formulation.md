@@ -35,7 +35,7 @@ SM-REM; (4) positioning vs công trình sát nhất. Đi kèm `system_model_and_
 | R3 | Bất khả phân biệt hình thức các vị trí gần; distance suy từ release đã lượng tử | W3C explainer "must ensure it is not possible to infer the user's precise location"; ε-Geo-I; LINDDUN Identifying/Detecting; NIST disassociability | S1,S5 |
 | R4 | Output on-road hợp lệ; không có mass off-road để prune | LocationFudger snap-to-grid; map-matching literature; REM | S2 |
 | R5 | Kháng tương quan thời gian/velocity; điều kiện chỉ trên **điểm đã công bố** | Apple rotating trip-ID; Xiao–Xiong δ-location-set; T-REM | S3 |
-| R6 | **Ổn định khi báo lặp (anti-averaging)** — cùng vùng trong cửa sổ trả cùng giá trị | **W3C 15-phút cached-value rule**; AOSP persistent offset; LP-Doctor; RAPPOR-PRR | **S4** |
+| R6 | **Ổn định khi báo lặp (anti-averaging)** — cùng vùng trong cửa sổ trả cùng giá trị | Google/WICG *approximate-geolocation explainer* (đề xuất, KHÔNG phải W3C Recommendation) — rule "cùng site trong cửa sổ → cùng cached value"; AOSP persistent offset; LP-Doctor; RAPPOR-PRR | **S4** |
 | R7 | Bảo vệ endpoint/stay-point hạng nhất (memoized nhất quán, fuzz lớn hơn, không hình học lộ tâm) | Apple "convert precise locations from the beginning of your route"; Strava hide start/end; Dhondt CCS'22 (85% recovery ⇒ hiding ngây thơ không đủ) | S4,S6,S7 |
 | R8 | Disassociation định danh (rotating id; pseudonym ≠ anonymity) | Apple rotating id; NIST disassociability; Zang–Bolot | S6,S8 |
 | R9 | Consent + loại trừ vị trí nhạy cảm | FTC Kochava/X-Mode/InMarket; GDPR 6(1)(a) | S6,S8 |

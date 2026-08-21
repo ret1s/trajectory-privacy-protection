@@ -18,7 +18,7 @@ of a Master's thesis (see `docs/internship_2.pdf` for the full write-up).
 core/           Core algorithms:
                   geo_indistinguishability.py, trajectory_privacy.py (internship-2 baseline)
                   road_network.py  — OSM graph → candidate lattice + KD-tree
-                  mechanisms.py    — PlanarLaplace, BaselineThesis, REM, T-REM (proposed)
+                  mechanisms.py    — PlanarLaplace, BaselineThesis, REM, T-REM, SM-REM (proposed)
 data/           Dataset loaders (GeoLife) — see data/README.md for downloads
 evaluation/     metrics.py (QoS, realism, kNN-POI, Hausdorff/DTW) + attacks.py
                   (Bayesian point attack, HMM tracking attack)
@@ -40,16 +40,25 @@ cache/, road_network_cache/  OSM data caches (gitignored, rebuilt automatically)
   output on the road network by construction (Euclidean sibling of
   Geo-Graph-Indistinguishability, Takagi et al. 2019).
 - **T-REM**: REM + reachability weighting w.r.t. the previously *released*
-  point only (public info ⇒ guarantee unchanged), closing velocity-linkage
-  attacks. See `docs/research_notes.md` for design rationale and benchmark
-  results against Planar Laplace and the internship-2 baseline.
+  point only (public info ⇒ per-release guarantee unchanged); reduces the
+  speed-implausibility signal that velocity-linkage attacks use.
+- **SM-REM**: T-REM + memoization keyed to a fixed public grid, sampling from
+  the public cell representative — a static repeated location returns one
+  cached release, so arithmetic averaging (home-inference) gains nothing.
+  Scope of the guarantee is deliberately narrow (static repeat); see
+  `docs/reviews/` for the verification findings and `docs/problem_formulation.md`.
+
+See `docs/research_notes.md` for design rationale and benchmark results, and
+`docs/reviews/verification_5b39226.md` for the independent verification of the
+formal claims.
 
 ## Benchmark & simulator
 
 ```bash
-python -m experiments.run_benchmark          # full: 20 GeoLife trajs × 3 ε × 4 mechanisms
-python -m experiments.run_benchmark --quick  # smoke test
-python -m web.simulator                      # http://localhost:5003 — replay real
+python3 -m experiments.run_benchmark          # 20 GeoLife trajs × 3 ε × 5 mechanisms
+python3 -m experiments.run_benchmark --quick  # smoke test
+python3 -m experiments.run_averaging          # home-inference / averaging attack (S4)
+python3 -m web.simulator                      # http://localhost:5003 — replay real
                                              # trajectories with user/LBS/attacker views
                                              # and a live k-NN POI use case
 ```

@@ -26,7 +26,11 @@ from core.mechanisms import (
     StayMemoizedREM,
 )
 from evaluation import metrics
-from evaluation.attacks import BayesianPointAttack, HMMTrackingAttack
+from evaluation.attacks import (
+    BayesianPointAttack,
+    HMMTrackingAttack,
+    precompute_lognorm,
+)
 from data.geolife import load_trajectories
 
 GRAPH_PKL = os.path.join("data", "raw", "beijing_graph.pkl")
@@ -74,14 +78,21 @@ def run(n_trajectories=20, epsilons=EPSILONS):
 
     results = []
     for eps in epsilons:
+        # Exact input-dependent log-normaliser of the REM emission, precomputed
+        # once per (ε, scale) and shared by both attacks (verifier V-004).
+        lognorm = {
+            s: precompute_lognorm(rn, eps, scale=s)
+            for s in sorted(set(EMISSION_SCALE.values()))
+        }
         rng = np.random.default_rng(SEED)
         for mech in build_mechanisms(eps, rn, rng):
             t0 = time.time()
+            scale = EMISSION_SCALE[mech.name]
             point_attack = BayesianPointAttack(
-                rn, eps, emission_scale=EMISSION_SCALE[mech.name]
+                rn, eps, emission_scale=scale, lognorm=lognorm[scale]
             )
             hmm_attack = HMMTrackingAttack(
-                rn, eps, emission_scale=EMISSION_SCALE[mech.name]
+                rn, eps, emission_scale=scale, lognorm=lognorm[scale]
             )
             per_traj = []
             for traj in trajs:
@@ -110,6 +121,9 @@ def run(n_trajectories=20, epsilons=EPSILONS):
                 )
             row = {"mechanism": mech.name, "epsilon": eps}
             row.update(metrics.summarize(per_traj))
+            row["hmm_coverage"] = round(
+                hmm_attack.true_covered / max(1, hmm_attack.true_total), 3
+            )
             row["runtime_s"] = round(time.time() - t0, 1)
             results.append(row)
             print(
@@ -117,7 +131,7 @@ def run(n_trajectories=20, epsilons=EPSILONS):
                 f"disp={row['mean_disp']:6.1f}m qos={row['qos']:.2f} "
                 f"road={row['on_road']:.2f} spd_viol={row['speed_viol']:.2f} "
                 f"bayes={row['bayes_err']:6.1f}m hmm={row['hmm_err']:6.1f}m "
-                f"({row['runtime_s']}s)",
+                f"cov={row['hmm_coverage']:.2f} ({row['runtime_s']}s)",
                 flush=True,
             )
 
