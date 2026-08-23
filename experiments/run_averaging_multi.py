@@ -43,7 +43,10 @@ KS = (1, 2, 5, 10, 20, 50, 100)
 RADII = (50.0, 100.0, 200.0)
 SCALE = {"planar_laplace": 1.0, "road_exponential": 0.5,
          "temporal_road_exponential": 0.5, "stay_memoized_rem": 0.5,
-         "pr_sm_rem": 0.5}
+         "pr_sm_rem": 0.25}  # release ε/2, REM exp(-ε/2·d) → 0.5·0.5 (R2-003)
+USE_LOGNORM = {"planar_laplace": False, "road_exponential": True,
+               "temporal_road_exponential": True, "stay_memoized_rem": True,
+               "pr_sm_rem": True}
 
 
 def mech_factories(eps, rn):
@@ -52,7 +55,8 @@ def mech_factories(eps, rn):
         "road_exponential": lambda: RoadExponential(eps, rn),
         "temporal_road_exponential": lambda: TemporalRoadExponential(eps, rn),
         "stay_memoized_rem": lambda: StayMemoizedREM(eps, rn),
-        "pr_sm_rem": lambda: PrivateReuseSMREM(eps, rn),
+        # matched budget: eps_test = release ε = ε/2 (verifier R2-003)
+        "pr_sm_rem": lambda: PrivateReuseSMREM(eps / 2, rn, eps_test=eps / 2),
     }
 
 
@@ -80,6 +84,7 @@ def run(n_homes=40, seeds=8, eps=EPS):
           f"{seeds} seeds; jitter σ={JITTER_M}m; eps={eps}\n")
 
     lognorm = {s: precompute_lognorm(rn, eps, scale=s) for s in set(SCALE.values())}
+    zero_norm = np.zeros(len(rn))  # constant normaliser (planar Laplace, R2-004)
     factories = mech_factories(eps, rn)
 
     # raw[mech][estimator][k] -> {user: [errors]}
@@ -89,8 +94,9 @@ def run(n_homes=40, seeds=8, eps=EPS):
     for hi, h in enumerate(homes):
         user, (hlat, hlon) = h["user"], h["home"]
         for m, factory in factories.items():
-            attack = AveragingAttack(rn, eps, emission_scale=SCALE[m],
-                                     lognorm=lognorm[SCALE[m]])
+            attack = AveragingAttack(
+                rn, eps, emission_scale=SCALE[m],
+                lognorm=lognorm[SCALE[m]] if USE_LOGNORM[m] else zero_norm)
             for s in range(seeds):
                 mech = factory()
                 mech.rng = np.random.default_rng(1000 * hi + s)

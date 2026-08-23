@@ -1,0 +1,30 @@
+{
+  "source": "BBBike Beijing extract (https://download.bbbike.org/osm/bbbike/Beijing/Beijing.osm.gz)",
+  "build": "ox.graph_from_xml(Beijing.osm, simplify=True, retain_all=True); ox.truncate.truncate_graph_bbox(G, bbox=(min_lon,min_lat,max_lon,max_lat)); largest weakly-connected component",
+  "bbox_geolife_(min_lat,min_lon,max_lat,max_lon)": [
+    39.96,
+    116.29,
+    40.02,
+    116.36
+  ],
+  "nodes": 13813,
+  "edges": 41040,
+  "extent": {
+    "lat": [
+      39.960011,
+      40.019992
+    ],
+    "lon": [
+      116.290003,
+      116.359997
+    ]
+  },
+  "sha256": "9e44ec2a48d6249f3534bb8511010925428018e528f5116d5f9eb24d86a2d487",
+  "versions": {
+    "python": "3.11.12",
+    "osmnx": "2.0.5",
+    "networkx": "3.5",
+    "numpy": "2.3.2",
+    "scipy": "1.16.1"
+  }
+}

@@ -60,7 +60,7 @@ MECHS = {
     "road_exponential": lambda eps: RoadExponential(eps, RN),
     "temporal_road_exponential": lambda eps: TemporalRoadExponential(eps, RN),
     "stay_memoized_rem": lambda eps: StayMemoizedREM(eps, RN),
-    "pr_sm_rem": lambda eps: PrivateReuseSMREM(eps, RN),
+    "pr_sm_rem": lambda eps: PrivateReuseSMREM(eps / 2, RN, eps_test=eps / 2),
 }
 EMISSION_SCALE = {
     "planar_laplace": 1.0,
@@ -68,7 +68,7 @@ EMISSION_SCALE = {
     "road_exponential": 0.5,
     "temporal_road_exponential": 0.5,
     "stay_memoized_rem": 0.5,
-    "pr_sm_rem": 0.5,
+    "pr_sm_rem": 0.25,
 }
 
 

@@ -32,7 +32,7 @@ with gzip.open('data/raw/Beijing.osm.gz','rb') as fi, open('data/raw/Beijing.osm
     shutil.copyfileobj(fi, fo)
 G = ox.graph_from_xml('data/raw/Beijing.osm', simplify=True, retain_all=True)
 b = BEIJING_BBOX
-G = ox.truncate.truncate_graph_bbox(G, bbox=(b[2], b[0], b[3], b[1]))
+G = ox.truncate.truncate_graph_bbox(G, bbox=(b[1], b[0], b[3], b[2]))
 pickle.dump(G, open('data/raw/beijing_graph.pkl','wb'))
 ```
 

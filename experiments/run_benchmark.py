@@ -46,7 +46,9 @@ def build_mechanisms(eps, rn, rng):
         RoadExponential(eps, rn, rng=rng),
         TemporalRoadExponential(eps, rn, rng=rng),
         StayMemoizedREM(eps, rn, rng=rng),
-        PrivateReuseSMREM(eps, rn, rng=rng),
+        # Matched budget (verifier R2-003): eps_test = release ε = ε/2, so a
+        # resample step's worst-case per-step cost is ε — the same as REM.
+        PrivateReuseSMREM(eps / 2, rn, eps_test=eps / 2, rng=rng),
     ]
 
 
@@ -54,13 +56,26 @@ def build_mechanisms(eps, rn, rng):
 # for planar Laplace E[r] = 2/ε (Gamma(2,1/ε)); ε=0.02 → E[r]=100m, ε=0.01 → 200m.
 EPSILONS = [0.01, 0.02, 0.05]
 
+# Attacker emission per mechanism, as a multiplier on the column ε, and whether
+# the exact input-dependent road normaliser logZ applies. Planar Laplace and the
+# capped baseline have a (near-)constant normaliser, so they must NOT be given the
+# road logZ (verifier R2-004). PR-SM-REM's release uses ε/2 (matched budget), and
+# REM scores exp(-ε/2·d), so its emission multiplier is 0.5·0.5 = 0.25.
 EMISSION_SCALE = {
     "planar_laplace": 1.0,
     "baseline_thesis": 1.0,
     "road_exponential": 0.5,
     "temporal_road_exponential": 0.5,
     "stay_memoized_rem": 0.5,
-    "pr_sm_rem": 0.5,
+    "pr_sm_rem": 0.25,
+}
+USE_LOGNORM = {
+    "planar_laplace": False,
+    "baseline_thesis": False,
+    "road_exponential": True,
+    "temporal_road_exponential": True,
+    "stay_memoized_rem": True,
+    "pr_sm_rem": True,
 }
 
 
@@ -87,15 +102,17 @@ def run(n_trajectories=20, epsilons=EPSILONS):
             s: precompute_lognorm(rn, eps, scale=s)
             for s in sorted(set(EMISSION_SCALE.values()))
         }
+        zero_norm = np.zeros(len(rn))  # constant normaliser (planar/baseline)
         rng = np.random.default_rng(SEED)
         for mech in build_mechanisms(eps, rn, rng):
             t0 = time.time()
             scale = EMISSION_SCALE[mech.name]
+            ln = lognorm[scale] if USE_LOGNORM[mech.name] else zero_norm
             point_attack = BayesianPointAttack(
-                rn, eps, emission_scale=scale, lognorm=lognorm[scale]
+                rn, eps, emission_scale=scale, lognorm=ln
             )
             hmm_attack = HMMTrackingAttack(
-                rn, eps, emission_scale=scale, lognorm=lognorm[scale]
+                rn, eps, emission_scale=scale, lognorm=ln
             )
             per_traj = []
             for traj in trajs:

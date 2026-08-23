@@ -47,9 +47,9 @@ class TrajectoryPrivacy:
             excluded_types = ['building', 'water', 'river']
 
         # Get the street network graph for the area
-        # OSMnx 2.0+ expects bbox as a tuple: (north, south, east, west)
+        # OSMnx 2.x expects bbox=(left, bottom, right, top) = (min_lon, min_lat, max_lon, max_lat)
         self.graph = ox.graph_from_bbox(
-            bbox=(bounds[2], bounds[0], bounds[3], bounds[1]),
+            bbox=(bounds[1], bounds[0], bounds[3], bounds[2]),
             network_type='drive'
         )
 
@@ -62,7 +62,7 @@ class TrajectoryPrivacy:
                 tags = {feature_type: True}
                 # OSMnx 2.0+ expects bbox as a tuple
                 gdf = ox.features.features_from_bbox(
-                    bbox=(bounds[2], bounds[0], bounds[3], bounds[1]),
+                    bbox=(bounds[1], bounds[0], bounds[3], bounds[2]),
                     tags=tags
                 )
                 if not gdf.empty:

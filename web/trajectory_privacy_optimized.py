@@ -55,7 +55,7 @@ class TrajectoryPrivacyOptimized:
             
             # Try to get road network
             self.graph = ox.graph_from_bbox(
-                bbox=(expanded_bounds[2], expanded_bounds[0], expanded_bounds[3], expanded_bounds[1]),
+                bbox=(expanded_bounds[1], expanded_bounds[0], expanded_bounds[3], expanded_bounds[2]),
                 network_type='all',  # Try to get all types of paths
                 simplify=True,
                 retain_all=False
@@ -80,7 +80,7 @@ class TrajectoryPrivacyOptimized:
                 try:
                     tags = {feature_type: True}
                     gdf = ox.features.features_from_bbox(
-                        bbox=(bounds[2], bounds[0], bounds[3], bounds[1]),
+                        bbox=(bounds[1], bounds[0], bounds[3], bounds[2]),
                         tags=tags
                     )
                     if not gdf.empty:

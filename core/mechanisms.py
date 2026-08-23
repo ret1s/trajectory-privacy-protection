@@ -164,10 +164,17 @@ class RoadExponential:
         return self._all, -0.5 * self.epsilon * d
 
     def _sample(self, idxs, logits):
-        logits = logits - logits.max()
-        p = np.exp(logits)
-        p /= p.sum()
-        return int(self.rng.choice(idxs, p=p))
+        """Gumbel-max categorical sampling in the LOG domain: argmax_i
+        (logit_i + Gumbel_i). This draws exactly from softmax(logits) using
+        only additions and an argmax — no exp() that can underflow a far-tail
+        logit to 0, and no cumulative-probability construction whose finite
+        precision can give a positive-mass vertex a zero-width bin (verifier
+        R2-006). Every candidate therefore stays reachable up to the RNG's
+        floating-point resolution. (This is a floating-point implementation of
+        the ideal real-arithmetic kernel; the ε-Geo-I proof is stated for the
+        ideal kernel, with this as the numerical realisation.)"""
+        g = self.rng.gumbel(size=logits.shape[0])
+        return int(idxs[int(np.argmax(logits + g))])
 
     def perturb(self, lat, lon, t=None):
         real_xy = self.rn.point_xy(lat, lon)
@@ -352,21 +359,35 @@ class PrivateReuseSMREM(RoadExponential):
                              spends only ε_test, no fresh location budget);
           no  → RESAMPLE via REM  (spends ε_test + ε).
 
-    Because the test statistic d(x_t, z̃_t) has metric-sensitivity 1 in x_t and
-    z̃_t is public, the test is ε_test-Geo-I; publishing the reuse/resample bit
-    is post-processing of it; a fresh draw is ε-Geo-I (Theorem 4.1). By
-    sequential/window composition the mechanism satisfies **w-event
-    ε_w-geo-indistinguishability**: within any window of w consecutive releases
-    the spent budget w·ε_test + (#resamples)·ε sums to ≤ ε_w (Kellaris Thm 3).
-    State depends ONLY on public info + past releases (never the raw trajectory),
-    which is what closes the revisit-pattern leak: for X=(a,a) vs X'=(a,b) the
-    event {z2≠z1} now has ratio ≤ exp(ε_test·d(a,b)) instead of ∞.
+    Per-step guarantee (verifier R2-001, corrected). The step's kernel is a
+    two-branch mixture: on z=h, mass q_x(h)+(1-q_x(h))R_x(h); on z≠h, mass
+    (1-q_x(h))R_x(z). The RESAMPLE branch carries BOTH the noisy-test factor
+    and the fresh REM release, so the worst-case per-step bound is
+    **(ε_test+ε_release)-Geo-I**, not ε_test alone; the very first step (no
+    prediction yet) costs only ε_release. The event {z≠h} therefore has a
+    FINITE ratio ≤ exp((ε_test+ε_release)·d(x,x')) — this is what closes the
+    ∞-ratio revisit leak of exact memoization, not the (incorrect) ε_test-only
+    bound. State depends ONLY on public info + past releases (never the raw
+    trajectory).
 
-    A static user reuses the first release (θ set near the release displacement),
-    so averaging is still defeated; a moving user resamples once it leaves the
+    Trajectory guarantee. Sequential composition over a window gives, under the
+    D_∞ trajectory metric, a worst-case w·(ε_test+ε_release) per w-window
+    (first window: ε_release+(w-1)(ε_test+ε_release)). This code exposes the
+    per-step primitive and the realised resample count (`n_resample`) as an
+    empirical diagnostic; it does NOT itself run a w-window budget manager /
+    privacy filter, so a claimed scalar ε_w must be derived from the declared
+    metric+budget split, not from the post-hoc resample count (verifier R2-002).
+
+    Budget matching (verifier R2-003). To compare fairly against an ε-Geo-I REM,
+    construct with ε_test+ε_release=ε (e.g. eps_test=ε/2 and pass ε/2 as the
+    release ε) so a resample step's worst case equals ε.
+
+    A static user reuses the first release (θ near the release displacement),
+    so averaging is defeated; a moving user resamples once it leaves the
     θ-ball of the last release. Honest limits: reuse is NOT free (each step pays
-    ε_test); w-event only protects ≤ w contiguous steps (a month of nightly
-    visits is not one protected group); θ must stay public.
+    ε_test); the state is only the previous release, so a leave-and-return
+    (home→work→home) pattern is NOT persistently memoised (verifier R2-007);
+    θ must stay public.
     """
 
     name = "pr_sm_rem"
