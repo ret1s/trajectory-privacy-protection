@@ -144,8 +144,10 @@ class RoadExponential:
     pure guarantee (two ε-close points on opposite sides of a vertex's cutoff
     boundary give an infinite likelihood ratio) — so no cutoff is used.
 
-    Cost: one 2-norm over |V| rows plus one categorical draw per release,
-    ~sub-millisecond for |V|≈78k, well within LBS real-time budget.
+    Cost: one 2-norm over |V| rows plus one categorical draw per release —
+    O(|V|) per release (|V|=13,813 in the thesis Beijing graph). No isolated
+    or on-device latency figure is claimed here (verifier R3-011); wall-clock
+    per (mechanism, ε) cell is recorded in the benchmark provenance instead.
     """
 
     name = "road_exponential"
@@ -262,15 +264,19 @@ class StayMemoizedREM(TemporalRoadExponential):
     is thus no fresh independent noise to average away — repeated reports from
     one cell reveal nothing beyond the single first release.
 
-    Guarantee — SCOPE IS DELIBERATELY NARROW (verifier finding V-003). The ONLY
-    rigorous claim is for a STATIC repeated location: if the true input is the
-    same cell C at every report, the transcript (r_C, …, r_C) is deterministic
-    post-processing of ONE sample r_C ~ REM(rep(C)) over the fixed public
-    support, so it inherits that single release's ε-Geo-I (at cell granularity)
-    and, crucially, carries the information of one release regardless of how
-    many times it is reported — the arithmetic-averaging attack gains nothing
-    (RAPPOR permanent randomized response, Erlingsson et al. CCS 2014; LP-Doctor
-    per-place cached Geo-I, Fawaz et al. USENIX Sec 2015).
+    Guarantee — SCOPE IS DELIBERATELY NARROW (verifier V-003 / R3-005). The ONLY
+    rigorous claim is for a STATIC repeated location, STARTING FROM AN EMPTY
+    CACHE (or a common public reset/cache state at the start of the scope): if
+    the true input is the same cell C at every report and C has no memo entry at
+    the start, the transcript (r_C, …, r_C) is deterministic post-processing of
+    ONE sample r_C ~ REM(rep(C)) over the fixed public support, so it inherits
+    that single release's ε-Geo-I (at cell granularity) and carries the
+    information of one release regardless of how many times it is reported — the
+    arithmetic-averaging attack gains nothing (RAPPOR permanent randomized
+    response, Erlingsson et al. CCS 2014; LP-Doctor per-place cached Geo-I,
+    Fawaz et al. USENIX Sec 2015). The cache lifecycle (reset/TTL, per-principal
+    or per-app/site partition, whether entries survive sessions) is part of this
+    assumption and must be fixed by the deployment; it is NOT modelled here.
 
     What is NOT claimed (and why). We do NOT claim a whole-trajectory theorem
     such as "ε·(#distinct cells)-Geo-I over arbitrary traces". Exact
@@ -285,15 +291,18 @@ class StayMemoizedREM(TemporalRoadExponential):
 
     Also NOT ε-Geo-I in the original Euclidean metric even per-release: the
     cell→representative quantisation is input-side discretisation, so two points
-    ε-close across a cell boundary receive independent releases (ratio up to
-    exp(ε·cellwidth)) — the reason Android LocationFudger pairs snap-to-grid
-    with a persistent random offset; one cannot get clean-Euclidean-Geo-I and
-    anti-averaging memoization from the same knob.
+    ε-close across a cell boundary receive independent releases. The worst case
+    is two points either side of a CORNER falling into diagonal cells, whose
+    representatives are √2·g apart, giving a ratio up to exp(ε·√2·g) (an
+    edge-adjacent boundary gives exp(ε·g)) — the reason Android LocationFudger
+    pairs snap-to-grid with a persistent random offset; one cannot get
+    clean-Euclidean-Geo-I and anti-averaging memoization from the same knob.
 
     `grid_m` trades off jitter-robustness (large cell = a stationary user's GPS
     jitter stays in one cell, so memoization holds) against spatial resolution
     (small cell = distinct nearby places do not collide) and boundary-leak
-    magnitude (larger cell = larger exp(ε·cellwidth) worst case). Default 60m is
+    magnitude (larger cell = larger exp(ε·√2·cellwidth) corner worst case).
+    Default 60m is
     chosen to sit comfortably above typical urban GPS error (~10-20m) while
     keeping cell-boundary leakage small; it is smaller than the deployed
     coarsening radii it is inspired by (Strava's default hidden-zone and AOSP
@@ -352,9 +361,13 @@ class StayMemoizedREM(TemporalRoadExponential):
 
 
 class PrivateReuseSMREM(RoadExponential):
-    """Private-Reuse SM-REM — the principled fix for the revisit-pattern leak
-    (verifier V-003), giving a genuine TRAJECTORY-level guarantee instead of the
-    static-repeat-only claim of SM-REM.
+    """Private-Reuse SM-REM — a predictive-reuse mechanism whose reuse DECISION
+    is differentially private, addressing the revisit-pattern leak of exact
+    SM-REM memoization (verifier V-003). It is NOT persistent memoization and
+    does NOT defeat averaging asymptotically (verifier R3-004): both the reuse
+    and the resample branch are probabilistic at every step, so it only
+    PARTIALLY MITIGATES averaging over a finite horizon — see "Anti-averaging
+    is finite-horizon only" below.
 
     Idea (predictive mechanism, Chatzikokolakis et al. PETS 2014 + w-event
     accounting, Kellaris et al. VLDB 2014). The "reuse the last release vs draw
@@ -389,24 +402,60 @@ class PrivateReuseSMREM(RoadExponential):
     privacy filter, so a claimed scalar ε_w must be derived from the declared
     metric+budget split, not from the post-hoc resample count (verifier R2-002).
 
-    Budget matching (verifier R2-003). To compare fairly against an ε-Geo-I REM,
-    construct with ε_test+ε_release=ε (e.g. eps_test=ε/2 and pass ε/2 as the
-    release ε) so a resample step's worst case equals ε.
+    Budget matching (verifier R2-003 / R3-012). The per-step worst-case cost is
+    `privacy_cost_per_step_max = ε_release + ε_test`. To compare fairly against
+    an ε-Geo-I REM, use `epsilon_step_cap=ε` (split evenly into ε/2+ε/2) so a
+    resample step's worst case equals ε. The constructor is keyword-only for the
+    budgets precisely so a caller cannot accidentally get a 2E-cap mechanism
+    while thinking the total per-step budget is E.
 
-    A static user reuses the first release (θ near the release displacement),
-    so averaging is defeated; a moving user resamples once it leaves the
-    θ-ball of the last release. Honest limits: reuse is NOT free (each step pays
-    ε_test); the state is only the previous release, so a leave-and-return
-    (home→work→home) pattern is NOT persistently memoised (verifier R2-007);
-    θ must stay public.
+    Anti-averaging is FINITE-HORIZON only (verifier R3-004). For finite θ,
+    ε_test and distance d, the noisy test gives a resample probability
+    q_x = 1 − F_Lap(θ − d(x,h)) that is strictly in (0,1): a STATIC user still
+    resamples with positive probability every step (at d=θ, q=1/2, so the
+    probability of never resampling over 100 steps is 2⁻¹⁰⁰), and a MOVING user
+    still reuses with positive probability. PR therefore reduces the number of
+    effective fresh samples over a finite horizon; it does NOT memoise
+    absolutely and does NOT make averaging impossible asymptotically. This is a
+    different property from SM-REM's exact static same-cell memoization — do not
+    conflate the two.
+
+    Privacy-relevant state (verifier R3-012). The predictor state used by the
+    ideal per-step guarantee is a function of the PUBLIC transcript only
+    (previous released point). Some executable state is NOT public-history-only
+    — `n_resample`/`n_test` depend on the hidden branch, and the RNG consumes a
+    branch-dependent number of draws — but these counters are DIAGNOSTIC: they
+    are never released and never used to make a decision. The ideal proof uses
+    fresh independent randomness and private counters that do not affect output.
+
+    Honest limits: reuse is NOT free (each step pays ε_test); the state is only
+    the previous release, so a leave-and-return (home→work→home) pattern is NOT
+    persistently memoised (verifier R2-007); θ must stay public.
     """
 
     name = "pr_sm_rem"
 
-    def __init__(self, epsilon, road_network, eps_test=None, theta=200.0, rng=None):
-        super().__init__(epsilon, road_network, rng)
-        self.eps_test = eps_test if eps_test is not None else epsilon
+    def __init__(self, road_network, *, epsilon_release=None, epsilon_test=None,
+                 epsilon_step_cap=None, theta=200.0, rng=None):
+        """Budgets are keyword-only and explicit (verifier R3-012). Provide
+        EITHER `epsilon_step_cap` (split evenly into release+test) OR both
+        `epsilon_release` and `epsilon_test`. There is no single positional
+        `epsilon`, so `PrivateReuseSMREM(rn, E)` (which would silently mean a
+        2E-cap step) is impossible."""
+        if epsilon_step_cap is not None:
+            if epsilon_release is not None or epsilon_test is not None:
+                raise ValueError(
+                    "give epsilon_step_cap OR (epsilon_release, epsilon_test), not both")
+            epsilon_release = epsilon_test = epsilon_step_cap / 2.0
+        if epsilon_release is None or epsilon_test is None:
+            raise ValueError(
+                "PrivateReuseSMREM needs epsilon_release and epsilon_test "
+                "(or epsilon_step_cap)")
+        super().__init__(epsilon_release, road_network, rng)
+        self.eps_test = epsilon_test
         self.theta = theta  # public reuse radius (m)
+        # Advertised worst-case per-step privacy cost (release + test).
+        self.privacy_cost_per_step_max = epsilon_release + epsilon_test
         self.reset()
 
     def reset(self):

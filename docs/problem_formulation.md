@@ -61,16 +61,21 @@ quỹ đạo (de Montjoye 4 điểm→95%) — cần ε·T/w-event và thừa nh
   của **GEM (Graph-Exponential Mechanism, Takagi et al. 2020)** — phải cite GEM làm tiền lệ
   trực tiếp REM tái dẫn. *Chỉ* được gọi ε-Geo-I nếu score là Euclid; nếu dùng graph distance
   thì phải gọi ε-GG-I và KHÔNG có guarantee Euclid.
-- **H2 — memoization KHÔNG cho ε-Geo-I Euclid; cho ε-Geo-I ở mức cell.** SM-REM thỏa
-  **ε-d̃X-privacy theo pseudometric của cell** `d̃(x,x')=d(rep(cell x),rep(cell x'))`; budget
-  cộng **một lần mỗi cell riêng biệt** → O(#distinct)·ε thay vì O(#reports)·ε; stay-point
-  tĩnh tốn đúng ε bất kể dwell (giết averaging). **Caveat bắt buộc nêu:** gián đoạn ở biên —
-  hai điểm ε-sát hai bên biên nhận release độc lập (ratio tới exp(ε·cellwidth)); đây là lý do
-  LocationFudger thêm persistent offset, và là lý do **không thể vừa có Euclid-Geo-I sạch vừa
-  có memoization anti-averaging từ cùng một knob**. Không phải pan-privacy.
+- **H2 — memoization KHÔNG cho ε-Geo-I Euclid; chỉ có phát biểu static-repeat mức cell.**
+  Phát biểu ĐÚNG (verifier R3-005): với **một** ô, **một** cache-epoch, **cache khởi tạo rỗng**
+  và cùng ô lặp lại đúng, transcript `(Z,…,Z)` là hậu xử lý của một mẫu `Z ~ REM(rep(C))` → thừa
+  hưởng ε-Geo-I mức-ô của một release (giết averaging cho stay-point tĩnh). **KHÔNG được** phát
+  biểu một định lý toàn-quỹ-đạo kiểu `O(#distinct cells)·ε` trên trace tùy ý: memoization chính
+  xác làm pattern hit/miss thành hàm của **pattern revisit bí mật** → rò (X=(a,a) vs X'=(a,b):
+  biến cố {z₂≠z₁} có ratio ∞). **Caveat biên:** hai điểm ε-sát hai bên một **góc** rơi vào hai ô
+  chéo nhận release độc lập, ratio tới **exp(ε·√2·g)** (biên cạnh kề: exp(ε·g)); đây là lý do
+  LocationFudger thêm persistent offset, và là lý do **không thể vừa có Euclid-Geo-I sạch vừa có
+  memoization anti-averaging từ cùng một knob**. Không phải pan-privacy.
 - **H3 — trigger memoize phải độc lập dữ liệu.** SM-REM memoize theo lưới công khai *mọi lần*
-  → an toàn, không rò rỉ. (Nếu gate bằng stay-point predicate tính trên stream thật thì phải
-  bọc trong Above-Threshold/PTR test — nếu không quyết định đó là leak chưa tính budget.)
+  → quyết định memoize không rò (dù pattern revisit vẫn rò như H2). Lifecycle cache (reset/TTL,
+  phân vùng theo principal/app) là phần của giả thiết, do deployment cố định. (Nếu gate bằng
+  stay-point predicate tính trên stream thật thì phải bọc trong Above-Threshold/PTR test — nếu
+  không quyết định đó là leak chưa tính budget.)
 
 ## 4. Positioning (khe hở SM-REM lấp)
 
@@ -81,9 +86,12 @@ quỹ đạo (de Montjoye 4 điểm→95%) — cần ε·T/w-event và thừa nh
 - **GEM/GG-I** (Takagi 2020): single-shot, không chống averaging.
 - **Eclipse** (Niu et al. IEEE TMC 2020): chống long-term observation nhưng **off-road** qua
   anonymity set, không memoization.
-- **Khe hở**: release **on-road-by-construction + memoized (stateful)** để báo lặp từ stay-point
-  tĩnh không thể bị averaging — chưa ai chiếm. SM-REM (memoized, on-road, điều kiện chỉ trên
-  điểm đã công bố) nằm đúng đó.
+- **Định vị novelty (hẹp, verifier R3-015):** đóng góp KHÔNG phải phát minh memoization hay
+  predictive reuse (đã có trong RAPPOR/predictive-mechanism/Eclipse), mà là **tích hợp + đánh giá
+  trong bối cảnh metric-space road-constrained**: release on-road-by-construction kết hợp
+  memoization/noisy-reuse cho báo lặp stay-point tĩnh. Chưa có aligned executable comparator
+  (GEM shortest-path, PTPPM, Eclipse) trong repo → so sánh định lượng với SOTA là future work
+  (R3-014/R3-015); không tuyên bố "chưa ai chiếm" tuyệt đối khi chưa có bảng so sánh hệ thống.
 
 **Cách phát biểu guarantee cho luận văn — phân biệt ĐÃ hiện thực vs KIẾN TRÚC ĐÍCH
 (verifier R2-002/R2-010):**

@@ -1,20 +1,19 @@
 """Toy finite-domain test for the rejection/conditioning proposition
-(verifier R2-011).
+(verifier R2-011 / R3-001).
 
-Proposition split in thesis §4 (ch4_phuongphap.tex, prop:fixedaccept / prop:reject):
+Proposition (thesis §4, prop:fixedaccept), stated with BOTH required parts —
+a base ε-Geo-I hypothesis on K and the 1_A(z) indicator mask:
 
-  (a) Conditioning a base ε-Geo-I kernel on a FIXED, PUBLIC allowed set A with
-      positive acceptance K(A|x)>0 for every x keeps a finite bound — and it is
-      2ε, not ε, because the acceptance normaliser K(A|x) is itself input-
-      dependent:  K_A(z|x)/K_A(z|x') ≤ e^{ε d} · K(A|x')/K(A|x) ≤ e^{2ε d}.
+    K_A(z|x) = 1_A(z)·K(z|x) / K(A|x),   K(A|x)>0,  K is ε-Geo-I
+  ⇒ for every measurable S:  K_A(S|x)/K_A(S|x') ≤ e^{2ε d(x,x')}.
 
-  (b) Conditioning on an INPUT-DEPENDENT allowed set A_x can blow the ratio up to
-      infinity even when the base kernel is 0-DP. Minimal witness: base kernel
-      uniform on {0,1} for every input (0-DP); A_a={0}, A_b={1}; after
-      conditioning K_A(0|a)=1 but K_A(0|b)=0 → ratio = ∞.
-
-This test executes both halves on a finite domain so the claims are checkable,
-and asserts the OLD (wrong) "conditioning preserves ε" reading is falsified.
+Tests here, on a finite domain:
+  (a) the 2ε bound HOLDS on a symmetric ε-Geo-I grid;
+  (b) 2ε is TIGHT — a 3-point ε-DP kernel + fixed public A gives ratio > e^ε
+      (so ε alone is insufficient), ≤ e^2ε;
+  (c) NEGATIVE regression: dropping the ε-Geo-I hypothesis (δ_0 vs δ_1) → ∞;
+  (d) NEGATIVE regression: dropping the 1_A mask → "distribution" sums to 2;
+  (e) input-dependent A_x on a 0-DP base → ∞ (prop:reject).
 
 Run:  python -m tests.test_rejection_conditioning
 """
@@ -95,6 +94,38 @@ def test_fixed_public_needs_2eps_not_eps():
           f"(ε is insufficient; 2ε is the correct bound)")
 
 
+def test_missing_geoi_assumption_breaks_bound():
+    """(negative regression, R3-001) Without the base ε-Geo-I hypothesis, even a
+    FIXED public A with positive acceptance can give an infinite ratio:
+    K(·|a)=δ_0, K(·|b)=δ_1, A={0,1}. Acceptance is 1 for both, but the ratio at
+    z=0 is 1/0 = ∞. The proposition MUST assume base Geo-I."""
+    Ka = np.array([1.0, 0.0])   # δ_0  (not ε-Geo-I for any finite ε)
+    Kb = np.array([0.0, 1.0])   # δ_1
+    A = np.array([True, True])  # fixed, public, positive acceptance for both
+    accept_a, accept_b = float((Ka * A).sum()), float((Kb * A).sum())
+    assert accept_a > 0 and accept_b > 0
+    condA, condB = (Ka * A) / accept_a, (Kb * A) / accept_b
+    ratio = np.inf if condB[0] == 0 else condA[0] / condB[0]
+    assert ratio == np.inf
+    print("[PASS] no-Geo-I base + fixed public A: ratio = ∞ "
+          "(base ε-Geo-I assumption is necessary)")
+
+
+def test_missing_indicator_is_not_a_distribution():
+    """(negative regression, R3-001) Without the 1_A(z) mask, the 'conditioned'
+    formula K(z|x)/K(A|x) is not a distribution: K=(1/2,1/2), A={0} gives mass
+    (1,1) summing to 2. The definition MUST carry the indicator."""
+    K = np.array([0.5, 0.5])
+    A = np.array([True, False])
+    accept = float((K * A).sum())  # = 0.5
+    without_indicator = K / accept            # (1, 1) — WRONG, sums to 2
+    with_indicator = (K * A) / accept         # (1, 0) — correct distribution
+    assert abs(without_indicator.sum() - 2.0) < 1e-12
+    assert abs(with_indicator.sum() - 1.0) < 1e-12
+    print("[PASS] missing 1_A mask sums to 2.0 (not a distribution); "
+          "with 1_A sums to 1.0")
+
+
 def test_input_dependent_set_is_infinite():
     """(b) Input-dependent A_x on a 0-DP base kernel → infinite ratio."""
     # Base kernel uniform on {0,1} for every input → 0-DP (ratio 1 everywhere).
@@ -114,6 +145,8 @@ def test_input_dependent_set_is_infinite():
 if __name__ == "__main__":
     test_fixed_public_set_is_2eps()
     test_fixed_public_needs_2eps_not_eps()
+    test_missing_geoi_assumption_breaks_bound()
+    test_missing_indicator_is_not_a_distribution()
     test_input_dependent_set_is_infinite()
     print("\nAll rejection-conditioning tests passed "
           "(R2-011: 2ε for fixed public A, ∞ for input-dependent A_x).")

@@ -36,15 +36,22 @@ chưa vào likelihood. Một attacker sequential đúng của PR mạnh hơn pro
 này vượt cơ chế kia; cần attacker mechanism-aware + jitter-aware đầy đủ.
 
 \textbf{Đảm bảo trajectory chưa đầy đủ.} PR-SM-REM mới có chặn per-release; một
-scalar $\eps_w$ w-event cần budget manager theo cửa sổ (chưa cài). SM-REM chỉ đảm
-bảo vị trí tĩnh lặp lại, pattern revisit rò rỉ.
+scalar $\eps_w$ w-event cần budget manager theo cửa sổ (chưa cài). Chống-averaging
+của PR-SM-REM là \emph{hữu-hạn-horizon}: cả nhánh reuse lẫn resample đều ngẫu nhiên
+mỗi bước (tại $d{=}\theta$ xác suất resample $=1/2$), nên không tuyệt đối và khác
+tính chất static-same-cell của SM-REM. SM-REM chỉ đảm bảo vị trí tĩnh lặp lại (một
+ô, cache khởi tạo rỗng); pattern revisit rò rỉ.
 
 \textbf{Phạm vi \& provenance.} Artifact là reference mechanism + simulator Flask
-phía server, chưa phải hiện thực on-device; cache/định danh lifecycle (R8--R12)
-ngoài phạm vi. Averaging đa-home dùng stay-point (không phải nhãn cư trú), moving
-benchmark còn một-seed; clean-clone provenance (build script, seed dẫn xuất, raw
-rows, dependency lock) đang bổ sung. Chưa chạy RAoPT; chưa so GEM (metric đường
-đi ngắn nhất)/PIM. Chi tiết đối chiếu ở \texttt{docs/reviews/}.
+phía server, chưa phải hiện thực on-device (không có latency đo cách ly);
+cache/định danh lifecycle (R8--R12) ngoài phạm vi. Đã bổ sung: build script tất
+định + kiểm hash graph fail-closed, seed dẫn xuất từ khóa ngữ nghĩa (permutation
+test), provenance \texttt{msc-experiment-v1} (source commit + dirty flag, record
+IDs, raw rows), và dependency lock dev (\texttt{requirements-dev.txt}). Còn lại:
+moving benchmark một-seed (exploratory, chưa multi-seed CI), averaging dùng
+stay-point (không phải nhãn cư trú), clean-clone vẫn cần raw data ngoài Git. Chưa
+chạy RAoPT; chưa có comparator thực thi cho GEM (metric đường đi ngắn nhất)/PTPPM/
+Eclipse (mới ở mức prose). Chi tiết đối chiếu ở \texttt{docs/reviews/}.
 
 \section{Hướng phát triển}
 

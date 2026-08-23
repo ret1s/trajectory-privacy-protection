@@ -68,10 +68,14 @@ threat model rút từ các tấn công đã xảy ra thật.
   \item Phân tích hình thức các lỗi của pipeline Thực tập 2
   (Mục~\ref{sec:phantichbaseline});
   \item Bốn cơ chế REM, T-REM, SM-REM và PR-SM-REM kèm chứng minh đảm bảo riêng
-  tư (Mục~\ref{sec:rem}, \ref{sec:trem}, \ref{sec:smrem}, \ref{sec:prsmrem});
-  \item Bộ khung đánh giá theo chuẩn văn liệu: tấn công suy luận Bayes tối ưu,
-  tấn công theo dõi HMM, và tấn công averaging tại stay-point, cùng các độ đo
-  tiện ích và tính thực tế (Chương~\ref{ch:thucnghiem});
+  tư \emph{ở mức ideal real-arithmetic kernel} (Mục~\ref{sec:rem}, \ref{sec:trem},
+  \ref{sec:smrem}, \ref{sec:prsmrem}; hiện thực dấu-phẩy-động là xấp xỉ hữu hạn
+  độ chính xác, Nhận xét~\ref{rmk:finiteprec});
+  \item Bộ khung đánh giá theo chuẩn văn liệu: một adversary suy luận
+  \emph{dạng-REM emission} (chính xác cho REM, là \emph{proxy} cho các cơ chế
+  khác --- dùng làm chẩn đoán, không xếp hạng riêng tư), tấn công theo dõi HMM,
+  và tấn công averaging tại stay-point, cùng các độ đo tiện ích và tính thực tế
+  (Chương~\ref{ch:thucnghiem});
   \item Thực nghiệm trên dữ liệu GPS thật (GeoLife, Bắc Kinh) trên đồ thị đường
   OSM thật, so sánh với Laplace phẳng và baseline Thực tập 2;
   \item Hệ thống mô phỏng trực quan ba góc nhìn (người dùng / máy chủ LBS / kẻ

@@ -66,7 +66,10 @@ Chương~\ref{ch:phuongphap}.
 
 Chúng tôi xét kẻ tấn công theo nguyên lý Kerckhoffs: biết \emph{cơ chế} và tham
 số của nó, giữ một \emph{prior} trên các vị trí khả dĩ, và quan sát toàn bộ chuỗi
-điểm công bố $z_1, \dots, z_T$. Hai hiện thân được dùng để đánh giá
-(Chương~\ref{ch:thucnghiem}): tấn công suy luận Bayes tối ưu trên từng điểm, và
-tấn công theo dõi HMM khai thác tương quan thời gian giữa các điểm liên tiếp
---- chuẩn đánh giá được xác lập bởi~\cite{shokri2011quantifying,xiao2015protecting}.
+điểm công bố $z_1, \dots, z_T$. Tấn công Bayes \emph{tối ưu} là chuẩn lý thuyết
+(\cite{shokri2011quantifying}); hiện thực đánh giá của luận văn
+(Chương~\ref{ch:thucnghiem}) dùng một adversary \emph{emission dạng-REM} --- tối
+ưu cho REM, nhưng chỉ là \emph{proxy} cho các cơ chế phụ thuộc lịch sử/trạng thái
+(T-REM/SM-REM/PR-SM-REM) --- ở hai hiện thân: suy luận từng điểm và tấn công theo
+dõi HMM khai thác tương quan thời gian~\cite{xiao2015protecting}. Vì là proxy, số
+liệu attacker cho cơ chế non-REM là cận trên và không dùng để xếp hạng riêng tư.

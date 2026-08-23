@@ -56,16 +56,40 @@ sampler is a numerical approximation (finite-precision zero-support — see
 (exact for REM only). See `docs/reviews/` for the independent verification
 rounds and `docs/reviews/response_*.md` for the finding-by-finding responses.
 
-## Benchmark & simulator
+## Thesis artifact (the formally analyzed mechanisms)
+
+These are the commands that generate the results in the thesis (Chapter 5). They
+use `core/mechanisms.py` (REM / T-REM / SM-REM / PR-SM-REM), NOT the legacy demo
+pipeline below.
 
 ```bash
-python3 -m experiments.run_benchmark          # 20 GeoLife trajs × 3 ε × 6 mechanisms
+python3 -m tests.run_all                      # canonical test suite (no pytest needed)
+python3 -m pytest -q tests                    # same tests, if pytest is installed (see requirements-dev.txt)
+python3 -m data.build_beijing_graph           # (re)build the pinned road graph + manifest
+python3 -m experiments.run_benchmark          # 20 GeoLife trajs × 3 ε × 6 mechanisms → outputs/benchmark_results.json
 python3 -m experiments.run_benchmark --quick  # smoke test
-python3 -m experiments.run_averaging          # home-inference / averaging attack (S4)
-python3 -m web.simulator                      # http://localhost:5003 — replay real
-                                             # trajectories with user/LBS/attacker views
-                                             # and a live k-NN POI use case
+python3 -m experiments.run_averaging_multi    # multi-home averaging / home-inference study (S4) → outputs/averaging_multi_results.json
+python3 -m web.simulator                      # http://localhost:5003 — replay real trajectories
+                                              # (user/LBS/attacker views + a synthetic-POI k-NN use case)
 ```
+
+Every official experiment fails closed if the road graph does not match the
+committed manifest, and writes a `msc-experiment-v1` provenance block (source
+commit + dirty flag, graph SHA-256, RNG schema, selected record IDs, raw rows).
+
+### Claim registry — what is proven, and where (read before quoting any result)
+
+| Mechanism | Code | Guarantee (ideal kernel) | Executable / evaluation caveat |
+|---|---|---|---|
+| REM | `RoadExponential` | ε-Geo-I (Euclid) over the fixed public vertex set | float Gumbel-max is a finite-precision approximation (`tests/test_sampler_support.py`) |
+| T-REM | `TemporalRoadExponential` | same ε-Geo-I per release (reachability weight is public) | same finite-precision caveat |
+| SM-REM | `StayMemoizedREM` | static same-cell repeat, empty initial cache → one release's ε-Geo-I (cell level) | revisit pattern leaks (∞ ratio); NOT a trajectory theorem; corner boundary ratio ≤ e^{ε·√2·g} |
+| PR-SM-REM | `PrivateReuseSMREM` | per-step (ε_test+ε_release)-Geo-I | anti-averaging is **finite-horizon only** (both branches probabilistic); no w-event manager |
+
+All attacker columns (Bayes/HMM/averaging MLE) use a **REM-emission proxy** —
+exact for REM only, an **upper bound** for the others, so they are diagnostics
+and are **not** used to rank privacy between mechanisms. See `docs/reviews/` for
+the full verification history.
 
 ## Installation
 
@@ -73,22 +97,25 @@ python3 -m web.simulator                      # http://localhost:5003 — replay
 pip install -r requirements.txt
 ```
 
-## Running the web application
+## Legacy demo apps (NOT the thesis method — no valid formal guarantee)
 
-There are two Flask apps, both built on the same core algorithm:
+> ⚠️ These two Flask apps run the **internship-2 pipeline**
+> (`core/trajectory_privacy.py`): planar Laplace capped at a QoS radius +
+> reject-in-building + snap. That cap/reject step is conditioned on the *true*
+> location, so its nominal ε is **not a valid Geo-I guarantee** (thesis §4,
+> Prop. `prop:cap`/`prop:reject`). They are kept as an interactive
+> **visualization/surrogate** only. For the formally analyzed mechanisms and the
+> thesis results, use the **Thesis artifact** commands above (`web.simulator`,
+> `experiments.*`), not these.
 
-- **`web/app.py`** (port 5002) — the reference demo, with live console
-  logging over SocketIO. Uses `core/trajectory_privacy.py` directly.
-- **`web/app_optimized.py`** (port 5001) — an experimental variant that adds
-  disk/in-memory caching of downloaded road networks (`road_network_cache/`)
-  for faster repeated runs, using a simplified, standalone
-  `web/trajectory_privacy_optimized.py` class.
-
-Run either one from the project root:
+- **`web/app.py`** (port 5002) — reference visualization demo, live console
+  logging over SocketIO.
+- **`web/app_optimized.py`** (port 5001) — same demo with disk/in-memory road-network
+  caching (`road_network_cache/`), via a simplified standalone class.
 
 ```bash
-python -m web.app             # http://localhost:5002
-python -m web.app_optimized   # http://localhost:5001
+python -m web.app             # http://localhost:5002  (legacy demo)
+python -m web.app_optimized   # http://localhost:5001  (legacy demo, cached)
 ```
 
 ## Usage
@@ -104,20 +131,24 @@ python -m web.app_optimized   # http://localhost:5001
 
 ## Core Components
 
-- `core/trajectory_privacy.py`: Core privacy protection algorithm (Geo-I + road/building
-  constraints + QoS + trajectory continuity — matches Algorithm 1 in the thesis)
-- `core/geo_indistinguishability.py`: The ε-Geo-Indistinguishability noise mechanism
-  (polar Laplace distribution)
+- `core/mechanisms.py`: **the thesis mechanisms** (REM / T-REM / SM-REM / PR-SM-REM)
+  — the formally analyzed contribution; see the claim registry above.
+- `core/trajectory_privacy.py`: the **legacy internship-2 pipeline** (Geo-I noise
+  capped at QoS + reject-in-building + snap). This is the pipeline the thesis §4
+  *critiques*: its cap/reject step is conditioned on the true location, so its
+  nominal ε is not a valid guarantee. Used only by the legacy demo apps.
+- `core/geo_indistinguishability.py`: the polar-Laplace noise used by that legacy
+  pipeline.
 
-## Privacy Algorithm
+## What the legacy demo does (and does not) guarantee
 
-The system uses Geo-Indistinguishability to provide formal privacy guarantees while maintaining trajectory realism by:
-- Following actual road networks
-- Avoiding invalid locations (buildings, water bodies)
-- Maintaining continuous trajectories
-- Satisfying quality of service constraints
+The legacy demo pipeline follows roads, avoids buildings/water, keeps trajectories
+continuous, and satisfies a QoS radius — but the QoS cap + building-rejection are
+data-dependent, so it does **not** carry a valid ε-Geo-I guarantee. For the valid
+guarantees, use the thesis mechanisms (`core/mechanisms.py`) and the claim registry
+above.
 
-## CLI Demo
+## CLI Demo (legacy)
 
 ```bash
 python demo_trajectory_privacy.py

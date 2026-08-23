@@ -199,10 +199,11 @@ predictive/δ-location-set làm hướng beat-nε — thay cho một túi ngân 
   "academic có đảm bảo nhưng chưa deploy được / industry deploy được nhưng không
   có đảm bảo" mà luận văn lấp vào giữa.
 
-### 3.3 Tính khả thi on-device (đã đo trên chính data của project)
+### 3.3 Tính khả thi on-device (ước lượng bậc độ lớn — CHƯA đo cách ly on-device, R3-011)
 
-- Graph Bắc Kinh của project: 77.727 nodes / 208.994 edges = **33MB pickle**;
-  nếu pack mảng float32/int32 chỉ **~2,5MB**. Nhỏ hơn một tập podcast.
+- Graph Bắc Kinh dùng trong thực nghiệm: **13.813 nodes / 41.040 edges** (bbox thí
+  nghiệm, largest WCC; graph_sha256 9e44ec2a…d487); mảng float32/int32 cỡ vài MB.
+  (Không phải con số on-device đo cách ly — chỉ là ước lượng kích thước/bộ nhớ.)
 - Điện thoại thừa sức: offline maps (Organic Maps toàn Đức ~650MB, OsmAnd ~950MB,
   Google offline city 200–600MB *kèm routing turn-by-turn*). Một lần lấy mẫu
   exponential mechanism trên vài trăm–vài nghìn đỉnh **rẻ hơn một lần định tuyến**.
@@ -284,7 +285,8 @@ Mỗi scenario: (a) khả năng adversary, (b) data thấy, (c) thuộc tính ph
 3. **Viết lại QoS thành (α,δ)-usefulness** (Ch4/Ch5) — bỏ ngôn ngữ "hard cap",
    giữ đúng cách đo hiện có (bảng đã đo QoS = P[d≤200m]).
 4. **Thêm chương/section System Model** (Ch4) dùng §3.5 — nêu rõ local model,
-   cơ chế biết gì, adversary thấy gì, kèm tiền lệ đã ship + con số on-device 33MB.
+   cơ chế biết gì, adversary thấy gì, kèm tiền lệ đã ship + ước lượng bậc-độ-lớn
+   kích thước graph (13.813 nodes, vài MB) — KHÔNG phải latency on-device đo cách ly.
 5. **Viết lại chương đánh giá quanh taxonomy S1–S8** (Ch3/Ch5) — mỗi scenario có
    ví dụ tấn công thật, biến "chúng tôi nghĩ trông thực tế" thành "đối ứng vụ X
    có thật". Bổ sung S4 (averaging) làm limitation/future work đã định lượng.

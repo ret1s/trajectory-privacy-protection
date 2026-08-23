@@ -57,7 +57,8 @@ def test_two_vertex_bound():
     assert ratio <= new_bound + 1e-9, f"ratio {ratio} should be within new bound {new_bound}"
     # matches the verifier's hand-computed value exp(1.5) = 4.4817
     assert abs(ratio - math.exp(1.5)) < 1e-3, f"ratio {ratio} != exp(1.5)"
-    return ratio, old_bound, new_bound
+    print(f"[PASS] two-vertex: ratio={ratio:.4f}  old={old_bound:.4f} (violated) "
+          f"new={new_bound:.4f} (ok)")
 
 
 def test_random_finite_domain_bound(n=2000, seed=0):
@@ -86,12 +87,11 @@ def test_random_finite_domain_bound(n=2000, seed=0):
                 r = Kx[z] / Kxp[z]
                 worst = max(worst, r / bound)
                 assert r <= bound + 1e-9, f"violated: r={r} bound={bound}"
-    return worst  # should be <= 1.0
+    assert worst <= 1.0 + 1e-9
+    print(f"[PASS] {n} random finite-domain checks; worst ratio/bound = {worst:.4f} (<=1)")
 
 
 if __name__ == "__main__":
-    ratio, ob, nb = test_two_vertex_bound()
-    print(f"[PASS] two-vertex: ratio={ratio:.4f}  old={ob:.4f} (violated) new={nb:.4f} (ok)")
-    worst = test_random_finite_domain_bound()
-    print(f"[PASS] 2000 random finite-domain checks; worst ratio/bound = {worst:.4f} (<=1)")
+    test_two_vertex_bound()
+    test_random_finite_domain_bound()
     print("All PR privacy-bound tests passed.")

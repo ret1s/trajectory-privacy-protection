@@ -97,13 +97,24 @@ Cần tách ba trường hợp khác nhau (theo phản biện V-010/R2-011); ch�
 
 \begin{menhde}[Điều kiện hóa trên tập cho phép công khai cố định --- giữ $2\eps$]
 \label{prop:fixedaccept}
-Cho tập cho phép \emph{cố định, công khai} $A$ (độc lập với input) với
-$K(A\mid x)>0$ mọi $x$. Cơ chế điều kiện $K_A(z\mid x)=K(z\mid x)/K(A\mid x)$ thỏa
+\emph{Giả thiết.} base kernel $K$ thỏa $\eps$-Geo-I trên $(X,\dEu)$ (tức
+$K(z\mid x)\le e^{\eps\dEu(x,x')}K(z\mid x')$ mọi $x,x',z$), và $A$ là tập cho
+phép \emph{cố định, công khai} (độc lập input) với $K(A\mid x)>0$ mọi $x$.
+Cơ chế điều kiện được định nghĩa \emph{với indicator} $\mathbf 1_A$ để là một
+phân phối hợp lệ (khối lượng $0$ ngoài $A$):
 \[
-\frac{K_A(z\mid x)}{K_A(z\mid x')}
-= \frac{K(z\mid x)}{K(z\mid x')}\cdot\frac{K(A\mid x')}{K(A\mid x)}
+K_A(z\mid x)=\frac{\mathbf 1_A(z)\,K(z\mid x)}{K(A\mid x)} .
+\]
+Khi đó với \emph{mọi} biến cố đo được $S$,
+\[
+\frac{K_A(S\mid x)}{K_A(S\mid x')}
+=\frac{K(S\cap A\mid x)}{K(S\cap A\mid x')}\cdot\frac{K(A\mid x')}{K(A\mid x)}
 \le e^{\eps \dEu(x,x')}\cdot e^{\eps \dEu(x,x')} = e^{2\eps \dEu(x,x')}.
 \]
+Cả hai giả thiết đều \emph{bắt buộc}: bỏ giả thiết $\eps$-Geo-I (ví dụ
+$K(\cdot\mid a)=\delta_0$, $K(\cdot\mid b)=\delta_1$, $A=\{0,1\}$) cho tỷ số vô
+hạn dù $K(A\mid\cdot)=1$; bỏ $\mathbf 1_A$ (ví dụ $K=(\tfrac12,\tfrac12)$,
+$A=\{0\}$) cho ``khối lượng'' $(1,1)$ tổng bằng $2$ --- không phải phân phối.
 \end{menhde}
 
 \begin{menhde}[Lấy mẫu lại theo vùng cấm \emph{phụ thuộc input} phá vỡ Geo-I]
@@ -175,10 +186,13 @@ dùng Euclid thì phát biểu Euclid, dùng graph thì chỉ được phát bi�
 miền đầu ra rời rạc/on-road không phá lập luận exponential mechanism.
 \end{nhanxet}
 
-\begin{nhanxet}[Tính thực tế theo cấu trúc]
-Mọi đầu ra của REM là một đỉnh đường: các tấn công lọc theo tính hợp lý không
-gian (map-matching, phát hiện điểm trên mặt nước --- cơ sở của
-RAoPT~\cite{buchholz2022raopt}) không còn thông tin để khai thác.
+\begin{nhanxet}[Tính thực tế theo cấu trúc (không phải bằng chứng kháng tấn công)]
+Mọi đầu ra của REM là một đỉnh đường, nên \emph{không còn khối off-road để lọc}:
+đây là tính chất \emph{cấu trúc} triệt tiêu bề mặt map-matching mà
+RAoPT~\cite{buchholz2022raopt} khai thác. Đây KHÔNG phải bằng chứng kháng tấn
+công theo nghĩa định lượng --- cần chạy chính RAoPT đối kháng để đo (hướng phát
+triển, Chương~\ref{ch:tongket}); ta chỉ khẳng định bề mặt tấn công off-road bị
+loại bỏ theo cấu trúc.
 \end{nhanxet}
 
 \begin{nhanxet}[Tập ứng viên cố định --- không dùng cutoff]
@@ -189,8 +203,10 @@ công khai), không dùng bất kỳ cutoff nào quanh điểm thật. Đây là
 thật $x$), hai điểm $\eps$-sát nhau nhưng ở hai phía biên cutoff của một đỉnh $v$
 cho $P[M(x){=}v]>0$ trong khi $P[M(x'){=}v]=0$ --- likelihood ratio vô hạn, phá
 vỡ pure Geo-I (khối lượng đuôi nhỏ không cứu được). Chi phí full-support cho đồ
-thị Bắc Kinh ($|V|\approx 78$k đỉnh) là một 2-norm vector hóa cộng một lần lấy mẫu
-categorical mỗi release, dưới mili-giây --- trong ngân sách thời gian thực của LBS.
+thị Bắc Kinh ($|V|=13{,}813$ đỉnh) là một 2-norm vector hóa cộng một lần lấy mẫu
+categorical mỗi release, tức $O(|V|)$ mỗi bước. Luận văn \emph{không} tuyên bố một
+con số độ trễ cô lập hay trên thiết bị di động (R3-011); thời gian chạy thực tế
+theo $(\text{cơ chế},\eps)$ được ghi trong provenance của benchmark.
 \end{nhanxet}
 
 \section{T-REM: Bổ sung ràng buộc thời gian với trọng số công khai}
@@ -250,8 +266,11 @@ revisit thì rò rỉ (Nhận xét~\ref{rmk:notrajectory}).
 
 Mọi cơ chế nhiễu độc lập theo thời gian --- kể cả REM/T-REM --- đều rò rỉ dưới
 \emph{báo cáo lặp từ một vị trí tĩnh}: kẻ tấn công thấy $n$ release độc lập
-$z_1,\dots,z_n$ của cùng một điểm thật $x$ (ví dụ ở nhà qua đêm) và lấy trung
-bình; ước lượng hội tụ về $x$ với sai số $O(1/\sqrt{n})$.
+$z_1,\dots,z_n$ của cùng một điểm thật $x$ (ví dụ ở nhà qua đêm). Trung bình mẫu
+hội tụ về $\mathbb{E}[Z\mid x]$ với sai số $O(1/\sqrt n)$ --- bằng $x$ với cơ chế
+\emph{không thiên} (Laplace phẳng), nhưng lệch một hằng số với REM trên support
+bị chặn/on-road (nên trung bình mẫu \emph{không} phải attacker đúng cho REM ---
+xem Mục~\ref{sec:averaging-multi}, ở đó dùng MLE nhắm thẳng $x$).
 Đây là phát biểu hình thức trong~\cite{chatzikokolakis2014predictive} (``khi
 người dùng không di chuyển\ldots các vị trí báo cáo tập trung quanh vị trí thật,
 lộ hoàn toàn nó khi số truy vấn tăng''), và là cơ chế đằng sau vụ Strava khôi
@@ -273,8 +292,10 @@ không có phép thử phụ thuộc dữ liệu.
 
 \begin{dinhly}[Đảm bảo cho vị trí tĩnh lặp lại --- phạm vi hẹp có chủ ý]
 \label{thm:smrem}
-Cố định một vị trí thật $x$ thuộc ô $C$ và cho người dùng báo cáo $x$ đúng $T$
-lần. Gọi $Z \sim \mathrm{REM}(\mathrm{rep}(C))$ là release đầu. Transcript
+\emph{Giả thiết khởi tạo:} cache rỗng cho ô $C$ ở đầu scope (hoặc một trạng thái
+cache/reset công khai chung). Cố định một vị trí thật $x$ thuộc ô $C$ và cho
+người dùng báo cáo $x$ đúng $T$ lần. Gọi $Z \sim \mathrm{REM}(\mathrm{rep}(C))$
+là release đầu (cache miss đầu tiên). Transcript
 $(Z,\dots,Z)$ là hậu xử lý xác định của \emph{một} mẫu $Z$, nên: (i) thừa hưởng
 đảm bảo $\eps$-Geo-I mức-ô của $Z$; và (ii) mang đúng lượng thông tin của một
 release bất kể $T$ --- trung bình số học của $T$ bản sao giống hệt không giảm
@@ -306,8 +327,10 @@ phát triển (Chương~\ref{ch:tongket}), không phải phần đã chứng min
 \begin{nhanxet}[Cũng không phải Geo-I Euclid --- gián đoạn ở biên]
 \label{rmk:boundary}
 Ngay ở mức một release, quantize $x \to \mathrm{rep}(C)$ là rời-rạc-hóa phía đầu
-vào: hai điểm sát nhau hai bên biên ô nhận release độc lập, tỷ số tới
-$\exp(\eps\cdot\text{cellwidth})$. SM-REM vì thế \emph{không} thỏa $\eps$-Geo-I
+vào: hai điểm sát nhau hai bên biên ô nhận release độc lập. Trường hợp xấu nhất là
+hai điểm hai bên một \emph{góc} rơi vào hai ô chéo nhau, có representative cách
+nhau $\sqrt{2}\,g$, cho tỷ số tới $\exp(\eps\cdot\sqrt{2}\,g)$ (biên cạnh kề chỉ
+cho $\exp(\eps\cdot g)$). SM-REM vì thế \emph{không} thỏa $\eps$-Geo-I
 Euclid như REM/T-REM --- \textbf{không thể vừa có Geo-I Euclid sạch vừa có
 memoization chống averaging từ cùng một tham số}; đây đúng là lý do Android
 \texttt{LocationFudger} ghép snap-to-grid với offset ngẫu nhiên bền. Mặc định
@@ -315,7 +338,7 @@ $g=60$m; release snap về đỉnh đường dùng chung nên giá trị nhất 
 thành fingerprint duy nhất.
 \end{nhanxet}
 
-\section{PR-SM-REM: reuse riêng tư và đảm bảo w-event}
+\section{PR-SM-REM: reuse riêng tư với chặn per-step hữu hạn}
 \label{sec:prsmrem}
 
 Nhận xét~\ref{rmk:notrajectory} chỉ ra vì sao SM-REM \emph{không} có đảm bảo toàn
@@ -398,12 +421,20 @@ $\eps_{\text{test}}+\eps_{\text{release}}=\eps$ (thực nghiệm dùng
 $\eps_{\text{test}}=\eps_{\text{release}}=\eps/2$).
 \end{nhanxet}
 
-\begin{nhanxet}[Đánh đổi thực nghiệm và phạm vi]
+\begin{nhanxet}[Chống-averaging là hữu-hạn-horizon, không tuyệt đối (R3-004)]
 So với SM-REM (memo chính xác), PR-SM-REM \emph{yếu hơn} về chống-averaging thực
-nghiệm nhưng có chặn per-step hữu hạn hợp lệ. Trạng thái chỉ là \emph{release
-trước đó} nên nó là \emph{predictive reuse} của điểm liền trước, \emph{không phải}
-memoization bền vững: mẫu rời-rồi-quay-lại (nhà$\to$chỗ làm$\to$nhà) không được
-nhớ (verifier R2-007). $\theta$ phải công khai.
+nghiệm nhưng có chặn per-step hữu hạn hợp lệ. Quan trọng: với $\theta$,
+$\eps_{\text{test}}$, $d$ hữu hạn, xác suất resample
+$q_x=1-F_{\mathrm{Lap}}(\theta-d(x,h))$ luôn nằm chặt trong $(0,1)$ --- một người
+dùng \emph{tĩnh} vẫn resample với xác suất dương mỗi bước (tại $d{=}\theta$,
+$q{=}1/2$, nên xác suất không resample trong 100 bước là $2^{-100}$), và người
+dùng \emph{di chuyển} vẫn reuse với xác suất dương. Vì vậy PR-SM-REM \emph{giảm}
+số mẫu tươi hữu hiệu trên một horizon hữu hạn; nó \emph{không} memoize tuyệt đối
+và \emph{không} làm averaging bất khả thi tiệm cận --- khác hẳn tính chất
+static-same-cell của SM-REM, không được gộp hai loại. Trạng thái chỉ là
+\emph{release trước đó} nên là \emph{predictive reuse} của điểm liền trước,
+\emph{không phải} memoization bền vững: mẫu rời-rồi-quay-lại (nhà$\to$chỗ
+làm$\to$nhà) không được nhớ (verifier R2-007). $\theta$ phải công khai.
 \end{nhanxet}
 
 \section{Thuật toán và độ phức tạp}
@@ -419,8 +450,9 @@ nhớ (verifier R2-007). $\theta$ phải công khai.
 \end{enumerate}
 
 Chi phí mỗi điểm là $O(|V|)$ phép tính vector hóa (một 2-norm trên $|V|$ đỉnh +
-một argmax); với đồ thị Bắc Kinh $|V|=13\,813$ đỉnh dùng trong thực nghiệm, chi
-phí này dưới mili-giây trong reference implementation Python. (Đây là chi phí của
-riêng bước lấy mẫu; con số benchmark tổng gồm cả metrics và attackers nên không
-dùng làm latency claim on-device --- cần đo cách ly trên phần cứng mobile, xem
-Chương~\ref{ch:tongket}.)
+một argmax); với đồ thị Bắc Kinh $|V|=13\,813$ đỉnh dùng trong thực nghiệm. Luận
+văn \emph{không} tuyên bố một con số độ trễ tuyệt đối (dưới mili-giây hay tương
+tự) hoặc trên thiết bị di động: chưa có phép đo cách ly (R3-011). Thời gian chạy
+theo $(\text{cơ chế},\eps)$ chỉ được ghi lại trong provenance của benchmark như
+số liệu tham khảo bao gồm cả metrics và attackers --- cần đo cách ly trên phần
+cứng mobile để có latency claim on-device (xem Chương~\ref{ch:tongket}).

@@ -27,7 +27,7 @@ def test_gumbel_span_is_bounded(n=2_000_000, seed=0):
     g = np.random.default_rng(seed).gumbel(size=n)
     span = float(g.max() - g.min())
     assert span <= MAX_SPAN + 1e-6, f"observed span {span} exceeds theoretical {MAX_SPAN}"
-    return span
+    print(f"[PASS] Gumbel span bounded: observed {span:.4f} <= theoretical {MAX_SPAN:.4f}")
 
 
 def test_far_candidate_is_unreachable(gap=45.0, draws=200_000, seed=0):
@@ -44,13 +44,13 @@ def test_far_candidate_is_unreachable(gap=45.0, draws=200_000, seed=0):
     ideal_p = math.exp(-gap) / (1.0 + math.exp(-gap))
     assert gap > MAX_SPAN, "test only meaningful when gap exceeds the Gumbel span"
     assert wins_far == 0, f"far candidate won {wins_far} times (should be 0 in finite precision)"
-    return wins_far, ideal_p
+    assert ideal_p > 0
+    print(f"[PASS] far candidate (gap {gap:g} > span {MAX_SPAN:.2f}): executable wins="
+          f"{wins_far}, ideal prob={ideal_p:.3e} > 0  → input-dependent zero support "
+          "(documented, not fixed)")
 
 
 if __name__ == "__main__":
-    span = test_gumbel_span_is_bounded()
-    print(f"[PASS] Gumbel span bounded: observed {span:.4f} <= theoretical {MAX_SPAN:.4f}")
-    wins, ideal_p = test_far_candidate_is_unreachable()
-    print(f"[PASS] far candidate (gap 45 > span {MAX_SPAN:.2f}): executable wins={wins}, "
-          f"ideal prob={ideal_p:.3e} > 0  → input-dependent zero support (documented, not fixed)")
+    test_gumbel_span_is_bounded()
+    test_far_candidate_is_unreachable()
     print("Sampler-support limitation is version-checked. Executable ≠ ideal kernel.")

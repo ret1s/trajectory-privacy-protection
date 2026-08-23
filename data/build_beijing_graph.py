@@ -50,6 +50,9 @@ def build():
             shutil.copyfileobj(fi, fo)
 
     b = BEIJING_BBOX  # (min_lat, min_lon, max_lat, max_lon)
+    # NOTE (verifier R3-013): no network_type filter — this is a MULTIMODAL graph
+    # (drive + walk + cycle edges). Use-case claims should therefore be
+    # multimodal / pedestrian-inclusive, not unqualified "drive/ride-hailing".
     G = ox.graph_from_xml(XML, simplify=True, retain_all=True)
     G = ox.truncate.truncate_graph_bbox(G, bbox=(b[1], b[0], b[3], b[2]))
     G = G.subgraph(max(nx.weakly_connected_components(G), key=len)).copy()
@@ -57,6 +60,13 @@ def build():
     import pickle
     with open(PKL, "wb") as f:
         pickle.dump(G, f)
+
+    # Edge-class distribution (R3-013): report the highway profile explicitly.
+    from collections import Counter
+    hw = Counter()
+    for _, _, d in G.edges(data=True):
+        h = d.get("highway")
+        hw[h if isinstance(h, str) else (h[0] if isinstance(h, list) and h else "unknown")] += 1
 
     lats = [d["y"] for _, d in G.nodes(data=True)]
     lons = [d["x"] for _, d in G.nodes(data=True)]
@@ -69,6 +79,8 @@ def build():
         "build": "graph_from_xml(simplify=True, retain_all=True); "
                  "truncate_graph_bbox(left,bottom,right,top); largest weakly-connected component",
         "bbox_geolife_min_lat_min_lon_max_lat_max_lon": list(BEIJING_BBOX),
+        "network_profile": "all (unfiltered multimodal: drive+walk+cycle; verifier R3-013)",
+        "edge_highway_distribution": dict(hw.most_common()),
         "nodes": G.number_of_nodes(),
         "edges": G.number_of_edges(),
         "weak_components": nx.number_weakly_connected_components(G),
