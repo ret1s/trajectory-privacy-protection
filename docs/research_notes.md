@@ -94,27 +94,35 @@ Vì w độc lập với vị trí thật, chặn ε-Geo-I per-point **không đ
 
 ### Benchmark (`experiments/run_benchmark.py`, 20 quỹ đạo GeoLife thật, Bắc Kinh, sampling 20s, QoS 200m)
 
+*(Số liệu order-independent seed R2-009, graph 13.813 nodes; khớp Table 5.1 luận văn.
+Cột attacker là REM-emission **proxy** — cận trên cho non-REM, xem caveat cuối mục.)*
+
 | ε | Mechanism | Q_loss (m) | QoS | On-road | Speed-viol | Bayes err (m) | HMM err (m) |
 |---|---|---|---|---|---|---|---|
-| 0.01 | Planar Laplace | 205.6 | 0.59 | 0.58 | 0.08 | 200.5 | 134.8 |
-| 0.01 | Baseline internship-2 | 94.9 | 0.99 | 0.97 | 0.00 | 95.6 | 80.2 |
-| 0.01 | REM | 370.6 | 0.31 | **1.00** | 0.35 | 369.9 | **265.1** |
-| 0.01 | **T-REM** | 307.2 | 0.35 | **1.00** | **0.06** | 309.5 | 233.6 |
-| 0.02 | Planar Laplace | 102.8 | 0.89 | 0.63 | 0.01 | 98.9 | 78.0 |
-| 0.02 | Baseline internship-2 | 80.0 | 1.00 | 0.99 | 0.00 | 79.8 | 74.9 |
-| 0.02 | REM | 180.2 | 0.67 | **1.00** | 0.06 | 181.8 | 127.4 |
-| 0.02 | **T-REM** | 175.8 | 0.66 | **1.00** | **0.01** | 174.3 | 129.2 |
-| 0.05 | Planar Laplace | 41.1 | 1.00 | 0.68 | 0.00 | 41.0 | 37.9 |
-| 0.05 | Baseline internship-2 | 68.8 | 1.00 | 0.99 | 0.00 | 69.4 | 68.6 |
-| 0.05 | REM | 72.1 | 0.97 | **1.00** | 0.00 | 73.7 | 64.6 |
-| 0.05 | **T-REM** | 75.5 | 0.96 | **1.00** | 0.00 | 76.3 | 67.6 |
+| 0.01 | Planar Laplace | 205.7 | 0.59 | 0.43 | 0.08 | 200.6 | 125.9 |
+| 0.01 | Baseline internship-2 | 93.4 | 1.00 | 0.98 | 0.00 | 95.2 | 81.1 |
+| 0.01 | REM | 377.3 | 0.31 | **1.00** | 0.37 | 375.4 | 183.3 |
+| 0.01 | **T-REM** | 321.4 | 0.36 | **1.00** | **0.07** | 319.8 | **220.0** |
+| 0.02 | Planar Laplace | 99.8 | 0.90 | 0.49 | 0.00 | 99.1 | 76.9 |
+| 0.02 | Baseline internship-2 | 78.8 | 1.00 | 0.98 | 0.00 | 80.1 | 75.1 |
+| 0.02 | REM | 175.4 | 0.65 | **1.00** | 0.04 | 174.0 | 121.3 |
+| 0.02 | **T-REM** | 180.5 | 0.63 | **1.00** | **0.03** | 179.3 | 123.5 |
+| 0.05 | Planar Laplace | 40.1 | 1.00 | 0.58 | 0.00 | 44.4 | 38.4 |
+| 0.05 | Baseline internship-2 | 71.2 | 1.00 | 0.98 | 0.00 | 72.6 | 72.2 |
+| 0.05 | REM | 69.0 | 0.98 | **1.00** | 0.00 | 69.2 | 61.5 |
+| 0.05 | **T-REM** | 71.5 | 0.97 | **1.00** | 0.00 | 71.5 | 63.7 |
 
 **Đọc kết quả:**
-- **HMM attack luôn mạnh hơn point attack** (vd PL@0.01: 200.5→134.8m, giảm 33%) — bằng chứng thực nghiệm rằng đánh giá per-point là không đủ.
-- **Planar Laplace để 32–42% điểm ngoài đường** — đúng bề mặt tấn công RAoPT; REM/T-REM 100% trên đường theo cấu trúc.
-- **T-REM sửa lỗi lộ liễu của REM**: speed violation 35%→6% tại ε=0.01, đồng thời *giảm* Q_loss (370→307m).
-- **So ở cùng mức utility** (~PL@0.01 disp 205.6m vs T-REM@0.02 disp 175.8m): T-REM cho sai số attacker tương đương (129 vs 135m) với **utility tốt hơn, QoS cao hơn (0.66 vs 0.59), 100% on-road, không speed-leak** — trội trên mọi trục còn lại.
+- **HMM attack luôn mạnh hơn point attack** (vd PL@0.01: 200.6→125.9m, giảm ~37%) — bằng chứng thực nghiệm rằng đánh giá per-point là không đủ.
+- **Planar Laplace để 42–57% điểm ngoài đường** — đúng bề mặt tấn công RAoPT; REM/T-REM 100% trên đường theo cấu trúc.
+- **T-REM sửa lỗi lộ liễu của REM**: speed violation 37%→7% tại ε=0.01, đồng thời *giảm* Q_loss (377→321m).
+- **So ở cùng mức utility** (~PL@0.01 disp 205.7m vs T-REM@0.02 disp 180.5m): T-REM cho sai số attacker tương đương (123.5 vs 125.9m) với **QoS cao hơn (0.63 vs 0.59), 100% on-road, không speed-leak** — nhưng lưu ý attacker là proxy nên không dùng bảng này để kết luận superiority định lượng.
 - Baseline có số đẹp ở cùng ε danh nghĩa **nhưng ε danh nghĩa của nó không phải guarantee hợp lệ** (mục 4) — đây là luận điểm trung tâm khi so sánh.
+
+**Caveat trung thực (verifier R2-004/R2-006/R2-010):**
+- Cột **Bayes/HMM err** dùng attacker **REM-emission proxy** — đúng tối ưu cho REM, còn với PlanarLaplace/Baseline/SM-REM/PR-SM-REM là *xấp xỉ*, KHÔNG phải optimal attacker. Số attacker là **cận trên của sai số adversary** cho các cơ chế đó, không phải bound chặt.
+- Mọi claim ε-Geo-I là cho **ideal real-arithmetic kernel**; sampler float64 (Gumbel-max) có finite-precision zero-support (`tests/test_sampler_support.py`).
+- Bảng chuẩn (authoritative) là **Table 5.1** trong luận văn + `outputs/benchmark_results.json` (có provenance: git commit, graph SHA-256, seed order-independent theo R2-009). Bảng ở đây là bản rút gọn 4 cơ chế lõi để so REM vs T-REM; SM-REM/PR-SM-REM đo riêng ở S4 averaging study (`outputs/averaging_multi_results.json`).
 
 ---
 

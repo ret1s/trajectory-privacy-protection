@@ -21,8 +21,8 @@ nghiêm trọng: \emph{(i)} việc chặn bán kính nhiễu quanh vị trí th�
 đầu ra trên vị trí thật, đồng thời chính loại ``lọc theo tính hợp lý'' này là bề
 mặt mà các tấn công tái tạo hiện đại như RAoPT~\cite{buchholz2022raopt} khai thác.
 
-Luận văn này kế thừa mục tiêu của Thực tập 2 nhưng thay thế cơ chế lõi bằng hai cơ
-chế mới hoạt động \emph{ngay trên lưới đường}:
+Luận văn này kế thừa mục tiêu của Thực tập 2 nhưng thay thế cơ chế lõi bằng bốn
+cơ chế mới hoạt động \emph{ngay trên lưới đường}:
 
 \begin{itemize}
   \item \textbf{REM} (Road-network Exponential Mechanism): cơ chế lũy thừa trên
@@ -40,11 +40,17 @@ chế mới hoạt động \emph{ngay trên lưới đường}:
   stay-point (khôi phục địa chỉ nhà) trong phạm vi một cache-lifetime, rủi ro
   thực tế nghiêm trọng mà các cơ chế nhiễu độc lập bỏ ngỏ.
   \item \textbf{PR-SM-REM}: thay quyết định memoize chính xác (vốn rò pattern
-  revisit) bằng \emph{phép thử reuse có nhiễu} (kiểu predictive mechanism +
-  w-event), đạt đảm bảo \emph{trajectory-level} w-event $\eps_w$-Geo-I thật ---
-  đổi một phần sức chống-averaging thực nghiệm lấy một guarantee hợp lệ trên cả
-  chuỗi.
+  revisit) bằng \emph{phép thử reuse có nhiễu} (kiểu predictive mechanism), cho
+  chặn per-release $(\eps_{\text{test}}+\eps_{\text{release}})$-Geo-I hữu hạn ---
+  đóng lỗ hổng tỷ-số-vô-hạn của memo chính xác, đổi một phần sức chống-averaging
+  lấy một chặn hợp lệ. (Chặn w-event scalar đầy đủ cần một budget manager theo cửa
+  sổ --- chưa cài, là hướng phát triển.)
 \end{itemize}
+
+Lưu ý xuyên suốt: các đảm bảo $\eps$-Geo-I được chứng minh cho \emph{ideal
+real-arithmetic kernel}; hiện thực dấu-phẩy-động là một xấp xỉ số học (có
+artefact hữu-hạn-độ-chính-xác, xem Mục~\ref{sec:prsmrem} và
+Chương~\ref{ch:tongket}).
 
 Đồng thời, đối chiếu với hệ thống thực tế dẫn tới việc \emph{phát biểu lại bài
 toán}: LBS không cần vị trí chính xác mà cần mức granularity tối thiểu theo mục

@@ -7,39 +7,44 @@ Tính đến bản cập nhật này, luận văn đã: (1)~phát biểu lại b
 triển khai thực tế (local/on-device, granularity theo mục đích, $(\alpha,\delta)$-hữu
 dụng, bảo vệ endpoint) với bảng yêu cầu ánh xạ vào harm thực tế; (2)~chỉ ra và
 chứng minh hình thức các lỗi phá vỡ đảm bảo Geo-I trong pipeline Thực tập 2;
-(3)~đề xuất REM --- cơ chế lũy thừa trên tập đỉnh lưới đường với chứng minh
-$\eps$-Geo-I Euclid đầy đủ (bản Euclid của GEM~\cite{takagi2019geo}), đầu ra nằm
-trên đường theo cấu trúc; (4)~đề xuất T-REM --- trọng số khả đạt chỉ phụ thuộc
-thông tin công khai, không đổi đảm bảo per-point, đóng kênh velocity-linkage;
-(5)~đề xuất SM-REM --- memoization theo lưới công khai, chứng minh đóng tấn công
-averaging tại stay-point (Định lý~\ref{thm:smrem}), lấp đúng lỗ hổng mà bản PTPPM
+(3)~đề xuất REM --- cơ chế lũy thừa trên \emph{toàn bộ} tập đỉnh lưới đường cố
+định với chứng minh $\eps$-Geo-I Euclid cho ideal kernel (bản Euclid của
+GEM~\cite{takagi2019geo}), đầu ra nằm trên đường theo cấu trúc; (4)~đề xuất T-REM
+--- trọng số khả đạt chỉ phụ thuộc thông tin công khai, không đổi đảm bảo
+per-release, \emph{giảm} tín hiệu speed-implausibility (không claim đóng hẳn
+velocity attack); (5)~đề xuất SM-REM (đảm bảo cho vị trí tĩnh lặp lại,
+Định lý~\ref{thm:smrem}) và \textbf{PR-SM-REM} (reuse riêng tư, chặn per-release
+$(\eps_{\text{test}}{+}\eps_{\text{release}})$-Geo-I hữu hạn,
+Định lý~\ref{thm:prsmrem}) --- nhắm kịch bản averaging mà bản PTPPM
 stateless~\cite{min2025road} bỏ ngỏ; (6)~bộ khung đánh giá theo chuẩn văn liệu
-(Bayes, HMM, averaging, quality loss, k-NN POI, tính thực tế) trên dữ liệu GPS
-thật; (7)~hệ thống mô phỏng ba góc nhìn gắn với kịch bản đời thực.
+(Bayes/HMM proxy dạng-REM, averaging đa-home 40$\times$8 với bootstrap CI,
+quality loss, k-NN POI tổng hợp, tính thực tế) trên dữ liệu GPS thật; (7)~hệ
+thống mô phỏng ba góc nhìn gắn với kịch bản đời thực. Mọi đảm bảo là cho ideal
+real-arithmetic kernel (Nhận xét~\ref{rmk:finiteprec}).
 
 \section{Hạn chế hiện tại}
 
-(1)~Thực nghiệm mới trên một thành phố, 20 quỹ đạo, một seed --- cần mở rộng
-quy mô và thêm Porto Taxi làm dataset thứ hai với khoảng tin cậy thống kê.
-(2)~Tuyên bố ``kháng tấn công tái tạo'' mới dựa trên lập luận cấu trúc; cần
-kiểm chứng bằng cách chạy trực tiếp RAoPT~\cite{buchholz2022raopt}.
-(3)~Hiện thực REM dùng cắt ngưỡng bán kính ứng viên quanh điểm thật
-(Nhận xét~\ref{rmk:cutoff}); dù khối lượng bị cắt dưới $10^{-4}$, phiên bản tập
-ứng viên cố định công khai cần được hình thức hóa trọn vẹn. (4)~SM-REM đổi
-$\eps$-Geo-I Euclid lấy anti-averaging: nó chỉ thỏa Geo-I \emph{ở mức ô lưới} và
-có gián đoạn ở biên ô (Nhận xét~\ref{rmk:boundary}) --- đây là đánh đổi cơ bản,
-không phải khiếm khuyết vá được bằng cùng tham số. (5)~Đảm bảo toàn quỹ đạo mới
-ở mức $T\eps$ / số ô riêng biệt $\times\,\eps$; guarantee w-event và xử lý
-temporal-privacy-leakage đầy đủ còn là hướng phát triển. (6)~S6 (tái định danh
-qua tính duy nhất của cả quỹ đạo) chỉ được vá một phần --- nhiễu per-point không
-xóa được rằng mẫu nhà$\to$chỗ làm tự nó là định danh; và các yêu cầu R8--R12
-(xoay định danh, consent, retention, minh bạch) nằm ngoài phạm vi một cơ chế
-nhiễu tọa độ. (7)~Chưa chạy RAoPT và chưa so với GEM (metric đường đi ngắn nhất)
-và PIM. (8)~Các hạn chế do kiểm chứng độc lập chỉ ra và đang mở (chi tiết ở
-\texttt{docs/reviews/}): đánh giá averaging mới trên một home/seed (cần đa-home +
-CI); vòng đời cache (TTL, cross-session) chưa định nghĩa; likelihood adversary
-mới chính xác cho REM (T-REM/SM-REM còn dùng adversary REM-emission xấp xỉ);
-provenance thí nghiệm (seed dẫn xuất, hash, khoảng tin cậy) chưa đầy đủ.
+\textbf{Hiện thực hữu-hạn-độ-chính-xác không phải pure Geo-I.} Sampler Gumbel-max
+và phép thử Laplace dùng RNG 53-bit nên có zero-support phụ thuộc input
+(Nhận xét~\ref{rmk:finiteprec}); đảm bảo chỉ đúng cho ideal kernel. Exact discrete
+sampler = hướng phát triển.
+
+\textbf{Attacker là proxy, chưa optimal.} Bayes/HMM/averaging dùng likelihood
+dạng-REM, chính xác cho REM nhưng là proxy cho T-REM/SM-REM/PR-SM-REM; GPS jitter
+chưa vào likelihood. Một attacker sequential đúng của PR mạnh hơn proxy (chẩn đoán
+độc lập của verifier). Do đó \emph{không} dùng chênh lệch proxy để claim cơ chế
+này vượt cơ chế kia; cần attacker mechanism-aware + jitter-aware đầy đủ.
+
+\textbf{Đảm bảo trajectory chưa đầy đủ.} PR-SM-REM mới có chặn per-release; một
+scalar $\eps_w$ w-event cần budget manager theo cửa sổ (chưa cài). SM-REM chỉ đảm
+bảo vị trí tĩnh lặp lại, pattern revisit rò rỉ.
+
+\textbf{Phạm vi \& provenance.} Artifact là reference mechanism + simulator Flask
+phía server, chưa phải hiện thực on-device; cache/định danh lifecycle (R8--R12)
+ngoài phạm vi. Averaging đa-home dùng stay-point (không phải nhãn cư trú), moving
+benchmark còn một-seed; clean-clone provenance (build script, seed dẫn xuất, raw
+rows, dependency lock) đang bổ sung. Chưa chạy RAoPT; chưa so GEM (metric đường
+đi ngắn nhất)/PIM. Chi tiết đối chiếu ở \texttt{docs/reviews/}.
 
 \section{Hướng phát triển}
 

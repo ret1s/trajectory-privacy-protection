@@ -238,34 +238,30 @@ class HMMTrackingAttack:
 
 
 class AveragingAttack:
-    """Repeated-report / home-inference attack (scenario S4), with the CORRECT
-    adversary estimator.
+    """Repeated-report / home-inference attack (scenario S4).
 
     Models the documented harm (Strava home-zone recovery, Hassan et al. USENIX
     Sec 2018; data-broker home fingerprinting): a user reports n times from one
-    static home; the adversary combines the releases.
+    static location; the adversary combines the releases. Two estimators per n:
 
-    Two estimators are reported per n, because the estimator choice is the whole
-    story (verifier V-004/V-005; derivation in the exact-likelihood notes):
+      * `mean`  — naive sample mean. Consistent only when the emission is
+        symmetric about x (planar Laplace); for the exponential mechanisms
+        E[Z|x] ≠ x, so it is BIASED and its plateau is an estimator artefact,
+        NOT a privacy property.
 
-      * `mean`  — the naive sample mean of the releases. Consistent (→ truth)
-        only when the emission is symmetric about x (planar Laplace). For the
-        exponential mechanisms over a bounded/inhomogeneous vertex set,
-        E[Z|x] ≠ x, so the sample mean is BIASED and plateaus at ‖E[Z|x]−x‖ —
-        it wrongly suggests REM/T-REM "resist" averaging.
+      * `mle`   — a REM-EMISSION-FORM maximum-likelihood estimator:
+            x̂ = argmax_x [ −a·Σ_i d(x,z_i) − n·logZ(x) ],  a = scale·ε.
+        This is EXACT only for REM under a vertex-secret, no-jitter, iid model.
+        It is applied uniformly as a PROXY to the other mechanisms; it is NOT
+        their optimal/mechanism-aware attacker (verifier R2-004): it ignores
+        GPS jitter, the continuous secret domain, T-REM's history-dependent
+        normaliser, and SM/PR's equality/reuse events. An exact PR sequential-
+        kernel attacker is materially stronger. So results for T-REM/SM/PR are
+        an optimistic upper bound on this proxy and MUST NOT be used to claim
+        one mechanism beats another.
 
-      * `mle`   — the consistent maximum-likelihood attack with the exact REM
-        emission and its input-dependent normaliser:
-            x̂ = argmax_{x∈V} [ −a·Σ_i d(x,z_i) − n·logZ(x) ],  a = scale·ε.
-        For REM/T-REM this converges to the truth as n grows (so they do NOT
-        resist repeated observation — the flat mean curve was an estimator
-        artefact). For SM-REM every release is one memoised sample, so the MLE
-        error is independent of n — the anti-averaging property is real, but
-        only within one cache lifetime at one cell.
-
-    `jitter_m` adds Gaussian GPS noise to the true input per report (a
-    stationary user's fixes are not identical), which for a grid-memoised
-    mechanism can spill into neighbouring cells and reintroduce fresh draws.
+    `jitter_m` adds Gaussian GPS noise to the true input per report; for a
+    grid-memoised mechanism this can spill into neighbouring cells.
     """
 
     def __init__(self, road_network, epsilon, emission_scale=0.5, lognorm=None):
@@ -281,7 +277,8 @@ class AveragingAttack:
     def _mle(self, releases_xy, cand_radius=1200.0):
         """Consistent MLE attack: argmax_x [ −a·Σ_i d(x,z_i) − n·logZ(x) ].
         Candidate x ranges over vertices within `cand_radius` of the release
-        centroid (the argmax provably lies there; this is the attacker's own
+        centroid (the argmax lies there in practice — empirically checked, not
+        proven; this is the attacker's own
         search-space restriction, and logZ stays the exact full-V normaliser).
         Uses the released-vertex histogram as the sufficient statistic."""
         a = self.scale * self.epsilon

@@ -18,18 +18,22 @@ phía máy chủ trên dữ liệu tổng hợp}. Luận văn vì thế phát bi
 mức tối thiểu theo mục đích, on-device, trên lưới đường, với đảm bảo nhận thức
 endpoint và tương quan, đánh giá theo threat model rút từ các tấn công thật}.
 
-\paragraph{Mô hình hệ thống.} Cơ chế chạy \emph{client-side} (mô hình local),
-tại tầng vị trí của thiết bị --- tiền lệ đã triển khai cho hàng tỷ máy là Android
-\texttt{LocationFudger} và iOS approximate location, cùng Location Guard/LP-Doctor
-cho planar Laplace. Đây là nơi đặt duy nhất mà đảm bảo giữ được với \emph{mọi} bên
-downstream (máy chủ LBS, ad exchange, data broker, trát tòa). Cơ chế được biết:
-(a)~vị trí thật hiện tại; (b)~\emph{đồ thị đường công khai lưu trên thiết bị} (đo
-được 33MB cho toàn Bắc Kinh, nhỏ hơn nhiều so với bản đồ offline 200--950MB mà
-điện thoại vẫn chứa --- nên điều kiện hóa trên nó không tốn privacy, là
-post-processing); (c)~\emph{các điểm đã CÔNG BỐ trước đó của chính nó} (không phải
-vị trí thật quá khứ). Adversary thấy: điểm công bố on-road cộng metadata tầng
-truyền (timestamp, nội dung query, định danh có thể liên kết) --- mô hình hóa là
-LBS honest-but-curious hoặc broker giữ toàn bộ chuỗi công bố dưới một định danh.
+\paragraph{Mô hình hệ thống.} Kiến trúc \emph{đích} đặt cơ chế \emph{client-side}
+(mô hình local), tại tầng vị trí của thiết bị --- tiền lệ đã triển khai cho hàng
+tỷ máy là Android \texttt{LocationFudger} và iOS approximate location, cùng
+Location Guard/LP-Doctor cho planar Laplace. Đây là nơi đặt duy nhất mà đảm bảo
+giữ được với \emph{mọi} bên downstream (máy chủ LBS, ad exchange, data broker,
+trát tòa). \emph{Lưu ý phạm vi:} artifact trong luận văn là một \emph{reference
+mechanism} + simulator Flask phía server, \emph{chưa} phải một hiện thực mobile
+on-device; các vấn đề tích hợp OS, secure cache, TTL/rotation định danh là ngoài
+phạm vi (Chương~\ref{ch:tongket}). Cơ chế được biết: (a)~vị trí thật hiện tại;
+(b)~\emph{đồ thị đường công khai lưu trên thiết bị} ($\sim$5,9MB cho bbox thí
+nghiệm, nhỏ hơn nhiều so với bản đồ offline 200--950MB mà điện thoại vẫn chứa ---
+điều kiện hóa trên nó không tốn privacy, là post-processing); (c)~\emph{các điểm
+đã CÔNG BỐ trước đó của chính nó} (không phải vị trí thật quá khứ). Adversary
+thấy: điểm công bố on-road cộng metadata tầng truyền (timestamp, nội dung query,
+định danh có thể liên kết) --- mô hình hóa là LBS honest-but-curious hoặc broker
+giữ toàn bộ chuỗi công bố dưới một định danh.
 
 \paragraph{Yêu cầu thiết kế và phạm vi trung thực.} Bảng~\ref{tab:requirements}
 liệt kê các yêu cầu rút từ industry/pháp lý và harm chúng đối ứng. Cơ chế đề xuất
@@ -88,23 +92,34 @@ trong khi $\Pr[M_\delta(x') \in S] = 0$; không tồn tại hằng số hữu h�
 $e^{\eps\, \dEu(x,x')}$ chặn được tỷ số này.
 \end{proof}
 
-\begin{menhde}[Lấy mẫu lại theo vùng cấm phụ thuộc dữ liệu phá vỡ Geo-I]
-\label{prop:reject}
-Cơ chế lấy mẫu lại cho đến khi đầu ra rơi ngoài tập vùng cấm $F$ tương đương với
-cơ chế Laplace phẳng có điều kiện trên biến cố $\{z \notin F\}$; mật độ đầu ra
-tại $z$ trở thành $f(z \mid x) / \Pr_{z' \sim f(\cdot \mid x)}[z' \notin F]$.
-Hằng số chuẩn hóa phụ thuộc vào $x$ và không bị chặn đều theo
-$e^{\eps \dEu(x,x')}$ khi các vùng cấm phân bố bất đối xứng quanh $x$ và $x'$,
-nên đảm bảo $\eps$-Geo-I nói chung không còn.
+Cần tách ba trường hợp khác nhau (theo phản biện V-010/R2-011); chỉ trường hợp
+(b) mới là lỗi của baseline:
+
+\begin{menhde}[Điều kiện hóa trên tập cho phép công khai cố định --- giữ $2\eps$]
+\label{prop:fixedaccept}
+Cho tập cho phép \emph{cố định, công khai} $A$ (độc lập với input) với
+$K(A\mid x)>0$ mọi $x$. Cơ chế điều kiện $K_A(z\mid x)=K(z\mid x)/K(A\mid x)$ thỏa
+\[
+\frac{K_A(z\mid x)}{K_A(z\mid x')}
+= \frac{K(z\mid x)}{K(z\mid x')}\cdot\frac{K(A\mid x')}{K(A\mid x)}
+\le e^{\eps \dEu(x,x')}\cdot e^{\eps \dEu(x,x')} = e^{2\eps \dEu(x,x')}.
+\]
 \end{menhde}
 
-Cần phân biệt cho chính xác (theo phản biện V-010): điều kiện hóa trên một tập cho
-phép \emph{cố định, công khai} (độc lập với $x$) vẫn giữ được một chặn
-$2\eps$-Geo-I qua acceptance normalizer; chính \emph{sự phụ thuộc $x$} của vùng
-cấm (và số lần retry hữu hạn) mới là thứ phá vỡ đảm bảo ở đây. Cùng với Nhận
-xét~\ref{rmk:expbug} (bán kính nhiễu lấy sai phân phối), các phân tích cho thấy
-$\eps$ danh nghĩa của baseline không phải một đảm bảo hợp lệ; mọi so sánh
-``cùng $\eps$'' vì vậy chỉ mang tính tham khảo.
+\begin{menhde}[Lấy mẫu lại theo vùng cấm \emph{phụ thuộc input} phá vỡ Geo-I]
+\label{prop:reject}
+Nếu tập cho phép $A_x$ phụ thuộc input (ví dụ ``không rơi vào tòa nhà/mặt nước
+quanh $x$''), tỷ số có thể vô hạn. Phản ví dụ tối thiểu: base kernel $K$ đều trên
+$\{0,1\}$ với mọi input (0-DP); đặt $A_a=\{0\}$, $A_b=\{1\}$. Sau điều kiện,
+$K_A(0\mid a)=1$ nhưng $K_A(0\mid b)=0$ --- likelihood ratio vô hạn. Pipeline
+Thực tập 2 dùng đúng dạng $A_x$ này (vùng cấm + kiểm QoS quanh $x$).
+\end{menhde}
+
+\noindent (Trường hợp (c) --- retry hữu hạn rồi fallback --- tạo một phân phối
+khác với conditioning vô hạn và phải phân tích riêng; không dùng trong các cơ chế
+đề xuất.) Cùng với Nhận xét~\ref{rmk:expbug} (bán kính nhiễu lấy sai phân phối),
+các phân tích cho thấy $\eps$ danh nghĩa của baseline không phải một đảm bảo hợp
+lệ; mọi so sánh ``cùng $\eps$'' vì vậy chỉ mang tính tham khảo.
 Ngược lại, phép chiếu đầu ra về đỉnh đường gần nhất ở bước (iv) --- nếu bỏ điều
 kiện kiểm tra QoS so với điểm thật --- là hậu xử lý độc lập dữ liệu và bảo toàn
 mức riêng tư; quan sát này dẫn tới thiết kế dưới đây.
@@ -224,8 +239,10 @@ baseline (Mệnh đề~\ref{prop:cap}).
 \begin{nhanxet}[Ngân sách toàn quỹ đạo]
 Chuỗi $T$ lần công bố nhiễu độc lập tiêu tốn $\eps_{\mathrm{traj}} = T\eps$ theo
 kết hợp tuần tự thích nghi (trọng số $w_t$ chọn theo đầu ra trước đó là hợp lệ
-trong khuôn khổ adaptive composition). Đây là trần worst-case trung thực; SM-REM
-(Mục~\ref{sec:smrem}) siết nó xuống theo số vị trí riêng biệt.
+trong khuôn khổ adaptive composition). Đây là trần worst-case trung thực. SM-REM
+(Mục~\ref{sec:smrem}) \emph{không} siết được trần này về mức toàn-quỹ-đạo: nó chỉ
+đạt đảm bảo cho \emph{vị trí tĩnh lặp lại} (Định lý~\ref{thm:smrem}), còn pattern
+revisit thì rò rỉ (Nhận xét~\ref{rmk:notrajectory}).
 \end{nhanxet}
 
 \section{SM-REM: Memoization chống tấn công averaging tại stay-point}
@@ -337,15 +354,35 @@ tỷ số \emph{hữu hạn} $\le\exp((\eps_{\text{test}}+\eps_{\text{release}})
 (Nhận xét~\ref{rmk:notrajectory}), \emph{không} phải chặn chỉ-$\eps_{\text{test}}$.
 \end{dinhly}
 
-\begin{proof}[Phác thảo]
-Với $z=h$ và $z\ne h$, viết tường minh hai nhánh của $K_x$; tỷ số mỗi nhánh bị
-chặn bởi tích của test-ratio ($\le e^{\eps_{\text{test}}d}$, query độ nhạy 1 +
-Laplace) và REM-ratio ($\le e^{\eps_{\text{release}}d}$, Định lý~\ref{thm:rem}),
-cho $e^{(\eps_{\text{test}}+\eps_{\text{release}})d}$. Kiểm chứng bằng liệt kê
-hai-vertex: $a{=}0$m, $b{=}100$m, $h{=}a$, $\theta{=}200$m,
-$\eps_{\text{test}}{=}\eps_{\text{release}}{=}0{,}01$; với $z{=}b$ tỷ số
-$=e^{1.5}$, vượt chặn cũ $e^{1}$ nhưng thỏa chặn đúng $e^{2}$.
+\begin{proof}
+Điều kiện trên \emph{cùng một public history} (nên $h$, $q$'s form giống nhau ở
+hai input). Đặt $d=d(x,x')$ và $c=e^{(\eps_{\text{test}}+\eps_{\text{release}})d}$.
+Ba chặn thành phần: $q_x\le e^{\eps_{\text{test}}d}q_{x'}$ và
+$1-q_x\le e^{\eps_{\text{test}}d}(1-q_{x'})$ (query $d(\cdot,h)$ độ nhạy 1 + nhiễu
+Laplace), và $R_x(z)\le e^{\eps_{\text{release}}d}R_{x'}(z)$ (Định lý~\ref{thm:rem}).
+\emph{Nhánh $z\ne h$:} $K_x(z\mid h)=(1-q_x)R_x(z)\le e^{\eps_{\text{test}}d}
+e^{\eps_{\text{release}}d}(1-q_{x'})R_{x'}(z)=c\,K_{x'}(z\mid h)$.
+\emph{Nhánh $z=h$:} \emph{cả hai} số hạng chịu cùng hệ số $c$ (số hạng $q_x$ chịu
+$e^{\eps_{\text{test}}d}\le c$; số hạng $(1-q_x)R_x(h)$ chịu $c$), nên tổng
+$q_x+(1-q_x)R_x(h)\le c\,[q_{x'}+(1-q_{x'})R_{x'}(h)]=c\,K_{x'}(h\mid h)$ ---
+không dùng ``tỷ số của tổng'' một cách không giải thích. Liệt kê hai-vertex
+($a{=}0$m, $b{=}100$m, $h{=}a$, $\theta{=}200$m,
+$\eps_{\text{test}}{=}\eps_{\text{release}}{=}0{,}01$; $z{=}b$): tỷ số $=e^{1.5}$,
+vượt chặn cũ $e^{1}$ nhưng thỏa $e^{2}$ --- được test hồi quy hóa ở
+\texttt{tests/test\_pr\_privacy\_bound.py}.
 \end{proof}
+
+\begin{nhanxet}[Ideal kernel vs hiện thực dấu-phẩy-động]
+\label{rmk:finiteprec}
+Mọi chặn ở trên là cho \emph{ideal real-arithmetic kernel}. Sampler Gumbel-max và
+phép thử Laplace trong hiện thực dùng RNG 53-bit hữu hạn nên có span bị chặn: một
+đỉnh có logit thấp hơn leader quá $\approx$40,34 \emph{không bao giờ} được chọn,
+tạo zero-support phụ thuộc input (tỷ số vô hạn ở mức executable). Vì vậy luận văn
+\emph{không} tuyên bố hiện thực float thỏa pure $\eps$-Geo-I; nó là một xấp xỉ số
+học của ideal kernel. Chứng minh pure-DP hữu-hạn-độ-chính-xác (exact discrete
+sampler với tinh chỉnh bit không giới hạn) là hướng phát triển. Xem
+\texttt{tests/test\_sampler\_support.py} (verifier R2-006).
+\end{nhanxet}
 
 \begin{nhanxet}[Từ per-step tới quỹ đạo --- và điều chưa cài (R2-002)]
 \label{rmk:wevent}
@@ -374,14 +411,16 @@ nhớ (verifier R2-007). $\theta$ phải công khai.
 \begin{enumerate}
   \item \textbf{Tiền xử lý} (một lần cho vùng quan tâm): dựng đồ thị đường OSM,
   chiếu các đỉnh về hệ tọa độ phẳng cục bộ, xây KD-tree trên $V$.
-  \item \textbf{Mỗi điểm thật $x_t$}: truy vấn KD-tree lấy tập ứng viên
-  $V_c = V \cap B(x_t, R)$; tính logits
-  $-\tfrac{\eps}{2}\dEu(x_t, u) + \log w_t(u)$ cho $u \in V_c$
-  (REM: $w_t \equiv 1$); lấy mẫu softmax; công bố đỉnh được chọn; cập nhật
-  $z_t$.
+  \item \textbf{Mỗi điểm thật $x_t$}: tính logits
+  $-\tfrac{\eps}{2}\dEu(x_t, u) + \log w_t(u)$ trên \emph{toàn bộ} tập đỉnh cố
+  định $u \in V$ (REM: $w_t \equiv 1$) --- không cắt ngưỡng quanh $x_t$
+  (Nhận xét~\ref{rmk:cutoff}); lấy mẫu bằng Gumbel-max trong miền log; công bố
+  đỉnh được chọn; cập nhật $z_t$.
 \end{enumerate}
 
-Chi phí mỗi điểm là $O(|V_c|)$ phép tính vector hóa cộng chi phí truy vấn
-KD-tree $O(\log |V|)$; với đồ thị Bắc Kinh 77.727 đỉnh dùng trong thực nghiệm,
-độ trễ thực tế dưới 10ms/điểm trên máy tính cá nhân --- đáp ứng yêu cầu thời
-gian thực của LBS.
+Chi phí mỗi điểm là $O(|V|)$ phép tính vector hóa (một 2-norm trên $|V|$ đỉnh +
+một argmax); với đồ thị Bắc Kinh $|V|=13\,813$ đỉnh dùng trong thực nghiệm, chi
+phí này dưới mili-giây trong reference implementation Python. (Đây là chi phí của
+riêng bước lấy mẫu; con số benchmark tổng gồm cả metrics và attackers nên không
+dùng làm latency claim on-device --- cần đo cách ly trên phần cứng mobile, xem
+Chương~\ref{ch:tongket}.)

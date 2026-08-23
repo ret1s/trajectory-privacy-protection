@@ -43,9 +43,10 @@ SM-REM; (4) positioning vs công trình sát nhất. Đi kèm `system_model_and_
 | R11 | Storage limitation / retention / deletion | GDPR 5(1)(e); FTC orders; Google auto-delete 3 tháng | S6,S8 |
 | R12 | Minh bạch & kiểm soát người dùng (accuracy indicator, precise/approximate toggle) | Apple halo + toggle; iOS `CLAccuracyAuthorization`; GDPR 5(1)(a); LINDDUN Unawareness | cross-cutting |
 
-**Scope trung thực — cơ chế (REM/T-REM/SM-REM) LÀM được:** R1 (client-side), R3 (ε-Geo-I
-Euclid), R4 (on-road by construction), R5 (T-REM reachability), **R6 (SM-REM memoization
-= đúng anti-averaging spec của W3C)**, R7 một phần (memoized endpoint), R2 có điều kiện
+**Scope trung thực — cơ chế (REM/T-REM/SM-REM/PR-SM-REM) LÀM được:** R1 (client-side), R3 (ε-Geo-I
+Euclid), R4 (on-road by construction), R5 (T-REM reachability), **R6 (SM-REM/PR-SM-REM memoization
+= đúng anti-averaging spec của W3C, nhưng scope hẹp — chỉ static exact-repeat; pattern thăm-lại
+vẫn lộ)**, R7 một phần (memoized endpoint), R2 có điều kiện
 (chọn ε/δ từ context công khai, KHÔNG từ vị trí thật). **KHÔNG tự làm được (thuộc governance/
 identity/UX phía khác):** R8 (rotating identifier), R9–R11 (consent/retention/purpose — phía
 server), R12 (UX). **S6 chỉ vá một phần:** nhiễu per-point không xóa tính duy nhất của cả
@@ -84,8 +85,14 @@ quỹ đạo (de Montjoye 4 điểm→95%) — cần ε·T/w-event và thừa nh
   tĩnh không thể bị averaging — chưa ai chiếm. SM-REM (memoized, on-road, điều kiện chỉ trên
   điểm đã công bố) nằm đúng đó.
 
-**Cách phát biểu guarantee cho luận văn:** {ε₀-Geo-I Euclid mỗi release tươi (REM/T-REM)} +
-{memoized ⇒ tính budget một lần mỗi vertex riêng biệt, ε-Geo-I mức cell} + {Σ budget metric-DP
-≤ ε_w trong mọi cửa sổ w timestamp — w-event, Kellaris VLDB'14 Thm 3, hợp lệ cả khi M_i thấy
-output trước}; nâng ε_w lên chặn TPL-supremum (Cao et al. TKDE 2019) nếu muốn claim
-correlation-robust.
+**Cách phát biểu guarantee cho luận văn — phân biệt ĐÃ hiện thực vs KIẾN TRÚC ĐÍCH
+(verifier R2-002/R2-010):**
+
+- *Đã hiện thực & test:* {ε₀-Geo-I Euclid mỗi release tươi (REM/T-REM)} + {SM-REM: static
+  exact-repeat trả cache ⇒ averaging vô hiệu, nhưng revisit-channel có ratio ∞ — không phải
+  per-release bound} + {PR-SM-REM: noisy-threshold test thay reuse test chính xác ⇒ per-release
+  `(ε_test+ε_release)`-Geo-I hữu hạn, thay cho ∞ của SM-REM}.
+- *Kiến trúc đích (CHƯA hiện thực — future work):* {Σ budget metric-DP ≤ ε_w trong mọi cửa sổ
+  w timestamp — w-event, Kellaris VLDB'14 Thm 3}; hiện chỉ có per-release bound, **chưa có
+  w-event budget manager thật**. Nâng ε_w lên chặn TPL-supremum (Cao et al. TKDE 2019) nếu
+  muốn claim correlation-robust cũng thuộc future work.

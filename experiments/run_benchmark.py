@@ -104,7 +104,11 @@ def run(n_trajectories=20, epsilons=EPSILONS):
         }
         zero_norm = np.zeros(len(rn))  # constant normaliser (planar/baseline)
         rng = np.random.default_rng(SEED)
-        for mech in build_mechanisms(eps, rn, rng):
+        ei = EPSILONS.index(eps) if eps in EPSILONS else 0
+        for mi, mech in enumerate(build_mechanisms(eps, rn, rng)):
+            # Independent, order-invariant RNG per (root seed, ε, mechanism)
+            # so a mechanism's output does not depend on run order (R2-009).
+            mech.rng = np.random.default_rng(np.random.SeedSequence([SEED, ei, mi]))
             t0 = time.time()
             scale = EMISSION_SCALE[mech.name]
             ln = lognorm[scale] if USE_LOGNORM[mech.name] else zero_norm
@@ -158,9 +162,36 @@ def run(n_trajectories=20, epsilons=EPSILONS):
     os.makedirs("outputs", exist_ok=True)
     out = os.path.join("outputs", "benchmark_results.json")
     with open(out, "w") as f:
-        json.dump(results, f, indent=2)
+        json.dump({"provenance": _provenance(rn, epsilons), "rows": results}, f, indent=2)
     print(f"\nSaved {out}")
     return results
+
+
+def _provenance(rn, epsilons):
+    """Run identity for reproducibility (verifier R2-013): commit, graph hash,
+    seeds, and all attacker/mechanism parameters that shaped these numbers."""
+    import subprocess
+    try:
+        commit = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], text=True, stderr=subprocess.DEVNULL).strip()
+        dirty = bool(subprocess.check_output(
+            ["git", "status", "--porcelain"], text=True, stderr=subprocess.DEVNULL).strip())
+    except Exception:
+        commit, dirty = None, None
+    manifest = {}
+    mpath = os.path.join("data", "beijing_graph.manifest.json")
+    if os.path.exists(mpath):
+        manifest = json.load(open(mpath))
+    return {
+        "git_commit": commit, "git_dirty": dirty,
+        "graph_sha256": manifest.get("graph_sha256"),
+        "graph_nodes": len(rn), "seed": SEED, "epsilons": list(epsilons),
+        "qos_radius": QOS_RADIUS, "emission_scale": EMISSION_SCALE,
+        "use_lognorm": USE_LOGNORM,
+        "pr_sm_rem": {"eps_test": "eps/2", "eps_release": "eps/2", "theta": 200.0},
+        "note": "MLE/HMM attackers are REM-emission proxies (exact for REM only); "
+                "ideal-kernel guarantees, finite-precision executable (see docs/reviews).",
+    }
 
 
 if __name__ == "__main__":

@@ -249,7 +249,7 @@ Mỗi scenario: (a) khả năng adversary, (b) data thấy, (c) thuộc tính ph
 | **S1** | **Trilateration / distance oracle** (Tinder 2014, Grindr, Bumble 2021+2024 pinpoint ~2m, happn) | Query lặp, spoof vị trí mình, biết luật rounding | Distance / distance làm tròn / oracle nhị phân | ε-Geo-I bound làm mọi điểm gần bất khả phân biệt; distance suy từ **release đã lượng tử/on-road** → **REM**. Round/hide-distance ad-hoc *không* phải guarantee — lớp này là bằng chứng thực nghiệm. Cần budget cho query lặp (S4). |
 | **S2** | **Map-matching / lọc off-road** (Takagi; RAoPT; Strava snap-to-street) | Biết lưới đường | Chuỗi điểm công bố | **On-road theo cấu trúc** — không có mass off-road để loại → **REM/T-REM**; đo `on_road_rate` (PL 0,58–0,68 vs REM/T-REM 1,00). Luận điểm trung tâm REM > "planar-Laplace-rồi-snap". |
 | **S3** | **Reachability/velocity linkage + HMM tracking** (Ghinita GIS'09; Xiao-Xiong CCS'15; Mendes CODASPY'23) | Biết v_max + mô hình Markov + toàn chuỗi + timestamp | Quỹ đạo công bố + thời gian | **Trọng số reachability điều kiện chỉ trên điểm ĐÃ công bố** → fake khả thi động học, ε per-point không đổi → **T-REM**; đo `speed_violation_rate` (REM 0,35 → T-REM 0,06 @ε=0,01) + `HMMTrackingAttack`. |
-| **S4** | **Averaging / báo lặp từ 1 chỗ tĩnh** (Andrés nε; Mendes PoPETs'20; Strava EPZ home recovery 84–95%) | Thu nhiều release cùng 1 điểm thật | Release lặp từ 1 chỗ | **Không phát nhiễu độc lập mới cho cùng điểm thật**: memoization / noise tương quan + kế toán ε·T. *Khoảng trống thật:* 4 cơ chế hiện CHƯA memoize; T-REM chỉ giúp một phần → future work, báo cáo ε_total. |
+| **S4** | **Averaging / báo lặp từ 1 chỗ tĩnh** (Andrés nε; Mendes PoPETs'20; Strava EPZ home recovery 84–95%) | Thu nhiều release cùng 1 điểm thật | Release lặp từ 1 chỗ | **Không phát nhiễu độc lập mới cho cùng điểm thật**: memoization / noise tương quan + kế toán ε·T. *Trạng thái:* **SM-REM** đã memoize static exact-repeat (cache trả 1 release ⇒ averaging vô hiệu, đo trong S4 study); **PR-SM-REM** thay reuse test chính xác bằng noisy-threshold cho per-release `(ε_test+ε_release)`-bound. *Còn hở:* w-event budget manager thật + pattern thăm-lại (revisit) → future work, báo cáo ε_total. |
 | **S5** | **Bayesian optimal inference / remap có prior** (Shokri S&P'11, CCS'12; Oya CCS'17) | Biết cơ chế (Kerckhoffs) + prior | Điểm công bố | **Giữ nguyên bound ε — không bao giờ cap/reject/re-check theo điểm thật** (chính lý do `BaselineThesis` vỡ). Support on-road có prior thu hẹp lợi ích remap; đo `expected_inference_error` với adversary có thông tin → **REM/T-REM**. |
 | **S6** | **Re-id qua home/work uniqueness + linkage** (de Montjoye 4 điểm→95%; Golle-Partridge block-unique; NYC taxi; priest 2021; NYT 2019) | Có full trace pseudonym + public records | Toàn quỹ đạo dưới 1 pseudonym | Nhiễu per-point *không đủ* — bản thân quỹ đạo là identifier. Đối ứng: composition ε·T đẩy mỗi điểm đủ xa + báo cáo inference error. **Đây là section MOTIVATION mạnh nhất** (pseudonym ≠ ẩn danh). |
 | **S7** | **Aggregation failure mật độ thấp** (Strava heatmap → căn cứ quân sự 2018; NC State home ID 2023) | Đọc aggregate/heatmap, mật độ thấp | Raster tổng hợp | k-anonymity / suppression theo mật độ tối thiểu trên bản phát aggregate. Ngoài scope LPPM per-user nhưng cần nêu ranh giới. |
@@ -259,9 +259,10 @@ Mỗi scenario: (a) khả năng adversary, (b) data thấy, (c) thuộc tính ph
 - **S1, S2, S3, S5**: chứng minh được ngay với code hiện tại (`on_road_rate`,
   `speed_violation_rate`, `BayesianPointAttack`, `HMMTrackingAttack`). Bảng
   benchmark đã cho thấy lợi thế REM/T-REM ở S2/S3 và luận điểm chống baseline ở S5.
-- **S4**: khoảng trống thật, chưa cơ chế nào memoize → nêu thẳng, cite Andrés (nε)
-  + Mendes PoPETs'20, đặt memoization/budget làm future work (đón đầu phản biện
-  "chỉ đánh giá per-point là lỗi reviewer bắt từ 2015").
+- **S4**: SM-REM/PR-SM-REM ĐÃ memoize (đo trong `run_averaging_multi`); scope hẹp
+  static exact-repeat, còn hở w-event budget manager thật + revisit-pattern → nêu
+  thẳng, cite Andrés (nε) + Mendes PoPETs'20, đặt w-event/budget làm future work
+  (đón đầu phản biện "chỉ đánh giá per-point là lỗi reviewer bắt từ 2015").
 - **S6**: section motivation mạnh nhất — de Montjoye, Golle-Partridge, Krumm
   (~13% homes), Citi Bike 84%, vụ priest/NYT/taxi → biện minh cho ε-Geo-I mức
   quỹ đạo thay vì pseudonymization/k-anonymity.

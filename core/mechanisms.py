@@ -12,39 +12,40 @@ Mechanisms:
    the exponential radius used in the internship-2 code does not satisfy
    Geo-I — its density ratio blows up near r=0).
 
-2. BaselineThesis — faithful re-implementation of the internship-2 pipeline:
-   planar-Laplace noise capped at the QoS radius, heuristic continuity
-   smoothing (70% previous direction) with a QoS re-check against the REAL
-   point, then snap to the nearest road vertex if that still meets QoS.
-   Kept as the baseline to beat; its cap/re-check steps break the formal
+2. BaselineThesis — SIMPLIFIED SURROGATE of the internship-2 pipeline (NOT a
+   faithful re-implementation; omits the alternative-road search and the
+   building/water reject stage). Its cap/re-check steps break the formal
    guarantee (they condition the output on the true location).
 
-3. RoadExponential (REM) — our improvement, static version: exponential
-   mechanism over the road-graph vertices with Euclidean score,
-   P(v | x) ∝ exp(-ε/2 · d(x, v)).
-   Satisfies ε-Geo-Indistinguishability on the candidate set (standard
-   exponential-mechanism argument; the ε/2 absorbs the normalizer), and by
-   construction every reported point lies on the road network — no
-   post-hoc plausibility filtering for an attacker to exploit (cf. RAoPT,
-   ACSAC 2022). This is the Euclidean-metric sibling of the
-   Graph-Exponential Mechanism of Takagi et al. (Geo-Graph-
-   Indistinguishability, DBSec 2019 / arXiv:2010.13449).
+3. RoadExponential (REM) — exponential mechanism over the FULL fixed road-graph
+   vertex set with Euclidean score, P(v | x) ∝ exp(-ε/2 · d(x, v)); satisfies
+   ε-Geo-Indistinguishability on that public set (the ε/2 absorbs the
+   normalizer). Euclidean-metric sibling of the Graph-Exponential Mechanism
+   (Takagi et al., DBSec 2019 / arXiv:2010.13449).
 
-4. TemporalRoadExponential (T-REM) — REM plus temporal consistency: the
-   candidate score is multiplied by a reachability weight that depends ONLY
-   on the previously *released* point z_{t-1} (public information), never on
-   the real trajectory:
-       w(v) = 1                                        if d(z_prev, v) ≤ v_max·Δt + slack
-       w(v) = exp(-λ · (d(z_prev, v) - v_max·Δt))      otherwise
-   Because w is independent of the true location, the per-point ε-Geo-I
-   bound is unchanged (both the numerator factor and the normalizer ratio
-   keep the exp(ε·d(x,x')) bound), while released trajectories become
-   speed-consistent — closing the correlation-based dummy-filtering attack
-   that defeats the baseline's independent-noise smoothing.
+4. TemporalRoadExponential (T-REM) — REM plus a reachability weight depending
+   ONLY on the previously *released* point z_{t-1} (public), so the per-release
+   ε-Geo-I bound is unchanged while releases become speed-consistent.
 
-Per-trajectory budget: all mechanisms spend ε per point; over T points the
-trajectory-level guarantee composes to ε·T (sequential composition), which
-experiments report explicitly.
+5. StayMemoizedREM (SM-REM) — T-REM + exact memoisation keyed to a public grid,
+   sampled from the cell representative. Anti-averaging for a STATIC repeated
+   location only (Theorem in class docstring); the revisit pattern leaks, so
+   there is NO whole-trajectory theorem.
+
+6. PrivateReuseSMREM (PR-SM-REM) — replaces the exact reuse decision with a
+   NOISY-THRESHOLD test (predictive-mechanism style), giving a finite per-step
+   (ε_test+ε_release)-Geo-I bound (see class docstring) instead of SM-REM's
+   ∞-ratio revisit leak.
+
+Budget note: REM/T-REM/SM-REM spend ε on the release; PR-SM-REM's worst-case
+per-step is ε_test+ε_release (run at ε/2+ε/2 to match). Trajectory-level cost is
+worst-case n·ε (sequential composition) — NOT a w-event scalar (no window budget
+manager is implemented).
+
+FINITE-PRECISION CAVEAT: every ε-Geo-I claim here is for the IDEAL real-arithmetic
+kernel. The float64 Gumbel-max / Laplace samplers have bounded RNG span, hence
+input-dependent zero-support outputs (see _sample and tests/test_sampler_support.py),
+so the executable is a numerical APPROXIMATION, not a pure-DP mechanism.
 """
 import numpy as np
 
@@ -165,14 +166,24 @@ class RoadExponential:
 
     def _sample(self, idxs, logits):
         """Gumbel-max categorical sampling in the LOG domain: argmax_i
-        (logit_i + Gumbel_i). This draws exactly from softmax(logits) using
-        only additions and an argmax — no exp() that can underflow a far-tail
-        logit to 0, and no cumulative-probability construction whose finite
-        precision can give a positive-mass vertex a zero-width bin (verifier
-        R2-006). Every candidate therefore stays reachable up to the RNG's
-        floating-point resolution. (This is a floating-point implementation of
-        the ideal real-arithmetic kernel; the ε-Geo-I proof is stated for the
-        ideal kernel, with this as the numerical realisation.)"""
+        (logit_i + Gumbel_i). In EXACT real arithmetic this draws from
+        softmax(logits); we use it (over the earlier exp()+cumsum draw) because
+        it avoids exp() underflowing a far-tail logit and avoids a zero-width
+        CDF bin for a small-mass vertex.
+
+        IMPORTANT finite-precision caveat (verifier R2-006 — G0): this does NOT
+        make the executable a pure ε-Geo-I mechanism. NumPy's Gumbel is built
+        from a 53-bit uniform, so each draw is bounded to ≈[-3.60, 36.74]; the
+        span between two draws cannot exceed ≈40.34. A candidate whose logit is
+        more than that below the current leader can therefore NEVER win the
+        argmax, so it has exactly zero executable probability even though its
+        ideal probability is positive. That zero-support set depends on the true
+        input, which is an infinite likelihood ratio between two inputs — i.e.
+        the executable sampler is only a NUMERICAL APPROXIMATION of the ideal
+        kernel. The ε-Geo-I guarantees in this file are proved for the ideal
+        real-arithmetic kernel; a pure-DP claim for the float implementation
+        would need a verified exact discrete sampler (unbounded random-bit
+        refinement), which is future work. See tests/test_sampler_support.py."""
         g = self.rng.gumbel(size=logits.shape[0])
         return int(idxs[int(np.argmax(logits + g))])
 

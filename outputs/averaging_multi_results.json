@@ -1,10 +1,41 @@
 {
   "config": {
-    "n_homes": 40,
+    "git_commit": "d0a068a381f219a8755e5d9120b2abf1ebebf634",
+    "graph_sha256": "9e44ec2a48d6249f3534bb8511010925428018e528f5116d5f9eb24d86a2d487",
+    "graph_nodes": 13813,
+    "n_locations": 40,
+    "n_users": 21,
     "seeds": 8,
     "eps": 0.02,
     "jitter_m": 10.0,
-    "n_reports": 100
+    "n_reports": 100,
+    "ks": [
+      1,
+      2,
+      5,
+      10,
+      20,
+      50,
+      100
+    ],
+    "radii": [
+      50.0,
+      100.0,
+      200.0
+    ],
+    "scale": {
+      "planar_laplace": 1.0,
+      "road_exponential": 0.5,
+      "temporal_road_exponential": 0.5,
+      "stay_memoized_rem": 0.5,
+      "pr_sm_rem": 0.25
+    },
+    "pr_sm_rem": {
+      "eps_test": "eps/2",
+      "eps_release": "eps/2",
+      "theta": 200.0
+    },
+    "estimator_note": "MLE is a REM-emission-form PROXY (exact for REM only); jitter not in likelihood; not the optimal attacker (R2-004). Locations are stay-points, not ground-truth homes (R2-008)."
   },
   "results": {
     "planar_laplace": {

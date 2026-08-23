@@ -16,27 +16,34 @@ central-Beijing bbox, splits on gaps, resamples).
 
 ## Beijing road graph
 
-Overpass API thường rate-limit; cách ổn định là build từ extract BBBike:
+Overpass API thường rate-limit; cách ổn định là build từ extract BBBike. Dùng
+script tái lập được (nó tải, verify hash, cắt bbox ĐÚNG thứ tự OSMnx 2.x, giữ
+thành phần liên thông lớn nhất, và ghi manifest):
 
 ```bash
-cd data/raw
-curl -L -o Beijing.osm.gz "https://download.bbbike.org/osm/bbbike/Beijing/Beijing.osm.gz"
+python -m data.build_beijing_graph
 ```
 
+Script tương đương các bước sau (thứ tự bbox OSMnx 2.x là
+`(left,bottom,right,top) = (min_lon,min_lat,max_lon,max_lat)`, và **bắt buộc** giữ
+largest weakly-connected component để đồ thị liên thông):
+
 ```python
-import gzip, shutil, pickle
+import gzip, shutil, pickle, networkx as nx
 import osmnx as ox
 from data.geolife import BEIJING_BBOX
-
+b = BEIJING_BBOX  # (min_lat, min_lon, max_lat, max_lon)
 with gzip.open('data/raw/Beijing.osm.gz','rb') as fi, open('data/raw/Beijing.osm','wb') as fo:
     shutil.copyfileobj(fi, fo)
 G = ox.graph_from_xml('data/raw/Beijing.osm', simplify=True, retain_all=True)
-b = BEIJING_BBOX
-G = ox.truncate.truncate_graph_bbox(G, bbox=(b[1], b[0], b[3], b[2]))
-pickle.dump(G, open('data/raw/beijing_graph.pkl','wb'))
+G = ox.truncate.truncate_graph_bbox(G, bbox=(b[1], b[0], b[3], b[2]))   # 19,634 / 47,745, 4,313 WCC
+G = G.subgraph(max(nx.weakly_connected_components(G), key=len)).copy()  # largest WCC
+pickle.dump(G, open('data/raw/beijing_graph.pkl','wb'))                 # 13,813 / 41,040, 1 WCC
 ```
 
-Kết quả: ~78k nodes / ~209k edges cho bbox thí nghiệm.
+Kết quả: **13.813 nodes / 41.040 edges**, 1 thành phần liên thông, cho bbox thí
+nghiệm (lat 39,96–40,02, lon 116,29–116,36). Manifest (hash, counts, extent,
+versions) sinh ở `data/beijing_graph.manifest.json`.
 
 ## Porto Taxi (secondary, chưa tích hợp)
 

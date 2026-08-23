@@ -11,7 +11,8 @@ Eclipse IEEE TMC 2020 long-term-observation threat):
   * per home × seed, n reports with Gaussian GPS jitter (σ), through each
     mechanism;
   * TWO adversary estimators (verifier V-004/V-005): the naive sample MEAN and
-    the consistent mechanism-aware MLE  x̂ = argmax_x[−a·Σd(x,z_i) − n·logZ(x)];
+    a REM-emission-form MLE proxy  x̂ = argmax_x[−a·Σd(x,z_i) − n·logZ(x)]
+    (exact for REM; a proxy — not the optimal attacker — for the others);
   * metrics: expected inference error vs n, and success probability P[err ≤ r];
   * bootstrap 95% CI over homes, cluster-resampled by user.
 
@@ -134,12 +135,31 @@ def run(n_homes=40, seeds=8, eps=EPS):
         results[m]["success_at_n100"] = {int(r): round(succ[r], 3) for r in RADII}
         print(f"{m:<26}" + "".join(f"{succ[r]*100:8.0f}%" for r in RADII))
 
+    import subprocess
+    try:
+        commit = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], text=True, stderr=subprocess.DEVNULL).strip()
+    except Exception:
+        commit = None
+    manifest = {}
+    mpath = os.path.join("data", "beijing_graph.manifest.json")
+    if os.path.exists(mpath):
+        manifest = json.load(open(mpath))
+    config = {
+        "git_commit": commit, "graph_sha256": manifest.get("graph_sha256"),
+        "graph_nodes": len(rn), "n_locations": len(homes),
+        "n_users": len(set(h["user"] for h in homes)), "seeds": seeds, "eps": eps,
+        "jitter_m": JITTER_M, "n_reports": N_REPORTS, "ks": list(KS),
+        "radii": list(RADII), "scale": SCALE,
+        "pr_sm_rem": {"eps_test": "eps/2", "eps_release": "eps/2", "theta": 200.0},
+        "estimator_note": "MLE is a REM-emission-form PROXY (exact for REM only); "
+                          "jitter not in likelihood; not the optimal attacker (R2-004). "
+                          "Locations are stay-points, not ground-truth homes (R2-008).",
+    }
     os.makedirs("outputs", exist_ok=True)
     out = os.path.join("outputs", "averaging_multi_results.json")
     with open(out, "w") as f:
-        json.dump({"config": {"n_homes": len(homes), "seeds": seeds, "eps": eps,
-                              "jitter_m": JITTER_M, "n_reports": N_REPORTS},
-                   "results": results}, f, indent=2)
+        json.dump({"config": config, "results": results}, f, indent=2)
     print(f"\nSaved {out}")
     return results
 
