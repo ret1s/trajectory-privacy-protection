@@ -61,32 +61,33 @@ REM-emission \emph{proxy} (m), cao hơn là riêng tư hơn --- \emph{cận trê
 non-REM, KHÔNG dùng để xếp hạng riêng tư (R3-007); cov = HMM candidate coverage.
 Một root seed --- xem như exploratory, chưa phải multi-seed CI (R3-010). In đậm: cơ chế
 đề xuất. Provenance đầy đủ (\texttt{msc-experiment-v1}: source commit, graph SHA-256,
-rng schema, record IDs, raw rows) trong \texttt{outputs/benchmark\_results.json}.}
+rng schema, record IDs, raw rows) trong file JSON kết quả benchmark.}
 \label{tab:benchmark}
 \small
+\setlength{\tabcolsep}{4pt}
 \begin{tabular}{llrrrrrrr}
 \toprule
 $\eps$ & Cơ chế & Q\_loss & QoS & On-road & Spd-viol & Bayes & HMM & cov\\
 \midrule
 0,01
- & Laplace phẳng & 207,1 & 0,57 & 0,46 & 0,07 & 200,7 & 125,0 & 1,00\\
- & Baseline TT2 (surrogate) & 95,6 & 0,99 & 0,98 & 0,00 & 96,4 & 82,8 & 1,00\\
+ & Laplace phẳng & 207,1 & 0,57 & 0,82 & 0,07 & 200,7 & 125,0 & 1,00\\
+ & Baseline TT2 (surrogate) & 95,6 & 0,99 & 0,99 & 0,00 & 96,4 & 82,8 & 1,00\\
  & \textbf{REM}      & 377,1 & 0,31 & 1,00 & 0,36 & 374,6 & 187,8 & 0,98\\
  & \textbf{T-REM}    & 298,6 & 0,37 & 1,00 & 0,07 & 295,6 & 191,4 & 1,00\\
  & \textbf{SM-REM}   & 274,4 & 0,38 & 1,00 & 0,03 & 273,5 & 211,5 & 1,00\\
  & \textbf{PR-SM-REM} & 623,5 & 0,20 & 1,00 & 0,51 & 619,5 & 370,7 & 0,89\\
 \midrule
 0,02
- & Laplace phẳng & 99,1 & 0,91 & 0,51 & 0,00 & 96,1 & 74,6 & 1,00\\
- & Baseline TT2 (surrogate) & 77,5 & 1,00 & 0,99 & 0,00 & 78,5 & 74,3 & 1,00\\
+ & Laplace phẳng & 99,1 & 0,91 & 0,88 & 0,00 & 96,1 & 74,6 & 1,00\\
+ & Baseline TT2 (surrogate) & 77,5 & 1,00 & 1,00 & 0,00 & 78,5 & 74,3 & 1,00\\
  & \textbf{REM}      & 178,1 & 0,66 & 1,00 & 0,05 & 177,5 & 118,1 & 1,00\\
  & \textbf{T-REM}    & 184,2 & 0,64 & 1,00 & 0,02 & 183,4 & 127,1 & 1,00\\
  & \textbf{SM-REM}   & 163,7 & 0,70 & 1,00 & 0,01 & 162,5 & 130,7 & 1,00\\
  & \textbf{PR-SM-REM} & 284,1 & 0,52 & 1,00 & 0,23 & 281,9 & 162,5 & 0,99\\
 \midrule
 0,05
- & Laplace phẳng & 41,6 & 1,00 & 0,59 & 0,00 & 44,8 & 38,8 & 1,00\\
- & Baseline TT2 (surrogate) & 73,9 & 1,00 & 0,99 & 0,00 & 74,7 & 74,2 & 1,00\\
+ & Laplace phẳng & 41,6 & 1,00 & 0,92 & 0,00 & 44,8 & 38,8 & 1,00\\
+ & Baseline TT2 (surrogate) & 73,9 & 1,00 & 1,00 & 0,00 & 74,7 & 74,2 & 1,00\\
  & \textbf{REM}      & 72,1 & 0,96 & 1,00 & 0,00 & 72,1 & 63,4 & 1,00\\
  & \textbf{T-REM}    & 76,9 & 0,95 & 1,00 & 0,00 & 77,1 & 68,5 & 1,00\\
  & \textbf{SM-REM}   & 74,8 & 0,97 & 1,00 & 0,00 & 74,6 & 69,5 & 1,00\\
@@ -104,10 +105,12 @@ Năm quan sát chính từ Bảng~\ref{tab:benchmark} (số liệu với adversa
   adversary giảm từ 200,7m (Bayes) xuống 125,0m (HMM, $-38\%$) chỉ nhờ lọc Bayes
   theo thời gian --- xác nhận thực nghiệm~\cite{xiao2015protecting} và biện minh
   việc chọn HMM làm tấn công đánh giá chính.
-  \item \textbf{Laplace phẳng để lộ bề mặt tấn công thực tế.} 41--54\% điểm công
-  bố rơi ngoài lưới đường --- đúng loại tín hiệu mà RAoPT khai thác. REM/T-REM/
-  SM-REM/PR-SM-REM đạt 100\% trên đường \emph{theo cấu trúc} (đây là structural
-  property, chưa phải bằng chứng attack-resistance --- cần chạy RAoPT trực tiếp,
+  \item \textbf{Laplace phẳng để lộ bề mặt tấn công thực tế.} Đo bằng khoảng cách
+  point-to-\emph{edge} (đã sửa R4-003; trước đây đo tới đỉnh nên phóng đại), 8--18\%
+  điểm công bố rơi ngoài \emph{cạnh} đường (on-road 0,82/0,88/0,92 ở
+  $\eps{=}0{,}01/0{,}02/0{,}05$) --- vẫn là loại tín hiệu RAoPT khai thác. REM/T-REM/
+  SM-REM/PR-SM-REM đạt 100\% trên đường \emph{theo cấu trúc} (structural property,
+  chưa phải bằng chứng attack-resistance --- cần chạy RAoPT trực tiếp,
   xem Chương~\ref{ch:tongket}).
   \item \textbf{T-REM giảm speed-implausibility mà không mất riêng tư.} Tại
   $\eps = 0{,}01$, T-REM giảm tỷ lệ vi phạm tốc độ từ 36\% (REM) xuống 7\%,
@@ -177,18 +180,19 @@ jitter $\sigma=10$m). Thấp = attacker thắng. Proxy chính xác cho REM, là
 \emph{cận trên} cho các cơ chế khác --- không xếp hạng riêng tư (R3-007). Cột
 cuối: xác suất khôi phục trong 50m ở $n{=}100$ (gộp, chưa có user-cluster CI ---
 R3-010). RNG khóa ngữ nghĩa (R3-002); raw rows + provenance
-\texttt{msc-experiment-v1} trong \texttt{outputs/averaging\_multi\_results.json}.}
+\texttt{msc-experiment-v1} trong file JSON kết quả averaging.}
 \label{tab:averaging-multi}
 \small
+\setlength{\tabcolsep}{4.5pt}
 \begin{tabular}{lrrrrrr r}
 \toprule
 Cơ chế & $n{=}1$ & $n{=}5$ & $n{=}10$ & $n{=}20$ & $n{=}50$ & $n{=}100$ & P[$\le$50m] \\
 \midrule
-Laplace phẳng & 93,8 & 43,7 & 34,4 & 30,2 & 25,2 & \textbf{23,6} & 91\% \\
-REM           & 156,9 & 90,3 & 51,6 & 40,1 & 34,4 & \textbf{29,1} & 87\% \\
-T-REM         & 161,3 & 79,8 & 58,8 & 43,9 & 32,9 & \textbf{29,6} & 86\% \\
-\textbf{SM-REM}   & 179,8 & 152,0 & 149,1 & 156,6 & 158,8 & \textbf{155,9} & \textbf{12\%} \\
-\textbf{PR-SM-REM} & 336,7 & 143,7 & 113,8 & 90,6 & 68,0 & \textbf{51,2} & 49\% \\
+Laplace phẳng & 79,7 & 39,2 & 34,4 & 29,4 & 24,1 & \textbf{23,4} & 94\% \\
+REM           & 173,1 & 84,9 & 62,5 & 41,4 & 31,7 & \textbf{28,4} & 90\% \\
+T-REM         & 159,2 & 84,7 & 60,6 & 39,3 & 31,7 & \textbf{28,5} & 90\% \\
+\textbf{SM-REM}   & 151,8 & 148,8 & 148,1 & 148,5 & 149,6 & \textbf{148,9} & \textbf{9\%} \\
+\textbf{PR-SM-REM} & 355,5 & 170,9 & 119,1 & 87,5 & 63,7 & \textbf{47,4} & 57\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -200,21 +204,21 @@ xếp hạng riêng tư} giữa các cơ chế; chúng là chẩn đoán mô t�
 
 \begin{enumerate}
   \item \textbf{Trước attacker MLE, Laplace/REM/T-REM đều KHÔNG kháng averaging.}
-  Sai số sụp theo $n$ về mức tương đương nhau ($n{=}100$: Laplace $\approx$24m,
-  REM/T-REM $\approx$29m) với xác suất khôi phục trong 50m khoảng 86--91\%.
+  Sai số sụp theo $n$ về mức tương đương nhau ($n{=}100$: Laplace $\approx$23m,
+  REM/T-REM $\approx$28m) với xác suất khôi phục trong 50m khoảng 90--94\%.
   Sample-mean ``phẳng'' của REM/T-REM ở thí nghiệm một-home trước chỉ là
   \emph{artefact} do $\mathbb{E}[Z\mid x]\ne x$ (bias biên), không phải tính
   riêng tư. (Ta \emph{không} khẳng định REM tệ hơn hay tốt hơn Laplace --- dưới
   proxy này hai bên xấp xỉ nhau.)
-  \item \textbf{SM-REM không sụp theo $n$ dưới proxy này} ($\approx$150--160m gần
-  như không đổi từ $n{=}10$ tới $n{=}100$; khoảng 12\% khôi phục trong 50m ở
+  \item \textbf{SM-REM không sụp theo $n$ dưới proxy này} ($\approx$149m gần
+  như không đổi từ $n{=}10$ tới $n{=}100$; khoảng 9\% khôi phục trong 50m ở
   $n{=}100$) --- nhờ memo \emph{chính xác}, nhưng \emph{chỉ} trong scope static
   same-cell với cache khởi tạo rỗng, không có đảm bảo trajectory và rò pattern
   revisit (Nhận xét~\ref{rmk:notrajectory}). Đây là quan sát dưới proxy, không
   phải bằng chứng SM-REM ``riêng tư nhất''.
   \item \textbf{PR-SM-REM: giảm averaging trên horizon đo được, KHÔNG tuyệt đối.}
   Ở cùng ngân sách per-step với REM, dưới proxy này sai số $n{=}100$ cao hơn
-  REM ($\approx$51m so $\approx$29m) \emph{và} có chặn per-step
+  REM ($\approx$47m so $\approx$28m) \emph{và} có chặn per-step
   $(\eps_{\text{test}}{+}\eps_{\text{release}})$-Geo-I hữu hạn (Định
   lý~\ref{thm:prsmrem}). Quan trọng: cả nhánh reuse lẫn nhánh resample đều
   \emph{ngẫu nhiên} ở mọi bước (tại $d{=}\theta$, xác suất resample $=1/2$), nên
