@@ -1,0 +1,296 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "Từ Internship 2 đến luận văn hiện tại: brief và script gặp giáo viên hướng dẫn",
+    "description": "Handout kỹ thuật và kịch bản trình bày 12–15 phút về quá trình chuyển từ pipeline heuristic Internship 2 sang research prototype có guarantee được giới hạn scope và đánh giá theo threat model.",
+    "generatedAt": "2026-08-24T07:00:30Z",
+    "cards": [
+      {
+        "id": "tt2_points_card",
+        "description": "Quy mô evidence cuối Internship 2: bốn quỹ đạo tổng hợp, mỗi quỹ đạo 20 điểm.",
+        "dataset": "summary_metrics",
+        "sourceId": "meeting_data_sql",
+        "filter": {"metric_id": "tt2_points"},
+        "metrics": [{"label": "Điểm tổng hợp TT2", "field": "value", "format": "number"}]
+      },
+      {
+        "id": "o5_points_card",
+        "description": "Quy mô moving benchmark O5 trên dữ liệu GPS GeoLife thật.",
+        "dataset": "summary_metrics",
+        "sourceId": "meeting_data_sql",
+        "filter": {"metric_id": "o5_points"},
+        "metrics": [{"label": "Điểm GeoLife O5", "field": "value", "format": "number"}]
+      },
+      {
+        "id": "averaging_rows_card",
+        "description": "Năm cơ chế × 40 stay-points × 8 seed trong averaging study.",
+        "dataset": "summary_metrics",
+        "sourceId": "meeting_data_sql",
+        "filter": {"metric_id": "averaging_rows"},
+        "metrics": [{"label": "Raw rows averaging", "field": "value", "format": "number"}]
+      },
+      {
+        "id": "tests_card",
+        "description": "Canonical regression suite hiện tại; đây là behavior evidence, không thay proof.",
+        "dataset": "summary_metrics",
+        "sourceId": "meeting_data_sql",
+        "filter": {"metric_id": "tests"},
+        "metrics": [{"label": "Tests đang pass", "field": "value", "format": "number"}]
+      }
+    ],
+    "charts": [
+      {
+        "id": "averaging_n100_chart",
+        "title": "Median attacker error after 100 repeated reports",
+        "subtitle": "O5 averaging study, ε=0.02; 40 distinct stay-points, 21 users, 8 seeds. Higher error means the REM-form averaging proxy is less accurate.",
+        "headerMarkdown": "This is a **within-O5 descriptive comparison**. The non-REM attack is a proxy, so the chart does not establish a global privacy ranking.",
+        "type": "bar",
+        "dataset": "averaging_results",
+        "sourceId": "meeting_data_sql",
+        "valueFormat": "number",
+        "encodings": {
+          "x": {"field": "mechanism", "type": "nominal", "label": "Mechanism"},
+          "y": {"field": "median_n100", "type": "quantitative", "label": "Median attacker error (m)"},
+          "tooltip": [
+            {"field": "ci", "type": "nominal", "label": "95% user-cluster CI"},
+            {"field": "success_50", "type": "quantitative", "label": "P[error ≤ 50m]", "format": "percent"}
+          ]
+        }
+      }
+    ],
+    "tables": [
+      {
+        "id": "tt2_results_table",
+        "title": "Kết quả được báo cáo ở Internship 2",
+        "subtitle": "Bốn quỹ đạo tổng hợp San Francisco, 20 điểm mỗi run; cấu hình QoS trong PDF và code không hoàn toàn đồng nhất.",
+        "dataset": "tt2_results",
+        "sourceId": "meeting_data_sql",
+        "defaultSort": {"field": "run", "direction": "asc"},
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          {"field": "run", "label": "Run", "format": "number"},
+          {"field": "mean_m", "label": "Mean displacement (m)", "format": "number"},
+          {"field": "max_m", "label": "Max displacement (m)", "format": "number"},
+          {"field": "qos", "label": "QoS satisfaction", "format": "percent"}
+        ]
+      },
+      {
+        "id": "problem_map_table",
+        "title": "Vấn đề Internship 2 và cách thesis hiện tại xử lý",
+        "subtitle": "Mỗi update được phân biệt theo formal correctness, threat coverage và mức hoàn tất hiện tại.",
+        "dataset": "problem_map",
+        "sourceId": "meeting_data_sql",
+        "defaultSort": {"field": "problem", "direction": "asc"},
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          {"field": "problem", "label": "Vấn đề", "type": "text"},
+          {"field": "why", "label": "Tại sao quan trọng", "type": "text"},
+          {"field": "update", "label": "Update", "type": "text"},
+          {"field": "status", "label": "Trạng thái", "type": "text"}
+        ]
+      },
+      {
+        "id": "moving_headlines_table",
+        "title": "Moving benchmark O5: evidence mô tả được phép dùng",
+        "subtitle": "20 quỹ đạo, 858 điểm, 7 users; một root seed; attacker columns là REM-emission proxy.",
+        "dataset": "moving_headlines",
+        "sourceId": "meeting_data_sql",
+        "defaultSort": {"field": "comparison", "direction": "asc"},
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          {"field": "comparison", "label": "Quan sát", "type": "text"},
+          {"field": "evidence", "label": "Con số O5", "type": "text"},
+          {"field": "safe_interpretation", "label": "Diễn giải an toàn", "type": "text"}
+        ]
+      },
+      {
+        "id": "averaging_table",
+        "title": "Averaging study tại n=100",
+        "subtitle": "40 distinct stay-points, 21 users, 8 seeds, ε=0.02; median CI bootstrap cluster theo user; success rate còn pooled, chưa có cluster CI.",
+        "dataset": "averaging_results",
+        "sourceId": "meeting_data_sql",
+        "defaultSort": {"field": "median_n100", "direction": "desc"},
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          {"field": "mechanism", "label": "Cơ chế", "type": "text"},
+          {"field": "median_n100", "label": "Median error (m)", "format": "number"},
+          {"field": "ci", "label": "95% user-cluster CI", "type": "text"},
+          {"field": "success_50", "label": "P[error ≤ 50m]", "format": "percent"}
+        ]
+      }
+    ],
+    "sources": [
+      {"id": "meeting_data_sql", "label": "Reviewed meeting snapshot (DuckDB SQL)", "path": "docs/supervisor_meeting/report_data.sql"},
+      {"id": "internship_pdf", "label": "Internship 2 final report", "path": "docs/internship_2.pdf"},
+      {"id": "legacy_noise_code", "label": "Internship 2 noise implementation", "path": "core/geo_indistinguishability.py"},
+      {"id": "legacy_trajectory_code", "label": "Internship 2 trajectory pipeline", "path": "core/trajectory_privacy.py"},
+      {"id": "current_thesis", "label": "Current thesis PDF", "path": "thesis/main.pdf"},
+      {"id": "benchmark_o5", "label": "O5 moving benchmark results", "path": "outputs/benchmark_results.json"},
+      {"id": "averaging_o5", "label": "O5 averaging results", "path": "outputs/averaging_multi_results.json"},
+      {"id": "verification_history", "label": "Independent verification history", "path": "docs/reviews/verification_1293304.md"},
+      {"id": "problem_formulation", "label": "Canonical problem formulation", "path": "docs/problem_formulation.md"}
+    ],
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# Từ Internship 2 đến luận văn hiện tại: brief và script gặp giáo viên hướng dẫn\n\n**Mục tiêu buổi gặp:** giải thích vì sao hướng nghiên cứu đã chuyển từ một pipeline tạo quỹ đạo giả có hard QoS sang một family cơ chế road-constrained có guarantee được giới hạn scope; trình bày evidence hiện có; xin thầy chốt scope cho giai đoạn cuối.\n\n**Snapshot:** HEAD `a82d67c`; source C5 `1293304`; outputs O5 `31ab0d3`."
+      },
+      {
+        "id": "technical_summary",
+        "type": "markdown",
+        "body": "## Brief 60–90 giây\n\n> Ở Internship 2, em xây dựng một pipeline tạo quỹ đạo giả: thêm nhiễu, ép trong bán kính QoS, chọn hoặc reject điểm theo bản đồ, làm mượt và snap vào đường. Kết quả cho thấy demo có displacement khoảng 88–110m và QoS 90–100%, nhưng sau khi audit lại em phát hiện pipeline chưa giữ được guarantee Geo-I danh nghĩa: radial law không phải planar Laplace chuẩn, hard cap và các quyết định QoS dựa trên vị trí thật làm miền đầu ra phụ thuộc secret. Evaluation lúc đó cũng chỉ có bốn quỹ đạo tổng hợp và chưa có attacker.\n>\n> Giai đoạn luận văn hiện tại vì thế không chỉ tối ưu pipeline cũ mà phát biểu lại bài toán: cơ chế chạy ở local/client side, phát trực tiếp trên tập đỉnh đường công khai, và được đánh giá dưới continuous observation. REM sửa formal kernel và tạo output on-road; T-REM giảm tín hiệu vận tốc bằng public release history; SM-REM chống averaging cho static same-cell; PR-SM-REM làm quyết định reuse có nhiễu để có finite per-step bound. O5 hiện có benchmark GeoLife thật và averaging study, nhưng em chỉ xem đây là exploratory evidence: attacker cho non-REM vẫn là proxy, chưa có w-event guarantee, direct RAoPT hay mobile deployment.\n\n**Một câu chốt:** đóng góp hiện tại là formal correction + road/temporal/repeated-release integration + threat-based evaluation; không phải một claim rằng em phát minh Geo-I/memoization hoặc đã có production-ready trajectory privacy."
+      },
+      {"id": "headline_metrics", "type": "metric-strip", "cardIds": ["tt2_points_card", "o5_points_card", "averaging_rows_card", "tests_card"]},
+      {
+        "id": "baseline_takeaway",
+        "type": "markdown",
+        "body": "## Internship 2 đã đạt một demo engineering, chưa phải attack-validated privacy mechanism\n\nInternship 2 chứng minh được rằng ta có thể tạo và trực quan hóa quỹ đạo giả trông hợp lý, giữ khoảng cách sử dụng được cho LBS và tích hợp OSM. Tuy nhiên, các con số khi đó chủ yếu đo displacement và QoS — không đo khả năng suy luận của adversary. PDF nói QoS radius 200m, trong khi code lịch sử dùng 175m; run 2 đạt 90% đúng theo 175m nhưng sẽ là 95% ở 200m. Vì vậy các số cũ nên được dùng để mô tả prototype, không làm numerical baseline cho O5."
+      },
+      {"id": "tt2_results", "type": "table", "tableId": "tt2_results_table"},
+      {
+        "id": "research_shift",
+        "type": "markdown",
+        "body": "## Thay đổi cốt lõi là thay tiêu chí “đúng”\n\n```text\nInternship 2\ntrue point → exponential radius → hard cap → alternative/reject\n           → smooth → QoS-gated snap → visually plausible fake point\n\nCurrent thesis\ntrue point → fixed public road support (REM)\n           → public-history temporal weight (T-REM)\n           → exact static memoization (SM-REM)\n           → noisy private reuse (PR-SM-REM)\n           → threat-specific, provenance-backed evaluation\n```\n\nTrong Internship 2, output được xem là tốt nếu gần vị trí thật và nhìn hợp lý. Trong luận văn hiện tại, output chỉ được xem là hợp lệ khi cơ chế có một kernel phân phối được phát biểu rõ, guarantee bám đúng metric/scope, và evidence được đọc dưới capability cụ thể của adversary."
+      },
+      {
+        "id": "problem_map_intro",
+        "type": "markdown",
+        "body": "## Các update xử lý formal bugs trước, rồi mới mở rộng threat coverage\n\nBảng dưới là backbone của phần trình bày. Cần phân biệt ba trạng thái: **đã xử lý ở ideal kernel**, **đã giảm thiểu nhưng scope hẹp**, và **vẫn là future work**."
+      },
+      {"id": "problem_map", "type": "table", "tableId": "problem_map_table"},
+      {
+        "id": "script_header",
+        "type": "markdown",
+        "body": "## Script chi tiết 12–15 phút\n\nKhông cần đọc máy móc từng chữ. Các đoạn blockquote là câu nói đề xuất; phần in đậm là ý cần nhấn. Nếu thầy ngắt để hỏi sâu, ưu tiên giữ mạch: **baseline → counterexample → reframe → mechanisms → evidence → remaining scope**."
+      },
+      {
+        "id": "script_opening",
+        "type": "markdown",
+        "body": "### 0:00–1:00 — Mở đầu và mục tiêu buổi gặp\n\n> Thưa thầy, hôm nay em muốn báo cáo quá trình em đã đi từ kết quả Internship 2 đến cách đặt bài toán hiện tại. Điểm quan trọng nhất là hướng nghiên cứu không còn là làm quỹ đạo giả nhìn hợp lý hơn, mà là kiểm tra xem cơ chế công bố vị trí có giữ được guarantee khi một LBS hoặc data broker biết cơ chế và quan sát chuỗi release hay không. Em sẽ trình bày ba phần: baseline Internship 2 đã làm gì, audit phát hiện vấn đề gì, và family REM/T-REM/SM-REM/PR-SM-REM hiện đang xử lý từng vấn đề như thế nào. Cuối cùng em muốn xin ý kiến thầy về scope cần chốt cho phần cuối luận văn."
+      },
+      {
+        "id": "script_tt2",
+        "type": "markdown",
+        "body": "### 1:00–3:00 — Brief về kết quả cuối Internship 2\n\n> Ở Internship 2, em xây dựng một pipeline gồm thêm nhiễu theo polar coordinates, giới hạn bán kính bởi QoS, tìm đường thay thế hoặc reject điểm không hợp lệ, làm mượt dựa trên các điểm giả trước và snap vào road network nếu vẫn thỏa QoS. Artifact cuối là web/CLI demo trên bốn quỹ đạo tổng hợp San Francisco, mỗi quỹ đạo 20 điểm. Các run báo displacement trung bình khoảng 88 đến 110m và QoS 90 đến 100%.\n>\n> Giá trị của giai đoạn này là em đã có một end-to-end engineering prototype: xử lý tọa độ, OSM constraints, visualization và utility-oriented metrics. Nhưng khi đưa nó lên mức research claim thì còn thiếu: không có adversary implementation, không có dữ liệu thật, không có repeated-observation experiment, không seed hay uncertainty, và chưa chứng minh được các bước hậu xử lý giữ Geo-I.\n\n**Nếu thầy hỏi tại sao không dùng số TT2 làm baseline:**\n\n> Hai evaluation không cùng protocol. TT2 dùng synthetic San Francisco, actual radius 175m dù PDF ghi 200m, full heuristic pipeline và truth sau snap. O5 dùng real GeoLife Beijing, radius đánh giá 200m, một surrogate đơn giản hóa và unsnapped truth. Vì vậy em dùng TT2 làm conceptual baseline/failure case, không claim O5 cải thiện X phần trăm so với TT2."
+      },
+      {
+        "id": "script_formal_problems",
+        "type": "markdown",
+        "body": "### 3:00–5:30 — Ba vấn đề hình thức load-bearing\n\n> Vấn đề thứ nhất là radial distribution. Code cũ lấy bán kính theo Exponential(1/ε), trong khi planar Laplace hai chiều cần Gamma(shape 2, scale 1/ε). Vì vậy tên ε-Geo-I trong code cũ không đi kèm kernel chuẩn.\n>\n> Vấn đề thứ hai là hard cap quanh vị trí thật. Khi em đặt r bằng min(r, δ), support của output bị giới hạn quanh secret. Hai vị trí đủ xa có hai support không giao nhau, nên có event xác suất dương dưới input này nhưng bằng zero dưới input kia; không có finite likelihood-ratio bound.\n>\n> Vấn đề thứ ba là các gate dựa trên vị trí thật: alternative-road selection, kiểm QoS sau smoothing và chỉ nhận road snap nếu còn trong radius. Những quyết định này sử dụng secret thêm lần nữa, nên không thể gọi đơn giản là privacy-preserving post-processing.\n>\n> Em cũng đã tách nuance: một allowed set OSM cố định, công khai không giống một allowed set phụ thuộc input; finite retry cũng không giống conditioning vô hạn. Tuy nhiên conclusion baseline không có nominal ε hợp lệ vẫn đứng vững chỉ từ radial-law và hard-cap counterexamples."
+      },
+      {
+        "id": "script_reframe",
+        "type": "markdown",
+        "body": "### 5:30–7:00 — Phát biểu lại bài toán\n\n> Từ audit đó, em đổi problem statement. Thay vì hỏi “làm sao luôn giữ điểm giả trong 200m”, em hỏi “làm sao phát ra granularity tối thiểu đủ cho một LBS, trên miền output công khai, dưới continuous observation, với guarantee và threat model tường minh”. QoS 200m được chuyển từ một hard operation trong mechanism thành một metric dạng xác suất: tỷ lệ release nằm trong 200m.\n>\n> Kiến trúc đích là local/on-device: cơ chế thấy vị trí thật hiện tại, road graph công khai và các release đã công bố trước đó; server/adversary chỉ thấy released point, timestamp, query metadata và identifier linkable. Artifact hiện tại mới là reference implementation + Flask simulator, chưa phải mobile implementation.\n>\n> Threat model được chia thành off-road/map-matching, velocity/HMM correlation, repeated-report averaging, Bayesian inference và trajectory re-identification. Governance như consent, retention, access control và rotating identifier được ghi rõ là ngoài scope của mechanism."
+      },
+      {
+        "id": "script_mechanisms",
+        "type": "markdown",
+        "body": "### 7:00–10:30 — Logic của bốn cơ chế\n\n> REM chọn trực tiếp một vertex trên toàn bộ road graph công khai với xác suất tỷ lệ exp(-ε·distance/2). Vì support cố định và score dùng Euclidean distance, ideal kernel có proof ε-Geo-I per release; output on-road theo cấu trúc, không cần reject hoặc conditional snap.\n>\n> T-REM thêm reachability weight dựa trên release trước và thời gian — đều là public history. Vì weight không dùng current secret, conditional per-release bound giữ nguyên. Mục tiêu là giảm speed-implausibility signal, không phải claim đã giải quyết toàn bộ temporal privacy.\n>\n> SM-REM xử lý kịch bản người dùng đứng yên và report nhiều lần. Lần đầu trong một public grid cell, cơ chế sample tại public cell representative rồi cache; các lần sau trả cùng release. Trong scope static same-cell, transcript T lần chỉ mang thông tin của một sample, nên averaging không thu thêm independent noise. Nhưng exact hit/miss làm lộ revisit pattern và SM không có arbitrary-trajectory hoặc Euclidean-bound qua cell boundary.\n>\n> PR-SM-REM thay exact reuse decision bằng noisy threshold test. Bound đúng là ε_test + ε_release mỗi bước; trong experiment em split ε/2 + ε/2 để matching budget với REM. PR đóng infinite-ratio revisit channel của exact memoization, nhưng chỉ giảm averaging finite-horizon, chưa có w-event budget manager và không memoize bền vững home–work–home.\n>\n> Tất cả theorem trên là cho ideal real-arithmetic kernel. Float64 Gumbel/Laplace implementation có finite-precision zero-support, nên em không claim executable pure Geo-I."
+      },
+      {
+        "id": "script_evaluation",
+        "type": "markdown",
+        "body": "### 10:30–13:00 — Evaluation và kết quả hiện có\n\n> Evaluation hiện có hai nhánh. Moving benchmark dùng 20 quỹ đạo GeoLife thật, 858 điểm, 7 users, ba epsilon và sáu mechanisms. Nó đo displacement, QoS, Hausdorff/DTW, k-NN POI recall, point-to-edge on-road rate, speed violations, Bayesian point inference và HMM tracking proxy.\n>\n> Kết quả mô tả nổi bật là road mechanisms đạt on-road rate 1.0 theo cấu trúc, trong khi Planar Laplace đạt khoảng 0.82, 0.88 và 0.92. Ở ε=0.01, T-REM giảm speed violations từ khoảng 0.364 của REM xuống 0.067, đồng thời mean displacement giảm từ 377m xuống 299m. Em diễn giải đây là giảm tín hiệu vận tốc phi thực tế, không phải privacy superiority.\n>\n> Nhánh thứ hai là averaging: 40 distinct stay-points, 21 users, 8 seeds và 1,600 raw rows. Tại n=100, REM-form MLE proxy đưa Planar/REM/T-REM xuống khoảng 23–29m median error; SM-REM vẫn khoảng 149m; PR khoảng 47m. Điều này support narrow finding rằng independent releases collapse dưới repeated observation còn memoization thay đổi hành vi đó. Nhưng attacker non-REM vẫn là proxy, nên em không xếp hạng global privacy."
+      },
+      {"id": "averaging_visual", "type": "chart", "chartId": "averaging_n100_chart"},
+      {"id": "moving_evidence", "type": "table", "tableId": "moving_headlines_table"},
+      {"id": "averaging_evidence", "type": "table", "tableId": "averaging_table"},
+      {
+        "id": "script_validation",
+        "type": "markdown",
+        "body": "### 13:00–14:00 — Những gì verifier rounds đã sửa\n\n> Các vòng independent verification đã thay đổi cả theorem lẫn experiment. REM ban đầu còn cutoff quanh input; sau đó chuyển sang full fixed V. SM ban đầu sample tại raw coordinate và overclaim theo số distinct cells; sau đó chuyển sang cell representative và scope static-repeat. PR ban đầu overclaim ε_test-only và w-event; sau phản ví dụ được sửa thành ε_test + ε_release per-step.\n>\n> Ở experiment, các vòng audit bắt được duplicate stay IDs, mechanism-specific input jitter làm so sánh không paired, on-road metric đo tới vertex thay vì edge, RNG phụ thuộc thứ tự mechanism, thiếu HMM normalizer và provenance gaps. O5 hiện có 360/360 benchmark keys và 1,600/1,600 averaging keys unique; aggregate reconstruct được từ raw summaries. Canonical suite hiện có 23 tests pass, nhưng em xem test là regression evidence chứ không thay proof."
+      },
+      {
+        "id": "script_limitations",
+        "type": "markdown",
+        "body": "### 14:00–14:40 — Hạn chế cần nói trước khi bị hỏi\n\n> Kết quả hiện tại đủ cho exploratory report, chưa đủ cho final comparative claim. Moving study chỉ có 7 users và một root seed; success probabilities của averaging chưa có user-cluster CI. Em chưa chạy direct RAoPT, chưa có mechanism-aware + jitter-aware attacker cho T/SM/PR, chưa có aligned GEM/PTPPM/Eclipse implementation, chưa có second city hoặc mobile latency study. W-event budget manager và exact discrete sampler cũng chưa có. Vì vậy claim an toàn là formal correction, scoped guarantees và threat-based exploratory evidence — không phải production-ready system hay globally best privacy mechanism."
+      },
+      {
+        "id": "claims_guardrail",
+        "type": "markdown",
+        "body": "## Claim guardrails cho buổi họp\n\n### Có thể nói\n\n- Internship 2 là một end-to-end heuristic prototype có utility/visualization value.\n- Nominal Geo-I của pipeline cũ không đứng vững do radial law và hard cap; các secret-dependent gates làm vấn đề nặng hơn.\n- REM ideal kernel có fixed-support per-release ε-Geo-I Euclid và output on-road.\n- T-REM giữ conditional per-release bound dưới cùng public history và giảm speed-implausibility trong O5.\n- SM chống averaging trong static same-cell/cache scope; PR có finite one-step ε_test + ε_release bound.\n- O5 là real-data, exploratory, raw/provenance-backed evidence.\n\n### Không nên nói\n\n- “Current method tốt hơn Internship 2 X%” — protocols không comparable.\n- “SM/PR riêng tư hơn REM” — attacker non-REM là proxy.\n- “Output on-road chứng minh kháng RAoPT” — mới loại off-road cue, chưa chạy attack.\n- “T-REM giải quyết trajectory privacy” — worst-case composition vẫn là tổng ε theo thời gian.\n- “SM có whole-trajectory Geo-I” hoặc “PR có w-event guarantee” — chưa có.\n- “Executable float implementation thỏa pure Geo-I” — guarantee hiện là ideal-kernel.\n- “Em phát minh memoization/reuse” — novelty là integration + formalization + evaluation trong road-constrained metric space."
+      },
+      {
+        "id": "supervisor_asks",
+        "type": "markdown",
+        "body": "## Kết thúc buổi họp bằng ba quyết định cần xin thầy\n\n> Với evidence hiện tại, em muốn xin thầy chốt ba điểm. Thứ nhất, đóng góp trung tâm có nên được khóa ở formal correction + road-constrained repeated-release family, thay vì cố claim một trajectory-level solution hoàn chỉnh không? Thứ hai, trong thời gian còn lại nên ưu tiên một direct mechanism-aware/RAoPT attack hay mở rộng multi-city/multi-seed statistical evidence? Thứ ba, mức implementation cần tới đâu: reference prototype với provenance và limitation rõ, hay cần thêm mobile/on-device proof-of-concept?\n\n**Đề xuất ưu tiên của em:**\n\n1. Sửa toàn bộ claim/citation/test-evidence inconsistencies trước.\n2. Chọn đúng một empirical extension có giá trị cao: direct attacker/comparator **hoặc** multi-seed/cross-city, không dàn trải cả hai.\n3. Chốt title/research questions theo scope hẹp và build lại final result package."
+      },
+      {
+        "id": "anticipated_qa",
+        "type": "markdown",
+        "body": "## Q&A dự kiến\n\n### Vì sao không chỉ snap Planar Laplace vào road?\n\nNếu snap là post-processing cố định của output thì guarantee có thể được giữ, nhưng kết quả phụ thuộc mapping nhiều-to-one và không trực tiếp tối ưu phân phối trên road support. REM định nghĩa kernel ngay trên fixed road vertices, giúp theorem và likelihood evaluation rõ ràng hơn. Không nên nói snap luôn sai; sai nằm ở secret-dependent QoS acceptance/cutoff.\n\n### Tại sao SM không phải giải pháp cuối?\n\nExact memoization giết independent averaging trong static same-cell, nhưng hit/miss pattern là hàm của secret revisit pattern và cell quantization làm gián đoạn qua biên. Vì vậy nó là scoped defense, không phải whole-trajectory Geo-I.\n\n### PR đã giải quyết leak của SM chưa?\n\nNó thay deterministic reuse bằng private noisy test, nên one-step ratio hữu hạn. Nhưng nó chưa có sliding-window accountant, vẫn resample với xác suất dương và không bảo vệ averaging tiệm cận.\n\n### Industry sẽ áp dụng ở đâu?\n\nTarget hợp lý là middleware/client-side location layer trước khi gửi Places/ads/live-sharing request. Artifact hiện tại chứng minh reference logic, chưa chứng minh mobile integration, latency, cache security hay governance.\n\n### Đóng góp mới ở đâu nếu memoization đã tồn tại?\n\nKhông claim phát minh primitive. Đóng góp defensible là sửa formal baseline, tích hợp fixed road-metric output với public-history temporal weighting và repeated-release defenses, phân tích scope/failure modes, rồi đánh giá dưới một protocol threat-aware."
+      },
+      {
+        "id": "meeting_checklist",
+        "type": "markdown",
+        "body": "## Checklist trước khi gặp thầy\n\n- Mở sẵn PDF Internship 2 ở Chương 4–6 và thesis hiện tại ở Chương 1, 4, 5, 6.\n- Chuẩn bị một hình pipeline before/after; không cần show toàn bộ code.\n- Mang đúng bốn con số: `858 points`, `1,600 averaging rows`, `0.364→0.067 speed violation`, `SM n=100 ≈149m dưới proxy`.\n- Nói caveat ngay sau mỗi result; không đợi tới cuối.\n- Ghi lại quyết định của thầy về contribution scope, empirical priority và mức implementation.\n- Nếu chỉ có 5 phút, dùng Brief 60–90 giây + phần ba vấn đề hình thức + ba câu xin quyết định."
+      },
+      {
+        "id": "further_questions",
+        "type": "markdown",
+        "body": "## Câu hỏi nghiên cứu cần khóa sau buổi gặp\n\n1. Primary research question là formal validity của road-constrained release hay empirical resistance dưới continuous observation?\n2. SM-REM và PR-SM-REM là hai contributions ngang hàng, hay SM là counterpoint còn PR là cơ chế chính?\n3. Success criterion cuối là theorem + reference implementation, hay cần direct attack win against a named comparator?\n4. Có cần giữ broad “trajectory privacy” title, hay đổi sang road-constrained repeated location release với scope hẹp hơn?\n5. Minimum final evidence: thêm multi-seed CI, second city, RAoPT, mechanism-aware attacker hay executable comparator — thứ tự ưu tiên nào phù hợp thời gian luận văn?"
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-08-24T07:00:30Z",
+    "status": "ready",
+    "datasets": {
+      "summary_metrics": [
+        {"metric_id": "tt2_points", "value": 80},
+        {"metric_id": "o5_points", "value": 858},
+        {"metric_id": "averaging_rows", "value": 1600},
+        {"metric_id": "tests", "value": 23}
+      ],
+      "tt2_results": [
+        {"run": 1, "mean_m": 91.68, "max_m": 160.44, "qos": 1.0},
+        {"run": 2, "mean_m": 110.31, "max_m": 203.83, "qos": 0.90},
+        {"run": 3, "mean_m": 90.48, "max_m": 222.88, "qos": 0.95},
+        {"run": 4, "mean_m": 87.60, "max_m": 170.34, "qos": 1.0}
+      ],
+      "problem_map": [
+        {"order": 1, "problem": "Radial law sai", "why": "Exponential radius không phải planar Laplace 2D chuẩn", "update": "Correct Planar comparator + fixed-support REM", "status": "Đã xử lý ở mathematical design"},
+        {"order": 2, "problem": "Hard QoS cap", "why": "Support phụ thuộc secret; có zero-probability event", "update": "Bỏ cap khỏi formal mechanisms; QoS trở thành measured usefulness", "status": "Đã xử lý trong REM family"},
+        {"order": 3, "problem": "Secret-dependent gates", "why": "Alternative road, smoothing/snap acceptance đọc vị trí thật", "update": "Direct sampling trên public road support; tách fixed-A, A_x và finite retry", "status": "Core design xử lý; narrative cần tiếp tục làm rõ"},
+        {"order": 4, "problem": "Off-road/map cue", "why": "Adversary có thể prune output không hợp road graph", "update": "REM/T/SM/PR phát road vertices by construction", "status": "Structural property; chưa direct RAoPT"},
+        {"order": 5, "problem": "Temporal correlation", "why": "Speed/reachability và HMM dùng toàn chuỗi release", "update": "T-REM public-history reachability weighting", "status": "Giảm tín hiệu; chưa trajectory guarantee"},
+        {"order": 6, "problem": "Repeated-report averaging", "why": "Independent noise collapse khi report cùng stay-point", "update": "SM exact memoization; PR randomized reuse", "status": "SM static scope; PR finite horizon"},
+        {"order": 7, "problem": "Revisit-pattern leak", "why": "Exact hit/miss có infinite-ratio event", "update": "Noisy threshold với bound ε_test + ε_release", "status": "One-step bound; chưa w-event"},
+        {"order": 8, "problem": "Displacement được gọi là privacy", "why": "Không mô hình hóa adversary inference", "update": "Bayesian/HMM/averaging proxy attacks", "status": "Exploratory; non-REM attacker chưa mechanism-aware"},
+        {"order": 9, "problem": "Evidence/provenance yếu", "why": "Synthetic data, không seed/raw/hash/CI", "update": "GeoLife, semantic RNG, graph hash, raw summaries, user-cluster bootstrap", "status": "Cải thiện mạnh; moving study vẫn one-seed/7 users"}
+      ],
+      "moving_headlines": [
+        {"order": 1, "comparison": "Planar off-edge cue", "evidence": "On-road 0.818 / 0.876 / 0.921 tại ε=.01/.02/.05", "safe_interpretation": "Road mechanisms loại off-road cue theo cấu trúc; chưa chứng minh kháng RAoPT"},
+        {"order": 2, "comparison": "REM → T-REM tại ε=.01", "evidence": "Speed violation 0.364 → 0.067; displacement 377m → 299m", "safe_interpretation": "T-REM giảm speed-implausibility trong exploratory benchmark"},
+        {"order": 3, "comparison": "Planar temporal inference tại ε=.01", "evidence": "Bayes error 200.7m; HMM proxy 125.0m", "safe_interpretation": "Temporal model khai thác thêm chuỗi trong setup này; không là universal attack proof"}
+      ],
+      "averaging_results": [
+        {"mechanism": "Planar Laplace", "median_n100": 23.4, "ci": "[18.5, 30.0]", "success_50": 0.944},
+        {"mechanism": "REM", "median_n100": 28.4, "ci": "[23.6, 31.1]", "success_50": 0.897},
+        {"mechanism": "T-REM", "median_n100": 28.5, "ci": "[23.6, 33.7]", "success_50": 0.897},
+        {"mechanism": "SM-REM", "median_n100": 148.9, "ci": "[138.8, 171.8]", "success_50": 0.091},
+        {"mechanism": "PR-SM-REM", "median_n100": 47.4, "ci": "[40.8, 50.0]", "success_50": 0.566}
+      ]
+    }
+  },
+  "sources": [
+    {"id": "meeting_data_sql", "label": "Reviewed meeting snapshot (DuckDB SQL)", "path": "docs/supervisor_meeting/report_data.sql"},
+    {"id": "internship_pdf", "label": "Internship 2 final report", "path": "docs/internship_2.pdf"},
+    {"id": "legacy_noise_code", "label": "Internship 2 noise implementation", "path": "core/geo_indistinguishability.py"},
+    {"id": "legacy_trajectory_code", "label": "Internship 2 trajectory pipeline", "path": "core/trajectory_privacy.py"},
+    {"id": "current_thesis", "label": "Current thesis PDF", "path": "thesis/main.pdf"},
+    {"id": "benchmark_o5", "label": "O5 moving benchmark results", "path": "outputs/benchmark_results.json"},
+    {"id": "averaging_o5", "label": "O5 averaging results", "path": "outputs/averaging_multi_results.json"},
+    {"id": "verification_history", "label": "Independent verification history", "path": "docs/reviews/verification_1293304.md"},
+    {"id": "problem_formulation", "label": "Canonical problem formulation", "path": "docs/problem_formulation.md"}
+  ]
+}
