@@ -74,14 +74,13 @@ def dtw(real, released, proj):
 
 
 def on_road_rate(released, road_network, tol_m=25.0):
-    """Fraction of released points within tol_m of the nearest road VERTEX.
-    NOTE (verifier V-011): this is nearest-vertex distance, not point-to-edge
-    distance — a point mid-edge on a long segment can read as far from a
-    vertex. For the road mechanisms every output IS a vertex (distance 0), so
-    the metric still cleanly separates on-graph from off-graph output; true
-    point-to-edge distance is a planned refinement."""
+    """Fraction of released points within tol_m of the nearest road EDGE
+    (true point-to-edge distance, verifier R4-003). A point mid-segment on a
+    long edge is correctly counted as on-road even if far from any vertex. For
+    the road mechanisms every output is a graph vertex, i.e. an edge endpoint,
+    so its edge distance is 0 and the rate is 1.0 by construction."""
     hits = sum(
-        1 for lat, lon in released if road_network.dist_to_road(lat, lon) <= tol_m
+        1 for lat, lon in released if road_network.dist_to_edge(lat, lon) <= tol_m
     )
     return hits / len(released)
 

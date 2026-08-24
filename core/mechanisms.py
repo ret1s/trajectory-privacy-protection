@@ -47,7 +47,20 @@ kernel. The float64 Gumbel-max / Laplace samplers have bounded RNG span, hence
 input-dependent zero-support outputs (see _sample and tests/test_sampler_support.py),
 so the executable is a numerical APPROXIMATION, not a pure-DP mechanism.
 """
+import math
+
 import numpy as np
+
+
+def _require_positive_finite(value, name):
+    """Reject a privacy budget that is None, non-numeric, non-finite, or ≤ 0
+    (verifier R4-005)."""
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
+        raise ValueError(f"{name} must be a finite positive number, got {value!r}")
+    if not math.isfinite(v) or v <= 0.0:
+        raise ValueError(f"{name} must be a finite positive number, got {value!r}")
 
 
 class PlanarLaplace:
@@ -246,15 +259,19 @@ class TemporalRoadExponential(RoadExponential):
 
 
 class StayMemoizedREM(TemporalRoadExponential):
-    """T-REM + memoization keyed to a fixed public grid — closes the averaging /
-    home-inference attack (S4).
+    """T-REM + memoization keyed to a fixed public grid — neutralises the
+    averaging / home-inference attack (S4) FOR A STATIC SAME-CELL REPEAT ONLY
+    (empty initial cache); the revisit pattern still leaks (see below).
 
     Motivation. REM/T-REM (like every noise-per-report mechanism) leak under
     *repeated reports from the same place*: an adversary who sees many
-    independent releases z_1..z_n of a static true point x can average them,
-    and the estimate converges to x as n grows. This is the documented
-    real-world harm behind Strava home-zone recovery (Hassan et al., USENIX
-    Security 2018) and data-broker home/work fingerprinting.
+    independent releases z_1..z_n of a static true point x can aggregate them.
+    The sample mean converges to E[Z|x], which equals x only for an unbiased
+    mechanism (planar Laplace); for REM on bounded/on-road support E[Z|x] is
+    biased, so the mechanism-aware MLE — not the arithmetic mean — is the attack
+    that recovers x (see the S4 study). This is the documented real-world harm
+    behind Strava home-zone recovery (Hassan et al., USENIX Security 2018) and
+    data-broker home/work fingerprinting.
 
     Fix (deterministic memoization, as in Android's LocationFudger persistent
     offset and LP-Doctor's cached noise, USENIX Sec 2015). Space is partitioned
@@ -286,8 +303,9 @@ class StayMemoizedREM(TemporalRoadExponential):
     likelihood ratio. The public grid does not make a secret revisit public. A
     guarantee that also protects the revisit pattern needs the reuse decision
     itself to be differentially private (predictive-mechanism private test,
-    Chatzikokolakis et al. PETS 2014) — implemented separately as future work,
-    not here.
+    Chatzikokolakis et al. PETS 2014) — implemented as the separate
+    `PrivateReuseSMREM` class below (finite per-step bound, finite-horizon
+    mitigation), NOT in this exact-memoization class.
 
     Also NOT ε-Geo-I in the original Euclidean metric even per-release: the
     cell→representative quantisation is input-side discretisation, so two points
@@ -446,16 +464,24 @@ class PrivateReuseSMREM(RoadExponential):
             if epsilon_release is not None or epsilon_test is not None:
                 raise ValueError(
                     "give epsilon_step_cap OR (epsilon_release, epsilon_test), not both")
+            _require_positive_finite(epsilon_step_cap, "epsilon_step_cap")
             epsilon_release = epsilon_test = epsilon_step_cap / 2.0
         if epsilon_release is None or epsilon_test is None:
             raise ValueError(
                 "PrivateReuseSMREM needs epsilon_release and epsilon_test "
                 "(or epsilon_step_cap)")
+        # Reject non-positive / non-finite budgets (verifier R4-005): a negative
+        # release ε flips the exponential mechanism's preference, and NaN/0 would
+        # advertise a bogus privacy cost. Fail before any state is built.
+        _require_positive_finite(epsilon_release, "epsilon_release")
+        _require_positive_finite(epsilon_test, "epsilon_test")
+        step_cap = epsilon_release + epsilon_test
+        _require_positive_finite(step_cap, "epsilon_release + epsilon_test")
         super().__init__(epsilon_release, road_network, rng)
         self.eps_test = epsilon_test
         self.theta = theta  # public reuse radius (m)
         # Advertised worst-case per-step privacy cost (release + test).
-        self.privacy_cost_per_step_max = epsilon_release + epsilon_test
+        self.privacy_cost_per_step_max = step_cap
         self.reset()
 
     def reset(self):

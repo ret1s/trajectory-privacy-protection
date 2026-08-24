@@ -35,7 +35,7 @@ from core.mechanisms import (
 )
 from evaluation.attacks import AveragingAttack, precompute_lognorm
 from experiments.rng_util import rng_from_key
-from experiments.provenance import provenance, assert_graph_matches_manifest
+from experiments.provenance import provenance, assert_graph_matches_manifest, begin_run
 from data.geolife import load_stay_points
 
 GRAPH_PKL = os.path.join("data", "raw", "beijing_graph.pkl")
@@ -83,12 +83,14 @@ def bootstrap_ci(values_by_user, reducer=np.median, n_boot=1000, seed=0):
 
 
 def run(n_homes=40, seeds=8, eps=EPS, quick=False):
+    run_ctx = begin_run()  # capture source/env/start BEFORE computation (R4-008)
     rn = RoadNetwork.from_pickle(GRAPH_PKL)
     assert_graph_matches_manifest(rn)  # fail closed on wrong graph (R3-008)
     homes = load_stay_points(n_homes=n_homes)
-    # Stable, order-independent home ID (verifier R3-002/R3-010).
-    home_ids = [f"{h['user']}@{h['home'][0]:.6f},{h['home'][1]:.6f}" for h in homes]
-    print(f"{len(homes)} stay-point homes across "
+    # Unique, source-backed home ID (verifier R4-001): user/file/segment/stay.
+    home_ids = [h["uid"] for h in homes]
+    assert len(home_ids) == len(set(home_ids)), "home_ids must be unique (R4-001)"
+    print(f"{len(homes)} distinct stay-points across "
           f"{len(set(h['user'] for h in homes))} users; "
           f"{seeds} seeds; jitter σ={JITTER_M}m; eps={eps}\n")
 
@@ -110,10 +112,14 @@ def run(n_homes=40, seeds=8, eps=EPS, quick=False):
                 lognorm=lognorm[SCALE[m]] if USE_LOGNORM[m] else zero_norm)
             for s in range(seeds):
                 mech = factory()
-                # Order-independent streams keyed by stable identities (R3-002).
+                # Mechanism RNG keys ON the mechanism (R3-002); the EXOGENOUS GPS
+                # jitter RNG does NOT — every mechanism sees the SAME input-noise
+                # realization for a given (home, seed), so the comparison is
+                # PAIRED (verifier R4-002).
                 mech.rng = rng_from_key("avg-mech", SEED, eps, m, hid, s)
+                jitter_rng = rng_from_key("avg-jitter", SEED, eps, hid, s)
                 res = attack.run(mech, hlat, hlon, N_REPORTS, jitter_m=JITTER_M,
-                                 ks=KS, rng=rng_from_key("avg-jitter", SEED, eps, m, hid, s))
+                                 ks=KS, rng=jitter_rng)
                 for est in ("mean", "mle"):
                     for k in KS:
                         raw[m][est][k].setdefault(user, []).append(res[est][k])
@@ -124,6 +130,10 @@ def run(n_homes=40, seeds=8, eps=EPS, quick=False):
                 })
         if (hi + 1) % 10 == 0:
             print(f"  ...{hi+1}/{len(homes)} homes", flush=True)
+
+    # Composite raw key must be a genuine primary key (verifier R4-001).
+    comp = [(r["mechanism"], r["home_id"], r["seed"]) for r in raw_rows]
+    assert len(comp) == len(set(comp)), "raw (mechanism, home_id, seed) must be unique"
 
     # Aggregate: median error vs n (both estimators) with CI over homes.
     results = {}
@@ -152,11 +162,16 @@ def run(n_homes=40, seeds=8, eps=EPS, quick=False):
         print(f"{m:<26}" + "".join(f"{succ[r]*100:8.0f}%" for r in RADII))
 
     config = provenance(
-        rn, [eps], root_seeds=[SEED], quick=quick,
+        rn, [eps], root_seeds=[SEED], quick=quick, begin=run_ctx,
         extra={
+            "estimand": "distinct significant location (stay-point centre); "
+                        "near-identical same-user stays deduped within dedup_m",
             "n_locations": len(homes),
             "n_users": len(set(h["user"] for h in homes)),
+            "dedup_m": 25.0,
             "selected_home_ids": home_ids,
+            "paired_jitter": "GPS jitter RNG keyed by (root,eps,home,seed) only — "
+                             "same input noise across mechanisms (R4-002)",
             "seeds": seeds, "eps": eps, "jitter_m": JITTER_M,
             "n_reports": N_REPORTS, "ks": list(KS), "radii": list(RADII),
             "scale": SCALE, "bootstrap": {"n_boot": N_BOOT, "seed": BOOT_SEED,

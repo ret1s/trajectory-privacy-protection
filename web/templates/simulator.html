@@ -122,6 +122,7 @@
 <div id="metrics" class="card">
   <h2>Toàn quỹ đạo</h2>
   <div class="chips" id="chips"></div>
+  <p id="eps-note" style="font-size:12px;opacity:.7;margin:6px 0 0"></p>
   <div id="chart">
     <h2 style="margin-top:12px">Theo từng bước (m)</h2>
     <svg id="csvg" viewBox="0 0 320 120" preserveAspectRatio="none"></svg>
@@ -173,9 +174,11 @@ run.onclick = async () => {
     [(s.qos*100).toFixed(0) + '%', 'QoS ≤ ' + qosR + 'm'],
     [(s.on_road*100).toFixed(0) + '%', 'trên đường'],
     [s.mean_attacker_err + ' m', 'sai số attacker'],
-    [(s.knn_recall*100).toFixed(0) + '%', 'POI recall'],
-    [s.epsilon_total, 'ε toàn quỹ đạo'],
+    [(s.knn_recall*100).toFixed(0) + '%', 'POI recall (POI tổng hợp)'],
+    [s.epsilon_ceiling_eps_times_T, 'ε·T (trần worst-case)'],
   ].map(([v,l]) => `<div class="chip"><b>${v}</b><i>${l}</i></div>`).join('');
+  const noteEl = document.getElementById('eps-note');
+  if (noteEl) noteEl.textContent = s.epsilon_note || '';
   document.getElementById('metrics').style.display = 'block';
   document.getElementById('playbar').style.display = 'flex';
 

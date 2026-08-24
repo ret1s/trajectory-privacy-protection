@@ -70,17 +70,53 @@ def assert_graph_matches_manifest(rn, graph_pkl=GRAPH_PKL, manifest_path=MANIFES
     return man
 
 
-def provenance(rn, epsilons, root_seeds, quick=False, extra=None):
+def _env_lock():
+    """Resolved versions of the packages that shape the numbers (verifier
+    R4-008), so a rerun can pin the same environment."""
+    import importlib.metadata as im
+    out = {}
+    for pkg in ("numpy", "scipy", "networkx", "osmnx", "shapely", "haversine"):
+        try:
+            out[pkg] = im.version(pkg)
+        except Exception:
+            out[pkg] = None
+    return out
+
+
+def begin_run():
+    """Capture the immutable run context BEFORE the computation loop (verifier
+    R4-008): source commit + dirty flag, start time, interpreter, cwd, platform,
+    and resolved package versions. Pass the returned dict to `provenance(...)`."""
     commit, dirty = _git_state()
+    return {
+        "source_commit": commit,
+        "source_dirty_before_run": dirty,
+        "started_at_utc": datetime.now(timezone.utc).isoformat(),
+        "python": platform.python_version(),
+        "interpreter": sys.executable,
+        "cwd": os.getcwd(),
+        "platform": platform.platform(),
+        "command": [sys.executable, "-m"] + [a for a in sys.argv],
+        "package_versions": _env_lock(),
+    }
+
+
+def provenance(rn, epsilons, root_seeds, quick=False, extra=None, begin=None):
+    ctx = begin or begin_run()
     man = load_manifest()
     prov = {
         "schema": "msc-experiment-v1",
-        "source_commit": commit,
-        "source_dirty_before_run": dirty,
-        "command": sys.argv,
+        "source_commit": ctx.get("source_commit"),
+        "source_dirty_before_run": ctx.get("source_dirty_before_run"),
+        "command": ctx.get("command", sys.argv),
+        "interpreter": ctx.get("interpreter"),
+        "cwd": ctx.get("cwd"),
+        "platform": ctx.get("platform"),
         "mode": "quick" if quick else "full",
-        "started_at_utc": datetime.now(timezone.utc).isoformat(),
-        "python": platform.python_version(),
+        "started_at_utc": ctx.get("started_at_utc"),
+        "finished_at_utc": datetime.now(timezone.utc).isoformat(),
+        "python": ctx.get("python", platform.python_version()),
+        "package_versions": ctx.get("package_versions"),
         "graph_sha256": man.get("graph_sha256"),
         "graph_nodes": len(rn),
         "graph_source_sha256": man.get("source_sha256"),
@@ -88,6 +124,9 @@ def provenance(rn, epsilons, root_seeds, quick=False, extra=None):
         "rng_schema": RNG_SCHEMA,
         "root_seeds": list(root_seeds),
         "epsilons": list(epsilons),
+        "dataset": {"name": "GeoLife v1.3", "raw_bytes_in_git": False,
+                    "note": "raw GeoLife/graph are gitignored; selected record IDs "
+                            "pinned below, per-file byte hashing is future work (R4-008)"},
     }
     if extra:
         prov.update(extra)

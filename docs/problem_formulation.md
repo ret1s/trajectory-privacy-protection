@@ -43,11 +43,14 @@ SM-REM; (4) positioning vs công trình sát nhất. Đi kèm `system_model_and_
 | R11 | Storage limitation / retention / deletion | GDPR 5(1)(e); FTC orders; Google auto-delete 3 tháng | S6,S8 |
 | R12 | Minh bạch & kiểm soát người dùng (accuracy indicator, precise/approximate toggle) | Apple halo + toggle; iOS `CLAccuracyAuthorization`; GDPR 5(1)(a); LINDDUN Unawareness | cross-cutting |
 
-**Scope trung thực — cơ chế (REM/T-REM/SM-REM/PR-SM-REM) LÀM được:** R1 (client-side), R3 (ε-Geo-I
-Euclid), R4 (on-road by construction), R5 (T-REM reachability), **R6 (SM-REM/PR-SM-REM memoization
-= đúng anti-averaging spec của W3C, nhưng scope hẹp — chỉ static exact-repeat; pattern thăm-lại
-vẫn lộ)**, R7 một phần (memoized endpoint), R2 có điều kiện
-(chọn ε/δ từ context công khai, KHÔNG từ vị trí thật). **KHÔNG tự làm được (thuộc governance/
+**Scope trung thực — phân biệt từng cơ chế (verifier R4-010, KHÔNG gộp):**
+R1 (client-side, cả bốn); **R3 (ε-Geo-I Euclid) CHỈ REM/T-REM** — SM-REM/PR-SM-REM
+KHÔNG đạt Euclidean Geo-I per-release (gián đoạn ở biên ô, ratio tới exp(ε·√2·g));
+R4 (on-road by construction, cả bốn); R5 (reachability, T-REM); **R6 anti-averaging:
+SM-REM = memoization CHÍNH XÁC, chỉ static same-cell repeat với cache khởi tạo rỗng
+(pattern thăm-lại vẫn lộ, ratio ∞); PR-SM-REM = predictive-reuse với chặn per-step
+hữu hạn, giảm thiểu hữu-hạn-horizon — KHÔNG phải memoization bền vững**; R7 một phần
+(endpoint); R2 có điều kiện (chọn ε/δ từ context công khai, KHÔNG từ vị trí thật). **KHÔNG tự làm được (thuộc governance/
 identity/UX phía khác):** R8 (rotating identifier), R9–R11 (consent/retention/purpose — phía
 server), R12 (UX). **S6 chỉ vá một phần:** nhiễu per-point không xóa tính duy nhất của cả
 quỹ đạo (de Montjoye 4 điểm→95%) — cần ε·T/w-event và thừa nhận nhiễu + identifier cố định
@@ -80,9 +83,18 @@ quỹ đạo (de Montjoye 4 điểm→95%) — cần ε·T/w-event và thừa nh
 ## 4. Positioning (khe hở SM-REM lấp)
 
 - **PTPPM** (Cao et al. 2024, arXiv:2401.11225) & **road-network PTPPM** (Min et al. 2025,
-  arXiv:2511.21020): Permute-and-Flip **stateless**, mô hình *chỉ* tương quan liên-timestep,
-  không road-native-by-construction, và **tự thừa nhận** *"repeated releases of identical true
-  locations remain vulnerable if the perturbation mechanism is stateless."*
+  arXiv:2511.21020): Permute-and-Flip mỗi timestamp, mô hình tương quan liên-timestep, không
+  road-native-by-construction. *Đây là **suy luận của luận văn** từ mô tả thuật toán* rằng một
+  cơ chế stateless per-timestamp vẫn hở với báo-lặp-từ-điểm-tĩnh — KHÔNG phải trích dẫn nguyên
+  văn từ paper (verifier R4-011).
+- **Simitçioğlu & Gürsoy, Computer Networks 284 (7/2026), Art. 112333**
+  (doi:10.1016/j.comnet.2026.112333): nghiên cứu Bayesian attack cho người dùng tĩnh, HMM cho
+  người dùng di chuyển, và ba defense **Memoization / Replay / Replication** (Replay lưu cả
+  location lẫn perturbed counterpart; Replication chỉ lưu perturbed counterpart và reuse khi
+  location lặp). **Overlap trực tiếp** với threat split (tĩnh↔Bayesian, di chuyển↔HMM) và
+  defense pattern của SM/PR — dù họ dùng **categorical LDP** chứ không road-metric Geo-I. Vì vậy
+  novelty của luận văn KHÔNG phải phát minh memoization/previous-release reuse, mà là
+  **tích hợp + hình thức hóa + đánh giá trong metric-space road-constrained**.
 - **GEM/GG-I** (Takagi 2020): single-shot, không chống averaging.
 - **Eclipse** (Niu et al. IEEE TMC 2020): chống long-term observation nhưng **off-road** qua
   anonymity set, không memoization.

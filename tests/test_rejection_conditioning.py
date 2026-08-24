@@ -8,9 +8,11 @@ a base ε-Geo-I hypothesis on K and the 1_A(z) indicator mask:
   ⇒ for every measurable S:  K_A(S|x)/K_A(S|x') ≤ e^{2ε d(x,x')}.
 
 Tests here, on a finite domain:
-  (a) the 2ε bound HOLDS on a symmetric ε-Geo-I grid;
-  (b) 2ε is TIGHT — a 3-point ε-DP kernel + fixed public A gives ratio > e^ε
-      (so ε alone is insufficient), ≤ e^2ε;
+  (a) the 2ε bound HOLDS on a symmetric ε-Geo-I grid (worst ratio ≤ e^{2ε});
+  (b) factor-2 is NECESSARY — a 3-point ε-DP kernel + fixed public A gives a
+      conditioned ratio > e^ε (so ε alone is insufficient), while staying ≤ e^2ε.
+      This witnesses necessity of the 2 constant; it does NOT claim the bound is
+      attained (the example lies strictly below e^2ε);
   (c) NEGATIVE regression: dropping the ε-Geo-I hypothesis (δ_0 vs δ_1) → ∞;
   (d) NEGATIVE regression: dropping the 1_A mask → "distribution" sums to 2;
   (e) input-dependent A_x on a 0-DP base → ∞ (prop:reject).
@@ -25,7 +27,9 @@ def _row_normalise(K):
 
 
 def test_fixed_public_set_is_2eps():
-    """(a) Fixed public A: worst-case ratio hits e^{2ε·d}, exceeds e^{ε·d}."""
+    """(a) Fixed public A on a symmetric ε-Geo-I grid: the 2ε bound HOLDS
+    (worst-case ratio ≤ e^{2ε·d}). This case does NOT reach the bound; the
+    factor-2 necessity is witnessed separately below."""
     eps = 1.0
     # Two inputs a,b at unit distance; base kernel = ε-Geo-I exponential on a
     # 1-D output grid, score −(ε/2)|z−x|. (ε/2 → single-shot ε-Geo-I.)
@@ -47,9 +51,9 @@ def test_fixed_public_set_is_2eps():
     eps_bound = np.exp(eps * d)
     two_eps_bound = np.exp(2 * eps * d)
     assert worst <= two_eps_bound + 1e-9, f"{worst} > e^2ε={two_eps_bound}"
-    # The point of the proposition: the ε bound is NOT enough in general here.
-    # (For this symmetric grid the acceptance factor is ~1, so we assert the
-    #  bound HOLDS at 2ε and construct the tight case separately below.)
+    # For this symmetric grid the acceptance factor is ~1, so the worst ratio
+    # stays well below e^2ε — this case only verifies the bound HOLDS. Factor-2
+    # necessity is witnessed by the asymmetric kernel in the next test.
     print(f"[PASS] fixed-public A: worst ratio={worst:.4f} "
           f"≤ e^2ε={two_eps_bound:.4f} (e^ε={eps_bound:.4f})")
 

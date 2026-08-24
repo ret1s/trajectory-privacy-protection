@@ -210,6 +210,8 @@ class HMMTrackingAttack:
             idxs = self._candidates(z_xy)
             d = np.linalg.norm(self.rn.xy[idxs] - z_xy, axis=1)
             loge = -self.emission_scale * self.epsilon * d
+            if self.logZ is not None:
+                loge = loge - self.logZ[idxs]  # SAME normaliser as offline (R4-007 parity)
             emis = np.exp(loge - loge.max())
 
             if prev_idxs is None:

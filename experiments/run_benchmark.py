@@ -33,7 +33,7 @@ from evaluation.attacks import (
     precompute_lognorm,
 )
 from experiments.rng_util import semantic_rng
-from experiments.provenance import provenance, assert_graph_matches_manifest
+from experiments.provenance import provenance, assert_graph_matches_manifest, begin_run
 from data.geolife import load_trajectories
 
 GRAPH_PKL = os.path.join("data", "raw", "beijing_graph.pkl")
@@ -83,6 +83,7 @@ USE_LOGNORM = {
 
 
 def run(n_trajectories=20, epsilons=EPSILONS, quick=False):
+    run_ctx = begin_run()  # capture source/env/start BEFORE any computation (R4-008)
     print("Loading road network...", flush=True)
     rn = RoadNetwork.from_pickle(GRAPH_PKL)
     # Fail closed if the graph is not the pinned artifact (verifier R3-008).
@@ -158,6 +159,9 @@ def run(n_trajectories=20, epsilons=EPSILONS, quick=False):
                 })
             row = {"mechanism": mech.name, "epsilon": eps}
             row.update(metrics.summarize(per_traj))
+            # Raw numerator/denominator so the coverage column reconstructs (R4-008).
+            row["hmm_covered"] = int(hmm_attack.true_covered)
+            row["hmm_total"] = int(hmm_attack.true_total)
             row["hmm_coverage"] = round(
                 hmm_attack.true_covered / max(1, hmm_attack.true_total), 3
             )
@@ -173,7 +177,7 @@ def run(n_trajectories=20, epsilons=EPSILONS, quick=False):
             )
 
     prov = provenance(
-        rn, epsilons, root_seeds=[SEED], quick=quick,
+        rn, epsilons, root_seeds=[SEED], quick=quick, begin=run_ctx,
         extra={
             "qos_radius": QOS_RADIUS,
             "n_trajectories": len(trajs),

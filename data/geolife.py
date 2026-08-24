@@ -171,13 +171,26 @@ def load_stay_points(
     interval_s=60,
     max_gap_s=600,
     max_per_user=2,
+    dedup_m=25.0,
     users=None,
     root=GEOLIFE_ROOT,
 ):
-    """Extract a population of real 'significant locations' (stay-point centres)
-    from GeoLife inside `bbox`, for the multi-home averaging study. Caps per
-    user so the population is not dominated by one person's home."""
-    homes = []
+    """Extract a population of distinct 'significant locations' (stay-point
+    centres) from GeoLife inside `bbox`, for the multi-home averaging study.
+
+    Each returned dict is a UNIQUE, SOURCE-BACKED study unit (verifier R4-001):
+
+        {"user", "home": (lat, lon)  # full precision,
+         "file": <plt basename>, "seg": <segment idx>, "stay": <stay idx>,
+         "uid": "<user>/<file>/seg<seg>/stay<stay>"}
+
+    Two guards make the population a real primary key: (1) near-identical stays
+    of the SAME user (within `dedup_m` metres, e.g. the same place detected
+    twice or revisited) collapse to their first occurrence — repeated visits are
+    NOT counted as independent locations; (2) the per-user cap counts only
+    distinct locations. The caller can assert `uid` uniqueness.
+    """
+    kept = []
     per_user = {}
     for user_id, plt in iter_user_files(root, users):
         if per_user.get(user_id, 0) >= max_per_user:
@@ -186,18 +199,35 @@ def load_stay_points(
         inside = [p for p in raw if _in_bbox(p[0], p[1], bbox)]
         if len(inside) < 5:
             continue
-        for segment in _split_on_gaps(inside, max_gap_s):
+        fname = os.path.basename(plt)
+        for seg_i, segment in enumerate(_split_on_gaps(inside, max_gap_s)):
             pts = resample(segment, interval_s)
-            for lat, lon in detect_stay_points(pts, dist_thresh_m, time_thresh_s):
-                homes.append({"user": user_id, "home": (lat, lon)})
+            for stay_i, (lat, lon) in enumerate(
+                detect_stay_points(pts, dist_thresh_m, time_thresh_s)
+            ):
+                # Drop a stay near an already-kept stay of the same user.
+                if any(
+                    k["user"] == user_id
+                    and haversine((lat, lon), k["home"], unit=Unit.METERS) <= dedup_m
+                    for k in kept
+                ):
+                    continue
+                kept.append({
+                    "user": user_id, "home": (lat, lon),
+                    "file": fname, "seg": seg_i, "stay": stay_i,
+                    "uid": f"{user_id}/{fname}/seg{seg_i}/stay{stay_i}",
+                })
                 per_user[user_id] = per_user.get(user_id, 0) + 1
                 if per_user[user_id] >= max_per_user:
                     break
             if per_user.get(user_id, 0) >= max_per_user:
                 break
-        if len(homes) >= n_homes:
+        if len(kept) >= n_homes:
             break
-    return homes[:n_homes]
+    kept = kept[:n_homes]
+    uids = [k["uid"] for k in kept]
+    assert len(uids) == len(set(uids)), "stay-point uids must be unique (R4-001)"
+    return kept
 
 
 if __name__ == "__main__":

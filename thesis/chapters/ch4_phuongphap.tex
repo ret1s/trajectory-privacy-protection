@@ -105,13 +105,17 @@ phân phối hợp lệ (khối lượng $0$ ngoài $A$):
 \[
 K_A(z\mid x)=\frac{\mathbf 1_A(z)\,K(z\mid x)}{K(A\mid x)} .
 \]
-Khi đó với \emph{mọi} biến cố đo được $S$,
+Khi đó với \emph{mọi} biến cố đo được $S$, phát biểu ở dạng \emph{bất đẳng thức}
+DP (không phải tỷ số, để tránh $0/0$ với biến cố xác suất 0 --- verifier R4-009):
 \[
-\frac{K_A(S\mid x)}{K_A(S\mid x')}
-=\frac{K(S\cap A\mid x)}{K(S\cap A\mid x')}\cdot\frac{K(A\mid x')}{K(A\mid x)}
-\le e^{\eps \dEu(x,x')}\cdot e^{\eps \dEu(x,x')} = e^{2\eps \dEu(x,x')}.
+K_A(S\mid x)\;\le\;e^{2\eps \dEu(x,x')}\,K_A(S\mid x').
 \]
-Cả hai giả thiết đều \emph{bắt buộc}: bỏ giả thiết $\eps$-Geo-I (ví dụ
+Chứng minh: $K_A(S\mid x)=K(S\cap A\mid x)/K(A\mid x)
+\le e^{\eps \dEu}K(S\cap A\mid x')\,/\,(e^{-\eps \dEu}K(A\mid x'))
+=e^{2\eps \dEu}K_A(S\mid x')$, dùng $\eps$-Geo-I cho tử ($K(S\cap A\mid x)\le
+e^{\eps\dEu}K(S\cap A\mid x')$) và cho mẫu ($K(A\mid x)\ge e^{-\eps\dEu}K(A\mid x')$).
+Với $S$ có $K_A(S\mid x')=0$ bất đẳng thức $0\le 0$ hiển nhiên; chỉ viết dạng tỷ số
+khi mẫu dương. Cả hai giả thiết đều \emph{bắt buộc}: bỏ giả thiết $\eps$-Geo-I (ví dụ
 $K(\cdot\mid a)=\delta_0$, $K(\cdot\mid b)=\delta_1$, $A=\{0,1\}$) cho tỷ số vô
 hạn dù $K(A\mid\cdot)=1$; bỏ $\mathbf 1_A$ (ví dụ $K=(\tfrac12,\tfrac12)$,
 $A=\{0\}$) cho ``khối lượng'' $(1,1)$ tổng bằng $2$ --- không phải phân phối.
@@ -292,22 +296,40 @@ không có phép thử phụ thuộc dữ liệu.
 
 \begin{dinhly}[Đảm bảo cho vị trí tĩnh lặp lại --- phạm vi hẹp có chủ ý]
 \label{thm:smrem}
-\emph{Giả thiết khởi tạo:} cache rỗng cho ô $C$ ở đầu scope (hoặc một trạng thái
-cache/reset công khai chung). Cố định một vị trí thật $x$ thuộc ô $C$ và cho
-người dùng báo cáo $x$ đúng $T$ lần. Gọi $Z \sim \mathrm{REM}(\mathrm{rep}(C))$
-là release đầu (cache miss đầu tiên). Transcript
-$(Z,\dots,Z)$ là hậu xử lý xác định của \emph{một} mẫu $Z$, nên: (i) thừa hưởng
-đảm bảo $\eps$-Geo-I mức-ô của $Z$; và (ii) mang đúng lượng thông tin của một
-release bất kể $T$ --- trung bình số học của $T$ bản sao giống hệt không giảm
-phương sai, nên tấn công averaging (S4) không thu được gì.
+\emph{Không gian \& metric ô (verifier R4-004).} Với lưới công khai cạnh $g$, mỗi
+điểm thuộc một ô; đại diện công khai $\mathrm{rep}(C)$ là tâm ô. Đặt pseudometric
+ô $d_{\mathrm{cell}}(C,C')=\dEu(\mathrm{rep}(C),\mathrm{rep}(C'))$.
+\emph{Giả thiết khởi tạo:} một \emph{lịch sử công khai chung} $h$ ở đầu scope ---
+cache rỗng cho ô đang xét \emph{và} cùng release/thời gian trước đó cho hai input
+so sánh (ví dụ reset trạng thái tạm thời, hoặc bước đầu tiên của phiên).
+
+\emph{(i) Bất đẳng thức mức-ô.} Với hai ô $C,C'$ và cùng lịch sử $h$, mẫu đầu
+$Z\sim M_1(\cdot\mid \mathrm{rep}(C),h)$ với $M_1$ là kernel release thực tế của
+bước cache-miss --- REM nếu $h$ rỗng, còn tổng quát là \textbf{T-REM} có điều kiện
+theo $h$ (mã kế thừa T-REM và cache-miss gọi \texttt{super().perturb}). Vì $M_1$
+thỏa $\eps$-Geo-I theo tọa độ vào (trọng số reachability chỉ phụ thuộc $h$ công
+khai, Định lý~\ref{thm:trem}), với mọi biến cố $S$:
+\[
+\Pr[M_1\in S\mid \mathrm{rep}(C),h]\;\le\;e^{\eps\,d_{\mathrm{cell}}(C,C')}\,
+\Pr[M_1\in S\mid \mathrm{rep}(C'),h].
+\]
+
+\emph{(ii) Bất biến với số lần báo cáo.} Cố định $x\in C$, báo cáo $x$ đúng $T$
+lần. Transcript $(Z,\dots,Z)$ là hậu xử lý xác định của \emph{một} mẫu $Z$, nên
+thừa hưởng bất đẳng thức (i) và mang đúng lượng thông tin của một release bất kể
+$T$: trung bình $\frac1T\sum Z=Z$ không giảm phương sai, tấn công averaging (S4)
+không thu được gì.
 \end{dinhly}
 
 \begin{proof}
-Sau khi $Z$ được lấy mẫu, mọi phát ra sau là tra bảng xác định trả về $Z$ --- một
-hàm của riêng $Z$ --- nên bất biến hậu xử lý (\cite{takagi2019geo}, bổ đề hậu xử
-lý) cho (i). Với (ii), phân phối của $(Z,\dots,Z)$ đồng nhất với phân phối của
-$Z$; ước lượng trung bình $\frac1T\sum Z = Z$ có cùng phân bố với một mẫu đơn, độc
-lập với $T$.
+(i) là $\eps$-Geo-I của $M_1$ (REM: Định lý~\ref{thm:rem}; T-REM: Định
+lý~\ref{thm:trem}, trọng số hàm của $h$ công khai nên tử lẫn normalizer cùng chịu
+hệ số $e^{\eps d_{\mathrm{cell}}}$) áp cho input $\mathrm{rep}(C)$ vs $\mathrm{rep}(C')$. Với
+(ii), sau khi $Z$ được lấy mẫu, mọi phát ra sau là tra bảng xác định trả về $Z$
+--- hàm của riêng $Z$ --- nên bất biến hậu xử lý (\cite{takagi2019geo}); phân phối
+$(Z,\dots,Z)$ đồng nhất phân phối của $Z$, độc lập $T$. Các tính chất này được kiểm
+trên đồ thị nhỏ ở \texttt{tests/test\_production\_mechanisms.py}
+(same-cell repeat, A-B-A, hình học góc/cạnh, reset lifecycle).
 \end{proof}
 
 \begin{nhanxet}[Điều KHÔNG được khẳng định --- và vì sao (V-003)]

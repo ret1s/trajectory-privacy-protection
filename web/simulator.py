@@ -39,7 +39,7 @@ from core.mechanisms import (
     StayMemoizedREM,
     PrivateReuseSMREM,
 )
-from evaluation.attacks import HMMTrackingAttack
+from evaluation.attacks import HMMTrackingAttack, precompute_lognorm
 from evaluation import metrics
 from data.geolife import load_trajectories
 
@@ -69,6 +69,14 @@ EMISSION_SCALE = {
     "temporal_road_exponential": 0.5,
     "stay_memoized_rem": 0.5,
     "pr_sm_rem": 0.25,
+}
+# Which mechanisms get the exact input-dependent road normaliser logZ (same as
+# the offline benchmark) — so the simulator evaluates the IDENTICAL attacker,
+# not a weaker one (verifier R4-007 online/offline parity).
+USE_LOGNORM = {
+    "planar_laplace": False, "baseline_thesis": False,
+    "road_exponential": True, "temporal_road_exponential": True,
+    "stay_memoized_rem": True, "pr_sm_rem": True,
 }
 
 
@@ -105,7 +113,9 @@ def simulate():
     mech.reset()
     released = [mech.perturb(lat, lon, t=t) for (lat, lon), t in zip(real, times)]
 
-    attacker = HMMTrackingAttack(RN, eps, emission_scale=EMISSION_SCALE[mech_name])
+    scale = EMISSION_SCALE[mech_name]
+    ln = precompute_lognorm(RN, eps, scale=scale) if USE_LOGNORM[mech_name] else None
+    attacker = HMMTrackingAttack(RN, eps, emission_scale=scale, lognorm=ln)
     estimates = attacker.online_estimates(released, times)
 
     steps = []
@@ -141,7 +151,18 @@ def simulate():
         "knn_recall": round(
             float(np.mean([s["poi_hits"] / KNN.k for s in steps])), 2
         ),
-        "epsilon_total": round(eps * len(real), 3),
+        # ε·T is a worst-case composition CEILING, valid per-release only for
+        # REM/T-REM. SM-REM's revisit channel is an ∞-ratio leak (not covered by
+        # ε·T) and the legacy baseline has no valid per-release ε (verifier R4-010).
+        "epsilon_ceiling_eps_times_T": round(eps * len(real), 3),
+        "epsilon_note": {
+            "road_exponential": "ε·T là trần composition hợp lệ per-release",
+            "temporal_road_exponential": "ε·T là trần composition hợp lệ per-release",
+            "stay_memoized_rem": "ε·T KHÔNG bao pattern thăm-lại (ratio ∞); chỉ static same-cell",
+            "pr_sm_rem": "per-step (ε_test+ε_release); w-event manager chưa cài",
+            "planar_laplace": "ε per-release hợp lệ (không on-road)",
+            "baseline_thesis": "ε danh nghĩa KHÔNG phải guarantee hợp lệ (surrogate)",
+        }.get(mech_name, ""),
     }
     return jsonify({"steps": steps, "summary": summary, "qos_radius": QOS_RADIUS})
 
