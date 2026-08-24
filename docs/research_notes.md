@@ -99,24 +99,24 @@ Cột attacker là REM-emission **proxy** — cận trên cho non-REM, xem cavea
 
 | ε | Mechanism | Q_loss (m) | QoS | On-road | Speed-viol | Bayes err (m) | HMM err (m) |
 |---|---|---|---|---|---|---|---|
-| 0.01 | Planar Laplace | 205.7 | 0.59 | 0.43 | 0.08 | 200.6 | 125.9 |
-| 0.01 | Baseline internship-2 | 93.4 | 1.00 | 0.98 | 0.00 | 95.2 | 81.1 |
-| 0.01 | REM | 377.3 | 0.31 | **1.00** | 0.37 | 375.4 | 183.3 |
-| 0.01 | **T-REM** | 321.4 | 0.36 | **1.00** | **0.07** | 319.8 | **220.0** |
-| 0.02 | Planar Laplace | 99.8 | 0.90 | 0.49 | 0.00 | 99.1 | 76.9 |
-| 0.02 | Baseline internship-2 | 78.8 | 1.00 | 0.98 | 0.00 | 80.1 | 75.1 |
-| 0.02 | REM | 175.4 | 0.65 | **1.00** | 0.04 | 174.0 | 121.3 |
-| 0.02 | **T-REM** | 180.5 | 0.63 | **1.00** | **0.03** | 179.3 | 123.5 |
-| 0.05 | Planar Laplace | 40.1 | 1.00 | 0.58 | 0.00 | 44.4 | 38.4 |
-| 0.05 | Baseline internship-2 | 71.2 | 1.00 | 0.98 | 0.00 | 72.6 | 72.2 |
-| 0.05 | REM | 69.0 | 0.98 | **1.00** | 0.00 | 69.2 | 61.5 |
-| 0.05 | **T-REM** | 71.5 | 0.97 | **1.00** | 0.00 | 71.5 | 63.7 |
+| 0.01 | Planar Laplace | 207.1 | 0.57 | 0.46 | 0.07 | 200.7 | 125.0 |
+| 0.01 | Baseline internship-2 | 95.6 | 0.99 | 0.98 | 0.00 | 96.4 | 82.8 |
+| 0.01 | REM | 377.1 | 0.31 | **1.00** | 0.36 | 374.6 | 187.8 |
+| 0.01 | **T-REM** | 298.6 | 0.37 | **1.00** | **0.07** | 295.6 | **191.4** |
+| 0.02 | Planar Laplace | 99.1 | 0.91 | 0.51 | 0.00 | 96.1 | 74.6 |
+| 0.02 | Baseline internship-2 | 77.5 | 1.00 | 0.99 | 0.00 | 78.5 | 74.3 |
+| 0.02 | REM | 178.1 | 0.66 | **1.00** | 0.05 | 177.5 | 118.1 |
+| 0.02 | **T-REM** | 184.2 | 0.64 | **1.00** | **0.02** | 183.4 | 127.1 |
+| 0.05 | Planar Laplace | 41.6 | 1.00 | 0.59 | 0.00 | 44.8 | 38.8 |
+| 0.05 | Baseline internship-2 | 73.9 | 1.00 | 0.99 | 0.00 | 74.7 | 74.2 |
+| 0.05 | REM | 72.1 | 0.96 | **1.00** | 0.00 | 72.1 | 63.4 |
+| 0.05 | **T-REM** | 76.9 | 0.95 | **1.00** | 0.00 | 77.1 | 68.5 |
 
 **Đọc kết quả:**
-- **HMM attack luôn mạnh hơn point attack** (vd PL@0.01: 200.6→125.9m, giảm ~37%) — bằng chứng thực nghiệm rằng đánh giá per-point là không đủ.
-- **Planar Laplace để 42–57% điểm ngoài đường** — đúng bề mặt tấn công RAoPT; REM/T-REM 100% trên đường theo cấu trúc.
-- **T-REM sửa lỗi lộ liễu của REM**: speed violation 37%→7% tại ε=0.01, đồng thời *giảm* Q_loss (377→321m).
-- **So ở cùng mức utility** (~PL@0.01 disp 205.7m vs T-REM@0.02 disp 180.5m): T-REM cho sai số attacker tương đương (123.5 vs 125.9m) với **QoS cao hơn (0.63 vs 0.59), 100% on-road, không speed-leak** — nhưng lưu ý attacker là proxy nên không dùng bảng này để kết luận superiority định lượng.
+- **HMM attack luôn mạnh hơn point attack** (vd PL@0.01: 200.7→125.0m, giảm ~38%) — bằng chứng thực nghiệm rằng đánh giá per-point là không đủ.
+- **Planar Laplace để 41–54% điểm ngoài đường** — đúng bề mặt tấn công RAoPT; REM/T-REM 100% trên đường theo cấu trúc.
+- **T-REM sửa lỗi lộ liễu của REM**: speed violation 36%→7% tại ε=0.01, đồng thời *giảm* Q_loss (377→299m).
+- **So ở cùng mức utility** (~PL@0.01 disp 207.1m vs T-REM@0.02 disp 184.2m): dưới attacker proxy sai số attacker gần nhau (127.1 vs 125.0m) với **QoS cao hơn (0.64 vs 0.57), 100% on-road, không speed-leak** — nhưng attacker là proxy nên KHÔNG dùng bảng này để kết luận superiority định lượng.
 - Baseline có số đẹp ở cùng ε danh nghĩa **nhưng ε danh nghĩa của nó không phải guarantee hợp lệ** (mục 4) — đây là luận điểm trung tâm khi so sánh.
 
 **Caveat trung thực (verifier R2-004/R2-006/R2-010):**
