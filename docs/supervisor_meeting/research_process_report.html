@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Quá trình nghiên cứu — Bảo vệ riêng tư quỹ đạo LBS</title>
+<style>
+  :root{
+    --ink:#16202e; --muted:#5b6b7f; --line:#e4e9f0; --bg:#ffffff; --soft:#f5f8fb;
+    --accent:#0d5c63; --accent2:#2563eb; --warn:#b45309; --bad:#b91c1c; --good:#15803d;
+    --c1:#0d5c63; --c2:#1d4ed8; --c3:#7c3aed; --c4:#be185d;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  body{
+    font-family:-apple-system,"SF Pro Text","Helvetica Neue",Arial,"Segoe UI",sans-serif;
+    color:var(--ink); margin:0; font-size:10.6px; line-height:1.5; background:var(--bg);
+  }
+  @page{ size:A4; margin:14mm 13mm 12mm; }
+  h1,h2,h3{line-height:1.2; margin:0}
+  .wrap{max-width:190mm; margin:0 auto}
+  /* ---- cover ---- */
+  .cover{border-left:5px solid var(--accent); padding:2px 0 10px 14px; margin-bottom:14px}
+  .kicker{font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:700}
+  .cover h1{font-size:23px; margin:5px 0 6px; letter-spacing:-.01em}
+  .cover .sub{color:var(--muted); font-size:11.5px; max-width:165mm}
+  .meta{display:flex; flex-wrap:wrap; gap:5px 22px; margin-top:10px; font-size:9.6px; color:var(--muted)}
+  .meta b{color:var(--ink); font-weight:600}
+  .thesis{margin-top:11px; background:var(--soft); border:1px solid var(--line); border-radius:8px; padding:9px 12px; font-size:10.4px}
+  .thesis b{color:var(--accent)}
+  /* ---- sections ---- */
+  section{margin:15px 0; break-inside:avoid}
+  .snum{display:inline-flex; align-items:center; justify-content:center; width:17px; height:17px; border-radius:5px; background:var(--accent); color:#fff; font-size:10px; font-weight:700; margin-right:7px}
+  h2{font-size:14.5px; display:flex; align-items:center; margin-bottom:9px; letter-spacing:-.01em}
+  h2 .en{font-weight:400; color:var(--muted); font-size:10px; margin-left:8px}
+  p{margin:0 0 7px}
+  .lead{color:#33475b}
+  /* ---- journey strip ---- */
+  .journey{display:flex; gap:0; margin:6px 0 2px}
+  .jstep{flex:1; position:relative; padding:9px 9px 9px 11px; background:var(--soft); border:1px solid var(--line); margin-right:9px; border-radius:7px}
+  .jstep:last-child{margin-right:0}
+  .jstep .n{font-size:8.5px; color:var(--accent); font-weight:700; letter-spacing:.08em}
+  .jstep .t{font-size:9.7px; font-weight:600; margin-top:2px}
+  .jstep .d{font-size:8.7px; color:var(--muted); margin-top:2px; line-height:1.35}
+  .jstep:not(:last-child)::after{content:"›"; position:absolute; right:-7px; top:50%; transform:translateY(-50%); color:#b7c2d0; font-size:13px; z-index:2}
+  /* ---- two-col cards ---- */
+  .cols{display:flex; gap:11px}
+  .card{flex:1; border:1px solid var(--line); border-radius:8px; padding:10px 12px; background:#fff; break-inside:avoid}
+  .card.bad{border-top:3px solid var(--bad)}
+  .card.good{border-top:3px solid var(--good)}
+  .card h3{font-size:11px; margin-bottom:5px}
+  .card h3 .tag{font-size:8px; font-weight:700; padding:1px 6px; border-radius:20px; margin-left:6px; vertical-align:middle}
+  .tag.r{background:#fdecea; color:var(--bad)} .tag.g{background:#e7f6ec; color:var(--good)}
+  ul{margin:3px 0 0; padding-left:15px} li{margin:2.5px 0}
+  .mut{color:var(--muted)}
+  /* ---- bug list ---- */
+  .bugs{display:flex; flex-direction:column; gap:6px; margin-top:8px}
+  .bug{display:flex; gap:9px; border:1px solid var(--line); border-left:3px solid var(--warn); border-radius:6px; padding:7px 10px; background:#fffdf8}
+  .bug .b-n{font-weight:800; color:var(--warn); font-size:12px; min-width:20px}
+  .bug .b-t{font-weight:600}
+  .bug .b-d{color:var(--muted); font-size:9.4px}
+  /* ---- mechanism ladder ---- */
+  .ladder{display:flex; flex-direction:column; gap:7px}
+  .rung{display:flex; align-items:stretch; border:1px solid var(--line); border-radius:8px; overflow:hidden; break-inside:avoid}
+  .rung .badge{width:74px; flex:none; color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:6px; text-align:center}
+  .rung .badge .nm{font-weight:800; font-size:11px}
+  .rung .badge .sub{font-size:7.6px; opacity:.9; margin-top:1px; line-height:1.2}
+  .rung .body{padding:7px 11px; flex:1}
+  .rung .body .h{font-weight:600; font-size:10px}
+  .rung .body .g{font-size:9.2px; color:#33475b; margin-top:2px}
+  .rung .body .sc{font-size:8.7px; color:var(--muted); margin-top:2px}
+  .b1{background:var(--c1)} .b2{background:var(--c2)} .b3{background:var(--c3)} .b4{background:var(--c4)}
+  .kx{display:inline-block; font-size:7.6px; font-weight:700; letter-spacing:.05em; padding:1px 5px; border-radius:20px; background:#eef2f7; color:#3d5166; margin-right:4px}
+  /* ---- tables ---- */
+  table{border-collapse:collapse; width:100%; font-size:9.4px; margin-top:4px}
+  th,td{border-bottom:1px solid var(--line); padding:4px 6px; text-align:right}
+  th:first-child,td:first-child{text-align:left}
+  thead th{background:var(--soft); border-bottom:1.5px solid #cfd8e3; font-weight:600; color:#33475b}
+  tr.hl td{background:#f0f9f4}
+  .win{color:var(--good); font-weight:700}
+  .capt{font-size:8.6px; color:var(--muted); margin-top:4px}
+  /* ---- rounds timeline ---- */
+  .rounds{display:flex; flex-direction:column; gap:0}
+  .rnd{display:flex; gap:10px; padding:6px 0; border-bottom:1px dashed var(--line)}
+  .rnd:last-child{border-bottom:none}
+  .rnd .rl{flex:none; width:52px; font-weight:800; color:var(--accent2); font-size:10px}
+  .rnd .rt{flex:1}
+  .rnd .rt b{font-weight:600}
+  .rnd .rt .f{color:var(--muted); font-size:9.2px}
+  /* ---- say/dont ---- */
+  .say{display:flex; gap:11px}
+  .say .box{flex:1; border-radius:8px; padding:9px 12px; border:1px solid var(--line)}
+  .say .yes{background:#f0f9f4; border-color:#bfe3cd}
+  .say .no{background:#fdf1f0; border-color:#f0cfcd}
+  .say h3{font-size:10.5px; margin-bottom:4px}
+  .say .yes h3{color:var(--good)} .say .no h3{color:var(--bad)}
+  /* ---- decisions ---- */
+  .decisions{display:flex; gap:10px; margin-top:2px}
+  .dec{flex:1; border:1px solid var(--line); border-top:3px solid var(--accent2); border-radius:8px; padding:9px 11px; background:#fff}
+  .dec .q{font-weight:600; font-size:10px}
+  .dec .o{font-size:8.9px; color:var(--muted); margin-top:3px}
+  /* ---- footer ---- */
+  .foot{margin-top:16px; padding-top:8px; border-top:1px solid var(--line); font-size:8.4px; color:var(--muted); display:flex; justify-content:space-between; gap:12px}
+  .freeze{background:#fff8ec; border:1px solid #f2e2c2; border-radius:7px; padding:7px 11px; font-size:9.2px; color:#6b4e16; margin-top:12px}
+  code{font-family:"SF Mono",Menlo,Consolas,monospace; font-size:8.8px; background:#eef2f7; padding:.5px 4px; border-radius:4px}
+  .pagebreak{break-before:page}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="cover">
+    <div class="kicker">Báo cáo tiến trình nghiên cứu · Luận văn Thạc sĩ</div>
+    <h1>Bảo vệ riêng tư quỹ đạo trong dịch vụ dựa trên vị trí (LBS)</h1>
+    <div class="sub">Từ pipeline heuristic (Internship&nbsp;2) đến một họ cơ chế road-constrained
+      có đảm bảo hình thức được giới hạn scope, đánh giá theo threat model và soi qua nhiều vòng
+      kiểm định độc lập.</div>
+    <div class="meta">
+      <span><b>HV:</b> Ngô Minh Hạnh &nbsp;·&nbsp; MSSV 2470010</span>
+      <span><b>GVHD:</b> TS. Phan Trọng Nhân</span>
+      <span><b>Đơn vị:</b> HCMUT</span>
+      <span><b>Ngày:</b> 24/08/2026</span>
+    </div>
+    <div class="thesis">
+      <b>Một câu tóm tắt.</b> Thay vì "làm nhiễu mỗi điểm trong bán kính QoS cố định" (heuristic,
+      không có đảm bảo hợp lệ), luận văn phát ra vị trí <b>trên lưới đường</b> bằng cơ chế hàm mũ,
+      đạt <b>ε-Geo-Indistinguishability</b> ở mức kernel lý tưởng, và <b>đánh giá bằng các tấn công
+      thật</b> (map-matching, theo dõi HMM, averaging tại nhà) — với phạm vi đảm bảo được tuyên bố
+      trung thực.
+    </div>
+  </div>
+
+  <!-- 1. BIG PICTURE / JOURNEY -->
+  <section>
+    <h2><span class="snum">1</span>Toàn cảnh tiến trình <span class="en">the research journey</span></h2>
+    <p class="lead">Nghiên cứu không đi thẳng từ ý tưởng đến kết quả, mà qua sáu chặng — trong đó
+      chặng quan trọng nhất là <b>vòng lặp kiểm định độc lập</b> giúp mọi tuyên bố sống sót qua
+      phản biện đối kháng.</p>
+    <div class="journey">
+      <div class="jstep"><div class="n">01</div><div class="t">Xuất phát</div><div class="d">Pipeline Internship&nbsp;2: Laplace phẳng + chặn QoS + reject + snap</div></div>
+      <div class="jstep"><div class="n">02</div><div class="t">Phát hiện lỗi</div><div class="d">3 lỗi hình thức làm ε danh nghĩa không phải guarantee hợp lệ</div></div>
+      <div class="jstep"><div class="n">03</div><div class="t">Tái định nghĩa</div><div class="d">Đổi tiêu chí "đúng": phát tối thiểu theo mục đích, trên đường, có threat model</div></div>
+      <div class="jstep"><div class="n">04</div><div class="t">Bốn cơ chế</div><div class="d">REM → T-REM → SM-REM → PR-SM-REM, mỗi cái đóng một tấn công</div></div>
+      <div class="jstep"><div class="n">05</div><div class="t">Đánh giá</div><div class="d">GeoLife thật + 3 lớp tấn công (Bayes, HMM, averaging)</div></div>
+      <div class="jstep"><div class="n">06</div><div class="t">Kiểm định</div><div class="d">5 vòng verifier độc lập; sửa lỗi, thu hẹp claim trung thực</div></div>
+    </div>
+  </section>
+
+  <!-- 2. STARTING POINT vs PROBLEM -->
+  <section>
+    <h2><span class="snum">2</span>Xuất phát điểm và vấn đề <span class="en">baseline vs. what was wrong</span></h2>
+    <div class="cols">
+      <div class="card bad">
+        <h3>Internship&nbsp;2 <span class="tag r">HEURISTIC</span></h3>
+        <p class="mut" style="margin:0 0 5px">Một demo engineering chạy được, nhưng chưa phải cơ chế riêng tư được kiểm chứng bằng tấn công.</p>
+        <ul>
+          <li>Cộng nhiễu Laplace phẳng, <b>chặn bán kính</b> tại ngưỡng QoS δ quanh điểm thật.</li>
+          <li><b>Reject</b> nếu điểm giả rơi vào tòa nhà/mặt nước, lấy mẫu lại.</li>
+          <li>Làm mượt + <b>snap</b> về đường, kiểm tra lại QoS so với điểm thật.</li>
+          <li>Đánh giá chủ yếu bằng khoảng cách/QoS — <span class="mut">chưa có tấn công.</span></li>
+        </ul>
+      </div>
+      <div class="card good">
+        <h3>Luận văn hiện tại <span class="tag g">GUARANTEE + THREAT MODEL</span></h3>
+        <p class="mut" style="margin:0 0 5px">Cơ chế hàm mũ trên đỉnh đường, đảm bảo được giới hạn scope, đánh giá bằng tấn công thật.</p>
+        <ul>
+          <li>Chọn thẳng một <b>đỉnh đường</b> làm điểm công bố (on-road theo cấu trúc).</li>
+          <li><b>Không</b> chặn/không reject theo điểm thật → giữ đảm bảo hình thức.</li>
+          <li>ε-Geo-I ở <b>kernel lý tưởng</b>; state chỉ dùng thông tin công khai + điểm đã phát.</li>
+          <li>Đo bằng tấn công Bayes, HMM, và averaging tại stay-point.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="bugs">
+      <div class="bug"><div class="b-n">①</div><div><span class="b-t">Chặn bán kính quanh điểm thật phá vỡ Geo-I.</span> <span class="b-d">Hai điểm cách nhau &gt; 2δ có support rời nhau → tỷ số khả năng vô hạn (Mệnh đề 4.1).</span></div></div>
+      <div class="bug"><div class="b-n">②</div><div><span class="b-t">Reject theo vùng cấm phụ thuộc điểm thật phá vỡ Geo-I.</span> <span class="b-d">Tập cho phép <code>A_x</code> là hàm của input → tỷ số có thể vô hạn (Mệnh đề 4.3). Điều kiện trên tập công khai cố định thì chỉ mất hệ số 2.</span></div></div>
+      <div class="bug"><div class="b-n">③</div><div><span class="b-t">Bán kính nhiễu lấy sai phân phối.</span> <span class="b-d">Code cũ lấy r ~ Exponential(1/ε); planar Laplace đúng là r ~ Gamma(2, 1/ε).</span></div></div>
+    </div>
+  </section>
+
+  <!-- 3. REFRAME -->
+  <section>
+    <h2><span class="snum">3</span>Tái định nghĩa bài toán <span class="en">changing the definition of "correct"</span></h2>
+    <p class="lead">Đối chiếu với thực tế công nghiệp (Apple/Android xử lý "significant location" on-device,
+      làm mờ điểm đầu/cuối; GDPR yêu cầu data minimization) cho thấy dịch vụ không cần vị trí
+      <i>chính xác</i> mà cần <b>mức granularity tối thiểu đủ cho một mục đích</b>. Bài toán được phát biểu lại:</p>
+    <div class="cols">
+      <div class="card"><h3>Từ ❌</h3><p style="margin:0">"Làm nhiễu mỗi điểm trong bán kính QoS δ toàn cục" — một knob heuristic, không đảm bảo.</p></div>
+      <div class="card"><h3>Thành ✓</h3><p style="margin:0">"Phát ra mức tối thiểu theo mục đích, <b>on-device</b>, <b>trên lưới đường</b>, có nhận thức endpoint &amp; tương quan, <b>đánh giá theo threat model</b> rút từ các tấn công thật (S1–S8)."</p></div>
+    </div>
+  </section>
+
+  <!-- 4. FOUR MECHANISMS -->
+  <section>
+    <h2><span class="snum">4</span>Bốn cơ chế — mỗi cái đóng một tấn công <span class="en">the mechanism ladder</span></h2>
+    <div class="ladder">
+      <div class="rung">
+        <div class="badge b1"><div class="nm">REM</div><div class="sub">Road Exponential</div></div>
+        <div class="body">
+          <div class="h">Cơ chế hàm mũ trên tập đỉnh đường: <code>P(v|x) ∝ exp(−ε/2·d(x,v))</code>.</div>
+          <div class="g"><span class="kx">ĐÓNG</span> Map-matching / lọc off-road (mọi output là đỉnh đường theo cấu trúc).</div>
+          <div class="sc">Đảm bảo: ε-Geo-I Euclid ở kernel lý tưởng. Là bản Euclid của GEM (Takagi 2019).</div>
+        </div>
+      </div>
+      <div class="rung">
+        <div class="badge b2"><div class="nm">T-REM</div><div class="sub">+ Temporal</div></div>
+        <div class="body">
+          <div class="h">Thêm trọng số reachability, chỉ điều kiện trên <b>điểm ĐÃ công bố</b> trước đó (công khai).</div>
+          <div class="g"><span class="kx">ĐÓNG</span> Tấn công velocity-linkage / theo dõi HMM (chuỗi công bố khả thi động học).</div>
+          <div class="sc">Đảm bảo per-point <b>không đổi</b> (trọng số là hàm của thông tin công khai).</div>
+        </div>
+      </div>
+      <div class="rung">
+        <div class="badge b3"><div class="nm">SM-REM</div><div class="sub">+ Memoization</div></div>
+        <div class="body">
+          <div class="h">Ghi nhớ theo lưới ô công khai: báo lặp tại cùng ô trả về <b>cùng một</b> release.</div>
+          <div class="g"><span class="kx">ĐÓNG</span> Averaging tại điểm tĩnh (nhà) — trung bình n bản sao không thu được gì.</div>
+          <div class="sc">Phạm vi hẹp: chỉ static same-cell, cache khởi tạo rỗng; pattern thăm-lại vẫn lộ.</div>
+        </div>
+      </div>
+      <div class="rung">
+        <div class="badge b4"><div class="nm">PR-SM-REM</div><div class="sub">+ Private reuse</div></div>
+        <div class="body">
+          <div class="h">Quyết định reuse bằng <b>phép thử ngưỡng có nhiễu</b> (predictive mechanism).</div>
+          <div class="g"><span class="kx">ĐÓNG</span> Rò tỷ-số-vô-hạn của memo chính xác → chặn per-step <code>(ε_test+ε_release)</code> hữu hạn.</div>
+          <div class="sc">Chống averaging là <b>hữu-hạn-horizon</b> (cả hai nhánh đều ngẫu nhiên), không tuyệt đối.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. EVALUATION & RESULTS -->
+  <section>
+    <h2><span class="snum">5</span>Đánh giá &amp; kết quả hiện có <span class="en">evidence on real data</span></h2>
+    <p class="lead"><b>Dữ liệu:</b> GeoLife (Bắc Kinh) trên đồ thị đường OSM thật
+      <b>13.813 đỉnh / 41.040 cạnh</b> · 20 quỹ đạo (858 điểm) cho benchmark di chuyển ·
+      40 stay-point (21 người dùng) × 8 seed cho nghiên cứu averaging.
+      <b>Tấn công:</b> Bayes per-point, theo dõi HMM, và MLE averaging.</p>
+
+    <div class="cols">
+      <div style="flex:1.15">
+        <table>
+          <caption style="text-align:left; font-weight:600; font-size:9.6px; margin-bottom:3px">Bảng A · Benchmark di chuyển (tại ε = 0,01)</caption>
+          <thead><tr><th>Cơ chế</th><th>Q-loss (m)</th><th>On-road</th><th>Vi phạm tốc độ</th></tr></thead>
+          <tbody>
+            <tr><td>Laplace phẳng</td><td>207,1</td><td>0,82</td><td>0,07</td></tr>
+            <tr><td>REM</td><td>377,1</td><td class="win">1,00</td><td>0,36</td></tr>
+            <tr class="hl"><td>T-REM</td><td>298,6</td><td class="win">1,00</td><td class="win">0,07</td></tr>
+            <tr><td>SM-REM</td><td>274,4</td><td class="win">1,00</td><td>0,03</td></tr>
+          </tbody>
+        </table>
+        <div class="capt">T-REM giảm vi phạm tốc độ <b>36%→7%</b> so với REM <i>đồng thời</i> giảm quality loss. Cơ chế đường đạt 100% on-road theo cấu trúc (đo bằng khoảng cách point-to-edge).</div>
+      </div>
+      <div style="flex:1">
+        <table>
+          <caption style="text-align:left; font-weight:600; font-size:9.6px; margin-bottom:3px">Bảng B · Averaging tại nhà, n=100 (ε=0,02)</caption>
+          <thead><tr><th>Cơ chế</th><th>Sai số (m)</th><th>Khôi phục ≤50m</th></tr></thead>
+          <tbody>
+            <tr><td>Laplace phẳng</td><td>23,4</td><td class="bad" style="color:var(--bad)">94%</td></tr>
+            <tr><td>REM</td><td>28,4</td><td style="color:var(--bad)">90%</td></tr>
+            <tr><td>T-REM</td><td>28,5</td><td style="color:var(--bad)">90%</td></tr>
+            <tr class="hl"><td>SM-REM</td><td class="win">148,9</td><td class="win">9%</td></tr>
+            <tr><td>PR-SM-REM</td><td>47,4</td><td>57%</td></tr>
+          </tbody>
+        </table>
+        <div class="capt">Sai số attacker <b>càng cao càng riêng tư</b>. SM-REM phẳng theo n (chỉ 9% khôi phục); Laplace/REM/T-REM sụp về ~23–28m (attacker thắng 90–94%).</div>
+      </div>
+    </div>
+    <p style="margin-top:8px"><b>Đọc kết quả một cách trung thực:</b> cột attacker dùng một adversary <i>REM-emission proxy</i> —
+      chính xác cho REM, và là <b>cận trên</b> cho các cơ chế khác. Vì vậy các con số này là
+      <b>chẩn đoán mô tả</b>, <u>không</u> dùng để xếp hạng riêng tư giữa các cơ chế.</p>
+  </section>
+
+  <!-- 6. VERIFICATION LOOP -->
+  <section>
+    <h2><span class="snum">6</span>Quy trình kiểm định độc lập — 5 vòng <span class="en">adversarial review as method</span></h2>
+    <p class="lead">Một phiên "verifier" độc lập review từng snapshot và commit báo cáo; mỗi vòng chúng tôi
+      sửa gốc lỗi và <b>thu hẹp tuyên bố cho khớp bằng chứng</b>. Đây là bằng chứng về độ chín của nghiên cứu.</p>
+    <div class="rounds">
+      <div class="rnd"><div class="rl">Vòng 1–2</div><div class="rt"><b>Nền tảng hình thức.</b> <span class="f">Thu hẹp định lý SM-REM về đúng static-repeat; phát hiện &amp; sửa bug dựng đồ thị (bbox sai ~98km → 13.813 đỉnh); khớp ngân sách ε cho PR.</span></div></div>
+      <div class="rnd"><div class="rl">Vòng 3</div><div class="rt"><b>Claim-safe path.</b> <span class="f">Seed độc lập thứ tự chạy; tách mệnh đề rejection (2ε cho tập công khai cố định vs ∞ cho tập phụ thuộc input) + test hồi quy.</span></div></div>
+      <div class="rnd"><div class="rl">Vòng 4</div><div class="rt"><b>Trung thực về hiện thực.</b> <span class="f">Hạ claim về "ideal kernel" (sampler float là xấp xỉ hữu hạn độ chính xác); dán nhãn attacker là proxy khắp repo; RNG khóa ngữ nghĩa; provenance <code>msc-experiment-v1</code>.</span></div></div>
+      <div class="rnd"><div class="rl">Vòng 5</div><div class="rt"><b>Sửa lỗi đo lường &amp; thống kê.</b> <span class="f">on-road đo point-to-<b>edge</b> (không phải đỉnh) → off-road 8–18% thay vì 41–54%; nhiễu GPS <b>paired</b> giữa các cơ chế; khử trùng lặp stay-point; kiểm tra ngân sách PR (neg/0/NaN).</span></div></div>
+    </div>
+    <p style="margin-top:7px" class="mut">Bộ kiểm thử gắn với code sản phẩm: <b>23 test</b> chạy sạch (gồm test bắt được đột biến hệ số ε/2, vòng đời SM-REM, parity attacker online/offline). Mọi kết quả sinh từ commit nguồn sạch, có provenance đầy đủ.</p>
+  </section>
+
+  <!-- 7. HONEST SCOPE -->
+  <section>
+    <h2><span class="snum">7</span>Trung thực về phạm vi <span class="en">what holds, what does not (yet)</span></h2>
+    <div class="say">
+      <div class="box yes">
+        <h3>✓ Có thể tuyên bố</h3>
+        <ul>
+          <li>REM/T-REM: ε-Geo-I Euclid ở <b>kernel lý tưởng</b>; 100% on-road theo cấu trúc.</li>
+          <li>SM-REM: chống averaging cho <b>điểm tĩnh cùng ô</b> (phạm vi hẹp, đã nêu rõ).</li>
+          <li>PR-SM-REM: chặn per-step hữu hạn <code>(ε_test+ε_release)</code>; giảm averaging hữu-hạn-horizon.</li>
+          <li>Kết quả tái lập được: provenance + raw rows + đồ thị được hash.</li>
+        </ul>
+      </div>
+      <div class="box no">
+        <h3>✗ Chưa được tuyên bố (future work)</h3>
+        <ul>
+          <li>Attacker <b>mechanism-aware / jitter-aware</b> tối ưu → chưa xếp hạng riêng tư định lượng.</li>
+          <li>Đảm bảo <b>w-event</b> toàn quỹ đạo (mới có per-step; chưa có budget manager).</li>
+          <li>Chứng minh DP <b>hữu hạn độ chính xác</b> cho sampler float.</li>
+          <li>Multi-seed CI + comparator thực thi vs SOTA (Memoization/Replay/Replication 2026, GEM, Eclipse).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. DECISIONS -->
+  <section>
+    <h2><span class="snum">8</span>Ba quyết định xin thầy chốt <span class="en">decisions to lock scope</span></h2>
+    <div class="decisions">
+      <div class="dec"><div class="q">① Đường đánh giá cuối</div><div class="o"><b>Claim-safe</b> (giữ attacker proxy + kết luận mô tả) hay <b>strong-evidence</b> (hiện thực attacker mechanism-aware để so sánh định lượng)?</div></div>
+      <div class="dec"><div class="q">② Trọng tâm đóng góp</div><div class="o">Nhấn <b>hình thức/cấu trúc</b> (REM/T-REM on-road + guarantee) hay nhấn <b>chống averaging</b> (SM/PR trong bối cảnh road-metric)?</div></div>
+      <div class="dec"><div class="q">③ Phạm vi thực nghiệm</div><div class="o">Có cần <b>multi-seed CI</b>, thành phố thứ hai (Porto), và bảng so sánh SOTA có căn chỉnh trước khi bảo vệ không?</div></div>
+    </div>
+  </section>
+
+  <div class="freeze">❄️ <b>Trạng thái:</b> nghiên cứu được <b>tạm freeze</b> tại commit <code>903b34a</code> để báo cáo GVHD.
+    Sẽ tiếp tục vòng kiểm định &amp; mở rộng theo scope thầy chốt. Đã có sẵn báo cáo verifier vòng 6 chờ xử lý.</div>
+
+  <div class="foot">
+    <span>Repo: <code>msc</code> · nhánh <code>verifier</code> · gói kết quả C5/O5/R5 (<code>1293304</code> / <code>31ab0d3</code> / <code>a82d67c</code>)</span>
+    <span>Bảo vệ riêng tư quỹ đạo LBS — Báo cáo tiến trình · 24/08/2026</span>
+  </div>
+
+</div>
+</body>
+</html>
