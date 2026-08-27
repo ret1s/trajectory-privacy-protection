@@ -36,7 +36,7 @@ html:not([data-portable-source-tooltips-ready]) .portable-chart-summary>.portabl
 <style data-msc-portable-print-fix="true">
 @page{
   size:A4;
-  margin:14mm 13mm 17mm;
+  margin:14mm 13mm 20mm;
   @bottom-center{content:"Trang " counter(page) " / " counter(pages);font-size:8pt;color:#777}
 }
 @media print{
@@ -51,6 +51,7 @@ html:not([data-portable-source-tooltips-ready]) .portable-chart-summary>.portabl
   .analytics-layout-item{margin:0 0 22px!important;break-inside:auto!important}
   .analytics-layout-item-shell{padding:0!important}
   .report-markdown-block h2{break-after:avoid!important;page-break-after:avoid!important}
+  [data-artifact-block-id="attack_focus"] blockquote{break-inside:avoid!important;page-break-inside:avoid!important}
   [data-artifact-block-id="averaging_evidence_intro"]{break-inside:avoid!important;page-break-inside:avoid!important}
   [data-artifact-block-id="attack_survey"] li{break-inside:avoid!important;page-break-inside:avoid!important}
   [data-artifact-block-id="next_steps"]{break-inside:avoid!important;page-break-inside:avoid!important}
@@ -59,13 +60,16 @@ html:not([data-portable-source-tooltips-ready]) .portable-chart-summary>.portabl
 </style>
 </head>
 <body>
-<main id="data-analytics-portable-fallback" class="portable-fallback" data-portable-fallback="true" data-portable-surface="report"><header class="portable-page-header"><div class="portable-page-heading"><p class="portable-surface-label">Data Analytics report</p><h1>Hướng cải thiện và trọng tâm luận văn</h1><p class="portable-description">Báo cáo giải thích hướng cải thiện sau Internship 2: dữ liệu được sử dụng, ý nghĩa của các chỉ số đánh giá, mối đe dọa được lựa chọn và logic phát triển giải thuật.</p></div><div class="portable-page-meta"><time datetime="2026-08-27T04:49:41Z">Aug 27, 2026, 4:49 AM UTC</time></div></header><div class="portable-block-stack">
+<main id="data-analytics-portable-fallback" class="portable-fallback" data-portable-fallback="true" data-portable-surface="report"><header class="portable-page-header"><div class="portable-page-heading"><p class="portable-surface-label">Data Analytics report</p><h1>Hướng cải thiện và trọng tâm luận văn</h1><p class="portable-description">Báo cáo giải thích hướng cải thiện sau Internship 2, tập trung vào nguồn gốc và ý nghĩa của chỉ số POI, mô hình đe dọa được lựa chọn và hướng giải pháp ở mức khái niệm.</p></div><div class="portable-page-meta"><time datetime="2026-08-27T04:49:41Z">Aug 27, 2026, 4:49 AM UTC</time></div></header><div class="portable-block-stack">
 <div class="portable-block portable-layout-full" data-artifact-block-id="technical_summary" data-artifact-block-type="markdown" data-layout="full"><section class="portable-markdown"><h2>Tóm tắt định hướng</h2>
-<ul><li><strong>Vấn đề của Internship 2:</strong> phần đánh giá chủ yếu trả lời vị trí công bố bị dịch chuyển bao xa và có nằm trong một bán kính chất lượng dịch vụ (QoS) do ta đặt hay không. Nó chưa cho biết ứng dụng dựa trên vị trí (LBS) còn hoạt động tốt đến đâu, cũng chưa đo kẻ tấn công có suy ra được vị trí nhạy cảm hay không.</li><li><strong>Dữ liệu mới:</strong> dùng <strong>GeoLife v1.3</strong> để có quỹ đạo GPS thật, mốc thời gian và các lần quay lại cùng địa điểm; nhờ đó có thể kiểm tra mối liên hệ theo thời gian và hành vi quay lại thay vì chỉ chạy trên tuyến tổng hợp.</li><li><strong>Bộ chỉ số mới gồm hai mặt:</strong> độ hữu ích dùng <strong>tỷ lệ giữ lại POI trong k kết quả gần nhất (POI Recall@k)</strong> làm chỉ số ứng dụng chính; mức bảo vệ riêng tư dùng <strong>tỷ lệ khôi phục trong bán kính r</strong> và <strong>sai số suy luận theo số lần báo cáo n</strong>. Không gộp hai mục tiêu trái chiều thành một con số duy nhất.</li><li><strong>Mối đe dọa trọng tâm:</strong> quan sát lặp và lấy trung bình tại các điểm dừng nhạy cảm - kẻ tấn công liên kết nhiều báo cáo ở cùng nơi để làm giảm nhiễu và khôi phục vị trí.</li><li><strong>Hướng giải thuật:</strong> REM tạo vị trí công bố hợp lệ trên mạng đường; T-REM bổ sung tính hợp lý theo thời gian; SM-REM và PR-SM-REM sử dụng trạng thái và tái sử dụng vị trí giả để giảm thông tin mà kẻ tấn công thu được từ các báo cáo lặp.</li></ul></section></div>
-<div class="portable-block portable-layout-full" data-artifact-block-id="attack_focus" data-artifact-block-type="markdown" data-layout="full"><section class="portable-markdown"><h2>Mối đe dọa trọng tâm: khôi phục một điểm dừng từ nhiều báo cáo</h2>
-<p><strong>Điểm dừng</strong> là nơi người dùng ở lại hoặc quay lại nhiều lần, chẳng hạn nhà, nơi làm việc hoặc bệnh viện. Trong kịch bản này, dịch vụ LBS hoặc đơn vị thu thập dữ liệu có thể liên kết các báo cáo thuộc cùng người dùng và cùng khoảng không gian - thời gian. Nếu mỗi báo cáo chứa nhiễu độc lập, kẻ tấn công có thể lấy trung bình hoặc dùng ước lượng hợp lý cực đại (MLE) để nhiễu dần triệt tiêu.</p>
-<ul><li><strong>Đối tượng cần bảo vệ:</strong> tọa độ thật của điểm dừng nhạy cảm.</li><li><strong>Kiến thức của kẻ tấn công:</strong> vị trí đã công bố, mốc thời gian, cơ chế bảo vệ và mạng đường công khai.</li><li><strong>Mục tiêu của kẻ tấn công:</strong> đưa ước lượng vào trong bán kính r quanh vị trí thật sau n báo cáo.</li><li><strong>Tiêu chí thành công của luận văn:</strong> khi n tăng, tỷ lệ khôi phục tăng chậm hơn và sai số suy luận vẫn cao, trong khi tỷ lệ giữ lại POI vẫn đủ tốt cho LBS.</li></ul>
-<blockquote><strong>Câu hỏi nghiên cứu đề xuất:</strong> Một cơ chế chạy trên thiết bị người dùng, chỉ sinh vị trí giả trên mạng đường và tái sử dụng vị trí giả theo cách bảo vệ riêng tư có thể hạn chế việc khôi phục điểm dừng nhạy cảm từ các báo cáo lặp, đồng thời duy trì chất lượng của LBS hay không?</blockquote></section><div class="portable-inline-source portable-source-summary" data-source-id="attack_catalog"><div class="portable-inline-source-content portable-source-summary-content"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for Mối đe dọa trọng tâm: khôi phục một điểm dừng từ nhiều báo cáo</span><strong>Source: Khảo sát các kiểu tấn công vị trí trong thực tế</strong><span class="portable-source-meta">File: docs/attack_scenarios.md</span></div></div></div>
+<ul><li><strong>Vấn đề của Internship 2:</strong> phần đánh giá chủ yếu đo khoảng cách dịch chuyển và tỷ lệ nằm trong một bán kính chất lượng dịch vụ (QoS) do ta tự đặt. Nó chưa trả lời trực tiếp ứng dụng dựa trên vị trí còn dùng tốt hay không, và kẻ tấn công có khôi phục được vị trí nhạy cảm hay không.</li><li><strong>Cách đánh giá mới:</strong> dùng GeoLife v1.3 và tách hai mặt. Độ hữu ích được đo bằng chất lượng kết quả tìm địa điểm gần; mức riêng tư được đo bằng thành công và sai số của một kẻ tấn công cụ thể.</li><li><strong>Nguồn của chỉ số POI:</strong> giao thức đo độ chính xác và độ bao phủ cho truy vấn k địa điểm gần nhất được Xiao và Xiong sử dụng tại CCS 2015 để đánh giá vị trí đã làm nhiễu trong một tác vụ dịch vụ vị trí. Bản hiện tại của luận văn điều chỉnh giao thức này thành tỷ lệ giữ lại các POI gần nhất.</li><li><strong>Mối đe dọa trọng tâm:</strong> nhiều báo cáo có thể được liên kết với cùng một điểm dừng. Kẻ tấn công khai thác nhiễu mới và độc lập ở mỗi lần báo cáo để kết hợp bằng chứng, làm ước lượng ngày càng sát vị trí thật.</li><li><strong>Hướng giải pháp:</strong> phát vị trí hợp lệ trên mạng đường nhưng có trạng thái, để các lần báo cáo lặp không tạo thêm nhiều mẫu nhiễu độc lập. Các biến thể REM chỉ là quá trình thử nghiệm ý tưởng này, chưa phải trọng tâm của báo cáo.</li></ul></section></div>
+<div class="portable-block portable-layout-full" data-artifact-block-id="attack_focus" data-artifact-block-type="markdown" data-layout="full"><section class="portable-markdown"><h2>Mối đe dọa trọng tâm: nhiều báo cáo cùng làm lộ một điểm dừng</h2>
+<p><strong>Điểm dừng</strong> là nơi người dùng ở lại hoặc quay lại nhiều lần, chẳng hạn nhà, nơi làm việc hoặc bệnh viện. Một báo cáo riêng lẻ có thể trông đủ mơ hồ, nhưng cả chuỗi báo cáo lại chứa nhiều bằng chứng về cùng một tọa độ.</p>
+<h3>Kẻ tấn công có gì và khai thác điều gì?</h3>
+<ul><li><strong>Quan sát được:</strong> các vị trí đã công bố, thời gian, định danh cho phép nối các báo cáo, cơ chế bảo vệ và mạng đường công khai. Kẻ tấn công không cần đọc GPS gốc trên thiết bị.</li><li><strong>Khai thác khả năng liên kết:</strong> nếu biết nhiều báo cáo thuộc cùng người dùng và cùng điểm dừng, kẻ tấn công có thể gom chúng thành một nhóm thay vì xem từng điểm riêng lẻ.</li><li><strong>Khai thác nhiễu độc lập:</strong> mỗi lần cơ chế lấy một mẫu nhiễu mới, phần nhiễu ngẫu nhiên thay đổi nhưng vị trí thật không đổi. Với nhiễu đối xứng có thể lấy trung bình; với cơ chế phức tạp hơn có thể nhân các xác suất và chọn vị trí làm cả chuỗi có khả năng xảy ra cao nhất (MLE). Khi n tăng, vùng ứng viên thường co lại.</li><li><strong>Khai thác kiến thức công khai:</strong> mạng đường, vận tốc khả thi và thói quen di chuyển giúp loại các ứng viên phi lý. Đây là lý do mô hình tấn công phải biết cơ chế và không được giả định kẻ tấn công chỉ nhìn từng điểm độc lập.</li></ul>
+<h3>Thành công được định nghĩa thế nào?</h3>
+<p>Đối tượng cần bảo vệ là tọa độ điểm dừng thật. Kẻ tấn công thắng nếu ước lượng nằm trong bán kính r sau n báo cáo. Luận văn thắng nếu khi n tăng, tỷ lệ khôi phục tăng chậm và sai số suy luận vẫn cao, trong khi kết quả tìm POI vẫn còn hữu ích.</p>
+<blockquote><strong>Câu hỏi nghiên cứu đề xuất:</strong> Có thể hạn chế việc khôi phục điểm dừng từ các báo cáo lặp bằng một cơ chế có trạng thái, mà vẫn duy trì chất lượng truy vấn địa điểm gần hay không?</blockquote></section><div class="portable-inline-source portable-source-summary" data-source-id="attack_catalog"><div class="portable-inline-source-content portable-source-summary-content"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for Mối đe dọa trọng tâm: nhiều báo cáo cùng làm lộ một điểm dừng</span><strong>Source: Khảo sát các kiểu tấn công vị trí trong thực tế</strong><span class="portable-source-meta">File: docs/attack_scenarios.md</span></div></div></div>
 <div class="portable-block portable-layout-full" data-artifact-block-id="averaging_evidence_intro" data-artifact-block-type="markdown" data-layout="full"><section class="portable-markdown"><h2>Cách đọc kết quả thực nghiệm hiện tại</h2>
 <p>Trục ngang là <strong>số lần cùng một điểm dừng được báo cáo (n)</strong>; trục dọc là <strong>sai số suy luận trung vị tính bằng mét</strong> - khoảng cách giữa vị trí thật và ước lượng của kẻ tấn công. Giá trị càng cao nghĩa là kẻ tấn công định vị càng kém chính xác.</p>
 <p>Với các báo cáo độc lập, đường cong giảm mạnh khi n tăng: nhiều mẫu nhiễu có thể được kết hợp để kẻ tấn công tiến gần vị trí thật. SM-REM tái sử dụng một vị trí giả ổn định nên đường cong không giảm mạnh theo cùng cách; PR-SM-REM làm chậm sự suy giảm trong khoảng số báo cáo đã đo. Đây là bằng chứng cho thấy quan sát lặp là mối đe dọa cần giải quyết, <strong>không phải</strong> bằng chứng đủ để xếp hạng mức bảo vệ tổng thể giữa các cơ chế.</p></section><div class="portable-inline-source portable-source-summary" data-source-id="averaging_output"><div class="portable-inline-source-content portable-source-summary-content"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for Cách đọc kết quả thực nghiệm hiện tại</span><strong>Source: Thí nghiệm O5 với các báo cáo lặp</strong><span class="portable-source-meta">File: outputs/averaging_multi_results.json</span></div></div></div>
@@ -74,26 +78,30 @@ html:not([data-portable-source-tooltips-ready]) .portable-chart-summary>.portabl
 <p><strong>GeoLife v1.3</strong> là tập quỹ đạo GPS thật tại Bắc Kinh, gồm chuỗi tọa độ có mốc thời gian của nhiều người dùng. Nó không được tạo riêng cho nghiên cứu riêng tư, nhưng được dùng rộng rãi như một bộ dữ liệu chuẩn để so sánh trong nghiên cứu bảo vệ quỹ đạo, gồm các hướng PIVE, PIM và RAoPT.</p>
 <p>So với tuyến tổng hợp của Internship 2, GeoLife cho phép kiểm tra ba hiện tượng thật mà bài toán cần: <strong>(1)</strong> người dùng di chuyển theo đường và thời gian, <strong>(2)</strong> các điểm liên tiếp có mối liên hệ theo thời gian, và <strong>(3)</strong> người dùng quay lại cùng điểm dừng. Vì vậy dữ liệu mới giúp đánh giá cả độ hữu ích của quỹ đạo lẫn tấn công trên các báo cáo lặp.</p>
 <p>Thử nghiệm ban đầu hiện dùng <strong>20 quỹ đạo, 858 điểm, 7 người dùng</strong>; thí nghiệm lấy trung bình dùng <strong>40 điểm dừng khác nhau của 21 người dùng, với 8 lần chạy</strong>. Đây vẫn là quy mô ban đầu để kiểm tra quy trình thực nghiệm. Trước khi kết luận có tính tổng quát cần mở rộng số người dùng, số lần chạy và, nếu thời gian cho phép, thêm một thành phố thứ hai.</p></section></div>
-<div class="portable-block portable-layout-full" data-artifact-block-id="metrics" data-artifact-block-type="markdown" data-layout="full"><section class="portable-markdown"><h2>Bộ chỉ số mới trả lời hai câu hỏi khác nhau</h2>
-<p><strong>Điểm cần làm rõ về Internship <span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-2"><span class="portable-source-value-text">2</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-2" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 2</span><strong>Source: Quy trình thực nghiệm hiện tại</strong><span class="portable-source-meta">File: thesis/chapters/ch5_thucnghiem.tex</span></span></span>:</strong> ngưỡng bán kính chất lượng dịch vụ (QoS) cố định là do ta tự đặt. Khoảng dịch chuyển trung bình và lớn nhất là các phép đo hình học hợp lệ, nhưng chúng chỉ nói vị trí công bố cách vị trí thật bao xa; chúng không trực tiếp cho biết kết quả tìm kiếm POI còn đúng hay kẻ tấn công có khôi phục được vị trí hay không.</p>
-<h3><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-3"><span class="portable-source-value-text">1</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-3" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 1</span><strong>Source: Quy trình thực nghiệm hiện tại</strong><span class="portable-source-meta">File: thesis/chapters/ch5_thucnghiem.tex</span></span></span>. Độ hữu ích - ứng dụng LBS còn dùng được không?</h3>
-<ul><li><strong>Tỷ lệ giữ lại POI trong k kết quả gần nhất (POI Recall@k, chỉ số chính):</strong> lấy k POI gần nhất từ vị trí thật và k POI gần nhất từ vị trí đã bảo vệ, rồi đo tỷ lệ POI xuất hiện ở cả hai tập. Ví dụ Recall@<span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-4"><span class="portable-source-value-text">5</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-4" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 5</span><strong>Source: Quy trình thực nghiệm hiện tại</strong><span class="portable-source-meta">File: thesis/chapters/ch5_thucnghiem.tex</span></span></span> = <span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-5"><span class="portable-source-value-text">0</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-5" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 0</span><strong>Source: Quy trình thực nghiệm hiện tại</strong><span class="portable-source-meta">File: thesis/chapters/ch5_thucnghiem.tex</span></span></span>,<span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-6"><span class="portable-source-value-text">8</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-6" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 8</span><strong>Source: Quy trình thực nghiệm hiện tại</strong><span class="portable-source-meta">File: thesis/chapters/ch5_thucnghiem.tex</span></span></span> nghĩa là 4/5 kết quả gần nhất vẫn được giữ. <strong>Càng cao càng tốt.</strong> Chỉ số này phản ánh trực tiếp chất lượng tìm kiếm và gợi ý địa điểm gần.</li><li><strong>Độ dịch chuyển trung bình / mức suy giảm chất lượng dự kiến:</strong> khoảng cách trung bình giữa vị trí thật và vị trí công bố. <strong>Càng thấp càng tốt</strong>, nhưng đây chỉ là phép đo hình học hỗ trợ, không thay thế tỷ lệ giữ lại POI.</li><li><strong>Tỷ lệ nằm trên đường và tỷ lệ vận tốc hợp lý:</strong> tỷ lệ vị trí công bố nằm trên đường hợp lệ và tỷ lệ bước di chuyển có vận tốc khả thi. <strong>Càng cao càng tốt.</strong> Chúng cho biết quỹ đạo có dùng được cho dẫn đường hoặc phân tích di chuyển hay không.</li><li><strong>Khoảng cách Hausdorff/DTW:</strong> độ lệch về hình dạng và thứ tự giữa quỹ đạo thật với quỹ đạo đã bảo vệ. <strong>Càng thấp càng tốt.</strong></li></ul>
-<h3><span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-7"><span class="portable-source-value-text">2</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-7" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 2</span><strong>Source: Quy trình thực nghiệm hiện tại</strong><span class="portable-source-meta">File: thesis/chapters/ch5_thucnghiem.tex</span></span></span>. Mức bảo vệ riêng tư - kẻ tấn công suy ra được bao nhiêu?</h3>
-<ul><li><strong>Tỷ lệ khôi phục trong bán kính r sau n báo cáo (chỉ số chính):</strong> tỷ lệ trường hợp ước lượng của kẻ tấn công nằm trong bán kính r quanh điểm dừng thật sau n báo cáo. Ví dụ tỷ lệ khôi phục trong <span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-8"><span class="portable-source-value-text">100 m</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-8" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 100 m</span><strong>Source: Quy trình thực nghiệm hiện tại</strong><span class="portable-source-meta">File: thesis/chapters/ch5_thucnghiem.tex</span></span></span> bằng <span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-9"><span class="portable-source-value-text">0</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-9" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 0</span><strong>Source: Quy trình thực nghiệm hiện tại</strong><span class="portable-source-meta">File: thesis/chapters/ch5_thucnghiem.tex</span></span></span>,<span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-10"><span class="portable-source-value-text">3</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-10" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 3</span><strong>Source: Quy trình thực nghiệm hiện tại</strong><span class="portable-source-meta">File: thesis/chapters/ch5_thucnghiem.tex</span></span></span> nghĩa là kẻ tấn công định vị đúng trong phạm vi <span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-11"><span class="portable-source-value-text">100 m</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-11" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 100 m</span><strong>Source: Quy trình thực nghiệm hiện tại</strong><span class="portable-source-meta">File: thesis/chapters/ch5_thucnghiem.tex</span></span></span> ở <span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-12"><span class="portable-source-value-text">30%</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-12" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 30%</span><strong>Source: Quy trình thực nghiệm hiện tại</strong><span class="portable-source-meta">File: thesis/chapters/ch5_thucnghiem.tex</span></span></span> trường hợp. <strong>Càng thấp càng tốt.</strong></li><li><strong>Sai số suy luận sau n báo cáo:</strong> khoảng cách giữa ước lượng của kẻ tấn công và vị trí thật; báo cáo giá trị trung vị và khoảng tin cậy. <strong>Càng cao càng tốt.</strong> Đường cong theo n cho thấy mức bảo vệ suy giảm nhanh hay chậm khi vị trí được báo cáo lặp.</li><li><strong>Sai số theo dõi bằng mô hình Markov ẩn (HMM):</strong> sai số khi kẻ tấn công dùng toàn bộ chuỗi và xác suất chuyển trạng thái theo thời gian để theo dõi người dùng. <strong>Càng cao càng tốt</strong>; đây là chỉ số phụ nếu luận văn vẫn giữ kiểu tấn công theo thời gian trong phạm vi nghiên cứu.</li></ul>
-<p>Kết quả sẽ được báo cáo dưới dạng <strong>sự đánh đổi giữa mức bảo vệ riêng tư và độ hữu ích</strong>, không cộng các chỉ số thành một điểm tùy ý. Các cơ chế được so sánh tại cùng ngân sách riêng tư: cơ chế tốt hơn phải giữ tỷ lệ POI cao hơn tại cùng tỷ lệ khôi phục, hoặc giảm tỷ lệ khôi phục mà không phá hỏng chất lượng ứng dụng. POI hiện vẫn là dữ liệu tổng hợp; cần dùng POI thật trước khi kết luận đầy đủ về khả năng áp dụng.</p></section><div class="portable-inline-source portable-source-summary" data-source-id="thesis_ch5"><div class="portable-inline-source-content portable-source-summary-content"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for Bộ chỉ số mới trả lời hai câu hỏi khác nhau</span><strong>Source: Quy trình thực nghiệm hiện tại</strong><span class="portable-source-meta">File: thesis/chapters/ch5_thucnghiem.tex</span></div></div></div>
-<div class="portable-block portable-layout-full" data-artifact-block-id="attack_survey" data-artifact-block-type="markdown" data-layout="full"><section class="portable-markdown"><h2>Các kiểu tấn công thực tế đã khảo sát và vai trò của chúng</h2>
-<ul><li><strong>Định vị bằng nhiều truy vấn hoặc nhiều phép đo khoảng cách:</strong> kẻ tấn công gửi nhiều truy vấn hoặc quan sát phản hồi khoảng cách từ các điểm đã biết để khoanh vùng tọa độ. Điều này cho thấy chỉ làm tròn hoặc trả lời khoảng cách vẫn có thể làm lộ vị trí.</li><li><strong>Khớp bản đồ và tái dựng quỹ đạo:</strong> kẻ tấn công dùng mạng đường công khai để loại các vị trí phi lý và khớp chuỗi điểm về tuyến khả dĩ; RAoPT còn học cách tái dựng quỹ đạo gốc. Vì vậy cơ chế phải được đánh giá trong trường hợp kẻ tấn công biết mạng đường.</li><li><strong>Theo dõi theo thời gian bằng HMM:</strong> kẻ tấn công dùng mốc thời gian, vận tốc và xác suất chuyển trạng thái để suy luận toàn chuỗi thay vì từng điểm độc lập. Phép thử này cho biết tính nhất quán theo thời gian có vô tình giúp kẻ tấn công hay không.</li><li><strong>Quan sát lặp và lấy trung bình:</strong> kẻ tấn công liên kết nhiều báo cáo tại cùng điểm dừng để triệt tiêu nhiễu. Đây là kiểu tấn công được chọn làm <strong>trọng tâm phát triển giải thuật và đánh giá</strong>.</li><li><strong>Suy luận Bayes và tái định danh:</strong> kẻ tấn công kết hợp phân bố tiên nghiệm, tính đặc trưng của nhà/nơi làm việc hoặc dữ liệu phụ trợ để gắn quỹ đạo với một người. Đây là nguy cơ quan trọng nhưng rộng hơn phạm vi hiện tại.</li></ul>
-<p>Các lỗi API, định danh người dùng và lưu giữ dữ liệu là vấn đề cấp hệ thống, không thể được giải quyết chỉ bằng làm nhiễu tọa độ. Luận văn sẽ nêu chúng như phần ngoài phạm vi; đóng góp chính tập trung vào quan sát lặp để xác định rõ đối tượng bảo vệ, khả năng của kẻ tấn công và tiêu chí thành công.</p></section><div class="portable-inline-source portable-source-summary" data-source-id="attack_catalog"><div class="portable-inline-source-content portable-source-summary-content"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for Các kiểu tấn công thực tế đã khảo sát và vai trò của chúng</span><strong>Source: Khảo sát các kiểu tấn công vị trí trong thực tế</strong><span class="portable-source-meta">File: docs/attack_scenarios.md</span></div></div></div>
-<div class="portable-block portable-layout-full" data-artifact-block-id="method" data-artifact-block-type="markdown" data-layout="full"><section class="portable-markdown"><h2>Logic phát triển giải thuật: mỗi bước xử lý một điểm yếu</h2>
-<p>Đây không phải bốn thuật toán độc lập để thi với nhau, mà là quá trình phát triển từ cơ chế bảo vệ từng điểm sang cơ chế có trạng thái dành cho các báo cáo lặp.</p>
-<ul><li><strong>REM - tạo vị trí hợp lệ trên mạng đường:</strong> từ vị trí thật, cơ chế gán xác suất cho các đỉnh công khai trên mạng đường; vị trí gần có xác suất cao hơn rồi lấy mẫu một vị trí giả. REM xử lý vấn đề vị trí nằm ngoài đường của nhiễu phẳng, nhưng mỗi báo cáo vẫn độc lập nên còn bị tấn công bằng lấy trung bình.</li><li><strong>T-REM - tạo quỹ đạo hợp lý hơn theo thời gian:</strong> dùng vị trí công bố trước đó và khoảng thời gian đã công khai để ưu tiên vị trí ứng viên có thể di chuyển tới với vận tốc hợp lý. Cơ chế này cải thiện tính hợp lý của vận tốc, nhưng tính nhất quán theo thời gian không tự động đồng nghĩa với mức riêng tư cao hơn.</li><li><strong>SM-REM - không cung cấp nhiều mẫu nhiễu tại cùng điểm dừng:</strong> nếu người dùng vẫn ở trong cùng ô lưới công khai, cơ chế tái sử dụng vị trí giả đã phát thay vì lấy mẫu mới. Kẻ tấn công chỉ thấy nhiều bản sao của một vị trí giả, không có nhiều mẫu nhiễu để lấy trung bình. Đổi lại, quyết định tái sử dụng tất định có thể làm lộ quy luật quay lại.</li><li><strong>PR-SM-REM - bảo vệ quyết định tái sử dụng:</strong> thêm một phép kiểm tra có nhiễu trước khi tái sử dụng để bên quan sát khó biết chắc người dùng có quay lại cùng ô hay không. Bước tiếp theo là quản lý ngân sách theo cửa sổ để tổng mức mất riêng tư không tăng không giới hạn.</li></ul>
-<p>Cơ chế cuối cùng kết hợp bốn ý tưởng: <strong>lấy mẫu trên mạng đường + kiểm tra tính khả thi theo thời gian + tái sử dụng có trạng thái và có bảo vệ + ngân sách trong cửa sổ hữu hạn</strong>. Thiết kế chỉ được xem là hoàn chỉnh khi bảo đảm lý thuyết, mã cài đặt và mô hình kẻ tấn công biết đầy đủ cơ chế cùng sử dụng một mô hình thống nhất.</p></section><div class="portable-inline-source portable-source-summary" data-source-id="thesis_ch4"><div class="portable-inline-source-content portable-source-summary-content"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for Logic phát triển giải thuật: mỗi bước xử lý một điểm yếu</span><strong>Source: Thiết kế cơ chế hiện tại</strong><span class="portable-source-meta">File: thesis/chapters/ch4_phuongphap.tex</span></div></div></div>
+<div class="portable-block portable-layout-full" data-artifact-block-id="metrics" data-artifact-block-type="markdown" data-layout="full"><section class="portable-markdown"><h2>Chỉ số POI đến từ đâu và thực sự đo điều gì?</h2>
+<p><strong>Nguồn học thuật.</strong> Trong bài báo <strong>“Protecting Locations with Differential Privacy under Temporal Correlations”</strong> (Xiao và Xiong, CCS 2015, mục 6.3), tác giả đánh giá độ hữu ích của vị trí đã làm nhiễu bằng một tác vụ dịch vụ vị trí cụ thể: chạy truy vấn k địa điểm gần nhất tại vị trí thật, chạy truy vấn k′ địa điểm gần nhất tại vị trí công bố, rồi đo độ chính xác (precision) và độ bao phủ (recall) giữa hai danh sách. Đây là nguồn trực tiếp của giao thức đang được cài đặt trong luận văn (<a href="https://arxiv.org/abs/1410.5919" rel="noreferrer">bài báo trên arXiv</a>).</p>
+<h3>Công thức đang dùng</h3>
+<p>Gọi <strong>Sₖ(x)</strong> là tập k POI gần vị trí thật x và <strong>Rₖ′(z)</strong> là tập k′ POI được trả về từ vị trí đã bảo vệ z. Khi đó:</p>
+<p><strong>Độ bao phủ POI = |Sₖ(x) ∩ Rₖ′(z)| / k</strong></p>
+<p>Ví dụ, 5 địa điểm đúng gần nhất là S₅(x). Nếu danh sách 10 địa điểm trả về từ vị trí z chứa 4 trong 5 địa điểm này thì độ bao phủ bằng 4/5 = 0,8. Chỉ số trả lời một câu rất thực tế: <strong>sau khi che vị trí, ứng dụng còn tìm lại được bao nhiêu địa điểm gần đúng mà người dùng cần hay không?</strong> Nó phù hợp với tìm nhà hàng, hiệu thuốc, trạm xe hoặc gợi ý địa điểm gần. Nó là chỉ số <strong>độ hữu ích</strong>, không phải chỉ số riêng tư.</p>
+<h3>Luận văn đang điều chỉnh giao thức gốc như thế nào?</h3>
+<ul><li>Bản cài hiện tại đặt <strong>k=5, k′=10</strong> và chỉ báo cáo độ bao phủ. Việc trả 10 kết quả để tìm lại 5 kết quả đúng làm chỉ số này dễ cao hơn; vì vậy kết quả phải ghi rõ cả k và k′.</li><li>Nên bổ sung <strong>độ chính xác = |Sₖ(x) ∩ Rₖ′(z)| / k′</strong>, hoặc thêm phép thử k′=k. Độ bao phủ cho biết bỏ sót bao nhiêu địa điểm đúng; độ chính xác cho biết danh sách trả về bị pha thêm bao nhiêu địa điểm không thuộc nhóm đúng.</li><li>500 POI hiện tại là các đỉnh đường được lấy mẫu ngẫu nhiên, chưa phải địa điểm thật. Bản đánh giá cuối cần POI thật theo loại hình dịch vụ trong vùng GeoLife, đồng thời báo cáo nhiều giá trị k/k′ và giữ cùng tập POI cho mọi cơ chế.</li></ul>
+<h3>Vì sao tốt hơn chỉ số ở Internship 2?</h3>
+<p>Bán kính QoS cố định trong Internship 2 là ngưỡng do ta tự chọn. Nó chỉ trả lời vị trí giả có cách vị trí thật dưới một khoảng cho trước hay không. Độ bao phủ và độ chính xác POI đo trực tiếp <strong>kết quả mà một dịch vụ tìm kiếm gần trả về</strong>, nên gần với công dụng của hệ thống hơn. Khoảng dịch chuyển trung bình, tỷ lệ nằm trên đường, vận tốc hợp lý và độ lệch hình dạng quỹ đạo vẫn được giữ làm chỉ số phụ.</p>
+<h3>Mặt riêng tư được đo riêng</h3>
+<p>Mức riêng tư dùng <strong>tỷ lệ khôi phục trong bán kính r sau n báo cáo</strong> và <strong>sai số suy luận sau n báo cáo</strong>. Hai đường đo này phải đi cùng chỉ số POI để thể hiện sự đánh đổi: tại cùng ngân sách riêng tư, cơ chế tốt hơn phải làm kẻ tấn công kém chính xác hơn mà không làm chất lượng truy vấn POI giảm quá mạnh.</p></section></div>
+<div class="portable-block portable-layout-full" data-artifact-block-id="attack_survey" data-artifact-block-type="markdown" data-layout="full"><section class="portable-markdown"><h2>Các mô hình tấn công khác khai thác điều gì?</h2>
+<ul><li><strong>Định vị bằng truy vấn lặp:</strong> khai thác khoảng cách chính xác, quy tắc làm tròn hoặc ngưỡng của bộ lọc để biến dịch vụ thành một phép thử gần/xa và khoanh vùng tọa độ.</li><li><strong>Khớp bản đồ và tái dựng quỹ đạo:</strong> khai thác việc đường phố là dữ liệu công khai; các điểm ngoài đường hoặc bước di chuyển phi lý có thể bị loại để thu hẹp quỹ đạo thật.</li><li><strong>Theo dõi theo thời gian:</strong> khai thác mốc thời gian, vận tốc và thói quen di chuyển; mô hình Markov/HMM kết hợp toàn chuỗi thay vì tấn công từng điểm.</li><li><strong>Quan sát lặp tại điểm dừng:</strong> khai thác khả năng nối các báo cáo và nhiễu độc lập để tích lũy bằng chứng về cùng một vị trí. Đây là mối đe dọa trung tâm của luận văn.</li><li><strong>Tái định danh:</strong> khai thác tính độc đáo của cặp nhà - nơi làm việc và dữ liệu phụ trợ công khai để gắn một quỹ đạo ẩn danh với một người thật. Đây là nguy cơ rộng hơn phạm vi hiện tại.</li></ul>
+<p>Như vậy, &quot;mô hình đe dọa&quot; không chỉ là tên một thuật toán tấn công. Nó phải chỉ rõ <strong>kẻ tấn công thấy dữ liệu gì, biết thông tin công khai nào, nối được các báo cáo nào, khai thác thuộc tính nào và được tính là thành công khi nào</strong>. Các lỗi API, quyền truy cập và lưu giữ dữ liệu thuộc lớp hệ thống, không thể được giải quyết chỉ bằng làm nhiễu tọa độ.</p></section><div class="portable-inline-source portable-source-summary" data-source-id="attack_catalog"><div class="portable-inline-source-content portable-source-summary-content"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for Các mô hình tấn công khác khai thác điều gì?</span><strong>Source: Khảo sát các kiểu tấn công vị trí trong thực tế</strong><span class="portable-source-meta">File: docs/attack_scenarios.md</span></div></div></div>
+<div class="portable-block portable-layout-full" data-artifact-block-id="method" data-artifact-block-type="markdown" data-layout="full"><section class="portable-markdown"><h2>Hướng giải pháp ở mức khái niệm</h2>
+<p>Ý tưởng đang phát triển là một <strong>cơ chế công bố vị trí có trạng thái và biết mạng đường</strong>. Vị trí công bố phải hợp lý đối với ứng dụng, nhưng khi người dùng báo cáo lặp tại cùng một vùng, cơ chế không nên tạo vô hạn mẫu nhiễu độc lập để kẻ tấn công kết hợp. Thay vào đó, cơ chế có thể tái sử dụng hoặc tạo tương quan giữa các vị trí giả trong một cửa sổ thời gian, đồng thời bảo vệ chính quyết định tái sử dụng và quản lý tổng ngân sách riêng tư.</p>
+<p>REM, T-REM, SM-REM và PR-SM-REM hiện là các bước thử nghiệm để kiểm tra từng thành phần của ý tưởng trên. Luận văn chưa cần trình bày sâu từng biến thể ở giai đoạn này; phần cần chốt trước là mối đe dọa, tiêu chí thành công và giao thức đánh giá công bằng.</p></section><div class="portable-inline-source portable-source-summary" data-source-id="thesis_ch4"><div class="portable-inline-source-content portable-source-summary-content"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for Hướng giải pháp ở mức khái niệm</span><strong>Source: Thiết kế cơ chế hiện tại</strong><span class="portable-source-meta">File: thesis/chapters/ch4_phuongphap.tex</span></div></div></div>
 <div class="portable-block portable-layout-full" data-artifact-block-id="limitations" data-artifact-block-type="markdown" data-layout="full"><section class="portable-markdown"><h2>Những gì kết quả hiện tại chưa chứng minh</h2>
-<ul><li>Mô hình tấn công hiện chính xác cho REM; với T-REM/SM-REM/PR-SM-REM vẫn chủ yếu là bản xấp xỉ và chưa mô hình đầy đủ sai lệch GPS, trạng thái và quyết định tái sử dụng. Vì vậy biểu đồ hiện tại dùng để xác nhận mối đe dọa, chưa phải bảng xếp hạng mức bảo vệ cuối cùng.</li><li>Chưa có bộ quản lý ngân sách trong cửa sổ w sự kiện; việc ghi nhớ tất định còn làm lộ quy luật quay lại. Bảo đảm lý thuyết hiện mới áp dụng cho số bước hữu hạn, chưa áp dụng cho toàn bộ quỹ đạo.</li><li>Điểm dừng chưa có nhãn nhà ở thực và POI hiện là dữ liệu tổng hợp. Tỷ lệ giữ lại POI chỉ trở thành bằng chứng ứng dụng mạnh khi sử dụng POI thật.</li><li>Kết quả chỉ hỗ trợ kịch bản điểm dừng được báo cáo lặp dưới một kẻ tấn công có thể liên kết chuỗi báo cáo; chưa giải quyết tái định danh toàn quỹ đạo hay rò rỉ từ API và định danh người dùng.</li></ul></section><div class="portable-inline-source portable-source-summary" data-source-id="thesis_ch6"><div class="portable-inline-source-content portable-source-summary-content"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for Những gì kết quả hiện tại chưa chứng minh</span><strong>Source: Giới hạn và hướng phát triển</strong><span class="portable-source-meta">File: thesis/chapters/ch6_tongket.tex</span></div></div></div>
+<ul><li>Chỉ số POI hiện dùng <span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-2"><span class="portable-source-value-text">500</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-2" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 500</span><strong>Source: Giới hạn và hướng phát triển</strong><span class="portable-source-meta">File: thesis/chapters/ch6_tongket.tex</span></span></span> đỉnh đường tổng hợp, k=<span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-3"><span class="portable-source-value-text">5</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-3" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 5</span><strong>Source: Giới hạn và hướng phát triển</strong><span class="portable-source-meta">File: thesis/chapters/ch6_tongket.tex</span></span></span> và k′=<span class="portable-source-tooltip portable-source-value" data-portable-source-host="true" tabindex="0" aria-describedby="portable-source-tooltip-4"><span class="portable-source-value-text">10</span><span class="portable-source-tooltip-content" id="portable-source-tooltip-4" role="tooltip"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for 10</span><strong>Source: Giới hạn và hướng phát triển</strong><span class="portable-source-meta">File: thesis/chapters/ch6_tongket.tex</span></span></span>; chưa đủ để kết luận chất lượng trên địa điểm thật. Cần bổ sung độ chính xác, thử k′=k và kiểm tra theo từng loại POI.</li><li>Mô hình tấn công hiện chính xác cho REM nhưng chỉ là xấp xỉ cho các cơ chế có trạng thái. Vì vậy biểu đồ hiện tại xác nhận nguy cơ của báo cáo lặp, chưa phải bảng xếp hạng riêng tư cuối cùng.</li><li>Điểm dừng GeoLife chưa có nhãn nhà ở hoặc bệnh viện thật. Kết quả mới nói về khôi phục tọa độ của điểm dừng, chưa chứng minh trực tiếp việc lộ một thuộc tính nhạy cảm cụ thể.</li><li>Hướng cơ chế có trạng thái chưa có bộ quản lý ngân sách hoàn chỉnh; quyết định tái sử dụng còn có thể làm lộ quy luật quay lại.</li><li>Luận văn chưa giải quyết tái định danh toàn quỹ đạo, lỗi API, kiểm soát truy cập hoặc việc bên thứ ba lưu dữ liệu quá lâu.</li></ul></section><div class="portable-inline-source portable-source-summary" data-source-id="thesis_ch6"><div class="portable-inline-source-content portable-source-summary-content"><span class="portable-source-tooltip-heading" aria-hidden="true">Source for Những gì kết quả hiện tại chưa chứng minh</span><strong>Source: Giới hạn và hướng phát triển</strong><span class="portable-source-meta">File: thesis/chapters/ch6_tongket.tex</span></div></div></div>
 <div class="portable-block portable-layout-full" data-artifact-block-id="next_steps" data-artifact-block-type="markdown" data-layout="full"><section class="portable-markdown"><h2>Bốn bước để đạt kết quả đủ chuẩn luận văn</h2>
-<ol><li><strong>Chốt mô hình đe dọa:</strong> định nghĩa điểm dừng, khả năng liên kết báo cáo, số báo cáo n, bán kính khôi phục r, kiến thức của kẻ tấn công và cửa sổ thời gian.</li><li><strong>Hoàn thiện mô hình tấn công:</strong> xây kẻ tấn công tuần tự biết đầy đủ từng cơ chế, gồm sai lệch GPS, trạng thái và quyết định tái sử dụng.</li><li><strong>Hoàn thiện cơ chế:</strong> thêm quyết định tái sử dụng có bảo vệ và tính toán ngân sách theo cửa sổ w sự kiện; sau đó so sánh các phương pháp đối chứng tại cùng ngân sách riêng tư lý thuyết.</li><li><strong>Đánh giá hai mặt trên GeoLife:</strong> độ hữu ích báo cáo tỷ lệ giữ lại POI cùng độ dịch chuyển, tỷ lệ nằm trên đường và vận tốc hợp lý; mức riêng tư báo cáo tỷ lệ khôi phục, sai số suy luận và khoảng tin cậy. Nếu thời gian cho phép, bổ sung POI thật và kiểm chứng trên thành phố khác.</li></ol></section></div>
+<ol><li><strong>Chốt giao thức POI:</strong> dùng POI thật, định nghĩa loại dịch vụ, khoảng cách, k và k′; báo cáo cả độ bao phủ lẫn độ chính xác và giữ cùng tập POI cho mọi cơ chế.</li><li><strong>Chốt mô hình đe dọa:</strong> định nghĩa điểm dừng, khả năng nối báo cáo, kiến thức công khai, số báo cáo n, bán kính thành công r và cửa sổ thời gian.</li><li><strong>Hoàn thiện kẻ tấn công:</strong> xây bộ ước lượng biết đầy đủ cơ chế, sai lệch GPS, trạng thái và quyết định tái sử dụng; báo cáo sai số cùng tỷ lệ khôi phục và khoảng tin cậy.</li><li><strong>Sau đó mới chốt cơ chế:</strong> chọn thiết kế có trạng thái, quản lý ngân sách theo cửa sổ và so sánh với các phương pháp đối chứng tại cùng mức riêng tư và cùng giao thức POI.</li></ol></section></div>
 <div class="portable-block portable-layout-full" data-artifact-block-id="further_question" data-artifact-block-type="markdown" data-layout="full"><section class="portable-markdown"><h2>Điểm cần xác nhận với giáo viên hướng dẫn</h2>
-<p>Có chốt <strong>quan sát lặp và lấy trung bình tại các điểm dừng nhạy cảm</strong> làm mối đe dọa trung tâm hay chuyển trọng tâm sang theo dõi theo thời gian bằng HMM? Với tiến độ hiện tại, quan sát lặp là lựa chọn phù hợp hơn vì đã có cơ chế bảo vệ, mô hình tấn công và quy trình thực nghiệm trực tiếp.</p></section></div></div><section class="portable-sources" aria-labelledby="portable-sources-heading"><h2 id="portable-sources-heading">Sources</h2><ol><li><strong>Dữ liệu đường cong lấy trung bình đã được kiểm tra (DuckDB SQL)</strong><span class="portable-source-meta">docs/supervisor_meeting/research_improvements/report_data.sql</span></li><li><strong>Thí nghiệm O5 với các báo cáo lặp</strong><span class="portable-source-meta">outputs/averaging_multi_results.json</span></li><li><strong>Khảo sát tài liệu về dữ liệu và chỉ số đánh giá</strong><span class="portable-source-meta">docs/research_notes.md</span></li><li><strong>Khảo sát các kiểu tấn công vị trí trong thực tế</strong><span class="portable-source-meta">docs/attack_scenarios.md</span></li><li><strong>Cách đặt bài toán và phạm vi kết luận hiện tại</strong><span class="portable-source-meta">docs/problem_formulation.md</span></li><li><strong>Công trình liên quan, dữ liệu, chỉ số và kiểu tấn công</strong><span class="portable-source-meta">thesis/chapters/ch3_lienquan.tex</span></li><li><strong>Thiết kế cơ chế hiện tại</strong><span class="portable-source-meta">thesis/chapters/ch4_phuongphap.tex</span></li><li><strong>Quy trình thực nghiệm hiện tại</strong><span class="portable-source-meta">thesis/chapters/ch5_thucnghiem.tex</span></li><li><strong>Giới hạn và hướng phát triển</strong><span class="portable-source-meta">thesis/chapters/ch6_tongket.tex</span></li><li><strong>Mã đánh giá trong Internship 2</strong><span class="portable-source-meta">core/trajectory_privacy.py</span></li></ol></section></main>
+<p>Có chốt <strong>quan sát lặp và lấy trung bình tại các điểm dừng nhạy cảm</strong> làm mối đe dọa trung tâm hay chuyển trọng tâm sang theo dõi theo thời gian bằng HMM? Với tiến độ hiện tại, quan sát lặp là lựa chọn phù hợp hơn vì đã có cơ chế bảo vệ, mô hình tấn công và quy trình thực nghiệm trực tiếp.</p></section></div></div><section class="portable-sources" aria-labelledby="portable-sources-heading"><h2 id="portable-sources-heading">Sources</h2><ol><li><strong>Dữ liệu đường cong lấy trung bình đã được kiểm tra (DuckDB SQL)</strong><span class="portable-source-meta">docs/supervisor_meeting/research_improvements/report_data.sql</span></li><li><strong>Thí nghiệm O5 với các báo cáo lặp</strong><span class="portable-source-meta">outputs/averaging_multi_results.json</span></li><li><strong>Khảo sát tài liệu về dữ liệu và chỉ số đánh giá</strong><span class="portable-source-meta">docs/research_notes.md</span></li><li><strong>Khảo sát các kiểu tấn công vị trí trong thực tế</strong><span class="portable-source-meta">docs/attack_scenarios.md</span></li><li><strong>Cách đặt bài toán và phạm vi kết luận hiện tại</strong><span class="portable-source-meta">docs/problem_formulation.md</span></li><li><strong>Công trình liên quan, dữ liệu, chỉ số và kiểu tấn công</strong><span class="portable-source-meta">thesis/chapters/ch3_lienquan.tex</span></li><li><strong>Thiết kế cơ chế hiện tại</strong><span class="portable-source-meta">thesis/chapters/ch4_phuongphap.tex</span></li><li><strong>Quy trình thực nghiệm hiện tại</strong><span class="portable-source-meta">thesis/chapters/ch5_thucnghiem.tex</span></li><li><strong>Giới hạn và hướng phát triển</strong><span class="portable-source-meta">thesis/chapters/ch6_tongket.tex</span></li><li><strong>Mã đánh giá trong Internship 2</strong><span class="portable-source-meta">core/trajectory_privacy.py</span></li><li><strong>Cài đặt chỉ số k-NN POI hiện tại</strong><span class="portable-source-meta">evaluation/metrics.py</span></li></ol></section></main>
 <script data-data-analytics-portable-source-tooltips="true">(() => {
   const RUNTIME_FLAG = "__dataAnalyticsPortableSourceTooltipsInitialized";
   const READY_ATTRIBUTE = "data-portable-source-tooltips-ready";
@@ -434,132 +442,134 @@ html:not([data-portable-source-tooltips-ready]) .portable-chart-summary>.portabl
 })();</script>
 <div id="data-analytics-portable-reader" aria-hidden="true" inert></div>
 <template id="data-analytics-portable-artifact-payload-source" data-compression="gzip-base64">
-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
+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
+R1m8aFnc/G9tErPcx28AAA==
 </template>
 <template id="data-analytics-portable-reader-runtime-source" data-compression="gzip-base64">
 H4sIAAAAAAACE+y9aXfbxrYg+v3+CiqdpwauSgwpeQQN8zoaYieeYtlJHEUtQGRRhA0CDABKViSe
