@@ -1,0 +1,1058 @@
+{
+  "schema": "msc-sota-demo-v1",
+  "status": "DEMO_ONLY",
+  "disclaimer": "DEMO / PAPER-INSPIRED PROTOTYPES. These implementations are not official or faithful reproductions of the cited papers. Metrics are reported within each output contract and must not be used as a cross-track leaderboard.",
+  "provenance": {
+    "schema": "msc-experiment-v1",
+    "source_commit": "ab56920a377bb2e9b66c106cfd3df377daf526a2",
+    "source_dirty_before_run": false,
+    "command": [
+      "/Users/geohanz/Project/msc/venv/bin/python",
+      "-m",
+      "/Users/geohanz/Project/msc/experiments/run_sota_demo.py",
+      "--quick"
+    ],
+    "interpreter": "/Users/geohanz/Project/msc/venv/bin/python",
+    "cwd": "/Users/geohanz/Project/msc",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "mode": "quick",
+    "started_at_utc": "2026-09-01T03:18:07.805067+00:00",
+    "finished_at_utc": "2026-09-01T03:18:09.243104+00:00",
+    "python": "3.11.12",
+    "package_versions": {
+      "numpy": "2.3.2",
+      "scipy": "1.16.1",
+      "networkx": "3.5",
+      "osmnx": "2.0.5",
+      "shapely": "2.1.1",
+      "haversine": "2.9.0"
+    },
+    "graph_sha256": "9e44ec2a48d6249f3534bb8511010925428018e528f5116d5f9eb24d86a2d487",
+    "graph_nodes": 13813,
+    "graph_source_sha256": {
+      "Beijing.osm.gz": "ed0af579fb32c7164de85bca945a10432f818dd27eb80d6d5a7afa62213b0407",
+      "Beijing.osm": "5691186b8b3bd9078915faefb7fb639ff2c7f45b4e8b1efd1de4b9ebdad4c8a5"
+    },
+    "graph_network_profile": "all (unfiltered multimodal: drive+walk+cycle; verifier R3-013)",
+    "rng_schema": "rng-v1",
+    "root_seeds": [
+      42
+    ],
+    "epsilons": [
+      0.02
+    ],
+    "dataset": {
+      "name": "GeoLife v1.3",
+      "raw_bytes_in_git": false,
+      "note": "raw GeoLife/graph are gitignored; selected record IDs pinned below, per-file byte hashing is future work (R4-008)"
+    },
+    "artifact_schema": "msc-sota-demo-v1",
+    "artifact_status": "integration demo; not a scientific benchmark",
+    "dataset_mode": "GeoLife v1.3",
+    "selected_record_ids": [
+      "000/20081023025304.plt#0"
+    ],
+    "n_points_per_record": [
+      8
+    ],
+    "k": 4,
+    "qos_radius_m": 200.0,
+    "cross_contract_comparison_allowed": false
+  },
+  "summaries": [
+    {
+      "mechanism": "transprotect_lite",
+      "output_kind": "replacement_trajectory",
+      "source_method": "TransProtect (Yadav et al., ACM SIGSPATIAL 2024)",
+      "records": 1,
+      "metrics": {
+        "dtw_m": 41.825,
+        "events": 8.0,
+        "hausdorff_m": 216.7407,
+        "mean_displacement_m": 83.65,
+        "on_road_rate": 1.0,
+        "p95_displacement_m": 182.6559,
+        "qos_satisfaction": 0.875,
+        "request_multiplier": 1.0,
+        "speed_violation_rate": 0.0,
+        "runtime_ms": 147.746
+      }
+    },
+    {
+      "mechanism": "anotherme_lite",
+      "output_kind": "replacement_trajectory",
+      "source_method": "AnotherMe (Li et al., IEEE TDSC 2024)",
+      "records": 1,
+      "metrics": {
+        "dtw_m": 816.0868,
+        "events": 8.0,
+        "hausdorff_m": 1690.9817,
+        "mean_displacement_m": 1632.1737,
+        "on_road_rate": 1.0,
+        "p95_displacement_m": 1760.486,
+        "qos_satisfaction": 0.0,
+        "request_multiplier": 1.0,
+        "speed_violation_rate": 0.0,
+        "runtime_ms": 195.8875
+      }
+    },
+    {
+      "mechanism": "semantic_dummy_lite",
+      "output_kind": "real_plus_dummies",
+      "source_method": "Semantic-correlation dummy paths (Liu, Peng, and Zhou, Journal of King Saud University C&IS 2026)",
+      "records": 1,
+      "metrics": {
+        "events": 8.0,
+        "mean_candidate_spread_m": 1189.8965,
+        "mean_candidates_per_event": 4.0,
+        "mean_centroid_reconstruction_error_m": 781.1356,
+        "mean_dummy_distance_m": 1694.179,
+        "mean_nearest_output_distance_m": 0.0,
+        "mean_track_dtw_m": 635.3171,
+        "mean_track_speed_violation_rate": 0.0,
+        "on_road_rate_all_outputs": 1.0,
+        "p95_dummy_distance_m": 1942.6905,
+        "real_member_inclusion_rate": 1.0,
+        "request_multiplier": 4.0,
+        "stable_public_tracks": 4.0,
+        "uniform_guess_success_baseline": 0.25,
+        "runtime_ms": 629.3499
+      }
+    },
+    {
+      "mechanism": "geo_i_anchored_dummy_lite",
+      "output_kind": "dummy_only",
+      "source_method": "Thesis prototype: REM anchor followed by dummy-only tracks",
+      "records": 1,
+      "metrics": {
+        "events": 8.0,
+        "mean_candidate_spread_m": 178.8148,
+        "mean_candidates_per_event": 4.0,
+        "mean_centroid_reconstruction_error_m": 272.9592,
+        "mean_dummy_distance_m": 327.9614,
+        "mean_nearest_output_distance_m": 197.6525,
+        "mean_track_dtw_m": 163.9807,
+        "mean_track_speed_violation_rate": 0.0,
+        "on_road_rate_all_outputs": 1.0,
+        "p95_dummy_distance_m": 655.5021,
+        "real_member_inclusion_rate": null,
+        "request_multiplier": 4.0,
+        "stable_public_tracks": 4.0,
+        "uniform_guess_success_baseline": null,
+        "runtime_ms": 3.3668
+      }
+    }
+  ],
+  "runs": [
+    {
+      "record_id": "000/20081023025304.plt#0",
+      "mechanism": "transprotect_lite",
+      "source_method": "TransProtect (Yadav et al., ACM SIGSPATIAL 2024)",
+      "demo_only": true,
+      "output_kind": "replacement_trajectory",
+      "runtime_ms": 147.746,
+      "metrics": {
+        "events": 8.0,
+        "mean_displacement_m": 83.65,
+        "p95_displacement_m": 182.6559,
+        "qos_satisfaction": 0.875,
+        "hausdorff_m": 216.7407,
+        "dtw_m": 41.825,
+        "on_road_rate": 1.0,
+        "speed_violation_rate": 0.0,
+        "request_multiplier": 1.0
+      },
+      "attacker_view": {
+        "mechanism": "transprotect_lite",
+        "output_kind": "replacement_trajectory",
+        "events": [
+          {
+            "event_id": "event_0000",
+            "timestamp_s": 1224730384.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9843495,
+                "lon": 116.3209192
+              }
+            ]
+          },
+          {
+            "event_id": "event_0001",
+            "timestamp_s": 1224730405.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9837489,
+                "lon": 116.3190141
+              }
+            ]
+          },
+          {
+            "event_id": "event_0002",
+            "timestamp_s": 1224730425.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9841569,
+                "lon": 116.3186011
+              }
+            ]
+          },
+          {
+            "event_id": "event_0003",
+            "timestamp_s": 1224730445.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9850359,
+                "lon": 116.3162581
+              }
+            ]
+          },
+          {
+            "event_id": "event_0004",
+            "timestamp_s": 1224730465.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.984717,
+                "lon": 116.3157338
+              }
+            ]
+          },
+          {
+            "event_id": "event_0005",
+            "timestamp_s": 1224730485.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9846825,
+                "lon": 116.314267
+              }
+            ]
+          },
+          {
+            "event_id": "event_0006",
+            "timestamp_s": 1224730505.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9841752,
+                "lon": 116.3141948
+              }
+            ]
+          },
+          {
+            "event_id": "event_0007",
+            "timestamp_s": 1224730525.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9845253,
+                "lon": 116.3137837
+              }
+            ]
+          }
+        ],
+        "public_parameters": {
+          "demo_only": true,
+          "source_method": "TransProtect (Yadav et al., ACM SIGSPATIAL 2024)"
+        }
+      },
+      "evaluator_truth": {
+        "real_trajectory": [
+          {
+            "timestamp_s": 1224730384.0,
+            "lat": 39.984702,
+            "lon": 116.318417
+          },
+          {
+            "timestamp_s": 1224730405.0,
+            "lat": 39.984655,
+            "lon": 116.318263
+          },
+          {
+            "timestamp_s": 1224730425.0,
+            "lat": 39.984539,
+            "lon": 116.317294
+          },
+          {
+            "timestamp_s": 1224730445.0,
+            "lat": 39.984561,
+            "lon": 116.316527
+          },
+          {
+            "timestamp_s": 1224730465.0,
+            "lat": 39.984523,
+            "lon": 116.315823
+          },
+          {
+            "timestamp_s": 1224730485.0,
+            "lat": 39.984501,
+            "lon": 116.314907
+          },
+          {
+            "timestamp_s": 1224730505.0,
+            "lat": 39.984427,
+            "lon": 116.31424
+          },
+          {
+            "timestamp_s": 1224730525.0,
+            "lat": 39.984618,
+            "lon": 116.314323
+          }
+        ],
+        "real_candidate_ids": []
+      }
+    },
+    {
+      "record_id": "000/20081023025304.plt#0",
+      "mechanism": "anotherme_lite",
+      "source_method": "AnotherMe (Li et al., IEEE TDSC 2024)",
+      "demo_only": true,
+      "output_kind": "replacement_trajectory",
+      "runtime_ms": 195.8875,
+      "metrics": {
+        "events": 8.0,
+        "mean_displacement_m": 1632.1737,
+        "p95_displacement_m": 1760.486,
+        "qos_satisfaction": 0.0,
+        "hausdorff_m": 1690.9817,
+        "dtw_m": 816.0868,
+        "on_road_rate": 1.0,
+        "speed_violation_rate": 0.0,
+        "request_multiplier": 1.0
+      },
+      "attacker_view": {
+        "mechanism": "anotherme_lite",
+        "output_kind": "replacement_trajectory",
+        "events": [
+          {
+            "event_id": "event_0000",
+            "timestamp_s": 1224730384.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.972232,
+                "lon": 116.3060895
+              }
+            ]
+          },
+          {
+            "event_id": "event_0001",
+            "timestamp_s": 1224730405.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9721615,
+                "lon": 116.3060886
+              }
+            ]
+          },
+          {
+            "event_id": "event_0002",
+            "timestamp_s": 1224730425.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9717362,
+                "lon": 116.30502
+              }
+            ]
+          },
+          {
+            "event_id": "event_0003",
+            "timestamp_s": 1224730445.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9719341,
+                "lon": 116.3042738
+              }
+            ]
+          },
+          {
+            "event_id": "event_0004",
+            "timestamp_s": 1224730465.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9728978,
+                "lon": 116.30378
+              }
+            ]
+          },
+          {
+            "event_id": "event_0005",
+            "timestamp_s": 1224730485.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9743816,
+                "lon": 116.3038385
+              }
+            ]
+          },
+          {
+            "event_id": "event_0006",
+            "timestamp_s": 1224730505.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9739562,
+                "lon": 116.3036738
+              }
+            ]
+          },
+          {
+            "event_id": "event_0007",
+            "timestamp_s": 1224730525.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9740179,
+                "lon": 116.3038506
+              }
+            ]
+          }
+        ],
+        "public_parameters": {
+          "demo_only": true,
+          "source_method": "AnotherMe (Li et al., IEEE TDSC 2024)"
+        }
+      },
+      "evaluator_truth": {
+        "real_trajectory": [
+          {
+            "timestamp_s": 1224730384.0,
+            "lat": 39.984702,
+            "lon": 116.318417
+          },
+          {
+            "timestamp_s": 1224730405.0,
+            "lat": 39.984655,
+            "lon": 116.318263
+          },
+          {
+            "timestamp_s": 1224730425.0,
+            "lat": 39.984539,
+            "lon": 116.317294
+          },
+          {
+            "timestamp_s": 1224730445.0,
+            "lat": 39.984561,
+            "lon": 116.316527
+          },
+          {
+            "timestamp_s": 1224730465.0,
+            "lat": 39.984523,
+            "lon": 116.315823
+          },
+          {
+            "timestamp_s": 1224730485.0,
+            "lat": 39.984501,
+            "lon": 116.314907
+          },
+          {
+            "timestamp_s": 1224730505.0,
+            "lat": 39.984427,
+            "lon": 116.31424
+          },
+          {
+            "timestamp_s": 1224730525.0,
+            "lat": 39.984618,
+            "lon": 116.314323
+          }
+        ],
+        "real_candidate_ids": []
+      }
+    },
+    {
+      "record_id": "000/20081023025304.plt#0",
+      "mechanism": "semantic_dummy_lite",
+      "source_method": "Semantic-correlation dummy paths (Liu, Peng, and Zhou, Journal of King Saud University C&IS 2026)",
+      "demo_only": true,
+      "output_kind": "real_plus_dummies",
+      "runtime_ms": 629.3499,
+      "metrics": {
+        "events": 8.0,
+        "mean_candidates_per_event": 4.0,
+        "request_multiplier": 4.0,
+        "mean_nearest_output_distance_m": 0.0,
+        "mean_centroid_reconstruction_error_m": 781.1356,
+        "mean_candidate_spread_m": 1189.8965,
+        "mean_dummy_distance_m": 1694.179,
+        "p95_dummy_distance_m": 1942.6905,
+        "on_road_rate_all_outputs": 1.0,
+        "stable_public_tracks": 4.0,
+        "real_member_inclusion_rate": 1.0,
+        "uniform_guess_success_baseline": 0.25,
+        "mean_track_speed_violation_rate": 0.0,
+        "mean_track_dtw_m": 635.3171
+      },
+      "attacker_view": {
+        "mechanism": "semantic_dummy_lite",
+        "output_kind": "real_plus_dummies",
+        "events": [
+          {
+            "event_id": "event_0000",
+            "timestamp_s": 1224730384.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9889353,
+                "lon": 116.335582
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9990263,
+                "lon": 116.3065303
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9835262,
+                "lon": 116.3329701
+              },
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.984702,
+                "lon": 116.318417
+              }
+            ]
+          },
+          {
+            "event_id": "event_0001",
+            "timestamp_s": 1224730405.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.984655,
+                "lon": 116.318263
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9890672,
+                "lon": 116.3355766
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9834912,
+                "lon": 116.3332041
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.999353,
+                "lon": 116.306561
+              }
+            ]
+          },
+          {
+            "event_id": "event_0002",
+            "timestamp_s": 1224730425.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.984539,
+                "lon": 116.317294
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9888272,
+                "lon": 116.3358384
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.999905,
+                "lon": 116.3063193
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9843022,
+                "lon": 116.3328955
+              }
+            ]
+          },
+          {
+            "event_id": "event_0003",
+            "timestamp_s": 1224730445.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 40.0001538,
+                "lon": 116.3061119
+              },
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.984561,
+                "lon": 116.316527
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9890063,
+                "lon": 116.3355791
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9844276,
+                "lon": 116.3337122
+              }
+            ]
+          },
+          {
+            "event_id": "event_0004",
+            "timestamp_s": 1224730465.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9890063,
+                "lon": 116.3355791
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9843156,
+                "lon": 116.3342257
+              },
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.984523,
+                "lon": 116.315823
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9997882,
+                "lon": 116.3065392
+              }
+            ]
+          },
+          {
+            "event_id": "event_0005",
+            "timestamp_s": 1224730485.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9847033,
+                "lon": 116.3346473
+              },
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.984501,
+                "lon": 116.314907
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.989148,
+                "lon": 116.3351992
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9993167,
+                "lon": 116.3056035
+              }
+            ]
+          },
+          {
+            "event_id": "event_0006",
+            "timestamp_s": 1224730505.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9987003,
+                "lon": 116.3057151
+              },
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.984427,
+                "lon": 116.31424
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9890672,
+                "lon": 116.3355766
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9846345,
+                "lon": 116.334791
+              }
+            ]
+          },
+          {
+            "event_id": "event_0007",
+            "timestamp_s": 1224730525.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.984618,
+                "lon": 116.314323
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9993029,
+                "lon": 116.3063207
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9843156,
+                "lon": 116.3342257
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9889919,
+                "lon": 116.3352078
+              }
+            ]
+          }
+        ],
+        "public_parameters": {
+          "demo_only": true,
+          "k": 4,
+          "source_method": "Semantic-correlation dummy paths (Liu, Peng, and Zhou, Journal of King Saud University C&IS 2026)"
+        }
+      },
+      "evaluator_truth": {
+        "real_trajectory": [
+          {
+            "timestamp_s": 1224730384.0,
+            "lat": 39.984702,
+            "lon": 116.318417
+          },
+          {
+            "timestamp_s": 1224730405.0,
+            "lat": 39.984655,
+            "lon": 116.318263
+          },
+          {
+            "timestamp_s": 1224730425.0,
+            "lat": 39.984539,
+            "lon": 116.317294
+          },
+          {
+            "timestamp_s": 1224730445.0,
+            "lat": 39.984561,
+            "lon": 116.316527
+          },
+          {
+            "timestamp_s": 1224730465.0,
+            "lat": 39.984523,
+            "lon": 116.315823
+          },
+          {
+            "timestamp_s": 1224730485.0,
+            "lat": 39.984501,
+            "lon": 116.314907
+          },
+          {
+            "timestamp_s": 1224730505.0,
+            "lat": 39.984427,
+            "lon": 116.31424
+          },
+          {
+            "timestamp_s": 1224730525.0,
+            "lat": 39.984618,
+            "lon": 116.314323
+          }
+        ],
+        "real_candidate_ids": [
+          "candidate_0000",
+          "candidate_0000",
+          "candidate_0000",
+          "candidate_0000",
+          "candidate_0000",
+          "candidate_0000",
+          "candidate_0000",
+          "candidate_0000"
+        ]
+      }
+    },
+    {
+      "record_id": "000/20081023025304.plt#0",
+      "mechanism": "geo_i_anchored_dummy_lite",
+      "source_method": "Thesis prototype: REM anchor followed by dummy-only tracks",
+      "demo_only": true,
+      "output_kind": "dummy_only",
+      "runtime_ms": 3.3668,
+      "metrics": {
+        "events": 8.0,
+        "mean_candidates_per_event": 4.0,
+        "request_multiplier": 4.0,
+        "mean_nearest_output_distance_m": 197.6525,
+        "mean_centroid_reconstruction_error_m": 272.9592,
+        "mean_candidate_spread_m": 178.8148,
+        "mean_dummy_distance_m": 327.9614,
+        "p95_dummy_distance_m": 655.5021,
+        "on_road_rate_all_outputs": 1.0,
+        "stable_public_tracks": 4.0,
+        "real_member_inclusion_rate": null,
+        "uniform_guess_success_baseline": null,
+        "mean_track_speed_violation_rate": 0.0,
+        "mean_track_dtw_m": 163.9807
+      },
+      "attacker_view": {
+        "mechanism": "geo_i_anchored_dummy_lite",
+        "output_kind": "dummy_only",
+        "events": [
+          {
+            "event_id": "event_0000",
+            "timestamp_s": 1224730384.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9854864,
+                "lon": 116.3110735
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.983052,
+                "lon": 116.3140583
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9846825,
+                "lon": 116.314267
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9862717,
+                "lon": 116.3137547
+              }
+            ]
+          },
+          {
+            "event_id": "event_0001",
+            "timestamp_s": 1224730405.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9855035,
+                "lon": 116.3116121
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9844966,
+                "lon": 116.3141811
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9844973,
+                "lon": 116.3142064
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9860572,
+                "lon": 116.3151882
+              }
+            ]
+          },
+          {
+            "event_id": "event_0002",
+            "timestamp_s": 1224730425.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9845352,
+                "lon": 116.3140906
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9829108,
+                "lon": 116.3186578
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9838607,
+                "lon": 116.3202704
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9850652,
+                "lon": 116.3202859
+              }
+            ]
+          },
+          {
+            "event_id": "event_0003",
+            "timestamp_s": 1224730445.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9856849,
+                "lon": 116.3127227
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9854621,
+                "lon": 116.3152328
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9864913,
+                "lon": 116.3174015
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9888597,
+                "lon": 116.3163567
+              }
+            ]
+          },
+          {
+            "event_id": "event_0004",
+            "timestamp_s": 1224730465.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.985146,
+                "lon": 116.3102821
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.983052,
+                "lon": 116.3140583
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9846356,
+                "lon": 116.3142406
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9864209,
+                "lon": 116.3156058
+              }
+            ]
+          },
+          {
+            "event_id": "event_0005",
+            "timestamp_s": 1224730485.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9892098,
+                "lon": 116.3082968
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9860527,
+                "lon": 116.3118536
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9886729,
+                "lon": 116.3121731
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9903922,
+                "lon": 116.3125705
+              }
+            ]
+          },
+          {
+            "event_id": "event_0006",
+            "timestamp_s": 1224730505.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.984442,
+                "lon": 116.3100262
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9840797,
+                "lon": 116.312106
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9840394,
+                "lon": 116.3143476
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9856849,
+                "lon": 116.3127227
+              }
+            ]
+          },
+          {
+            "event_id": "event_0007",
+            "timestamp_s": 1224730525.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9846246,
+                "lon": 116.3105491
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9839747,
+                "lon": 116.31211
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9841637,
+                "lon": 116.3138041
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9850359,
+                "lon": 116.3162581
+              }
+            ]
+          }
+        ],
+        "public_parameters": {
+          "demo_only": true,
+          "epsilon_per_release": 0.02,
+          "k": 4,
+          "source_method": "Thesis prototype: REM anchor followed by dummy-only tracks"
+        }
+      },
+      "evaluator_truth": {
+        "real_trajectory": [
+          {
+            "timestamp_s": 1224730384.0,
+            "lat": 39.984702,
+            "lon": 116.318417
+          },
+          {
+            "timestamp_s": 1224730405.0,
+            "lat": 39.984655,
+            "lon": 116.318263
+          },
+          {
+            "timestamp_s": 1224730425.0,
+            "lat": 39.984539,
+            "lon": 116.317294
+          },
+          {
+            "timestamp_s": 1224730445.0,
+            "lat": 39.984561,
+            "lon": 116.316527
+          },
+          {
+            "timestamp_s": 1224730465.0,
+            "lat": 39.984523,
+            "lon": 116.315823
+          },
+          {
+            "timestamp_s": 1224730485.0,
+            "lat": 39.984501,
+            "lon": 116.314907
+          },
+          {
+            "timestamp_s": 1224730505.0,
+            "lat": 39.984427,
+            "lon": 116.31424
+          },
+          {
+            "timestamp_s": 1224730525.0,
+            "lat": 39.984618,
+            "lon": 116.314323
+          }
+        ],
+        "real_candidate_ids": []
+      }
+    }
+  ]
+}
