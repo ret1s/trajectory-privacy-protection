@@ -2,7 +2,28 @@
 
 Raw data lives in `data/raw/` (gitignored). To reproduce the benchmark:
 
-## GeoLife v1.3 (primary dataset)
+## SUMO controlled mobility demo (default for SOTA prototype demo)
+
+Install the pinned optional simulator stack:
+
+```bash
+venv/bin/python -m pip install -r requirements-sumo.txt
+```
+
+Then run:
+
+```bash
+venv/bin/python -m experiments.run_sota_demo --quick
+```
+
+`data/sumo_demo.py` uses `netconvert` on the local Beijing OSM extract, creates
+deterministic passenger demand with the official `randomTrips.py`, runs SUMO
+headlessly, and parses geographic FCD output. Intermediate `.net.xml`, route and
+FCD files live under `cache/sumo_demo/` and are reproducible from the pinned OSM,
+SUMO version and seeds. This is a controlled smoke scenario, not a calibrated
+urban population model. Map data: © OpenStreetMap contributors, ODbL.
+
+## GeoLife v1.3 (optional real-data validation)
 
 ```bash
 cd data/raw

@@ -75,7 +75,16 @@ def _env_lock():
     R4-008), so a rerun can pin the same environment."""
     import importlib.metadata as im
     out = {}
-    for pkg in ("numpy", "scipy", "networkx", "osmnx", "shapely", "haversine"):
+    for pkg in (
+        "numpy",
+        "scipy",
+        "networkx",
+        "osmnx",
+        "shapely",
+        "haversine",
+        "eclipse-sumo",
+        "sumo-data",
+    ):
         try:
             out[pkg] = im.version(pkg)
         except Exception:

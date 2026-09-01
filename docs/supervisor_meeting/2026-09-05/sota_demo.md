@@ -1,30 +1,59 @@
 # Demo sơ bộ: ba hướng SOTA và mô hình đề xuất
 
-**Trạng thái:** chạy được để minh họa kiến trúc và giao diện đầu ra; **không phải
-reproduction chính thức và chưa phải benchmark dùng để kết luận mô hình nào tốt
-hơn**.
+**Trạng thái:** chạy được bằng một simulation SUMO thật để minh họa kiến trúc và
+giao diện đầu ra; **không phải reproduction chính thức và chưa phải benchmark
+dùng để kết luận mô hình nào tốt hơn**.
 
 ## Chạy demo
 
 Từ thư mục gốc của repository:
 
 ```bash
+venv/bin/python -m pip install -r requirements-sumo.txt
 venv/bin/python -m experiments.run_sota_demo --quick
 ```
 
 Kết quả được ghi vào:
 
-- `outputs/sota_demo_map.html`: bản đồ tương tác của một quỹ đạo GeoLife;
+- `outputs/sota_demo_map.html`: bản đồ tương tác của quỹ đạo do SUMO mô phỏng;
 - `outputs/sota_demo_results.json`: public transcript, ground truth riêng cho
-  evaluator, provenance và một số diagnostic metrics;
+  evaluator, SUMO route/speed/lane truth, provenance và một số diagnostic
+  metrics;
 - terminal: ba bảng kết quả tách theo output contract.
 
-Có thể dùng quỹ đạo được sinh trực tiếp trên graph để smoke-test mà không cần
-GeoLife:
+Mặc định không có GeoLife hoặc synthetic fallback: thiếu SUMO/OSM thì chương
+trình dừng và báo rõ dependency. GeoLife chỉ còn là phép kiểm tra tùy chọn trên
+dữ liệu thực:
 
 ```bash
-venv/bin/python -m experiments.run_sota_demo --quick --synthetic
+venv/bin/python -m experiments.run_sota_demo --quick --mobility-source geolife
 ```
+
+## Dữ liệu demo SUMO được tạo như thế nào?
+
+Pipeline mặc định thực sự gọi ba công cụ của Eclipse SUMO:
+
+```text
+Beijing.osm.gz
+  -> netconvert: cắt bbox đô thị, chỉ giữ đường cho passenger vehicle
+  -> randomTrips.py: sinh demand/route với seed cố định
+  -> sumo: chạy movement physics và xuất FCD theo thời gian
+  -> parse x=longitude, y=latitude
+  -> cùng một trajectory đi qua cả bốn protection prototypes
+```
+
+Mạng và các file trung gian được tạo trong `cache/sumo_demo/` nên không được
+commit. JSON kết quả lưu phiên bản SUMO, hai seed, lệnh chạy và SHA-256 của OSM,
+network, routes và FCD. Theo tài liệu chính thức, FCD có thể xuất WGS84 bằng
+`--fcd-output.geo`; `randomTrips.py` với seed cố định tạo demand có thể lặp lại
+([FCD output](https://eclipse.dev/sumo/docs/Simulation/Output/FCDOutput.html),
+[randomTrips](https://eclipse.dev/sumo/docs/Tools/Trip.html)).
+
+Đây mới là **controlled smoke scenario**, không phải population model đã hiệu
+chỉnh cho Bắc Kinh. Tài liệu SUMO cũng cảnh báo random trips không mặc nhiên là
+mobility thực tế. Giai đoạn benchmark sẽ giữ SUMO làm movement engine nhưng thay
+random demand bằng scenario builder riêng cho S1--S7. Dữ liệu bản đồ thuộc
+© OpenStreetMap contributors, giấy phép ODbL.
 
 ## Bốn prototype hiện có
 
@@ -70,7 +99,14 @@ chỉ chứa các dummy track; REM anchors cũng không được serialize cho a
 
 - thay các heuristic `*Lite` bằng reproduction/adaptation theo paper và pin rõ
   phiên bản code/dataset;
-- bổ sung POI labels, population prior và scenario do SUMO/OMoSim sinh;
+- thay random SUMO demand bằng controlled scenario builder cho từng threat S1--S7;
+- bổ sung POI labels, population prior và scenario nhiều người dùng/OMoSim;
 - cài attacker chung theo road, time, POI và population context;
 - bổ sung metric đúng từng contract và chuẩn hóa request/communication cost;
 - chỉ sau đó mới chạy benchmark nhiều seed và đưa ra kết luận thực nghiệm.
+
+Một giới hạn kỹ thuật hiện tại: trajectory thật được SUMO chạy trên mạng
+passenger-only, còn candidate graph của bốn prototype vẫn là OSMnx graph đa
+phương thức đã pin từ benchmark cũ. Hai graph cùng OSM/bbox và pilot hiện khớp
+hình học, nhưng bản benchmark tiếp theo phải xây candidate graph trực tiếp từ
+SUMO network hoặc từ một OSMnx drive graph tương ứng.

@@ -169,8 +169,9 @@ Planar Laplace và các baseline không sinh dummy vẫn có thể được gi�
 > **Prototype demo ngày 01/09/2026:** đã có bản chạy sơ bộ cho
 > TransProtectLite, AnotherMeLite, SemanticDummyLite và kiến trúc
 > Geo-I-anchor + dummy-only của luận văn. Đây chỉ là paper-inspired sketches để
-> minh họa ba output contract, chưa phải reproduction hoặc kết quả SOTA. Lệnh
-> chạy, boundary public/truth và giới hạn được ghi tại
+> minh họa ba output contract, chưa phải reproduction hoặc kết quả SOTA. Nguồn
+> movement mặc định đã chuyển sang pipeline SUMO thật trên OSM Bắc Kinh; GeoLife
+> chỉ là validation source tùy chọn. Lệnh chạy, boundary public/truth và giới hạn được ghi tại
 > [sota_demo.md](2026-09-05/sota_demo.md).
 
 ---

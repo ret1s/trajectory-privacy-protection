@@ -19,7 +19,8 @@ core/           Core algorithms:
                   geo_indistinguishability.py, trajectory_privacy.py (internship-2 baseline)
                   road_network.py  — OSM graph → candidate lattice + KD-tree
                   mechanisms.py    — PlanarLaplace, BaselineThesis, REM, T-REM, SM-REM, PR-SM-REM (proposed)
-data/           Dataset loaders (GeoLife) — see data/README.md for downloads
+data/           Mobility sources (SUMO demo + GeoLife validation data)
+                  — see data/README.md for setup
 evaluation/     metrics.py (QoS, realism, kNN-POI, Hausdorff/DTW) + attacks.py
                   (Bayesian point attack, HMM tracking attack)
 experiments/    run_benchmark.py — mechanisms × ε on real GeoLife trajectories
@@ -80,9 +81,12 @@ commit + dirty flag, graph SHA-256, RNG schema, selected record IDs, raw rows).
 ### Paper-inspired SOTA demo (prototype only)
 
 The repository also contains an early executable demo of three recent
-dummy-generation directions and the proposed thesis architecture:
+dummy-generation directions and the proposed thesis architecture. Its default
+mobility source is a deterministic **SUMO** passenger simulation on the local
+Beijing OpenStreetMap extract:
 
 ```bash
+venv/bin/python -m pip install -r requirements-sumo.txt
 venv/bin/python -m experiments.run_sota_demo --quick
 ```
 
@@ -91,7 +95,9 @@ It writes `outputs/sota_demo_results.json` and a standalone interactive map at
 they demonstrate the papers' high-level output contracts but are **not faithful
 or official reproductions**, and their numbers must not be presented as SOTA
 results. Replacement, real-plus-dummies, and dummy-only outputs are reported in
-separate tracks. See
+separate tracks. GeoLife is retained only as an explicit optional real-data
+validation source (`--mobility-source geolife`); the SUMO path never silently
+falls back to it. See
 [`docs/supervisor_meeting/2026-09-05/sota_demo.md`](docs/supervisor_meeting/2026-09-05/sota_demo.md)
 for the exact scope and limitations.
 

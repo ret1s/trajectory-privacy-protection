@@ -9,17 +9,20 @@ Usage (from the repository root)::
 
     python -m experiments.run_sota_demo
     python -m experiments.run_sota_demo --quick
-    python -m experiments.run_sota_demo --synthetic --no-map
+    python -m experiments.run_sota_demo --mobility-source geolife --no-map
 
-The default run uses one short GeoLife trajectory and writes both an evaluator
-JSON artifact and a standalone Folium map under ``outputs/``.
+The default run executes a controlled Eclipse SUMO scenario over the local
+Beijing OpenStreetMap extract and writes both an evaluator JSON artifact and a
+standalone Folium map under ``outputs/``.  GeoLife remains an explicit
+real-data validation option; neither source silently falls back to synthetic
+or other mobility data.
 """
 
 from __future__ import annotations
 
 import argparse
 from collections import defaultdict
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 import json
 import os
 import time
@@ -32,6 +35,13 @@ from core.road_network import RoadNetwork
 from core.sota_demo import AnotherMeLite, SemanticDummyLite, TransProtectLite
 from core.thesis_demo import GeoIAnchoredDummyTrajectoriesLite
 from data.geolife import load_trajectories
+from data.sumo_demo import (
+    DEFAULT_ROUTE_SEED,
+    DEFAULT_SIM_SEED,
+    DEFAULT_WORKDIR,
+    SumoSmokeConfig,
+    run_sumo_smoke_demo,
+)
 from evaluation import metrics as legacy_metrics
 from experiments.provenance import (
     GRAPH_PKL,
@@ -44,12 +54,21 @@ from experiments.rng_util import rng_from_key
 
 DEFAULT_OUTPUT = os.path.join("outputs", "sota_demo_results.json")
 DEFAULT_MAP_OUTPUT = os.path.join("outputs", "sota_demo_map.html")
-DEMO_SCHEMA = "msc-sota-demo-v1"
-DISCLAIMER = (
+DEMO_SCHEMA = "msc-sota-demo-v2"
+SUMO_GRAPH_COMPATIBILITY_NOTE = (
+    "SUMO mobility is generated on a passenger-only network converted from the "
+    "Beijing OSM extract. Protection candidates are generated on the separately "
+    "serialized, pinned OSMnx graph whose profile is unfiltered multimodal "
+    "(drive+walk+cycle). The graphs cover the same study bbox but are not assumed "
+    "to have identical nodes, edges, simplification, or permissions; this demo "
+    "therefore does not claim exact route compatibility across the two graphs."
+)
+BASE_DISCLAIMER = (
     "DEMO / PAPER-INSPIRED PROTOTYPES. These implementations are not official "
     "or faithful reproductions of the cited papers. Metrics are reported within "
     "each output contract and must not be used as a cross-track leaderboard."
 )
+DISCLAIMER = BASE_DISCLAIMER + " " + SUMO_GRAPH_COMPATIBILITY_NOTE
 
 
 def _timestamp_s(value, fallback: float) -> float:
@@ -326,9 +345,9 @@ def _print_table(headers: Sequence[str], rows: Sequence[Sequence[str]]) -> None:
         print("  " + "  ".join(str(value).ljust(width) for value, width in zip(row, widths)))
 
 
-def _print_summary(summaries: Sequence[dict]) -> None:
+def _print_summary(summaries: Sequence[dict], disclaimer: str = DISCLAIMER) -> None:
     print("\n" + "=" * 78)
-    print(DISCLAIMER)
+    print(disclaimer)
     print("=" * 78)
 
     replacement = [s for s in summaries if s["output_kind"] == OutputKind.REPLACEMENT_TRAJECTORY.value]
@@ -390,76 +409,94 @@ def _print_summary(summaries: Sequence[dict]) -> None:
     )
 
 
-def _synthetic_records(rn: RoadNetwork, count: int, n_points: int, seed: int):
-    """Create deterministic graph-walk smoke traces when GeoLife is unavailable."""
+def _load_sumo_record(args):
+    """Run SUMO once and preserve privileged simulator state for evaluation.
 
-    node_to_idx = {
-        node.item() if hasattr(node, "item") else node: idx
-        for idx, node in enumerate(rn.node_ids)
-    }
-    records = []
-    for record_idx in range(count):
-        rng = rng_from_key(seed, record_idx, "synthetic_trace", schema=DEMO_SCHEMA)
-        current_idx = int(rng.integers(len(rn)))
-        previous_node = None
-        indices = []
-        for _ in range(n_points):
-            indices.append(current_idx)
-            node = rn.node_ids[current_idx]
-            node = node.item() if hasattr(node, "item") else node
-            successors = [
-                candidate for candidate in rn.graph.successors(node) if candidate != previous_node
-            ]
-            if not successors:
-                successors = list(rn.graph.successors(node))
-            if successors:
-                next_node = successors[int(rng.integers(len(successors)))]
-                previous_node, current_idx = node, node_to_idx[next_node]
-            else:
-                current_idx = int(rng.integers(len(rn)))
-                previous_node = None
+    Only ``record.to_mechanism_input()`` is returned to the model loop.  Vehicle
+    identity, route, speed, edge, and lane data live in the separate
+    ``evaluator_only`` object and are never merged into an attacker transcript.
+    """
 
-        start = datetime(2026, 1, 1, tzinfo=timezone.utc) + timedelta(hours=record_idx)
-        records.append(
+    config = SumoSmokeConfig(
+        route_seed=args.sumo_route_seed,
+        simulation_seed=args.sumo_simulation_seed,
+        demand_end_s=args.sumo_demand_end_s,
+        simulation_end_s=args.sumo_simulation_end_s,
+        resample_interval_s=args.interval_s,
+        max_points=args.max_points,
+        min_points=min(8, args.max_points),
+        min_trip_distance_m=args.sumo_min_trip_distance_m,
+    )
+    record = run_sumo_smoke_demo(
+        osm_path=args.sumo_osm_path,
+        workdir=args.sumo_workdir,
+        config=config,
+    )
+    mobility = {
+        "source": "sumo",
+        "label": "Eclipse SUMO controlled Beijing passenger smoke scenario",
+        "sumo_runs": [record.provenance.to_dict()],
+        "evaluator_only": [
             {
-                "user": f"synthetic_{record_idx:03d}",
-                "file": "graph_walk",
-                "points": [rn.latlon(idx) for idx in indices],
-                "times": [start + timedelta(seconds=30 * i) for i in range(n_points)],
-                "record_id": f"synthetic/graph_walk#{record_idx}",
+                "record_id": record.record_id,
+                **record.evaluator_only.to_dict(),
             }
-        )
-    return records
+        ],
+        "candidate_graph_compatibility": SUMO_GRAPH_COMPATIBILITY_NOTE,
+    }
+    return [record.to_mechanism_input()], mobility
 
 
-def _load_records(rn: RoadNetwork, args):
-    if args.synthetic:
-        return _synthetic_records(rn, args.n_trajectories, args.max_points, args.seed), True
+def _load_geolife_records(args):
+    """Load explicit real-data validation records, failing closed if absent."""
 
-    try:
-        loaded = load_trajectories(
-            n_trajectories=args.n_trajectories,
-            min_points=min(8, args.max_points),
-            max_points=args.max_points,
-            interval_s=args.interval_s,
-            min_span_m=200,
-        )
-    except (FileNotFoundError, OSError) as exc:
-        print(f"GeoLife unavailable ({exc}); using a graph-derived smoke trace.")
-        loaded = []
+    loaded = load_trajectories(
+        n_trajectories=args.n_trajectories,
+        min_points=min(8, args.max_points),
+        max_points=args.max_points,
+        interval_s=args.interval_s,
+        min_span_m=200,
+    )
     if not loaded:
-        print("No qualifying GeoLife record found; using a graph-derived smoke trace.")
-        return _synthetic_records(rn, args.n_trajectories, args.max_points, args.seed), True
+        raise FileNotFoundError(
+            "--mobility-source geolife requested, but no qualifying local "
+            "GeoLife trace was found. Install the dataset or choose SUMO; no "
+            "synthetic fallback is available."
+        )
 
     records = []
     for index, record in enumerate(loaded):
         copied = dict(record)
         copied["record_id"] = f"{record['user']}/{record['file']}#{index}"
         records.append(copied)
-    return records, False
+    mobility = {
+        "source": "geolife",
+        "label": "Microsoft GeoLife v1.3 real-data validation",
+        "sumo_runs": [],
+        "evaluator_only": [],
+        "candidate_graph_compatibility": (
+            "GeoLife coordinates are evaluated against the pinned OSMnx graph; "
+            "this optional mode does not execute SUMO."
+        ),
+    }
+    return records, mobility
 
 
-def _write_map(path: str, record: Mapping, runs: Sequence[tuple[ProtectedRun, str, float]]):
+def _load_records(args):
+    if args.mobility_source == "sumo":
+        return _load_sumo_record(args)
+    if args.mobility_source == "geolife":
+        return _load_geolife_records(args)
+    raise ValueError(f"unsupported mobility source: {args.mobility_source!r}")
+
+
+def _write_map(
+    path: str,
+    record: Mapping,
+    runs: Sequence[tuple[ProtectedRun, str, float]],
+    *,
+    mobility_source: str,
+):
     import folium
 
     truth = record["points"]
@@ -509,12 +546,32 @@ def _write_map(path: str, record: Mapping, runs: Sequence[tuple[ProtectedRun, st
                     ).add_to(layer)
         layer.add_to(map_obj)
 
-    title = """
+    if mobility_source == "sumo":
+        mobility_note = (
+            "Ground-truth movement was generated by Eclipse SUMO on a "
+            "passenger-only network converted from OpenStreetMap. "
+            "Map/road data © OpenStreetMap contributors (ODbL)."
+        )
+        graph_note = (
+            "SUMO passenger graph and the protection models' pinned multimodal "
+            "OSMnx candidate graph are separate graph builds and are not "
+            "assumed identical."
+        )
+    else:
+        mobility_note = (
+            "Ground-truth movement comes from the optional Microsoft GeoLife "
+            "validation dataset. Candidate roads/map data © OpenStreetMap "
+            "contributors (ODbL)."
+        )
+        graph_note = "This optional validation mode does not execute SUMO."
+    title = f"""
     <div style="position:fixed;top:10px;left:50px;right:50px;z-index:9999;
                 background:rgba(255,255,255,.94);border:2px solid #a40000;
                 padding:8px 12px;font:13px sans-serif;color:#222;">
       <b>DEMO — paper-inspired prototypes, not official reproductions</b><br>
-      Geometry is shown for inspection only; layers use different output contracts.
+      {mobility_note}<br>
+      Geometry is shown for inspection only; layers use different output contracts.<br>
+      {graph_note}
     </div>
     """
     map_obj.get_root().html.add_child(folium.Element(title))
@@ -537,9 +594,9 @@ def run(args) -> dict:
     assert_graph_matches_manifest(rn)
     print(f"  {len(rn)} road vertices (manifest verified)", flush=True)
 
-    records, synthetic = _load_records(rn, args)
+    records, mobility = _load_records(args)
     print(
-        f"Loaded {len(records)} {'graph-derived smoke' if synthetic else 'GeoLife'} "
+        f"Loaded {len(records)} {mobility['label']} "
         f"record(s), {sum(len(record['points']) for record in records)} points total.",
         flush=True,
     )
@@ -581,8 +638,36 @@ def run(args) -> dict:
             result_rows.append(row)
 
     summaries = _aggregate(result_rows)
-    _print_summary(summaries)
+    if mobility["source"] == "sumo":
+        artifact_disclaimer = DISCLAIMER
+    else:
+        artifact_disclaimer = (
+            BASE_DISCLAIMER
+            + " GeoLife is an explicitly selected validation source; this run "
+            "does not execute SUMO."
+        )
+    _print_summary(summaries, artifact_disclaimer)
 
+    if mobility["source"] == "sumo":
+        dataset = {
+            "name": "Eclipse SUMO controlled Beijing passenger smoke scenario",
+            "raw_bytes_in_git": False,
+            "note": (
+                "Movement is generated at run time from the local Beijing OSM "
+                "extract. Exact SUMO commands, versions, and input/output SHA-256 "
+                "digests are recorded in sumo_runs. This is not a calibrated "
+                "Beijing population model."
+            ),
+        }
+    else:
+        dataset = {
+            "name": "GeoLife v1.3 (explicit optional validation mode)",
+            "raw_bytes_in_git": False,
+            "note": (
+                "Raw GeoLife data are gitignored; selected record IDs are pinned "
+                "below. This mode was explicitly requested and is never a fallback."
+            ),
+        }
     prov = provenance(
         rn,
         [args.epsilon],
@@ -592,7 +677,13 @@ def run(args) -> dict:
         extra={
             "artifact_schema": DEMO_SCHEMA,
             "artifact_status": "integration demo; not a scientific benchmark",
-            "dataset_mode": "synthetic_graph_walk" if synthetic else "GeoLife v1.3",
+            "dataset": dataset,
+            "mobility_source": mobility["source"],
+            "mobility_label": mobility["label"],
+            "sumo_runs": mobility["sumo_runs"],
+            "candidate_graph_compatibility": mobility[
+                "candidate_graph_compatibility"
+            ],
             "selected_record_ids": [record["record_id"] for record in records],
             "n_points_per_record": [len(record["points"]) for record in records],
             "k": args.k,
@@ -603,8 +694,12 @@ def run(args) -> dict:
     artifact = {
         "schema": DEMO_SCHEMA,
         "status": "DEMO_ONLY",
-        "disclaimer": DISCLAIMER,
+        "disclaimer": artifact_disclaimer,
         "provenance": prov,
+        # Route, speed, edge, lane, and simulator vehicle ID are privileged
+        # ground truth for offline evaluation. They are intentionally absent
+        # from every run's attacker_view below.
+        "mobility_evaluator_only": mobility["evaluator_only"],
         "summaries": summaries,
         "runs": result_rows,
     }
@@ -614,7 +709,12 @@ def run(args) -> dict:
     print(f"Saved evaluator JSON: {args.output}")
 
     if not args.no_map and first_runs is not None:
-        _write_map(args.map_output, records[0], first_runs)
+        _write_map(
+            args.map_output,
+            records[0],
+            first_runs,
+            mobility_source=mobility["source"],
+        )
         print(f"Saved standalone map: {args.map_output}")
     return artifact
 
@@ -623,15 +723,71 @@ def parse_args(argv=None):
     parser = argparse.ArgumentParser(
         description="Run three paper-inspired SOTA demos and the thesis prototype."
     )
-    parser.add_argument("--quick", action="store_true", help="use one 8-point trace")
     parser.add_argument(
-        "--synthetic",
+        "--quick",
         action="store_true",
-        help="use a deterministic road-graph walk instead of GeoLife",
+        help="use at most 8 points (the mobility source remains SUMO by default)",
     )
-    parser.add_argument("--n-trajectories", type=int, default=1)
+    parser.add_argument(
+        "--mobility-source",
+        choices=("sumo", "geolife"),
+        default="sumo",
+        help=(
+            "mobility ground truth: controlled SUMO simulation (default), or "
+            "an explicitly requested local GeoLife validation trace"
+        ),
+    )
+    parser.add_argument(
+        "--n-trajectories",
+        type=int,
+        default=1,
+        help="number of records in GeoLife mode; current SUMO pilot emits exactly 1",
+    )
     parser.add_argument("--max-points", type=int, default=12)
     parser.add_argument("--interval-s", type=int, default=20)
+    parser.add_argument(
+        "--sumo-osm-path",
+        default=None,
+        help="Beijing .osm or .osm.gz input (default: local pinned extract)",
+    )
+    parser.add_argument(
+        "--sumo-workdir",
+        default=str(DEFAULT_WORKDIR),
+        help="directory for generated SUMO network, routes, and FCD files",
+    )
+    parser.add_argument(
+        "--sumo-route-seed",
+        type=int,
+        default=DEFAULT_ROUTE_SEED,
+        help="randomTrips.py demand/route seed",
+    )
+    parser.add_argument(
+        "--sumo-simulation-seed",
+        type=int,
+        default=DEFAULT_SIM_SEED,
+        help="SUMO simulation seed",
+    )
+    parser.add_argument(
+        "--sumo-min-trip-distance-m",
+        type=float,
+        default=2500.0,
+        help=(
+            "minimum straight-line origin/destination separation requested "
+            "from randomTrips.py"
+        ),
+    )
+    parser.add_argument(
+        "--sumo-demand-end-s",
+        type=float,
+        default=300.0,
+        help="last time at which random demand may depart",
+    )
+    parser.add_argument(
+        "--sumo-simulation-end-s",
+        type=float,
+        default=900.0,
+        help="SUMO simulation end time",
+    )
     parser.add_argument("--epsilon", type=float, default=0.02)
     parser.add_argument("--k", type=int, default=4)
     parser.add_argument("--seed", type=int, default=42)
@@ -645,6 +801,11 @@ def parse_args(argv=None):
         args.max_points = min(args.max_points, 8)
     if args.n_trajectories < 1:
         parser.error("--n-trajectories must be at least 1")
+    if args.mobility_source == "sumo" and args.n_trajectories != 1:
+        parser.error(
+            "the current SUMO pilot emits exactly one selected trajectory; "
+            "use --n-trajectories 1"
+        )
     if args.max_points < 2:
         parser.error("--max-points must be at least 2")
     if args.interval_s < 1:
@@ -655,6 +816,18 @@ def parse_args(argv=None):
         parser.error("--k must be at least 2")
     if args.qos_radius_m <= 0:
         parser.error("--qos-radius-m must be positive")
+    if args.sumo_route_seed < 0:
+        parser.error("--sumo-route-seed must be non-negative")
+    if args.sumo_simulation_seed < 0:
+        parser.error("--sumo-simulation-seed must be non-negative")
+    if args.sumo_min_trip_distance_m < 0:
+        parser.error("--sumo-min-trip-distance-m must be non-negative")
+    if args.sumo_demand_end_s <= 0:
+        parser.error("--sumo-demand-end-s must be positive")
+    if args.sumo_simulation_end_s < args.sumo_demand_end_s:
+        parser.error(
+            "--sumo-simulation-end-s must be at least --sumo-demand-end-s"
+        )
     return args
 
 
