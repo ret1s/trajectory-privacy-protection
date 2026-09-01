@@ -90,8 +90,11 @@ venv/bin/python -m pip install -r requirements-sumo.txt
 venv/bin/python -m experiments.run_sota_demo --quick
 ```
 
-It writes `outputs/sota_demo_results.json` and a standalone interactive map at
-`outputs/sota_demo_map.html`. The comparators are deliberately named `*Lite`:
+It writes `outputs/sota_demo_results.json`, an interactive map at
+`outputs/sota_demo_map.html`, and a four-panel static preview at
+`outputs/sota_demo_preview.png`. The HTML embeds the pinned local OSM road
+geometry, so geographic context remains visible when online raster tiles are
+unavailable. The comparators are deliberately named `*Lite`:
 they demonstrate the papers' high-level output contracts but are **not faithful
 or official reproductions**, and their numbers must not be presented as SOTA
 results. Replacement, real-plus-dummies, and dummy-only outputs are reported in

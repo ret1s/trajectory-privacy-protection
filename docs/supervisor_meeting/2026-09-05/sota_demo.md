@@ -15,10 +15,13 @@ venv/bin/python -m experiments.run_sota_demo --quick
 
 Kết quả được ghi vào:
 
-- `outputs/sota_demo_map.html`: bản đồ tương tác của quỹ đạo do SUMO mô phỏng;
+- `outputs/sota_demo_map.html`: bản đồ tương tác, đã nhúng mạng đường OSM cục bộ
+  nên vẫn có nền đường khi tile bản đồ trực tuyến không tải được;
+- `outputs/sota_demo_preview.png`: ảnh tĩnh 2×2, tách riêng từng mô hình trên
+  cùng phạm vi và cùng mạng đường để đọc nhanh;
 - `outputs/sota_demo_results.json`: public transcript, ground truth riêng cho
   evaluator, SUMO route/speed/lane truth, provenance và một số diagnostic
-  metrics;
+  metrics; file này cũng ghi SHA-256 của HTML/PNG tương ứng;
 - terminal: ba bảng kết quả tách theo output contract.
 
 Mặc định không có GeoLife hoặc synthetic fallback: thiếu SUMO/OSM thì chương
@@ -28,6 +31,11 @@ dữ liệu thực:
 ```bash
 venv/bin/python -m experiments.run_sota_demo --quick --mobility-source geolife
 ```
+
+Trong HTML, mạng đường cục bộ, SUMO ground truth và mô hình đề xuất được bật mặc
+định. Ba lớp SOTA tắt mặc định để các quỹ đạo không chồng lên nhau; có thể bật
+từng lớp trong bảng điều khiển bên phải. Tile OpenStreetMap trực tuyến chỉ là
+lớp tùy chọn và không cần thiết để thấy cấu trúc đường.
 
 ## Dữ liệu demo SUMO được tạo như thế nào?
 
