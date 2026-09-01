@@ -4,7 +4,7 @@
   "disclaimer": "DEMO / PAPER-INSPIRED PROTOTYPES. These implementations are not official or faithful reproductions of the cited papers. Metrics are reported within each output contract and must not be used as a cross-track leaderboard. SUMO mobility is generated on a passenger-only network converted from the Beijing OSM extract. Protection candidates are generated on the separately serialized, pinned OSMnx graph whose profile is unfiltered multimodal (drive+walk+cycle). The graphs cover the same study bbox but are not assumed to have identical nodes, edges, simplification, or permissions; this demo therefore does not claim exact route compatibility across the two graphs.",
   "provenance": {
     "schema": "msc-experiment-v1",
-    "source_commit": "263681e757de89d56dc8fa56339e386aa5580379",
+    "source_commit": "46de75d7cc876379c79b0cd0f8ad753cfad3ed5f",
     "source_dirty_before_run": false,
     "command": [
       "/Users/geohanz/Project/msc/venv/bin/python",
@@ -16,8 +16,8 @@
     "cwd": "/Users/geohanz/Project/msc",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
     "mode": "quick",
-    "started_at_utc": "2026-09-01T03:44:20.765442+00:00",
-    "finished_at_utc": "2026-09-01T03:44:42.597383+00:00",
+    "started_at_utc": "2026-09-01T04:06:10.883871+00:00",
+    "finished_at_utc": "2026-09-01T04:06:30.817022+00:00",
     "python": "3.11.12",
     "package_versions": {
       "numpy": "2.3.2",
@@ -135,13 +135,13 @@
           ]
         },
         "sha256": {
-          "fcd": "976f0f3943f8ebd6577586625220605df40ce1a76ef7d7a640728edbd344b6ab",
-          "network": "0d16aacd9f789f27c95a19f7fdbc1acc155d3fc510b27a1cce19e4b5b90ba791",
+          "fcd": "cff5781f22362754dc73373875b9e4bd16d5553bfd543c347224ef62e9dff664",
+          "network": "9546d81d34f872dfe7f80411a8e044febfbd897398e91bb2a5f30de998d5d986",
           "osm": "ed0af579fb32c7164de85bca945a10432f818dd27eb80d6d5a7afa62213b0407",
           "randomTrips.py": "e6d794ef1bce059b46ef65121d5e47a2df35603afa113015483dce74ae2ec01c",
-          "routes": "91498d46b19a1cfe7164a72c641f9f152abdb984d70d836531e86d8f28f74afc",
-          "trips": "1ac43a0e84b1e76174b0147de8deec94d5d989606d93c807b9bd7e709ccc7c60",
-          "vehicle_routes": "eef095287d0b74c26851d87353abbe5d697e5fe13ec83c8193c1e79c4dd09460"
+          "routes": "c356d39d7cd6a42290c0b1cb87b1ed552a7e5564e829bc98540865bf6cc25b81",
+          "trips": "b56b2bcb13ad168e1b46e7f3568a24a3087e8878ce5d1c007592d8512ed293eb",
+          "vehicle_routes": "1728f8a96ddc28712ee3e50be264528a0833c0877e41511479613ba016afbc20"
         }
       }
     ],
@@ -317,7 +317,7 @@
         "qos_satisfaction": 0.875,
         "request_multiplier": 1.0,
         "speed_violation_rate": 0.0,
-        "runtime_ms": 202.4881
+        "runtime_ms": 171.616
       }
     },
     {
@@ -335,7 +335,7 @@
         "qos_satisfaction": 0.0,
         "request_multiplier": 1.0,
         "speed_violation_rate": 0.0,
-        "runtime_ms": 208.1374
+        "runtime_ms": 198.5962
       }
     },
     {
@@ -358,7 +358,7 @@
         "request_multiplier": 4.0,
         "stable_public_tracks": 4.0,
         "uniform_guess_success_baseline": 0.25,
-        "runtime_ms": 663.5727
+        "runtime_ms": 628.6717
       }
     },
     {
@@ -381,7 +381,7 @@
         "request_multiplier": 4.0,
         "stable_public_tracks": 4.0,
         "uniform_guess_success_baseline": null,
-        "runtime_ms": 3.5484
+        "runtime_ms": 3.5013
       }
     }
   ],
@@ -392,7 +392,7 @@
       "source_method": "TransProtect (Yadav et al., ACM SIGSPATIAL 2024)",
       "demo_only": true,
       "output_kind": "replacement_trajectory",
-      "runtime_ms": 202.4881,
+      "runtime_ms": 171.616,
       "metrics": {
         "events": 8.0,
         "mean_displacement_m": 131.0549,
@@ -554,7 +554,7 @@
       "source_method": "AnotherMe (Li et al., IEEE TDSC 2024)",
       "demo_only": true,
       "output_kind": "replacement_trajectory",
-      "runtime_ms": 208.1374,
+      "runtime_ms": 198.5962,
       "metrics": {
         "events": 8.0,
         "mean_displacement_m": 1924.9966,
@@ -716,7 +716,7 @@
       "source_method": "Semantic-correlation dummy paths (Liu, Peng, and Zhou, Journal of King Saud University C&IS 2026)",
       "demo_only": true,
       "output_kind": "real_plus_dummies",
-      "runtime_ms": 663.5727,
+      "runtime_ms": 628.6717,
       "metrics": {
         "events": 8.0,
         "mean_candidates_per_event": 4.0,
@@ -1013,7 +1013,7 @@
       "source_method": "Thesis prototype: REM anchor followed by dummy-only tracks",
       "demo_only": true,
       "output_kind": "dummy_only",
-      "runtime_ms": 3.5484,
+      "runtime_ms": 3.5013,
       "metrics": {
         "events": 8.0,
         "mean_candidates_per_event": 4.0,
@@ -1296,5 +1296,22 @@
         "real_candidate_ids": []
       }
     }
-  ]
+  ],
+  "visual_artifacts": {
+    "evaluator_only": true,
+    "contains_ground_truth": true,
+    "interactive_map": {
+      "path": "outputs/sota_demo_map.html",
+      "sha256": "bc13ed119a08984d594033261cadc8bbae8201369359adf32a05713a5df698a3",
+      "embedded_local_roads": true,
+      "online_tiles_enabled_by_default": false,
+      "byte_reproducible": false
+    },
+    "static_preview": {
+      "path": "outputs/sota_demo_preview.png",
+      "sha256": "512a5130a37b4c66669f9d2f915d2e5445fdab7ef59752a42c7c1cff85c91326",
+      "embedded_local_roads": true,
+      "byte_reproducible_across_platforms": false
+    }
+  }
 }

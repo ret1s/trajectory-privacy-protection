@@ -58,7 +58,24 @@ nối browser automation của môi trường kiểm tra không khả dụng, th
 layer trên trình duyệt chưa được tự động chụp lại; đây là caveat của verification,
 không phải fallback sang tile mạng.
 
-## 4. Claim boundary và đề xuất tiếp theo
+## 4. Artifact cuối
+
+Artifact chính thức được sinh từ source commit sạch
+`46de75d7cc876379c79b0cd0f8ad753cfad3ed5f`; provenance ghi
+`source_dirty_before_run=false`.
+
+```text
+outputs/sota_demo_map.html
+  SHA-256: bc13ed119a08984d594033261cadc8bbae8201369359adf32a05713a5df698a3
+outputs/sota_demo_preview.png
+  SHA-256: 512a5130a37b4c66669f9d2f915d2e5445fdab7ef59752a42c7c1cff85c91326
+```
+
+Hai hash trên khớp với `visual_artifacts` trong
+`outputs/sota_demo_results.json`; audit không tìm thấy trường simulator truth
+hoặc real-candidate label bị đưa vào bất kỳ `attacker_view` nào.
+
+## 5. Claim boundary và đề xuất tiếp theo
 
 1. Lớp nền hiện lấy từ protection candidate graph đa phương thức, trong khi
    SUMO chạy trên passenger-only graph. Nó phù hợp để định hướng trên demo nhưng
