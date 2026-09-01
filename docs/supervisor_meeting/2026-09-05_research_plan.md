@@ -212,6 +212,8 @@ Thực nghiệm cần cho thấy tại cùng privacy budget hoặc cùng utility
 
 ## 9. Tìm trajectory-simulation tool và xây dữ liệu benchmark
 
+> **Kết quả khảo sát ngày 01/09/2026:** chọn **SUMO** làm movement engine trên OSM; dùng **OMoSim** như demand generator tùy chọn cho multi-day activity/population; tự xây lớp Python cho scenario, query, group, protection, attack và metrics. Không tool nào tự cover toàn bộ S1--S7, nhưng hiện chưa cần viết cả trajectory simulator từ đầu. Ma trận coverage, kiến trúc dữ liệu và tiêu chí dừng được ghi tại [simulation_backtest_feasibility.md](2026-09-05/simulation_backtest_feasibility.md).
+
 Dữ liệu benchmark có kiểm soát sẽ được xây dựa trên một trajectory-simulation tool phù hợp với bài toán. Quy trình dự kiến:
 
 1. Khảo sát các công cụ mô phỏng quỹ đạo hoặc urban mobility hiện có.
@@ -241,6 +243,8 @@ Generator tự xây phải tạo được từng scenario theo cấu hình rõ r
 Dữ liệu mô phỏng là benchmark chính để kiểm tra từng threat scenario vì có ground truth và có thể kiểm soát điều kiện. Dataset thực như GeoLife có thể được dùng thêm để kiểm tra tính thực tế và khả năng tổng quát hóa, nhưng không thay thế benchmark mô phỏng nếu nó thiếu nhãn scenario cần thiết.
 
 ## 10. Metrics privacy và utility
+
+> **Kết quả audit backtest ngày 01/09/2026:** pipeline hiện tại chỉ hỗ trợ một điểm vào/một pseudolocation ra. TransProtect là comparator gần contract này nhất; AnotherMe cần trajectory adapter; các cơ chế `real + K-1` và fake-query cần backtest v2 với candidate/event transcript. Geometry metrics có thể tái sử dụng có điều kiện, nhưng top-1/MRR, dummy survival, semantic metrics, route cost và communication overhead phải bổ sung. Không dùng attacker proxy hiện tại để xếp hạng SOTA. Chi tiết tại [simulation_backtest_feasibility.md](2026-09-05/simulation_backtest_feasibility.md).
 
 ### Privacy
 
