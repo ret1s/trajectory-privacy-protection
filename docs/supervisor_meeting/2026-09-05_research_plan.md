@@ -166,6 +166,13 @@ Tiêu chí chọn SOTA:
 
 Planar Laplace và các baseline không sinh dummy vẫn có thể được giữ để kiểm tra nền tảng hoặc làm ablation, nhưng không thay thế yêu cầu so sánh với ít nhất ba mô hình SOTA thuộc lớp dummy generation. Nếu các phương pháp dùng giao diện khác nhau (một dummy so với \(k-1\) dummy), phải tách nhóm thí nghiệm hoặc chuẩn hóa thêm chi phí truyền thông, số truy vấn và utility; không gộp trực tiếp vào một bảng rồi kết luận hơn/kém.
 
+> **Prototype demo ngày 01/09/2026:** đã có bản chạy sơ bộ cho
+> TransProtectLite, AnotherMeLite, SemanticDummyLite và kiến trúc
+> Geo-I-anchor + dummy-only của luận văn. Đây chỉ là paper-inspired sketches để
+> minh họa ba output contract, chưa phải reproduction hoặc kết quả SOTA. Lệnh
+> chạy, boundary public/truth và giới hạn được ghi tại
+> [sota_demo.md](2026-09-05/sota_demo.md).
+
 ---
 
 **Điểm dừng của report ngày 05/09/2026:** trình bày đến hết Mục 6. Phần bên dưới là kế hoạch nghiên cứu sau khi kiến trúc, scenario, target và comparator đã được xác nhận.

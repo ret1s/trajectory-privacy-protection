@@ -77,6 +77,24 @@ Every official experiment fails closed if the road graph does not match the
 committed manifest, and writes a `msc-experiment-v1` provenance block (source
 commit + dirty flag, graph SHA-256, RNG schema, selected record IDs, raw rows).
 
+### Paper-inspired SOTA demo (prototype only)
+
+The repository also contains an early executable demo of three recent
+dummy-generation directions and the proposed thesis architecture:
+
+```bash
+venv/bin/python -m experiments.run_sota_demo --quick
+```
+
+It writes `outputs/sota_demo_results.json` and a standalone interactive map at
+`outputs/sota_demo_map.html`. The comparators are deliberately named `*Lite`:
+they demonstrate the papers' high-level output contracts but are **not faithful
+or official reproductions**, and their numbers must not be presented as SOTA
+results. Replacement, real-plus-dummies, and dummy-only outputs are reported in
+separate tracks. See
+[`docs/supervisor_meeting/2026-09-05/sota_demo.md`](docs/supervisor_meeting/2026-09-05/sota_demo.md)
+for the exact scope and limitations.
+
 ### Claim registry — what is proven, and where (read before quoting any result)
 
 | Mechanism | Code | Guarantee (ideal kernel) | Executable / evaluation caveat |
