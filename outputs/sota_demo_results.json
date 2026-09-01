@@ -1,10 +1,10 @@
 {
-  "schema": "msc-sota-demo-v1",
+  "schema": "msc-sota-demo-v2",
   "status": "DEMO_ONLY",
-  "disclaimer": "DEMO / PAPER-INSPIRED PROTOTYPES. These implementations are not official or faithful reproductions of the cited papers. Metrics are reported within each output contract and must not be used as a cross-track leaderboard.",
+  "disclaimer": "DEMO / PAPER-INSPIRED PROTOTYPES. These implementations are not official or faithful reproductions of the cited papers. Metrics are reported within each output contract and must not be used as a cross-track leaderboard. SUMO mobility is generated on a passenger-only network converted from the Beijing OSM extract. Protection candidates are generated on the separately serialized, pinned OSMnx graph whose profile is unfiltered multimodal (drive+walk+cycle). The graphs cover the same study bbox but are not assumed to have identical nodes, edges, simplification, or permissions; this demo therefore does not claim exact route compatibility across the two graphs.",
   "provenance": {
     "schema": "msc-experiment-v1",
-    "source_commit": "ab56920a377bb2e9b66c106cfd3df377daf526a2",
+    "source_commit": "263681e757de89d56dc8fa56339e386aa5580379",
     "source_dirty_before_run": false,
     "command": [
       "/Users/geohanz/Project/msc/venv/bin/python",
@@ -16,8 +16,8 @@
     "cwd": "/Users/geohanz/Project/msc",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
     "mode": "quick",
-    "started_at_utc": "2026-09-01T03:18:07.805067+00:00",
-    "finished_at_utc": "2026-09-01T03:18:09.243104+00:00",
+    "started_at_utc": "2026-09-01T03:44:20.765442+00:00",
+    "finished_at_utc": "2026-09-01T03:44:42.597383+00:00",
     "python": "3.11.12",
     "package_versions": {
       "numpy": "2.3.2",
@@ -25,7 +25,9 @@
       "networkx": "3.5",
       "osmnx": "2.0.5",
       "shapely": "2.1.1",
-      "haversine": "2.9.0"
+      "haversine": "2.9.0",
+      "eclipse-sumo": "1.27.1",
+      "sumo-data": "1.27.1"
     },
     "graph_sha256": "9e44ec2a48d6249f3534bb8511010925428018e528f5116d5f9eb24d86a2d487",
     "graph_nodes": 13813,
@@ -42,15 +44,110 @@
       0.02
     ],
     "dataset": {
-      "name": "GeoLife v1.3",
+      "name": "Eclipse SUMO controlled Beijing passenger smoke scenario",
       "raw_bytes_in_git": false,
-      "note": "raw GeoLife/graph are gitignored; selected record IDs pinned below, per-file byte hashing is future work (R4-008)"
+      "note": "Movement is generated at run time from the local Beijing OSM extract. Exact SUMO commands, versions, and input/output SHA-256 digests are recorded in sumo_runs. This is not a calibrated Beijing population model."
     },
-    "artifact_schema": "msc-sota-demo-v1",
+    "artifact_schema": "msc-sota-demo-v2",
     "artifact_status": "integration demo; not a scientific benchmark",
-    "dataset_mode": "GeoLife v1.3",
+    "mobility_source": "sumo",
+    "mobility_label": "Eclipse SUMO controlled Beijing passenger smoke scenario",
+    "sumo_runs": [
+      {
+        "scenario": "controlled_beijing_passenger_smoke_v1",
+        "disclaimer": "DEMO ONLY: deterministic random traffic, not a calibrated Beijing mobility population or final thesis scenario generator.",
+        "versions": {
+          "sumo": "Eclipse SUMO sumo 1.27.1",
+          "netconvert": "Eclipse SUMO netconvert 1.27.1"
+        },
+        "commands": {
+          "netconvert": [
+            "/Users/geohanz/Project/msc/venv/lib/python3.11/site-packages/sumo/bin/netconvert",
+            "--osm-files",
+            "/Users/geohanz/Project/msc/data/raw/Beijing.osm.gz",
+            "--keep-edges.in-geo-boundary",
+            "116.29,39.96,116.36,40.02",
+            "--keep-edges.by-vclass",
+            "passenger",
+            "--keep-edges.components",
+            "1",
+            "--junctions.join",
+            "true",
+            "--output-file",
+            "/Users/geohanz/Project/msc/cache/sumo_demo/beijing_smoke.net.xml"
+          ],
+          "randomTrips.py": [
+            "/Users/geohanz/Project/msc/venv/bin/python",
+            "/Users/geohanz/Project/msc/venv/lib/python3.11/site-packages/sumo/tools/randomTrips.py",
+            "--net-file",
+            "/Users/geohanz/Project/msc/cache/sumo_demo/beijing_smoke.net.xml",
+            "-o",
+            "/Users/geohanz/Project/msc/cache/sumo_demo/beijing_smoke.trips.xml",
+            "--route-file",
+            "/Users/geohanz/Project/msc/cache/sumo_demo/beijing_smoke.rou.xml",
+            "--seed",
+            "20260905",
+            "--begin",
+            "0",
+            "--end",
+            "300",
+            "--period",
+            "15",
+            "--vehicle-class",
+            "passenger",
+            "--edge-permission",
+            "passenger",
+            "--min-distance",
+            "2500",
+            "--validate",
+            "--remove-loops",
+            "--prefix",
+            "smoke_"
+          ],
+          "sumo": [
+            "/Users/geohanz/Project/msc/venv/lib/python3.11/site-packages/sumo/bin/sumo",
+            "--net-file",
+            "/Users/geohanz/Project/msc/cache/sumo_demo/beijing_smoke.net.xml",
+            "--route-files",
+            "/Users/geohanz/Project/msc/cache/sumo_demo/beijing_smoke.rou.xml",
+            "--seed",
+            "20260906",
+            "--begin",
+            "0",
+            "--end",
+            "900",
+            "--step-length",
+            "1",
+            "--device.fcd.period",
+            "1",
+            "--fcd-output",
+            "/Users/geohanz/Project/msc/cache/sumo_demo/beijing_smoke.fcd.xml",
+            "--fcd-output.geo",
+            "true",
+            "--fcd-output.attributes",
+            "id,x,y,speed,lane",
+            "--vehroute-output",
+            "/Users/geohanz/Project/msc/cache/sumo_demo/beijing_smoke.vehroute.xml",
+            "--vehroute-output.write-unfinished",
+            "true",
+            "--no-step-log",
+            "true"
+          ]
+        },
+        "sha256": {
+          "fcd": "976f0f3943f8ebd6577586625220605df40ce1a76ef7d7a640728edbd344b6ab",
+          "network": "0d16aacd9f789f27c95a19f7fdbc1acc155d3fc510b27a1cce19e4b5b90ba791",
+          "osm": "ed0af579fb32c7164de85bca945a10432f818dd27eb80d6d5a7afa62213b0407",
+          "randomTrips.py": "e6d794ef1bce059b46ef65121d5e47a2df35603afa113015483dce74ae2ec01c",
+          "routes": "91498d46b19a1cfe7164a72c641f9f152abdb984d70d836531e86d8f28f74afc",
+          "trips": "1ac43a0e84b1e76174b0147de8deec94d5d989606d93c807b9bd7e709ccc7c60",
+          "vehicle_routes": "eef095287d0b74c26851d87353abbe5d697e5fe13ec83c8193c1e79c4dd09460"
+        }
+      }
+    ],
+    "candidate_graph_compatibility": "SUMO mobility is generated on a passenger-only network converted from the Beijing OSM extract. Protection candidates are generated on the separately serialized, pinned OSMnx graph whose profile is unfiltered multimodal (drive+walk+cycle). The graphs cover the same study bbox but are not assumed to have identical nodes, edges, simplification, or permissions; this demo therefore does not claim exact route compatibility across the two graphs.",
     "selected_record_ids": [
-      "000/20081023025304.plt#0"
+      "sumo/controlled_beijing_passenger_smoke_v1/smoke_2"
     ],
     "n_points_per_record": [
       8
@@ -59,6 +156,151 @@
     "qos_radius_m": 200.0,
     "cross_contract_comparison_allowed": false
   },
+  "mobility_evaluator_only": [
+    {
+      "record_id": "sumo/controlled_beijing_passenger_smoke_v1/smoke_2",
+      "vehicle_id": "smoke_2",
+      "route_edges": [
+        "194922781#4",
+        "194922781#5",
+        "194922781#6",
+        "165628816#0",
+        "165628688",
+        "164601680",
+        "164601694#0",
+        "165628703",
+        "237950581",
+        "863690574",
+        "863690573#0",
+        "863690573#2",
+        "863690573#3",
+        "863690573#4",
+        "863690573#5",
+        "863690573#6",
+        "863690573#7",
+        "191050697#0",
+        "191050697#1",
+        "191050697#2",
+        "191050697#3",
+        "191050697#4",
+        "191050697#6",
+        "191050697#7",
+        "191050697#8",
+        "1379275921#0",
+        "1379275921#1",
+        "1379275921#2",
+        "1077130597#0",
+        "1077130597#1",
+        "1077130597#2",
+        "1077130597#3",
+        "1077130597#4",
+        "1077130597#5",
+        "229699730",
+        "1037961726",
+        "26152148",
+        "1037958213",
+        "121778743#0",
+        "121778743#1",
+        "121778743#2",
+        "121778743#3",
+        "121778743#4",
+        "237011437#0",
+        "138694650#0",
+        "138694650#1",
+        "138694650#2",
+        "138694650#3",
+        "138694650#4",
+        "138694650#5",
+        "138694650#6",
+        "138694650#7",
+        "139882019#0",
+        "139882019#1",
+        "139882019#2",
+        "139882019#3",
+        "138685369",
+        "163825703",
+        "163825696#0",
+        "163825696#1",
+        "136867390",
+        "136867389#0",
+        "136867389#1",
+        "121904216#0",
+        "121904216#1",
+        "121904216#2",
+        "121904216#3",
+        "121904216#4",
+        "42454168#0",
+        "42454168#1",
+        "42454168#2",
+        "42454168#3",
+        "42454168#4",
+        "122345026",
+        "42454165#0",
+        "42454165#1",
+        "121991163",
+        "1233744632#0",
+        "1233744632#1",
+        "-122020348#7",
+        "572267664#2",
+        "572267664#3",
+        "572267664#4",
+        "-42943244#7",
+        "-42943244#6",
+        "-42943244#5",
+        "-42943244#4"
+      ],
+      "samples": [
+        {
+          "timestamp_s": 30.0,
+          "speed_m_s": 21.57,
+          "edge_id": "194922781#4",
+          "lane_id": "194922781#4_0"
+        },
+        {
+          "timestamp_s": 110.0,
+          "speed_m_s": 13.59,
+          "edge_id": "165628703",
+          "lane_id": "165628703_1"
+        },
+        {
+          "timestamp_s": 190.0,
+          "speed_m_s": 20.48,
+          "edge_id": "863690573#2",
+          "lane_id": "863690573#2_0"
+        },
+        {
+          "timestamp_s": 270.0,
+          "speed_m_s": 13.81,
+          "edge_id": ":286387107_2",
+          "lane_id": ":286387107_2_1"
+        },
+        {
+          "timestamp_s": 330.0,
+          "speed_m_s": 26.95,
+          "edge_id": "138694650#6",
+          "lane_id": "138694650#6_0"
+        },
+        {
+          "timestamp_s": 410.0,
+          "speed_m_s": 6.45,
+          "edge_id": ":cluster_1360087331_1367406317_1367406318_245129779_#3more_8",
+          "lane_id": ":cluster_1360087331_1367406317_1367406318_245129779_#3more_8_0"
+        },
+        {
+          "timestamp_s": 490.0,
+          "speed_m_s": 12.55,
+          "edge_id": "572267664#4",
+          "lane_id": "572267664#4_0"
+        },
+        {
+          "timestamp_s": 570.0,
+          "speed_m_s": 4.26,
+          "edge_id": "-42943244#4",
+          "lane_id": "-42943244#4_0"
+        }
+      ]
+    }
+  ],
   "summaries": [
     {
       "mechanism": "transprotect_lite",
@@ -66,16 +308,16 @@
       "source_method": "TransProtect (Yadav et al., ACM SIGSPATIAL 2024)",
       "records": 1,
       "metrics": {
-        "dtw_m": 41.825,
+        "dtw_m": 65.5275,
         "events": 8.0,
-        "hausdorff_m": 216.7407,
-        "mean_displacement_m": 83.65,
+        "hausdorff_m": 194.6229,
+        "mean_displacement_m": 131.0549,
         "on_road_rate": 1.0,
-        "p95_displacement_m": 182.6559,
+        "p95_displacement_m": 198.0405,
         "qos_satisfaction": 0.875,
         "request_multiplier": 1.0,
         "speed_violation_rate": 0.0,
-        "runtime_ms": 147.746
+        "runtime_ms": 202.4881
       }
     },
     {
@@ -84,16 +326,16 @@
       "source_method": "AnotherMe (Li et al., IEEE TDSC 2024)",
       "records": 1,
       "metrics": {
-        "dtw_m": 816.0868,
+        "dtw_m": 962.4983,
         "events": 8.0,
-        "hausdorff_m": 1690.9817,
-        "mean_displacement_m": 1632.1737,
+        "hausdorff_m": 2709.8874,
+        "mean_displacement_m": 1924.9966,
         "on_road_rate": 1.0,
-        "p95_displacement_m": 1760.486,
+        "p95_displacement_m": 2801.2063,
         "qos_satisfaction": 0.0,
         "request_multiplier": 1.0,
         "speed_violation_rate": 0.0,
-        "runtime_ms": 195.8875
+        "runtime_ms": 208.1374
       }
     },
     {
@@ -103,20 +345,20 @@
       "records": 1,
       "metrics": {
         "events": 8.0,
-        "mean_candidate_spread_m": 1189.8965,
+        "mean_candidate_spread_m": 688.9415,
         "mean_candidates_per_event": 4.0,
-        "mean_centroid_reconstruction_error_m": 781.1356,
-        "mean_dummy_distance_m": 1694.179,
+        "mean_centroid_reconstruction_error_m": 553.1509,
+        "mean_dummy_distance_m": 1018.0697,
         "mean_nearest_output_distance_m": 0.0,
-        "mean_track_dtw_m": 635.3171,
+        "mean_track_dtw_m": 340.8313,
         "mean_track_speed_violation_rate": 0.0,
         "on_road_rate_all_outputs": 1.0,
-        "p95_dummy_distance_m": 1942.6905,
+        "p95_dummy_distance_m": 1809.8967,
         "real_member_inclusion_rate": 1.0,
         "request_multiplier": 4.0,
         "stable_public_tracks": 4.0,
         "uniform_guess_success_baseline": 0.25,
-        "runtime_ms": 629.3499
+        "runtime_ms": 663.5727
       }
     },
     {
@@ -126,38 +368,38 @@
       "records": 1,
       "metrics": {
         "events": 8.0,
-        "mean_candidate_spread_m": 178.8148,
+        "mean_candidate_spread_m": 140.9831,
         "mean_candidates_per_event": 4.0,
-        "mean_centroid_reconstruction_error_m": 272.9592,
-        "mean_dummy_distance_m": 327.9614,
-        "mean_nearest_output_distance_m": 197.6525,
-        "mean_track_dtw_m": 163.9807,
+        "mean_centroid_reconstruction_error_m": 245.979,
+        "mean_dummy_distance_m": 278.9477,
+        "mean_nearest_output_distance_m": 172.6074,
+        "mean_track_dtw_m": 139.4739,
         "mean_track_speed_violation_rate": 0.0,
         "on_road_rate_all_outputs": 1.0,
-        "p95_dummy_distance_m": 655.5021,
+        "p95_dummy_distance_m": 479.4632,
         "real_member_inclusion_rate": null,
         "request_multiplier": 4.0,
         "stable_public_tracks": 4.0,
         "uniform_guess_success_baseline": null,
-        "runtime_ms": 3.3668
+        "runtime_ms": 3.5484
       }
     }
   ],
   "runs": [
     {
-      "record_id": "000/20081023025304.plt#0",
+      "record_id": "sumo/controlled_beijing_passenger_smoke_v1/smoke_2",
       "mechanism": "transprotect_lite",
       "source_method": "TransProtect (Yadav et al., ACM SIGSPATIAL 2024)",
       "demo_only": true,
       "output_kind": "replacement_trajectory",
-      "runtime_ms": 147.746,
+      "runtime_ms": 202.4881,
       "metrics": {
         "events": 8.0,
-        "mean_displacement_m": 83.65,
-        "p95_displacement_m": 182.6559,
+        "mean_displacement_m": 131.0549,
+        "p95_displacement_m": 198.0405,
         "qos_satisfaction": 0.875,
-        "hausdorff_m": 216.7407,
-        "dtw_m": 41.825,
+        "hausdorff_m": 194.6229,
+        "dtw_m": 65.5275,
         "on_road_rate": 1.0,
         "speed_violation_rate": 0.0,
         "request_multiplier": 1.0
@@ -168,89 +410,89 @@
         "events": [
           {
             "event_id": "event_0000",
-            "timestamp_s": 1224730384.0,
+            "timestamp_s": 30.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9843495,
-                "lon": 116.3209192
+                "lat": 39.9842396,
+                "lon": 116.2992445
               }
             ]
           },
           {
             "event_id": "event_0001",
-            "timestamp_s": 1224730405.0,
+            "timestamp_s": 110.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9837489,
-                "lon": 116.3190141
+                "lat": 39.9841316,
+                "lon": 116.2943732
               }
             ]
           },
           {
             "event_id": "event_0002",
-            "timestamp_s": 1224730425.0,
+            "timestamp_s": 190.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9841569,
-                "lon": 116.3186011
+                "lat": 39.9827283,
+                "lon": 116.2938725
               }
             ]
           },
           {
             "event_id": "event_0003",
-            "timestamp_s": 1224730445.0,
+            "timestamp_s": 270.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9850359,
-                "lon": 116.3162581
+                "lat": 39.98404,
+                "lon": 116.3101842
               }
             ]
           },
           {
             "event_id": "event_0004",
-            "timestamp_s": 1224730465.0,
+            "timestamp_s": 330.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.984717,
-                "lon": 116.3157338
+                "lat": 39.990172,
+                "lon": 116.3161665
               }
             ]
           },
           {
             "event_id": "event_0005",
-            "timestamp_s": 1224730485.0,
+            "timestamp_s": 410.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9846825,
-                "lon": 116.314267
+                "lat": 39.9914601,
+                "lon": 116.3326789
               }
             ]
           },
           {
             "event_id": "event_0006",
-            "timestamp_s": 1224730505.0,
+            "timestamp_s": 490.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9841752,
-                "lon": 116.3141948
+                "lat": 39.9831443,
+                "lon": 116.3358096
               }
             ]
           },
           {
             "event_id": "event_0007",
-            "timestamp_s": 1224730525.0,
+            "timestamp_s": 570.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9845253,
-                "lon": 116.3137837
+                "lat": 39.9798483,
+                "lon": 116.3388814
               }
             ]
           }
@@ -263,63 +505,63 @@
       "evaluator_truth": {
         "real_trajectory": [
           {
-            "timestamp_s": 1224730384.0,
-            "lat": 39.984702,
-            "lon": 116.318417
+            "timestamp_s": 30.0,
+            "lat": 39.984136,
+            "lon": 116.297569
           },
           {
-            "timestamp_s": 1224730405.0,
-            "lat": 39.984655,
-            "lon": 116.318263
+            "timestamp_s": 110.0,
+            "lat": 39.983106,
+            "lon": 116.293851
           },
           {
-            "timestamp_s": 1224730425.0,
-            "lat": 39.984539,
-            "lon": 116.317294
+            "timestamp_s": 190.0,
+            "lat": 39.983222,
+            "lon": 116.296325
           },
           {
-            "timestamp_s": 1224730445.0,
-            "lat": 39.984561,
-            "lon": 116.316527
+            "timestamp_s": 270.0,
+            "lat": 39.984477,
+            "lon": 116.310245
           },
           {
-            "timestamp_s": 1224730465.0,
-            "lat": 39.984523,
-            "lon": 116.315823
+            "timestamp_s": 330.0,
+            "lat": 39.991062,
+            "lon": 116.317711
           },
           {
-            "timestamp_s": 1224730485.0,
-            "lat": 39.984501,
-            "lon": 116.314907
+            "timestamp_s": 410.0,
+            "lat": 39.991521,
+            "lon": 116.334178
           },
           {
-            "timestamp_s": 1224730505.0,
-            "lat": 39.984427,
-            "lon": 116.31424
+            "timestamp_s": 490.0,
+            "lat": 39.983262,
+            "lon": 116.33768
           },
           {
-            "timestamp_s": 1224730525.0,
-            "lat": 39.984618,
-            "lon": 116.314323
+            "timestamp_s": 570.0,
+            "lat": 39.979974,
+            "lon": 116.33813
           }
         ],
         "real_candidate_ids": []
       }
     },
     {
-      "record_id": "000/20081023025304.plt#0",
+      "record_id": "sumo/controlled_beijing_passenger_smoke_v1/smoke_2",
       "mechanism": "anotherme_lite",
       "source_method": "AnotherMe (Li et al., IEEE TDSC 2024)",
       "demo_only": true,
       "output_kind": "replacement_trajectory",
-      "runtime_ms": 195.8875,
+      "runtime_ms": 208.1374,
       "metrics": {
         "events": 8.0,
-        "mean_displacement_m": 1632.1737,
-        "p95_displacement_m": 1760.486,
+        "mean_displacement_m": 1924.9966,
+        "p95_displacement_m": 2801.2063,
         "qos_satisfaction": 0.0,
-        "hausdorff_m": 1690.9817,
-        "dtw_m": 816.0868,
+        "hausdorff_m": 2709.8874,
+        "dtw_m": 962.4983,
         "on_road_rate": 1.0,
         "speed_violation_rate": 0.0,
         "request_multiplier": 1.0
@@ -330,89 +572,89 @@
         "events": [
           {
             "event_id": "event_0000",
-            "timestamp_s": 1224730384.0,
+            "timestamp_s": 30.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.972232,
-                "lon": 116.3060895
+                "lat": 39.9711,
+                "lon": 116.3215324
               }
             ]
           },
           {
             "event_id": "event_0001",
-            "timestamp_s": 1224730405.0,
+            "timestamp_s": 110.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9721615,
-                "lon": 116.3060886
+                "lat": 39.9668983,
+                "lon": 116.3205343
               }
             ]
           },
           {
             "event_id": "event_0002",
-            "timestamp_s": 1224730425.0,
+            "timestamp_s": 190.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9717362,
-                "lon": 116.30502
+                "lat": 39.9689045,
+                "lon": 116.320691
               }
             ]
           },
           {
             "event_id": "event_0003",
-            "timestamp_s": 1224730445.0,
+            "timestamp_s": 270.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9719341,
-                "lon": 116.3042738
+                "lat": 39.9776832,
+                "lon": 116.3310614
               }
             ]
           },
           {
             "event_id": "event_0004",
-            "timestamp_s": 1224730465.0,
+            "timestamp_s": 330.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9728978,
-                "lon": 116.30378
+                "lat": 39.9863679,
+                "lon": 116.330486
               }
             ]
           },
           {
             "event_id": "event_0005",
-            "timestamp_s": 1224730485.0,
+            "timestamp_s": 410.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9743816,
-                "lon": 116.3038385
+                "lat": 39.9960452,
+                "lon": 116.3424013
               }
             ]
           },
           {
             "event_id": "event_0006",
-            "timestamp_s": 1224730505.0,
+            "timestamp_s": 490.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9739562,
-                "lon": 116.3036738
+                "lat": 39.9910014,
+                "lon": 116.3531708
               }
             ]
           },
           {
             "event_id": "event_0007",
-            "timestamp_s": 1224730525.0,
+            "timestamp_s": 570.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9740179,
-                "lon": 116.3038506
+                "lat": 39.9878972,
+                "lon": 116.3566451
               }
             ]
           }
@@ -425,71 +667,71 @@
       "evaluator_truth": {
         "real_trajectory": [
           {
-            "timestamp_s": 1224730384.0,
-            "lat": 39.984702,
-            "lon": 116.318417
+            "timestamp_s": 30.0,
+            "lat": 39.984136,
+            "lon": 116.297569
           },
           {
-            "timestamp_s": 1224730405.0,
-            "lat": 39.984655,
-            "lon": 116.318263
+            "timestamp_s": 110.0,
+            "lat": 39.983106,
+            "lon": 116.293851
           },
           {
-            "timestamp_s": 1224730425.0,
-            "lat": 39.984539,
-            "lon": 116.317294
+            "timestamp_s": 190.0,
+            "lat": 39.983222,
+            "lon": 116.296325
           },
           {
-            "timestamp_s": 1224730445.0,
-            "lat": 39.984561,
-            "lon": 116.316527
+            "timestamp_s": 270.0,
+            "lat": 39.984477,
+            "lon": 116.310245
           },
           {
-            "timestamp_s": 1224730465.0,
-            "lat": 39.984523,
-            "lon": 116.315823
+            "timestamp_s": 330.0,
+            "lat": 39.991062,
+            "lon": 116.317711
           },
           {
-            "timestamp_s": 1224730485.0,
-            "lat": 39.984501,
-            "lon": 116.314907
+            "timestamp_s": 410.0,
+            "lat": 39.991521,
+            "lon": 116.334178
           },
           {
-            "timestamp_s": 1224730505.0,
-            "lat": 39.984427,
-            "lon": 116.31424
+            "timestamp_s": 490.0,
+            "lat": 39.983262,
+            "lon": 116.33768
           },
           {
-            "timestamp_s": 1224730525.0,
-            "lat": 39.984618,
-            "lon": 116.314323
+            "timestamp_s": 570.0,
+            "lat": 39.979974,
+            "lon": 116.33813
           }
         ],
         "real_candidate_ids": []
       }
     },
     {
-      "record_id": "000/20081023025304.plt#0",
+      "record_id": "sumo/controlled_beijing_passenger_smoke_v1/smoke_2",
       "mechanism": "semantic_dummy_lite",
       "source_method": "Semantic-correlation dummy paths (Liu, Peng, and Zhou, Journal of King Saud University C&IS 2026)",
       "demo_only": true,
       "output_kind": "real_plus_dummies",
-      "runtime_ms": 629.3499,
+      "runtime_ms": 663.5727,
       "metrics": {
         "events": 8.0,
         "mean_candidates_per_event": 4.0,
         "request_multiplier": 4.0,
         "mean_nearest_output_distance_m": 0.0,
-        "mean_centroid_reconstruction_error_m": 781.1356,
-        "mean_candidate_spread_m": 1189.8965,
-        "mean_dummy_distance_m": 1694.179,
-        "p95_dummy_distance_m": 1942.6905,
+        "mean_centroid_reconstruction_error_m": 553.1509,
+        "mean_candidate_spread_m": 688.9415,
+        "mean_dummy_distance_m": 1018.0697,
+        "p95_dummy_distance_m": 1809.8967,
         "on_road_rate_all_outputs": 1.0,
         "stable_public_tracks": 4.0,
         "real_member_inclusion_rate": 1.0,
         "uniform_guess_success_baseline": 0.25,
         "mean_track_speed_violation_rate": 0.0,
-        "mean_track_dtw_m": 635.3171
+        "mean_track_dtw_m": 340.8313
       },
       "attacker_view": {
         "mechanism": "semantic_dummy_lite",
@@ -497,209 +739,209 @@
         "events": [
           {
             "event_id": "event_0000",
-            "timestamp_s": 1224730384.0,
+            "timestamp_s": 30.0,
             "candidates": [
               {
-                "candidate_id": "candidate_0002",
-                "lat": 39.9889353,
-                "lon": 116.335582
+                "candidate_id": "candidate_0001",
+                "lat": 39.984136,
+                "lon": 116.297569
               },
               {
                 "candidate_id": "candidate_0003",
-                "lat": 39.9990263,
-                "lon": 116.3065303
+                "lat": 39.9933326,
+                "lon": 116.2913286
               },
               {
-                "candidate_id": "candidate_0001",
-                "lat": 39.9835262,
-                "lon": 116.3329701
+                "candidate_id": "candidate_0002",
+                "lat": 39.9896096,
+                "lon": 116.3004238
               },
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.984702,
-                "lon": 116.318417
+                "lat": 39.9753771,
+                "lon": 116.2938101
               }
             ]
           },
           {
             "event_id": "event_0001",
-            "timestamp_s": 1224730405.0,
+            "timestamp_s": 110.0,
             "candidates": [
               {
-                "candidate_id": "candidate_0000",
-                "lat": 39.984655,
-                "lon": 116.318263
-              },
-              {
-                "candidate_id": "candidate_0002",
-                "lat": 39.9890672,
-                "lon": 116.3355766
-              },
-              {
                 "candidate_id": "candidate_0001",
-                "lat": 39.9834912,
-                "lon": 116.3332041
+                "lat": 39.983106,
+                "lon": 116.293851
               },
               {
                 "candidate_id": "candidate_0003",
-                "lat": 39.999353,
-                "lon": 116.306561
+                "lat": 39.9954057,
+                "lon": 116.2939709
+              },
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9775516,
+                "lon": 116.2928559
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9868888,
+                "lon": 116.3003895
               }
             ]
           },
           {
             "event_id": "event_0002",
-            "timestamp_s": 1224730425.0,
+            "timestamp_s": 190.0,
             "candidates": [
               {
-                "candidate_id": "candidate_0000",
-                "lat": 39.984539,
-                "lon": 116.317294
+                "candidate_id": "candidate_0003",
+                "lat": 39.9928528,
+                "lon": 116.2935537
               },
               {
                 "candidate_id": "candidate_0002",
-                "lat": 39.9888272,
-                "lon": 116.3358384
+                "lat": 39.9869929,
+                "lon": 116.3023564
               },
               {
-                "candidate_id": "candidate_0003",
-                "lat": 39.999905,
-                "lon": 116.3063193
+                "candidate_id": "candidate_0000",
+                "lat": 39.9782841,
+                "lon": 116.2931207
               },
               {
                 "candidate_id": "candidate_0001",
-                "lat": 39.9843022,
-                "lon": 116.3328955
+                "lat": 39.983222,
+                "lon": 116.296325
               }
             ]
           },
           {
             "event_id": "event_0003",
-            "timestamp_s": 1224730445.0,
+            "timestamp_s": 270.0,
             "candidates": [
               {
-                "candidate_id": "candidate_0003",
-                "lat": 40.0001538,
-                "lon": 116.3061119
+                "candidate_id": "candidate_0000",
+                "lat": 39.981244,
+                "lon": 116.2921344
               },
               {
-                "candidate_id": "candidate_0000",
-                "lat": 39.984561,
-                "lon": 116.316527
+                "candidate_id": "candidate_0003",
+                "lat": 39.9917546,
+                "lon": 116.3090208
               },
               {
                 "candidate_id": "candidate_0002",
-                "lat": 39.9890063,
-                "lon": 116.3355791
+                "lat": 39.9962926,
+                "lon": 116.3047341
               },
               {
                 "candidate_id": "candidate_0001",
-                "lat": 39.9844276,
-                "lon": 116.3337122
+                "lat": 39.984477,
+                "lon": 116.310245
               }
             ]
           },
           {
             "event_id": "event_0004",
-            "timestamp_s": 1224730465.0,
+            "timestamp_s": 330.0,
             "candidates": [
               {
-                "candidate_id": "candidate_0002",
-                "lat": 39.9890063,
-                "lon": 116.3355791
-              },
-              {
-                "candidate_id": "candidate_0001",
-                "lat": 39.9843156,
-                "lon": 116.3342257
-              },
-              {
                 "candidate_id": "candidate_0000",
-                "lat": 39.984523,
-                "lon": 116.315823
+                "lat": 39.9801543,
+                "lon": 116.3074764
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9896484,
+                "lon": 116.303555
               },
               {
                 "candidate_id": "candidate_0003",
-                "lat": 39.9997882,
-                "lon": 116.3065392
+                "lat": 39.9844233,
+                "lon": 116.3120302
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.991062,
+                "lon": 116.317711
               }
             ]
           },
           {
             "event_id": "event_0005",
-            "timestamp_s": 1224730485.0,
+            "timestamp_s": 410.0,
             "candidates": [
               {
-                "candidate_id": "candidate_0001",
-                "lat": 39.9847033,
-                "lon": 116.3346473
+                "candidate_id": "candidate_0003",
+                "lat": 39.9881234,
+                "lon": 116.3267451
               },
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.984501,
-                "lon": 116.314907
+                "lat": 39.995077,
+                "lon": 116.3134244
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.991521,
+                "lon": 116.334178
               },
               {
                 "candidate_id": "candidate_0002",
-                "lat": 39.989148,
-                "lon": 116.3351992
-              },
-              {
-                "candidate_id": "candidate_0003",
-                "lat": 39.9993167,
-                "lon": 116.3056035
+                "lat": 39.9914426,
+                "lon": 116.3203813
               }
             ]
           },
           {
             "event_id": "event_0006",
-            "timestamp_s": 1224730505.0,
+            "timestamp_s": 490.0,
             "candidates": [
               {
-                "candidate_id": "candidate_0003",
-                "lat": 39.9987003,
-                "lon": 116.3057151
-              },
-              {
                 "candidate_id": "candidate_0000",
-                "lat": 39.984427,
-                "lon": 116.31424
-              },
-              {
-                "candidate_id": "candidate_0002",
-                "lat": 39.9890672,
-                "lon": 116.3355766
+                "lat": 39.9900332,
+                "lon": 116.3184936
               },
               {
                 "candidate_id": "candidate_0001",
-                "lat": 39.9846345,
-                "lon": 116.334791
+                "lat": 39.983262,
+                "lon": 116.33768
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9820775,
+                "lon": 116.3343251
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.983047,
+                "lon": 116.3335251
               }
             ]
           },
           {
             "event_id": "event_0007",
-            "timestamp_s": 1224730525.0,
+            "timestamp_s": 570.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.984618,
-                "lon": 116.314323
+                "lat": 39.9912004,
+                "lon": 116.3211102
               },
               {
                 "candidate_id": "candidate_0003",
-                "lat": 39.9993029,
-                "lon": 116.3063207
-              },
-              {
-                "candidate_id": "candidate_0001",
-                "lat": 39.9843156,
-                "lon": 116.3342257
+                "lat": 39.9854507,
+                "lon": 116.3343849
               },
               {
                 "candidate_id": "candidate_0002",
-                "lat": 39.9889919,
-                "lon": 116.3352078
+                "lat": 39.9778133,
+                "lon": 116.3350452
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.979974,
+                "lon": 116.33813
               }
             ]
           }
@@ -713,80 +955,80 @@
       "evaluator_truth": {
         "real_trajectory": [
           {
-            "timestamp_s": 1224730384.0,
-            "lat": 39.984702,
-            "lon": 116.318417
+            "timestamp_s": 30.0,
+            "lat": 39.984136,
+            "lon": 116.297569
           },
           {
-            "timestamp_s": 1224730405.0,
-            "lat": 39.984655,
-            "lon": 116.318263
+            "timestamp_s": 110.0,
+            "lat": 39.983106,
+            "lon": 116.293851
           },
           {
-            "timestamp_s": 1224730425.0,
-            "lat": 39.984539,
-            "lon": 116.317294
+            "timestamp_s": 190.0,
+            "lat": 39.983222,
+            "lon": 116.296325
           },
           {
-            "timestamp_s": 1224730445.0,
-            "lat": 39.984561,
-            "lon": 116.316527
+            "timestamp_s": 270.0,
+            "lat": 39.984477,
+            "lon": 116.310245
           },
           {
-            "timestamp_s": 1224730465.0,
-            "lat": 39.984523,
-            "lon": 116.315823
+            "timestamp_s": 330.0,
+            "lat": 39.991062,
+            "lon": 116.317711
           },
           {
-            "timestamp_s": 1224730485.0,
-            "lat": 39.984501,
-            "lon": 116.314907
+            "timestamp_s": 410.0,
+            "lat": 39.991521,
+            "lon": 116.334178
           },
           {
-            "timestamp_s": 1224730505.0,
-            "lat": 39.984427,
-            "lon": 116.31424
+            "timestamp_s": 490.0,
+            "lat": 39.983262,
+            "lon": 116.33768
           },
           {
-            "timestamp_s": 1224730525.0,
-            "lat": 39.984618,
-            "lon": 116.314323
+            "timestamp_s": 570.0,
+            "lat": 39.979974,
+            "lon": 116.33813
           }
         ],
         "real_candidate_ids": [
-          "candidate_0000",
-          "candidate_0000",
-          "candidate_0000",
-          "candidate_0000",
-          "candidate_0000",
-          "candidate_0000",
-          "candidate_0000",
-          "candidate_0000"
+          "candidate_0001",
+          "candidate_0001",
+          "candidate_0001",
+          "candidate_0001",
+          "candidate_0001",
+          "candidate_0001",
+          "candidate_0001",
+          "candidate_0001"
         ]
       }
     },
     {
-      "record_id": "000/20081023025304.plt#0",
+      "record_id": "sumo/controlled_beijing_passenger_smoke_v1/smoke_2",
       "mechanism": "geo_i_anchored_dummy_lite",
       "source_method": "Thesis prototype: REM anchor followed by dummy-only tracks",
       "demo_only": true,
       "output_kind": "dummy_only",
-      "runtime_ms": 3.3668,
+      "runtime_ms": 3.5484,
       "metrics": {
         "events": 8.0,
         "mean_candidates_per_event": 4.0,
         "request_multiplier": 4.0,
-        "mean_nearest_output_distance_m": 197.6525,
-        "mean_centroid_reconstruction_error_m": 272.9592,
-        "mean_candidate_spread_m": 178.8148,
-        "mean_dummy_distance_m": 327.9614,
-        "p95_dummy_distance_m": 655.5021,
+        "mean_nearest_output_distance_m": 172.6074,
+        "mean_centroid_reconstruction_error_m": 245.979,
+        "mean_candidate_spread_m": 140.9831,
+        "mean_dummy_distance_m": 278.9477,
+        "p95_dummy_distance_m": 479.4632,
         "on_road_rate_all_outputs": 1.0,
         "stable_public_tracks": 4.0,
         "real_member_inclusion_rate": null,
         "uniform_guess_success_baseline": null,
         "mean_track_speed_violation_rate": 0.0,
-        "mean_track_dtw_m": 163.9807
+        "mean_track_dtw_m": 139.4739
       },
       "attacker_view": {
         "mechanism": "geo_i_anchored_dummy_lite",
@@ -794,209 +1036,209 @@
         "events": [
           {
             "event_id": "event_0000",
-            "timestamp_s": 1224730384.0,
+            "timestamp_s": 30.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9854864,
-                "lon": 116.3110735
+                "lat": 39.9848023,
+                "lon": 116.300746
               },
               {
                 "candidate_id": "candidate_0001",
-                "lat": 39.983052,
-                "lon": 116.3140583
+                "lat": 39.9843374,
+                "lon": 116.2993665
               },
               {
                 "candidate_id": "candidate_0002",
-                "lat": 39.9846825,
-                "lon": 116.314267
+                "lat": 39.9834619,
+                "lon": 116.2999963
               },
               {
                 "candidate_id": "candidate_0003",
-                "lat": 39.9862717,
-                "lon": 116.3137547
+                "lat": 39.9837136,
+                "lon": 116.3022478
               }
             ]
           },
           {
             "event_id": "event_0001",
-            "timestamp_s": 1224730405.0,
+            "timestamp_s": 110.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9855035,
-                "lon": 116.3116121
+                "lat": 39.9848687,
+                "lon": 116.2920696
               },
               {
                 "candidate_id": "candidate_0001",
-                "lat": 39.9844966,
-                "lon": 116.3141811
+                "lat": 39.9846407,
+                "lon": 116.2914354
               },
               {
                 "candidate_id": "candidate_0002",
-                "lat": 39.9844973,
-                "lon": 116.3142064
+                "lat": 39.9833267,
+                "lon": 116.2906614
               },
               {
                 "candidate_id": "candidate_0003",
-                "lat": 39.9860572,
-                "lon": 116.3151882
+                "lat": 39.9846938,
+                "lon": 116.2929259
               }
             ]
           },
           {
             "event_id": "event_0002",
-            "timestamp_s": 1224730425.0,
+            "timestamp_s": 190.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9845352,
-                "lon": 116.3140906
+                "lat": 39.9817212,
+                "lon": 116.2943924
               },
               {
                 "candidate_id": "candidate_0001",
-                "lat": 39.9829108,
-                "lon": 116.3186578
+                "lat": 39.9812335,
+                "lon": 116.2919921
               },
               {
                 "candidate_id": "candidate_0002",
-                "lat": 39.9838607,
-                "lon": 116.3202704
+                "lat": 39.981343,
+                "lon": 116.2913604
               },
               {
                 "candidate_id": "candidate_0003",
-                "lat": 39.9850652,
-                "lon": 116.3202859
+                "lat": 39.9811722,
+                "lon": 116.2947437
               }
             ]
           },
           {
             "event_id": "event_0003",
-            "timestamp_s": 1224730445.0,
+            "timestamp_s": 270.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9856849,
-                "lon": 116.3127227
+                "lat": 39.9851236,
+                "lon": 116.3102057
               },
               {
                 "candidate_id": "candidate_0001",
-                "lat": 39.9854621,
-                "lon": 116.3152328
+                "lat": 39.9853046,
+                "lon": 116.3093923
               },
               {
                 "candidate_id": "candidate_0002",
-                "lat": 39.9864913,
-                "lon": 116.3174015
+                "lat": 39.9843836,
+                "lon": 116.3067203
               },
               {
                 "candidate_id": "candidate_0003",
-                "lat": 39.9888597,
-                "lon": 116.3163567
+                "lat": 39.9840462,
+                "lon": 116.3102917
               }
             ]
           },
           {
             "event_id": "event_0004",
-            "timestamp_s": 1224730465.0,
+            "timestamp_s": 330.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.985146,
-                "lon": 116.3102821
+                "lat": 39.9921385,
+                "lon": 116.3168047
               },
               {
                 "candidate_id": "candidate_0001",
-                "lat": 39.983052,
-                "lon": 116.3140583
+                "lat": 39.991125,
+                "lon": 116.3122025
               },
               {
                 "candidate_id": "candidate_0002",
-                "lat": 39.9846356,
-                "lon": 116.3142406
+                "lat": 39.9907823,
+                "lon": 116.3153997
               },
               {
                 "candidate_id": "candidate_0003",
-                "lat": 39.9864209,
-                "lon": 116.3156058
+                "lat": 39.9909586,
+                "lon": 116.3164237
               }
             ]
           },
           {
             "event_id": "event_0005",
-            "timestamp_s": 1224730485.0,
+            "timestamp_s": 410.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9892098,
-                "lon": 116.3082968
+                "lat": 39.991745,
+                "lon": 116.3321475
               },
               {
                 "candidate_id": "candidate_0001",
-                "lat": 39.9860527,
-                "lon": 116.3118536
+                "lat": 39.9917215,
+                "lon": 116.3309405
               },
               {
                 "candidate_id": "candidate_0002",
-                "lat": 39.9886729,
-                "lon": 116.3121731
+                "lat": 39.9899215,
+                "lon": 116.3328349
               },
               {
                 "candidate_id": "candidate_0003",
-                "lat": 39.9903922,
-                "lon": 116.3125705
+                "lat": 39.9892976,
+                "lon": 116.335778
               }
             ]
           },
           {
             "event_id": "event_0006",
-            "timestamp_s": 1224730505.0,
+            "timestamp_s": 490.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.984442,
-                "lon": 116.3100262
+                "lat": 39.9843165,
+                "lon": 116.342443
               },
               {
                 "candidate_id": "candidate_0001",
-                "lat": 39.9840797,
-                "lon": 116.312106
+                "lat": 39.9836361,
+                "lon": 116.3379702
               },
               {
                 "candidate_id": "candidate_0002",
-                "lat": 39.9840394,
-                "lon": 116.3143476
+                "lat": 39.980804,
+                "lon": 116.3395762
               },
               {
                 "candidate_id": "candidate_0003",
-                "lat": 39.9856849,
-                "lon": 116.3127227
+                "lat": 39.9801499,
+                "lon": 116.3400239
               }
             ]
           },
           {
             "event_id": "event_0007",
-            "timestamp_s": 1224730525.0,
+            "timestamp_s": 570.0,
             "candidates": [
               {
                 "candidate_id": "candidate_0000",
-                "lat": 39.9846246,
-                "lon": 116.3105491
+                "lat": 39.9850594,
+                "lon": 116.3390605
               },
               {
                 "candidate_id": "candidate_0001",
-                "lat": 39.9839747,
-                "lon": 116.31211
+                "lat": 39.9837219,
+                "lon": 116.3382282
               },
               {
                 "candidate_id": "candidate_0002",
-                "lat": 39.9841637,
-                "lon": 116.3138041
+                "lat": 39.9836723,
+                "lon": 116.3390166
               },
               {
                 "candidate_id": "candidate_0003",
-                "lat": 39.9850359,
-                "lon": 116.3162581
+                "lat": 39.9834066,
+                "lon": 116.3417163
               }
             ]
           }
@@ -1011,44 +1253,44 @@
       "evaluator_truth": {
         "real_trajectory": [
           {
-            "timestamp_s": 1224730384.0,
-            "lat": 39.984702,
-            "lon": 116.318417
+            "timestamp_s": 30.0,
+            "lat": 39.984136,
+            "lon": 116.297569
           },
           {
-            "timestamp_s": 1224730405.0,
-            "lat": 39.984655,
-            "lon": 116.318263
+            "timestamp_s": 110.0,
+            "lat": 39.983106,
+            "lon": 116.293851
           },
           {
-            "timestamp_s": 1224730425.0,
-            "lat": 39.984539,
-            "lon": 116.317294
+            "timestamp_s": 190.0,
+            "lat": 39.983222,
+            "lon": 116.296325
           },
           {
-            "timestamp_s": 1224730445.0,
-            "lat": 39.984561,
-            "lon": 116.316527
+            "timestamp_s": 270.0,
+            "lat": 39.984477,
+            "lon": 116.310245
           },
           {
-            "timestamp_s": 1224730465.0,
-            "lat": 39.984523,
-            "lon": 116.315823
+            "timestamp_s": 330.0,
+            "lat": 39.991062,
+            "lon": 116.317711
           },
           {
-            "timestamp_s": 1224730485.0,
-            "lat": 39.984501,
-            "lon": 116.314907
+            "timestamp_s": 410.0,
+            "lat": 39.991521,
+            "lon": 116.334178
           },
           {
-            "timestamp_s": 1224730505.0,
-            "lat": 39.984427,
-            "lon": 116.31424
+            "timestamp_s": 490.0,
+            "lat": 39.983262,
+            "lon": 116.33768
           },
           {
-            "timestamp_s": 1224730525.0,
-            "lat": 39.984618,
-            "lon": 116.314323
+            "timestamp_s": 570.0,
+            "lat": 39.979974,
+            "lon": 116.33813
           }
         ],
         "real_candidate_ids": []
