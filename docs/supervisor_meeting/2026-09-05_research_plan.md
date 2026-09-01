@@ -3,6 +3,7 @@
 - **Thời hạn báo cáo:** 15:00, ngày 05/09/2026.
 - **Phạm vi của buổi báo cáo này:** trình bày từ Mục 1 đến hết Mục 6.
 - **Mục tiêu chung của luận văn:** cải thiện Geo-Indistinguishability (Geo-I) cho bài toán bảo vệ quỹ đạo trong đô thị, sau đó chứng minh bằng cả phân tích lý thuyết và thực nghiệm rằng cơ chế đạt được sự cân bằng giữa riêng tư và độ hữu ích.
+- **Lớp cơ chế được chốt:** cơ chế của luận văn thuộc nhóm **sinh vị trí/quỹ đạo giả (dummy generation)**. Vì vậy, các mô hình SOTA dùng làm đối chứng chính cũng phải thuộc nhóm này; các cơ chế chỉ thêm nhiễu tọa độ, chỉ sinh bộ dữ liệu tổng hợp ngoại tuyến, hoặc chỉ xây dựng mô hình tấn công không được tính là ba đối chứng SOTA chính.
 
 ## Phần I — Nội dung trình bày trong buổi báo cáo 05/09
 
@@ -138,22 +139,32 @@ Geo-I nguyên bản chủ yếu hạn chế khả năng phân biệt các vị t
 
 ## 6. Tìm các mô hình SOTA để làm đối chứng
 
-Cần chọn ít nhất ba phương pháp gần với bài toán, ưu tiên các công trình trong khoảng ba năm gần đây. Các mô hình đối chứng phải đại diện cho những hướng khác nhau, chẳng hạn:
+Cần chọn ít nhất ba phương pháp gần với bài toán, ưu tiên các công trình trong khoảng ba năm gần đây. **Điều kiện bắt buộc là phương pháp phải sinh vị trí giả, tập vị trí giả hoặc quỹ đạo giả để bảo vệ người dùng trong LBS/quỹ đạo.**
 
-1. Cơ chế Geo-I hoặc road-network-aware.
-2. Cơ chế temporal/correlation-aware.
-3. Cơ chế chống long-term observation, repeated reports hoặc sử dụng memoization/reuse.
-4. Nếu khả thi, một mô hình reconstruction hoặc trajectory protection dựa trên học máy.
+Trong nhóm dummy generation cần phân biệt rõ giao diện đầu ra, vì chúng không tự động so sánh công bằng với nhau:
+
+- Thay vị trí thật bằng một vị trí giả duy nhất.
+- Gửi một tập gồm vị trí thật và \(k-1\) vị trí giả.
+- Sinh một hoặc nhiều quỹ đạo giả để che quỹ đạo thật.
+- Chèn các truy vấn giả hoặc chuỗi truy vấn chỉ chứa dummy.
+
+Các mô hình đối chứng phải đại diện cho những hướng khác nhau, chẳng hạn:
+
+1. Dummy generation có xét mạng đường hoặc khả năng di chuyển.
+2. Dummy generation có xét tương quan thời gian giữa các truy vấn.
+3. Dummy generation có xét POI/ngữ nghĩa để dummy khó bị lọc.
+4. Nếu khả thi, một mô hình sinh quỹ đạo giả dựa trên học máy.
 
 Tiêu chí chọn SOTA:
 
 - Threat model có giao với các scenario ở Mục 3.
+- Cùng thuộc lớp dummy generation và phải ghi rõ giao diện đầu ra.
 - Có paper và mô tả thuật toán đủ rõ.
 - Ưu tiên có source code hoặc implementation có thể chạy lại.
 - Có thể dùng cùng urban map, cùng dữ liệu benchmark và cùng bộ metrics.
 - Privacy guarantee và privacy budget có thể căn chỉnh để so sánh công bằng.
 
-Planar Laplace và các baseline hiện có vẫn được giữ để kiểm tra nền tảng, nhưng không thay thế yêu cầu so sánh với ít nhất ba mô hình SOTA.
+Planar Laplace và các baseline không sinh dummy vẫn có thể được giữ để kiểm tra nền tảng hoặc làm ablation, nhưng không thay thế yêu cầu so sánh với ít nhất ba mô hình SOTA thuộc lớp dummy generation. Nếu các phương pháp dùng giao diện khác nhau (một dummy so với \(k-1\) dummy), phải tách nhóm thí nghiệm hoặc chuẩn hóa thêm chi phí truyền thông, số truy vấn và utility; không gộp trực tiếp vào một bảng rồi kết luận hơn/kém.
 
 ---
 
