@@ -1,0 +1,1848 @@
+{
+  "schema": "msc-dummy-benchmark-v3",
+  "status": "REFERENCE_ADAPTATIONS",
+  "disclaimer": "DUMMY-GENERATION BENCHMARK HARNESS. Current paper comparators are source-mapped adaptations, not official or faithful reproductions. Their numbers are integration/reference results, not reproduced SOTA results. Metrics stay within each output contract and must not form a cross-track leaderboard. SUMO mobility is generated on a passenger-only network converted from the Beijing OSM extract. Protection candidates are generated on the separately serialized, pinned OSMnx graph whose profile is unfiltered multimodal (drive+walk+cycle). The graphs cover the same study bbox but are not assumed to have identical nodes, edges, simplification, or permissions; this run therefore does not claim exact route compatibility across the two graphs.",
+  "method_inventory": [
+    {
+      "method_id": "transprotect_adaptation",
+      "display_name": "TransProtect — local benchmark adaptation",
+      "output_kind": "replacement_trajectory",
+      "implementation_level": "paper_adaptation",
+      "reportable_as_reproduced_sota": false,
+      "source": {
+        "citation": "Yadav et al., Protecting Vehicle Location Privacy with Contextually-Driven Synthetic Location Generation, ACM SIGSPATIAL 2024",
+        "doi": "10.1145/3678717.3691211",
+        "repository_url": "https://github.com/sourabhy1797/VehiTrack",
+        "repository_revision": "035684c6c666a9af7cbd9984d92300000eb65536"
+      },
+      "source_mapping": [
+        {
+          "component": "single-pseudolocation output contract",
+          "status": "implemented",
+          "implementation": "benchmark.engines.paper_adaptations.TransProtectEngine.protect_run",
+          "evidence": "Each input event publishes exactly one opaque replacement point."
+        },
+        {
+          "component": "road-constrained candidate pool",
+          "status": "adapted",
+          "implementation": "benchmark.engines.paper_adaptations._candidate_pool",
+          "evidence": "Uses radius/K nearest vertices from the pinned OSMnx graph instead of the paper's learned candidate pipeline."
+        },
+        {
+          "component": "contextual candidate scoring",
+          "status": "adapted",
+          "implementation": "benchmark.engines.paper_adaptations.TransProtectEngine.protect_point",
+          "evidence": "Explicit distance, reachability and optional category penalties replace learned road/traffic scores."
+        },
+        {
+          "component": "GCN/Transformer road and traffic representation",
+          "status": "missing",
+          "implementation": "not implemented",
+          "evidence": "The checked public snapshot does not provide a drop-in Python training pipeline for the current Beijing/SUMO graph."
+        },
+        {
+          "component": "VehiTrack mechanism-aware attacker",
+          "status": "missing",
+          "implementation": "not implemented",
+          "evidence": "The current geometry/HMM diagnostics are not VehiTrack and cannot substitute for the paper's attack evaluation."
+        },
+        {
+          "component": "paper-dataset reproduction",
+          "status": "missing",
+          "implementation": "not implemented",
+          "evidence": "Rome/San Francisco graph, traffic, split and hyperparameter reproduction has not been executed."
+        }
+      ],
+      "adaptation_summary": "Deterministic Python road-graph adaptation of the paper's output contract and contextual selection idea; not the learned TransProtect pipeline and not eligible for a reproduced-SOTA claim.",
+      "missing_components": [
+        "GCN/Transformer road and traffic representation",
+        "VehiTrack mechanism-aware attacker",
+        "paper-dataset reproduction"
+      ],
+      "has_reproduction_source_evidence": false,
+      "validation_evidence": [],
+      "reproduction_reporting_blockers": [
+        "implementation level is neither official nor faithful reimplementation",
+        "missing components: GCN/Transformer road and traffic representation, VehiTrack mechanism-aware attacker, paper-dataset reproduction",
+        "paper-equivalent validation evidence is absent"
+      ]
+    },
+    {
+      "method_id": "anotherme_adaptation",
+      "display_name": "AnotherMe — local benchmark adaptation",
+      "output_kind": "replacement_trajectory",
+      "implementation_level": "paper_adaptation",
+      "reportable_as_reproduced_sota": false,
+      "source": {
+        "citation": "Li et al., AnotherMe: A Location Privacy Protection System Based on Online Virtual Trajectory Generation, IEEE TDSC 2024",
+        "doi": "10.1109/TDSC.2023.3314200",
+        "repository_url": "https://github.com/fang-zhiyou/AnotherMe",
+        "repository_revision": "0eda877b7328ee1c0b3e0cf9a9bb9d48cb24323f"
+      },
+      "source_mapping": [
+        {
+          "component": "replacement-trajectory output contract",
+          "status": "implemented",
+          "implementation": "benchmark.engines.paper_adaptations.AnotherMeEngine.protect_run",
+          "evidence": "Publishes one time-indexed virtual trajectory while evaluator truth remains separate."
+        },
+        {
+          "component": "whole-trajectory relocation",
+          "status": "adapted",
+          "implementation": "benchmark.engines.paper_adaptations.AnotherMeEngine.protect_trajectory",
+          "evidence": "A seeded affine relocation plus local road snapping replaces the paper/system virtual-user generation workflow."
+        },
+        {
+          "component": "trajectory continuity",
+          "status": "adapted",
+          "implementation": "benchmark.engines.paper_adaptations._network_distances",
+          "evidence": "A road-distance consistency score is used instead of learned mobility-pattern simulation."
+        },
+        {
+          "component": "virtual-user construction and history model",
+          "status": "missing",
+          "implementation": "not implemented",
+          "evidence": "User history, stay points and virtual identity construction from the source system are absent."
+        },
+        {
+          "component": "POI mapping and local route-service workflow",
+          "status": "missing",
+          "implementation": "not implemented",
+          "evidence": "AMap/mobile calls are intentionally not copied; an equivalent local POI/routing adapter still needs validation."
+        },
+        {
+          "component": "recognition and mobile-system reproduction",
+          "status": "missing",
+          "implementation": "not implemented",
+          "evidence": "The paper classifier, latency, energy and phone experiments have not been reproduced."
+        }
+      ],
+      "adaptation_summary": "Seeded local replacement-trajectory adaptation with road snapping; it does not implement AnotherMe's virtual user, POI mapping, learned mobility pattern or mobile system.",
+      "missing_components": [
+        "virtual-user construction and history model",
+        "POI mapping and local route-service workflow",
+        "recognition and mobile-system reproduction"
+      ],
+      "has_reproduction_source_evidence": false,
+      "validation_evidence": [],
+      "reproduction_reporting_blockers": [
+        "implementation level is neither official nor faithful reimplementation",
+        "missing components: virtual-user construction and history model, POI mapping and local route-service workflow, recognition and mobile-system reproduction",
+        "paper-equivalent validation evidence is absent"
+      ]
+    },
+    {
+      "method_id": "semantic_dummy_adaptation",
+      "display_name": "Semantic-correlation dummy paths — local adaptation",
+      "output_kind": "real_plus_dummies",
+      "implementation_level": "paper_adaptation",
+      "reportable_as_reproduced_sota": false,
+      "source": {
+        "citation": "Liu, Peng, and Zhou, A Dummy-Based Location Privacy Protection Scheme with Semantic Correlation of Moving Paths, JKSUCIS 2026",
+        "doi": "10.1007/s44443-026-00899-w",
+        "repository_url": null,
+        "repository_revision": null
+      },
+      "source_mapping": [
+        {
+          "component": "real-plus-K-minus-one output contract",
+          "status": "implemented",
+          "implementation": "benchmark.engines.paper_adaptations.SemanticDummyEngine.protect_run",
+          "evidence": "Every event contains one evaluator-labelled real member and K-1 opaque public candidates with stable IDs."
+        },
+        {
+          "component": "road/reachability candidate selection",
+          "status": "adapted",
+          "implementation": "benchmark.engines.paper_adaptations.SemanticDummyEngine.protect_point",
+          "evidence": "Road distance, movement mismatch and separation penalties replace the paper's exact grid filters and learned transition weights."
+        },
+        {
+          "component": "semantic-category hook",
+          "status": "adapted",
+          "implementation": "benchmark.engines.paper_adaptations._category_at",
+          "evidence": "Accepts externally supplied vertex categories; it is not the paper's learned semantic predictor."
+        },
+        {
+          "component": "LSTM/attention semantic prediction",
+          "status": "missing",
+          "implementation": "not implemented",
+          "evidence": "No public source code/training artifact was identified; the model requires user-separated sequences and POI/time embeddings."
+        },
+        {
+          "component": "paper grid, transition matrix and released parameters",
+          "status": "missing",
+          "implementation": "not implemented",
+          "evidence": "The reported 100x100 Beijing grid and exact learned transition pipeline have not been reconstructed on the road graph."
+        },
+        {
+          "component": "ASR and dummy-effectiveness reproduction",
+          "status": "missing",
+          "implementation": "not implemented",
+          "evidence": "A calibrated semantic/path attacker and the paper dataset split are required before reproducing the reported metrics."
+        }
+      ],
+      "adaptation_summary": "Road-graph adaptation of the paper's continuous real-plus-dummies contract with explicit heuristic temporal/semantic scores; not its LSTM/attention clean-room reimplementation.",
+      "missing_components": [
+        "LSTM/attention semantic prediction",
+        "paper grid, transition matrix and released parameters",
+        "ASR and dummy-effectiveness reproduction"
+      ],
+      "has_reproduction_source_evidence": false,
+      "validation_evidence": [],
+      "reproduction_reporting_blockers": [
+        "implementation level is neither official nor faithful reimplementation",
+        "missing components: LSTM/attention semantic prediction, paper grid, transition matrix and released parameters, ASR and dummy-effectiveness reproduction",
+        "paper-equivalent validation evidence is absent"
+      ]
+    },
+    {
+      "method_id": "geo_i_anchored_dummy",
+      "display_name": "Geo-I anchored dummy trajectories — thesis candidate",
+      "output_kind": "dummy_only",
+      "implementation_level": "thesis_candidate",
+      "reportable_as_reproduced_sota": false,
+      "source": {
+        "citation": "Proposed thesis method: Geo-I anchor followed by dummy-only tracks",
+        "doi": null,
+        "repository_url": null,
+        "repository_revision": null
+      },
+      "source_mapping": [
+        {
+          "component": "REM anchor sampling",
+          "status": "implemented",
+          "implementation": "core.mechanisms.RoadExponential",
+          "evidence": "The first stage samples a road-network exponential-mechanism anchor with evaluator-audited privacy caveats."
+        },
+        {
+          "component": "post-processing boundary",
+          "status": "implemented",
+          "implementation": "benchmark.engines.proposed.GeoIAnchoredDummyEngine.generate_from_anchors",
+          "evidence": "The dummy generator accepts public anchors, public graph/time and fresh randomness without reading the secret trajectory again."
+        },
+        {
+          "component": "dummy-only output contract",
+          "status": "implemented",
+          "implementation": "core.demo_protocol.make_dummy_only_run",
+          "evidence": "Only K opaque dummy tracks are public; anchors and truth remain on the evaluator side."
+        },
+        {
+          "component": "population and POI prior",
+          "status": "missing",
+          "implementation": "not implemented",
+          "evidence": "The present generator uses geometric offsets, not held-out population or semantic distributions."
+        },
+        {
+          "component": "context-aware attacker objective",
+          "status": "missing",
+          "implementation": "not implemented",
+          "evidence": "Dummy selection is not yet optimized against the final road/time/POI filtering attacker."
+        },
+        {
+          "component": "trajectory-level privacy accounting",
+          "status": "missing",
+          "implementation": "not implemented",
+          "evidence": "Per-release anchor arguments do not by themselves establish a fixed trajectory-level budget over repeated releases."
+        }
+      ],
+      "adaptation_summary": "Executable thesis candidate with an explicit public-anchor post-processing boundary; algorithm and trajectory-level evaluation remain under development.",
+      "missing_components": [
+        "population and POI prior",
+        "context-aware attacker objective",
+        "trajectory-level privacy accounting"
+      ],
+      "has_reproduction_source_evidence": false,
+      "validation_evidence": [],
+      "reproduction_reporting_blockers": [
+        "implementation level is neither official nor faithful reimplementation",
+        "missing components: population and POI prior, context-aware attacker objective, trajectory-level privacy accounting",
+        "paper-equivalent validation evidence is absent"
+      ]
+    }
+  ],
+  "provenance": {
+    "schema": "msc-experiment-v1",
+    "source_commit": "bccf7fd64b8127db109ead71323ac7c125cad10e",
+    "source_dirty_before_run": false,
+    "command": [
+      "/Users/geohanz/Project/msc/venv/bin/python",
+      "-m",
+      "experiments.run_dummy_benchmark",
+      "--quick"
+    ],
+    "interpreter": "/Users/geohanz/Project/msc/venv/bin/python",
+    "cwd": "/Users/geohanz/Project/msc",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "mode": "quick",
+    "started_at_utc": "2026-09-02T07:56:59.906207+00:00",
+    "finished_at_utc": "2026-09-02T07:57:21.233477+00:00",
+    "python": "3.11.12",
+    "package_versions": {
+      "numpy": "2.3.2",
+      "scipy": "1.16.1",
+      "networkx": "3.5",
+      "osmnx": "2.0.5",
+      "shapely": "2.1.1",
+      "haversine": "2.9.0",
+      "eclipse-sumo": "1.27.1",
+      "sumo-data": "1.27.1"
+    },
+    "graph_sha256": "9e44ec2a48d6249f3534bb8511010925428018e528f5116d5f9eb24d86a2d487",
+    "graph_nodes": 13813,
+    "graph_source_sha256": {
+      "Beijing.osm.gz": "ed0af579fb32c7164de85bca945a10432f818dd27eb80d6d5a7afa62213b0407",
+      "Beijing.osm": "5691186b8b3bd9078915faefb7fb639ff2c7f45b4e8b1efd1de4b9ebdad4c8a5"
+    },
+    "graph_network_profile": "all (unfiltered multimodal: drive+walk+cycle; verifier R3-013)",
+    "rng_schema": "rng-v1",
+    "root_seeds": [
+      42
+    ],
+    "epsilons": [
+      0.02
+    ],
+    "dataset": {
+      "name": "Eclipse SUMO controlled Beijing passenger smoke scenario",
+      "raw_bytes_in_git": false,
+      "note": "Movement is generated at run time from the local Beijing OSM extract. Exact SUMO commands, versions, and input/output SHA-256 digests are recorded in sumo_runs. This is not a calibrated Beijing population model."
+    },
+    "artifact_schema": "msc-dummy-benchmark-v3",
+    "artifact_status": "executable benchmark harness; current paper comparators are reference adaptations, not reproduced SOTA implementations",
+    "mobility_source": "sumo",
+    "mobility_label": "Eclipse SUMO controlled Beijing passenger smoke scenario",
+    "sumo_runs": [
+      {
+        "scenario": "controlled_beijing_passenger_smoke_v1",
+        "disclaimer": "DEMO ONLY: deterministic random traffic, not a calibrated Beijing mobility population or final thesis scenario generator.",
+        "versions": {
+          "sumo": "Eclipse SUMO sumo 1.27.1",
+          "netconvert": "Eclipse SUMO netconvert 1.27.1"
+        },
+        "commands": {
+          "netconvert": [
+            "/Users/geohanz/Project/msc/venv/lib/python3.11/site-packages/sumo/bin/netconvert",
+            "--osm-files",
+            "/Users/geohanz/Project/msc/data/raw/Beijing.osm.gz",
+            "--keep-edges.in-geo-boundary",
+            "116.29,39.96,116.36,40.02",
+            "--keep-edges.by-vclass",
+            "passenger",
+            "--keep-edges.components",
+            "1",
+            "--junctions.join",
+            "true",
+            "--output-file",
+            "/Users/geohanz/Project/msc/cache/sumo_demo/beijing_smoke.net.xml"
+          ],
+          "randomTrips.py": [
+            "/Users/geohanz/Project/msc/venv/bin/python",
+            "/Users/geohanz/Project/msc/venv/lib/python3.11/site-packages/sumo/tools/randomTrips.py",
+            "--net-file",
+            "/Users/geohanz/Project/msc/cache/sumo_demo/beijing_smoke.net.xml",
+            "-o",
+            "/Users/geohanz/Project/msc/cache/sumo_demo/beijing_smoke.trips.xml",
+            "--route-file",
+            "/Users/geohanz/Project/msc/cache/sumo_demo/beijing_smoke.rou.xml",
+            "--seed",
+            "20260905",
+            "--begin",
+            "0",
+            "--end",
+            "300",
+            "--period",
+            "15",
+            "--vehicle-class",
+            "passenger",
+            "--edge-permission",
+            "passenger",
+            "--min-distance",
+            "2500",
+            "--validate",
+            "--remove-loops",
+            "--prefix",
+            "smoke_"
+          ],
+          "sumo": [
+            "/Users/geohanz/Project/msc/venv/lib/python3.11/site-packages/sumo/bin/sumo",
+            "--net-file",
+            "/Users/geohanz/Project/msc/cache/sumo_demo/beijing_smoke.net.xml",
+            "--route-files",
+            "/Users/geohanz/Project/msc/cache/sumo_demo/beijing_smoke.rou.xml",
+            "--seed",
+            "20260906",
+            "--begin",
+            "0",
+            "--end",
+            "900",
+            "--step-length",
+            "1",
+            "--device.fcd.period",
+            "1",
+            "--fcd-output",
+            "/Users/geohanz/Project/msc/cache/sumo_demo/beijing_smoke.fcd.xml",
+            "--fcd-output.geo",
+            "true",
+            "--fcd-output.attributes",
+            "id,x,y,speed,lane",
+            "--vehroute-output",
+            "/Users/geohanz/Project/msc/cache/sumo_demo/beijing_smoke.vehroute.xml",
+            "--vehroute-output.write-unfinished",
+            "true",
+            "--no-step-log",
+            "true"
+          ]
+        },
+        "sha256": {
+          "fcd": "94f89ee7324468e2a3e60aeefeb31ea8af8f6da8ed2d531c0e1a098e3cdd2dbb",
+          "network": "1f36443aee46a9903e82659842866fe63d5d7b57efcffac5dff4394a774579b4",
+          "osm": "ed0af579fb32c7164de85bca945a10432f818dd27eb80d6d5a7afa62213b0407",
+          "randomTrips.py": "e6d794ef1bce059b46ef65121d5e47a2df35603afa113015483dce74ae2ec01c",
+          "routes": "b03a7a03d96d5106bc6a8884627ea8aaa1855a3fd21cf6ead6b5b96570083d91",
+          "trips": "6eab0bee48b1e9399d600a06ca883fcb616e29a13e437ad3ebcbca724ff9fc07",
+          "vehicle_routes": "f3d38a04111ba23f1b9ae3e8123052ee252fc777b8fcd09feec40c52bfff0e85"
+        }
+      }
+    ],
+    "candidate_graph_compatibility": "SUMO mobility is generated on a passenger-only network converted from the Beijing OSM extract. Protection candidates are generated on the separately serialized, pinned OSMnx graph whose profile is unfiltered multimodal (drive+walk+cycle). The graphs cover the same study bbox but are not assumed to have identical nodes, edges, simplification, or permissions; this run therefore does not claim exact route compatibility across the two graphs.",
+    "selected_record_ids": [
+      "sumo/controlled_beijing_passenger_smoke_v1/smoke_2"
+    ],
+    "n_points_per_record": [
+      8
+    ],
+    "k": 4,
+    "qos_radius_m": 200.0,
+    "cross_contract_comparison_allowed": false
+  },
+  "mobility_evaluator_only": [
+    {
+      "record_id": "sumo/controlled_beijing_passenger_smoke_v1/smoke_2",
+      "vehicle_id": "smoke_2",
+      "route_edges": [
+        "194922781#4",
+        "194922781#5",
+        "194922781#6",
+        "165628816#0",
+        "165628688",
+        "164601680",
+        "164601694#0",
+        "165628703",
+        "237950581",
+        "863690574",
+        "863690573#0",
+        "863690573#2",
+        "863690573#3",
+        "863690573#4",
+        "863690573#5",
+        "863690573#6",
+        "863690573#7",
+        "191050697#0",
+        "191050697#1",
+        "191050697#2",
+        "191050697#3",
+        "191050697#4",
+        "191050697#6",
+        "191050697#7",
+        "191050697#8",
+        "1379275921#0",
+        "1379275921#1",
+        "1379275921#2",
+        "1077130597#0",
+        "1077130597#1",
+        "1077130597#2",
+        "1077130597#3",
+        "1077130597#4",
+        "1077130597#5",
+        "229699730",
+        "1037961726",
+        "26152148",
+        "1037958213",
+        "121778743#0",
+        "121778743#1",
+        "121778743#2",
+        "121778743#3",
+        "121778743#4",
+        "237011437#0",
+        "138694650#0",
+        "138694650#1",
+        "138694650#2",
+        "138694650#3",
+        "138694650#4",
+        "138694650#5",
+        "138694650#6",
+        "138694650#7",
+        "139882019#0",
+        "139882019#1",
+        "139882019#2",
+        "139882019#3",
+        "138685369",
+        "163825703",
+        "163825696#0",
+        "163825696#1",
+        "136867390",
+        "136867389#0",
+        "136867389#1",
+        "121904216#0",
+        "121904216#1",
+        "121904216#2",
+        "121904216#3",
+        "121904216#4",
+        "42454168#0",
+        "42454168#1",
+        "42454168#2",
+        "42454168#3",
+        "42454168#4",
+        "122345026",
+        "42454165#0",
+        "42454165#1",
+        "121991163",
+        "1233744632#0",
+        "1233744632#1",
+        "-122020348#7",
+        "572267664#2",
+        "572267664#3",
+        "572267664#4",
+        "-42943244#7",
+        "-42943244#6",
+        "-42943244#5",
+        "-42943244#4"
+      ],
+      "samples": [
+        {
+          "timestamp_s": 30.0,
+          "speed_m_s": 21.57,
+          "edge_id": "194922781#4",
+          "lane_id": "194922781#4_0"
+        },
+        {
+          "timestamp_s": 110.0,
+          "speed_m_s": 13.59,
+          "edge_id": "165628703",
+          "lane_id": "165628703_1"
+        },
+        {
+          "timestamp_s": 190.0,
+          "speed_m_s": 20.48,
+          "edge_id": "863690573#2",
+          "lane_id": "863690573#2_0"
+        },
+        {
+          "timestamp_s": 270.0,
+          "speed_m_s": 13.81,
+          "edge_id": ":286387107_2",
+          "lane_id": ":286387107_2_1"
+        },
+        {
+          "timestamp_s": 330.0,
+          "speed_m_s": 26.95,
+          "edge_id": "138694650#6",
+          "lane_id": "138694650#6_0"
+        },
+        {
+          "timestamp_s": 410.0,
+          "speed_m_s": 6.45,
+          "edge_id": ":cluster_1360087331_1367406317_1367406318_245129779_#3more_8",
+          "lane_id": ":cluster_1360087331_1367406317_1367406318_245129779_#3more_8_0"
+        },
+        {
+          "timestamp_s": 490.0,
+          "speed_m_s": 12.55,
+          "edge_id": "572267664#4",
+          "lane_id": "572267664#4_0"
+        },
+        {
+          "timestamp_s": 570.0,
+          "speed_m_s": 4.26,
+          "edge_id": "-42943244#4",
+          "lane_id": "-42943244#4_0"
+        }
+      ]
+    }
+  ],
+  "summaries": [
+    {
+      "mechanism": "transprotect_adaptation",
+      "output_kind": "replacement_trajectory",
+      "source_method": "Yadav et al., Protecting Vehicle Location Privacy with Contextually-Driven Synthetic Location Generation, ACM SIGSPATIAL 2024",
+      "implementation_level": "paper_adaptation",
+      "reportable_as_reproduced_sota": false,
+      "records": 1,
+      "metrics": {
+        "dtw_m": 38.4447,
+        "events": 8.0,
+        "hausdorff_m": 142.3454,
+        "mean_displacement_m": 76.8894,
+        "on_road_rate": 1.0,
+        "p95_displacement_m": 139.9539,
+        "qos_satisfaction": 1.0,
+        "request_multiplier": 1.0,
+        "speed_violation_rate": 0.0,
+        "runtime_ms": 182.3888
+      }
+    },
+    {
+      "mechanism": "anotherme_adaptation",
+      "output_kind": "replacement_trajectory",
+      "source_method": "Li et al., AnotherMe: A Location Privacy Protection System Based on Online Virtual Trajectory Generation, IEEE TDSC 2024",
+      "implementation_level": "paper_adaptation",
+      "reportable_as_reproduced_sota": false,
+      "records": 1,
+      "metrics": {
+        "dtw_m": 1467.4255,
+        "events": 8.0,
+        "hausdorff_m": 4321.0348,
+        "mean_displacement_m": 2934.8511,
+        "on_road_rate": 1.0,
+        "p95_displacement_m": 4231.492,
+        "qos_satisfaction": 0.0,
+        "request_multiplier": 1.0,
+        "speed_violation_rate": 0.0,
+        "runtime_ms": 191.3673
+      }
+    },
+    {
+      "mechanism": "semantic_dummy_adaptation",
+      "output_kind": "real_plus_dummies",
+      "source_method": "Liu, Peng, and Zhou, A Dummy-Based Location Privacy Protection Scheme with Semantic Correlation of Moving Paths, JKSUCIS 2026",
+      "implementation_level": "paper_adaptation",
+      "reportable_as_reproduced_sota": false,
+      "records": 1,
+      "metrics": {
+        "events": 8.0,
+        "mean_candidate_spread_m": 712.0342,
+        "mean_candidates_per_event": 4.0,
+        "mean_centroid_reconstruction_error_m": 420.1934,
+        "mean_dummy_distance_m": 931.3703,
+        "mean_nearest_output_distance_m": 0.0,
+        "mean_track_dtw_m": 343.0345,
+        "mean_track_speed_violation_rate": 0.0,
+        "on_road_rate_all_outputs": 1.0,
+        "p95_dummy_distance_m": 1883.1875,
+        "real_member_inclusion_rate": 1.0,
+        "request_multiplier": 4.0,
+        "stable_public_tracks": 4.0,
+        "uniform_guess_success_baseline": 0.25,
+        "runtime_ms": 686.3522
+      }
+    },
+    {
+      "mechanism": "geo_i_anchored_dummy",
+      "output_kind": "dummy_only",
+      "source_method": "Proposed thesis method: Geo-I anchor followed by dummy-only tracks",
+      "implementation_level": "thesis_candidate",
+      "reportable_as_reproduced_sota": false,
+      "records": 1,
+      "metrics": {
+        "events": 8.0,
+        "mean_candidate_spread_m": 170.4959,
+        "mean_candidates_per_event": 4.0,
+        "mean_centroid_reconstruction_error_m": 323.703,
+        "mean_dummy_distance_m": 359.1162,
+        "mean_nearest_output_distance_m": 200.2929,
+        "mean_track_dtw_m": 179.5581,
+        "mean_track_speed_violation_rate": 0.0,
+        "on_road_rate_all_outputs": 1.0,
+        "p95_dummy_distance_m": 632.4172,
+        "real_member_inclusion_rate": null,
+        "request_multiplier": 4.0,
+        "stable_public_tracks": 4.0,
+        "uniform_guess_success_baseline": null,
+        "runtime_ms": 3.7056
+      }
+    }
+  ],
+  "runs": [
+    {
+      "record_id": "sumo/controlled_beijing_passenger_smoke_v1/smoke_2",
+      "mechanism": "transprotect_adaptation",
+      "source_method": "Yadav et al., Protecting Vehicle Location Privacy with Contextually-Driven Synthetic Location Generation, ACM SIGSPATIAL 2024",
+      "implementation": {
+        "method_id": "transprotect_adaptation",
+        "display_name": "TransProtect — local benchmark adaptation",
+        "output_kind": "replacement_trajectory",
+        "implementation_level": "paper_adaptation",
+        "reportable_as_reproduced_sota": false,
+        "source": {
+          "citation": "Yadav et al., Protecting Vehicle Location Privacy with Contextually-Driven Synthetic Location Generation, ACM SIGSPATIAL 2024",
+          "doi": "10.1145/3678717.3691211",
+          "repository_url": "https://github.com/sourabhy1797/VehiTrack",
+          "repository_revision": "035684c6c666a9af7cbd9984d92300000eb65536"
+        },
+        "source_mapping": [
+          {
+            "component": "single-pseudolocation output contract",
+            "status": "implemented",
+            "implementation": "benchmark.engines.paper_adaptations.TransProtectEngine.protect_run",
+            "evidence": "Each input event publishes exactly one opaque replacement point."
+          },
+          {
+            "component": "road-constrained candidate pool",
+            "status": "adapted",
+            "implementation": "benchmark.engines.paper_adaptations._candidate_pool",
+            "evidence": "Uses radius/K nearest vertices from the pinned OSMnx graph instead of the paper's learned candidate pipeline."
+          },
+          {
+            "component": "contextual candidate scoring",
+            "status": "adapted",
+            "implementation": "benchmark.engines.paper_adaptations.TransProtectEngine.protect_point",
+            "evidence": "Explicit distance, reachability and optional category penalties replace learned road/traffic scores."
+          },
+          {
+            "component": "GCN/Transformer road and traffic representation",
+            "status": "missing",
+            "implementation": "not implemented",
+            "evidence": "The checked public snapshot does not provide a drop-in Python training pipeline for the current Beijing/SUMO graph."
+          },
+          {
+            "component": "VehiTrack mechanism-aware attacker",
+            "status": "missing",
+            "implementation": "not implemented",
+            "evidence": "The current geometry/HMM diagnostics are not VehiTrack and cannot substitute for the paper's attack evaluation."
+          },
+          {
+            "component": "paper-dataset reproduction",
+            "status": "missing",
+            "implementation": "not implemented",
+            "evidence": "Rome/San Francisco graph, traffic, split and hyperparameter reproduction has not been executed."
+          }
+        ],
+        "adaptation_summary": "Deterministic Python road-graph adaptation of the paper's output contract and contextual selection idea; not the learned TransProtect pipeline and not eligible for a reproduced-SOTA claim.",
+        "missing_components": [
+          "GCN/Transformer road and traffic representation",
+          "VehiTrack mechanism-aware attacker",
+          "paper-dataset reproduction"
+        ],
+        "has_reproduction_source_evidence": false,
+        "validation_evidence": [],
+        "reproduction_reporting_blockers": [
+          "implementation level is neither official nor faithful reimplementation",
+          "missing components: GCN/Transformer road and traffic representation, VehiTrack mechanism-aware attacker, paper-dataset reproduction",
+          "paper-equivalent validation evidence is absent"
+        ]
+      },
+      "output_kind": "replacement_trajectory",
+      "runtime_ms": 182.3888,
+      "metrics": {
+        "events": 8.0,
+        "mean_displacement_m": 76.8894,
+        "p95_displacement_m": 139.9539,
+        "qos_satisfaction": 1.0,
+        "hausdorff_m": 142.3454,
+        "dtw_m": 38.4447,
+        "on_road_rate": 1.0,
+        "speed_violation_rate": 0.0,
+        "request_multiplier": 1.0
+      },
+      "attacker_view": {
+        "mechanism": "transprotect_adaptation",
+        "output_kind": "replacement_trajectory",
+        "events": [
+          {
+            "event_id": "event_0000",
+            "timestamp_s": 30.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.984183,
+                "lon": 116.2976256
+              }
+            ]
+          },
+          {
+            "event_id": "event_0001",
+            "timestamp_s": 110.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9843524,
+                "lon": 116.2934699
+              }
+            ]
+          },
+          {
+            "event_id": "event_0002",
+            "timestamp_s": 190.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9838517,
+                "lon": 116.2956889
+              }
+            ]
+          },
+          {
+            "event_id": "event_0003",
+            "timestamp_s": 270.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.98404,
+                "lon": 116.3101842
+              }
+            ]
+          },
+          {
+            "event_id": "event_0004",
+            "timestamp_s": 330.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9919174,
+                "lon": 116.316578
+              }
+            ]
+          },
+          {
+            "event_id": "event_0005",
+            "timestamp_s": 410.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9914601,
+                "lon": 116.3326789
+              }
+            ]
+          },
+          {
+            "event_id": "event_0006",
+            "timestamp_s": 490.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9836361,
+                "lon": 116.3379702
+              }
+            ]
+          },
+          {
+            "event_id": "event_0007",
+            "timestamp_s": 570.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.979827,
+                "lon": 116.3381526
+              }
+            ]
+          }
+        ],
+        "public_parameters": {
+          "implementation_level": "paper_adaptation",
+          "implementation_origin": "benchmark.engines.TransProtectEngine",
+          "reportable_as_reproduced_sota": false,
+          "source_citation": "Yadav et al., Protecting Vehicle Location Privacy with Contextually-Driven Synthetic Location Generation, ACM SIGSPATIAL 2024",
+          "source_doi": "10.1145/3678717.3691211"
+        }
+      },
+      "evaluator_truth": {
+        "real_trajectory": [
+          {
+            "timestamp_s": 30.0,
+            "lat": 39.984136,
+            "lon": 116.297569
+          },
+          {
+            "timestamp_s": 110.0,
+            "lat": 39.983106,
+            "lon": 116.293851
+          },
+          {
+            "timestamp_s": 190.0,
+            "lat": 39.983222,
+            "lon": 116.296325
+          },
+          {
+            "timestamp_s": 270.0,
+            "lat": 39.984477,
+            "lon": 116.310245
+          },
+          {
+            "timestamp_s": 330.0,
+            "lat": 39.991062,
+            "lon": 116.317711
+          },
+          {
+            "timestamp_s": 410.0,
+            "lat": 39.991521,
+            "lon": 116.334178
+          },
+          {
+            "timestamp_s": 490.0,
+            "lat": 39.983262,
+            "lon": 116.33768
+          },
+          {
+            "timestamp_s": 570.0,
+            "lat": 39.979974,
+            "lon": 116.33813
+          }
+        ],
+        "real_candidate_ids": []
+      }
+    },
+    {
+      "record_id": "sumo/controlled_beijing_passenger_smoke_v1/smoke_2",
+      "mechanism": "anotherme_adaptation",
+      "source_method": "Li et al., AnotherMe: A Location Privacy Protection System Based on Online Virtual Trajectory Generation, IEEE TDSC 2024",
+      "implementation": {
+        "method_id": "anotherme_adaptation",
+        "display_name": "AnotherMe — local benchmark adaptation",
+        "output_kind": "replacement_trajectory",
+        "implementation_level": "paper_adaptation",
+        "reportable_as_reproduced_sota": false,
+        "source": {
+          "citation": "Li et al., AnotherMe: A Location Privacy Protection System Based on Online Virtual Trajectory Generation, IEEE TDSC 2024",
+          "doi": "10.1109/TDSC.2023.3314200",
+          "repository_url": "https://github.com/fang-zhiyou/AnotherMe",
+          "repository_revision": "0eda877b7328ee1c0b3e0cf9a9bb9d48cb24323f"
+        },
+        "source_mapping": [
+          {
+            "component": "replacement-trajectory output contract",
+            "status": "implemented",
+            "implementation": "benchmark.engines.paper_adaptations.AnotherMeEngine.protect_run",
+            "evidence": "Publishes one time-indexed virtual trajectory while evaluator truth remains separate."
+          },
+          {
+            "component": "whole-trajectory relocation",
+            "status": "adapted",
+            "implementation": "benchmark.engines.paper_adaptations.AnotherMeEngine.protect_trajectory",
+            "evidence": "A seeded affine relocation plus local road snapping replaces the paper/system virtual-user generation workflow."
+          },
+          {
+            "component": "trajectory continuity",
+            "status": "adapted",
+            "implementation": "benchmark.engines.paper_adaptations._network_distances",
+            "evidence": "A road-distance consistency score is used instead of learned mobility-pattern simulation."
+          },
+          {
+            "component": "virtual-user construction and history model",
+            "status": "missing",
+            "implementation": "not implemented",
+            "evidence": "User history, stay points and virtual identity construction from the source system are absent."
+          },
+          {
+            "component": "POI mapping and local route-service workflow",
+            "status": "missing",
+            "implementation": "not implemented",
+            "evidence": "AMap/mobile calls are intentionally not copied; an equivalent local POI/routing adapter still needs validation."
+          },
+          {
+            "component": "recognition and mobile-system reproduction",
+            "status": "missing",
+            "implementation": "not implemented",
+            "evidence": "The paper classifier, latency, energy and phone experiments have not been reproduced."
+          }
+        ],
+        "adaptation_summary": "Seeded local replacement-trajectory adaptation with road snapping; it does not implement AnotherMe's virtual user, POI mapping, learned mobility pattern or mobile system.",
+        "missing_components": [
+          "virtual-user construction and history model",
+          "POI mapping and local route-service workflow",
+          "recognition and mobile-system reproduction"
+        ],
+        "has_reproduction_source_evidence": false,
+        "validation_evidence": [],
+        "reproduction_reporting_blockers": [
+          "implementation level is neither official nor faithful reimplementation",
+          "missing components: virtual-user construction and history model, POI mapping and local route-service workflow, recognition and mobile-system reproduction",
+          "paper-equivalent validation evidence is absent"
+        ]
+      },
+      "output_kind": "replacement_trajectory",
+      "runtime_ms": 191.3673,
+      "metrics": {
+        "events": 8.0,
+        "mean_displacement_m": 2934.8511,
+        "p95_displacement_m": 4231.492,
+        "qos_satisfaction": 0.0,
+        "hausdorff_m": 4321.0348,
+        "dtw_m": 1467.4255,
+        "on_road_rate": 1.0,
+        "speed_violation_rate": 0.0,
+        "request_multiplier": 1.0
+      },
+      "attacker_view": {
+        "mechanism": "anotherme_adaptation",
+        "output_kind": "replacement_trajectory",
+        "events": [
+          {
+            "event_id": "event_0000",
+            "timestamp_s": 30.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 40.0033565,
+                "lon": 116.2931334
+              }
+            ]
+          },
+          {
+            "event_id": "event_0001",
+            "timestamp_s": 110.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9992299,
+                "lon": 116.2906453
+              }
+            ]
+          },
+          {
+            "event_id": "event_0002",
+            "timestamp_s": 190.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9992299,
+                "lon": 116.2906453
+              }
+            ]
+          },
+          {
+            "event_id": "event_0003",
+            "timestamp_s": 270.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 40.008379,
+                "lon": 116.3022316
+              }
+            ]
+          },
+          {
+            "event_id": "event_0004",
+            "timestamp_s": 330.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 40.0173956,
+                "lon": 116.304587
+              }
+            ]
+          },
+          {
+            "event_id": "event_0005",
+            "timestamp_s": 410.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 40.0189513,
+                "lon": 116.3169293
+              }
+            ]
+          },
+          {
+            "event_id": "event_0006",
+            "timestamp_s": 490.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 40.0194655,
+                "lon": 116.3310397
+              }
+            ]
+          },
+          {
+            "event_id": "event_0007",
+            "timestamp_s": 570.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 40.0184357,
+                "lon": 116.3308866
+              }
+            ]
+          }
+        ],
+        "public_parameters": {
+          "implementation_level": "paper_adaptation",
+          "implementation_origin": "benchmark.engines.AnotherMeEngine",
+          "reportable_as_reproduced_sota": false,
+          "source_citation": "Li et al., AnotherMe: A Location Privacy Protection System Based on Online Virtual Trajectory Generation, IEEE TDSC 2024",
+          "source_doi": "10.1109/TDSC.2023.3314200"
+        }
+      },
+      "evaluator_truth": {
+        "real_trajectory": [
+          {
+            "timestamp_s": 30.0,
+            "lat": 39.984136,
+            "lon": 116.297569
+          },
+          {
+            "timestamp_s": 110.0,
+            "lat": 39.983106,
+            "lon": 116.293851
+          },
+          {
+            "timestamp_s": 190.0,
+            "lat": 39.983222,
+            "lon": 116.296325
+          },
+          {
+            "timestamp_s": 270.0,
+            "lat": 39.984477,
+            "lon": 116.310245
+          },
+          {
+            "timestamp_s": 330.0,
+            "lat": 39.991062,
+            "lon": 116.317711
+          },
+          {
+            "timestamp_s": 410.0,
+            "lat": 39.991521,
+            "lon": 116.334178
+          },
+          {
+            "timestamp_s": 490.0,
+            "lat": 39.983262,
+            "lon": 116.33768
+          },
+          {
+            "timestamp_s": 570.0,
+            "lat": 39.979974,
+            "lon": 116.33813
+          }
+        ],
+        "real_candidate_ids": []
+      }
+    },
+    {
+      "record_id": "sumo/controlled_beijing_passenger_smoke_v1/smoke_2",
+      "mechanism": "semantic_dummy_adaptation",
+      "source_method": "Liu, Peng, and Zhou, A Dummy-Based Location Privacy Protection Scheme with Semantic Correlation of Moving Paths, JKSUCIS 2026",
+      "implementation": {
+        "method_id": "semantic_dummy_adaptation",
+        "display_name": "Semantic-correlation dummy paths — local adaptation",
+        "output_kind": "real_plus_dummies",
+        "implementation_level": "paper_adaptation",
+        "reportable_as_reproduced_sota": false,
+        "source": {
+          "citation": "Liu, Peng, and Zhou, A Dummy-Based Location Privacy Protection Scheme with Semantic Correlation of Moving Paths, JKSUCIS 2026",
+          "doi": "10.1007/s44443-026-00899-w",
+          "repository_url": null,
+          "repository_revision": null
+        },
+        "source_mapping": [
+          {
+            "component": "real-plus-K-minus-one output contract",
+            "status": "implemented",
+            "implementation": "benchmark.engines.paper_adaptations.SemanticDummyEngine.protect_run",
+            "evidence": "Every event contains one evaluator-labelled real member and K-1 opaque public candidates with stable IDs."
+          },
+          {
+            "component": "road/reachability candidate selection",
+            "status": "adapted",
+            "implementation": "benchmark.engines.paper_adaptations.SemanticDummyEngine.protect_point",
+            "evidence": "Road distance, movement mismatch and separation penalties replace the paper's exact grid filters and learned transition weights."
+          },
+          {
+            "component": "semantic-category hook",
+            "status": "adapted",
+            "implementation": "benchmark.engines.paper_adaptations._category_at",
+            "evidence": "Accepts externally supplied vertex categories; it is not the paper's learned semantic predictor."
+          },
+          {
+            "component": "LSTM/attention semantic prediction",
+            "status": "missing",
+            "implementation": "not implemented",
+            "evidence": "No public source code/training artifact was identified; the model requires user-separated sequences and POI/time embeddings."
+          },
+          {
+            "component": "paper grid, transition matrix and released parameters",
+            "status": "missing",
+            "implementation": "not implemented",
+            "evidence": "The reported 100x100 Beijing grid and exact learned transition pipeline have not been reconstructed on the road graph."
+          },
+          {
+            "component": "ASR and dummy-effectiveness reproduction",
+            "status": "missing",
+            "implementation": "not implemented",
+            "evidence": "A calibrated semantic/path attacker and the paper dataset split are required before reproducing the reported metrics."
+          }
+        ],
+        "adaptation_summary": "Road-graph adaptation of the paper's continuous real-plus-dummies contract with explicit heuristic temporal/semantic scores; not its LSTM/attention clean-room reimplementation.",
+        "missing_components": [
+          "LSTM/attention semantic prediction",
+          "paper grid, transition matrix and released parameters",
+          "ASR and dummy-effectiveness reproduction"
+        ],
+        "has_reproduction_source_evidence": false,
+        "validation_evidence": [],
+        "reproduction_reporting_blockers": [
+          "implementation level is neither official nor faithful reimplementation",
+          "missing components: LSTM/attention semantic prediction, paper grid, transition matrix and released parameters, ASR and dummy-effectiveness reproduction",
+          "paper-equivalent validation evidence is absent"
+        ]
+      },
+      "output_kind": "real_plus_dummies",
+      "runtime_ms": 686.3522,
+      "metrics": {
+        "events": 8.0,
+        "mean_candidates_per_event": 4.0,
+        "request_multiplier": 4.0,
+        "mean_nearest_output_distance_m": 0.0,
+        "mean_centroid_reconstruction_error_m": 420.1934,
+        "mean_candidate_spread_m": 712.0342,
+        "mean_dummy_distance_m": 931.3703,
+        "p95_dummy_distance_m": 1883.1875,
+        "on_road_rate_all_outputs": 1.0,
+        "stable_public_tracks": 4.0,
+        "real_member_inclusion_rate": 1.0,
+        "uniform_guess_success_baseline": 0.25,
+        "mean_track_speed_violation_rate": 0.0,
+        "mean_track_dtw_m": 343.0345
+      },
+      "attacker_view": {
+        "mechanism": "semantic_dummy_adaptation",
+        "output_kind": "real_plus_dummies",
+        "events": [
+          {
+            "event_id": "event_0000",
+            "timestamp_s": 30.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9928837,
+                "lon": 116.3015255
+              },
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9768706,
+                "lon": 116.3140103
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9812753,
+                "lon": 116.2925602
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.984136,
+                "lon": 116.297569
+              }
+            ]
+          },
+          {
+            "event_id": "event_0001",
+            "timestamp_s": 110.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9812684,
+                "lon": 116.2924674
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9901422,
+                "lon": 116.304344
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.983106,
+                "lon": 116.293851
+              },
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9786449,
+                "lon": 116.3093179
+              }
+            ]
+          },
+          {
+            "event_id": "event_0002",
+            "timestamp_s": 190.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.983222,
+                "lon": 116.296325
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9781059,
+                "lon": 116.2928236
+              },
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9798426,
+                "lon": 116.3074447
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.988702,
+                "lon": 116.3032769
+              }
+            ]
+          },
+          {
+            "event_id": "event_0003",
+            "timestamp_s": 270.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9897624,
+                "lon": 116.3135267
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.989724,
+                "lon": 116.3119765
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.984477,
+                "lon": 116.310245
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9780762,
+                "lon": 116.2926976
+              }
+            ]
+          },
+          {
+            "event_id": "event_0004",
+            "timestamp_s": 330.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9747226,
+                "lon": 116.3086367
+              },
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.996179,
+                "lon": 116.3132322
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.991062,
+                "lon": 116.317711
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9909505,
+                "lon": 116.310579
+              }
+            ]
+          },
+          {
+            "event_id": "event_0005",
+            "timestamp_s": 410.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9924499,
+                "lon": 116.3269701
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.991521,
+                "lon": 116.334178
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9749933,
+                "lon": 116.32752
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9835459,
+                "lon": 116.3332763
+              }
+            ]
+          },
+          {
+            "event_id": "event_0006",
+            "timestamp_s": 490.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.976171,
+                "lon": 116.3361776
+              },
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9874243,
+                "lon": 116.3319719
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9779418,
+                "lon": 116.3350629
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.983262,
+                "lon": 116.33768
+              }
+            ]
+          },
+          {
+            "event_id": "event_0007",
+            "timestamp_s": 570.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.979974,
+                "lon": 116.33813
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9763891,
+                "lon": 116.3388343
+              },
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9915134,
+                "lon": 116.3318312
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9810034,
+                "lon": 116.3345804
+              }
+            ]
+          }
+        ],
+        "public_parameters": {
+          "implementation_level": "paper_adaptation",
+          "implementation_origin": "benchmark.engines.SemanticDummyEngine",
+          "k": 4,
+          "reportable_as_reproduced_sota": false,
+          "source_citation": "Liu, Peng, and Zhou, A Dummy-Based Location Privacy Protection Scheme with Semantic Correlation of Moving Paths, JKSUCIS 2026",
+          "source_doi": "10.1007/s44443-026-00899-w"
+        }
+      },
+      "evaluator_truth": {
+        "real_trajectory": [
+          {
+            "timestamp_s": 30.0,
+            "lat": 39.984136,
+            "lon": 116.297569
+          },
+          {
+            "timestamp_s": 110.0,
+            "lat": 39.983106,
+            "lon": 116.293851
+          },
+          {
+            "timestamp_s": 190.0,
+            "lat": 39.983222,
+            "lon": 116.296325
+          },
+          {
+            "timestamp_s": 270.0,
+            "lat": 39.984477,
+            "lon": 116.310245
+          },
+          {
+            "timestamp_s": 330.0,
+            "lat": 39.991062,
+            "lon": 116.317711
+          },
+          {
+            "timestamp_s": 410.0,
+            "lat": 39.991521,
+            "lon": 116.334178
+          },
+          {
+            "timestamp_s": 490.0,
+            "lat": 39.983262,
+            "lon": 116.33768
+          },
+          {
+            "timestamp_s": 570.0,
+            "lat": 39.979974,
+            "lon": 116.33813
+          }
+        ],
+        "real_candidate_ids": [
+          "candidate_0003",
+          "candidate_0003",
+          "candidate_0003",
+          "candidate_0003",
+          "candidate_0003",
+          "candidate_0003",
+          "candidate_0003",
+          "candidate_0003"
+        ]
+      }
+    },
+    {
+      "record_id": "sumo/controlled_beijing_passenger_smoke_v1/smoke_2",
+      "mechanism": "geo_i_anchored_dummy",
+      "source_method": "Proposed thesis method: Geo-I anchor followed by dummy-only tracks",
+      "implementation": {
+        "method_id": "geo_i_anchored_dummy",
+        "display_name": "Geo-I anchored dummy trajectories — thesis candidate",
+        "output_kind": "dummy_only",
+        "implementation_level": "thesis_candidate",
+        "reportable_as_reproduced_sota": false,
+        "source": {
+          "citation": "Proposed thesis method: Geo-I anchor followed by dummy-only tracks",
+          "doi": null,
+          "repository_url": null,
+          "repository_revision": null
+        },
+        "source_mapping": [
+          {
+            "component": "REM anchor sampling",
+            "status": "implemented",
+            "implementation": "core.mechanisms.RoadExponential",
+            "evidence": "The first stage samples a road-network exponential-mechanism anchor with evaluator-audited privacy caveats."
+          },
+          {
+            "component": "post-processing boundary",
+            "status": "implemented",
+            "implementation": "benchmark.engines.proposed.GeoIAnchoredDummyEngine.generate_from_anchors",
+            "evidence": "The dummy generator accepts public anchors, public graph/time and fresh randomness without reading the secret trajectory again."
+          },
+          {
+            "component": "dummy-only output contract",
+            "status": "implemented",
+            "implementation": "core.demo_protocol.make_dummy_only_run",
+            "evidence": "Only K opaque dummy tracks are public; anchors and truth remain on the evaluator side."
+          },
+          {
+            "component": "population and POI prior",
+            "status": "missing",
+            "implementation": "not implemented",
+            "evidence": "The present generator uses geometric offsets, not held-out population or semantic distributions."
+          },
+          {
+            "component": "context-aware attacker objective",
+            "status": "missing",
+            "implementation": "not implemented",
+            "evidence": "Dummy selection is not yet optimized against the final road/time/POI filtering attacker."
+          },
+          {
+            "component": "trajectory-level privacy accounting",
+            "status": "missing",
+            "implementation": "not implemented",
+            "evidence": "Per-release anchor arguments do not by themselves establish a fixed trajectory-level budget over repeated releases."
+          }
+        ],
+        "adaptation_summary": "Executable thesis candidate with an explicit public-anchor post-processing boundary; algorithm and trajectory-level evaluation remain under development.",
+        "missing_components": [
+          "population and POI prior",
+          "context-aware attacker objective",
+          "trajectory-level privacy accounting"
+        ],
+        "has_reproduction_source_evidence": false,
+        "validation_evidence": [],
+        "reproduction_reporting_blockers": [
+          "implementation level is neither official nor faithful reimplementation",
+          "missing components: population and POI prior, context-aware attacker objective, trajectory-level privacy accounting",
+          "paper-equivalent validation evidence is absent"
+        ]
+      },
+      "output_kind": "dummy_only",
+      "runtime_ms": 3.7056,
+      "metrics": {
+        "events": 8.0,
+        "mean_candidates_per_event": 4.0,
+        "request_multiplier": 4.0,
+        "mean_nearest_output_distance_m": 200.2929,
+        "mean_centroid_reconstruction_error_m": 323.703,
+        "mean_candidate_spread_m": 170.4959,
+        "mean_dummy_distance_m": 359.1162,
+        "p95_dummy_distance_m": 632.4172,
+        "on_road_rate_all_outputs": 1.0,
+        "stable_public_tracks": 4.0,
+        "real_member_inclusion_rate": null,
+        "uniform_guess_success_baseline": null,
+        "mean_track_speed_violation_rate": 0.0,
+        "mean_track_dtw_m": 179.5581
+      },
+      "attacker_view": {
+        "mechanism": "geo_i_anchored_dummy",
+        "output_kind": "dummy_only",
+        "events": [
+          {
+            "event_id": "event_0000",
+            "timestamp_s": 30.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.981343,
+                "lon": 116.2913604
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.98418,
+                "lon": 116.2946931
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9846938,
+                "lon": 116.2929259
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9852754,
+                "lon": 116.2917863
+              }
+            ]
+          },
+          {
+            "event_id": "event_0001",
+            "timestamp_s": 110.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9796887,
+                "lon": 116.2997586
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9777068,
+                "lon": 116.2999078
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9810768,
+                "lon": 116.3008135
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9806093,
+                "lon": 116.2996975
+              }
+            ]
+          },
+          {
+            "event_id": "event_0002",
+            "timestamp_s": 190.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9827139,
+                "lon": 116.2994054
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.982254,
+                "lon": 116.3014694
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9836346,
+                "lon": 116.3022438
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9834987,
+                "lon": 116.2995519
+              }
+            ]
+          },
+          {
+            "event_id": "event_0003",
+            "timestamp_s": 270.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.985146,
+                "lon": 116.3102821
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9853977,
+                "lon": 116.3141906
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9890298,
+                "lon": 116.3137212
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9872207,
+                "lon": 116.3113665
+              }
+            ]
+          },
+          {
+            "event_id": "event_0004",
+            "timestamp_s": 330.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9932333,
+                "lon": 116.3162853
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9912668,
+                "lon": 116.3180638
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9945497,
+                "lon": 116.3191606
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9943346,
+                "lon": 116.3169557
+              }
+            ]
+          },
+          {
+            "event_id": "event_0005",
+            "timestamp_s": 410.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9941338,
+                "lon": 116.3313352
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9924987,
+                "lon": 116.3353877
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9941065,
+                "lon": 116.3345554
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9941319,
+                "lon": 116.3317891
+              }
+            ]
+          },
+          {
+            "event_id": "event_0006",
+            "timestamp_s": 490.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9827559,
+                "lon": 116.333903
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9814268,
+                "lon": 116.3380775
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9846728,
+                "lon": 116.338962
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9842594,
+                "lon": 116.3329307
+              }
+            ]
+          },
+          {
+            "event_id": "event_0007",
+            "timestamp_s": 570.0,
+            "candidates": [
+              {
+                "candidate_id": "candidate_0000",
+                "lat": 39.9798483,
+                "lon": 116.3388814
+              },
+              {
+                "candidate_id": "candidate_0001",
+                "lat": 39.9779863,
+                "lon": 116.3403909
+              },
+              {
+                "candidate_id": "candidate_0002",
+                "lat": 39.9801026,
+                "lon": 116.3417249
+              },
+              {
+                "candidate_id": "candidate_0003",
+                "lat": 39.9803479,
+                "lon": 116.3403857
+              }
+            ]
+          }
+        ],
+        "public_parameters": {
+          "epsilon_per_release": 0.02,
+          "implementation_level": "thesis_candidate",
+          "implementation_origin": "benchmark.engines.GeoIAnchoredDummyEngine",
+          "k": 4,
+          "reportable_as_reproduced_sota": false,
+          "source_citation": "Proposed thesis method: Geo-I anchor followed by dummy-only tracks",
+          "source_doi": "not_available"
+        }
+      },
+      "evaluator_truth": {
+        "real_trajectory": [
+          {
+            "timestamp_s": 30.0,
+            "lat": 39.984136,
+            "lon": 116.297569
+          },
+          {
+            "timestamp_s": 110.0,
+            "lat": 39.983106,
+            "lon": 116.293851
+          },
+          {
+            "timestamp_s": 190.0,
+            "lat": 39.983222,
+            "lon": 116.296325
+          },
+          {
+            "timestamp_s": 270.0,
+            "lat": 39.984477,
+            "lon": 116.310245
+          },
+          {
+            "timestamp_s": 330.0,
+            "lat": 39.991062,
+            "lon": 116.317711
+          },
+          {
+            "timestamp_s": 410.0,
+            "lat": 39.991521,
+            "lon": 116.334178
+          },
+          {
+            "timestamp_s": 490.0,
+            "lat": 39.983262,
+            "lon": 116.33768
+          },
+          {
+            "timestamp_s": 570.0,
+            "lat": 39.979974,
+            "lon": 116.33813
+          }
+        ],
+        "real_candidate_ids": []
+      }
+    }
+  ],
+  "visual_artifacts": {
+    "evaluator_only": true,
+    "contains_ground_truth": true,
+    "interactive_map": {
+      "path": "outputs/dummy_benchmark_map.html",
+      "sha256": "197f16a79d5e01c1390bf2f3b974df5ff91ebf456afa8b7e94f40eb337a6a706",
+      "embedded_local_roads": true,
+      "online_tiles_enabled_by_default": false,
+      "runtime_assets_may_require_network_or_browser_cache": true,
+      "byte_reproducible": false
+    },
+    "static_preview": {
+      "path": "outputs/dummy_benchmark_preview.png",
+      "sha256": "6cf5dd4936a753b941cac922af494d45fb16237fdf4ad20addc0edc4815b81ff",
+      "embedded_local_roads": true,
+      "byte_reproducible_across_platforms": false
+    }
+  }
+}
