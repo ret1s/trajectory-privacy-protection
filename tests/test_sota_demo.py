@@ -8,9 +8,10 @@ from core.demo_protocol import OutputKind, TrajectoryPoint
 from benchmark.contracts import ImplementationLevel
 from benchmark.methods import (
     AnotherMeAdaptation,
-    SemanticDummyAdaptation,
+    SemanticCorrelationComparator,
     TransProtectAdaptation,
 )
+from benchmark.engines.anotherme import RoadNetworkVirtualEndpointMapper
 
 
 def _grid_network(rows=3, cols=4):
@@ -36,7 +37,7 @@ def test_adaptation_classes_are_unambiguously_labelled():
     for cls in (
         TransProtectAdaptation,
         AnotherMeAdaptation,
-        SemanticDummyAdaptation,
+        SemanticCorrelationComparator,
     ):
         assert cls.name.endswith("_adaptation")
         assert cls.method_card.implementation_level is ImplementationLevel.PAPER_ADAPTATION
@@ -47,12 +48,12 @@ def test_adaptation_classes_are_unambiguously_labelled():
 def test_transprotect_adaptation_returns_one_road_point_per_input():
     rn, coordinates = _grid_network()
     points, times = coordinates[:4], [0, 60, 120, 180]
-    first = TransProtectAdaptation(rn, rng=np.random.default_rng(7)).protect_trajectory(
-        points, times
-    )
-    second = TransProtectAdaptation(rn, rng=np.random.default_rng(7)).protect_trajectory(
-        points, times
-    )
+    first = TransProtectAdaptation.from_road_network(
+        rn, candidate_k=4, target_count=4, rng=np.random.default_rng(7)
+    ).protect_trajectory(points, times)
+    second = TransProtectAdaptation.from_road_network(
+        rn, candidate_k=4, target_count=4, rng=np.random.default_rng(7)
+    ).protect_trajectory(points, times)
     assert first == second, "a fixed RNG seed must reproduce the demo"
     assert len(first) == len(points)
     road_points = {rn.latlon(i) for i in range(len(rn))}
@@ -62,48 +63,50 @@ def test_transprotect_adaptation_returns_one_road_point_per_input():
 def test_anotherme_adaptation_relocates_a_whole_trajectory_to_roads():
     rn, coordinates = _grid_network()
     points = coordinates[:4]
+    real = tuple(
+        TrajectoryPoint(i * 60, lat, lon)
+        for i, (lat, lon) in enumerate(points)
+    )
     mechanism = AnotherMeAdaptation(
         rn,
-        anchor_min_m=100.0,
-        anchor_max_m=400.0,
+        endpoint_mapper=RoadNetworkVirtualEndpointMapper(
+            rn, anchor_min_m=100.0, anchor_max_m=400.0, seed=11
+        ),
+        minimum_raw_samples=1,
         rng=np.random.default_rng(11),
     )
-    protected = mechanism.protect_trajectory(points, [0, 60, 120, 180])
+    protected = mechanism.protect_trajectory(real)
     assert len(protected) == len(points)
-    assert set(mechanism.last_transform) == {
-        "anchor_vertex_index",
-        "rotation_degrees",
-        "scale",
-    }
-    road_points = {rn.latlon(i) for i in range(len(rn))}
-    assert all(point in road_points for point in protected)
+    assert mechanism.last_trace is not None
+    assert mechanism.last_trace.mapped_start != points[0]
+    assert all(rn.dist_to_edge(*point) < 5.0 for point in protected)
     assert protected != points, "the smoke case should be visibly relocated"
 
 
 def test_semantic_dummy_adaptation_keeps_truth_separate_from_public_candidates():
     rn, coordinates = _grid_network()
     points, times = coordinates[:3], [0, 60, 120]
-    releases = SemanticDummyAdaptation(
-        rn, k=4, rng=np.random.default_rng(19)
-    ).protect_trajectory(
-        points,
-        times,
-        poi_categories=["work", "work", "shop"],
-        vertex_categories=["work"] * 8 + ["shop"] * 4,
+    real = tuple(
+        TrajectoryPoint(timestamp, lat, lon)
+        for timestamp, (lat, lon) in zip(times, points)
     )
-    assert len(releases) == len(points)
-    for real, release in zip(points, releases):
-        assert len(release.public_candidates) == 4
-        assert release.public_candidates[release.real_index] == real
-        assert len(set(release.candidate_vertex_indices)) == 4
-        assert len(set(release.candidate_ids)) == 4
-        assert release.metadata["implementation_level"] == "paper_adaptation"
+    run = SemanticCorrelationComparator(
+        rn, k=4, rng=np.random.default_rng(19)
+    ).protect_run(real)
+    assert len(run.transcript.events) == len(points)
+    for event, real_id in zip(
+        run.transcript.events, run.truth.real_candidate_ids
+    ):
+        assert len(event.candidates) == 4
+        assert real_id in {candidate.candidate_id for candidate in event.candidates}
+        assert len({candidate.candidate_id for candidate in event.candidates}) == 4
+    assert "real_candidate_ids" not in str(run.to_attacker_dict())
 
 
 def test_semantic_dummy_adaptation_rejects_impossible_k():
     rn, _ = _grid_network(rows=1, cols=3)
     try:
-        SemanticDummyAdaptation(rn, k=4)
+        SemanticCorrelationComparator(rn, k=4)
         raise AssertionError("k larger than the graph must be rejected")
     except ValueError:
         pass
@@ -116,13 +119,13 @@ def test_protocol_adapters_hide_semantic_truth_and_label_output_kind():
         for i, (lat, lon) in enumerate(coordinates[:3])
     )
 
-    replacement = TransProtectAdaptation(
-        rn, rng=np.random.default_rng(3)
+    replacement = TransProtectAdaptation.from_road_network(
+        rn, candidate_k=4, target_count=4, rng=np.random.default_rng(3)
     ).protect_run(real)
     assert replacement.transcript.output_kind is OutputKind.REPLACEMENT_TRAJECTORY
     assert replacement.truth.real_candidate_ids == ()
 
-    candidate_run = SemanticDummyAdaptation(
+    candidate_run = SemanticCorrelationComparator(
         rn, k=4, rng=np.random.default_rng(4)
     ).protect_run(real)
     assert candidate_run.transcript.output_kind is OutputKind.REAL_PLUS_DUMMIES

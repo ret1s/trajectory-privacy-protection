@@ -81,6 +81,7 @@ def _env_lock():
         "scipy",
         "networkx",
         "osmnx",
+        "pyproj",
         "shapely",
         "haversine",
         "eclipse-sumo",

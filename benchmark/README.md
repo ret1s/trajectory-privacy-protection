@@ -1,81 +1,108 @@
 # Dummy-generation benchmark
 
-This package is the canonical home of the thesis comparison harness. It keeps
-algorithm execution separate from claims about how closely an implementation
-matches a paper.
+This package contains the three paper-based comparators used by the thesis and
+the proposed model. Algorithm execution and reproduction claims are kept
+separate: a comparator can be complete enough for the common local benchmark
+while still failing the stricter paper-equivalence gate.
 
-## What can be run now
+## Executable methods
 
-| Method ID | Executable class | Output contract | Current evidence level |
+| Method ID | Class | Public output | Local benchmark status |
 |---|---|---|---|
-| `transprotect_adaptation` | `TransProtectAdaptation` | replacement trajectory | paper adaptation |
-| `anotherme_adaptation` | `AnotherMeAdaptation` | replacement trajectory | paper adaptation |
-| `semantic_dummy_adaptation` | `SemanticDummyAdaptation` | real + `K-1` dummies | paper adaptation |
-| `geo_i_anchored_dummy` | `GeoIAnchoredDummyTrajectories` | dummy-only trajectories | thesis candidate |
+| `transprotect_adaptation` | `TransProtectAdaptation` | one replacement trajectory | executable clean-room core + explicit local predictor/target adapters |
+| `anotherme_adaptation` | `AnotherMeAdaptation` | one virtual replacement trajectory | executable public VTGA + local virtual-user/routing adapters |
+| `semantic_correlation_local_adaptation` | `SemanticCorrelationComparator` | real + `K-1` dummies per event | executable clean-room primitives + bounded local semantic adapters |
+| `geo_i_anchored_dummy` | `GeoIAnchoredDummyTrajectories` | `K` dummy-only trajectories | thesis candidate |
 
-The first three rows are runnable, seeded, source-mapped adaptations. They are
-not official or faithful reproductions and must not be cited as the papers'
-reported results. `benchmark.registry.require_faithful_sota` and the CLI flag
-`--require-faithful-sota` enforce that boundary.
+The active API uses the explicit name `SemanticCorrelationComparator`. The
+retired prototype remains only in `benchmark.methods.paper_adaptations` for
+historical scripts and is not part of the benchmark registry.
 
-## Audited upstream references
+### v4 API migration
 
-- **TransProtect / VehiTrack** — paper DOI
-  `10.1145/3678717.3691211`; repository
-  <https://github.com/sourabhy1797/VehiTrack>, audited revision
-  `035684c6c666a9af7cbd9984d92300000eb65536`. The snapshot provides attack and
-  evaluation scripts/data artifacts, but the current audit did not identify a
-  drop-in Python training pipeline for the paper's GCN/transformer protection
-  model on the Beijing/SUMO graph.
-- **AnotherMe** — paper DOI `10.1109/TDSC.2023.3314200`; repository
-  <https://github.com/fang-zhiyou/AnotherMe>, audited revision
-  `0eda877b7328ee1c0b3e0cf9a9bb9d48cb24323f`. The research code includes
-  virtual-trajectory generation and mobile applications, but parts of the
-  workflow use AMap services, local paths and unreleased/locally arranged data.
-  No source is copied into this repository.
-- **Semantic-correlation dummy paths** — DOI
-  `10.1007/s44443-026-00899-w`. No public implementation or trained artifact
-  was identified; the paper describes an LSTM/attention model, POI/time
-  embeddings and a 100x100 Beijing-grid transition pipeline.
+The completed comparators intentionally replace the ambiguous prototype API:
 
-The exact component mapping is machine-readable in
-`benchmark/methods/paper_adaptations.py` and is serialized into every v3
-benchmark artifact.
+- import `SemanticCorrelationComparator`, not `SemanticDummyAdaptation`;
+- construct the local TransProtect comparator with
+  `TransProtectAdaptation.from_road_network(...)`, or inject explicit learned
+  probability and utility providers into its constructor;
+- import engines by their precise names (`AnotherMeVTGAEngine`,
+  `SemanticDummySelector`, `TransProtectEngine`).
 
-## Completion gates
+Historical heuristic classes remain importable only from
+`benchmark.methods.paper_adaptations` and
+`benchmark.engines.paper_adaptations`; they are excluded from v4 artifacts.
 
-A paper method is reportable as reproduced SOTA only when all of the following
-hold:
+### TransProtect
 
-1. its `ImplementationLevel` is `official` or `faithful_reimplementation`;
-2. no source-mapped component is `missing`;
-3. its source is sufficiently pinned for that implementation level;
-4. validation evidence is recorded in the method card; and
-5. the paper-specific dataset/preprocessing, attacker and metrics have been
-   reproduced or any intentional deviation is stated and tested.
+The implementation includes Equation 13 travel-cost loss, the
+`h + alpha / loss` top-K rule, candidate-restricted Laplace sampling, the Geo-I
+LP, and an optional Node2Vec-input → GCN → causal Transformer architecture. The
+normal SUMO run trains a sparse Markov proxy on the other simulated vehicles
+and holds out the evaluated vehicle. Utility uses an `N x M` target table, so
+the common passenger graph does not require an `N x N` matrix. The proxy and
+SUMO-derived target locations are labelled as adaptations in public metadata;
+the target prior comes from normalized visits in the disjoint background set.
+The runner exposes TransProtect's budget separately in `km^-1` (default 5,
+matching the paper's reported sweep) and converts it to `m^-1` internally; it
+does not reuse the thesis candidate's numerically different epsilon blindly.
+Its own `K`, target count and alpha are separate CLI parameters. The JSON stores
+setup/inference/end-to-end time and Equation-13 expected travel-cost loss;
+VehiTrack EIE remains explicitly unavailable. Candidate selection depends on
+the current secret, so the harness claims no end-to-end Geo-I theorem for the
+whole TransProtect adaptation.
 
-The present adaptations intentionally fail this gate. A normal run is useful
-for integration, output-contract and visualization work; it is not a basis for
-ranking privacy performance.
+### AnotherMe
 
-## Package boundaries
+The implementation follows the authors' public VTGA: speed/mode extraction,
+navigation filtering, roughly two-metre densification, Bezier turn smoothing,
+three-second speed replay, discrete coordinate noise, and timestamps. A local
+mapper relocates the origin/destination pattern and a local road router replaces
+AMap. The raw variable-length VTGA output is retained before it is aligned to
+the benchmark event grid.
 
-- `contracts.py`: evidence levels, source/component mapping and fail-closed
-  claim gate.
-- `engines/`: dependency-light algorithm engines. These contain the current
-  local adaptations but no claim metadata.
-- `methods/`: public benchmark adapters with stable IDs and method cards.
-- `registry.py`: the single inventory consumed by runners and UIs.
-- `core/sota_demo.py` and `core/thesis_demo.py`: deprecated import shims only.
+### Semantic-correlation scheme
 
-Run the harness and dashboard from the repository root:
+The implementation provides the paper's Beijing grid, transition equations,
+published time weights, two-layer LSTM/attention inference shell, semantic
+ranking and top-`K-1` selector. Because the authors did not publish weights or
+AMap annotations, the runnable SUMO path uses bounded OSM road-context labels,
+an empirical semantic predictor, a distance transition kernel, and an explicit
+decay rule. Candidates have event-local IDs because the paper does not specify
+cross-event track labels. A shared nearest-vertex catalog prevents a representation
+fingerprint between continuous SUMO truth and graph-vertex dummies. Every
+substitution is visible in the method card and public parameters.
+
+## Reproduction boundary
+
+All three comparators remain `paper_adaptation`, not `official` or
+`faithful_reimplementation`. In particular:
+
+- TransProtect lacks the authors' Node2Vec/GCN/Transformer trainer, checkpoint,
+  complete configuration, split manifest, and table-level VehiTrack parity.
+- AnotherMe lacks frozen AMap/GCJ02/POI responses, a canonical mapping between
+  its Python/mobile variants, and paper-equivalent classifier/mobile tests.
+- The semantic scheme lacks processed AMap semantics, trained weights, several
+  model dimensions and functions, and an executable attacker posterior.
+
+`benchmark.registry.require_faithful_sota` and the CLI flag
+`--require-faithful-sota` therefore fail closed. Local benchmark numbers must
+not be described as the papers' reproduced results.
+
+Detailed primary-source audits and exact blockers are in
+`docs/reproduction/{transprotect,anotherme,semantic_correlation}.md`. The
+machine-readable component maps live beside each method in
+`benchmark/methods/` and are serialized into the JSON artifact.
+
+## Run
 
 ```bash
+venv/bin/python -m tests.run_all
 venv/bin/python -m experiments.run_dummy_benchmark --quick
 venv/bin/python -m web.benchmark_app
 ```
 
-The Flask dashboard is read-only and localhost-oriented. Before any deployment,
-disable evaluator routes with `BENCHMARK_ENABLE_EVALUATOR_VIEW=False` in the app
-configuration or place them behind authentication; they intentionally expose
-ground truth for offline evaluation.
+The Flask dashboard is read-only and localhost-oriented. Evaluator routes
+contain ground truth and are off by default in the WSGI factory; the local
+`python -m web.benchmark_app` command explicitly enables them. Keep them
+disabled or add authentication before any deployment.

@@ -8,7 +8,7 @@ from benchmark.contracts import BenchmarkMethod, MethodCard
 from benchmark.methods import (
     AnotherMeAdaptation,
     GeoIAnchoredDummyTrajectories,
-    SemanticDummyAdaptation,
+    SemanticCorrelationComparator,
     TransProtectAdaptation,
 )
 
@@ -16,7 +16,7 @@ from benchmark.methods import (
 METHOD_CLASSES: tuple[Type[BenchmarkMethod], ...] = (
     TransProtectAdaptation,
     AnotherMeAdaptation,
-    SemanticDummyAdaptation,
+    SemanticCorrelationComparator,
     GeoIAnchoredDummyTrajectories,
 )
 METHOD_CARDS: tuple[MethodCard, ...] = tuple(

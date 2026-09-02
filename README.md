@@ -18,8 +18,8 @@ build entry point. `docs/internship_2.pdf` is retained as prior-stage context.
 ## Project Layout
 
 ```
-benchmark/      Benchmark contracts, method cards, algorithm engines and
-                  source-mapped paper adaptations
+benchmark/      Benchmark contracts, method cards and source-mapped clean-room
+                  comparator engines
 core/           Formal mechanisms and shared public/evaluator protocol:
                   geo_indistinguishability.py, trajectory_privacy.py (internship-2 baseline)
                   road_network.py  — OSM graph → candidate lattice + KD-tree
@@ -84,13 +84,15 @@ cd thesis && latexmk -xelatex main.tex         # build the evolving final thesis
 Every official experiment fails closed if the road graph does not match the
 committed manifest, and writes a `msc-experiment-v1` provenance block (source
 commit + dirty flag, graph SHA-256, RNG schema, selected record IDs, raw rows).
+SUMO runs retain the raw network-file hash and also record a canonical semantic
+graph hash, because SUMO embeds volatile build timestamps/paths in its XML.
 
 ### Dummy-generation benchmark and Python dashboard
 
-The canonical harness runs three recent dummy-generation **paper adaptations**
-and the evolving thesis candidate on one truth-separated protocol. Its default
-mobility source is a deterministic **SUMO** passenger simulation over the local
-Beijing OpenStreetMap extract:
+The canonical harness runs three recent dummy-generation **clean-room paper
+comparators** and the evolving thesis candidate on one truth-separated
+protocol. Its default mobility source is a deterministic **SUMO** passenger
+simulation over the local Beijing OpenStreetMap extract:
 
 ```bash
 venv/bin/python -m pip install -r requirements-sumo.txt
@@ -107,12 +109,19 @@ ground truth, while evaluator routes are explicitly labelled, SHA-256 checked,
 and intended for localhost use only.
 
 The canonical classes are `TransProtectAdaptation`, `AnotherMeAdaptation`,
-`SemanticDummyAdaptation`, and `GeoIAnchoredDummyTrajectories`. Each artifact
-contains a method card that maps paper components to implemented, adapted or
-missing code and pins any audited upstream revision. These are stable runnable
-adaptations, **not yet faithful SOTA reproductions**. In particular, learned
-pipelines, original preprocessing/data artifacts and calibrated paper attackers
-are still missing. The following command therefore fails closed by design:
+`SemanticCorrelationComparator`, and `GeoIAnchoredDummyTrajectories`. TransProtect's
+paper-defined utility/ranking/obfuscation core, AnotherMe's public VTGA, and the
+semantic scheme's published equations/inference shell are implemented. For the
+common SUMO run, unavailable paper assets are replaced by named local adapters:
+a Markov predictor trained on the other background vehicles while holding out
+the test vehicle, local target proxies, OSM routing/virtual endpoints, and bounded OSM
+road-context semantics. Every substitution is serialized in the method card and
+public run metadata.
+
+These are complete executable local comparators, **not faithful reproductions
+of the authors' numerical results**: original checkpoints, AMap/POI artifacts,
+fully specified preprocessing, and calibrated paper attackers are not public.
+The following command therefore fails closed by design:
 
 ```bash
 venv/bin/python -m experiments.run_dummy_benchmark --require-faithful-sota

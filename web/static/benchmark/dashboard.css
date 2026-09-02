@@ -259,6 +259,11 @@ td { padding: 10px; border-top: 1px solid #edf1f5; vertical-align: top; }
   gap: 10px;
   margin-top: 16px;
 }
+.evaluator-section { margin-top: 18px; }
+.evaluator-section + .evaluator-section { padding-top: 16px; border-top: 1px solid var(--line); }
+.evaluator-heading h3 { margin: 0; font-size: .95rem; }
+.evaluator-heading p { margin: 5px 0 0; color: var(--muted); font-size: .77rem; line-height: 1.45; }
+.paper-metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .metric {
   padding: 12px;
   border: 1px solid var(--line);
@@ -266,7 +271,8 @@ td { padding: 10px; border-top: 1px solid #edf1f5; vertical-align: top; }
   background: #fbfcfe;
 }
 .metric span { display: block; min-height: 31px; color: var(--muted); font-size: .72rem; }
-.metric strong { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1rem; }
+.metric strong { overflow-wrap: anywhere; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1rem; }
+.metric-empty { grid-column: 1 / -1; margin: 0; padding: 12px; color: var(--muted); font-size: .8rem; background: #f8fafc; border-radius: 9px; }
 
 .truth-details { margin-top: 14px; padding: 12px; border: 1px solid #efc7cc; border-radius: 10px; background: #fffafb; }
 .truth-details summary { color: #7d2f39; font-size: .82rem; font-weight: 750; cursor: pointer; }

@@ -1,22 +1,17 @@
-"""Dependency-light algorithm engines used by benchmark method adapters.
+"""Algorithm engines used by the benchmark method adapters."""
 
-The engines implement deterministic local adaptations.  Reporting status and
-paper-to-code evidence live one layer above in :mod:`benchmark.methods`.
-"""
-
-from .paper_adaptations import (
-    AnotherMeEngine,
-    CandidateSetRelease,
-    SemanticDummyEngine,
-    TransProtectEngine,
-)
+from .anotherme import AnotherMeVTGAEngine, RoadNetworkVirtualEndpointMapper
+from .paper_adaptations import CandidateSetRelease
 from .proposed import AnchoredDummyBatch, GeoIAnchoredDummyEngine
+from .semantic_correlation import SemanticDummySelector
+from .transprotect import TransProtectEngine
 
 __all__ = [
     "AnchoredDummyBatch",
-    "AnotherMeEngine",
+    "AnotherMeVTGAEngine",
     "CandidateSetRelease",
     "GeoIAnchoredDummyEngine",
-    "SemanticDummyEngine",
+    "RoadNetworkVirtualEndpointMapper",
+    "SemanticDummySelector",
     "TransProtectEngine",
 ]

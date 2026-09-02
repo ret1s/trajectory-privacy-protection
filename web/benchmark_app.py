@@ -14,25 +14,92 @@ from typing import Any
 
 from flask import Flask, abort, jsonify, render_template, send_file
 
+from benchmark.registry import METHOD_CARDS
+from experiments.run_dummy_benchmark import BENCHMARK_SCHEMA
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RESULTS_PATH = PROJECT_ROOT / "outputs" / "dummy_benchmark_results.json"
-EXPECTED_SCHEMA = "msc-dummy-benchmark-v3"
+EXPECTED_SCHEMA = BENCHMARK_SCHEMA
+CURRENT_METHOD_IDS = tuple(card.method_id for card in METHOD_CARDS)
 
 
 def _humanize(value: str) -> str:
     return value.replace("_", " ").strip().title()
 
 
+def _point_count_label(value: Any) -> str | None:
+    """Format the runner's per-record point-count list without JS coercion."""
+
+    raw_values = value if isinstance(value, (list, tuple)) else (value,)
+    counts: list[int] = []
+    for raw in raw_values:
+        if isinstance(raw, bool):
+            return None
+        try:
+            count = int(raw)
+        except (TypeError, ValueError, OverflowError):
+            return None
+        if count < 0 or count != raw:
+            return None
+        counts.append(count)
+    if not counts:
+        return None
+    if len(counts) == 1:
+        return f"{counts[0]} samples / trajectory"
+    if len(set(counts)) == 1:
+        return f"{counts[0]} samples × {len(counts)} trajectories"
+    values = ", ".join(str(count) for count in counts)
+    return f"{values} samples / trajectory ({len(counts)} trajectories)"
+
+
+def _method_ids(items: Any, field: str) -> set[str]:
+    """Extract method IDs from a v4 artifact section or reject malformed rows."""
+
+    if not isinstance(items, list):
+        raise ValueError(f"The benchmark artifact field {field!r} must be a list")
+    result: set[str] = set()
+    for index, item in enumerate(items):
+        if not isinstance(item, dict):
+            raise ValueError(f"{field}[{index}] must be an object")
+        method_id = item.get(
+            "method_id" if field == "method_inventory" else "mechanism"
+        )
+        if not isinstance(method_id, str) or not method_id.strip():
+            raise ValueError(f"{field}[{index}] has no valid method ID")
+        if field == "method_inventory" and method_id in result:
+            raise ValueError(f"method_inventory contains duplicate ID {method_id!r}")
+        result.add(method_id)
+    return result
+
+
+def _format_id_difference(expected: set[str], observed: set[str]) -> str:
+    pieces = []
+    missing = sorted(expected - observed)
+    unexpected = sorted(observed - expected)
+    if missing:
+        pieces.append("missing: " + ", ".join(missing))
+    if unexpected:
+        pieces.append("unexpected: " + ", ".join(unexpected))
+    return "; ".join(pieces) or "unknown difference"
+
+
 class BenchmarkArtifacts:
     """Load and expose one benchmark artifact without mutating it."""
 
     def __init__(
-        self, results_path: Path, project_root: Path, expected_schema: str
+        self,
+        results_path: Path,
+        project_root: Path,
+        expected_schema: str,
+        expected_method_ids: tuple[str, ...],
     ) -> None:
         self.results_path = results_path.resolve()
         self.project_root = project_root.resolve()
         self.expected_schema = expected_schema
+        self.expected_method_ids = frozenset(expected_method_ids)
+        if not self.expected_method_ids:
+            raise ValueError("expected_method_ids must not be empty")
 
     def load(self) -> dict[str, Any]:
         if not self.results_path.is_file():
@@ -50,6 +117,23 @@ class BenchmarkArtifacts:
             raise ValueError("The benchmark artifact field 'runs' must be a list")
         if not isinstance(payload.get("summaries", []), list):
             raise ValueError("The benchmark artifact field 'summaries' must be a list")
+
+        inventory_ids = _method_ids(payload.get("method_inventory"), "method_inventory")
+        expected_ids = set(self.expected_method_ids)
+        if inventory_ids != expected_ids:
+            difference = _format_id_difference(expected_ids, inventory_ids)
+            raise ValueError(
+                "Artifact method inventory does not match the active benchmark "
+                f"registry ({difference}); regenerate the benchmark artifacts"
+            )
+        for field in ("summaries", "runs"):
+            observed = _method_ids(payload.get(field), field)
+            if observed != inventory_ids:
+                difference = _format_id_difference(inventory_ids, observed)
+                raise ValueError(
+                    f"Artifact {field} method IDs do not match method_inventory "
+                    f"({difference})"
+                )
         return payload
 
     def state(self) -> tuple[dict[str, Any] | None, str | None]:
@@ -157,6 +241,9 @@ def _public_overview(payload: dict[str, Any], store: BenchmarkArtifacts) -> dict
             "mobility_source": provenance.get("mobility_source"),
             "mobility_label": provenance.get("mobility_label"),
             "n_points_per_record": provenance.get("n_points_per_record"),
+            "point_count_label": _point_count_label(
+                provenance.get("n_points_per_record")
+            ),
             "k": provenance.get("k"),
             "epsilons": provenance.get("epsilons"),
             "started_at_utc": provenance.get("started_at_utc"),
@@ -204,8 +291,9 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
     app.config.from_mapping(
         BENCHMARK_PROJECT_ROOT=str(PROJECT_ROOT),
         BENCHMARK_RESULTS_PATH=str(DEFAULT_RESULTS_PATH),
-        BENCHMARK_ENABLE_EVALUATOR_VIEW=True,
+        BENCHMARK_ENABLE_EVALUATOR_VIEW=False,
         BENCHMARK_EXPECTED_SCHEMA=EXPECTED_SCHEMA,
+        BENCHMARK_EXPECTED_METHOD_IDS=CURRENT_METHOD_IDS,
         JSON_SORT_KEYS=False,
     )
     if config:
@@ -215,6 +303,7 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
         Path(app.config["BENCHMARK_RESULTS_PATH"]),
         Path(app.config["BENCHMARK_PROJECT_ROOT"]),
         str(app.config["BENCHMARK_EXPECTED_SCHEMA"]),
+        tuple(app.config["BENCHMARK_EXPECTED_METHOD_IDS"]),
     )
     app.extensions["benchmark_artifacts"] = store
 
@@ -287,6 +376,10 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
                     {
                         "record_id": run.get("record_id"),
                         "runtime_ms": run.get("runtime_ms"),
+                        "runtime_breakdown_ms": run.get(
+                            "runtime_breakdown_ms", {}
+                        ),
+                        "paper_metrics": run.get("paper_metrics", {}),
                         "metrics": run.get("metrics", {}),
                         "evaluator_truth": run.get("evaluator_truth", {}),
                     }
@@ -318,4 +411,6 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
 
 
 if __name__ == "__main__":
-    create_app().run(host="127.0.0.1", port=5000, debug=False)
+    create_app({"BENCHMARK_ENABLE_EVALUATOR_VIEW": True}).run(
+        host="127.0.0.1", port=5000, debug=False
+    )

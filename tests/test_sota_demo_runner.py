@@ -59,7 +59,7 @@ class _FakeProvenance:
 
 
 class _FakeSumoRecord:
-    record_id = "sumo/fixture/veh_7"
+    record_id = "sumo/fixture/evaluation_0000"
     points = ((39.98, 116.31), (39.981, 116.311))
     times = (0.0, 20.0)
     evaluator_only = _FakeEvaluatorMetadata()
@@ -77,9 +77,15 @@ def test_runner_defaults_to_sumo_and_quick_does_not_change_source():
     args = parse_args(["--quick", "--no-map"])
     assert args.mobility_source == "sumo"
     assert args.max_points == 8
+    assert args.transprotect_epsilon_per_km == 5.0
+    assert args.transprotect_k == 10
+    assert args.transprotect_target_count == 8
+    assert args.transprotect_alpha == 10_000.0
+    assert args.transprotect_probability_smoothing == 1e-6
+    assert args.transprotect_probability_backoff_weight == 0.1
     assert args.preview_output == "outputs/dummy_benchmark_preview.png"
     assert args.preview_output == DEFAULT_PREVIEW_OUTPUT
-    assert DEMO_SCHEMA == "msc-dummy-benchmark-v3"
+    assert DEMO_SCHEMA == "msc-dummy-benchmark-v4"
 
 
 def test_sumo_pilot_rejects_silently_ignored_record_count():
@@ -143,6 +149,7 @@ def test_sumo_loader_keeps_privileged_mobility_fields_out_of_model_input():
 
     mechanism_input = records[0]
     assert "vehicle_id" not in mechanism_input
+    assert "veh_7" not in mechanism_input["record_id"]
     assert "route_edges" not in mechanism_input
     assert "speed_m_s" not in str(mechanism_input)
     assert mobility["source"] == "sumo"
@@ -167,6 +174,32 @@ def test_explicit_geolife_mode_fails_instead_of_falling_back():
         else:
             raise AssertionError("missing GeoLife must fail without fallback")
     assert "no synthetic fallback" in message
+
+
+def test_geolife_identity_is_evaluator_only_and_public_id_is_opaque():
+    args = SimpleNamespace(n_trajectories=1, max_points=8, interval_s=20)
+    source = {
+        "user": "private_user_001",
+        "file": "private_trace.plt",
+        "points": [(39.9, 116.3), (39.901, 116.301)],
+        "times": [0.0, 20.0],
+    }
+    with patch(
+        "experiments.run_dummy_benchmark.load_trajectories", return_value=[source]
+    ):
+        records, mobility = _load_geolife_records(args)
+
+    assert records == [
+        {
+            "record_id": "geolife/evaluation_0000",
+            "points": source["points"],
+            "times": source["times"],
+        }
+    ]
+    assert "private_user_001" not in str(records)
+    assert "private_trace.plt" not in str(records)
+    assert mobility["evaluator_only"][0]["source_user"] == "private_user_001"
+    assert mobility["evaluator_only"][0]["source_file"] == "private_trace.plt"
 
 
 def _tiny_map_fixture():
@@ -209,7 +242,7 @@ def _tiny_map_fixture():
         ),
         (
             make_real_plus_dummies_run(
-                "semantic_dummy_adaptation",
+                "semantic_correlation_local_adaptation",
                 real,
                 {"candidate_0017": real, "candidate_0003": dummy},
                 "candidate_0017",
@@ -296,7 +329,7 @@ def test_html_map_embeds_roads_and_does_not_enable_online_tiles_by_default():
         "AnotherMe adaptation — replacement trajectory", "feature_group_"
     )
     assert not layer_is_enabled(
-        "Semantic-correlation adaptation — public candidate tracks",
+        "Semantic-correlation clean-room adaptation — candidate sets",
         "feature_group_",
     )
     assert "Proposed model" in rendered

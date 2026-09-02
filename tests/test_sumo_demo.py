@@ -10,10 +10,13 @@ from data.sumo_demo import (
     SumoSmokeConfig,
     SumoToolchain,
     SumoUnavailableError,
+    load_sumo_road_network,
+    road_network_semantic_sha256,
     parse_fcd,
     parse_vehicle_routes,
     resolve_sumo_toolchain,
     run_sumo_smoke_demo,
+    select_background_trajectories,
     select_longest_trace,
 )
 
@@ -50,6 +53,92 @@ ROUTE_FIXTURE = """<?xml version="1.0"?>
 """
 
 
+class _FakeSumoNode:
+    def __init__(self, node_id, coordinate):
+        self._node_id = node_id
+        self._coordinate = coordinate
+
+    def getID(self):
+        return self._node_id
+
+    def getCoord(self):
+        return self._coordinate
+
+
+class _FakeSumoEdge:
+    def __init__(self, edge_id, start, end, *, passenger, shape):
+        self._edge_id = edge_id
+        self._start = start
+        self._end = end
+        self._passenger = passenger
+        self._shape = shape
+
+    def allows(self, vehicle_class):
+        assert vehicle_class == "passenger"
+        return self._passenger
+
+    def getFromNode(self):
+        return self._start
+
+    def getToNode(self):
+        return self._end
+
+    def getShape(self):
+        return self._shape
+
+    def getType(self):
+        return "highway.primary"
+
+    def getLength(self):
+        return 120.0
+
+    def getSpeed(self):
+        return 12.0
+
+    def getID(self):
+        return self._edge_id
+
+
+class _FakeSumoNetwork:
+    def __init__(self):
+        start = _FakeSumoNode("n0", (0.0, 0.0))
+        end = _FakeSumoNode("n1", (2.0, 2.0))
+        self._edges = (
+            _FakeSumoEdge(
+                "passenger_edge",
+                start,
+                end,
+                passenger=True,
+                shape=((0.0, 0.0), (1.0, 1.5), (2.0, 2.0)),
+            ),
+            _FakeSumoEdge(
+                "pedestrian_only",
+                end,
+                start,
+                passenger=False,
+                shape=((2.0, 2.0), (0.0, 0.0)),
+            ),
+        )
+
+    def convertXY2LonLat(self, x, y):
+        return 116.3 + x / 10_000.0, 39.9 + y / 10_000.0
+
+    def getEdges(self, *, withInternal):
+        assert withInternal is False
+        return self._edges
+
+
+class _FakeSumolibNetModule:
+    def readNet(self, path, *, withInternal):
+        assert Path(path).is_file()
+        assert withInternal is False
+        return _FakeSumoNetwork()
+
+
+class _FakeSumolib:
+    net = _FakeSumolibNetModule()
+
+
 def test_parse_fcd_uses_geo_order_and_selects_longest_deterministically():
     with tempfile.TemporaryDirectory() as directory:
         path = Path(directory) / "trace.xml"
@@ -66,6 +155,31 @@ def test_parse_fcd_uses_geo_order_and_selects_longest_deterministically():
     assert [sample.edge_id for sample in samples] == ["e0", "e1", "e2"]
 
 
+def test_background_training_traces_exclude_held_out_vehicle_and_identifiers():
+    with tempfile.TemporaryDirectory() as directory:
+        path = Path(directory) / "trace.xml"
+        path.write_text(FCD_FIXTURE, encoding="utf-8")
+        traces = parse_fcd(path)
+        background = select_background_trajectories(
+            traces,
+            held_out_vehicle_id="long",
+            interval_s=2.0,
+            max_points=3,
+            min_points=2,
+        )
+
+    assert len(background) == 1
+    assert background[0].points == (
+        (39.97, 116.3),
+        (39.972, 116.302),
+    )
+    model_input = background[0].to_model_input()
+    assert set(model_input) == {"points", "times"}
+    assert "long" not in str(model_input)
+    assert "short" not in str(model_input)
+    assert "lane" not in str(model_input)
+
+
 def test_parse_vehicle_routes_handles_embedded_and_referenced_routes():
     with tempfile.TemporaryDirectory() as directory:
         path = Path(directory) / "routes.xml"
@@ -74,6 +188,32 @@ def test_parse_vehicle_routes_handles_embedded_and_referenced_routes():
 
     assert routes["long"] == ("e0", "e1", "e2")
     assert routes["ref"] == ("a", "b", "c")
+
+
+def test_load_sumo_road_network_preserves_exact_passenger_edges_and_geometry():
+    with tempfile.TemporaryDirectory() as directory:
+        path = Path(directory) / "passenger.net.xml"
+        path.write_text("<net/>", encoding="utf-8")
+        with patch("data.sumo_demo._load_sumolib", return_value=_FakeSumolib()):
+            road_network = load_sumo_road_network(path)
+
+    graph = road_network.graph
+    assert list(graph.nodes) == ["n0", "n1"]
+    assert graph.number_of_edges() == 1
+    edge = graph["n0"]["n1"]["passenger_edge"]
+    assert edge["sumo_edge_id"] == "passenger_edge"
+    assert edge["highway"] == "primary"
+    assert edge["length"] == 120.0
+    assert edge["speed"] == 12.0
+    assert edge["travel_time"] == 10.0
+    assert len(edge["geometry"].coords) == 3
+    assert graph.graph["source"] == "eclipse_sumo_passenger_network"
+
+    semantic_hash = road_network_semantic_sha256(road_network)
+    graph.graph["source_path"] = "/a/volatile/generated/path.net.xml"
+    assert road_network_semantic_sha256(road_network) == semantic_hash
+    edge["length"] += 1.0
+    assert road_network_semantic_sha256(road_network) != semantic_hash
 
 
 def test_missing_sumo_fails_clearly_without_fallback():
@@ -161,6 +301,8 @@ def test_pipeline_uses_real_argv_contract_and_keeps_metadata_private():
     assert record.points[0] == (39.98, 116.31)
     assert record.evaluator_only.route_edges == ("e0", "e1", "e2")
     assert record.evaluator_only.samples[1].speed_m_s == 6.0
+    assert len(record.background_trajectories) == 1
+    assert record.background_trajectories[0].points[0] == (39.97, 116.3)
     public = record.to_mechanism_input()
     assert "evaluator_only" not in public
     assert "route_edges" not in str(public)

@@ -4,12 +4,14 @@ The production benchmark currently assumes one secret point produces one
 published point.  Dummy-generation mechanisms need a slightly wider contract:
 
 * a replacement trajectory (AnotherMe/TransProtect-style public output),
-* a set containing the real trajectory and ``K-1`` dummy trajectories, or
+* per-event sets containing the real point and ``K-1`` dummy points (stable
+  candidate IDs may additionally link those points into trajectories), or
 * a batch containing only dummy trajectories (the proposed architecture).
 
 This module represents all three as a sequence of public events.  A candidate
-ID that remains stable across events identifies one public trajectory.  Most
-importantly, the ID of the real candidate and the original trajectory live in
+ID that remains stable across events identifies one public trajectory; an
+event-local ID deliberately exposes no cross-event linkage.  Most importantly,
+the ID of the real candidate and the original trajectory live in
 ``EvaluationTruth`` -- never in ``PublicTranscript``.
 
 The dataclasses are deliberately immutable and JSON conversion is explicit:
@@ -227,26 +229,56 @@ class PublicTranscript:
 
 @dataclass(frozen=True)
 class EvaluationTruth:
-    """Evaluator-only labels; never pass this object to an attacker."""
+    """Evaluator-only labels; never pass this object to an attacker.
+
+    ``real_candidate_representations`` is optional. It records a declared
+    public-domain representation (for example, the nearest road vertex) when
+    a real-plus-dummies method operates on a finite catalog rather than raw
+    coordinates. The original continuous trajectory remains the evaluation
+    secret.
+    """
 
     real_trajectory: tuple[TrajectoryPoint, ...]
     real_candidate_ids: tuple[str | None, ...] = ()
+    real_candidate_representations: tuple[TrajectoryPoint, ...] = ()
 
     def __post_init__(self) -> None:
         real_trajectory = tuple(self.real_trajectory)
         if not real_trajectory:
             raise ValueError("real_trajectory must contain at least one point")
         candidate_ids = tuple(self.real_candidate_ids)
+        representations = tuple(self.real_candidate_representations)
+        if representations and not all(
+            isinstance(point, TrajectoryPoint) for point in representations
+        ):
+            raise TypeError(
+                "real_candidate_representations must contain TrajectoryPoint values"
+            )
+        if representations and len(representations) != len(real_trajectory):
+            raise ValueError(
+                "real_candidate_representations must align with the real trajectory"
+            )
+        if any(
+            represented.timestamp_s != real.timestamp_s
+            for represented, real in zip(representations, real_trajectory)
+        ):
+            raise ValueError(
+                "real candidate representation timestamps must match ground truth"
+            )
         for candidate_id in candidate_ids:
             if candidate_id is not None and not str(candidate_id).strip():
                 raise ValueError("non-null real candidate IDs must be non-empty")
         object.__setattr__(self, "real_trajectory", real_trajectory)
         object.__setattr__(self, "real_candidate_ids", candidate_ids)
+        object.__setattr__(self, "real_candidate_representations", representations)
 
     def to_dict(self) -> dict[str, object]:
         return {
             "real_trajectory": [point.to_dict() for point in self.real_trajectory],
             "real_candidate_ids": list(self.real_candidate_ids),
+            "real_candidate_representations": [
+                point.to_dict() for point in self.real_candidate_representations
+            ],
         }
 
 
@@ -262,6 +294,7 @@ class ProtectedRun:
         truth_ids = self.truth.real_candidate_ids
         events = self.transcript.events
         real_trajectory = self.truth.real_trajectory
+        real_representations = self.truth.real_candidate_representations
 
         if len(events) != len(real_trajectory):
             raise ValueError(
@@ -276,8 +309,13 @@ class ProtectedRun:
         if kind is OutputKind.REAL_PLUS_DUMMIES:
             if len(truth_ids) != len(events):
                 raise ValueError("one evaluator-only real candidate ID is required per event")
+            if real_representations and len(real_representations) != len(events):
+                raise ValueError(
+                    "real candidate representations must align one-to-one with events"
+                )
+            represented_real = real_representations or real_trajectory
             for event, point, real_id in zip(
-                events, real_trajectory, truth_ids
+                events, represented_real, truth_ids
             ):
                 if real_id is None:
                     raise ValueError("real-plus-dummies events require a real candidate ID")
@@ -292,7 +330,7 @@ class ProtectedRun:
                         f"truth candidate {real_id!r} does not match the real point in "
                         f"event {event.event_id!r}"
                     )
-        elif truth_ids:
+        elif truth_ids or real_representations:
             raise ValueError(
                 "replacement and dummy-only outputs must not designate a real public candidate"
             )

@@ -18,7 +18,7 @@ def _artifact(root: Path) -> Path:
     map_path.write_text("<html><body>map</body></html>", encoding="utf-8")
     preview_path.write_bytes(b"\x89PNG\r\n\x1a\n")
     payload = {
-        "schema": "msc-dummy-benchmark-v3",
+        "schema": "msc-dummy-benchmark-v4",
         "status": "READY",
         "disclaimer": "Test artifact",
         "method_inventory": [
@@ -60,6 +60,15 @@ def _artifact(root: Path) -> Path:
                 "implementation": {"implementation_level": "paper_adaptation"},
                 "output_kind": "real_plus_dummies",
                 "runtime_ms": 12.5,
+                "runtime_breakdown_ms": {
+                    "setup_runtime_ms": 4.5,
+                    "inference_runtime_ms": 8.0,
+                    "end_to_end_runtime_ms": 12.5,
+                },
+                "paper_metrics": {
+                    "paper_asr_percent": None,
+                    "paper_asr_status": "not_available_without_calibrated_attack",
+                },
                 "metrics": {"privacy_score": 0.8},
                 "attacker_view": {
                     "events": [
@@ -101,6 +110,8 @@ def _client(root: Path):
             "TESTING": True,
             "BENCHMARK_PROJECT_ROOT": str(root),
             "BENCHMARK_RESULTS_PATH": str(result),
+            "BENCHMARK_EXPECTED_METHOD_IDS": ("method_a",),
+            "BENCHMARK_ENABLE_EVALUATOR_VIEW": True,
         }
     )
     return app.test_client()
@@ -111,7 +122,10 @@ def test_dashboard_and_overview_load_generated_artifact():
         client = _client(Path(directory))
         page = client.get("/")
         assert page.status_code == 200
-        assert "Bảo vệ tính riêng tư về quỹ đạo" in page.get_data(as_text=True)
+        page_text = page.get_data(as_text=True)
+        assert "Bảo vệ tính riêng tư về quỹ đạo" in page_text
+        assert 'id="paper-metric-grid"' in page_text
+        assert 'id="runtime-grid"' in page_text
 
         response = client.get("/api/benchmark")
         assert response.status_code == 200
@@ -126,6 +140,74 @@ def test_dashboard_and_overview_load_generated_artifact():
         ]
         assert payload["artifacts"]["map"]["available"] is True
         assert payload["artifacts"]["map"]["integrity_verified"] is True
+        assert payload["provenance"]["point_count_label"] == "2 samples / trajectory"
+
+
+def test_point_count_list_is_formatted_as_per_trajectory_data():
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory)
+        result = _artifact(root)
+        payload = json.loads(result.read_text(encoding="utf-8"))
+        payload["provenance"]["n_points_per_record"] = [8, 10]
+        result.write_text(json.dumps(payload), encoding="utf-8")
+        app = create_app(
+            {
+                "TESTING": True,
+                "BENCHMARK_PROJECT_ROOT": str(root),
+                "BENCHMARK_RESULTS_PATH": str(result),
+                "BENCHMARK_EXPECTED_METHOD_IDS": ("method_a",),
+            }
+        )
+
+        overview = app.test_client().get("/api/benchmark").get_json()
+        assert overview["provenance"]["n_points_per_record"] == [8, 10]
+        assert overview["provenance"]["point_count_label"] == (
+            "8, 10 samples / trajectory (2 trajectories)"
+        )
+
+
+def test_artifact_with_stale_registry_inventory_is_rejected():
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory)
+        result = _artifact(root)
+        # No expected-ID override: the app must compare this artifact with the
+        # active benchmark registry, where the fixture's method_a cannot exist.
+        app = create_app(
+            {
+                "TESTING": True,
+                "BENCHMARK_PROJECT_ROOT": str(root),
+                "BENCHMARK_RESULTS_PATH": str(result),
+            }
+        )
+
+        response = app.test_client().get("/api/benchmark")
+        assert response.status_code == 503
+        error = response.get_json()["error"]
+        assert "does not match the active benchmark registry" in error
+        assert "regenerate the benchmark artifacts" in error
+
+
+def test_artifact_run_ids_must_match_its_validated_inventory():
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory)
+        result = _artifact(root)
+        payload = json.loads(result.read_text(encoding="utf-8"))
+        payload["runs"][0]["mechanism"] = "retired_method"
+        result.write_text(json.dumps(payload), encoding="utf-8")
+        app = create_app(
+            {
+                "TESTING": True,
+                "BENCHMARK_PROJECT_ROOT": str(root),
+                "BENCHMARK_RESULTS_PATH": str(result),
+                "BENCHMARK_EXPECTED_METHOD_IDS": ("method_a",),
+            }
+        )
+
+        response = app.test_client().get("/api/benchmark")
+        assert response.status_code == 503
+        assert "runs method IDs do not match method_inventory" in response.get_json()[
+            "error"
+        ]
 
 
 def test_attacker_endpoint_never_contains_evaluator_truth():
@@ -138,6 +220,8 @@ def test_attacker_endpoint_never_contains_evaluator_truth():
         assert payload["visibility"] == "attacker_visible"
         assert "attacker_view" in serialized
         assert "evaluator_truth" not in serialized
+        assert "paper_metrics" not in serialized
+        assert "runtime_breakdown_ms" not in serialized
         assert "real_trajectory" not in serialized
         assert '"lat": 9.0' not in serialized
 
@@ -149,7 +233,17 @@ def test_evaluator_endpoint_is_explicit_and_contains_truth():
         assert response.status_code == 200
         payload = response.get_json()
         assert payload["visibility"] == "evaluator_only"
-        assert payload["runs"][0]["evaluator_truth"]["real_candidate_ids"] == ["c0"]
+        run = payload["runs"][0]
+        assert run["evaluator_truth"]["real_candidate_ids"] == ["c0"]
+        assert run["runtime_breakdown_ms"] == {
+            "setup_runtime_ms": 4.5,
+            "inference_runtime_ms": 8.0,
+            "end_to_end_runtime_ms": 12.5,
+        }
+        assert run["paper_metrics"] == {
+            "paper_asr_percent": None,
+            "paper_asr_status": "not_available_without_calibrated_attack",
+        }
 
 
 def test_visual_routes_only_serve_declared_evaluator_artifacts():
@@ -175,7 +269,7 @@ def test_visual_artifact_fails_closed_on_sha256_mismatch():
         assert client.get("/artifacts/evaluator/map").status_code == 404
 
 
-def test_evaluator_view_can_be_disabled_for_nonlocal_deployment():
+def test_evaluator_view_is_disabled_by_default_for_wsgi_deployment():
     with tempfile.TemporaryDirectory() as directory:
         root = Path(directory)
         result = _artifact(root)
@@ -184,7 +278,7 @@ def test_evaluator_view_can_be_disabled_for_nonlocal_deployment():
                 "TESTING": True,
                 "BENCHMARK_PROJECT_ROOT": str(root),
                 "BENCHMARK_RESULTS_PATH": str(result),
-                "BENCHMARK_ENABLE_EVALUATOR_VIEW": False,
+                "BENCHMARK_EXPECTED_METHOD_IDS": ("method_a",),
             }
         )
         client = app.test_client()
@@ -210,12 +304,12 @@ def test_missing_artifact_degrades_without_server_error():
         assert response.get_json()["available"] is False
 
 
-def test_old_demo_schema_is_rejected_instead_of_silently_displayed():
+def test_previous_benchmark_schema_is_rejected_instead_of_silently_displayed():
     with tempfile.TemporaryDirectory() as directory:
         root = Path(directory)
         result = _artifact(root)
         payload = json.loads(result.read_text(encoding="utf-8"))
-        payload["schema"] = "msc-sota-demo-v2"
+        payload["schema"] = "msc-dummy-benchmark-v3"
         result.write_text(json.dumps(payload), encoding="utf-8")
         app = create_app(
             {

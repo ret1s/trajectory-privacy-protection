@@ -1,10 +1,11 @@
-"""Run source-mapped paper adaptations beside the thesis candidate.
+"""Run source-mapped clean-room comparators beside the thesis candidate.
 
-This is the executable dummy-generation benchmark harness.  The current three
-paper comparators are deterministic local *adaptations*, not yet official or
-faithful reproductions.  Their machine-readable method cards enumerate every
-adapted/missing component.  Results MUST NOT be presented as reproduced SOTA
-results or as a cross-contract leaderboard until the faithful gate passes.
+This is the executable dummy-generation benchmark harness.  The three
+paper comparators implement every locally reproducible stage and expose each
+unavailable paper dependency as an explicit adapter or blocker.  They are not
+official or paper-equivalent reproductions. Results MUST NOT be presented as
+reproduced SOTA results or as a cross-contract leaderboard until the faithful
+gate passes.
 
 Usage (from the repository root)::
 
@@ -24,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 from collections import defaultdict
+from dataclasses import dataclass
 from datetime import datetime, timezone
 import json
 import os
@@ -36,7 +38,7 @@ from benchmark.contracts import MethodCard
 from benchmark.methods import (
     AnotherMeAdaptation,
     GeoIAnchoredDummyTrajectories,
-    SemanticDummyAdaptation,
+    SemanticCorrelationComparator,
     TransProtectAdaptation,
 )
 from benchmark.registry import method_inventory, require_faithful_sota
@@ -48,6 +50,8 @@ from data.sumo_demo import (
     DEFAULT_SIM_SEED,
     DEFAULT_WORKDIR,
     SumoSmokeConfig,
+    load_sumo_road_network,
+    road_network_semantic_sha256,
     run_sumo_smoke_demo,
 )
 from evaluation import metrics as legacy_metrics
@@ -64,26 +68,45 @@ from experiments.rng_util import rng_from_key
 DEFAULT_OUTPUT = os.path.join("outputs", "dummy_benchmark_results.json")
 DEFAULT_MAP_OUTPUT = os.path.join("outputs", "dummy_benchmark_map.html")
 DEFAULT_PREVIEW_OUTPUT = os.path.join("outputs", "dummy_benchmark_preview.png")
-BENCHMARK_SCHEMA = "msc-dummy-benchmark-v3"
+BENCHMARK_SCHEMA = "msc-dummy-benchmark-v4"
 # Compatibility name retained for scripts/tests that imported the former
 # constant.  New code should use BENCHMARK_SCHEMA.
 DEMO_SCHEMA = BENCHMARK_SCHEMA
 SUMO_GRAPH_COMPATIBILITY_NOTE = (
-    "SUMO mobility is generated on a passenger-only network converted from the "
-    "Beijing OSM extract. Protection candidates are generated on the separately "
-    "serialized, pinned OSMnx graph whose profile is unfiltered multimodal "
-    "(drive+walk+cycle). The graphs cover the same study bbox but are not assumed "
-    "to have identical nodes, edges, simplification, or permissions; this run "
-    "therefore does not claim exact route compatibility across the two graphs."
+    "SUMO mobility and protection candidates use the same passenger-only "
+    ".net.xml converted from the Beijing OSM extract. FCD samples are continuous "
+    "lane positions while mechanism candidates are vertices/polylines from that "
+    "same network; no separately built multimodal graph is mixed into the run."
 )
 BASE_DISCLAIMER = (
-    "DUMMY-GENERATION BENCHMARK HARNESS. Current paper comparators are "
-    "source-mapped adaptations, not official or faithful reproductions. Their "
-    "numbers are integration/reference results, not reproduced SOTA results. "
+    "DUMMY-GENERATION BENCHMARK HARNESS. Paper comparators are executable "
+    "source-mapped clean-room adaptations, not official or paper-equivalent "
+    "reproductions. Their numbers are local benchmark results, not reproduced "
+    "SOTA results. "
     "Metrics stay within each output contract and must not form a cross-track "
     "leaderboard."
 )
 DISCLAIMER = BASE_DISCLAIMER + " " + SUMO_GRAPH_COMPATIBILITY_NOTE
+
+
+@dataclass(frozen=True)
+class RuntimeEvidence:
+    """Separate per-method construction cost from online protection cost."""
+
+    setup_runtime_ms: float
+    inference_runtime_ms: float
+    paper_metrics: Mapping[str, object]
+
+    @property
+    def end_to_end_runtime_ms(self) -> float:
+        return self.setup_runtime_ms + self.inference_runtime_ms
+
+    def to_dict(self) -> dict[str, float]:
+        return {
+            "setup_runtime_ms": _round_value(self.setup_runtime_ms),
+            "inference_runtime_ms": _round_value(self.inference_runtime_ms),
+            "end_to_end_runtime_ms": _round_value(self.end_to_end_runtime_ms),
+        }
 
 
 def _timestamp_s(value, fallback: float) -> float:
@@ -120,29 +143,56 @@ def _run_models(
     times,
     record_id: str,
     *,
+    training_trajectories=(),
     epsilon: float,
+    transprotect_epsilon_per_km: float,
+    transprotect_k: int,
+    transprotect_target_count: int,
+    transprotect_alpha: float,
+    transprotect_probability_smoothing: float,
+    transprotect_probability_backoff_weight: float,
     k: int,
     seed: int,
-) -> list[tuple[ProtectedRun, MethodCard, float]]:
-    """Return run, auditable method card and runtime for all registered methods."""
+) -> list[tuple[ProtectedRun, MethodCard, RuntimeEvidence]]:
+    """Return each run, evidence card, split runtime, and paper metrics."""
 
     real = _contract_trajectory(points, times)
-    models = (
-        TransProtectAdaptation(
+    transprotect_epsilon_per_m = float(transprotect_epsilon_per_km) / 1_000.0
+    model_factories = (
+        lambda: TransProtectAdaptation.from_road_network(
             rn,
-            candidate_k=max(16, k * 8),
-            rng=_model_rng(seed, epsilon, TransProtectAdaptation.name, record_id),
+            training_trajectories=training_trajectories,
+            candidate_k=transprotect_k,
+            target_count=transprotect_target_count,
+            alpha=transprotect_alpha,
+            epsilon=transprotect_epsilon_per_m,
+            probability_smoothing=transprotect_probability_smoothing,
+            probability_backoff_weight=transprotect_probability_backoff_weight,
+            rng=_model_rng(
+                seed,
+                transprotect_epsilon_per_m,
+                TransProtectAdaptation.name,
+                record_id,
+            ),
         ),
-        AnotherMeAdaptation(
+        lambda: AnotherMeAdaptation(
             rn,
-            rng=_model_rng(seed, epsilon, AnotherMeAdaptation.name, record_id),
+            # AnotherMe has no epsilon parameter.  Its random stream must stay
+            # fixed when only the thesis privacy budget is swept.
+            rng=_model_rng(seed, 0.0, AnotherMeAdaptation.name, record_id),
         ),
-        SemanticDummyAdaptation(
+        lambda: SemanticCorrelationComparator(
             rn,
             k=k,
-            rng=_model_rng(seed, epsilon, SemanticDummyAdaptation.name, record_id),
+            # The semantic scheme is configured by K, not thesis epsilon.
+            rng=_model_rng(
+                seed,
+                float(k),
+                SemanticCorrelationComparator.name,
+                record_id,
+            ),
         ),
-        GeoIAnchoredDummyTrajectories(
+        lambda: GeoIAnchoredDummyTrajectories(
             epsilon,
             rn,
             k=k,
@@ -153,14 +203,67 @@ def _run_models(
     )
 
     completed = []
-    for mechanism in models:
-        started = time.perf_counter()
+    for build_model in model_factories:
+        setup_started = time.perf_counter()
+        mechanism = build_model()
+        setup_runtime_ms = (time.perf_counter() - setup_started) * 1_000.0
+        inference_started = time.perf_counter()
         # Every method owns its adapter.  Keeping truth separation next to
         # mechanism-specific internals avoids re-encoding a private real index
         # or REM anchor in this generic runner.
         protected = mechanism.protect_run(real)
-        runtime_ms = (time.perf_counter() - started) * 1_000.0
-        completed.append((protected, mechanism.method_card, runtime_ms))
+        inference_runtime_ms = (time.perf_counter() - inference_started) * 1_000.0
+        paper_metrics: dict[str, object] = {}
+        if isinstance(mechanism, TransProtectAdaptation):
+            paper_metrics = {
+                "expected_travel_cost_loss_m": _round_value(
+                    np.mean(mechanism.last_output_utility_losses)
+                ),
+                "forced_real_membership_events": int(
+                    sum(mechanism.last_forced_real_membership)
+                ),
+                "vehitrack_eie_m": None,
+                "vehitrack_eie_status": (
+                    "not_available_without_paper_equivalent_VehiTrack_attack"
+                ),
+            }
+        elif isinstance(mechanism, AnotherMeAdaptation):
+            trace = mechanism.last_trace
+            paper_metrics = {
+                "raw_virtual_samples": len(trace.virtual_trajectory) if trace else None,
+                "transport_mode": trace.transport_mode.value if trace else None,
+                "raw_three_second_grid_preserved": bool(
+                    trace
+                    and all(
+                        current.timestamp_s - previous.timestamp_s == 3.0
+                        for previous, current in zip(
+                            trace.virtual_trajectory,
+                            trace.virtual_trajectory[1:],
+                        )
+                    )
+                ),
+                "benchmark_alignment_status": (
+                    "adapted_to_real_event_grid_not_paper_temporal_parity"
+                ),
+            }
+        elif isinstance(mechanism, SemanticCorrelationComparator):
+            paper_metrics = {
+                "paper_asr_percent": None,
+                "paper_asr_status": "not_available_without_calibrated_LSP_posterior",
+                "paper_der": None,
+                "paper_der_status": "not_available_without_paper_effectiveness_labels",
+            }
+        completed.append(
+            (
+                protected,
+                mechanism.method_card,
+                RuntimeEvidence(
+                    setup_runtime_ms,
+                    inference_runtime_ms,
+                    paper_metrics,
+                ),
+            )
+        )
     return completed
 
 
@@ -202,8 +305,8 @@ _MAJOR_HIGHWAYS = {
 _MAP_LABELS = {
     "transprotect_adaptation": "TransProtect adaptation — pseudolocation trajectory",
     "anotherme_adaptation": "AnotherMe adaptation — replacement trajectory",
-    "semantic_dummy_adaptation": (
-        "Semantic-correlation adaptation — public candidate tracks"
+    "semantic_correlation_local_adaptation": (
+        "Semantic-correlation clean-room adaptation — candidate sets"
     ),
     "geo_i_anchored_dummy": "Proposed model — dummy-only trajectories",
 }
@@ -232,7 +335,7 @@ def _run_tracks(run: ProtectedRun) -> Mapping[str, list[tuple[float, float]]]:
 
 def _display_points(
     record: Mapping,
-    runs: Sequence[tuple[ProtectedRun, str, float]],
+    runs: Sequence[tuple[ProtectedRun, MethodCard | str, float]],
 ) -> list[tuple[float, float]]:
     """Collect the coordinates that must fit in the evaluator visualisation."""
 
@@ -251,7 +354,7 @@ def _display_points(
 def _display_bounds(
     rn: RoadNetwork,
     record: Mapping,
-    runs: Sequence[tuple[ProtectedRun, str, float]],
+    runs: Sequence[tuple[ProtectedRun, MethodCard | str, float]],
     *,
     minimum_padding_m: float = 250.0,
     padding_fraction: float = 0.10,
@@ -367,6 +470,7 @@ def _set_diagnostics(run: ProtectedRun, rn: RoadNetwork) -> dict[str, float | No
     nearest, centroid_error, spread = [], [], []
     dummy_distances = []
     true_hits = []
+    vertex_fingerprint_hits = []
 
     for event_idx, (truth, candidates) in enumerate(zip(real, event_points)):
         truth_xy = np.asarray(rn.point_xy(truth.lat, truth.lon))
@@ -382,6 +486,18 @@ def _set_diagnostics(run: ProtectedRun, rn: RoadNetwork) -> dict[str, float | No
             candidates_public = run.transcript.events[event_idx].candidates
             match = [i for i, candidate in enumerate(candidates_public) if candidate.candidate_id == real_id]
             true_hits.append(float(len(match) == 1))
+            vertex_offsets = np.asarray(
+                [rn.nearest(lat, lon)[1] for lat, lon in candidates], dtype=float
+            )
+            maximum = float(np.max(vertex_offsets))
+            fingerprint_ties = np.flatnonzero(
+                np.isclose(vertex_offsets, maximum, rtol=0.0, atol=1e-3)
+            )
+            vertex_fingerprint_hits.append(
+                1.0 / len(fingerprint_ties)
+                if len(match) == 1 and match[0] in fingerprint_ties
+                else 0.0
+            )
             dummy_distances.extend(
                 distance for i, distance in enumerate(distances.tolist()) if i not in match
             )
@@ -406,6 +522,9 @@ def _set_diagnostics(run: ProtectedRun, rn: RoadNetwork) -> dict[str, float | No
         result["real_member_inclusion_rate"] = float(np.mean(true_hits))
         result["uniform_guess_success_baseline"] = float(
             np.mean([1.0 / count for count in counts])
+        )
+        result["vertex_offset_fingerprint_attack_success_rate"] = float(
+            np.mean(vertex_fingerprint_hits)
         )
     else:
         result["real_member_inclusion_rate"] = None
@@ -509,6 +628,16 @@ def _aggregate(rows: Sequence[dict]) -> list[dict]:
         aggregated["runtime_ms"] = _round_value(
             np.mean([row["runtime_ms"] for row in group])
         )
+        for runtime_key in (
+            "setup_runtime_ms",
+            "inference_runtime_ms",
+            "end_to_end_runtime_ms",
+        ):
+            aggregated[runtime_key] = _round_value(
+                np.mean(
+                    [row["runtime_breakdown_ms"][runtime_key] for row in group]
+                )
+            )
         summaries.append(
             {
                 "mechanism": mechanism,
@@ -642,6 +771,18 @@ def _load_sumo_record(args):
             }
         ],
         "candidate_graph_compatibility": SUMO_GRAPH_COMPATIBILITY_NOTE,
+        "model_training_context": {
+            "source": "held-out SUMO background vehicles",
+            "held_out_selected_vehicle": True,
+            "trajectory_count": len(
+                getattr(record, "background_trajectories", ())
+            ),
+        },
+        "_model_training_records": [
+            trajectory.to_model_input()
+            for trajectory in getattr(record, "background_trajectories", ())
+        ],
+        "_candidate_network_path": getattr(record, "network_path", None),
     }
     return [record.to_mechanism_input()], mobility
 
@@ -664,19 +805,38 @@ def _load_geolife_records(args):
         )
 
     records = []
+    evaluator_only = []
     for index, record in enumerate(loaded):
-        copied = dict(record)
-        copied["record_id"] = f"{record['user']}/{record['file']}#{index}"
-        records.append(copied)
+        record_id = f"geolife/evaluation_{index:04d}"
+        records.append(
+            {
+                "record_id": record_id,
+                "points": record["points"],
+                "times": record["times"],
+            }
+        )
+        evaluator_only.append(
+            {
+                "record_id": record_id,
+                "source_user": record.get("user"),
+                "source_file": record.get("file"),
+            }
+        )
     mobility = {
         "source": "geolife",
         "label": "Microsoft GeoLife v1.3 real-data validation",
         "sumo_runs": [],
-        "evaluator_only": [],
+        "evaluator_only": evaluator_only,
         "candidate_graph_compatibility": (
             "GeoLife coordinates are evaluated against the pinned OSMnx graph; "
             "this optional mode does not execute SUMO."
         ),
+        "model_training_context": {
+            "source": "road-topology proxy",
+            "held_out_selected_vehicle": True,
+            "trajectory_count": 0,
+        },
+        "_model_training_records": [],
     }
     return records, mobility
 
@@ -692,7 +852,7 @@ def _load_records(args):
 def _write_map(
     path: str,
     record: Mapping,
-    runs: Sequence[tuple[ProtectedRun, str, float]],
+    runs: Sequence[tuple[ProtectedRun, MethodCard | str, float]],
     rn: RoadNetwork,
     *,
     mobility_source: str,
@@ -845,9 +1005,8 @@ def _write_map(
             "passenger-only network converted from OpenStreetMap."
         )
         graph_note = (
-            "SUMO passenger graph and the protection models' pinned multimodal "
-            "OSMnx candidate graph are separate graph builds and are not "
-            "assumed identical."
+            "Mobility and protection candidates use the same generated SUMO "
+            "passenger network."
         )
     else:
         mobility_note = (
@@ -870,7 +1029,7 @@ def _write_map(
                 background:rgba(255,255,255,.96);border:1px solid #8f261f;
                 border-radius:4px;padding:7px 10px;font:12px/1.3 sans-serif;
                 color:#222;box-shadow:0 1px 5px rgba(0,0,0,.22);">
-      <b>Benchmark harness — source-mapped adaptations, not reproduced SOTA</b><br>
+      <b>Benchmark harness — clean-room adaptations, not reproduced SOTA</b><br>
       {mobility_note}<br>
       Road geometry is embedded; raster tiles are optional. The static PNG is the fully offline view.<br>
       Geometry is for inspection only; output contracts differ. {graph_note}<br>
@@ -894,7 +1053,7 @@ def _write_map(
 def _write_preview(
     path: str,
     record: Mapping,
-    runs: Sequence[tuple[ProtectedRun, str, float]],
+    runs: Sequence[tuple[ProtectedRun, MethodCard | str, float]],
     rn: RoadNetwork,
     *,
     mobility_source: str,
@@ -1056,16 +1215,28 @@ def run(args) -> dict:
             [
                 TransProtectAdaptation.name,
                 AnotherMeAdaptation.name,
-                SemanticDummyAdaptation.name,
+                SemanticCorrelationComparator.name,
             ]
         )
     run_context = begin_run()
-    print("Loading the pinned Beijing road graph...", flush=True)
-    rn = RoadNetwork.from_pickle(GRAPH_PKL)
-    assert_graph_matches_manifest(rn)
-    print(f"  {len(rn)} road vertices (manifest verified)", flush=True)
-
-    records, mobility = _load_records(args)
+    if args.mobility_source == "sumo":
+        print("Running SUMO and loading its passenger road graph...", flush=True)
+        records, mobility = _load_records(args)
+        network_path = mobility.get("_candidate_network_path")
+        if not network_path:
+            raise RuntimeError("SUMO record did not expose its generated network")
+        rn = load_sumo_road_network(network_path)
+        print(
+            f"  {len(rn)} passenger-network vertices "
+            f"({rn.graph.number_of_edges()} directed edges)",
+            flush=True,
+        )
+    else:
+        print("Loading the pinned Beijing road graph...", flush=True)
+        rn = RoadNetwork.from_pickle(GRAPH_PKL)
+        assert_graph_matches_manifest(rn)
+        print(f"  {len(rn)} road vertices (manifest verified)", flush=True)
+        records, mobility = _load_records(args)
     print(
         f"Loaded {len(records)} {mobility['label']} "
         f"record(s), {sum(len(record['points']) for record in records)} points total.",
@@ -1080,13 +1251,24 @@ def run(args) -> dict:
             record["points"],
             record["times"],
             record["record_id"],
+            training_trajectories=mobility.get("_model_training_records", ()),
             epsilon=args.epsilon,
+            transprotect_epsilon_per_km=args.transprotect_epsilon_per_km,
+            transprotect_k=args.transprotect_k,
+            transprotect_target_count=args.transprotect_target_count,
+            transprotect_alpha=args.transprotect_alpha,
+            transprotect_probability_smoothing=(
+                args.transprotect_probability_smoothing
+            ),
+            transprotect_probability_backoff_weight=(
+                args.transprotect_probability_backoff_weight
+            ),
             k=args.k,
             seed=args.seed,
         )
         if first_runs is None:
             first_runs = runs
-        for protected, card, runtime_ms in runs:
+        for protected, card, runtime in runs:
             evaluator = protected.to_evaluator_dict()
             row = {
                 "record_id": record["record_id"],
@@ -1094,7 +1276,10 @@ def run(args) -> dict:
                 "source_method": card.source.citation,
                 "implementation": card.to_dict(),
                 "output_kind": protected.transcript.output_kind.value,
-                "runtime_ms": _round_value(runtime_ms),
+                # Compatibility scalar now means full model setup + inference.
+                "runtime_ms": _round_value(runtime.end_to_end_runtime_ms),
+                "runtime_breakdown_ms": runtime.to_dict(),
+                "paper_metrics": dict(runtime.paper_metrics),
                 "metrics": {
                     key: _round_value(value)
                     for key, value in _diagnostics(
@@ -1139,6 +1324,23 @@ def run(args) -> dict:
                 "below. This mode was explicitly requested and is never a fallback."
             ),
         }
+    if mobility["source"] == "sumo":
+        sumo_hashes = mobility["sumo_runs"][0]["sha256"]
+        graph_provenance = {
+            "graph_sha256": sumo_hashes["network"],
+            "graph_raw_file_sha256": sumo_hashes["network"],
+            "graph_semantic_sha256": road_network_semantic_sha256(rn),
+            "graph_semantic_hash_schema": "sumo-passenger-road-graph-v1",
+            "graph_source_sha256": sumo_hashes["osm"],
+            "graph_network_profile": "SUMO passenger-only, largest component",
+            "graph_origin": "generated SUMO .net.xml used by the same FCD run",
+            "graph_edges": rn.graph.number_of_edges(),
+        }
+    else:
+        graph_provenance = {
+            "graph_edges": rn.graph.number_of_edges(),
+            "graph_origin": "pinned OSMnx pickle",
+        }
     prov = provenance(
         rn,
         [args.epsilon],
@@ -1148,8 +1350,9 @@ def run(args) -> dict:
         extra={
             "artifact_schema": BENCHMARK_SCHEMA,
             "artifact_status": (
-                "executable benchmark harness; current paper comparators are "
-                "reference adaptations, not reproduced SOTA implementations"
+                "executable clean-room benchmark comparators; unavailable "
+                "paper assets use explicit local adapters, so these are not "
+                "reproduced SOTA results"
             ),
             "dataset": dataset,
             "mobility_source": mobility["source"],
@@ -1158,16 +1361,53 @@ def run(args) -> dict:
             "candidate_graph_compatibility": mobility[
                 "candidate_graph_compatibility"
             ],
+            "model_training_context": mobility["model_training_context"],
             "selected_record_ids": [record["record_id"] for record in records],
             "n_points_per_record": [len(record["points"]) for record in records],
             "k": args.k,
+            "privacy_parameters": {
+                "thesis_epsilon_per_m": args.epsilon,
+                "transprotect_epsilon_per_km": (
+                    args.transprotect_epsilon_per_km
+                ),
+                "transprotect_epsilon_per_m_internal": (
+                    args.transprotect_epsilon_per_km / 1_000.0
+                ),
+            },
+            "method_parameters": {
+                TransProtectAdaptation.name: {
+                    "candidate_k": args.transprotect_k,
+                    "target_count": args.transprotect_target_count,
+                    "alpha": args.transprotect_alpha,
+                    "probability_smoothing": (
+                        args.transprotect_probability_smoothing
+                    ),
+                    "probability_backoff_weight": (
+                        args.transprotect_probability_backoff_weight
+                    ),
+                    "epsilon_per_km": args.transprotect_epsilon_per_km,
+                },
+                AnotherMeAdaptation.name: {
+                    "rng_invariant_to_thesis_epsilon": True,
+                },
+                SemanticCorrelationComparator.name: {
+                    "k": args.k,
+                    "candidate_linkage": "event_local_unlinked_sets",
+                    "rng_invariant_to_thesis_epsilon": True,
+                },
+                GeoIAnchoredDummyTrajectories.name: {
+                    "k": args.k,
+                    "epsilon_per_m": args.epsilon,
+                },
+            },
             "qos_radius_m": args.qos_radius_m,
             "cross_contract_comparison_allowed": False,
+            **graph_provenance,
         },
     )
     artifact = {
         "schema": BENCHMARK_SCHEMA,
-        "status": "REFERENCE_ADAPTATIONS",
+        "status": "EXECUTABLE_CLEAN_ROOM_ADAPTATIONS",
         "disclaimer": artifact_disclaimer,
         "method_inventory": method_inventory(),
         "provenance": prov,
@@ -1225,8 +1465,8 @@ def run(args) -> dict:
 def parse_args(argv=None):
     parser = argparse.ArgumentParser(
         description=(
-            "Run the dummy-generation benchmark harness with three source-mapped "
-            "paper adaptations and the thesis candidate."
+            "Run three source-mapped clean-room paper comparators and the "
+            "thesis candidate."
         )
     )
     parser.add_argument(
@@ -1294,7 +1534,51 @@ def parse_args(argv=None):
         default=900.0,
         help="SUMO simulation end time",
     )
-    parser.add_argument("--epsilon", type=float, default=0.02)
+    parser.add_argument(
+        "--epsilon",
+        type=float,
+        default=0.02,
+        help="thesis-candidate Geo-I budget in m^-1",
+    )
+    parser.add_argument(
+        "--transprotect-epsilon-per-km",
+        type=float,
+        default=5.0,
+        help=(
+            "TransProtect budget in km^-1 (paper sweep: 5, 7.5, 10); "
+            "converted to m^-1 internally"
+        ),
+    )
+    parser.add_argument(
+        "--transprotect-k",
+        type=int,
+        default=10,
+        help="TransProtect top-K candidate-set size (independent of thesis K)",
+    )
+    parser.add_argument(
+        "--transprotect-target-count",
+        type=int,
+        default=8,
+        help="number of disjoint-background target proxies for Equation (13)",
+    )
+    parser.add_argument(
+        "--transprotect-alpha",
+        type=float,
+        default=10_000.0,
+        help="utility weighting alpha in the TransProtect top-K score",
+    )
+    parser.add_argument(
+        "--transprotect-probability-smoothing",
+        type=float,
+        default=1e-6,
+        help="additive smoothing for the explicitly labelled local Markov proxy",
+    )
+    parser.add_argument(
+        "--transprotect-probability-backoff-weight",
+        type=float,
+        default=0.1,
+        help="global-frequency backoff weight for the local Markov proxy",
+    )
     parser.add_argument("--k", type=int, default=4)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--qos-radius-m", type=float, default=200.0)
@@ -1337,6 +1621,20 @@ def parse_args(argv=None):
         parser.error("--interval-s must be at least 1")
     if args.epsilon <= 0:
         parser.error("--epsilon must be positive")
+    if args.transprotect_epsilon_per_km <= 0:
+        parser.error("--transprotect-epsilon-per-km must be positive")
+    if args.transprotect_k < 1:
+        parser.error("--transprotect-k must be at least 1")
+    if args.transprotect_target_count < 1:
+        parser.error("--transprotect-target-count must be at least 1")
+    if args.transprotect_alpha <= 0:
+        parser.error("--transprotect-alpha must be positive")
+    if args.transprotect_probability_smoothing <= 0:
+        parser.error("--transprotect-probability-smoothing must be positive")
+    if not 0 <= args.transprotect_probability_backoff_weight <= 1:
+        parser.error(
+            "--transprotect-probability-backoff-weight must be in [0, 1]"
+        )
     if args.k < 2:
         parser.error("--k must be at least 2")
     if args.qos_radius_m <= 0:

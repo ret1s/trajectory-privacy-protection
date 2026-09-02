@@ -1,4 +1,4 @@
-"""Controlled SUMO mobility source for the SOTA concept demo.
+"""Controlled SUMO mobility source for the paper-comparator benchmark.
 
 This module is intentionally small: it builds one passenger-only road network
 from the local Beijing OSM extract, creates deterministic random demand with
@@ -20,6 +20,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import hashlib
 import importlib
+import json
 import os
 from pathlib import Path
 import re
@@ -28,6 +29,9 @@ import subprocess
 import sys
 from typing import Mapping, Sequence
 import xml.etree.ElementTree as ET
+
+import networkx as nx
+from shapely.geometry import LineString
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -143,6 +147,30 @@ class SumoEvaluatorMetadata:
 
 
 @dataclass(frozen=True)
+class SumoBackgroundTrajectory:
+    """Simulator trajectory that may be used only as model-training context.
+
+    Vehicle identifiers and lane/edge metadata are deliberately discarded.
+    Keeping this object separate from :class:`SumoEvaluatorMetadata` lets a
+    predictor learn from the other simulated vehicles without seeing the
+    held-out vehicle or any evaluator-only state.
+    """
+
+    points: tuple[tuple[float, float], ...]
+    times: tuple[float, ...]
+
+    def __post_init__(self) -> None:
+        if len(self.points) != len(self.times) or len(self.points) < 2:
+            raise ValueError("background points/times must align and contain two samples")
+
+    def to_model_input(self) -> dict[str, object]:
+        return {
+            "points": [list(point) for point in self.points],
+            "times": list(self.times),
+        }
+
+
+@dataclass(frozen=True)
 class SumoRunProvenance:
     """Exact commands, versions, and artifact digests for one run."""
 
@@ -171,6 +199,8 @@ class SumoDemoRecord:
     times: tuple[float, ...]
     evaluator_only: SumoEvaluatorMetadata
     provenance: SumoRunProvenance
+    background_trajectories: tuple[SumoBackgroundTrajectory, ...] = ()
+    network_path: str | None = None
 
     def to_mechanism_input(self) -> dict[str, object]:
         """Return only fields needed by a protection mechanism."""
@@ -294,6 +324,159 @@ def resolve_sumo_toolchain() -> SumoToolchain:
         random_trips=random_trips,
         sumo_home=sumo_home,
     )
+
+
+def _load_sumolib():
+    """Import SUMO's bundled Python tools without assuming a global install."""
+
+    try:
+        return importlib.import_module("sumolib")
+    except ImportError:
+        roots = _module_roots()
+        for root in roots:
+            tools_path = root / "tools"
+            if (tools_path / "sumolib").is_dir():
+                rendered = str(tools_path)
+                if rendered not in sys.path:
+                    sys.path.insert(0, rendered)
+                return importlib.import_module("sumolib")
+    raise SumoUnavailableError(
+        "SUMO network loading requires the official bundled sumolib tools"
+    )
+
+
+def load_sumo_road_network(path: str | Path):
+    """Convert the exact passenger network used by SUMO into ``RoadNetwork``.
+
+    Candidate vertices and edge polylines then come from the same ``.net.xml``
+    on which the FCD trajectory was simulated, removing the former mismatch
+    with a separately built multimodal OSMnx graph.
+    """
+
+    from core.road_network import RoadNetwork
+
+    source = Path(path).expanduser().resolve()
+    if not source.is_file():
+        raise FileNotFoundError(f"SUMO network does not exist: {source}")
+    sumolib = _load_sumolib()
+    network = sumolib.net.readNet(str(source), withInternal=False)
+    graph = nx.MultiDiGraph(
+        source="eclipse_sumo_passenger_network",
+        source_path=str(source),
+    )
+
+    def geographic(point: Sequence[float]) -> tuple[float, float]:
+        lon, lat = network.convertXY2LonLat(float(point[0]), float(point[1]))
+        return float(lon), float(lat)
+
+    for edge in network.getEdges(withInternal=False):
+        if not edge.allows("passenger"):
+            continue
+        start_node = edge.getFromNode()
+        end_node = edge.getToNode()
+        start_id, end_id = start_node.getID(), end_node.getID()
+        for node, node_id in ((start_node, start_id), (end_node, end_id)):
+            if node_id not in graph:
+                lon, lat = geographic(node.getCoord())
+                graph.add_node(node_id, x=lon, y=lat)
+        coordinates = [geographic(point) for point in edge.getShape()]
+        if len(coordinates) < 2:
+            coordinates = [
+                (graph.nodes[start_id]["x"], graph.nodes[start_id]["y"]),
+                (graph.nodes[end_id]["x"], graph.nodes[end_id]["y"]),
+            ]
+        edge_type = str(edge.getType() or "road_other")
+        highway = edge_type.removeprefix("highway.")
+        length = float(edge.getLength())
+        speed = float(edge.getSpeed())
+        graph.add_edge(
+            start_id,
+            end_id,
+            key=edge.getID(),
+            sumo_edge_id=edge.getID(),
+            length=length,
+            speed=speed,
+            travel_time=length / speed if speed > 0.0 else length,
+            highway=highway,
+            geometry=LineString(coordinates),
+        )
+    if graph.number_of_edges() == 0:
+        raise SumoOutputError("SUMO passenger network contains no usable edges")
+    return RoadNetwork(graph)
+
+
+def road_network_semantic_sha256(road_network) -> str:
+    """Hash canonical graph semantics, excluding volatile XML metadata.
+
+    SUMO writes generation time and absolute paths into ``.net.xml`` comments,
+    so a byte hash can change across otherwise identical seeded builds.  This
+    digest covers the directed passenger graph actually consumed by benchmark
+    methods: node coordinates plus edge identity, geometry, length, speed,
+    travel time, and road class.  Records are sorted and floats are rounded to
+    twelve decimal places to make the serialization platform-stable while
+    retaining sub-millimetre geographic precision.
+    """
+
+    graph = road_network.graph
+
+    def number(value) -> float:
+        return round(float(value), 12)
+
+    nodes = sorted(
+        (
+            str(node),
+            number(data["x"]),
+            number(data["y"]),
+        )
+        for node, data in graph.nodes(data=True)
+    )
+    edges = []
+    iterator = (
+        graph.edges(keys=True, data=True)
+        if graph.is_multigraph()
+        else ((u, v, "", data) for u, v, data in graph.edges(data=True))
+    )
+    for start, end, key, data in iterator:
+        geometry = data.get("geometry")
+        coordinates = (
+            [[number(lon), number(lat)] for lon, lat in geometry.coords]
+            if geometry is not None
+            else [
+                [number(graph.nodes[start]["x"]), number(graph.nodes[start]["y"])],
+                [number(graph.nodes[end]["x"]), number(graph.nodes[end]["y"])],
+            ]
+        )
+        highway = data.get("highway", "")
+        if isinstance(highway, (list, tuple, set)):
+            highway = sorted(str(value) for value in highway)
+        else:
+            highway = str(highway)
+        edges.append(
+            (
+                str(start),
+                str(end),
+                str(key),
+                str(data.get("sumo_edge_id", "")),
+                number(data.get("length", 0.0)),
+                number(data.get("speed", 0.0)),
+                number(data.get("travel_time", 0.0)),
+                highway,
+                coordinates,
+            )
+        )
+    payload = {
+        "schema": "sumo-passenger-road-graph-v1",
+        "directed": bool(graph.is_directed()),
+        "nodes": nodes,
+        "edges": sorted(edges, key=lambda value: json.dumps(value, sort_keys=True)),
+    }
+    canonical = json.dumps(
+        payload,
+        ensure_ascii=True,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
 
 
 def _run(
@@ -439,6 +622,34 @@ def select_longest_trace(
             f"need at least {min_points}"
         )
     return vehicle_id, selected
+
+
+def select_background_trajectories(
+    traces: Mapping[str, Sequence[FCDSample]],
+    *,
+    held_out_vehicle_id: str,
+    interval_s: float,
+    max_points: int,
+    min_points: int = 2,
+) -> tuple[SumoBackgroundTrajectory, ...]:
+    """Return de-identified, resampled traces excluding the evaluation vehicle."""
+
+    selected: list[SumoBackgroundTrajectory] = []
+    for vehicle_id in sorted(traces):
+        if vehicle_id == held_out_vehicle_id:
+            continue
+        samples = _resample_trace(
+            traces[vehicle_id], interval_s=interval_s, max_points=max_points
+        )
+        if len(samples) < min_points:
+            continue
+        selected.append(
+            SumoBackgroundTrajectory(
+                points=tuple((sample.lat, sample.lon) for sample in samples),
+                times=tuple(sample.timestamp_s for sample in samples),
+            )
+        )
+    return tuple(selected)
 
 
 def parse_vehicle_routes(path: str | Path) -> dict[str, tuple[str, ...]]:
@@ -634,6 +845,13 @@ def run_sumo_smoke_demo(
         max_points=active_config.max_points,
         min_points=active_config.min_points,
     )
+    background_trajectories = select_background_trajectories(
+        traces,
+        held_out_vehicle_id=vehicle_id,
+        interval_s=active_config.resample_interval_s,
+        max_points=active_config.max_points,
+        min_points=2,
+    )
     actual_routes = parse_vehicle_routes(files["vehicle_routes"])
     planned_routes = parse_vehicle_routes(files["routes"])
     route_edges = actual_routes.get(vehicle_id) or planned_routes.get(vehicle_id, ())
@@ -661,11 +879,16 @@ def run_sumo_smoke_demo(
         route_edges=tuple(route_edges),
     )
     return SumoDemoRecord(
-        record_id=f"sumo/{provenance.scenario}/{vehicle_id}",
+        # The simulator's vehicle ID is evaluator-only identity information.
+        # This public handle identifies the selected evaluation slot without
+        # embedding that private identifier.
+        record_id=f"sumo/{provenance.scenario}/evaluation_0000",
         points=tuple((sample.lat, sample.lon) for sample in samples),
         times=tuple(sample.timestamp_s for sample in samples),
         evaluator_only=evaluator,
         provenance=provenance,
+        background_trajectories=background_trajectories,
+        network_path=str(files["network"]),
     )
 
 
@@ -676,6 +899,7 @@ __all__ = [
     "DEFAULT_WORKDIR",
     "FCDSample",
     "SumoCommandError",
+    "SumoBackgroundTrajectory",
     "SumoDemoRecord",
     "SumoEvaluatorMetadata",
     "SumoOutputError",
@@ -684,8 +908,11 @@ __all__ = [
     "SumoToolchain",
     "SumoUnavailableError",
     "parse_fcd",
+    "load_sumo_road_network",
+    "road_network_semantic_sha256",
     "parse_vehicle_routes",
     "resolve_sumo_toolchain",
     "run_sumo_smoke_demo",
+    "select_background_trajectories",
     "select_longest_trace",
 ]

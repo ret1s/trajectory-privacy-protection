@@ -26,6 +26,61 @@
 
   const humanize = (value) => String(value || "unspecified").replaceAll("_", " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
+  const metricPresentation = (name, value, forcedUnit = "") => {
+    let label = String(name || "unspecified");
+    let unit = forcedUnit;
+    if (!unit && label.endsWith("_percent")) {
+      label = label.slice(0, -8);
+      unit = "%";
+    } else if (!unit && label.endsWith("_ms")) {
+      label = label.slice(0, -3);
+      unit = "ms";
+    } else if (!unit && label.endsWith("_m")) {
+      label = label.slice(0, -2);
+      unit = "m";
+    } else if (unit === "ms" && label.endsWith("_ms")) {
+      label = label.slice(0, -3);
+    }
+
+    let formatted;
+    if (typeof value === "boolean") {
+      formatted = value ? "Có" : "Không";
+    } else if (Array.isArray(value)) {
+      formatted = value.map((item) => formatValue(item)).join(", ");
+    } else if (value && typeof value === "object") {
+      formatted = JSON.stringify(value);
+    } else {
+      formatted = formatValue(value);
+    }
+    if (unit && typeof value === "number" && Number.isFinite(value)) formatted = `${formatted} ${unit}`;
+    return { label: humanize(label), value: formatted };
+  };
+
+  function renderMetricGrid(gridId, values, emptyMessage, forcedUnit = "") {
+    const grid = byId(gridId);
+    grid.replaceChildren();
+    const entries = values && typeof values === "object" && !Array.isArray(values)
+      ? Object.entries(values)
+      : [];
+    entries.forEach(([name, value]) => {
+      const card = document.createElement("div");
+      card.className = "metric";
+      const presentation = metricPresentation(name, value, forcedUnit);
+      const label = document.createElement("span");
+      label.textContent = presentation.label;
+      const number = document.createElement("strong");
+      number.textContent = presentation.value;
+      card.append(label, number);
+      grid.appendChild(card);
+    });
+    if (!entries.length) {
+      const empty = document.createElement("p");
+      empty.className = "metric-empty";
+      empty.textContent = emptyMessage;
+      grid.appendChild(empty);
+    }
+  }
+
   function showUnavailable(message) {
     byId("dashboard").classList.add("hidden");
     byId("empty-state").classList.remove("hidden");
@@ -53,7 +108,7 @@
     text("mobility-label", overview.provenance.mobility_label);
     text("mechanism-count", overview.mechanisms.length);
     text("record-count", overview.record_count);
-    text("point-count", overview.provenance.n_points_per_record ? `${overview.provenance.n_points_per_record} samples / trajectory` : null);
+    text("point-count", overview.provenance.point_count_label);
     const commit = overview.provenance.source_commit;
     text("source-commit", commit ? commit.slice(0, 10) : null);
     text("source-clean", overview.provenance.source_dirty_before_run === false ? "clean source at run time" : "kiểm tra dirty-state");
@@ -146,6 +201,8 @@
     );
     byId("event-rows").innerHTML = '<tr><td colspan="3">Đang đọc attacker view…</td></tr>';
     byId("metric-grid").textContent = "";
+    byId("paper-metric-grid").textContent = "";
+    byId("runtime-grid").textContent = "";
     byId("truth-summary").textContent = "";
     const recordSelect = byId("record-select");
     recordSelect.disabled = true;
@@ -212,6 +269,8 @@
     const mechanismId = state.selected;
     const token = state.requestToken;
     byId("metric-grid").textContent = "Đang đọc dữ liệu evaluator-only…";
+    byId("paper-metric-grid").textContent = "";
+    byId("runtime-grid").textContent = "";
     try {
       const payload = await getJson(`/api/mechanisms/${encodeURIComponent(mechanismId)}/evaluation`);
       if (state.selected !== mechanismId || token !== state.requestToken) return;
@@ -219,23 +278,36 @@
       renderEvaluator();
     } catch (error) {
       byId("metric-grid").textContent = `Evaluator view không khả dụng: ${error.message}`;
+      byId("paper-metric-grid").textContent = "";
+      byId("runtime-grid").textContent = "";
     }
   }
 
   function renderEvaluator() {
-    const grid = byId("metric-grid");
-    grid.replaceChildren();
     const run = selectedRun(state.evaluatorPayload);
-    Object.entries(run.metrics || {}).forEach(([name, value]) => {
-      const card = document.createElement("div");
-      card.className = "metric";
-      const label = document.createElement("span");
-      label.textContent = humanize(name);
-      const number = document.createElement("strong");
-      number.textContent = formatValue(value);
-      card.append(label, number);
-      grid.appendChild(card);
-    });
+    renderMetricGrid(
+      "metric-grid",
+      run.metrics,
+      "Artifact không cung cấp chỉ số chẩn đoán chung cho bản ghi này.",
+    );
+    renderMetricGrid(
+      "paper-metric-grid",
+      run.paper_metrics,
+      "Artifact không cung cấp chỉ số theo paper cho cơ chế này.",
+    );
+    const runtimeBreakdown = run.runtime_breakdown_ms && typeof run.runtime_breakdown_ms === "object"
+      && !Array.isArray(run.runtime_breakdown_ms)
+      ? { ...run.runtime_breakdown_ms }
+      : {};
+    if (runtimeBreakdown.end_to_end_runtime_ms === undefined && run.runtime_ms !== null && run.runtime_ms !== undefined) {
+      runtimeBreakdown.end_to_end_runtime_ms = run.runtime_ms;
+    }
+    renderMetricGrid(
+      "runtime-grid",
+      runtimeBreakdown,
+      "Artifact không cung cấp phân rã thời gian thực thi cho bản ghi này.",
+      "ms",
+    );
     const truth = run.evaluator_truth || {};
     const trajectory = Array.isArray(truth.real_trajectory) ? truth.real_trajectory : [];
     const realIds = Array.isArray(truth.real_candidate_ids) ? truth.real_candidate_ids : [];

@@ -18,7 +18,7 @@ from benchmark.contracts import (
 from benchmark.methods import (
     AnotherMeAdaptation,
     GeoIAnchoredDummyTrajectories,
-    SemanticDummyAdaptation,
+    SemanticCorrelationComparator,
     TransProtectAdaptation,
 )
 from benchmark.registry import METHOD_CARDS, method_card, method_inventory
@@ -95,7 +95,7 @@ def test_all_current_paper_comparators_fail_closed_as_faithful_reproductions():
     for cls in (
         TransProtectAdaptation,
         AnotherMeAdaptation,
-        SemanticDummyAdaptation,
+        SemanticCorrelationComparator,
     ):
         assert cls.method_card.implementation_level is ImplementationLevel.PAPER_ADAPTATION
         try:
@@ -185,14 +185,20 @@ def test_executable_methods_match_runtime_contract_and_embed_status():
     rn = _line_network()
     real = _trajectory(rn)
     models = (
-        TransProtectAdaptation(rn, rng=np.random.default_rng(1)),
+        TransProtectAdaptation.from_road_network(
+            rn,
+            candidate_k=3,
+            target_count=3,
+            rng=np.random.default_rng(1),
+        ),
         AnotherMeAdaptation(
             rn,
             anchor_min_m=50,
             anchor_max_m=500,
+            minimum_raw_samples=1,
             rng=np.random.default_rng(2),
         ),
-        SemanticDummyAdaptation(rn, k=3, rng=np.random.default_rng(3)),
+        SemanticCorrelationComparator(rn, k=3, rng=np.random.default_rng(3)),
         GeoIAnchoredDummyTrajectories(
             0.02, rn, k=2, rng=np.random.default_rng(4)
         ),
@@ -209,7 +215,7 @@ def test_executable_methods_match_runtime_contract_and_embed_status():
         )
         assert parameters["reportable_as_reproduced_sota"] is False
         assert parameters["source_citation"] == model.method_card.source.citation
-        assert parameters["implementation_origin"].startswith("benchmark.engines.")
+        assert parameters["implementation_origin"].startswith("benchmark.")
         assert "demo_only" not in parameters
 
 

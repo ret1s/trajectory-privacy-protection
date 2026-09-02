@@ -1,15 +1,13 @@
 """Executable methods exposed to dummy-generation benchmark orchestration."""
 
-from .paper_adaptations import (
-    AnotherMeAdaptation,
-    SemanticDummyAdaptation,
-    TransProtectAdaptation,
-)
+from .anotherme import AnotherMeAdaptation
 from .proposed import GeoIAnchoredDummyTrajectories
+from .semantic_correlation import SemanticCorrelationComparator
+from .transprotect import TransProtectAdaptation
 
 __all__ = [
     "AnotherMeAdaptation",
     "GeoIAnchoredDummyTrajectories",
-    "SemanticDummyAdaptation",
+    "SemanticCorrelationComparator",
     "TransProtectAdaptation",
 ]

@@ -126,7 +126,27 @@
               <strong>Vùng đánh giá có ground truth</strong>
               <span>Metrics và trajectory thật chỉ dùng để chấm điểm; không đưa vào attacker input.</span>
             </div>
-            <div id="metric-grid" class="metric-grid"></div>
+            <section class="evaluator-section" aria-labelledby="diagnostic-metrics-heading">
+              <div class="evaluator-heading">
+                <h3 id="diagnostic-metrics-heading">Chỉ số chẩn đoán chung</h3>
+                <p>Đánh giá privacy, utility và tính hợp lệ trên cùng output contract.</p>
+              </div>
+              <div id="metric-grid" class="metric-grid"></div>
+            </section>
+            <section class="evaluator-section" aria-labelledby="paper-metrics-heading">
+              <div class="evaluator-heading">
+                <h3 id="paper-metrics-heading">Chỉ số theo paper</h3>
+                <p>Chỉ diễn giải trong phạm vi cơ chế tương ứng; N/A nghĩa là artifact chưa cung cấp giá trị.</p>
+              </div>
+              <div id="paper-metric-grid" class="metric-grid paper-metric-grid"></div>
+            </section>
+            <section class="evaluator-section" aria-labelledby="runtime-heading">
+              <div class="evaluator-heading">
+                <h3 id="runtime-heading">Thời gian thực thi</h3>
+                <p>Tách chi phí khởi tạo mô hình và suy luận cho bản ghi đang xem.</p>
+              </div>
+              <div id="runtime-grid" class="metric-grid"></div>
+            </section>
             <details class="truth-details">
               <summary>Xem metadata ground truth dùng bởi evaluator</summary>
               <div id="truth-summary"></div>
