@@ -5,8 +5,10 @@
 **Phạm vi:** khả năng đọc của `sota_demo_map.html` khi tile bản đồ trực tuyến
 không tải được, cùng ảnh preview tĩnh mới.
 
-**Kết luận:** **PASS cho demo cục bộ**. HTML không còn phụ thuộc vào raster tile
-để hiển thị bối cảnh đường; vẫn cần người dùng kiểm tra tương tác cuối cùng trên
+**Kết luận:** **PASS cho demo cục bộ trong phạm vi lớp đường**. Hình học đường
+không còn phụ thuộc vào raster tile, nhưng HTML vẫn tải Leaflet/CSS/JavaScript
+từ CDN nên chưa phải artifact dùng được trong môi trường hoàn toàn cách ly
+mạng. Ảnh PNG là phương án xem ngoại tuyến; vẫn cần kiểm tra tương tác HTML trên
 trình duyệt đích trước buổi trình bày.
 
 ## 1. Nguyên nhân lỗi cũ
@@ -53,10 +55,11 @@ truth và output của mô hình đủ tương phản, bốn panel cùng phạm 
 không chồng nội dung. HTML và PNG dùng cùng hàm trích xuất mạng đường.
 
 Kiểm tra HTML còn xác nhận layer OSM trực tuyến không được gọi `.addTo(map)` khi
-khởi tạo, còn local road layer được nhúng trong file dưới dạng GeoJSON. Vì kết
-nối browser automation của môi trường kiểm tra không khả dụng, thao tác bật/tắt
-layer trên trình duyệt chưa được tự động chụp lại; đây là caveat của verification,
-không phải fallback sang tile mạng.
+khởi tạo, còn local road layer được nhúng trong file dưới dạng GeoJSON. Điều này
+chỉ loại phụ thuộc vào raster tile, không có nghĩa toàn bộ frontend asset đã
+được đóng gói ngoại tuyến. Vì kết nối browser automation của môi trường kiểm
+tra không khả dụng, thao tác bật/tắt layer trên trình duyệt chưa được tự động
+chụp lại; đây là caveat của verification.
 
 ## 4. Artifact cuối
 

@@ -28,8 +28,10 @@ khi triển khai ra ngoài máy cá nhân.
 - `outputs/dummy_benchmark_results.json`: artifact v3, chứa provenance, thẻ
   phương pháp, public transcript, ground truth tách riêng và diagnostic metrics;
 - `outputs/dummy_benchmark_map.html`: bản đồ tương tác evaluator-only, nhúng
-  mạng đường OSM cục bộ nên vẫn đọc được khi tile trực tuyến không tải;
-- `outputs/dummy_benchmark_preview.png`: ảnh tĩnh đối chiếu bốn cơ chế.
+  hình học mạng đường OSM và không bật raster tile theo mặc định; các thư viện
+  giao diện Folium/Leaflet vẫn có thể cần CDN hoặc bộ nhớ đệm của trình duyệt;
+- `outputs/dummy_benchmark_preview.png`: ảnh tĩnh đối chiếu bốn cơ chế và là
+  phương án xem hoàn toàn ngoại tuyến.
 
 ## Nguồn quỹ đạo
 

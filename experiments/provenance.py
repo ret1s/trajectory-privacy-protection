@@ -17,6 +17,7 @@ import platform
 import subprocess
 import sys
 from datetime import datetime, timezone
+from pathlib import Path
 
 from experiments.rng_util import RNG_SCHEMA
 
@@ -92,6 +93,31 @@ def _env_lock():
     return out
 
 
+def _replay_command():
+    """Return a command that can be copied to rerun the current entry point.
+
+    When Python executes ``-m experiments.some_runner``, ``sys.argv[0]`` is the
+    resolved file path, not the original module name.  Re-prepending ``-m`` to
+    that path produces an invalid command.  Project-local ``.py`` entry points
+    are therefore converted back to dotted module names; external scripts fall
+    back to direct file execution.
+    """
+
+    project_root = Path(__file__).resolve().parents[1]
+    entry_point = Path(sys.argv[0]).resolve()
+    try:
+        relative = entry_point.relative_to(project_root)
+    except ValueError:
+        return [sys.executable, str(entry_point), *sys.argv[1:]]
+
+    if relative.suffix == ".py" and all(
+        part.isidentifier() for part in relative.with_suffix("").parts
+    ):
+        module = ".".join(relative.with_suffix("").parts)
+        return [sys.executable, "-m", module, *sys.argv[1:]]
+    return [sys.executable, str(entry_point), *sys.argv[1:]]
+
+
 def begin_run():
     """Capture the immutable run context BEFORE the computation loop (verifier
     R4-008): source commit + dirty flag, start time, interpreter, cwd, platform,
@@ -105,7 +131,7 @@ def begin_run():
         "interpreter": sys.executable,
         "cwd": os.getcwd(),
         "platform": platform.platform(),
-        "command": [sys.executable, "-m"] + [a for a in sys.argv],
+        "command": _replay_command(),
         "package_versions": _env_lock(),
     }
 

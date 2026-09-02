@@ -13,10 +13,11 @@ Usage (from the repository root)::
     python -m experiments.run_dummy_benchmark --mobility-source geolife --no-map
 
 The default run executes a controlled Eclipse SUMO scenario over the local
-Beijing OpenStreetMap extract and writes both an evaluator JSON artifact and a
-standalone Folium map under ``outputs/``.  GeoLife remains an explicit
-real-data validation option; neither source silently falls back to synthetic
-or other mobility data.
+Beijing OpenStreetMap extract and writes an evaluator JSON artifact, an
+interactive Folium map with embedded road geometry, and a fully offline static
+PNG under ``outputs/``. The map's frontend runtime is currently loaded from
+CDNs. GeoLife remains an explicit real-data validation option; neither source
+silently falls back to synthetic or other mobility data.
 """
 
 from __future__ import annotations
@@ -305,9 +306,11 @@ def _embedded_road_geojson(
 ) -> dict[str, dict]:
     """Build two compact local MultiLineStrings clipped to display bounds.
 
-    The graph already contains OSM road geometry, so the HTML does not need a
-    network tile request to provide geographic context.  Reciprocal directed
-    edges with identical geometry are de-duplicated before serialisation.
+    The graph already contains OSM road geometry, so geographic context does
+    not require raster-tile requests. Folium's HTML runtime assets may still be
+    CDN references; the separately generated PNG is the fully offline view.
+    Reciprocal directed edges with identical geometry are de-duplicated before
+    serialisation.
     """
 
     from shapely.geometry import LineString, box
@@ -712,9 +715,9 @@ def _write_map(
         prefer_canvas=True,
     )
 
-    # This optional network layer is deliberately disabled.  The useful map
-    # context comes from the embedded graph below, so opening the local HTML
-    # never depends on an OSM tile response.
+    # This optional raster-tile layer is deliberately disabled. The road
+    # geometry comes from the embedded graph below. Folium/Leaflet runtime
+    # assets may remain CDN references; the static PNG is the offline fallback.
     folium.TileLayer(
         tiles="OpenStreetMap",
         name="Online OpenStreetMap tiles (optional)",
@@ -869,7 +872,7 @@ def _write_map(
                 color:#222;box-shadow:0 1px 5px rgba(0,0,0,.22);">
       <b>Benchmark harness — source-mapped adaptations, not reproduced SOTA</b><br>
       {mobility_note}<br>
-      The road map is embedded from the pinned local graph; online tiles are optional.<br>
+      Road geometry is embedded; raster tiles are optional. The static PNG is the fully offline view.<br>
       Geometry is for inspection only; output contracts differ. {graph_note}<br>
       Road/map data © OpenStreetMap contributors (ODbL).
     </div>
@@ -1184,7 +1187,7 @@ def run(args) -> dict:
             rn,
             mobility_source=mobility["source"],
         )
-        print(f"Saved standalone map: {args.map_output}")
+        print(f"Saved interactive map: {args.map_output}")
         _write_preview(
             args.preview_output,
             records[0],
@@ -1201,6 +1204,7 @@ def run(args) -> dict:
                 "sha256": sha256_file(args.map_output),
                 "embedded_local_roads": True,
                 "online_tiles_enabled_by_default": False,
+                "runtime_assets_may_require_network_or_browser_cache": True,
                 "byte_reproducible": False,
             },
             "static_preview": {
