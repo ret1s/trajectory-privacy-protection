@@ -12,6 +12,18 @@ cd thesis
 latexmk -xelatex main.tex
 ```
 
+Review entry points:
+
+- canonical source: `docs/supervisor_meeting/2026-09-05/report.tex`;
+- review PDF: `output/pdf/graduation_thesis.pdf`;
+- verification record: `docs/reviews/verification_graduation_thesis_latest_v1.md`;
+- canonical benchmark data: `outputs/dummy_benchmark_results.json`.
+
+The current quantitative chapter is explicitly an eight-event, one-trajectory
+integration smoke test. It verifies the benchmark and output contracts; it is
+not yet the final privacy comparison or a faithful reproduction of published
+SOTA results.
+
 The files under `chapters/` and `refs.bib` are the preserved modular source of
 the Internship 2 / August draft. They are **not imported by `main.tex`** and
 must not be edited as though they were current thesis chapters. They may be
