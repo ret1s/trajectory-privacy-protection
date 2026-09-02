@@ -286,6 +286,20 @@ def test_local_mode_label_is_not_exposed_in_attacker_parameters():
     assert all(mode.value not in rendered for mode in TransportMode)
 
 
+def test_local_endpoint_range_is_exposed_as_public_configuration():
+    mechanism = AnotherMeAdaptation(
+        route_provider=_StaticRouter(_navigation_route()),
+        endpoint_mapper=RoadNetworkVirtualEndpointMapper(_line_network(), seed=31),
+        minimum_raw_samples=1,
+        seed=31,
+    )
+    run = mechanism.protect_run(_real_trace())
+
+    parameters = dict(run.transcript.public_parameters)
+    assert parameters["endpoint_anchor_min_m"] == 700.0
+    assert parameters["endpoint_anchor_max_m"] == 3000.0
+
+
 def test_benchmark_adapter_rejects_upstream_invalid_short_generation():
     mechanism = AnotherMeAdaptation(
         route_provider=_StaticRouter(_navigation_route()), seed=31

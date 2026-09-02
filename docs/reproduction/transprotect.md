@@ -57,7 +57,8 @@ At time (n), TransProtect performs the following operations:
 - utility-adjusted top-(K) ranking. The score equation is exact, while the
   paper's unspecified zero-loss tie case is handled by deterministically
   replacing the final selected item with the real node when needed. The policy
-  and number of affected events are included in public run metadata;
+  is public configuration; the number of affected events depends on the secret
+  real index and is therefore recorded only in evaluator paper metrics;
 - candidate-restricted exponential/Laplace sampling;
 - a Geo-I LP solver with both directional privacy inequalities and row-sum
   constraints;

@@ -110,3 +110,7 @@ def test_protocol_adapter_publishes_only_dummy_tracks():
         for event in public["events"]
     )
     assert "real_trajectory" not in str(public).lower()
+    assert public["public_parameters"]["offset_m"] == 180.0
+    assert public["public_parameters"]["candidate_radius_m"] == 220.0
+    assert public["public_parameters"]["v_max_m_s"] == 25.0
+    assert public["public_parameters"]["reachability_slack_m"] == 100.0

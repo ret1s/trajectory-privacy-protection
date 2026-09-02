@@ -216,6 +216,10 @@ class GeoIAnchoredDummyEngine:
                 "implementation_origin": "benchmark.engines.GeoIAnchoredDummyEngine",
                 "epsilon_per_release": self.epsilon,
                 "k": self.k,
+                "offset_m": self.offset_m,
+                "candidate_radius_m": self.candidate_radius_m,
+                "v_max_m_s": self.v_max,
+                "reachability_slack_m": self.reachability_slack_m,
                 "source_method": self.source_method,
             },
         )

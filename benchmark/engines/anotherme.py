@@ -787,6 +787,12 @@ class AnotherMeVTGAEngine:
                 ),
                 "coordinate_converter": self.coordinate_converter.name,
                 "endpoint_mapper": self.endpoint_mapper.name,
+                "endpoint_anchor_min_m": getattr(
+                    self.endpoint_mapper, "anchor_min_m", None
+                ),
+                "endpoint_anchor_max_m": getattr(
+                    self.endpoint_mapper, "anchor_max_m", None
+                ),
                 "minimum_raw_samples": self.minimum_raw_samples,
                 "direction_policy": "directed_routes_only_fail_closed",
                 "mode_routing_policy": str(
