@@ -10,6 +10,7 @@ from unittest.mock import patch
 
 import networkx as nx
 
+from benchmark.contracts import MethodUnavailableError
 from core.demo_protocol import (
     TrajectoryPoint,
     make_dummy_only_run,
@@ -17,7 +18,7 @@ from core.demo_protocol import (
     make_replacement_run,
 )
 from core.road_network import RoadNetwork
-from experiments.run_sota_demo import (
+from experiments.run_dummy_benchmark import (
     DEFAULT_PREVIEW_OUTPUT,
     DEMO_SCHEMA,
     _display_bounds,
@@ -29,6 +30,7 @@ from experiments.run_sota_demo import (
     _write_map,
     _write_preview,
     parse_args,
+    run,
 )
 
 
@@ -75,9 +77,9 @@ def test_runner_defaults_to_sumo_and_quick_does_not_change_source():
     args = parse_args(["--quick", "--no-map"])
     assert args.mobility_source == "sumo"
     assert args.max_points == 8
-    assert args.preview_output == "outputs/sota_demo_preview.png"
+    assert args.preview_output == "outputs/dummy_benchmark_preview.png"
     assert args.preview_output == DEFAULT_PREVIEW_OUTPUT
-    assert DEMO_SCHEMA == "msc-sota-demo-v2"
+    assert DEMO_SCHEMA == "msc-dummy-benchmark-v3"
 
 
 def test_sumo_pilot_rejects_silently_ignored_record_count():
@@ -91,6 +93,18 @@ def test_sumo_pilot_rejects_silently_ignored_record_count():
             raise AssertionError("SUMO pilot should reject more than one record")
     assert exit_code == 2
     assert "SUMO pilot emits exactly one" in error.getvalue()
+
+
+def test_faithful_sota_gate_fails_before_loading_graph_or_mobility():
+    args = parse_args(["--quick", "--no-map", "--require-faithful-sota"])
+    try:
+        run(args)
+    except MethodUnavailableError as exc:
+        message = str(exc)
+    else:
+        raise AssertionError("unavailable faithful SOTA implementations must fail closed")
+    assert "TransProtect" in message
+    assert "paper_adaptation" in message
 
 
 def test_sumo_loader_keeps_privileged_mobility_fields_out_of_model_input():
@@ -113,7 +127,7 @@ def test_sumo_loader_keeps_privileged_mobility_fields_out_of_model_input():
         ]
     )
     with patch(
-        "experiments.run_sota_demo.run_sumo_smoke_demo",
+        "experiments.run_dummy_benchmark.run_sumo_smoke_demo",
         return_value=_FakeSumoRecord(),
     ) as mocked:
         records, mobility = _load_sumo_record(args)
@@ -145,7 +159,7 @@ def test_explicit_geolife_mode_fails_instead_of_falling_back():
         max_points=8,
         interval_s=20,
     )
-    with patch("experiments.run_sota_demo.load_trajectories", return_value=[]):
+    with patch("experiments.run_dummy_benchmark.load_trajectories", return_value=[]):
         try:
             _load_geolife_records(args)
         except FileNotFoundError as exc:
@@ -181,11 +195,21 @@ def _tiny_map_fixture():
         TrajectoryPoint(40, 39.9820, 116.3121),
     )
     runs = [
-        (make_replacement_run("transprotect_lite", real, replacement), "fixture", 0),
-        (make_replacement_run("anotherme_lite", real, replacement), "fixture", 0),
+        (
+            make_replacement_run(
+                "transprotect_adaptation", real, replacement
+            ),
+            "fixture",
+            0,
+        ),
+        (
+            make_replacement_run("anotherme_adaptation", real, replacement),
+            "fixture",
+            0,
+        ),
         (
             make_real_plus_dummies_run(
-                "semantic_dummy_lite",
+                "semantic_dummy_adaptation",
                 real,
                 {"candidate_0017": real, "candidate_0003": dummy},
                 "candidate_0017",
@@ -195,7 +219,7 @@ def _tiny_map_fixture():
         ),
         (
             make_dummy_only_run(
-                "geo_i_anchored_dummy_lite",
+                "geo_i_anchored_dummy",
                 real,
                 {"candidate_0000": dummy},
             ),
@@ -266,13 +290,14 @@ def test_html_map_embeds_roads_and_does_not_enable_online_tiles_by_default():
         "Proposed model — dummy-only trajectories", "feature_group_"
     )
     assert not layer_is_enabled(
-        "TransProtect Lite — pseudolocation trajectory", "feature_group_"
+        "TransProtect adaptation — pseudolocation trajectory", "feature_group_"
     )
     assert not layer_is_enabled(
-        "AnotherMe Lite — replacement trajectory", "feature_group_"
+        "AnotherMe adaptation — replacement trajectory", "feature_group_"
     )
     assert not layer_is_enabled(
-        "Semantic Dummy Lite — public candidate tracks", "feature_group_"
+        "Semantic-correlation adaptation — public candidate tracks",
+        "feature_group_",
     )
     assert "Proposed model" in rendered
     assert "SUMO ground truth" in rendered

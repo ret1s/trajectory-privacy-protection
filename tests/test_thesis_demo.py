@@ -1,11 +1,11 @@
-"""Tests for the lightweight Geo-I-anchor + dummy-only thesis prototype."""
+"""Tests for the executable Geo-I-anchor + dummy-only thesis candidate."""
 
 import networkx as nx
 import numpy as np
 
 from core.demo_protocol import OutputKind, TrajectoryPoint
 from core.road_network import RoadNetwork
-from core.thesis_demo import GeoIAnchoredDummyTrajectoriesLite
+from benchmark.methods import GeoIAnchoredDummyTrajectories
 
 
 def _road_line(n=9):
@@ -20,7 +20,7 @@ def _road_line(n=9):
 def test_thesis_demo_returns_k_aligned_road_tracks():
     rn = _road_line()
     points = [rn.latlon(i) for i in (2, 3, 4, 5)]
-    model = GeoIAnchoredDummyTrajectoriesLite(
+    model = GeoIAnchoredDummyTrajectories(
         0.02,
         rn,
         k=3,
@@ -42,7 +42,7 @@ def test_thesis_demo_is_deterministic_for_same_seed():
     points = [rn.latlon(i) for i in (1, 2, 3)]
 
     def run_once():
-        model = GeoIAnchoredDummyTrajectoriesLite(
+        model = GeoIAnchoredDummyTrajectories(
             0.02,
             rn,
             k=2,
@@ -56,7 +56,7 @@ def test_thesis_demo_is_deterministic_for_same_seed():
 def test_postprocessing_stage_accepts_only_public_anchors():
     rn = _road_line()
     anchors = [rn.latlon(i) for i in (2, 3, 4)]
-    model = GeoIAnchoredDummyTrajectoriesLite(
+    model = GeoIAnchoredDummyTrajectories(
         0.02,
         rn,
         k=2,
@@ -72,13 +72,13 @@ def test_postprocessing_stage_accepts_only_public_anchors():
 def test_thesis_demo_rejects_invalid_shapes():
     rn = _road_line()
     try:
-        GeoIAnchoredDummyTrajectoriesLite(0.02, rn, k=0)
+        GeoIAnchoredDummyTrajectories(0.02, rn, k=0)
     except ValueError:
         pass
     else:
         raise AssertionError("k=0 must be rejected")
 
-    model = GeoIAnchoredDummyTrajectoriesLite(0.02, rn)
+    model = GeoIAnchoredDummyTrajectories(0.02, rn)
     try:
         model.protect_trajectory([rn.latlon(0)], times=[0, 1])
     except ValueError:
@@ -93,7 +93,7 @@ def test_protocol_adapter_publishes_only_dummy_tracks():
         TrajectoryPoint(i * 30, *rn.latlon(node_idx))
         for i, node_idx in enumerate((2, 3, 4))
     )
-    run = GeoIAnchoredDummyTrajectoriesLite(
+    run = GeoIAnchoredDummyTrajectories(
         0.02,
         rn,
         k=3,

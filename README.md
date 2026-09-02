@@ -2,7 +2,10 @@
 
 An interactive web application and research codebase for privacy protection in
 location-based services (LBS) using Geo-Indistinguishability, developed as part
-of a Master's thesis (see `docs/internship_2.pdf` for the full write-up).
+of the thesis **“Bảo vệ tính riêng tư về quỹ đạo cho người dùng dịch vụ dựa
+trên vị trí.”** The evolving final LaTeX source is
+`docs/supervisor_meeting/2026-09-05/report.tex`; `thesis/main.tex` is its stable
+build entry point. `docs/internship_2.pdf` is retained as prior-stage context.
 
 ## Features
 
@@ -15,7 +18,9 @@ of a Master's thesis (see `docs/internship_2.pdf` for the full write-up).
 ## Project Layout
 
 ```
-core/           Core algorithms:
+benchmark/      Benchmark contracts, method cards, algorithm engines and
+                  source-mapped paper adaptations
+core/           Formal mechanisms and shared public/evaluator protocol:
                   geo_indistinguishability.py, trajectory_privacy.py (internship-2 baseline)
                   road_network.py  — OSM graph → candidate lattice + KD-tree
                   mechanisms.py    — PlanarLaplace, BaselineThesis, REM, T-REM, SM-REM, PR-SM-REM (proposed)
@@ -23,13 +28,14 @@ data/           Mobility sources (SUMO demo + GeoLife validation data)
                   — see data/README.md for setup
 evaluation/     metrics.py (QoS, realism, kNN-POI, Hausdorff/DTW) + attacks.py
                   (Bayesian point attack, HMM tracking attack)
-experiments/    run_benchmark.py — mechanisms × ε on real GeoLife trajectories
-web/            Flask apps: app.py (interactive demo), app_optimized.py,
-                  simulator.py (LBS privacy simulator, user/LBS/attacker views)
+experiments/    run_benchmark.py — internship-2 mechanisms × ε on GeoLife
+                  run_dummy_benchmark.py — SUMO dummy-generation benchmark
+web/            benchmark_app.py — read-only benchmark dashboard;
+                  simulator.py — earlier REM-family experiment viewer
 legacy/         Archived, unmaintained prototypes (see legacy/README.md)
-thesis/         LaTeX thesis draft (compile: cd thesis && latexmk -xelatex main.tex)
+thesis/         Stable LaTeX build entry point + archived internship-2 chapters
 docs/           internship_2.pdf + research_notes.md (datasets/metrics/SOTA survey)
-outputs/        Generated maps, benchmark_results.json
+outputs/        Generated evaluator artifacts (JSON, map and preview)
 demo_trajectory_privacy.py   CLI demo (no web server needed)
 cache/, road_network_cache/  OSM data caches (gitignored, rebuilt automatically)
 ```
@@ -72,37 +78,53 @@ python3 -m experiments.run_benchmark --quick  # smoke test
 python3 -m experiments.run_averaging_multi    # multi-home averaging / home-inference study (S4) → outputs/averaging_multi_results.json
 python3 -m web.simulator                      # http://localhost:5003 — replay real trajectories
                                               # (user/LBS/attacker views + a synthetic-POI k-NN use case)
+cd thesis && latexmk -xelatex main.tex         # build the evolving final thesis
 ```
 
 Every official experiment fails closed if the road graph does not match the
 committed manifest, and writes a `msc-experiment-v1` provenance block (source
 commit + dirty flag, graph SHA-256, RNG schema, selected record IDs, raw rows).
 
-### Paper-inspired SOTA demo (prototype only)
+### Dummy-generation benchmark and Python dashboard
 
-The repository also contains an early executable demo of three recent
-dummy-generation directions and the proposed thesis architecture. Its default
-mobility source is a deterministic **SUMO** passenger simulation on the local
+The canonical harness runs three recent dummy-generation **paper adaptations**
+and the evolving thesis candidate on one truth-separated protocol. Its default
+mobility source is a deterministic **SUMO** passenger simulation over the local
 Beijing OpenStreetMap extract:
 
 ```bash
 venv/bin/python -m pip install -r requirements-sumo.txt
-venv/bin/python -m experiments.run_sota_demo --quick
+venv/bin/python -m experiments.run_dummy_benchmark --quick
+venv/bin/python -m web.benchmark_app
+# open http://127.0.0.1:5000/
 ```
 
-It writes `outputs/sota_demo_results.json`, an interactive map at
-`outputs/sota_demo_map.html`, and a four-panel static preview at
-`outputs/sota_demo_preview.png`. The HTML embeds the pinned local OSM road
-geometry, so geographic context remains visible when online raster tiles are
-unavailable. The comparators are deliberately named `*Lite`:
-they demonstrate the papers' high-level output contracts but are **not faithful
-or official reproductions**, and their numbers must not be presented as SOTA
-results. Replacement, real-plus-dummies, and dummy-only outputs are reported in
-separate tracks. GeoLife is retained only as an explicit optional real-data
-validation source (`--mobility-source geolife`); the SUMO path never silently
-falls back to it. See
-[`docs/supervisor_meeting/2026-09-05/sota_demo.md`](docs/supervisor_meeting/2026-09-05/sota_demo.md)
-for the exact scope and limitations.
+It writes `outputs/dummy_benchmark_results.json`, an evaluator-only map at
+`outputs/dummy_benchmark_map.html`, and a static preview at
+`outputs/dummy_benchmark_preview.png`. The Flask app reads these artifacts; it
+does not execute experiments from an HTTP request. Its attacker endpoint omits
+ground truth, while evaluator routes are explicitly labelled, SHA-256 checked,
+and intended for localhost use only.
+
+The canonical classes are `TransProtectAdaptation`, `AnotherMeAdaptation`,
+`SemanticDummyAdaptation`, and `GeoIAnchoredDummyTrajectories`. Each artifact
+contains a method card that maps paper components to implemented, adapted or
+missing code and pins any audited upstream revision. These are stable runnable
+adaptations, **not yet faithful SOTA reproductions**. In particular, learned
+pipelines, original preprocessing/data artifacts and calibrated paper attackers
+are still missing. The following command therefore fails closed by design:
+
+```bash
+venv/bin/python -m experiments.run_dummy_benchmark --require-faithful-sota
+```
+
+Replacement, real-plus-dummies, and dummy-only outputs remain separate tracks;
+their raw metrics must not form a cross-contract leaderboard. GeoLife is only
+an explicit optional validation source (`--mobility-source geolife`); SUMO never
+silently falls back to it. See
+[`benchmark/README.md`](benchmark/README.md) for the source audit and completion
+gates, and [`docs/supervisor_meeting/2026-09-05/sota_demo.md`](docs/supervisor_meeting/2026-09-05/sota_demo.md)
+for the current experiment boundary.
 
 ### Claim registry — what is proven, and where (read before quoting any result)
 

@@ -37,19 +37,39 @@ def _track(offset=0.0, n=3):
     )
 
 
-def test_replacement_supports_variable_length_and_hides_truth():
+def test_replacement_aligns_with_truth_and_hides_truth():
     real = _track(n=3)
-    replacement = _track(offset=0.01, n=2)
+    replacement = _track(offset=0.01, n=3)
     run = make_replacement_run("anotherme_demo", real, replacement)
 
     assert run.transcript.output_kind is OutputKind.REPLACEMENT_TRAJECTORY
-    assert len(run.transcript.events) == 2
+    assert len(run.transcript.events) == len(real)
     assert run.truth.real_trajectory == real
     public = run.to_attacker_dict()
     encoded = json.dumps(public, sort_keys=True)
     assert "truth" not in encoded
     assert "real_candidate" not in encoded
     assert public == run.attacker_view().to_dict()
+
+
+def test_replacement_rejects_event_count_or_timestamp_misalignment():
+    real = _track(n=3)
+    _assert_raises(
+        ValueError,
+        "events must align one-to-one",
+        lambda: make_replacement_run(
+            "replacement", real, _track(offset=0.01, n=2)
+        ),
+    )
+    shifted_time = tuple(
+        TrajectoryPoint(point.timestamp_s + 1.0, point.lat + 0.01, point.lon)
+        for point in real
+    )
+    _assert_raises(
+        ValueError,
+        "timestamp does not match",
+        lambda: make_replacement_run("replacement", real, shifted_time),
+    )
 
 
 def test_real_plus_k_minus_one_supports_k_one_and_keeps_label_private():
@@ -109,6 +129,28 @@ def test_dummy_only_has_no_real_member_and_is_deterministic():
     assert run_a.truth.real_candidate_ids == ()
     assert run_a.to_attacker_dict() == run_b.to_attacker_dict()
     assert len(run_a.transcript.events[0].candidates) == 2
+
+
+def test_dummy_only_rejects_event_count_or_truth_timestamp_misalignment():
+    real = _track(n=3)
+    _assert_raises(
+        ValueError,
+        "events must align one-to-one",
+        lambda: make_dummy_only_run(
+            "ours", real, {"candidate_0": _track(offset=0.01, n=2)}
+        ),
+    )
+    shifted_time = tuple(
+        TrajectoryPoint(point.timestamp_s + 1.0, point.lat + 0.01, point.lon)
+        for point in real
+    )
+    _assert_raises(
+        ValueError,
+        "timestamp does not match",
+        lambda: make_dummy_only_run(
+            "ours", real, {"candidate_0": shifted_time}
+        ),
+    )
 
 
 def test_public_schema_rejects_private_parameter_and_duplicate_candidate_ids():

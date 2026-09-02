@@ -1,4 +1,4 @@
-% Báo cáo tiến độ nghiên cứu ngày 05/09/2026
+% Tệp LaTeX chính của luận văn tốt nghiệp
 % Biên dịch: latexmk -xelatex report.tex
 % Tệp tự chứa: tài liệu tham khảo được khai báo ở cuối tệp.
 \documentclass[12pt,a4paper,oneside]{report}
@@ -32,9 +32,9 @@
 \definecolor{reportgray}{HTML}{F2F3F4}
 
 \hypersetup{
-  pdftitle={Định hình bài toán bảo vệ quỹ đạo đô thị bằng sinh vị trí và quỹ đạo giả},
+  pdftitle={Bảo vệ tính riêng tư về quỹ đạo cho người dùng dịch vụ dựa trên vị trí},
   pdfauthor={Ngô Minh Hạnh},
-  pdfsubject={Báo cáo tiến độ luận văn ngày 05/09/2026}
+  pdfsubject={Bảo vệ tính riêng tư về quỹ đạo trong dịch vụ dựa trên vị trí}
 }
 
 % Việt hoá các tên tự sinh.
@@ -48,8 +48,8 @@
 
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\small Báo cáo tiến độ luận văn}
-\fancyhead[R]{\small 05/09/2026}
+\fancyhead[L]{\small Bảo vệ tính riêng tư về quỹ đạo}
+\fancyhead[R]{\small Ngô Minh Hạnh}
 \fancyfoot[C]{\thepage}
 
 \newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
@@ -68,25 +68,20 @@
 {\large ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH\\
 TRƯỜNG ĐẠI HỌC BÁCH KHOA -- ĐHQG-HCM\\
 KHOA KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH\par}
-\vspace{2.5cm}
-{\bfseries\large BÁO CÁO TIẾN ĐỘ LUẬN VĂN\par}
+\vspace{3.6cm}
+\rule{0.72\textwidth}{0.4pt}\par
+\vspace{0.8cm}
+{\bfseries\LARGE Bảo vệ tính riêng tư về quỹ đạo\\
+cho người dùng dịch vụ dựa trên vị trí\par}
 \vspace{0.8cm}
 \rule{0.72\textwidth}{0.4pt}\par
-\vspace{0.6cm}
-{\bfseries\LARGE Định hình bài toán bảo vệ quỹ đạo đô thị\\
-bằng sinh vị trí và quỹ đạo giả\par}
-\vspace{0.55cm}
-{\large Kiến trúc, kịch bản đe doạ, mục tiêu bảo vệ\\
-và mô hình đối chứng hiện đại\par}
-\vspace{0.6cm}
-\rule{0.72\textwidth}{0.4pt}\par
-\vspace{2.1cm}
+\vspace{2.7cm}
 \begin{flushleft}
 \hspace{2cm}\textbf{GVHD}: TS. Phan Trọng Nhân \hfill CSE, HCMUT\hspace{2cm}\mbox{}\\[6pt]
 \hspace{2cm}\textbf{Học viên}: Ngô Minh Hạnh \hfill 2470010\hspace{2cm}\mbox{}
 \end{flushleft}
 \vfill
-{Tp. Hồ Chí Minh, ngày 05 tháng 09 năm 2026\par}
+{Tp. Hồ Chí Minh\par}
 \end{titlepage}
 
 \pagenumbering{roman}
@@ -113,30 +108,30 @@ SOTA & \term{State of the Art} -- nhóm phương pháp hiện đại dùng làm 
 \pagenumbering{arabic}
 
 % ==================== Tóm tắt ====================
-\chapter*{Tóm tắt quyết định nghiên cứu}
-\addcontentsline{toc}{chapter}{Tóm tắt quyết định nghiên cứu}
+\chapter*{Tóm tắt}
+\addcontentsline{toc}{chapter}{Tóm tắt}
 
-Luận văn được thu hẹp thành bài toán bảo vệ quỹ đạo của người dùng khi sử dụng LBS trong một khu vực đô thị. Cơ chế bảo vệ thuộc lớp \textbf{sinh dữ liệu giả ở mức tác nghiệp} (dummy generation): trước khi LSP quan sát yêu cầu, thiết bị tạo vị trí giả, tập vị trí giả, quỹ đạo giả hoặc truy vấn giả nhằm làm cho dữ liệu thật khó bị nhận ra. Đây không phải bài toán chỉ sinh một bộ dữ liệu tổng hợp để công bố ngoại tuyến.
+Luận văn nghiên cứu bài toán bảo vệ quỹ đạo của người dùng khi sử dụng LBS trong một khu vực đô thị. Cơ chế bảo vệ thuộc lớp \textbf{sinh dữ liệu giả ở mức tác nghiệp} (dummy generation): trước khi LSP quan sát yêu cầu, thiết bị tạo vị trí giả, tập vị trí giả, quỹ đạo giả hoặc truy vấn giả nhằm làm cho dữ liệu thật khó bị nhận ra. Đây không phải bài toán chỉ sinh một bộ dữ liệu tổng hợp để công bố ngoại tuyến.
 
 \begin{center}
 \fcolorbox{reportblue}{reportlight}{%
 \begin{minipage}{0.90\textwidth}
-\textbf{Phát biểu nghiên cứu đề xuất.}
+\textbf{Bài toán nghiên cứu.}
 Trong LBS đô thị liên tục, một LSP trung thực nhưng tò mò quan sát chuỗi dữ liệu đã được bảo vệ và biết mạng đường, POI, thời gian, mô hình di chuyển của cộng đồng cùng thuật toán sinh dummy. Luận văn nghiên cứu cách sinh dummy hợp lý về đường đi, thời gian và ngữ nghĩa để giảm khả năng LSP lọc dummy và xác định vị trí/quỹ đạo thật, trong khi ứng dụng vẫn trả được kết quả hữu ích.
 \end{minipage}}
 \end{center}
 
-Kết luận chính của giai đoạn xác định bài toán là:
+Phạm vi và định hướng nghiên cứu được xác định như sau:
 
 \begin{itemize}
   \item \textbf{Đe doạ trọng tâm}: tấn công lọc dummy có xét ngữ cảnh trên chuỗi truy vấn liên tục, đặc biệt là tính có thể đi tới trên mạng đường, tương quan thời gian và ngữ nghĩa POI.
   \item \textbf{Đối tượng bảo vệ trực tiếp}: vị trí thật và chỉ số/quỹ đạo thật trong tập các giả thuyết. Danh tính và tuyến tiếp theo là hệ quả cần đo; nội dung truy vấn chỉ được bảo vệ nếu cơ chế còn sinh nội dung/truy vấn giả phù hợp.
-  \item \textbf{Thông tin nhóm người dùng}: trước mắt chỉ dùng làm thống kê cộng đồng để mô hình hoá kiến thức của kẻ tấn công và sinh dummy hợp lý; chưa tuyên bố bảo đảm riêng tư cho cả nhóm.
-  \item \textbf{Đối chứng SOTA}: bắt buộc cùng lớp dummy generation. Báo cáo xác định được AnotherMe, TransProtect và các cơ chế dummy có xét ngữ nghĩa/tương quan năm 2025--2026; chỉ hai phương pháp đầu có kho mã nguồn công khai được xác nhận ở thời điểm khảo sát.
+  \item \textbf{Thông tin nhóm người dùng}: trong phạm vi luận văn, thông tin này được dùng làm thống kê cộng đồng để mô hình hoá kiến thức của kẻ tấn công và sinh dummy hợp lý; luận văn không tuyên bố bảo đảm riêng tư cho cả nhóm.
+  \item \textbf{Đối chứng hiện đại}: các phương pháp đối chứng bắt buộc thuộc cùng lớp sinh dữ liệu giả. AnotherMe, TransProtect và cơ chế sinh vị trí giả có xét tương quan ngữ nghĩa là ba hướng chính. Kho mã công khai của AnotherMe và TransProtect được dùng để đối chiếu, nhưng mức độ đầy đủ phải được kiểm tra theo từng thành phần trước khi gọi là tái hiện đúng công trình gốc.
 \end{itemize}
 
 % ==================== Chương 1 ====================
-\chapter{Kiến trúc bài toán}
+\chapter{Bài toán và kiến trúc hệ thống}
 
 \section{Các thực thể và ranh giới tin cậy}
 
@@ -181,11 +176,11 @@ Hệ thống gồm bốn thực thể:
 \node[draw=reportgreen, dashed, rounded corners, fit=(secret)(anchor)(gen)(client)(app), inner sep=4mm,
       label={[font=\scriptsize, text=reportgreen]above left:thiết bị tin cậy}] {};
 \end{tikzpicture}
-\caption{Kiến trúc dummy-only được đề xuất: dữ liệu thật không rời thiết bị; LSP chỉ thấy batch quỹ đạo giả là hậu xử lý của một neo Geo-I/GG-I.}
+\caption{Kiến trúc dummy-only của luận văn: dữ liệu thật không rời thiết bị; LSP chỉ thấy batch quỹ đạo giả là hậu xử lý của một neo Geo-I/GG-I.}
 \label{fig:architecture}
 \end{figure}
 
-Kiến trúc trong Hình~\ref{fig:architecture} tuân theo nguyên tắc Kerckhoffs: không dựa vào việc giữ bí mật thuật toán. Đối thủ được phép biết cách sinh dummy và các tham số công khai; chỉ vị trí thật, ngẫu nhiên nội bộ và trạng thái riêng trên thiết bị là bí mật. LSP phải trả kết quả cho toàn bộ batch trong một vòng; nếu thiết bị gọi lại duy nhất candidate được chọn dưới cùng phiên, vòng thứ hai sẽ làm lộ candidate quan trọng. Vì vậy scope sạch nhất ban đầu là truy vấn POI/range chỉ đọc; booking, thanh toán và điều hướng tương tác cần một giao thức bổ sung.
+Kiến trúc trong Hình~\ref{fig:architecture} tuân theo nguyên tắc Kerckhoffs: không dựa vào việc giữ bí mật thuật toán. Đối thủ được phép biết cách sinh dummy và các tham số công khai; chỉ vị trí thật, ngẫu nhiên nội bộ và trạng thái riêng trên thiết bị là bí mật. LSP phải trả kết quả cho toàn bộ batch trong một vòng; nếu thiết bị gọi lại duy nhất candidate được chọn dưới cùng phiên, vòng thứ hai sẽ làm lộ candidate quan trọng. Vì vậy phạm vi chính của luận văn là các truy vấn POI/range chỉ đọc; booking, thanh toán và điều hướng tương tác cần một giao thức bổ sung và không thuộc phạm vi bảo đảm của luận văn.
 
 \section{Ba giao diện dummy generation cần phân biệt}
 
@@ -207,7 +202,7 @@ Quỹ đạo/truy vấn giả & Một hoặc nhiều chuỗi giả, hoặc xen k
 \end{tabularx}
 \end{table}
 
-Các cơ chế REM hiện tại của luận văn được xếp vào nhánh \textbf{thay thế bằng một vị trí giả rời rạc}: cơ chế chọn một điểm giả từ miền ứng viên trên mạng đường và chỉ công bố điểm đã chọn. Để kết hợp rõ ràng yêu cầu ``Geo-I + group of users + dummy generation'', kiến trúc được khuyến nghị cho bước tiếp theo là dùng output đó làm \textbf{neo riêng tư}, rồi chỉ dùng neo, lịch sử output và population prior công khai để sinh $K$ quỹ đạo giả. Nếu generator không đọc lại $x_t$, toàn bộ batch là hậu xử lý của neo; đây là đường ngắn nhất để giữ một probability guarantee dựa trên Geo-I.
+Các cơ chế REM được khảo sát trong luận văn thuộc nhánh \textbf{thay thế bằng một vị trí giả rời rạc}: cơ chế chọn một điểm giả từ miền ứng viên trên mạng đường và chỉ công bố điểm đã chọn. Để kết hợp Geo-I, thống kê nhóm người dùng và sinh dữ liệu giả, luận văn khảo sát kiến trúc dùng đầu ra này làm \textbf{neo riêng tư}, sau đó chỉ dùng neo, lịch sử đầu ra và phân bố cộng đồng công khai để sinh $K$ quỹ đạo giả. Nếu bộ sinh không đọc lại $x_t$, toàn bộ batch là hậu xử lý của neo; cấu trúc này tạo cơ sở để duy trì bảo đảm xác suất dựa trên Geo-I. Việc chứng minh bảo đảm cho toàn bộ chuỗi và kiểm chứng thực nghiệm được trình bày như mục tiêu phương pháp, không được mặc nhiên suy ra từ cơ chế neo.
 
 Giao diện ``thật + $k-1$ dummy'' vẫn cần làm đối chứng vì phổ biến trong literature, nhưng không được gọi mặc định là Geo-I. Nếu một tập cụ thể $C$ luôn chứa bí mật $x$ nhưng không chứa $x'$, thì $\Pr[C\mid x]>0$ trong khi $\Pr[C\mid x']=0$; tỷ số likelihood là vô hạn. Nói cách khác, deterministic inclusion của vị trí thật thường làm support phụ thuộc bí mật, trong khi metric DP hữu hạn đòi các input có support tương thích. $k$-anonymity/posterior uncertainty và Geo-I là hai loại claim khác nhau.
 
@@ -244,7 +239,7 @@ trong đó $o_t=z_t$ hoặc $o_t=C_t$, và $u$ là định danh phiên có thể
 \]
 với $A$ là mọi kiến thức phụ trợ. Với đầu ra tập, bài toán tương đương chọn chuỗi thành viên thật xuyên qua các tập $C_1,\ldots,C_T$.
 
-Ở mode dummy-only được khuyến nghị, trước hết lấy mẫu neo
+Trong chế độ dummy-only của kiến trúc nghiên cứu, trước hết lấy mẫu neo
 \[
 a_t\sim K_{\varepsilon_t}(\cdot\mid x_t),
 \]
@@ -295,9 +290,9 @@ Trong không gian Euclid, một điểm gần về đường chim bay có thể 
 
 POI cũng có hai vai trò đối lập. POI giúp đo utility của LBS, nhưng đồng thời cung cấp ngữ nghĩa để đối thủ loại dummy hoặc suy ra mục đích chuyến đi. Các cơ chế gần đây vì vậy không chỉ tối ưu khoảng cách, mà còn xét độ đa dạng ngữ nghĩa, xác suất ghé thăm và ảnh hưởng không gian của POI \citep{kuang2025lsppm,liu2026semantic}.
 
-\section{Những gì chưa nằm trong phạm vi}
+\section{Các nội dung ngoài phạm vi}
 
-Report này không tuyên bố giải quyết:
+Luận văn không tuyên bố giải quyết:
 
 \begin{itemize}
   \item định vị trong nhà, độ cao ba chiều, hàng hải hoặc hàng không;
@@ -376,10 +371,10 @@ Nếu cùng một nội dung ``bệnh viện gần nhất'' được gửi cho m
 
 \section{S7 -- Tương quan với nhóm người dùng}
 
-Nhóm người dùng cung cấp cho đối thủ phân bố di chuyển theo giờ, loại người dùng và vùng đô thị. Đây là prior mạnh để xếp hạng dummy. Ngoài ra, các người dùng đi cùng nhau tạo bằng chứng đồng vị trí. Trong report này, ``kết hợp nhóm người dùng'' được hiểu là \textbf{học một population prior trên dữ liệu huấn luyện tách biệt} và dùng prior đó cho cả cơ chế lẫn attacker. Khái niệm này không đồng nghĩa với $k$-anonymity và không phải group differential privacy.
+Nhóm người dùng cung cấp cho đối thủ phân bố di chuyển theo giờ, loại người dùng và vùng đô thị. Đây là prior mạnh để xếp hạng dummy. Ngoài ra, các người dùng đi cùng nhau tạo bằng chứng đồng vị trí. Trong phạm vi luận văn, ``kết hợp nhóm người dùng'' được hiểu là \textbf{học một population prior trên dữ liệu huấn luyện tách biệt} và dùng prior đó cho cả cơ chế lẫn attacker. Khái niệm này không đồng nghĩa với $k$-anonymity và không phải group differential privacy.
 
 % ==================== Chương 4 ====================
-\chapter{Threat model và tấn công trọng tâm}
+\chapter{Mô hình đối thủ và tấn công trọng tâm}
 
 \section{Đối thủ chuẩn}
 
@@ -427,7 +422,7 @@ S7 & Nhiều người dùng, co-mobility và population statistics & Population 
 \end{longtable}
 \normalsize
 
-\section{Threat được đề xuất làm trọng tâm luận văn}
+\section{Tấn công trọng tâm của luận văn}
 
 \begin{center}
 \fcolorbox{reportred}{red!5}{%
@@ -458,7 +453,7 @@ Threat này được chọn vì bốn lý do:
   \item nó tạo ra đóng góp có thể phát biểu hẹp và kiểm chứng: cải thiện khả năng chống lọc dummy dưới cùng utility và cùng giao diện đầu ra.
 \end{enumerate}
 
-S4--S6 vẫn được giữ làm stress test hoặc giới hạn. Đặc biệt, cơ chế không được tuyên bố bảo vệ query content nếu không sinh cả nội dung giả; không được tuyên bố chống re-identification nếu chưa chạy attack linkage; và không được suy ra bảo vệ next route chỉ từ EIE hiện tại.
+S4--S6 được giữ làm stress test hoặc giới hạn. Đặc biệt, cơ chế không được tuyên bố bảo vệ query content nếu không sinh cả nội dung giả; không được tuyên bố chống re-identification nếu chưa chạy attack linkage; và không được suy ra bảo vệ next route chỉ từ EIE.
 
 \section{Yêu cầu phòng thủ rút ra từ threat model}
 
@@ -474,7 +469,7 @@ Một cơ chế dummy phù hợp cần thoả đồng thời:
 \end{itemize}
 
 % ==================== Chương 5 ====================
-\chapter{Các target cần bảo vệ}
+\chapter{Các mục tiêu bảo vệ}
 
 \section{Identity}
 
@@ -498,33 +493,33 @@ Next-route privacy yêu cầu phần quỹ đạo đã quan sát không giúp d�
 
 Query-content privacy yêu cầu đối thủ không suy ra ý định nhạy cảm từ loại dịch vụ hoặc POI được tìm. Nếu $q_t$ được gửi nguyên văn, Geo-I trên toạ độ không che được $q_t$. Cần một trong ba hướng: sinh nội dung giả phù hợp với từng dummy, tách định danh khỏi truy vấn, hoặc dùng giao thức truy vấn riêng tư. Các chuỗi truy vấn giả đã được nghiên cứu như một lớp bảo vệ riêng \citep{wu2021fakequery,liu2026fakequeries}.
 
-Trong thesis hiện tại, query content là \textbf{giới hạn được nêu rõ}; chỉ đưa vào target trực tiếp nếu cơ chế được mở rộng để tạo dummy query.
+Trong phạm vi luận văn, query content là \textbf{giới hạn được nêu rõ}; nội dung truy vấn chỉ trở thành mục tiêu bảo vệ trực tiếp nếu cơ chế được mở rộng để tạo dummy query.
 
-\section{Phạm vi claim đề xuất}
+\section{Phạm vi bảo đảm và đánh giá}
 
 \begin{table}[htbp]
 \centering
 \small
-\caption{Mức độ cam kết đề xuất cho bốn target.}
+\caption{Phạm vi bảo đảm và đánh giá đối với bốn mục tiêu bảo vệ.}
 \label{tab:targets}
 \begin{tabularx}{\textwidth}{P{2.5cm}P{3.0cm}Y Y}
 \toprule
-\textbf{Target} & \textbf{Vai trò} & \textbf{Claim an toàn ở giai đoạn này} & \textbf{Điều kiện để nâng claim} \\
+\textbf{Mục tiêu} & \textbf{Vai trò} & \textbf{Bảo đảm trong phạm vi luận văn} & \textbf{Điều kiện để mở rộng bảo đảm} \\
 \midrule
-Location & Trực tiếp, \core{} & Giảm khả năng attacker lọc dummy và suy ra vị trí/quỹ đạo thật trong threat model đã định nghĩa & Có attack-aware experiment, cùng utility và formal bound phù hợp với giao diện \\
-Identity & Thứ cấp & Có thể giảm bằng chứng linkage; chưa bảo đảm ẩn danh người dùng & Chạy re-identification attack với auxiliary data và identity ground truth \\
-Next route & Mở rộng & Có thể giảm khả năng dự đoán nếu dummy sequence hợp lý & Chạy next-location/destination/route predictor trên cùng transcript \\
-Query content & Ngoài core hiện tại & Sinh toạ độ giả không bảo vệ nội dung gửi rõ & Sinh dummy query/content hoặc dùng giao thức truy vấn riêng tư \\
+Vị trí & Trực tiếp, \core{} & Giảm khả năng đối thủ lọc vị trí giả và suy ra vị trí/quỹ đạo thật trong mô hình đe doạ đã định nghĩa & Có thí nghiệm với tấn công phù hợp, cùng chỉ số hữu ích và cận bảo đảm tương ứng với giao diện \\
+Danh tính & Thứ cấp & Có thể giảm bằng chứng liên kết; chưa bảo đảm ẩn danh người dùng & Chạy tấn công tái định danh với dữ liệu phụ trợ và nhãn danh tính thật \\
+Tuyến tiếp theo & Mở rộng & Có thể giảm khả năng dự đoán nếu chuỗi giả hợp lý & Chạy bộ dự đoán vị trí, đích đến hoặc tuyến tiếp theo trên cùng dữ liệu quan sát \\
+Nội dung truy vấn & Ngoài trọng tâm & Sinh toạ độ giả không bảo vệ nội dung gửi rõ & Sinh truy vấn/nội dung giả hoặc dùng giao thức truy vấn riêng tư \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
 % ==================== Chương 6 ====================
-\chapter{Mô hình SOTA cùng lớp dummy generation}
+\chapter{Các phương pháp đối chứng cùng lớp sinh dữ liệu giả}
 
 \section{Tiêu chí chọn và tiêu chí loại}
 
-Đối chứng chính phải: (i) sinh vị trí giả, tập vị trí giả, quỹ đạo giả hoặc truy vấn giả; (ii) bảo vệ người dùng trong LBS/quỹ đạo; (iii) có threat model giao với report này; và (iv) ưu tiên xuất bản trong giai đoạn 2023--2026.
+Đối chứng chính phải: (i) sinh vị trí giả, tập vị trí giả, quỹ đạo giả hoặc truy vấn giả; (ii) bảo vệ người dùng trong LBS/quỹ đạo; (iii) có mô hình đối thủ phù hợp với luận văn; và (iv) ưu tiên các công trình công bố trong giai đoạn 2023--2026.
 
 Các phương pháp sau \textbf{không được tính vào ba SOTA chính}: Planar Laplace thuần tuý; cơ chế chỉ thêm nhiễu liên tục mà không sinh dummy hợp lý; mô hình chỉ tấn công; và mô hình sinh cả bộ dữ liệu tổng hợp ngoại tuyến cho data publishing. Chúng vẫn có thể làm baseline nền tảng, attacker hoặc ablation.
 
@@ -532,13 +527,13 @@ Các phương pháp sau \textbf{không được tính vào ba SOTA chính}: Plan
 
 \subsection{AnotherMe (IEEE TDSC 2024)}
 
-AnotherMe là hệ thống sinh quỹ đạo ảo trực tuyến và cục bộ trên Android/iOS. Hệ thống mô phỏng pattern di chuyển và ánh xạ POI của người dùng sang một ``virtual user'', sau đó dùng API bản đồ để tạo quỹ đạo ảo khó phân biệt với thật. Bài báo báo cáo recognition rate trung bình 53.8\%, gần mức đoán ngẫu nhiên trong bài toán hai lớp \citep{li2024anotherme}. Kho mã nguồn công khai chứa thuật toán sinh virtual trajectory, ứng dụng Android/iOS, cùng các phần dữ liệu GeoLife và T-Drive \citep{anothermecode}.
+AnotherMe là hệ thống sinh quỹ đạo ảo trực tuyến và cục bộ trên Android/iOS. Hệ thống mô phỏng mẫu di chuyển và ánh xạ POI của người dùng sang một ``người dùng ảo'' (virtual user), sau đó dùng dịch vụ bản đồ để tạo quỹ đạo ảo khó phân biệt với thật. Bài báo báo cáo tỷ lệ nhận diện trung bình 53.8\%, gần mức đoán ngẫu nhiên trong bài toán hai lớp \citep{li2024anotherme}. Kho mã công khai chứa thuật toán nghiên cứu và ứng dụng di động, nhưng một số bước phụ thuộc dịch vụ AMap, đường dẫn/dữ liệu cục bộ và chưa thể chạy nguyên trạng trên quy trình SUMO của luận văn \citep{anothermecode}.
 
 \textbf{Giá trị làm đối chứng}: rất sát đơn vị bảo vệ ở mức quỹ đạo, có triển khai thực tế và code. \textbf{Khác biệt}: bảo vệ bằng virtual user/trajectory và POI mapping, không cung cấp cùng loại formal Geo-I guarantee với cơ chế của luận văn.
 
 \subsection{TransProtect (ACM SIGSPATIAL 2024)}
 
-TransProtect học embedding của mạng đường, dùng GCN và transformer để xếp hạng tối đa $K$ vị trí ứng viên hợp lý theo lịch sử, sau đó tích hợp tập này với Laplace hoặc cơ chế tối ưu tuyến tính để chọn vị trí công bố. Paper đi kèm attacker VehiTrack, kết hợp ràng buộc đường/lưu lượng và tương quan dài hạn. Thử nghiệm dùng taxi Rome và San Francisco, đo EIE cùng sai lệch chi phí hành trình; mã của cả attack và defense được công bố \citep{yadav2024transprotect,vehitrackcode}.
+TransProtect học biểu diễn của mạng đường, dùng GCN và transformer để xếp hạng tối đa $K$ vị trí ứng viên hợp lý theo lịch sử, sau đó tích hợp tập này với Laplace hoặc cơ chế tối ưu tuyến tính để chọn vị trí công bố. Công trình đi kèm mô hình tấn công VehiTrack, kết hợp ràng buộc đường/lưu lượng và tương quan dài hạn. Thử nghiệm dùng taxi Rome và San Francisco, đo EIE cùng sai lệch chi phí hành trình \citep{yadav2024transprotect}. Kho công khai cung cấp các tập lệnh đánh giá/tấn công và dữ liệu trung gian, nhưng qua kiểm tra hiện tại chưa có quy trình Python hoàn chỉnh để huấn luyện lại GCN/transformer và cơ chế bảo vệ trên mạng Bắc Kinh; vì vậy mã hiện tại chỉ được ghi là bản thích nghi, không phải tái hiện đúng \citep{vehitrackcode}.
 
 \textbf{Giá trị làm đối chứng}: gần nhất với cơ chế luận văn nếu đầu ra là một pseudolocation được chọn từ tập ứng viên trên mạng đường; đồng thời cung cấp attacker mạnh để đánh giá. \textbf{Khác biệt}: TransProtect là lớp lọc candidate hỗ trợ một cơ chế Geo-I nền, không phải tập $k$ vị trí được gửi đồng thời đến LSP.
 
@@ -560,20 +555,20 @@ Liu, Peng và Zhou dùng LSTM dự đoán semantic type cho dummy, rồi lọc/x
 
 \textbf{Giá trị làm đối chứng}: bao phủ đúng attack surface thời gian + ngữ nghĩa. \textbf{Khác biệt}: bảo đảm được phát biểu theo ngưỡng transition và $1/K$, không phải formal Geo-I; cần kiểm tra lại bằng attacker do luận văn cài đặt.
 
-\section{Bảng so sánh và shortlist}
+\section{So sánh và lựa chọn phương pháp đối chứng}
 
 \begin{table}[htbp]
 \centering
 \scriptsize
-\caption{Các SOTA dummy-generation được xác minh đến ngày 01/09/2026.}
+\caption{Các phương pháp sinh dữ liệu giả hiện đại được lựa chọn để khảo sát.}
 \label{tab:sota}
 \begin{tabularx}{\textwidth}{P{2.25cm}P{1.65cm}P{2.6cm}Y P{2.4cm}P{1.35cm}}
 \toprule
 \textbf{Phương pháp} & \textbf{Năm/nơi} & \textbf{Giao diện dummy} & \textbf{Threat/ngữ cảnh chính} & \textbf{Dữ liệu và chỉ số gốc} & \textbf{Code} \\
 \midrule
-AnotherMe & 2024, IEEE TDSC & Quỹ đạo ảo trực tuyến/virtual user & Data-mining classifier, POI và movement-pattern distinguishability & GeoLife, T-Drive; recognition, latency, battery & \yes \\
+AnotherMe & 2024, IEEE TDSC & Quỹ đạo ảo trực tuyến/người dùng ảo & Bộ phân loại khai phá dữ liệu, POI và khả năng phân biệt mẫu di chuyển & GeoLife, T-Drive; nhận diện, độ trễ, pin & \partly \\
 \addlinespace
-TransProtect & 2024, ACM SIGSPATIAL & Tập candidate synthetic; công bố một pseudolocation & VehiTrack: road/traffic filtering, ngắn và dài hạn & Rome, San Francisco taxi; EIE, travel-cost loss & \yes \\
+TransProtect & 2024, ACM SIGSPATIAL & Tập vị trí giả ứng viên; công bố một vị trí giả & VehiTrack: lọc theo mạng đường/lưu lượng, ngắn và dài hạn & Taxi Rome, San Francisco; EIE, sai lệch chi phí hành trình & \partly \\
 \addlinespace
 LSPPM-SI & 2025, Scientific Reports & Thật + $k-1$ dummy trajectories & Semantic/homogeneity và spatial-influence filtering & GeoLife + POI; entropy, information loss, semantic degree & \no \\
 \addlinespace
@@ -584,46 +579,49 @@ Semantic-correlation scheme & 2026, JKSUCIS & Thật + $K-1$ dummy locations the
 \end{tabularx}
 \end{table}
 
-\textbf{Shortlist ba đối chứng chính ở mức lớp phương pháp}:
+\textbf{Ba đối chứng chính ở mức lớp phương pháp} gồm:
 
 \begin{enumerate}
-  \item \textbf{TransProtect}: gần nhất với đầu ra một vị trí giả trên mạng đường và có attacker/code.
-  \item \textbf{AnotherMe}: đối chứng ở mức quỹ đạo trực tuyến, có code và ứng dụng di động.
-  \item \textbf{LSPPM-SI}: đối chứng semantic dummy trajectory; nếu ưu tiên continuous-query hơn publication, thay bằng cơ chế semantic-correlation 2026.
+  \item \textbf{TransProtect}: gần nhất với đầu ra một vị trí giả trên mạng đường và có mô hình tấn công VehiTrack để tham chiếu.
+  \item \textbf{AnotherMe}: đối chứng ở mức quỹ đạo thay thế trực tuyến, có mã nghiên cứu và ứng dụng di động để đối chiếu.
+  \item \textbf{Semantic-correlation 2026}: sát nhất với đe doạ trọng tâm vì sinh thật+$K-1$ vị trí giả theo chuỗi và xét đồng thời thời gian với ngữ nghĩa.
 \end{enumerate}
 
-Fake-query insertion 2026 được giữ làm \textbf{đối chứng giao thức/stress defense}, không nên gộp trực tiếp với một-output mechanism mà không tính số request. GeoGRCNN 2024 là lựa chọn dự phòng cho nhánh học sâu: mô hình GCN+RNN sinh trajectory decoy đô thị, nhưng chưa tìm thấy code công khai và đánh giá gốc tập trung nhiều vào độ hợp đường hơn attack success \citep{narayanan2024geogrcnn}.
+LSPPM-SI vẫn là \textbf{đối chứng phụ quan trọng} cho nhánh quỹ đạo giả có POI, nhưng chưa được đưa vào quy trình chạy hiện tại vì thiếu mã nguồn, dữ liệu POI và các bước tiền xử lý cần thiết. Fake-query insertion 2026 được giữ làm \textbf{đối chứng ở tầng giao thức/kiểm thử áp lực}, không nên gộp trực tiếp với cơ chế chỉ tạo một đầu ra nếu chưa tính số truy vấn. GeoGRCNN 2024 là lựa chọn dự phòng cho nhánh học sâu: mô hình GCN+RNN sinh quỹ đạo mồi đô thị, nhưng chưa tìm thấy mã công khai và đánh giá gốc tập trung nhiều vào độ hợp đường hơn tỷ lệ tấn công thành công \citep{narayanan2024geogrcnn}.
 
-Ba mô hình trên đều thực sự thuộc lớp \textbf{dummy/synthetic generation}; không có baseline chỉ thêm nhiễu nào được tính vào ba SOTA. Shortlist thí nghiệm chính thức sẽ được khoá sau khi chốt output contract: nếu dùng thật+$k-1$ dummy, bộ sát giao diện nhất là LSPPM-SI, semantic-correlation 2026 và fake-query 2026; nếu dùng một pseudolocation/quỹ đạo thay thế, TransProtect và AnotherMe là hai đối chứng trực tiếp hơn. Kết quả giữa các track chỉ được đặt cạnh nhau sau khi chuẩn hoá số truy vấn, utility và attacker.
+Trong quy trình thực thi hiện tại, ba phương pháp trên được tổ chức thành các \textbf{bản thích nghi có ánh xạ nguồn}: mỗi thành phần đã cài, đã thay thế hoặc còn thiếu đều được ghi trong thẻ phương pháp cùng phiên bản kho nguồn. Quy trình sẽ dừng nếu người chạy yêu cầu nhãn ``tái hiện SOTA'' trong khi một thành phần cốt lõi còn thiếu. Do đó, kết quả hiện tại chỉ chứng minh tính chạy được và tính đúng của giao diện; chưa được dùng để xếp hạng phương pháp trong luận văn.
+
+Ba mô hình trên đều thuộc lớp \textbf{dummy/synthetic generation}; không có baseline chỉ thêm nhiễu nào được tính vào ba đối chứng chính. Việc xác lập bộ ba dùng trong thí nghiệm phụ thuộc vào giao diện đầu ra của cơ chế luận văn: nếu dùng thật+$k-1$ dummy, các phương pháp sát giao diện nhất là LSPPM-SI, semantic-correlation 2026 và fake-query 2026; nếu dùng một pseudolocation/quỹ đạo thay thế, TransProtect và AnotherMe là hai đối chứng trực tiếp hơn. Kết quả giữa các nhánh chỉ được đặt cạnh nhau sau khi chuẩn hoá số truy vấn, utility và mô hình tấn công.
 
 \section{Nguyên tắc so sánh công bằng}
 
-Các paper trên cùng thuộc lớp dummy generation nhưng không cùng output contract. Vì vậy thí nghiệm cuối phải tuân theo:
+Các công trình trên cùng thuộc lớp dummy generation nhưng không có cùng giao diện đầu ra. Vì vậy thiết kế thí nghiệm của luận văn tuân theo:
 
 \begin{enumerate}
-  \item \textbf{Tách track}: Track A cho một pseudolocation/quỹ đạo thay thế; Track B cho tập thật+$k-1$ dummy; Track C cho fake-query protocol.
-  \item \textbf{Cùng attacker}: chạy cùng một context-aware attacker trên output của mọi cơ chế, thay vì chỉ chép metric tự định nghĩa của từng paper.
-  \item \textbf{Cùng utility}: so tại cùng POI quality hoặc cùng route-service loss, không chỉ cùng $k$ hay cùng tham số có tên $\varepsilon$ nhưng nghĩa khác nhau.
-  \item \textbf{Tính toàn bộ chi phí}: số query, byte truyền, latency, năng lượng và số kết quả phải lọc đều là utility/overhead.
-  \item \textbf{Ghi rõ formal guarantee}: $k$-anonymity, attacker error và Geo-I là ba loại claim khác nhau; không quy đổi trực tiếp nếu chưa có chứng minh.
-  \item \textbf{Tái lập}: pin code/commit, preprocessing, map/POI snapshot, split train--test và random seed. Với paper không có code, re-implementation phải có test và được ghi là bản tái cài đặt độc lập.
+  \item \textbf{Tách nhánh}: nhánh A cho một vị trí/quỹ đạo thay thế; nhánh B cho tập thật+$k-1$ vị trí giả; nhánh C cho giao thức chèn truy vấn giả.
+  \item \textbf{Cùng mô hình tấn công}: chạy cùng một đối thủ biết ngữ cảnh trên đầu ra của mọi cơ chế, thay vì chỉ chép chỉ số riêng của từng bài báo.
+  \item \textbf{Cùng chất lượng ứng dụng}: so tại cùng chất lượng truy vấn POI hoặc cùng sai lệch dịch vụ định tuyến, không chỉ cùng $k$ hay cùng tham số có tên $\varepsilon$ nhưng nghĩa khác nhau.
+  \item \textbf{Tính toàn bộ chi phí}: số truy vấn, byte truyền, độ trễ, năng lượng và số kết quả phải lọc đều là chi phí hệ thống.
+  \item \textbf{Ghi rõ loại bảo đảm}: $k$-ẩn danh, sai số suy luận của đối thủ và Geo-I là ba loại phát biểu khác nhau; không quy đổi trực tiếp nếu chưa có chứng minh.
+  \item \textbf{Khả năng tái lập}: cố định phiên bản mã, bước tiền xử lý, ảnh chụp mạng đường/POI, cách chia tập huấn luyện--kiểm thử và hạt giống ngẫu nhiên. Với công trình không có mã, bản tái cài đặt độc lập phải có kiểm thử và ghi rõ sai khác.
 \end{enumerate}
 
 % ==================== Kết luận ====================
-\chapter*{Kết luận và nội dung cần xác nhận}
-\addcontentsline{toc}{chapter}{Kết luận và nội dung cần xác nhận}
+\chapter{Kết luận và hướng nghiên cứu tiếp theo}
 
-Report đã hoàn thiện sáu nội dung cần trình bày: kiến trúc, phạm vi đô thị, các scenario bị đe doạ, threat model, bốn target và shortlist SOTA đúng lớp dummy generation. Kết quả quan trọng nhất là chuyển câu hỏi từ ``nhiễu bao xa'' sang ``dummy có còn khó phân biệt khi LSP biết đường, thời gian, POI và lịch sử hay không''.
+Luận văn đã xác lập nền tảng cho bài toán bảo vệ quỹ đạo trong LBS đô thị, gồm kiến trúc hệ thống, phạm vi không gian, các trường hợp quỹ đạo bị đe doạ, mô hình đối thủ, mục tiêu bảo vệ và nhóm phương pháp đối chứng cùng lớp sinh dữ liệu giả. Câu hỏi cốt lõi không chỉ là ``nhiễu bao xa'', mà là ``dummy có còn khó phân biệt khi LSP biết mạng đường, thời gian, POI và lịch sử hay không''.
 
-Các điểm cần xác nhận với giáo viên hướng dẫn trong buổi gặp:
+Các nội dung tiếp tục được hoàn thiện trong luận văn gồm:
 
 \begin{enumerate}
-  \item Chốt output contract cuối: một pseudolocation, một quỹ đạo thay thế, hay tập thật+$k-1$ dummy.
-  \item Chấp thuận context-aware continuous dummy filtering là threat chính; location/real-trajectory selection là target trực tiếp.
-  \item Chốt cách hiểu group of users là population prior, chưa phải group-privacy guarantee.
-  \item Chấp thuận shortlist cấp phương pháp TransProtect--AnotherMe--LSPPM-SI; sau đó khoá ba baseline cùng output contract cho thí nghiệm chính.
-  \item Chấp thuận re-implementation một SOTA không có code, hoặc yêu cầu cả ba baseline bắt buộc có source code công khai.
+  \item xác lập giao diện đầu ra thống nhất cho cơ chế chính: một pseudolocation, một quỹ đạo thay thế hoặc tập thật+$k-1$ dummy;
+  \item hiện thực và kiểm chứng context-aware continuous dummy-filtering attack, trong đó vị trí và quỹ đạo thật là mục tiêu suy luận trực tiếp;
+  \item xây dựng population prior từ tập huấn luyện tách biệt và kiểm soát việc sử dụng prior cho cả cơ chế bảo vệ lẫn đối thủ;
+  \item tái hiện các phương pháp đối chứng theo cùng giao diện, dữ liệu, utility và mô hình tấn công; mọi tái cài đặt độc lập được ghi rõ và kiểm thử;
+  \item phát triển cơ chế sinh quỹ đạo giả dựa trên neo Geo-I/GG-I, chứng minh phạm vi bảo đảm xác suất và đánh giá thực nghiệm theo cả privacy, utility và overhead.
 \end{enumerate}
+
+Các kết quả thực nghiệm và kết luận so sánh chỉ được bổ sung sau khi các thành phần trên được hiện thực, kiểm thử và chạy trên cùng một quy trình benchmark có thể tái lập.
 
 % ==================== Tài liệu tham khảo ====================
 \begin{thebibliography}{99}

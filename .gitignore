@@ -14,18 +14,21 @@ road_network_cache/
 # Raw datasets (downloaded on demand — see data/README.md)
 data/raw/
 
-# LaTeX build artifacts (thesis/main.pdf is kept)
-thesis/*.aux
-thesis/*.log
-thesis/*.out
-thesis/*.toc
-thesis/*.lof
-thesis/*.lot
-thesis/*.bbl
-thesis/*.blg
-thesis/*.fls
-thesis/*.xdv
-thesis/*.fdb_latexmk
+# LaTeX build artifacts (PDF deliverables are kept)
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.bbl
+*.blg
+*.fls
+*.xdv
+*.fdb_latexmk
+
+# Local render/QA scratch artifacts
+tmp/
 
 # OS / editor junk
 .DS_Store

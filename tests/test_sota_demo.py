@@ -1,11 +1,16 @@
-"""Smoke and contract tests for the explicitly demo-only SOTA prototypes."""
+"""Smoke and contract tests for executable paper adaptations."""
 
 import networkx as nx
 import numpy as np
 
 from core.road_network import RoadNetwork
 from core.demo_protocol import OutputKind, TrajectoryPoint
-from core.sota_demo import AnotherMeLite, SemanticDummyLite, TransProtectLite
+from benchmark.contracts import ImplementationLevel
+from benchmark.methods import (
+    AnotherMeAdaptation,
+    SemanticDummyAdaptation,
+    TransProtectAdaptation,
+)
 
 
 def _grid_network(rows=3, cols=4):
@@ -27,20 +32,25 @@ def _grid_network(rows=3, cols=4):
     return RoadNetwork(graph), coordinates
 
 
-def test_demo_classes_are_unambiguously_labelled():
-    for cls in (TransProtectLite, AnotherMeLite, SemanticDummyLite):
-        assert cls.demo_only is True
-        assert cls.name.endswith("_lite")
-        assert cls.source_method
+def test_adaptation_classes_are_unambiguously_labelled():
+    for cls in (
+        TransProtectAdaptation,
+        AnotherMeAdaptation,
+        SemanticDummyAdaptation,
+    ):
+        assert cls.name.endswith("_adaptation")
+        assert cls.method_card.implementation_level is ImplementationLevel.PAPER_ADAPTATION
+        assert cls.method_card.reportable_as_reproduced_sota is False
+        assert cls.method_card.missing_components
 
 
-def test_transprotect_lite_returns_one_road_point_per_input():
+def test_transprotect_adaptation_returns_one_road_point_per_input():
     rn, coordinates = _grid_network()
     points, times = coordinates[:4], [0, 60, 120, 180]
-    first = TransProtectLite(rn, rng=np.random.default_rng(7)).protect_trajectory(
+    first = TransProtectAdaptation(rn, rng=np.random.default_rng(7)).protect_trajectory(
         points, times
     )
-    second = TransProtectLite(rn, rng=np.random.default_rng(7)).protect_trajectory(
+    second = TransProtectAdaptation(rn, rng=np.random.default_rng(7)).protect_trajectory(
         points, times
     )
     assert first == second, "a fixed RNG seed must reproduce the demo"
@@ -49,10 +59,10 @@ def test_transprotect_lite_returns_one_road_point_per_input():
     assert all(point in road_points for point in first)
 
 
-def test_anotherme_lite_relocates_a_whole_trajectory_to_roads():
+def test_anotherme_adaptation_relocates_a_whole_trajectory_to_roads():
     rn, coordinates = _grid_network()
     points = coordinates[:4]
-    mechanism = AnotherMeLite(
+    mechanism = AnotherMeAdaptation(
         rn,
         anchor_min_m=100.0,
         anchor_max_m=400.0,
@@ -70,10 +80,10 @@ def test_anotherme_lite_relocates_a_whole_trajectory_to_roads():
     assert protected != points, "the smoke case should be visibly relocated"
 
 
-def test_semantic_dummy_lite_keeps_truth_separate_from_public_candidates():
+def test_semantic_dummy_adaptation_keeps_truth_separate_from_public_candidates():
     rn, coordinates = _grid_network()
     points, times = coordinates[:3], [0, 60, 120]
-    releases = SemanticDummyLite(
+    releases = SemanticDummyAdaptation(
         rn, k=4, rng=np.random.default_rng(19)
     ).protect_trajectory(
         points,
@@ -87,13 +97,13 @@ def test_semantic_dummy_lite_keeps_truth_separate_from_public_candidates():
         assert release.public_candidates[release.real_index] == real
         assert len(set(release.candidate_vertex_indices)) == 4
         assert len(set(release.candidate_ids)) == 4
-        assert release.metadata["demo_only"] is True
+        assert release.metadata["implementation_level"] == "paper_adaptation"
 
 
-def test_semantic_dummy_lite_rejects_impossible_k():
+def test_semantic_dummy_adaptation_rejects_impossible_k():
     rn, _ = _grid_network(rows=1, cols=3)
     try:
-        SemanticDummyLite(rn, k=4)
+        SemanticDummyAdaptation(rn, k=4)
         raise AssertionError("k larger than the graph must be rejected")
     except ValueError:
         pass
@@ -106,11 +116,13 @@ def test_protocol_adapters_hide_semantic_truth_and_label_output_kind():
         for i, (lat, lon) in enumerate(coordinates[:3])
     )
 
-    replacement = TransProtectLite(rn, rng=np.random.default_rng(3)).protect_run(real)
+    replacement = TransProtectAdaptation(
+        rn, rng=np.random.default_rng(3)
+    ).protect_run(real)
     assert replacement.transcript.output_kind is OutputKind.REPLACEMENT_TRAJECTORY
     assert replacement.truth.real_candidate_ids == ()
 
-    candidate_run = SemanticDummyLite(
+    candidate_run = SemanticDummyAdaptation(
         rn, k=4, rng=np.random.default_rng(4)
     ).protect_run(real)
     assert candidate_run.transcript.output_kind is OutputKind.REAL_PLUS_DUMMIES
@@ -118,3 +130,7 @@ def test_protocol_adapters_hide_semantic_truth_and_label_output_kind():
     assert "real_index" not in str(public)
     assert "real_candidate_ids" not in str(public)
     assert len(candidate_run.truth.real_candidate_ids) == len(real)
+    parameters = dict(candidate_run.transcript.public_parameters)
+    assert parameters["implementation_level"] == "paper_adaptation"
+    assert parameters["reportable_as_reproduced_sota"] is False
+    assert "demo_only" not in parameters

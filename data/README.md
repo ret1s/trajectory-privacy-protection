@@ -2,7 +2,7 @@
 
 Raw data lives in `data/raw/` (gitignored). To reproduce the benchmark:
 
-## SUMO controlled mobility demo (default for SOTA prototype demo)
+## SUMO controlled mobility source (default for the dummy benchmark)
 
 Install the pinned optional simulator stack:
 
@@ -13,7 +13,7 @@ venv/bin/python -m pip install -r requirements-sumo.txt
 Then run:
 
 ```bash
-venv/bin/python -m experiments.run_sota_demo --quick
+venv/bin/python -m experiments.run_dummy_benchmark --quick
 ```
 
 `data/sumo_demo.py` uses `netconvert` on the local Beijing OSM extract, creates

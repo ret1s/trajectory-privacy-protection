@@ -1,120 +1,88 @@
-# Demo sơ bộ: ba hướng SOTA và mô hình đề xuất
+# Ranh giới thực nghiệm của benchmark sinh dữ liệu giả
 
-**Trạng thái:** chạy được bằng một simulation SUMO thật để minh họa kiến trúc và
-giao diện đầu ra; **không phải reproduction chính thức và chưa phải benchmark
-dùng để kết luận mô hình nào tốt hơn**.
+Tài liệu này mô tả chính xác phần thực nghiệm đang chạy được cho luận văn. Đây
+không phải bảng xếp hạng SOTA. Ba phương pháp từ bài báo hiện ở mức **bản thích
+nghi có ánh xạ nguồn**; quy trình tự từ chối nhãn “tái hiện SOTA” nếu còn thiếu
+thành phần cốt lõi.
 
-## Chạy demo
-
-Từ thư mục gốc của repository:
+## Chạy benchmark và web app
 
 ```bash
 venv/bin/python -m pip install -r requirements-sumo.txt
-venv/bin/python -m experiments.run_sota_demo --quick
+venv/bin/python -m experiments.run_dummy_benchmark --quick
+venv/bin/python -m web.benchmark_app
 ```
 
-Kết quả được ghi vào:
+Mở `http://127.0.0.1:5000/`. Web app chỉ đọc artifact đã sinh, không có API chạy
+thí nghiệm. Hai vùng dữ liệu được tách rõ:
 
-- `outputs/sota_demo_map.html`: bản đồ tương tác, đã nhúng mạng đường OSM cục bộ
-  nên vẫn có nền đường khi tile bản đồ trực tuyến không tải được;
-- `outputs/sota_demo_preview.png`: ảnh tĩnh 2×2, tách riêng từng mô hình trên
-  cùng phạm vi và cùng mạng đường để đọc nhanh;
-- `outputs/sota_demo_results.json`: public transcript, ground truth riêng cho
-  evaluator, SUMO route/speed/lane truth, provenance và một số diagnostic
-  metrics; file này cũng ghi SHA-256 của HTML/PNG tương ứng;
-- terminal: ba bảng kết quả tách theo output contract.
+- **attacker-visible**: đúng dữ liệu LSP/kẻ tấn công được phép quan sát;
+- **evaluator-only**: quỹ đạo thật, nhãn thật và chỉ số; chỉ dùng để chấm điểm.
 
-Mặc định không có GeoLife hoặc synthetic fallback: thiếu SUMO/OSM thì chương
-trình dừng và báo rõ dependency. GeoLife chỉ còn là phép kiểm tra tùy chọn trên
-dữ liệu thực:
+Các hình trực quan được kiểm tra SHA-256 trước khi web app phục vụ. Các route
+evaluator mặc định chỉ phù hợp với localhost; phải tắt hoặc thêm xác thực trước
+khi triển khai ra ngoài máy cá nhân.
 
-```bash
-venv/bin/python -m experiments.run_sota_demo --quick --mobility-source geolife
-```
+## Artifact chuẩn
 
-Trong HTML, mạng đường cục bộ, SUMO ground truth và mô hình đề xuất được bật mặc
-định. Ba lớp SOTA tắt mặc định để các quỹ đạo không chồng lên nhau; có thể bật
-từng lớp trong bảng điều khiển bên phải. Tile OpenStreetMap trực tuyến chỉ là
-lớp tùy chọn và không cần thiết để thấy cấu trúc đường.
+- `outputs/dummy_benchmark_results.json`: artifact v3, chứa provenance, thẻ
+  phương pháp, public transcript, ground truth tách riêng và diagnostic metrics;
+- `outputs/dummy_benchmark_map.html`: bản đồ tương tác evaluator-only, nhúng
+  mạng đường OSM cục bộ nên vẫn đọc được khi tile trực tuyến không tải;
+- `outputs/dummy_benchmark_preview.png`: ảnh tĩnh đối chiếu bốn cơ chế.
 
-## Dữ liệu demo SUMO được tạo như thế nào?
+## Nguồn quỹ đạo
 
-Pipeline mặc định thực sự gọi ba công cụ của Eclipse SUMO:
+Mặc định, pipeline thực sự gọi Eclipse SUMO:
 
 ```text
 Beijing.osm.gz
-  -> netconvert: cắt bbox đô thị, chỉ giữ đường cho passenger vehicle
-  -> randomTrips.py: sinh demand/route với seed cố định
-  -> sumo: chạy movement physics và xuất FCD theo thời gian
-  -> parse x=longitude, y=latitude
-  -> cùng một trajectory đi qua cả bốn protection prototypes
+  -> netconvert: mạng passenger trong bbox đô thị
+  -> randomTrips.py: sinh demand với seed cố định
+  -> sumo: mô phỏng chuyển động và xuất FCD
+  -> một trajectory được resample
+  -> chạy qua mọi cơ chế trên cùng input
 ```
 
-Mạng và các file trung gian được tạo trong `cache/sumo_demo/` nên không được
-commit. JSON kết quả lưu phiên bản SUMO, hai seed, lệnh chạy và SHA-256 của OSM,
-network, routes và FCD. Theo tài liệu chính thức, FCD có thể xuất WGS84 bằng
-`--fcd-output.geo`; `randomTrips.py` với seed cố định tạo demand có thể lặp lại
-([FCD output](https://eclipse.dev/sumo/docs/Simulation/Output/FCDOutput.html),
-[randomTrips](https://eclipse.dev/sumo/docs/Tools/Trip.html)).
+Đây là một controlled smoke scenario, chưa phải mô hình dân số Bắc Kinh đã hiệu
+chỉnh. SUMO hiện chỉ chọn một quỹ đạo; chưa có scenario builder cho S1--S7,
+population prior, POI labels hay nhiều người dùng. GeoLife chỉ được dùng khi chỉ
+định rõ `--mobility-source geolife`; không có fallback im lặng.
 
-Đây mới là **controlled smoke scenario**, không phải population model đã hiệu
-chỉnh cho Bắc Kinh. Tài liệu SUMO cũng cảnh báo random trips không mặc nhiên là
-mobility thực tế. Giai đoạn benchmark sẽ giữ SUMO làm movement engine nhưng thay
-random demand bằng scenario builder riêng cho S1--S7. Dữ liệu bản đồ thuộc
-© OpenStreetMap contributors, giấy phép ODbL.
+SUMO chạy trên mạng passenger-only, còn candidate graph hiện là OSMnx graph đa
+phương thức đã pin từ benchmark trước. Hai graph cùng nguồn/bbox nhưng chưa được
+coi là đồng nhất. Benchmark kết luận cuối phải thống nhất graph hoặc kiểm chứng
+mapping giữa hai graph.
 
-## Bốn prototype hiện có
+## Các phương pháp hiện chạy
 
-| Prototype | Ý tưởng đã minh họa | Dữ liệu LSP nhìn thấy | Phần quan trọng chưa cài |
+| Phương pháp | Giao diện | Đã cài | Còn thiếu để tái hiện paper |
 |---|---|---|---|
-| `TransProtectLite` | Chọn pseudolocation trên mạng đường bằng utility, reachability và context score | Một vị trí thay thế tại mỗi thời điểm | GCN/Transformer, traffic model, candidate pipeline và VehiTrack chính thức |
-| `AnotherMeLite` | Dịch chuyển/biến đổi nhất quán cả quỹ đạo rồi snap lên mạng đường | Một quỹ đạo ảo thay thế | Virtual-user model, POI mapping, learned mobility pattern và mobile workflow |
-| `SemanticDummyLite` | Sinh `K-1` dummy có temporal/reachability score; có hook cho semantic category | Vị trí thật + `K-1` dummy, với ID ổn định theo thời gian | LSTM/attention, semantic predictor, candidate filters và tham số đúng paper |
-| `GeoIAnchoredDummyTrajectoriesLite` | REM tạo private anchor; chỉ hậu xử lý anchor công khai để sinh `K` dummy track hợp lý sơ bộ | `K` dummy track; quỹ đạo thật không phải thành viên public | Population/POI prior, group statistics, attacker-aware optimization, budget manager và proof ở mức toàn trajectory |
+| TransProtect adaptation | một quỹ đạo vị trí thay thế | candidate trên mạng đường, điểm utility/reachability/context, seed cố định | GCN/transformer và traffic pipeline, VehiTrack hoàn chỉnh, Rome/SF reproduction |
+| AnotherMe adaptation | một quỹ đạo ảo thay thế | biến đổi nhất quán toàn quỹ đạo, route-aware snapping | virtual-user/history, POI/routing tương đương AMap, classifier/mobile reproduction |
+| Semantic-correlation adaptation | thật + `K-1` dummy theo chuỗi | candidate ID ổn định, điểm temporal/reachability, semantic hook | LSTM/attention, grid/transition pipeline, POI dataset và ASR reproduction |
+| Geo-I anchored dummy | `K` quỹ đạo giả, không công bố quỹ đạo thật | REM anchor và post-processing chỉ dùng anchor công khai | population/POI prior, tối ưu theo attacker, quản lý ngân sách toàn trajectory |
 
-Ba prototype đầu chỉ là **paper-inspired clean-room sketches** để có demo sớm.
-Tên paper trong source code dùng để chỉ hướng ý tưởng, không có nghĩa kết quả này
-là kết quả của TransProtect, AnotherMe hay Liu--Peng--Zhou.
+Chi tiết tới từng thành phần và phiên bản nguồn nằm trong
+[`benchmark/README.md`](../../../benchmark/README.md) và `method_inventory` của
+artifact JSON.
 
-## Quy tắc đọc kết quả
+## Những gì kết quả hiện tại chứng minh
 
-Demo tách ba track vì câu hỏi đánh giá khác nhau:
+Kết quả v3 chỉ đủ để chứng minh:
 
-1. **Replacement trajectory:** TransProtectLite và AnotherMeLite; xem
-   displacement, QoS hình học, on-road và speed violation.
-2. **Real + dummies:** SemanticDummyLite; xem kích thước tập, khoảng cách/spread,
-   dummy survival và sau này là top-1/rank/MRR dưới attacker.
-3. **Dummy-only:** mô hình đề xuất; xem độ phủ của batch, reconstruction error và
-   tính hợp lý của từng track; không có “real index” trong output.
+1. cả bốn cơ chế chạy trên cùng quỹ đạo SUMO và cùng seed/provenance;
+2. output contract được kiểm tra, ground truth không lọt vào attacker view;
+3. bản đồ/preview/web app đọc được kết quả trên mạng đường; và
+4. mỗi con số luôn gắn với mức độ cài đặt và các thành phần còn thiếu.
 
-Không so trực tiếp các cột số giữa ba track và không gọi bảng hiện tại là
-leaderboard. Các metric hiện tại chủ yếu là sanity check hình học; chưa có
-context-aware continuous dummy-filtering attacker đã hiệu chỉnh.
+Kết quả **chưa** chứng minh cơ chế nào riêng tư hơn. Metrics hiện chủ yếu kiểm
+tra hình học, tính liên tục và chi phí request. Trước khi đưa bảng so sánh vào
+luận văn cần: POI utility chuẩn, context-aware continuous dummy-filtering
+attacker, nhiều scenario/seed/trajectory, khoảng tin cậy, paper-specific
+validation và một graph thống nhất.
 
-## Boundary riêng tư đã cài
-
-`core/demo_protocol.py` tách rõ:
-
-- `PublicTranscript`: đúng dữ liệu LSP/attacker được phép đọc;
-- `EvaluationTruth`: quỹ đạo thật và nhãn real candidate, chỉ dùng offline để
-  chấm điểm.
-
-JSON cố ý ghi hai object `attacker_view` và `evaluator_truth` riêng. Attack code
-tiếp theo chỉ được nhận `attacker_view`. Với mô hình đề xuất, public transcript
-chỉ chứa các dummy track; REM anchors cũng không được serialize cho attacker.
-
-## Bước hoàn thiện tiếp theo
-
-- thay các heuristic `*Lite` bằng reproduction/adaptation theo paper và pin rõ
-  phiên bản code/dataset;
-- thay random SUMO demand bằng controlled scenario builder cho từng threat S1--S7;
-- bổ sung POI labels, population prior và scenario nhiều người dùng/OMoSim;
-- cài attacker chung theo road, time, POI và population context;
-- bổ sung metric đúng từng contract và chuẩn hóa request/communication cost;
-- chỉ sau đó mới chạy benchmark nhiều seed và đưa ra kết luận thực nghiệm.
-
-Một giới hạn kỹ thuật hiện tại: trajectory thật được SUMO chạy trên mạng
-passenger-only, còn candidate graph của bốn prototype vẫn là OSMnx graph đa
-phương thức đã pin từ benchmark cũ. Hai graph cùng OSM/bbox và pilot hiện khớp
-hình học, nhưng bản benchmark tiếp theo phải xây candidate graph trực tiếp từ
-SUMO network hoặc từ một OSMnx drive graph tương ứng.
+LSPPM-SI vẫn là đối chứng phụ quan trọng nhưng chưa nằm trong executable set vì
+thiếu mã nguồn, POI data và preprocessing. Bộ ba chạy hiện tại dùng
+Semantic-correlation 2026 thay cho LSPPM-SI vì phù hợp trực tiếp hơn với attack
+surface liên tục theo thời gian + ngữ nghĩa của luận văn.

@@ -1,4 +1,4 @@
-"""Small, model-agnostic protocol for the SOTA demonstration.
+"""Small, model-agnostic protocol for dummy-generation benchmarks.
 
 The production benchmark currently assumes one secret point produces one
 published point.  Dummy-generation mechanisms need a slightly wider contract:
@@ -29,7 +29,7 @@ PublicScalar = Union[str, int, float, bool, None]
 
 
 class OutputKind(str, Enum):
-    """Public-output contracts supported by the demo benchmark."""
+    """Public-output contracts supported by the benchmark."""
 
     REPLACEMENT_TRAJECTORY = "replacement_trajectory"
     REAL_PLUS_DUMMIES = "real_plus_dummies"
@@ -260,14 +260,24 @@ class ProtectedRun:
     def __post_init__(self) -> None:
         kind = self.transcript.output_kind
         truth_ids = self.truth.real_candidate_ids
+        events = self.transcript.events
+        real_trajectory = self.truth.real_trajectory
+
+        if len(events) != len(real_trajectory):
+            raise ValueError(
+                f"{kind.value} events must align one-to-one with the real trajectory"
+            )
+        for event, point in zip(events, real_trajectory):
+            if event.timestamp_s != point.timestamp_s:
+                raise ValueError(
+                    f"event {event.event_id!r} timestamp does not match the real point"
+                )
 
         if kind is OutputKind.REAL_PLUS_DUMMIES:
-            if len(self.transcript.events) != len(self.truth.real_trajectory):
-                raise ValueError("real-plus-dummies events must align with real trajectory")
-            if len(truth_ids) != len(self.transcript.events):
+            if len(truth_ids) != len(events):
                 raise ValueError("one evaluator-only real candidate ID is required per event")
             for event, point, real_id in zip(
-                self.transcript.events, self.truth.real_trajectory, truth_ids
+                events, real_trajectory, truth_ids
             ):
                 if real_id is None:
                     raise ValueError("real-plus-dummies events require a real candidate ID")
@@ -281,10 +291,6 @@ class ProtectedRun:
                     raise ValueError(
                         f"truth candidate {real_id!r} does not match the real point in "
                         f"event {event.event_id!r}"
-                    )
-                if event.timestamp_s != point.timestamp_s:
-                    raise ValueError(
-                        f"event {event.event_id!r} timestamp does not match the real point"
                     )
         elif truth_ids:
             raise ValueError(
