@@ -1,216 +1,119 @@
-# Trajectory Privacy Protection System
+# Trajectory Privacy Protection
 
-An interactive web application and research codebase for privacy protection in
-location-based services (LBS) using Geo-Indistinguishability, developed as part
-of the thesis **“Bảo vệ tính riêng tư về quỹ đạo cho người dùng dịch vụ dựa
-trên vị trí.”** The evolving final LaTeX source is
-`docs/supervisor_meeting/2026-09-05/report.tex`; `thesis/main.tex` is its stable
-build entry point. `docs/internship_2.pdf` is retained as prior-stage context.
+Research code and thesis artifacts for **“Bảo vệ tính riêng tư về quỹ đạo cho
+người dùng dịch vụ dựa trên vị trí.”** The active system studies road-aware,
+dummy-generation protection for continuous location-based services and evaluates
+it against explicit attacker, utility, and output-contract assumptions.
 
-## Features
+## Start here
 
-- **Interactive Map Interface**: Draw routes directly on the map
-- **Real-time Processing**: See privacy-protected trajectories instantly
-- **Adjustable Privacy Parameters**: Control privacy level (epsilon) and quality of service radius
-- **Visual Comparison**: View real vs. fake trajectories side-by-side
-- **Privacy Metrics**: See average/maximum distances and QoS satisfaction rates
+- Final thesis source: [`thesis/main.tex`](thesis/main.tex)
+- Current thesis PDF: [`output/pdf/graduation_thesis.pdf`](output/pdf/graduation_thesis.pdf)
+- Problem formulation: [`docs/research/problem_formulation.md`](docs/research/problem_formulation.md)
+- Foundations study guide: [`output/pdf/location_trajectory_privacy_foundations.pdf`](output/pdf/location_trajectory_privacy_foundations.pdf)
+- Comparator status and evidence: [`benchmark/README.md`](benchmark/README.md)
+- Documentation index: [`docs/README.md`](docs/README.md)
 
-## Project Layout
+## Repository layout
 
-```
-benchmark/      Benchmark contracts, method cards and source-mapped clean-room
-                  comparator engines
-core/           Formal mechanisms and shared public/evaluator protocol:
-                  geo_indistinguishability.py, trajectory_privacy.py (internship-2 baseline)
-                  road_network.py  — OSM graph → candidate lattice + KD-tree
-                  mechanisms.py    — PlanarLaplace, BaselineThesis, REM, T-REM, SM-REM, PR-SM-REM (proposed)
-data/           Mobility sources (SUMO demo + GeoLife validation data)
-                  — see data/README.md for setup
-evaluation/     metrics.py (QoS, realism, kNN-POI, Hausdorff/DTW) + attacks.py
-                  (Bayesian point attack, HMM tracking attack)
-experiments/    run_benchmark.py — internship-2 mechanisms × ε on GeoLife
-                  run_dummy_benchmark.py — SUMO dummy-generation benchmark
-web/            benchmark_app.py — read-only benchmark dashboard;
-                  simulator.py — earlier REM-family experiment viewer
-legacy/         Archived, unmaintained prototypes (see legacy/README.md)
-thesis/         Stable LaTeX build entry point + archived internship-2 chapters
-docs/           internship_2.pdf + research_notes.md (datasets/metrics/SOTA survey)
-outputs/        Generated evaluator artifacts (JSON, map and preview)
-demo_trajectory_privacy.py   CLI demo (no web server needed)
-cache/, road_network_cache/  OSM data caches (gitignored, rebuilt automatically)
+```text
+benchmark/     Comparator contracts, evidence cards, adapters, and engines
+core/          Active mechanisms, road-network model, and public protocol
+data/          GeoLife/SUMO loaders, graph manifest, and setup instructions
+evaluation/    Privacy attacks and utility/realism metrics
+experiments/   Reproducible benchmark entry points and provenance helpers
+web/           Active read-only dashboard and thesis simulator
+tests/         Canonical regression suite
+thesis/        Canonical graduation-thesis LaTeX source
+docs/          Research notes, meeting records, reproductions, and reviews
+output/pdf/    Three curated PDF deliverables
+outputs/       Current machine-generated experiment artifacts only
+archive/       Internship 2 code/documents and superseded prototypes
 ```
 
-## Proposed mechanisms (thesis contribution)
+`benchmark/engines/` and `benchmark/methods/` are intentionally separate:
+engines implement algorithms; methods expose adapters plus evidence/limitation
+cards. Matching filenames there are not duplicate implementations.
 
-- **REM** (Road-network Exponential Mechanism): exponential mechanism over the
-  road-graph vertices, `P(v|x) ∝ exp(−ε/2·d(x,v))` — formal ε-Geo-I with every
-  output on the road network by construction (Euclidean sibling of
-  Geo-Graph-Indistinguishability, Takagi et al. 2019).
-- **T-REM**: REM + reachability weighting w.r.t. the previously *released*
-  point only (public info ⇒ per-release guarantee unchanged); reduces the
-  speed-implausibility signal that velocity-linkage attacks use.
-- **SM-REM**: T-REM + exact memoization keyed to a fixed public grid, sampling
-  from the public cell representative — a static repeated location returns one
-  cached release, so arithmetic averaging (home-inference) gains nothing.
-  Guarantee is narrow (static repeat only); the revisit pattern leaks.
-- **PR-SM-REM**: replaces the exact reuse decision with a noisy-threshold test
-  (predictive-mechanism style) for a finite per-release
-  `(ε_test+ε_release)`-Geo-I bound instead of SM-REM's ∞-ratio revisit leak.
-
-All ε-Geo-I claims are for the **ideal real-arithmetic kernel**; the float
-sampler is a numerical approximation (finite-precision zero-support — see
-`tests/test_sampler_support.py`). Attacker MLE/HMM are REM-emission **proxies**
-(exact for REM only). See `docs/reviews/` for the independent verification
-rounds and `docs/reviews/response_*.md` for the finding-by-finding responses.
-
-## Thesis artifact (the formally analyzed mechanisms)
-
-These are the commands that generate the results in the thesis (Chapter 5). They
-use `core/mechanisms.py` (REM / T-REM / SM-REM / PR-SM-REM), NOT the legacy demo
-pipeline below.
+## Environment
 
 ```bash
-python3 -m tests.run_all                      # canonical test suite (no pytest needed)
-python3 -m pytest -q tests                    # same tests, if pytest is installed (see requirements-dev.txt)
-python3 -m data.build_beijing_graph           # (re)build the pinned road graph + manifest
-python3 -m experiments.run_benchmark          # 20 GeoLife trajs × 3 ε × 6 mechanisms → outputs/benchmark_results.json
-python3 -m experiments.run_benchmark --quick  # smoke test
-python3 -m experiments.run_averaging_multi    # multi-home averaging / home-inference study (S4) → outputs/averaging_multi_results.json
-python3 -m web.simulator                      # http://localhost:5003 — replay real trajectories
-                                              # (user/LBS/attacker views + a synthetic-POI k-NN use case)
-cd thesis && latexmk -xelatex main.tex         # build the evolving final thesis
+python3 -m venv venv
+venv/bin/python -m pip install -r requirements-dev.txt
 ```
 
-Every official experiment fails closed if the road graph does not match the
-committed manifest, and writes a `msc-experiment-v1` provenance block (source
-commit + dirty flag, graph SHA-256, RNG schema, selected record IDs, raw rows).
-SUMO runs retain the raw network-file hash and also record a canonical semantic
-graph hash, because SUMO embeds volatile build timestamps/paths in its XML.
-
-### Dummy-generation benchmark and Python dashboard
-
-The canonical harness runs three recent dummy-generation **clean-room paper
-comparators** and the evolving thesis candidate on one truth-separated
-protocol. Its default mobility source is a deterministic **SUMO** passenger
-simulation over the local Beijing OpenStreetMap extract:
+Install the optional SUMO stack when running the controlled mobility simulation:
 
 ```bash
 venv/bin/python -m pip install -r requirements-sumo.txt
+```
+
+Legacy Internship 2 applications have additional dependencies listed in
+`requirements-legacy.txt`; they are not needed by the active thesis pipeline.
+
+## Canonical commands
+
+Run from the repository root unless a command says otherwise.
+
+```bash
+# Fast, dependency-light regression suite
+venv/bin/python -m tests.run_all
+
+# Same suite through pytest
+venv/bin/python -m pytest -q tests
+
+# Formal mechanisms on GeoLife
+venv/bin/python -m experiments.run_benchmark --quick
+
+# Repeated-report / averaging study
+venv/bin/python -m experiments.run_averaging_multi
+
+# Dummy-generation benchmark; SUMO is the default source
 venv/bin/python -m experiments.run_dummy_benchmark --quick
+
+# Read-only benchmark dashboard: http://127.0.0.1:5000/
 venv/bin/python -m web.benchmark_app
-# open http://127.0.0.1:5000/
+
+# Thesis mechanism simulator: http://127.0.0.1:5003/
+venv/bin/python -m web.simulator
+
+# Build the canonical thesis without creating artifacts beside the source
+mkdir -p build/thesis
+cd thesis
+latexmk -xelatex -interaction=nonstopmode -halt-on-error \
+  -outdir=../build/thesis main.tex
 ```
 
-It writes `outputs/dummy_benchmark_results.json`, an evaluator-only map at
-`outputs/dummy_benchmark_map.html`, and a static preview at
-`outputs/dummy_benchmark_preview.png`. The Flask app reads these artifacts; it
-does not execute experiments from an HTTP request. Its attacker endpoint omits
-ground truth, while evaluator routes are explicitly labelled, SHA-256 checked,
-and intended for localhost use only.
+Raw mobility data and OSM/SUMO caches are intentionally not tracked. Follow
+[`data/README.md`](data/README.md) before running full experiments.
 
-The canonical classes are `TransProtectAdaptation`, `AnotherMeAdaptation`,
-`SemanticCorrelationComparator`, and `GeoIAnchoredDummyTrajectories`. TransProtect's
-paper-defined utility/ranking/obfuscation core, AnotherMe's public VTGA, and the
-semantic scheme's published equations/inference shell are implemented. For the
-common SUMO run, unavailable paper assets are replaced by named local adapters:
-a Markov predictor trained on the other background vehicles while holding out
-the test vehicle, local target proxies, OSM routing/virtual endpoints, and bounded OSM
-road-context semantics. Every substitution is serialized in the method card and
-public run metadata.
+## Research contract
 
-These are complete executable local comparators, **not faithful reproductions
-of the authors' numerical results**: original checkpoints, AMap/POI artifacts,
-fully specified preprocessing, and calibrated paper attackers are not public.
-The following command therefore fails closed by design:
+- REM and T-REM have per-release Geo-I claims for the ideal real-arithmetic
+  kernel over a fixed public road-vertex support.
+- SM-REM addresses repeated static releases but leaks its exact reuse pattern;
+  it is not a trajectory-level privacy theorem.
+- PR-SM-REM randomizes reuse and has a scoped per-step bound; a complete
+  window/event budget manager is still future work.
+- Float samplers are numerical approximations. Tests make finite-support issues
+  visible instead of silently upgrading them into proofs.
+- The three paper comparators are executable clean-room adaptations. They are
+  not claimed to reproduce the authors' published numbers or full private
+  assets.
+- Replacement, real-plus-dummies, and dummy-only outputs have different
+  attacker tasks. Raw metrics must not be combined into one cross-contract
+  leaderboard.
 
-```bash
-venv/bin/python -m experiments.run_dummy_benchmark --require-faithful-sota
-```
+The detailed claim registry, missing components, and source mapping live in
+[`benchmark/README.md`](benchmark/README.md) and [`docs/reviews/`](docs/reviews/).
 
-Replacement, real-plus-dummies, and dummy-only outputs remain separate tracks;
-their raw metrics must not form a cross-contract leaderboard. GeoLife is only
-an explicit optional validation source (`--mobility-source geolife`); SUMO never
-silently falls back to it. See
-[`benchmark/README.md`](benchmark/README.md) for the source audit and completion
-gates, and [`docs/supervisor_meeting/2026-09-05/sota_demo.md`](docs/supervisor_meeting/2026-09-05/sota_demo.md)
-for the current experiment boundary.
+## Outputs and archive policy
 
-### Claim registry — what is proven, and where (read before quoting any result)
+Only current reproducible results stay under `outputs/`. Curated human-facing
+PDFs stay under `output/pdf/`. Old timestamped maps, the Internship 2 pipeline,
+and superseded SOTA prototypes are retained under `archive/` for provenance and
+must not be imported by active code.
 
-| Mechanism | Code | Guarantee (ideal kernel) | Executable / evaluation caveat |
-|---|---|---|---|
-| REM | `RoadExponential` | ε-Geo-I (Euclid) over the fixed public vertex set | float Gumbel-max is a finite-precision approximation (`tests/test_sampler_support.py`) |
-| T-REM | `TemporalRoadExponential` | same ε-Geo-I per release (reachability weight is public) | same finite-precision caveat |
-| SM-REM | `StayMemoizedREM` | static same-cell repeat, empty initial cache → one release's ε-Geo-I (cell level) | revisit pattern leaks (∞ ratio); NOT a trajectory theorem; corner boundary ratio ≤ e^{ε·√2·g} |
-| PR-SM-REM | `PrivateReuseSMREM` | per-step (ε_test+ε_release)-Geo-I | anti-averaging is **finite-horizon only** (both branches probabilistic); no w-event manager |
-
-All attacker columns (Bayes/HMM/averaging MLE) use a **REM-emission proxy** —
-exact for REM only, an **upper bound** for the others, so they are diagnostics
-and are **not** used to rank privacy between mechanisms. See `docs/reviews/` for
-the full verification history.
-
-## Installation
-
-```bash
-pip install -r requirements.txt
-```
-
-## Legacy demo apps (NOT the thesis method — no valid formal guarantee)
-
-> ⚠️ These two Flask apps run the **internship-2 pipeline**
-> (`core/trajectory_privacy.py`): planar Laplace capped at a QoS radius +
-> reject-in-building + snap. That cap/reject step is conditioned on the *true*
-> location, so its nominal ε is **not a valid Geo-I guarantee** (thesis §4,
-> Prop. `prop:cap`/`prop:reject`). They are kept as an interactive
-> **visualization/surrogate** only. For the formally analyzed mechanisms and the
-> thesis results, use the **Thesis artifact** commands above (`web.simulator`,
-> `experiments.*`), not these.
-
-- **`web/app.py`** (port 5002) — reference visualization demo, live console
-  logging over SocketIO.
-- **`web/app_optimized.py`** (port 5001) — same demo with disk/in-memory road-network
-  caching (`road_network_cache/`), via a simplified standalone class.
-
-```bash
-python -m web.app             # http://localhost:5002  (legacy demo)
-python -m web.app_optimized   # http://localhost:5001  (legacy demo, cached)
-```
-
-## Usage
-
-1. **Draw a Route**: Click on the map to create waypoints for your route (minimum 2 points)
-2. **Adjust Parameters**:
-   - **Privacy Parameter (ε)**: Lower values provide stronger privacy (default: 0.1)
-   - **QoS Radius**: Maximum allowed distance from real location in meters (default: 175m)
-3. **Process Route**: Click "Process Route" to generate the privacy-protected trajectory
-4. **View Results**:
-   - Real trajectory (snapped to roads) vs. fake/obfuscated trajectory
-   - Metrics panel shows privacy performance
-
-## Core Components
-
-- `core/mechanisms.py`: **the thesis mechanisms** (REM / T-REM / SM-REM / PR-SM-REM)
-  — the formally analyzed contribution; see the claim registry above.
-- `core/trajectory_privacy.py`: the **legacy internship-2 pipeline** (Geo-I noise
-  capped at QoS + reject-in-building + snap). This is the pipeline the thesis §4
-  *critiques*: its cap/reject step is conditioned on the true location, so its
-  nominal ε is not a valid guarantee. Used only by the legacy demo apps.
-- `core/geo_indistinguishability.py`: the polar-Laplace noise used by that legacy
-  pipeline.
-
-## What the legacy demo does (and does not) guarantee
-
-The legacy demo pipeline follows roads, avoids buildings/water, keeps trajectories
-continuous, and satisfies a QoS radius — but the QoS cap + building-rejection are
-data-dependent, so it does **not** carry a valid ε-Geo-I guarantee. For the valid
-guarantees, use the thesis mechanisms (`core/mechanisms.py`) and the claim registry
-above.
-
-## CLI Demo (legacy)
-
-```bash
-python demo_trajectory_privacy.py
-```
-
-Generates a sample trajectory around San Francisco and saves the visualization
-as a timestamped HTML file under `outputs/`.
+Historical verification files preserve the paths and line numbers that were
+true at their source commits. Use [`docs/reviews/README.md`](docs/reviews/README.md)
+for the current path map instead of rewriting old audit records.

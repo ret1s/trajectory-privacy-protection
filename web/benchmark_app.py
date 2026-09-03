@@ -15,7 +15,7 @@ from typing import Any
 from flask import Flask, abort, jsonify, render_template, send_file
 
 from benchmark.registry import METHOD_CARDS
-from experiments.run_dummy_benchmark import BENCHMARK_SCHEMA
+from experiments.dummy_benchmark.constants import BENCHMARK_SCHEMA
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]

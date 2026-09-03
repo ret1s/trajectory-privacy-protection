@@ -1,140 +1,54 @@
-# CLAUDE.md
+# Claude Code repository guide
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This is a research repository. Preserve the distinction between a theorem,
+an executable integration test, and empirical evidence.
 
-## Project Overview
+## Read first
 
-This is a Master's thesis research project implementing privacy protection for location-based services (LBS) using Geo-Indistinguishability. The project provides a novel algorithm that generates fake trajectories while maintaining quality of service (QoS) constraints and following real-world geographic constraints like roads and buildings. The full write-up (theory, related work, algorithm, experiments) is in `docs/internship_2.pdf`.
+1. `README.md` — current commands and directory map.
+2. `docs/research/problem_formulation.md` — system/output/threat contract.
+3. `benchmark/README.md` — comparator fidelity and missing components.
+4. `docs/reviews/README.md` — current verification entry points.
+5. `thesis/main.tex` — canonical final-thesis source.
 
-## Repository Layout
+## Active boundaries
 
-```
-core/           geo_indistinguishability.py, trajectory_privacy.py (internship-2 baseline),
-                road_network.py (OSM graph wrapper), mechanisms.py (PlanarLaplace,
-                BaselineThesis, REM, T-REM — the proposed mechanisms)
-data/           geolife.py loader; data/raw/ holds GeoLife + Beijing graph (gitignored,
-                download instructions in data/README.md)
-evaluation/     metrics.py (Q_loss, QoS, on-road, speed-violation, kNN-POI recall,
-                Hausdorff, DTW) and attacks.py (BayesianPointAttack, HMMTrackingAttack)
-experiments/    run_benchmark.py (mechanisms × ε on real GeoLife data →
-                outputs/benchmark_results.json)
-web/            app.py (interactive demo, port 5002), app_optimized.py (port 5001),
-                simulator.py (LBS privacy simulator, port 5003) + templates/
-legacy/         Archived prototypes — see legacy/README.md
-docs/           internship_2.pdf + research_notes.md (dataset/metric/SOTA survey and
-                benchmark analysis — read this first for research context)
-outputs/        Generated maps, benchmark_results.json
-demo_trajectory_privacy.py   CLI demo entrypoint (stays at repo root)
-cache/, road_network_cache/  OSM data caches (gitignored, rebuilt on demand)
-```
+- `core/`: active REM-family mechanisms, road graph, and protocol only.
+- `benchmark/engines/`: algorithmic implementations.
+- `benchmark/methods/`: benchmark adapters and evidence cards.
+- `experiments/`: reproducible CLI orchestration; do not trigger it from HTTP.
+- `web/`: active benchmark dashboard and thesis simulator.
+- `archive/`: historical material; never import it from active code.
+- `outputs/`: current generated experiments; `output/pdf/`: curated PDFs.
 
-## Research state (updated 2026-08-20)
+The matching `benchmark/engines/*` and `benchmark/methods/*` names are
+intentional. Do not collapse them without preserving the algorithm/evidence
+separation.
 
-The thesis direction: replace the internship-2 pipeline (planar Laplace capped at QoS
-+ reject-in-building + snap — whose cap/reject steps break the formal Geo-I guarantee)
-with road-network-native mechanisms: REM (exponential mechanism over road vertices,
-formal ε-Geo-I, outputs on-road by construction) and T-REM (adds reachability weighting
-conditioned only on previously released points — guarantee unchanged, closes
-velocity-linkage attacks). Benchmarked on 20 real GeoLife trajectories against
-Planar Laplace and the baseline, with Bayesian + HMM tracking attacks.
-Full rationale, citations, and results table: docs/research_notes.md.
+## Required checks
 
-## Common Development Commands
-
-### Running the Interactive Web Application
-Run from the project root (so the `core` package resolves):
 ```bash
-python -m web.app             # reference demo, http://localhost:5002
-python -m web.app_optimized   # cached-road-network variant, http://localhost:5001
+venv/bin/python -m tests.run_all
+venv/bin/python -m pytest -q tests
+venv/bin/python -m pip check
 ```
 
-### Running the Command-Line Demo
-```bash
-python demo_trajectory_privacy.py
-```
-This generates a privacy-protected trajectory visualization as a timestamped HTML file under `outputs/`.
+When changing the dummy benchmark, run a quick job with every output sent to
+`/private/tmp` so committed evidence is not overwritten. When changing the
+thesis, compile `thesis/main.tex` with XeLaTeX into a temporary build directory,
+then copy only the reviewed PDF to `output/pdf/graduation_thesis.pdf`.
 
-### Installing Dependencies
-```bash
-pip install -r requirements.txt
-```
+## Claim safety
 
-### Running Tests
-No test framework is currently configured. When implementing tests, check for pytest or unittest conventions first.
+- Do not call paper adaptations “faithful reproductions” unless the strict gate
+  passes and evidence parity exists.
+- Do not compare privacy metrics across incompatible output contracts as one
+  ranking.
+- Do not describe displacement, DD, realism, or POI utility as privacy by
+  themselves.
+- Keep attacker-visible data separate from evaluator-only truth.
+- Keep per-event Geo-I distinct from trajectory/window privacy and composition.
+- Keep historical review files immutable; add a new review for a new commit.
 
-### Linting
-No linting configuration found. If implementing linting, check Python conventions (flake8, pylint, black).
-
-## Code Architecture
-
-### Core Components
-
-1. **`core/trajectory_privacy.py`** — Main implementation containing:
-   - `TrajectoryPrivacy` class: Core privacy protection algorithm
-   - Spatial constraint handling using OpenStreetMap data (buildings, water, rivers)
-   - Alternative-road point selection and road network snapping for realistic trajectories
-   - Trajectory continuity smoothing and privacy metric evaluation
-   - This matches "Algorithm 1" described in `docs/internship_2.pdf` (Chapter 4)
-
-2. **`core/geo_indistinguishability.py`** — Differential privacy mechanism:
-   - Implements ε-Geo-Indistinguishability via the polar Laplace distribution
-   - Noise generation based on the epsilon parameter
-   - QoS radius (`delta`) enforcement by capping the noise radius
-
-3. **`web/app.py`** — Reference Flask web application (port 5002):
-   - Interactive map interface for drawing routes, with live SocketIO console logging
-   - Wraps `core.trajectory_privacy.TrajectoryPrivacy` with progress reporting
-   - Renders `web/templates/index.html`
-
-4. **`web/app_optimized.py`** + **`web/trajectory_privacy_optimized.py`** — Experimental caching
-   variant (port 5001):
-   - Caches downloaded road networks to disk/memory (`road_network_cache/`) to avoid
-     re-hitting OpenStreetMap on repeated runs over the same area
-   - Uses a simplified, standalone privacy class (no alternative-road logic)
-   - Renders `web/templates/index_optimized.html`
-
-5. **`demo_trajectory_privacy.py`** — Command-line demonstration:
-   - `generate_realistic_trajectory()`: Creates test trajectories following roads
-   - Visualization using Folium interactive maps
-   - Privacy metrics evaluation
-
-6. **`legacy/`** — Earlier prototypes (`simple_app.py`, `test_app.py`), kept for reference
-   only; not part of the active codebase. See `legacy/README.md`.
-
-### Key Parameters
-
-- **epsilon**: Privacy parameter (lower = stronger privacy, typical: 0.1)
-- **qos_radius**: Quality of service radius in meters (typical: 150-200m)
-
-### External Data Sources
-
-- **OpenStreetMap (OSM)**: Used for road networks and spatial constraints
-- **cache/**: Directory storing cached OSM data for performance (gitignored)
-- **road_network_cache/**: Disk cache used only by `web/app_optimized.py` (gitignored)
-
-### Output Files
-
-- **outputs/trajectory_privacy_map_*.html**: Interactive map visualizations
-- **outputs/report_samples/**: Directory containing experimental results referenced in the thesis
-
-## Important Technical Details
-
-1. **Coordinate System**: Uses (latitude, longitude) tuples throughout
-2. **Distance Calculations**: Haversine formula for geographic distances
-3. **Road Network**: OSMnx library for road network data and routing
-4. **Visualization**: Folium for interactive HTML maps
-5. **Privacy Guarantee**: Implements formal differential privacy through geo-indistinguishability
-
-## Research Context
-
-This implementation is based on academic research combining differential privacy theory with practical geographic constraints. The algorithm ensures privacy while maintaining trajectory realism by:
-- Following actual road networks
-- Avoiding invalid locations (buildings, water)
-- Maintaining continuous trajectories
-- Satisfying QoS constraints
-
-Related work surveyed in the thesis (see `docs/internship_2.pdf`, Chapter 3) includes PPST-tree
-(k-anonymity over predicted future locations), the KUR-Algorithm (context-aware movement
-prediction + privacy-enhancing obfuscation), and PTPPM (Geo-I + Distortion Privacy under
-temporal correlations) — useful context if extending this algorithm or picking benchmarks,
-per the open TODOs in `Notes.md`.
+The archived Internship 2 implementation is useful as provenance, not as the
+current formal mechanism.
