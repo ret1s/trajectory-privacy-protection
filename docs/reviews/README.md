@@ -6,6 +6,7 @@ review when reproducing an old finding.
 
 ## Current entry points
 
+- Artifact hierarchy: [`verification_artifact_hierarchy_v1.md`](verification_artifact_hierarchy_v1.md)
 - Repository structure: [`verification_codebase_reorganization_v1.md`](verification_codebase_reorganization_v1.md)
 - Thesis baseline: [`verification_graduation_thesis_latest_v1.md`](verification_graduation_thesis_latest_v1.md)
 - Foundations guide: [`verification_location_trajectory_privacy_foundations_v2.md`](verification_location_trajectory_privacy_foundations_v2.md)

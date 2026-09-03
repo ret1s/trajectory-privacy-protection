@@ -907,7 +907,7 @@ Simulator & Eclipse SUMO 1.27.1, controlled Beijing passenger smoke \\
 Evaluation/background & 1 xe giữ lại, 8 event / 19 xe nền, 133 transition \\
 Graph & 4.892 đỉnh, 9.138 cạnh có hướng; đúng graph sinh FCD \\
 Artifact & Schema \texttt{msc-dummy-benchmark-v4}; bản thích nghi chạy được \\
-Source & commit \texttt{e68aae7c034f}; source tree sạch trước khi chạy \\
+Source & commit \texttt{253001ecfa17}; source tree sạch trước khi chạy \\
 Graph semantic hash & tiền tố \texttt{41c40b6e2ad6}; bản đầy đủ ở Phụ lục~\ref{app:reproducibility} \\
 \bottomrule
 \end{tabularx}
@@ -991,10 +991,10 @@ Mô hình phát đúng bốn stable dummy tracks qua tám event, on-road rate b�
 \toprule
 Phương pháp & Setup (ms) & Inference (ms) & Setup+inference (ms) \\
 \midrule
-TransProtect adaptation & 55,154 & 2,579 & 57,733 \\
-AnotherMe adaptation & 2,523 & 18,287 & 20,810 \\
-Semantic adaptation & 0,105 & 9,690 & 9,794 \\
-Mô hình luận văn & 0,054 & 1,784 & 1,838 \\
+TransProtect adaptation & 85,216 & 4,115 & 89,331 \\
+AnotherMe adaptation & 2,466 & 23,383 & 25,849 \\
+Semantic adaptation & 0,125 & 12,149 & 12,274 \\
+Mô hình luận văn & 0,071 & 3,126 & 3,197 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1104,18 +1104,19 @@ venv/bin/python -m tests.run_all
 venv/bin/python -m experiments.run_dummy_benchmark --quick
 venv/bin/python -m web.benchmark_app
 mkdir -p build/thesis
-cd thesis
-latexmk -xelatex -interaction=nonstopmode -halt-on-error \
-  -outdir=../build/thesis main.tex
+latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error \
+  -outdir=../build/thesis thesis/main.tex
 \end{verbatim}
 
 Canonical run được sinh từ source tree sạch ở commit:
 
-\noindent\small\path{e68aae7c034f0920b6d7a3d8d87169c838022566}\normalsize
+\noindent\small\path{253001ecfa17e1f1118fcf04a786a18146dd6a8e}\normalsize
 
 \noindent Các file review chính:
 
 \begin{itemize}
+  \setlength{\itemsep}{0pt}
+  \setlength{\parsep}{0pt}
   \item \path{artifacts/benchmarks/dummy_benchmark_results.json};
   \item \path{artifacts/benchmarks/dummy_benchmark_map.html};
   \item \path{artifacts/benchmarks/dummy_benchmark_preview.png};
@@ -1128,12 +1129,14 @@ Canonical run được sinh từ source tree sạch ở commit:
 SHA-256 của các artifact:
 
 \begin{itemize}
+  \setlength{\itemsep}{0pt}
+  \setlength{\parsep}{0pt}
   \item semantic graph:\newline
         \small\path{41c40b6e2ad63b57ccecfa8ebb89b97475cd12df54e9a340a11dd8d94b21f960}\normalsize;
   \item JSON canonical:\newline
-        \small\path{c479be3cd84ec54e609fd6579d8e7ca096a5641eef1841b54c4dcfba3d25adad}\normalsize;
+        \small\path{08464467aea15a0f22346d4256c203ba7590e3638e0a00adcc58333ea893e880}\normalsize;
   \item map HTML:\newline
-        \small\path{d076911d4d3b7e6f7845f30aa6bb0fa5de7a60db2d633bd86b3831aee24b07c9}\normalsize;
+        \small\path{f0f2dc168737560dbaa55e3bc5d37a24c93f284e0c80e033b7c499ef85524594}\normalsize;
   \item preview PNG:\newline
         \small\path{7615b6f64886cba68955064c5cf5e467ea66e217be975ea96f057efa31c826ce}\normalsize.
 \end{itemize}
