@@ -82,6 +82,44 @@ class RoadNetwork:
         return float(self.lats[idx]), float(self.lons[idx])
 
     def dist_to_road(self, lat, lon):
-        """Distance (m) from a point to the nearest candidate vertex — used
-        as the on-road realism proxy."""
+        """Distance (m) from a point to the nearest candidate VERTEX. This is a
+        vertex proximity, NOT true on-road distance — a point mid-segment on a
+        long edge is far from any vertex yet on the road (verifier R4-003). Use
+        `dist_to_edge` for the on-road metric; kept only for candidate lookups."""
         return self.nearest(lat, lon)[1]
+
+    def _build_edge_index(self):
+        """Lazily build a projected point-to-edge index (verifier R4-003): every
+        graph edge as a projected LineString (using its OSM `geometry` polyline
+        when present, else the straight segment between endpoints) in an STRtree,
+        so `dist_to_edge` measures true distance to the road, not to a vertex."""
+        from shapely.geometry import LineString
+        from shapely.strtree import STRtree
+
+        geoms = []
+        for u, v, data in self.graph.edges(data=True):
+            geom = data.get("geometry")
+            if geom is not None:
+                lonlat = list(geom.coords)  # [(lon, lat), ...]
+                lons = np.array([c[0] for c in lonlat])
+                lats = np.array([c[1] for c in lonlat])
+            else:
+                lons = np.array([self.graph.nodes[u]["x"], self.graph.nodes[v]["x"]])
+                lats = np.array([self.graph.nodes[u]["y"], self.graph.nodes[v]["y"]])
+            xs, ys = self.proj.to_xy(lats, lons)
+            coords = list(zip(np.atleast_1d(xs).tolist(), np.atleast_1d(ys).tolist()))
+            if len(coords) >= 2:
+                geoms.append(LineString(coords))
+        self._edge_geoms = geoms
+        self._edge_tree = STRtree(geoms)
+
+    def dist_to_edge(self, lat, lon):
+        """True projected distance (m) from a point to the nearest road EDGE."""
+        from shapely.geometry import Point
+
+        if not hasattr(self, "_edge_tree"):
+            self._build_edge_index()
+        x, y = self.point_xy(lat, lon)
+        p = Point(x, y)
+        idx = int(self._edge_tree.nearest(p))
+        return float(self._edge_geoms[idx].distance(p))

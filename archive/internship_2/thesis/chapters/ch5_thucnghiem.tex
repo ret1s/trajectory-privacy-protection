@@ -1,0 +1,275 @@
+\chapter{Thực nghiệm}
+\label{ch:thucnghiem}
+
+\section{Thiết lập}
+
+\paragraph{Dữ liệu.} 20 quỹ đạo thật (858 điểm) trích từ GeoLife
+v1.3~\cite{zheng2010geolife}, giới hạn trong hộp tọa độ trung tâm Bắc Kinh
+$(39{,}96;\,116{,}29)$--$(40{,}02;\,116{,}36)$, tách theo khoảng dừng, lấy mẫu
+lại chu kỳ 20 giây (chế độ mà tương quan thời gian giữa hai điểm liên tiếp còn
+mạnh --- đúng vùng hoạt động của tấn công HMM), mỗi quỹ đạo 20--60 điểm, tối đa
+3 quỹ đạo mỗi người dùng.
+
+\paragraph{Lưới đường.} Đồ thị OSM dựng từ extract BBBike, cắt về đúng hộp tọa độ
+GeoLife bằng thứ tự bbox OSMnx 2.x $(left,bottom,right,top)$ và giữ thành phần liên
+thông lớn nhất: \textbf{13.813 đỉnh, 41.040 cạnh}, extent lat $39{,}96$--$40{,}02$,
+lon $116{,}29$--$116{,}36$ (khớp bbox thí nghiệm; bản trước bị build sai thứ tự
+bbox nên trải $\sim$98km --- verifier R2-005, đã sửa). Tọa độ chiếu về hệ phẳng
+cục bộ (equirectangular), sai số dưới 1m trong hộp $\sim$9km. Đồ thị là
+\emph{đa phương thức} (không lọc network type --- gồm cả \texttt{footway},
+\texttt{cycleway}, \texttt{service}\ldots; phân bố lớp cạnh trong manifest), nên
+các kịch bản sử dụng nên hiểu theo nghĩa đi bộ/đa phương thức, không phải riêng
+lái xe (verifier R3-013). Manifest (SHA-256, node/edge count, network profile,
+phân bố lớp cạnh, extent, lệnh build, versions) ở
+\texttt{data/beijing\_graph.manifest.json}.
+
+\paragraph{Cơ chế so sánh.} (1)~Laplace phẳng thuần (Geo-I
+gốc~\cite{andres2013geo}, bán kính Gamma$(2,1/\eps)$, không chặn, không snap);
+(2)~Baseline Thực tập 2 (nhiễu chặn tại QoS + làm mượt + snap có kiểm QoS);
+(3)~REM; (4)~T-REM ($v_{\max} = 25$ m/s, $s = 100$m, $\lambda = 0{,}02$);
+(5)~SM-REM (T-REM + memoization lưới công khai $g = 60$m); (6)~PR-SM-REM (reuse
+riêng tư, $\theta = 200$m, ngân sách khớp $\eps_{\text{test}}=\eps_{\text{release}}
+=\eps/2$). QoS $\delta = 200$m; $\eps \in \{0{,}01;\, 0{,}02;\, 0{,}05\}$ mỗi mét
+(với PR-SM-REM là ngân sách per-step worst-case); seed cố định 42. Đồ thị lưới
+đường $|V|=13\,813$ đỉnh (graph đã sửa bbox, R2-005).
+
+\section{Độ đo và tấn công}
+
+\emph{Tiện ích:} độ lệch trung bình/lớn nhất giữa điểm thật và điểm công bố
+(quality loss); tỷ lệ thỏa QoS; recall truy vấn k-NN POI (theo giao thức
+của~\cite{xiao2015protecting}); khoảng cách Hausdorff và DTW giữa hai quỹ đạo.
+\emph{Tính thực tế:} tỷ lệ điểm công bố nằm trong 25m của lưới đường; tỷ lệ cặp
+điểm công bố liên tiếp vi phạm tốc độ 30 m/s.
+\emph{Riêng tư:} sai số của \emph{adversary Bayes với emission REM chính xác}
+--- prior đều cố định trên toàn tập đỉnh, likelihood
+$\propto \exp(-\tfrac{\eps}{2}d(x,z))/Z(x)$ với normalizer $Z(x)$ tính đủ trên
+toàn support, estimator là geometric median (khớp loss khoảng cách). Adversary
+này \emph{chính xác} cho REM; với T-REM/SM-REM (likelihood phụ thuộc lịch sử/trạng
+thái) nó là adversary REM-emission cố định áp dụng đồng nhất, \emph{không} tuyên
+bố là Bayes-optimal riêng cho từng cơ chế. Kèm tấn công theo dõi HMM
+(forward--backward, cùng emission có $Z(x)$, cột \emph{cov} = tỷ lệ đỉnh proxy của
+vị trí thật còn trong tập ứng viên sau cắt). Sai số càng \emph{cao} càng riêng tư.
+
+\section{Kết quả}
+
+\begin{table}[ht]
+\centering
+\caption[Benchmark 6 cơ chế trên GeoLife (utility, realism, attacker proxy)]{Kết quả trên 20 quỹ đạo GeoLife (858 điểm), QoS 200m. Mỗi stream seed từ
+khóa ngữ nghĩa SHA-256 $(\text{seed}{=}42,\eps,\text{tên cơ chế})$ nên \emph{độc lập
+thứ tự chạy} (R3-002, có permutation test). Bayes/HMM err = sai số của adversary
+REM-emission \emph{proxy} (m), cao hơn là riêng tư hơn --- \emph{cận trên} cho cơ chế
+non-REM, KHÔNG dùng để xếp hạng riêng tư (R3-007); cov = HMM candidate coverage.
+Một root seed --- xem như exploratory, chưa phải multi-seed CI (R3-010). In đậm: cơ chế
+đề xuất. Provenance đầy đủ (\texttt{msc-experiment-v1}: source commit, graph SHA-256,
+rng schema, record IDs, raw rows) trong file JSON kết quả benchmark.}
+\label{tab:benchmark}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrrrrrr}
+\toprule
+$\eps$ & Cơ chế & Q\_loss & QoS & On-road & Spd-viol & Bayes & HMM & cov\\
+\midrule
+0,01
+ & Laplace phẳng & 207,1 & 0,57 & 0,82 & 0,07 & 200,7 & 125,0 & 1,00\\
+ & Baseline TT2 (surrogate) & 95,6 & 0,99 & 0,99 & 0,00 & 96,4 & 82,8 & 1,00\\
+ & \textbf{REM}      & 377,1 & 0,31 & 1,00 & 0,36 & 374,6 & 187,8 & 0,98\\
+ & \textbf{T-REM}    & 298,6 & 0,37 & 1,00 & 0,07 & 295,6 & 191,4 & 1,00\\
+ & \textbf{SM-REM}   & 274,4 & 0,38 & 1,00 & 0,03 & 273,5 & 211,5 & 1,00\\
+ & \textbf{PR-SM-REM} & 623,5 & 0,20 & 1,00 & 0,51 & 619,5 & 370,7 & 0,89\\
+\midrule
+0,02
+ & Laplace phẳng & 99,1 & 0,91 & 0,88 & 0,00 & 96,1 & 74,6 & 1,00\\
+ & Baseline TT2 (surrogate) & 77,5 & 1,00 & 1,00 & 0,00 & 78,5 & 74,3 & 1,00\\
+ & \textbf{REM}      & 178,1 & 0,66 & 1,00 & 0,05 & 177,5 & 118,1 & 1,00\\
+ & \textbf{T-REM}    & 184,2 & 0,64 & 1,00 & 0,02 & 183,4 & 127,1 & 1,00\\
+ & \textbf{SM-REM}   & 163,7 & 0,70 & 1,00 & 0,01 & 162,5 & 130,7 & 1,00\\
+ & \textbf{PR-SM-REM} & 284,1 & 0,52 & 1,00 & 0,23 & 281,9 & 162,5 & 0,99\\
+\midrule
+0,05
+ & Laplace phẳng & 41,6 & 1,00 & 0,92 & 0,00 & 44,8 & 38,8 & 1,00\\
+ & Baseline TT2 (surrogate) & 73,9 & 1,00 & 1,00 & 0,00 & 74,7 & 74,2 & 1,00\\
+ & \textbf{REM}      & 72,1 & 0,96 & 1,00 & 0,00 & 72,1 & 63,4 & 1,00\\
+ & \textbf{T-REM}    & 76,9 & 0,95 & 1,00 & 0,00 & 77,1 & 68,5 & 1,00\\
+ & \textbf{SM-REM}   & 74,8 & 0,97 & 1,00 & 0,00 & 74,6 & 69,5 & 1,00\\
+ & \textbf{PR-SM-REM} & 111,6 & 0,91 & 1,00 & 0,01 & 110,3 & 99,5 & 1,00\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Năm quan sát chính từ Bảng~\ref{tab:benchmark} (số liệu với adversary emission
+\emph{proxy dạng-REM} --- cận trên cho cơ chế non-REM; đọc thận trọng, tránh overclaim):
+
+\begin{enumerate}
+  \item \textbf{Tương quan thời gian là mối đe dọa thực.} Tấn công HMM luôn
+  mạnh hơn tấn công per-point: với Laplace phẳng tại $\eps = 0{,}01$, sai số
+  adversary giảm từ 200,7m (Bayes) xuống 125,0m (HMM, $-38\%$) chỉ nhờ lọc Bayes
+  theo thời gian --- xác nhận thực nghiệm~\cite{xiao2015protecting} và biện minh
+  việc chọn HMM làm tấn công đánh giá chính.
+  \item \textbf{Laplace phẳng để lộ bề mặt tấn công thực tế.} Đo bằng khoảng cách
+  point-to-\emph{edge} (đã sửa R4-003; trước đây đo tới đỉnh nên phóng đại), 8--18\%
+  điểm công bố rơi ngoài \emph{cạnh} đường (on-road 0,82/0,88/0,92 ở
+  $\eps{=}0{,}01/0{,}02/0{,}05$) --- vẫn là loại tín hiệu RAoPT khai thác. REM/T-REM/
+  SM-REM/PR-SM-REM đạt 100\% trên đường \emph{theo cấu trúc} (structural property,
+  chưa phải bằng chứng attack-resistance --- cần chạy RAoPT trực tiếp,
+  xem Chương~\ref{ch:tongket}).
+  \item \textbf{T-REM giảm speed-implausibility mà không mất riêng tư.} Tại
+  $\eps = 0{,}01$, T-REM giảm tỷ lệ vi phạm tốc độ từ 36\% (REM) xuống 7\%,
+  \emph{đồng thời} giảm quality loss (377,1 $\to$ 298,6m) và cho HMM error
+  \emph{cao hơn chút} (191,4m so REM 187,8m --- dưới proxy, riêng tư hơn không đáng
+  kể). Đây vẫn là soft regularizer theo khoảng cách đường thẳng (không phải hard
+  reachable-set), nên không nên claim ``đóng hẳn'' velocity attack; mức kháng
+  cần test trực tiếp.
+  \item \textbf{Trên đường cong trade-off, lợi thế của cơ chế đường là tính thực
+  tế và guarantee hợp lệ, không phải attacker-error thô.} Tại mức tiện ích tương
+  đương (Laplace @$\eps{=}0{,}01$ disp 207,1m, HMM 125,0m so với T-REM
+  @$\eps{=}0{,}02$ disp 184,2m, HMM 127,1m), sai số HMM gần bằng nhau; cơ chế
+  đường \emph{không} thắng trên trục attacker-error. Lợi thế thật của chúng là:
+  100\% trên đường (không có bề mặt map-matching), vi phạm tốc độ thấp/không, và
+  $\eps$ là \emph{đảm bảo hợp lệ} --- khác với baseline có $\eps$ danh nghĩa đẹp
+  nhưng theo Mệnh đề~\ref{prop:cap},~\ref{prop:reject} không phải guarantee hợp
+  lệ (nên gọi là ``surrogate'' trong bảng).
+  \item \textbf{Chi phí di chuyển của SM-REM và PR-SM-REM.} SM-REM ngang hoặc
+  nhỉnh hơn T-REM về utility (disp 163,7 vs 184,2m tại $\eps{=}0{,}02$) với HMM
+  error proxy cao hơn chút (130,7 vs 127,1m).
+  PR-SM-REM với \emph{ngân sách khớp} ($\eps_{\text{test}}{=}\eps_{\text{release}}
+  {=}\eps/2$) trả giá utility trên quỹ đạo di chuyển: release thô hơn (ε/2) cộng
+  việc reuse giữ điểm cũ khi người dùng đã đi xa làm disp và vi phạm tốc độ tăng,
+  nặng nhất ở $\eps$ nhỏ (tại $\eps{=}0{,}01$: disp 623m, spd-viol 0,51). Đây là
+  cái giá trung thực của thiết kế chống-averaging + ngân sách công bằng, và lý do
+  cốt lõi của SM-REM/PR-SM-REM --- chống averaging tại stay-point --- nằm ở
+  Mục~\ref{sec:averaging-multi}, không ở bảng di chuyển này.
+\end{enumerate}
+
+\section{Tấn công averaging tại stay-point (S4)}
+\label{sec:averaging}
+
+Bảng~\ref{tab:benchmark} đo quỹ đạo \emph{di chuyển}. Nhưng harm thực tế nghiêm
+trọng nhất (Strava lộ nhà 84--95\%~\cite{hassan2018run}; home fingerprinting của
+broker) đến từ báo cáo \emph{lặp tại một điểm tĩnh}: kẻ tấn công thu $n$ điểm công
+bố của cùng một vị trí nhà rồi hợp nhất để khôi phục nó. Điểm mấu chốt về phương
+pháp --- được đánh giá độc lập nhấn mạnh --- là \emph{chọn đúng estimator của kẻ
+tấn công}: với cơ chế nhiễu đối xứng (Laplace phẳng) trung bình mẫu là nhất quán,
+nhưng với cơ chế lũy thừa trên tập đỉnh có biên thì $\mathbb{E}[Z\mid x]\ne x$ nên
+trung bình mẫu \emph{chệch}, và attacker đúng là MLE nhất quán
+$\hat x=\arg\max_x[-a\sum_i d(x,z_i)-n\log Z(x)]$ (hội tụ về $x$). Vì thế phần này
+báo cáo trực tiếp thí nghiệm đa-home với attacker MLE ở Mục~\ref{sec:averaging-multi};
+kết quả một-home bằng trung bình mẫu chỉ là minh hoạ cấu trúc và có thể gây hiểu
+nhầm (nó làm REM/T-REM trông như kháng averaging trong khi thực ra không).
+
+\section{Đánh giá averaging đa-home với attacker proxy dạng-REM}
+\label{sec:averaging-multi}
+
+Để tránh điểm yếu ``một home, một seed'' (verifier V-005) và ``estimator sai''
+(V-004), thí nghiệm này theo chuẩn văn liệu~\cite{shokri2011quantifying,
+dhondt2022run}: (i) tập \textbf{40 stay-point / significant location} rút từ
+GeoLife (thuật toán Li~2008/Zheng~2009, 200m/20min) trải \textbf{21 người dùng}
+--- đây là các điểm dừng lâu, \emph{không} phải nhãn cư trú ground-truth (verifier
+R2-008); (ii) mỗi điểm $\times$ 8 seed, 100 báo cáo có \emph{nhiễu GPS}
+$\sigma=10$m; (iii) \emph{hai estimator} --- sample-mean ngây thơ và MLE dạng-REM
+$\hat x=\arg\max_x[-a\sum_i d(x,z_i) - n\log Z(x)]$ (chính xác cho REM, xấp xỉ cho
+các cơ chế còn lại --- xem hạn chế bên dưới); (iv) khoảng tin cậy 95\% bootstrap
+trên các điểm (cluster theo user). Chạy trên graph đã sửa bbox (R2-005), sampler
+Gumbel-max (R2-006) và ngân sách khớp cho PR-SM-REM ($\eps_{\text{test}}=
+\eps_{\text{release}}=\eps/2$, R2-003).
+
+\begin{table}[ht]
+\centering
+\caption[Sai số averaging đa-stay-point theo số báo cáo (attacker proxy)]{Sai số suy luận (m) của attacker MLE \emph{dạng-REM proxy} theo số báo
+cáo $n$ (median trên 40 stay-point$\times$8 seed, 21 người dùng, $\eps=0{,}02$,
+jitter $\sigma=10$m). Thấp = attacker thắng. Proxy chính xác cho REM, là
+\emph{cận trên} cho các cơ chế khác --- không xếp hạng riêng tư (R3-007). Cột
+cuối: xác suất khôi phục trong 50m ở $n{=}100$ (gộp, chưa có user-cluster CI ---
+R3-010). RNG khóa ngữ nghĩa (R3-002); raw rows + provenance
+\texttt{msc-experiment-v1} trong file JSON kết quả averaging.}
+\label{tab:averaging-multi}
+\small
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{lrrrrrr r}
+\toprule
+Cơ chế & $n{=}1$ & $n{=}5$ & $n{=}10$ & $n{=}20$ & $n{=}50$ & $n{=}100$ & P[$\le$50m] \\
+\midrule
+Laplace phẳng & 79,7 & 39,2 & 34,4 & 29,4 & 24,1 & \textbf{23,4} & 94\% \\
+REM           & 173,1 & 84,9 & 62,5 & 41,4 & 31,7 & \textbf{28,4} & 90\% \\
+T-REM         & 159,2 & 84,7 & 60,6 & 39,3 & 31,7 & \textbf{28,5} & 90\% \\
+\textbf{SM-REM}   & 151,8 & 148,8 & 148,1 & 148,5 & 149,6 & \textbf{148,9} & \textbf{9\%} \\
+\textbf{PR-SM-REM} & 355,5 & 170,9 & 119,1 & 87,5 & 63,7 & \textbf{47,4} & 57\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Bảng~\ref{tab:averaging-multi} đọc \emph{dưới attacker MLE dạng-REM proxy}. Vì
+proxy chỉ đúng family cho REM (Mục~\ref{sec:attacker-proxy-caveat}), các con số
+non-REM là \emph{cận trên} của sai số attacker tối ưu và \textbf{không dùng để
+xếp hạng riêng tư} giữa các cơ chế; chúng là chẩn đoán mô tả:
+
+\begin{enumerate}
+  \item \textbf{Trước attacker MLE, Laplace/REM/T-REM đều KHÔNG kháng averaging.}
+  Sai số sụp theo $n$ về mức tương đương nhau ($n{=}100$: Laplace $\approx$23m,
+  REM/T-REM $\approx$28m) với xác suất khôi phục trong 50m khoảng 90--94\%.
+  Sample-mean ``phẳng'' của REM/T-REM ở thí nghiệm một-home trước chỉ là
+  \emph{artefact} do $\mathbb{E}[Z\mid x]\ne x$ (bias biên), không phải tính
+  riêng tư. (Ta \emph{không} khẳng định REM tệ hơn hay tốt hơn Laplace --- dưới
+  proxy này hai bên xấp xỉ nhau.)
+  \item \textbf{SM-REM không sụp theo $n$ dưới proxy này} ($\approx$149m gần
+  như không đổi từ $n{=}10$ tới $n{=}100$; khoảng 9\% khôi phục trong 50m ở
+  $n{=}100$) --- nhờ memo \emph{chính xác}, nhưng \emph{chỉ} trong scope static
+  same-cell với cache khởi tạo rỗng, không có đảm bảo trajectory và rò pattern
+  revisit (Nhận xét~\ref{rmk:notrajectory}). Đây là quan sát dưới proxy, không
+  phải bằng chứng SM-REM ``riêng tư nhất''.
+  \item \textbf{PR-SM-REM: giảm averaging trên horizon đo được, KHÔNG tuyệt đối.}
+  Ở cùng ngân sách per-step với REM, dưới proxy này sai số $n{=}100$ cao hơn
+  REM ($\approx$47m so $\approx$28m) \emph{và} có chặn per-step
+  $(\eps_{\text{test}}{+}\eps_{\text{release}})$-Geo-I hữu hạn (Định
+  lý~\ref{thm:prsmrem}). Quan trọng: cả nhánh reuse lẫn nhánh resample đều
+  \emph{ngẫu nhiên} ở mọi bước (tại $d{=}\theta$, xác suất resample $=1/2$), nên
+  đây là \emph{giảm thiểu hữu hạn-horizon}, không phải memoization tuyệt đối và
+  không làm averaging bất khả thi tiệm cận (R3-004).
+\end{enumerate}
+
+\noindent \emph{Hạn chế của estimator} (verifier R2-004/R3-007):
+\label{sec:attacker-proxy-caveat}
+MLE dạng-REM chỉ đúng family cho REM; cho T-REM/SM-REM/PR-SM-REM (kernel phụ
+thuộc lịch sử/trạng thái) nó là proxy áp dụng đồng nhất, và không cơ chế nào
+exact end-to-end dưới GPS jitter (jitter chưa vào likelihood; ước lượng HMM dùng
+posterior mean, không phải geometric-median tối ưu cho loss Euclid). Một attacker
+dùng đúng sequential kernel của từng cơ chế mạnh hơn proxy này; vì vậy các con số
+non-REM là \emph{cận trên lạc quan cho attacker proxy}, và mọi kết luận
+so-sánh-riêng-tư cần attacker mechanism-aware đầy đủ (hướng phát triển). Đối thủ
+gần nhất là
+\textbf{Eclipse}~\cite{niu2020eclipse} (IEEE TMC), cùng threat model quan
+sát-dài-hạn, chống averaging bằng nhiễu-phân-phối + k-anonymity \emph{off-road};
+SM-REM/PR-SM-REM đạt hiệu ứng tương tự bằng memoization/reuse \emph{on-road}
+(tiền lệ RAPPOR~\cite{erlingsson2014rappor}).
+
+\section{Hệ thống mô phỏng và kịch bản sử dụng}
+\label{sec:simulator}
+
+Để minh họa trade-off một cách trực quan, chúng tôi xây dựng hệ thống mô phỏng
+web (Hình~\ref{fig:simulator}) phát lại quỹ đạo GeoLife thật theo thời gian với
+ba góc nhìn đồng thời: vị trí thật (chỉ người dùng thấy), điểm công bố (thứ duy
+nhất máy chủ LBS nhận được), và ước lượng của kẻ tấn công HMM trực tuyến kèm sai
+số từng bước. Trên đó chạy một truy vấn LBS dạng $k$-NN cụ thể --- ``3 POI gần
+tôi nhất'' với POI là \emph{tập tổng hợp} (đỉnh đường được lấy mẫu làm POI thay
+cho một dataset POI thực) --- phát tại điểm công bố và chấm điểm recall so với
+đáp án tính trên vị trí thật, cho thấy QoS bằng con số theo từng giây.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/simulator.png}
+\caption{Hệ thống mô phỏng: quỹ đạo thật (xanh lá), chuỗi điểm công bố bởi T-REM
+(đỏ, nét đứt), ước lượng kẻ tấn công HMM (xanh dương), vòng tròn QoS 200m, các
+POI trả về từ truy vấn k-NN, bảng chỉ số toàn quỹ đạo và đồ thị sai số theo
+từng bước.}
+\label{fig:simulator}
+\end{figure}
+
+Bốn kịch bản đời thực được mô hình hóa: \emph{(i) gọi xe/giao đồ ăn} --- ứng
+dụng cần vị trí thô để điều phối nhưng không được học địa chỉ nhà; \emph{(ii) y
+tế nhạy cảm} --- tìm POI dịch vụ gần mà không tiết lộ đang đứng trước phòng khám
+nào (recall $k$-NN đo trên POI \emph{tổng hợp}, xem cột \texttt{knn\_recall} của
+\texttt{benchmark\_results.json}; chưa đánh giá trên dataset POI thực);
+\emph{(iii) ứng dụng thể
+thao/mạng xã hội} --- chia sẻ tuyến chạy không lộ điểm xuất phát cho kẻ theo
+dõi; \emph{(iv) crowdsensing giao thông} --- đóng góp dữ liệu tốc độ mà không
+nộp nguyên hành trình, điểm công bố nằm trên lưới đường nên vẫn map-match được
+cho mục đích thống kê.

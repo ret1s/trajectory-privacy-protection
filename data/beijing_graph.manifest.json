@@ -1,0 +1,61 @@
+{
+  "source_url": "https://download.bbbike.org/osm/bbbike/Beijing/Beijing.osm.gz",
+  "source_sha256": {
+    "Beijing.osm.gz": "ed0af579fb32c7164de85bca945a10432f818dd27eb80d6d5a7afa62213b0407",
+    "Beijing.osm": "5691186b8b3bd9078915faefb7fb639ff2c7f45b4e8b1efd1de4b9ebdad4c8a5"
+  },
+  "build": "graph_from_xml(simplify=True,retain_all=True); truncate_graph_bbox(left,bottom,right,top); largest weakly-connected component (see data/build_beijing_graph.py)",
+  "bbox_geolife_min_lat_min_lon_max_lat_max_lon": [
+    39.96,
+    116.29,
+    40.02,
+    116.36
+  ],
+  "network_profile": "all (unfiltered multimodal: drive+walk+cycle; verifier R3-013)",
+  "edge_highway_distribution": {
+    "footway": 11735,
+    "unknown": 9427,
+    "service": 7384,
+    "residential": 5581,
+    "tertiary": 1802,
+    "cycleway": 1269,
+    "secondary": 679,
+    "path": 648,
+    "unclassified": 599,
+    "pedestrian": 524,
+    "primary": 356,
+    "steps": 304,
+    "living_street": 266,
+    "tertiary_link": 169,
+    "trunk_link": 82,
+    "trunk": 76,
+    "secondary_link": 39,
+    "construction": 28,
+    "primary_link": 25,
+    "track": 18,
+    "motorway_link": 14,
+    "motorway": 13,
+    "platform": 2
+  },
+  "nodes": 13813,
+  "edges": 41040,
+  "weak_components": 1,
+  "extent": {
+    "lat": [
+      39.960011,
+      40.019992
+    ],
+    "lon": [
+      116.290003,
+      116.359997
+    ]
+  },
+  "graph_sha256": "9e44ec2a48d6249f3534bb8511010925428018e528f5116d5f9eb24d86a2d487",
+  "versions": {
+    "python": "3.11.12",
+    "osmnx": "2.0.5",
+    "networkx": "3.5",
+    "numpy": "2.3.2",
+    "scipy": "1.16.1"
+  }
+}

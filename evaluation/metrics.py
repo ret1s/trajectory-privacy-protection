@@ -57,7 +57,9 @@ def hausdorff(real, released, proj):
 
 def dtw(real, released, proj):
     """Plain O(n·m) dynamic time warping with Euclidean ground distance,
-    normalized by the warping path length."""
+    reported as the total warping cost divided by (n + m). This is a length
+    normaliser, NOT the true warping-path length (the path is not tracked);
+    named accordingly to avoid over-claiming (verifier V-011)."""
     a, b = _to_xy(real, proj), _to_xy(released, proj)
     n, m = len(a), len(b)
     cost = np.linalg.norm(a[:, None, :] - b[None, :, :], axis=2)
@@ -72,8 +74,13 @@ def dtw(real, released, proj):
 
 
 def on_road_rate(released, road_network, tol_m=25.0):
+    """Fraction of released points within tol_m of the nearest road EDGE
+    (true point-to-edge distance, verifier R4-003). A point mid-segment on a
+    long edge is correctly counted as on-road even if far from any vertex. For
+    the road mechanisms every output is a graph vertex, i.e. an edge endpoint,
+    so its edge distance is 0 and the rate is 1.0 by construction."""
     hits = sum(
-        1 for lat, lon in released if road_network.dist_to_road(lat, lon) <= tol_m
+        1 for lat, lon in released if road_network.dist_to_edge(lat, lon) <= tol_m
     )
     return hits / len(released)
 

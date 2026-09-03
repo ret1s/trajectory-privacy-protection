@@ -1,0 +1,480 @@
+\chapter{Phương pháp đề xuất}
+\label{ch:phuongphap}
+
+\section{Mô hình hệ thống và yêu cầu thiết kế}
+\label{sec:systemmodel}
+
+\paragraph{Reframe bài toán.} Đối chiếu với hệ thống LBS thực tế
+(Chương~\ref{ch:lienquan}) cho thấy dịch vụ không cần vị trí \emph{chính xác} mà
+cần \emph{mức granularity tối thiểu đủ cho một mục đích}. Apple và Android đều
+phơi bày các tầng độ chính xác theo query, xử lý ``significant location''
+on-device và làm mờ điểm đầu/cuối hành trình; quy định (GDPR Điều~5; ngưỡng
+``precise geolocation'' 1.750--1.850 ft của luật bang Mỹ; các lệnh FTC với
+Kochava/X-Mode/InMarket) áp đặt purpose limitation, data minimization và loại trừ
+vị trí nhạy cảm. Tuy nhiên thứ được triển khai thực tế chỉ là \emph{lượng tử hóa
+heuristic không đảm bảo} (snap-to-grid, làm tròn) hoặc \emph{DP hình thức chỉ ở
+phía máy chủ trên dữ liệu tổng hợp}. Luận văn vì thế phát biểu lại bài toán: từ
+``làm nhiễu mỗi điểm trong bán kính QoS $\delta$ toàn cục'' thành \textbf{phát ra
+mức tối thiểu theo mục đích, on-device, trên lưới đường, với đảm bảo nhận thức
+endpoint và tương quan, đánh giá theo threat model rút từ các tấn công thật}.
+
+\paragraph{Mô hình hệ thống.} Kiến trúc \emph{đích} đặt cơ chế \emph{client-side}
+(mô hình local), tại tầng vị trí của thiết bị --- tiền lệ đã triển khai cho hàng
+tỷ máy là Android \texttt{LocationFudger} và iOS approximate location, cùng
+Location Guard/LP-Doctor cho planar Laplace. Đây là nơi đặt duy nhất mà đảm bảo
+giữ được với \emph{mọi} bên downstream (máy chủ LBS, ad exchange, data broker,
+trát tòa). \emph{Lưu ý phạm vi:} artifact trong luận văn là một \emph{reference
+mechanism} + simulator Flask phía server, \emph{chưa} phải một hiện thực mobile
+on-device; các vấn đề tích hợp OS, secure cache, TTL/rotation định danh là ngoài
+phạm vi (Chương~\ref{ch:tongket}). Cơ chế được biết: (a)~vị trí thật hiện tại;
+(b)~\emph{đồ thị đường công khai lưu trên thiết bị} ($\sim$5,9MB cho bbox thí
+nghiệm, nhỏ hơn nhiều so với bản đồ offline 200--950MB mà điện thoại vẫn chứa ---
+điều kiện hóa trên nó không tốn privacy, là post-processing); (c)~\emph{các điểm
+đã CÔNG BỐ trước đó của chính nó} (không phải vị trí thật quá khứ). Adversary
+thấy: điểm công bố on-road cộng metadata tầng truyền (timestamp, nội dung query,
+định danh có thể liên kết) --- mô hình hóa là LBS honest-but-curious hoặc broker
+giữ toàn bộ chuỗi công bố dưới một định danh.
+
+\paragraph{Yêu cầu thiết kế và phạm vi trung thực.} Bảng~\ref{tab:requirements}
+liệt kê các yêu cầu rút từ industry/pháp lý và harm chúng đối ứng. Cơ chế đề xuất
+(REM/T-REM/SM-REM) làm được R1,R3,R4,R5,R6 và một phần R2,R7; \emph{không} tự làm
+được R8 (xoay định danh --- cần policy phía định danh) và R9--R12 (consent, giới
+hạn mục đích/lưu trữ, minh bạch --- thuộc governance phía máy chủ hoặc tầng UX).
+Đây là ranh giới đóng góp cần nêu thẳng: một cơ chế nhiễu tọa độ không thể thay
+thế kiểm soát định danh và quản trị dữ liệu.
+
+\begin{table}[ht]
+\centering
+\caption{Yêu cầu thiết kế R1--R7 (phần cơ chế giải quyết) và harm đối ứng
+(S1--S6, xem Chương~\ref{ch:lienquan}).}
+\label{tab:requirements}
+\small
+\begin{tabular}{clll}
+\toprule
+\# & Yêu cầu & Nguồn & Harm \\
+\midrule
+R1 & Perturbation client-side/on-device & Apple; AOSP; GDPR & tiền đề \\
+R2 & Granularity theo mục đích (chọn từ context công khai) & GDPR 5(1)(c); Micinski'13 & S1,S6 \\
+R3 & Bất khả phân biệt hình thức vị trí gần & W3C; Geo-I & S1,S5 \\
+R4 & Output on-road hợp lệ & LocationFudger; REM & S2 \\
+R5 & Kháng tương quan/velocity (điều kiện trên điểm đã công bố) & Xiao--Xiong; T-REM & S3 \\
+R6 & Ổn định khi báo lặp (anti-averaging) & W3C; RAPPOR; LP-Doctor & S4 \\
+R7 & Bảo vệ endpoint/stay-point hạng nhất & Apple; Strava; Dhondt'22 & S4,S6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Phân tích baseline Thực tập 2}
+\label{sec:phantichbaseline}
+
+Pipeline Thực tập 2 gồm bốn bước cho mỗi điểm thật $x_t$: (i) cộng nhiễu Laplace
+phẳng với bán kính bị chặn tại ngưỡng QoS $\delta$; (ii) nếu điểm giả rơi vào
+tòa nhà/mặt nước thì lấy mẫu lại (tối đa $N$ lần); (iii) làm mượt liên tục theo
+hai điểm giả trước, có kiểm tra lại QoS so với điểm thật; (iv) làm khớp về đỉnh
+đường gần nhất nếu vẫn thỏa QoS. Hai mệnh đề sau chỉ ra các bước (i)--(iii) phá
+vỡ đảm bảo hình thức. (Trong benchmark Chương~\ref{ch:thucnghiem}, baseline được
+dùng là một \emph{surrogate đơn giản hoá} --- bỏ bước tìm đường thay thế và bước
+reject theo tòa nhà/mặt nước --- nên nhãn ``Baseline TT2 (surrogate)''; so sánh
+đối chứng với pipeline đầy đủ là hướng phát triển.)
+
+\begin{menhde}[Chặn bán kính quanh điểm thật phá vỡ Geo-I]
+\label{prop:cap}
+Gọi $M_\delta$ là cơ chế cộng nhiễu với bán kính $r' = \min(r, \delta)$ quanh vị
+trí thật $x$. Khi đó $M_\delta$ không thỏa $\eps$-Geo-I với bất kỳ $\eps$ hữu hạn
+nào trên miền $\mathcal{X}$ có đường kính lớn hơn $2\delta$.
+\end{menhde}
+
+\begin{proof}
+Support của $M_\delta(x)$ là hình tròn đóng $\bar{B}(x, \delta)$. Chọn $x, x'$
+với $\dEu(x, x') > 2\delta$ thì $\bar{B}(x,\delta) \cap \bar{B}(x',\delta) =
+\emptyset$. Với $S = \bar{B}(x, \delta)$ ta có $\Pr[M_\delta(x) \in S] = 1$
+trong khi $\Pr[M_\delta(x') \in S] = 0$; không tồn tại hằng số hữu hạn
+$e^{\eps\, \dEu(x,x')}$ chặn được tỷ số này.
+\end{proof}
+
+Cần tách ba trường hợp khác nhau (theo phản biện V-010/R2-011); chỉ trường hợp
+(b) mới là lỗi của baseline:
+
+\begin{menhde}[Điều kiện hóa trên tập cho phép công khai cố định --- giữ $2\eps$]
+\label{prop:fixedaccept}
+\emph{Giả thiết.} base kernel $K$ thỏa $\eps$-Geo-I trên $(X,\dEu)$ (tức
+$K(z\mid x)\le e^{\eps\dEu(x,x')}K(z\mid x')$ mọi $x,x',z$), và $A$ là tập cho
+phép \emph{cố định, công khai} (độc lập input) với $K(A\mid x)>0$ mọi $x$.
+Cơ chế điều kiện được định nghĩa \emph{với indicator} $\mathbf 1_A$ để là một
+phân phối hợp lệ (khối lượng $0$ ngoài $A$):
+\[
+K_A(z\mid x)=\frac{\mathbf 1_A(z)\,K(z\mid x)}{K(A\mid x)} .
+\]
+Khi đó với \emph{mọi} biến cố đo được $S$, phát biểu ở dạng \emph{bất đẳng thức}
+DP (không phải tỷ số, để tránh $0/0$ với biến cố xác suất 0 --- verifier R4-009):
+\[
+K_A(S\mid x)\;\le\;e^{2\eps \dEu(x,x')}\,K_A(S\mid x').
+\]
+Chứng minh: $K_A(S\mid x)=K(S\cap A\mid x)/K(A\mid x)
+\le e^{\eps \dEu}K(S\cap A\mid x')\,/\,(e^{-\eps \dEu}K(A\mid x'))
+=e^{2\eps \dEu}K_A(S\mid x')$, dùng $\eps$-Geo-I cho tử ($K(S\cap A\mid x)\le
+e^{\eps\dEu}K(S\cap A\mid x')$) và cho mẫu ($K(A\mid x)\ge e^{-\eps\dEu}K(A\mid x')$).
+Với $S$ có $K_A(S\mid x')=0$ bất đẳng thức $0\le 0$ hiển nhiên; chỉ viết dạng tỷ số
+khi mẫu dương. Cả hai giả thiết đều \emph{bắt buộc}: bỏ giả thiết $\eps$-Geo-I (ví dụ
+$K(\cdot\mid a)=\delta_0$, $K(\cdot\mid b)=\delta_1$, $A=\{0,1\}$) cho tỷ số vô
+hạn dù $K(A\mid\cdot)=1$; bỏ $\mathbf 1_A$ (ví dụ $K=(\tfrac12,\tfrac12)$,
+$A=\{0\}$) cho ``khối lượng'' $(1,1)$ tổng bằng $2$ --- không phải phân phối.
+\end{menhde}
+
+\begin{menhde}[Lấy mẫu lại theo vùng cấm \emph{phụ thuộc input} phá vỡ Geo-I]
+\label{prop:reject}
+Nếu tập cho phép $A_x$ phụ thuộc input (ví dụ ``không rơi vào tòa nhà/mặt nước
+quanh $x$''), tỷ số có thể vô hạn. Phản ví dụ tối thiểu: base kernel $K$ đều trên
+$\{0,1\}$ với mọi input (0-DP); đặt $A_a=\{0\}$, $A_b=\{1\}$. Sau điều kiện,
+$K_A(0\mid a)=1$ nhưng $K_A(0\mid b)=0$ --- likelihood ratio vô hạn. Pipeline
+Thực tập 2 dùng đúng dạng $A_x$ này (vùng cấm + kiểm QoS quanh $x$).
+\end{menhde}
+
+\noindent (Trường hợp (c) --- retry hữu hạn rồi fallback --- tạo một phân phối
+khác với conditioning vô hạn và phải phân tích riêng; không dùng trong các cơ chế
+đề xuất.) Cùng với Nhận xét~\ref{rmk:expbug} (bán kính nhiễu lấy sai phân phối),
+các phân tích cho thấy $\eps$ danh nghĩa của baseline không phải một đảm bảo hợp
+lệ; mọi so sánh ``cùng $\eps$'' vì vậy chỉ mang tính tham khảo.
+Ngược lại, phép chiếu đầu ra về đỉnh đường gần nhất ở bước (iv) --- nếu bỏ điều
+kiện kiểm tra QoS so với điểm thật --- là hậu xử lý độc lập dữ liệu và bảo toàn
+mức riêng tư; quan sát này dẫn tới thiết kế dưới đây.
+
+\section{REM: Cơ chế lũy thừa trên lưới đường}
+\label{sec:rem}
+
+Cho đồ thị đường $G = (V, E)$ trích từ OSM cho vùng quan tâm; tập đỉnh $V$ là
+\emph{công khai}. REM chọn trực tiếp một đỉnh làm vị trí công bố:
+
+\begin{dinhnghia}[REM]
+\label{def:rem}
+Với vị trí thật $x$ và ngân sách $\eps$:
+\[
+\Pr[\mathrm{REM}(x) = v] \;=\; \frac{\exp\!\big(-\tfrac{\eps}{2}\,\dEu(x, v)\big)}
+{\sum_{u \in V} \exp\!\big(-\tfrac{\eps}{2}\,\dEu(x, u)\big)},
+\qquad v \in V.
+\]
+\end{dinhnghia}
+
+\begin{dinhly}[REM thỏa $\eps$-Geo-I]
+\label{thm:rem}
+Với mọi $x, x' \in \Real^2$ và mọi $v \in V$:
+$\Pr[\mathrm{REM}(x) = v] \le e^{\eps\,\dEu(x,x')}\,\Pr[\mathrm{REM}(x') = v]$.
+\end{dinhly}
+
+\begin{proof}
+Đặt $Z(x) = \sum_{u \in V} e^{-\frac{\eps}{2} \dEu(x,u)}$. Xét tỷ số
+\[
+\frac{\Pr[\mathrm{REM}(x) = v]}{\Pr[\mathrm{REM}(x') = v]}
+= \underbrace{\frac{e^{-\frac{\eps}{2}\dEu(x,v)}}{e^{-\frac{\eps}{2}\dEu(x',v)}}}_{(A)}
+\cdot \underbrace{\frac{Z(x')}{Z(x)}}_{(B)}.
+\]
+Với $(A)$: theo bất đẳng thức tam giác
+$\dEu(x',v) - \dEu(x,v) \le \dEu(x,x')$, nên
+$(A) = e^{\frac{\eps}{2}(\dEu(x',v) - \dEu(x,v))} \le e^{\frac{\eps}{2}\dEu(x,x')}$.
+Với $(B)$: với mỗi $u \in V$,
+$\dEu(x', u) \ge \dEu(x, u) - \dEu(x, x')$, do đó
+$e^{-\frac{\eps}{2}\dEu(x',u)} \le e^{\frac{\eps}{2}\dEu(x,x')}
+e^{-\frac{\eps}{2}\dEu(x,u)}$. Lấy tổng theo $u$:
+$Z(x') \le e^{\frac{\eps}{2}\dEu(x,x')} Z(x)$, tức
+$(B) \le e^{\frac{\eps}{2}\dEu(x,x')}$. Nhân hai chặn được
+$e^{\eps\,\dEu(x,x')}$.
+\end{proof}
+
+\begin{nhanxet}[Quan hệ với GEM và điều kiện metric của guarantee]
+REM chính là bản dùng khoảng cách \emph{Euclid} của Graph-Exponential Mechanism
+(GEM) trong~\cite{takagi2019geo}: GEM chấm điểm bằng khoảng cách đường đi ngắn
+nhất $d_s$ và chỉ thỏa $\eps$-GG-I (không có đảm bảo theo Euclid), trong khi REM
+chấm điểm bằng $d_{\text{Euclid}}$ nên Định lý~\ref{thm:rem} cho $\eps$-Geo-I
+\emph{Euclid} thật sự. Điểm mấu chốt: guarantee bám vào metric dùng trong số mũ ---
+dùng Euclid thì phát biểu Euclid, dùng graph thì chỉ được phát biểu GG-I. Việc
+miền đầu ra rời rạc/on-road không phá lập luận exponential mechanism.
+\end{nhanxet}
+
+\begin{nhanxet}[Tính thực tế theo cấu trúc (không phải bằng chứng kháng tấn công)]
+Mọi đầu ra của REM là một đỉnh đường, nên \emph{không còn khối off-road để lọc}:
+đây là tính chất \emph{cấu trúc} triệt tiêu bề mặt map-matching mà
+RAoPT~\cite{buchholz2022raopt} khai thác. Đây KHÔNG phải bằng chứng kháng tấn
+công theo nghĩa định lượng --- cần chạy chính RAoPT đối kháng để đo (hướng phát
+triển, Chương~\ref{ch:tongket}); ta chỉ khẳng định bề mặt tấn công off-road bị
+loại bỏ theo cấu trúc.
+\end{nhanxet}
+
+\begin{nhanxet}[Tập ứng viên cố định --- không dùng cutoff]
+\label{rmk:cutoff}
+Hiện thực lấy tổng chuẩn hóa trên \emph{toàn bộ} tập đỉnh $V$ của đồ thị (cố định,
+công khai), không dùng bất kỳ cutoff nào quanh điểm thật. Đây là điều kiện để
+Định lý~\ref{thm:rem} đúng: nếu cắt support về $V \cap B(x,R)$ (phụ thuộc điểm
+thật $x$), hai điểm $\eps$-sát nhau nhưng ở hai phía biên cutoff của một đỉnh $v$
+cho $P[M(x){=}v]>0$ trong khi $P[M(x'){=}v]=0$ --- likelihood ratio vô hạn, phá
+vỡ pure Geo-I (khối lượng đuôi nhỏ không cứu được). Chi phí full-support cho đồ
+thị Bắc Kinh ($|V|=13{,}813$ đỉnh) là một 2-norm vector hóa cộng một lần lấy mẫu
+categorical mỗi release, tức $O(|V|)$ mỗi bước. Luận văn \emph{không} tuyên bố một
+con số độ trễ cô lập hay trên thiết bị di động (R3-011); thời gian chạy thực tế
+theo $(\text{cơ chế},\eps)$ được ghi trong provenance của benchmark.
+\end{nhanxet}
+
+\section{T-REM: Bổ sung ràng buộc thời gian với trọng số công khai}
+\label{sec:trem}
+
+Nhược điểm của REM (và mọi cơ chế nhiễu độc lập theo thời gian) là hai điểm công
+bố liên tiếp có thể cách nhau phi thực tế, tạo tín hiệu cho tấn công liên kết
+vận tốc. T-REM khắc phục bằng trọng số khả đạt tính từ điểm \emph{đã công bố}
+$z_{t-1}$ và khoảng thời gian $\Delta t$ (đều công khai):
+\[
+w_t(v) = \exp\!\Big(-\lambda \cdot \max\big(0,\; \dEu(z_{t-1}, v) - v_{\max}\Delta t - s\big)\Big),
+\]
+với $v_{\max}$ là tốc độ tối đa hợp lý, $s$ là biên nới lỏng, $\lambda$ là hệ số
+phạt. Cơ chế trở thành
+\[
+\Pr[\mathrm{TREM}(x_t) = v \mid z_{t-1}]
+= \frac{w_t(v)\, e^{-\frac{\eps}{2}\dEu(x_t, v)}}
+{\sum_{u \in V} w_t(u)\, e^{-\frac{\eps}{2}\dEu(x_t, u)}}.
+\]
+
+\begin{dinhly}[Trọng số công khai bảo toàn đảm bảo]
+\label{thm:trem}
+Với mọi hàm trọng số $w: V \to (0, 1]$ không phụ thuộc vị trí thật $x_t$ (chỉ
+phụ thuộc $z_{<t}$, $\Delta t$ và các hằng số công khai), cơ chế T-REM thỏa
+$\eps$-Geo-I tại mỗi bước: với mọi $x, x'$ và $v \in V$,
+\[
+\Pr[\mathrm{TREM}(x) = v \mid z_{t-1}] \le e^{\eps\,\dEu(x,x')}\,
+\Pr[\mathrm{TREM}(x') = v \mid z_{t-1}].
+\]
+\end{dinhly}
+
+\begin{proof}
+Lặp lại chứng minh Định lý~\ref{thm:rem} với $Z_w(x) = \sum_u w(u)
+e^{-\frac{\eps}{2}\dEu(x,u)}$. Thừa số $(A)$ không đổi vì $w(v)$ xuất hiện ở cả
+tử và mẫu nên triệt tiêu:
+$(A) = e^{\frac{\eps}{2}(\dEu(x',v)-\dEu(x,v))} \le e^{\frac{\eps}{2}\dEu(x,x')}$.
+Với $(B)$: từng số hạng thỏa $w(u) e^{-\frac{\eps}{2}\dEu(x',u)} \le
+e^{\frac{\eps}{2}\dEu(x,x')} w(u) e^{-\frac{\eps}{2}\dEu(x,u)}$ (trọng số $w(u)
+> 0$ giữ nguyên hai vế), nên $Z_w(x') \le e^{\frac{\eps}{2}\dEu(x,x')} Z_w(x)$.
+Kết luận như Định lý~\ref{thm:rem}. Điều kiện then chốt là $w$ đo được theo
+thông tin công khai: nếu $w$ phụ thuộc $x_t$, thừa số $(A)$ không triệt tiêu và
+lập luận sụp đổ --- đây chính là lỗi của bước làm mượt có kiểm tra QoS trong
+baseline (Mệnh đề~\ref{prop:cap}).
+\end{proof}
+
+\begin{nhanxet}[Ngân sách toàn quỹ đạo]
+Chuỗi $T$ lần công bố nhiễu độc lập tiêu tốn $\eps_{\mathrm{traj}} = T\eps$ theo
+kết hợp tuần tự thích nghi (trọng số $w_t$ chọn theo đầu ra trước đó là hợp lệ
+trong khuôn khổ adaptive composition). Đây là trần worst-case trung thực. SM-REM
+(Mục~\ref{sec:smrem}) \emph{không} siết được trần này về mức toàn-quỹ-đạo: nó chỉ
+đạt đảm bảo cho \emph{vị trí tĩnh lặp lại} (Định lý~\ref{thm:smrem}), còn pattern
+revisit thì rò rỉ (Nhận xét~\ref{rmk:notrajectory}).
+\end{nhanxet}
+
+\section{SM-REM: Memoization chống tấn công averaging tại stay-point}
+\label{sec:smrem}
+
+Mọi cơ chế nhiễu độc lập theo thời gian --- kể cả REM/T-REM --- đều rò rỉ dưới
+\emph{báo cáo lặp từ một vị trí tĩnh}: kẻ tấn công thấy $n$ release độc lập
+$z_1,\dots,z_n$ của cùng một điểm thật $x$ (ví dụ ở nhà qua đêm). Trung bình mẫu
+hội tụ về $\mathbb{E}[Z\mid x]$ với sai số $O(1/\sqrt n)$ --- bằng $x$ với cơ chế
+\emph{không thiên} (Laplace phẳng), nhưng lệch một hằng số với REM trên support
+bị chặn/on-road (nên trung bình mẫu \emph{không} phải attacker đúng cho REM ---
+xem Mục~\ref{sec:averaging-multi}, ở đó dùng MLE nhắm thẳng $x$).
+Đây là phát biểu hình thức trong~\cite{chatzikokolakis2014predictive} (``khi
+người dùng không di chuyển\ldots các vị trí báo cáo tập trung quanh vị trí thật,
+lộ hoàn toàn nó khi số truy vấn tăng''), và là cơ chế đằng sau vụ Strava khôi
+phục địa chỉ nhà (84--95\%, \cite{hassan2018run,dhondt2022run}) cùng home
+fingerprinting của data broker. Đây chính là kịch bản S4 mà bản PTPPM lưới đường
+mới nhất~\cite{min2025road} bỏ ngỏ: vì cơ chế của họ là \emph{stateless}
+(Permute-and-Flip lấy mẫu độc lập mỗi timestamp), báo cáo lặp cùng một vị trí thật
+vẫn bị averaging --- đây là suy luận của luận văn từ thiết kế của họ, không phải
+một trích dẫn thừa nhận.
+
+\paragraph{Cơ chế.} SM-REM phân hoạch không gian bằng một \emph{lưới công khai cố
+định} kích thước $g$, với đại diện công khai $\mathrm{rep}(C)$ (tâm ô) mỗi ô. Lần
+đầu điểm thật rơi vào ô $C$, một release $r_C$ được lấy mẫu bằng luật T-REM
+\emph{tại $\mathrm{rep}(C)$} (không tại toạ độ thật) và lưu lại; mọi báo cáo sau có
+điểm thật rơi vào $C$ đều trả về \emph{cùng} $r_C$. Sample tại $\mathrm{rep}(C)$
+làm phân phối release của mọi điểm trong một ô giống hệt nhau --- điều kiện cho
+phát biểu mức-ô. Quyết định memoize chỉ dựa trên lưới công khai (memoize mọi lần),
+không có phép thử phụ thuộc dữ liệu.
+
+\begin{dinhly}[Đảm bảo cho vị trí tĩnh lặp lại --- phạm vi hẹp có chủ ý]
+\label{thm:smrem}
+\emph{Không gian \& metric ô (verifier R4-004).} Với lưới công khai cạnh $g$, mỗi
+điểm thuộc một ô; đại diện công khai $\mathrm{rep}(C)$ là tâm ô. Đặt pseudometric
+ô $d_{\mathrm{cell}}(C,C')=\dEu(\mathrm{rep}(C),\mathrm{rep}(C'))$.
+\emph{Giả thiết khởi tạo:} một \emph{lịch sử công khai chung} $h$ ở đầu scope ---
+cache rỗng cho ô đang xét \emph{và} cùng release/thời gian trước đó cho hai input
+so sánh (ví dụ reset trạng thái tạm thời, hoặc bước đầu tiên của phiên).
+
+\emph{(i) Bất đẳng thức mức-ô.} Với hai ô $C,C'$ và cùng lịch sử $h$, mẫu đầu
+$Z\sim M_1(\cdot\mid \mathrm{rep}(C),h)$ với $M_1$ là kernel release thực tế của
+bước cache-miss --- REM nếu $h$ rỗng, còn tổng quát là \textbf{T-REM} có điều kiện
+theo $h$ (mã kế thừa T-REM và cache-miss gọi \texttt{super().perturb}). Vì $M_1$
+thỏa $\eps$-Geo-I theo tọa độ vào (trọng số reachability chỉ phụ thuộc $h$ công
+khai, Định lý~\ref{thm:trem}), với mọi biến cố $S$:
+\[
+\Pr[M_1\in S\mid \mathrm{rep}(C),h]\;\le\;e^{\eps\,d_{\mathrm{cell}}(C,C')}\,
+\Pr[M_1\in S\mid \mathrm{rep}(C'),h].
+\]
+
+\emph{(ii) Bất biến với số lần báo cáo.} Cố định $x\in C$, báo cáo $x$ đúng $T$
+lần. Transcript $(Z,\dots,Z)$ là hậu xử lý xác định của \emph{một} mẫu $Z$, nên
+thừa hưởng bất đẳng thức (i) và mang đúng lượng thông tin của một release bất kể
+$T$: trung bình $\frac1T\sum Z=Z$ không giảm phương sai, tấn công averaging (S4)
+không thu được gì.
+\end{dinhly}
+
+\begin{proof}
+(i) là $\eps$-Geo-I của $M_1$ (REM: Định lý~\ref{thm:rem}; T-REM: Định
+lý~\ref{thm:trem}, trọng số hàm của $h$ công khai nên tử lẫn normalizer cùng chịu
+hệ số $e^{\eps d_{\mathrm{cell}}}$) áp cho input $\mathrm{rep}(C)$ vs $\mathrm{rep}(C')$. Với
+(ii), sau khi $Z$ được lấy mẫu, mọi phát ra sau là tra bảng xác định trả về $Z$
+--- hàm của riêng $Z$ --- nên bất biến hậu xử lý (\cite{takagi2019geo}); phân phối
+$(Z,\dots,Z)$ đồng nhất phân phối của $Z$, độc lập $T$. Các tính chất này được kiểm
+trên đồ thị nhỏ ở \texttt{tests/test\_production\_mechanisms.py}
+(same-cell repeat, A-B-A, hình học góc/cạnh, reset lifecycle).
+\end{proof}
+
+\begin{nhanxet}[Điều KHÔNG được khẳng định --- và vì sao (V-003)]
+\label{rmk:notrajectory}
+Ta \emph{không} khẳng định một định lý toàn-quỹ-đạo kiểu
+``$\eps\cdot(\text{số ô riêng biệt})$-Geo-I trên quỹ đạo tùy ý''. Memoization
+chính xác làm pattern hit/miss của cache trở thành hàm xác định của \emph{pattern
+revisit bí mật}, và pattern này rò rỉ: với hai quỹ đạo $X=(a,a)$ và $X'=(a,b)$
+($b$ ở ô khác), biến cố $\{z_2 \ne z_1\}$ có xác suất $0$ dưới $X$ nhưng $>0$ dưới
+$X'$ --- likelihood ratio vô hạn một chiều. Lưới công khai không làm một lần
+revisit bí mật trở thành công khai. Một đảm bảo bảo vệ cả pattern revisit đòi hỏi
+\emph{quyết định reuse tự nó phải riêng tư vi phân} (phép thử private kiểu
+predictive mechanism~\cite{chatzikokolakis2014predictive}) --- được đặt làm hướng
+phát triển (Chương~\ref{ch:tongket}), không phải phần đã chứng minh ở đây.
+\end{nhanxet}
+
+\begin{nhanxet}[Cũng không phải Geo-I Euclid --- gián đoạn ở biên]
+\label{rmk:boundary}
+Ngay ở mức một release, quantize $x \to \mathrm{rep}(C)$ là rời-rạc-hóa phía đầu
+vào: hai điểm sát nhau hai bên biên ô nhận release độc lập. Trường hợp xấu nhất là
+hai điểm hai bên một \emph{góc} rơi vào hai ô chéo nhau, có representative cách
+nhau $\sqrt{2}\,g$, cho tỷ số tới $\exp(\eps\cdot\sqrt{2}\,g)$ (biên cạnh kề chỉ
+cho $\exp(\eps\cdot g)$). SM-REM vì thế \emph{không} thỏa $\eps$-Geo-I
+Euclid như REM/T-REM --- \textbf{không thể vừa có Geo-I Euclid sạch vừa có
+memoization chống averaging từ cùng một tham số}; đây đúng là lý do Android
+\texttt{LocationFudger} ghép snap-to-grid với offset ngẫu nhiên bền. Mặc định
+$g=60$m; release snap về đỉnh đường dùng chung nên giá trị nhất quán không tự trở
+thành fingerprint duy nhất.
+\end{nhanxet}
+
+\section{PR-SM-REM: reuse riêng tư với chặn per-step hữu hạn}
+\label{sec:prsmrem}
+
+Nhận xét~\ref{rmk:notrajectory} chỉ ra vì sao SM-REM \emph{không} có đảm bảo toàn
+quỹ đạo: quyết định reuse (hit/miss cache) là hàm xác định của pattern revisit bí
+mật. Cách vá nguyên lý (predictive mechanism~\cite{chatzikokolakis2014predictive};
+kế toán w-event~\cite{kellaris2014wevent}) là làm chính \emph{quyết định reuse}
+riêng tư vi phân.
+
+\paragraph{Cơ chế.} Ở mỗi bước $t$, dự đoán $\tilde z_t$ = \emph{điểm đã công bố
+trước đó} $z_{t-1}$ (parrot predictor --- công khai, chỉ là hàm của transcript).
+Chạy \emph{phép thử ngưỡng có nhiễu}:
+\[
+d(x_t, \tilde z_t) + \mathrm{Lap}(1/\eps_{\text{test}}) \le \theta
+\quad\Rightarrow\quad \text{REUSE } \tilde z_t;\qquad
+\text{ngược lại} \Rightarrow \text{RESAMPLE bằng REM}.
+\]
+Reuse tốn đúng $\eps_{\text{test}}$; resample tốn $\eps_{\text{test}}+\eps$.
+$\theta$ là bán kính reuse công khai; trạng thái chỉ phụ thuộc thông tin công
+khai và các release quá khứ, không bao giờ phụ thuộc $x_{\le t}$ thô.
+
+\begin{dinhly}[Chặn per-step của PR-SM-REM]
+\label{thm:prsmrem}
+Kernel một bước là hỗn hợp hai nhánh: tại $z=h$ có khối lượng
+$q_x(h)+(1-q_x(h))R_x(h)$; tại $z\ne h$ có $(1-q_x(h))R_x(z)$, với
+$q_x(h)=\Pr[d(x,h)+\mathrm{Lap}(1/\eps_{\text{test}})\le\theta]$ và $R$ là kernel
+REM với ngân sách $\eps_{\text{release}}$. Vì thống kê $d(x,h)$ có độ nhạy metric
+bằng 1 theo $x$ và $h$ công khai, nhánh RESAMPLE mang \emph{cả} thừa số phép thử
+lẫn release REM, nên chặn per-step worst-case là
+\[
+\frac{K_x(z\mid h)}{K_{x'}(z\mid h)} \le \exp\!\big((\eps_{\text{test}}+\eps_{\text{release}})\,d(x,x')\big),
+\]
+tức \textbf{$(\eps_{\text{test}}+\eps_{\text{release}})$-Geo-I} (bước đầu tiên,
+chưa có dự đoán, chỉ tốn $\eps_{\text{release}}$). Do đó biến cố $\{z\ne h\}$ có
+tỷ số \emph{hữu hạn} $\le\exp((\eps_{\text{test}}+\eps_{\text{release}})d(x,x'))$
+--- đây mới là điều đóng lỗ hổng tỷ-số-vô-hạn của memo chính xác
+(Nhận xét~\ref{rmk:notrajectory}), \emph{không} phải chặn chỉ-$\eps_{\text{test}}$.
+\end{dinhly}
+
+\begin{proof}
+Điều kiện trên \emph{cùng một public history} (nên $h$, $q$'s form giống nhau ở
+hai input). Đặt $d=d(x,x')$ và $c=e^{(\eps_{\text{test}}+\eps_{\text{release}})d}$.
+Ba chặn thành phần: $q_x\le e^{\eps_{\text{test}}d}q_{x'}$ và
+$1-q_x\le e^{\eps_{\text{test}}d}(1-q_{x'})$ (query $d(\cdot,h)$ độ nhạy 1 + nhiễu
+Laplace), và $R_x(z)\le e^{\eps_{\text{release}}d}R_{x'}(z)$ (Định lý~\ref{thm:rem}).
+\emph{Nhánh $z\ne h$:} $K_x(z\mid h)=(1-q_x)R_x(z)\le e^{\eps_{\text{test}}d}
+e^{\eps_{\text{release}}d}(1-q_{x'})R_{x'}(z)=c\,K_{x'}(z\mid h)$.
+\emph{Nhánh $z=h$:} \emph{cả hai} số hạng chịu cùng hệ số $c$ (số hạng $q_x$ chịu
+$e^{\eps_{\text{test}}d}\le c$; số hạng $(1-q_x)R_x(h)$ chịu $c$), nên tổng
+$q_x+(1-q_x)R_x(h)\le c\,[q_{x'}+(1-q_{x'})R_{x'}(h)]=c\,K_{x'}(h\mid h)$ ---
+không dùng ``tỷ số của tổng'' một cách không giải thích. Liệt kê hai-vertex
+($a{=}0$m, $b{=}100$m, $h{=}a$, $\theta{=}200$m,
+$\eps_{\text{test}}{=}\eps_{\text{release}}{=}0{,}01$; $z{=}b$): tỷ số $=e^{1.5}$,
+vượt chặn cũ $e^{1}$ nhưng thỏa $e^{2}$ --- được test hồi quy hóa ở
+\texttt{tests/test\_pr\_privacy\_bound.py}.
+\end{proof}
+
+\begin{nhanxet}[Ideal kernel vs hiện thực dấu-phẩy-động]
+\label{rmk:finiteprec}
+Mọi chặn ở trên là cho \emph{ideal real-arithmetic kernel}. Sampler Gumbel-max và
+phép thử Laplace trong hiện thực dùng RNG 53-bit hữu hạn nên có span bị chặn: một
+đỉnh có logit thấp hơn leader quá $\approx$40,34 \emph{không bao giờ} được chọn,
+tạo zero-support phụ thuộc input (tỷ số vô hạn ở mức executable). Vì vậy luận văn
+\emph{không} tuyên bố hiện thực float thỏa pure $\eps$-Geo-I; nó là một xấp xỉ số
+học của ideal kernel. Chứng minh pure-DP hữu-hạn-độ-chính-xác (exact discrete
+sampler với tinh chỉnh bit không giới hạn) là hướng phát triển. Xem
+\texttt{tests/test\_sampler\_support.py} (verifier R2-006).
+\end{nhanxet}
+
+\begin{nhanxet}[Từ per-step tới quỹ đạo --- và điều chưa cài (R2-002)]
+\label{rmk:wevent}
+Kết hợp tuần tự trên cửa sổ $w$ (metric $D_\infty(X,X')=\max_t d(x_t,x'_t)$) cho
+worst-case $w(\eps_{\text{test}}+\eps_{\text{release}})$ mỗi cửa sổ (cửa sổ đầu:
+$\eps_{\text{release}}+(w-1)(\eps_{\text{test}}+\eps_{\text{release}})$). Hiện
+thực \emph{chưa} có budget manager/privacy-filter theo cửa sổ; \texttt{n\_resample}
+chỉ là chẩn đoán hậu nghiệm, \emph{không} phải một guarantee ex-ante. Muốn tuyên
+bố một scalar $\eps_w$ nhỏ hơn worst-case cần thêm một allocator theo cửa sổ và
+lấy supremum trên mọi public transcript --- đặt làm hướng phát triển
+(Chương~\ref{ch:tongket}). Để so sánh công bằng với REM $\eps$-Geo-I, đặt
+$\eps_{\text{test}}+\eps_{\text{release}}=\eps$ (thực nghiệm dùng
+$\eps_{\text{test}}=\eps_{\text{release}}=\eps/2$).
+\end{nhanxet}
+
+\begin{nhanxet}[Chống-averaging là hữu-hạn-horizon, không tuyệt đối (R3-004)]
+So với SM-REM (memo chính xác), PR-SM-REM \emph{yếu hơn} về chống-averaging thực
+nghiệm nhưng có chặn per-step hữu hạn hợp lệ. Quan trọng: với $\theta$,
+$\eps_{\text{test}}$, $d$ hữu hạn, xác suất resample
+$q_x=1-F_{\mathrm{Lap}}(\theta-d(x,h))$ luôn nằm chặt trong $(0,1)$ --- một người
+dùng \emph{tĩnh} vẫn resample với xác suất dương mỗi bước (tại $d{=}\theta$,
+$q{=}1/2$, nên xác suất không resample trong 100 bước là $2^{-100}$), và người
+dùng \emph{di chuyển} vẫn reuse với xác suất dương. Vì vậy PR-SM-REM \emph{giảm}
+số mẫu tươi hữu hiệu trên một horizon hữu hạn; nó \emph{không} memoize tuyệt đối
+và \emph{không} làm averaging bất khả thi tiệm cận --- khác hẳn tính chất
+static-same-cell của SM-REM, không được gộp hai loại. Trạng thái chỉ là
+\emph{release trước đó} nên là \emph{predictive reuse} của điểm liền trước,
+\emph{không phải} memoization bền vững: mẫu rời-rồi-quay-lại (nhà$\to$chỗ
+làm$\to$nhà) không được nhớ (verifier R2-007). $\theta$ phải công khai.
+\end{nhanxet}
+
+\section{Thuật toán và độ phức tạp}
+
+\begin{enumerate}
+  \item \textbf{Tiền xử lý} (một lần cho vùng quan tâm): dựng đồ thị đường OSM,
+  chiếu các đỉnh về hệ tọa độ phẳng cục bộ, xây KD-tree trên $V$.
+  \item \textbf{Mỗi điểm thật $x_t$}: tính logits
+  $-\tfrac{\eps}{2}\dEu(x_t, u) + \log w_t(u)$ trên \emph{toàn bộ} tập đỉnh cố
+  định $u \in V$ (REM: $w_t \equiv 1$) --- không cắt ngưỡng quanh $x_t$
+  (Nhận xét~\ref{rmk:cutoff}); lấy mẫu bằng Gumbel-max trong miền log; công bố
+  đỉnh được chọn; cập nhật $z_t$.
+\end{enumerate}
+
+Chi phí mỗi điểm là $O(|V|)$ phép tính vector hóa (một 2-norm trên $|V|$ đỉnh +
+một argmax); với đồ thị Bắc Kinh $|V|=13\,813$ đỉnh dùng trong thực nghiệm. Luận
+văn \emph{không} tuyên bố một con số độ trễ tuyệt đối (dưới mili-giây hay tương
+tự) hoặc trên thiết bị di động: chưa có phép đo cách ly (R3-011). Thời gian chạy
+theo $(\text{cơ chế},\eps)$ chỉ được ghi lại trong provenance của benchmark như
+số liệu tham khảo bao gồm cả metrics và attackers --- cần đo cách ly trên phần
+cứng mobile để có latency claim on-device (xem Chương~\ref{ch:tongket}).

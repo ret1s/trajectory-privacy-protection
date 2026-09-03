@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trajectory Privacy Benchmark</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='benchmark/dashboard.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Đồ án tốt nghiệp · Benchmark laboratory</p>
+      <h1>Bảo vệ tính riêng tư về quỹ đạo cho người dùng dịch vụ dựa trên vị trí</h1>
+    </div>
+    <div id="artifact-status" class="status-pill status-neutral">Đang đọc artifact…</div>
+  </header>
+
+  <main id="app" class="shell" aria-live="polite">
+    <section id="empty-state" class="empty-state hidden">
+      <p class="eyebrow">Chưa có dữ liệu</p>
+      <h2>Không thể đọc benchmark artifact</h2>
+      <p id="empty-message"></p>
+      <code>venv/bin/python -m experiments.run_dummy_benchmark --quick</code>
+    </section>
+
+    <div id="dashboard" class="hidden">
+      <section class="notice" id="artifact-notice">
+        <strong id="notice-status">Trạng thái artifact</strong>
+        <span id="notice-copy"></span>
+      </section>
+
+      <section class="summary-grid" aria-label="Tổng quan benchmark">
+        <article class="summary-card">
+          <span>Mobility source</span>
+          <strong id="mobility-source">—</strong>
+          <small id="mobility-label">—</small>
+        </article>
+        <article class="summary-card">
+          <span>Cơ chế</span>
+          <strong id="mechanism-count">—</strong>
+          <small>cùng artifact, tách theo output contract</small>
+        </article>
+        <article class="summary-card">
+          <span>Quỹ đạo benchmark</span>
+          <strong id="record-count">—</strong>
+          <small id="point-count">—</small>
+        </article>
+        <article class="summary-card">
+          <span>Source commit</span>
+          <strong id="source-commit" class="mono">—</strong>
+          <small id="source-clean">—</small>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <aside class="selector-panel">
+          <div class="section-heading">
+            <p class="eyebrow">Benchmark controls</p>
+            <h2>Chọn cơ chế</h2>
+          </div>
+          <label for="contract-select">Loại đầu ra</label>
+          <select id="contract-select">
+            <option value="all">Tất cả output contracts</option>
+          </select>
+          <div id="mechanism-list" class="mechanism-list"></div>
+          <div class="contract-note">
+            <strong>So sánh đúng contract</strong>
+            <p>Replacement trajectory, real + dummies và dummy-only không được diễn giải như cùng một loại đầu ra.</p>
+          </div>
+        </aside>
+
+        <section class="detail-panel">
+          <div class="mechanism-header">
+            <div>
+              <p class="eyebrow" id="selected-contract">Output contract</p>
+              <h2 id="selected-name">Chọn một cơ chế</h2>
+              <p id="selected-source" class="muted"></p>
+            </div>
+            <span id="record-badge" class="record-badge">0 record</span>
+          </div>
+
+          <section class="implementation-card" aria-label="Trạng thái cài đặt">
+            <div>
+              <span id="implementation-level" class="implementation-pill">—</span>
+              <strong id="reproduction-status">Chưa xác định mức tái hiện</strong>
+            </div>
+            <p id="adaptation-summary" class="muted"></p>
+            <details id="missing-details">
+              <summary>Các thành phần còn thiếu để tái hiện đúng paper</summary>
+              <ul id="missing-components"></ul>
+            </details>
+            <small id="source-revision" class="mono"></small>
+          </section>
+
+          <label class="record-selector" for="record-select">Bản ghi đang xem
+            <select id="record-select" disabled>
+              <option>Đang tải…</option>
+            </select>
+          </label>
+
+          <nav class="tabs" aria-label="Chế độ quan sát">
+            <button class="tab active" data-tab="attacker" type="button">
+              <span class="dot dot-public"></span>Attacker-visible
+            </button>
+            <button class="tab" data-tab="evaluator" type="button">
+              <span class="dot dot-private"></span>Evaluator-only
+            </button>
+          </nav>
+
+          <div id="attacker-panel" class="tab-panel">
+            <div class="scope-banner public-banner">
+              <strong>Dữ liệu công khai cho threat model</strong>
+              <span>Chỉ gồm timestamp, candidate ID, tọa độ đầu ra và tham số công khai.</span>
+            </div>
+            <div id="attacker-contract" class="contract-strip"></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Event</th><th>Thời gian</th><th>Candidates attacker thấy</th></tr></thead>
+                <tbody id="event-rows"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="evaluator-panel" class="tab-panel hidden">
+            <div class="scope-banner private-banner">
+              <strong>Vùng đánh giá có ground truth</strong>
+              <span>Metrics và trajectory thật chỉ dùng để chấm điểm; không đưa vào attacker input.</span>
+            </div>
+            <section class="evaluator-section" aria-labelledby="diagnostic-metrics-heading">
+              <div class="evaluator-heading">
+                <h3 id="diagnostic-metrics-heading">Chỉ số chẩn đoán chung</h3>
+                <p>Đánh giá privacy, utility và tính hợp lệ trên cùng output contract.</p>
+              </div>
+              <div id="metric-grid" class="metric-grid"></div>
+            </section>
+            <section class="evaluator-section" aria-labelledby="paper-metrics-heading">
+              <div class="evaluator-heading">
+                <h3 id="paper-metrics-heading">Chỉ số theo paper</h3>
+                <p>Chỉ diễn giải trong phạm vi cơ chế tương ứng; N/A nghĩa là artifact chưa cung cấp giá trị.</p>
+              </div>
+              <div id="paper-metric-grid" class="metric-grid paper-metric-grid"></div>
+            </section>
+            <section class="evaluator-section" aria-labelledby="runtime-heading">
+              <div class="evaluator-heading">
+                <h3 id="runtime-heading">Thời gian thực thi</h3>
+                <p>Tách chi phí khởi tạo mô hình và suy luận cho bản ghi đang xem.</p>
+              </div>
+              <div id="runtime-grid" class="metric-grid"></div>
+            </section>
+            <details class="truth-details">
+              <summary>Xem metadata ground truth dùng bởi evaluator</summary>
+              <div id="truth-summary"></div>
+            </details>
+          </div>
+        </section>
+      </section>
+
+      <section class="visual-section">
+        <div class="section-heading visual-heading">
+          <div>
+            <p class="eyebrow">Evaluator visualization</p>
+            <h2>Đối chiếu đầu ra trên mạng đường</h2>
+          </div>
+          <div class="visual-actions">
+            <button id="show-preview" class="secondary-button active" type="button">Ảnh so sánh</button>
+            <button id="show-map" class="secondary-button" type="button">Bản đồ tương tác</button>
+          </div>
+        </div>
+        <div class="scope-banner private-banner compact">
+          <strong>Evaluator-only</strong>
+          <span>Hình bên dưới chứa quỹ đạo thật để trực quan hóa sai lệch.</span>
+        </div>
+        <div id="preview-container" class="visual-frame">
+          <img id="preview-image" alt="Static benchmark comparison preview">
+          <p id="preview-missing" class="missing hidden">Chưa có ảnh preview.</p>
+        </div>
+        <div id="map-container" class="visual-frame hidden">
+          <iframe id="benchmark-map" title="Interactive evaluator benchmark map" sandbox="allow-scripts"></iframe>
+          <p id="map-missing" class="missing hidden">Chưa có interactive map.</p>
+        </div>
+      </section>
+
+      <footer>
+          <span>Read-only, localhost-only · Không chạy experiment từ web request</span>
+        <span id="artifact-schema" class="mono"></span>
+      </footer>
+    </div>
+  </main>
+
+  <script id="initial-state" type="application/json">{{ initial_state | tojson }}</script>
+  <script src="{{ url_for('static', filename='benchmark/dashboard.js') }}" defer></script>
+</body>
+</html>

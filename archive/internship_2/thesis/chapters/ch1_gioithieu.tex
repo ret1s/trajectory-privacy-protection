@@ -1,0 +1,89 @@
+\chapter{Giới thiệu đề tài}
+\label{ch:gioithieu}
+
+Các dịch vụ dựa trên vị trí (LBS) đã trở thành một phần không thể thiếu trong đời
+sống số: điều hướng, tìm kiếm địa điểm, gọi xe, giao đồ ăn, quảng cáo cá nhân hóa
+và các ứng dụng y tế. Sự tiện lợi này đến từ việc người dùng liên tục báo cáo vị
+trí của mình cho nhà cung cấp dịch vụ. Tuy nhiên, dữ liệu quỹ đạo --- chuỗi vị trí
+theo thời gian --- có thể tiết lộ những thông tin nhạy cảm bậc nhất về một cá
+nhân: nơi ở, nơi làm việc, thói quen sinh hoạt, tình trạng sức khỏe, quan hệ xã
+hội và niềm tin tôn giáo. Khi dữ liệu này bị lạm dụng, hậu quả trải từ theo dõi,
+phân biệt đối xử cho tới đe dọa an toàn cá nhân.
+
+Trong giai đoạn Thực tập 2, chúng tôi đã xây dựng một pipeline bảo vệ quỹ đạo
+dựa trên Geo-Indistinguishability (Geo-I)~\cite{andres2013geo}: thêm nhiễu Laplace
+phẳng vào từng điểm, giới hạn bán kính nhiễu trong ngưỡng QoS, loại bỏ các điểm
+rơi vào tòa nhà/mặt nước, và làm khớp điểm giả vào lưới đường. Khảo sát văn liệu
+sâu hơn (Chương~\ref{ch:lienquan}) cho thấy pipeline này tồn tại hai lỗi hình thức
+nghiêm trọng: \emph{(i)} việc chặn bán kính nhiễu quanh vị trí thật làm hai vị trí
+đủ xa nhau có support đầu ra rời nhau, khiến đảm bảo Geo-I thuần không còn đúng;
+\emph{(ii)} việc lấy mẫu lại khi điểm giả rơi vào vùng cấm điều kiện hóa phân phối
+đầu ra trên vị trí thật, đồng thời chính loại ``lọc theo tính hợp lý'' này là bề
+mặt mà các tấn công tái tạo hiện đại như RAoPT~\cite{buchholz2022raopt} khai thác.
+
+Luận văn này kế thừa mục tiêu của Thực tập 2 nhưng thay thế cơ chế lõi bằng bốn
+cơ chế mới hoạt động \emph{ngay trên lưới đường}:
+
+\begin{itemize}
+  \item \textbf{REM} (Road-network Exponential Mechanism): cơ chế lũy thừa trên
+  tập đỉnh của đồ thị đường OSM, thỏa $\eps$-Geo-I Euclid hình thức, và mọi vị trí
+  công bố đều nằm trên đường \emph{theo cấu trúc} --- loại bỏ \emph{tín hiệu}
+  off-road mà tấn công map-matching/RAoPT khai thác (mức kháng tấn công cần kiểm
+  chứng trực tiếp).
+  \item \textbf{T-REM}: REM bổ sung trọng số khả đạt (reachability) chỉ phụ thuộc
+  vào \emph{điểm đã công bố trước đó} --- thông tin công khai --- nên đảm bảo
+  riêng tư per-release không đổi, trong khi \emph{giảm} tín hiệu speed-implausibility
+  mà tấn công liên kết vận tốc dựa vào (một soft regularizer, không phải hard
+  reachable-set).
+  \item \textbf{SM-REM}: T-REM bổ sung memoization theo lưới công khai --- cùng
+  một chỗ luôn trả về cùng một điểm công bố --- chống tấn công averaging tại
+  stay-point (khôi phục địa chỉ nhà) trong phạm vi một cache-lifetime, rủi ro
+  thực tế nghiêm trọng mà các cơ chế nhiễu độc lập bỏ ngỏ.
+  \item \textbf{PR-SM-REM}: thay quyết định memoize chính xác (vốn rò pattern
+  revisit) bằng \emph{phép thử reuse có nhiễu} (kiểu predictive mechanism), cho
+  chặn per-release $(\eps_{\text{test}}+\eps_{\text{release}})$-Geo-I hữu hạn ---
+  đóng lỗ hổng tỷ-số-vô-hạn của memo chính xác, đổi một phần sức chống-averaging
+  lấy một chặn hợp lệ. (Chặn w-event scalar đầy đủ cần một budget manager theo cửa
+  sổ --- chưa cài, là hướng phát triển.)
+\end{itemize}
+
+Lưu ý xuyên suốt: các đảm bảo $\eps$-Geo-I được chứng minh cho \emph{ideal
+real-arithmetic kernel}; hiện thực dấu-phẩy-động là một xấp xỉ số học (có
+artefact hữu-hạn-độ-chính-xác, xem Mục~\ref{sec:prsmrem} và
+Chương~\ref{ch:tongket}).
+
+Đồng thời, đối chiếu với hệ thống thực tế dẫn tới việc \emph{phát biểu lại bài
+toán}: LBS không cần vị trí chính xác mà cần mức granularity tối thiểu theo mục
+đích; ràng buộc chất lượng vì thế được phát biểu dưới dạng $(\alpha,\delta)$-hữu
+dụng ($\Pr[d(x,z)\le\alpha]\ge\delta$, khớp semantics trường \texttt{accuracy}
+mà mọi ứng dụng đang tiêu thụ) thay vì một ngưỡng cứng $\delta$ quanh điểm thật
+(vốn phá vỡ đảm bảo, Mệnh đề~\ref{prop:cap}); và giải thuật được đánh giá theo
+threat model rút từ các tấn công đã xảy ra thật.
+
+Đóng góp của luận văn tính đến bản cập nhật này:
+\begin{enumerate}
+  \item Phát biểu lại bài toán theo mô hình triển khai thực tế (local, on-device,
+  granularity theo mục đích, bảo vệ endpoint) với bảng yêu cầu thiết kế ánh xạ
+  vào các harm thực tế (Mục~\ref{sec:systemmodel});
+  \item Phân tích hình thức các lỗi của pipeline Thực tập 2
+  (Mục~\ref{sec:phantichbaseline});
+  \item Bốn cơ chế REM, T-REM, SM-REM và PR-SM-REM kèm chứng minh đảm bảo riêng
+  tư \emph{ở mức ideal real-arithmetic kernel} (Mục~\ref{sec:rem}, \ref{sec:trem},
+  \ref{sec:smrem}, \ref{sec:prsmrem}; hiện thực dấu-phẩy-động là xấp xỉ hữu hạn
+  độ chính xác, Nhận xét~\ref{rmk:finiteprec});
+  \item Bộ khung đánh giá theo chuẩn văn liệu: một adversary suy luận
+  \emph{dạng-REM emission} (chính xác cho REM, là \emph{proxy} cho các cơ chế
+  khác --- dùng làm chẩn đoán, không xếp hạng riêng tư), tấn công theo dõi HMM,
+  và tấn công averaging tại stay-point, cùng các độ đo tiện ích và tính thực tế
+  (Chương~\ref{ch:thucnghiem});
+  \item Thực nghiệm trên dữ liệu GPS thật (GeoLife, Bắc Kinh) trên đồ thị đường
+  OSM thật, so sánh với Laplace phẳng và baseline Thực tập 2;
+  \item Hệ thống mô phỏng trực quan ba góc nhìn (người dùng / máy chủ LBS / kẻ
+  tấn công) minh họa các kịch bản sử dụng đời thực.
+\end{enumerate}
+
+Phần còn lại của luận văn được tổ chức như sau. Chương~\ref{ch:cosolythuyet}
+trình bày cơ sở lý thuyết. Chương~\ref{ch:lienquan} khảo sát các công trình liên
+quan và xác định khoảng trống nghiên cứu. Chương~\ref{ch:phuongphap} mô tả và
+chứng minh các cơ chế đề xuất. Chương~\ref{ch:thucnghiem} trình bày thực nghiệm.
+Chương~\ref{ch:tongket} tổng kết và nêu hướng phát triển.

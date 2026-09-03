@@ -1,0 +1,140 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "Hướng cải thiện và trọng tâm luận văn",
+    "description": "Bản tóm lược bốn phần: dữ liệu GeoLife, chỉ số POI, khảo sát mô hình tấn công và các hướng giải pháp đang thử nghiệm.",
+    "generatedAt": "2026-08-27T07:03:34Z",
+    "cards": [],
+    "charts": [
+      {
+        "id": "averaging_curve_chart",
+        "title": "Sai số suy luận theo số lần báo cáo lặp",
+        "subtitle": "GeoLife, ε=0.02, 40 điểm dừng của 21 người dùng, 8 lần chạy. Sai số càng cao nghĩa là kẻ tấn công định vị càng kém chính xác.",
+        "headerMarkdown": "Đường cong minh họa việc **nhiều báo cáo về cùng một điểm dừng có thể giúp kẻ tấn công thu hẹp vị trí**. Đây là kết quả chẩn đoán nguy cơ, chưa phải bảng xếp hạng riêng tư cuối cùng.",
+        "type": "line",
+        "dataset": "averaging_curve",
+        "sourceId": "report_data_sql",
+        "valueFormat": "number",
+        "encodings": {
+          "x": {"field": "n_reports", "type": "quantitative", "label": "Số lần báo cáo cùng điểm dừng"},
+          "y": {"field": "median_attacker_error_m", "type": "quantitative", "label": "Sai số suy luận trung vị (m)"},
+          "color": {"field": "mechanism", "type": "nominal", "label": "Cơ chế"},
+          "tooltip": [
+            {"field": "ci_low_m", "type": "quantitative", "label": "Cận dưới khoảng tin cậy 95% (m)"},
+            {"field": "ci_high_m", "type": "quantitative", "label": "Cận trên khoảng tin cậy 95% (m)"},
+            {"field": "n_users", "type": "quantitative", "label": "Số người dùng"},
+            {"field": "n_seeds", "type": "quantitative", "label": "Số lần chạy"}
+          ]
+        }
+      }
+    ],
+    "tables": [],
+    "sources": [
+      {"id": "report_data_sql", "label": "Dữ liệu đường cong lấy trung bình đã được kiểm tra (DuckDB SQL)", "path": "docs/supervisor_meeting/research_improvements/report_data.sql"},
+      {"id": "averaging_output", "label": "Thí nghiệm O5 với các báo cáo lặp", "path": "outputs/averaging_multi_results.json"},
+      {"id": "research_notes", "label": "Khảo sát tài liệu về dữ liệu và chỉ số đánh giá", "path": "docs/research_notes.md"},
+      {"id": "attack_catalog", "label": "Khảo sát các kiểu tấn công vị trí trong thực tế", "path": "docs/attack_scenarios.md"},
+      {"id": "problem_formulation", "label": "Cách đặt bài toán và phạm vi kết luận hiện tại", "path": "docs/problem_formulation.md"},
+      {"id": "thesis_ch3", "label": "Công trình liên quan, dữ liệu, chỉ số và kiểu tấn công", "path": "thesis/chapters/ch3_lienquan.tex"},
+      {"id": "thesis_ch4", "label": "Thiết kế cơ chế hiện tại", "path": "thesis/chapters/ch4_phuongphap.tex"},
+      {"id": "thesis_ch5", "label": "Quy trình thực nghiệm hiện tại", "path": "thesis/chapters/ch5_thucnghiem.tex"},
+      {"id": "thesis_ch6", "label": "Giới hạn và hướng phát triển", "path": "thesis/chapters/ch6_tongket.tex"},
+      {"id": "internship_metrics", "label": "Mã đánh giá trong Internship 2", "path": "core/trajectory_privacy.py"},
+      {"id": "current_metrics", "label": "Cài đặt chỉ số k-NN POI hiện tại", "path": "evaluation/metrics.py"}
+    ],
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# Hướng cải thiện và trọng tâm luận văn"
+      },
+      {
+        "id": "technical_summary",
+        "type": "markdown",
+        "body": "## Tóm tắt\n\nSau Internship 2, nghiên cứu được chỉnh theo bốn điểm: dùng **GeoLife** thay cho tuyến tổng hợp; đo độ hữu ích bằng **kết quả tìm địa điểm gần (POI)** thay cho chỉ một ngưỡng khoảng cách tự đặt; khảo sát kẻ tấn công theo dữ liệu và kiến thức họ thực sự có; và tập trung vào nguy cơ **nhiều báo cáo cùng làm lộ một điểm dừng**."
+      },
+      {
+        "id": "dataset",
+        "type": "markdown",
+        "body": "## 1. Bộ dữ liệu mới: GeoLife v1.3\n\nGeoLife gồm quỹ đạo GPS thật có mốc thời gian tại Bắc Kinh. Ta chọn bộ dữ liệu này vì nó đã trở thành một **mốc so sánh quen thuộc trong nghiên cứu bảo vệ vị trí và quỹ đạo**, được dùng trong [PIM (CCS 2015)](https://arxiv.org/abs/1410.5919), [PIVE (NDSS 2017)](https://www.ndss-symposium.org/ndss2017/ndss-2017-programme/dynamic-differential-location-privacy-personalized-error-bounds/) và [RAoPT (ACSAC 2022)](https://arxiv.org/abs/2210.09375).\n\nKhác với tuyến tổng hợp của Internship 2, GeoLife có nhịp di chuyển, mốc thời gian và các điểm dừng lặp thật. Nhờ đó ta có thể kiểm tra cả tính hợp lý của quỹ đạo lẫn việc kẻ tấn công kết hợp nhiều báo cáo. Các thí nghiệm hiện tại vẫn là bước kiểm tra quy trình; kết luận cuối cần mở rộng số người dùng và số lần chạy."
+      },
+      {
+        "id": "metrics",
+        "type": "markdown",
+        "body": "## 2. Đo độ hữu ích bằng kết quả tìm POI\n\n**Hạn chế của QoS cũ:** Internship 2 dùng một bán kính do ta tự đặt và chỉ hỏi vị trí đã bảo vệ có cách vị trí thật dưới ngưỡng đó hay không. Hai vị trí có sai số tương tự vẫn có thể trả về hai danh sách nhà hàng, hiệu thuốc hoặc trạm xe rất khác nhau, nên chỉ số này chưa phản ánh trực tiếp ứng dụng còn dùng tốt hay không.\n\n**Ý tưởng POI:** chạy cùng truy vấn “các địa điểm gần nhất” tại vị trí thật và vị trí đã bảo vệ, rồi xem có bao nhiêu địa điểm đúng được giữ lại. **Độ bao phủ** cao nghĩa là ít bỏ sót địa điểm hữu ích; **độ chính xác** cao nghĩa là danh sách ít bị pha thêm địa điểm không phù hợp. Đây là thước đo độ hữu ích, còn mức riêng tư vẫn phải đo bằng khả năng suy luận của kẻ tấn công.\n\nĐánh giá theo truy vấn lân cận là một tác vụ điển hình của ứng dụng dựa trên vị trí, không phải “chứng nhận bắt buộc” của ngành. [Xiao và Xiong (CCS 2015)](https://arxiv.org/abs/1410.5919) dùng trực tiếp độ chính xác và độ bao phủ của truy vấn k địa điểm gần nhất; bài toán truy vấn k điểm gần nhất cũng là nền tảng của [Hashem, Kulik và Zhang (2011)](https://arxiv.org/abs/1104.2756). Bản cuối của luận văn sẽ dùng POI thật và báo cáo rõ số lượng kết quả truy vấn."
+      },
+      {
+        "id": "attack_survey",
+        "type": "markdown",
+        "sourceId": "attack_catalog",
+        "body": "## 3. Khảo sát mô hình tấn công và trọng tâm luận văn\n\n- **Truy vấn lặp:** khai thác khoảng cách hoặc ngưỡng gần/xa của dịch vụ để khoanh vùng vị trí.\n- **Khớp bản đồ và tái dựng:** dùng mạng đường công khai để loại điểm ngoài đường và các bước di chuyển phi lý; RAoPT là ví dụ về tấn công tái dựng quỹ đạo.\n- **Theo dõi theo thời gian:** dùng mốc thời gian, vận tốc và thói quen di chuyển để suy luận cả chuỗi thay vì từng điểm.\n- **Quan sát lặp tại điểm dừng:** nối các báo cáo về cùng nhà, nơi làm việc hoặc địa điểm nhạy cảm; nếu mỗi lần có nhiễu mới và độc lập, kẻ tấn công có thể kết hợp chúng để tiến gần vị trí thật. **Đây là vấn đề luận văn tập trung giải quyết.**\n- **Tái định danh:** ghép mẫu nhà - nơi làm việc với dữ liệu phụ trợ để tìm danh tính; nguy cơ này rộng hơn phạm vi hiện tại.\n\n> **Câu hỏi trung tâm:** làm thế nào hạn chế việc khôi phục điểm dừng từ nhiều báo cáo liên kết được, nhưng vẫn giữ chất lượng tìm POI?"
+      },
+      {"id": "averaging_visual", "type": "chart", "chartId": "averaging_curve_chart"},
+      {
+        "id": "directions",
+        "type": "markdown",
+        "sourceId": "thesis_ch4",
+        "body": "## 4. Các hướng đang thử nghiệm\n\n- **Biết mạng đường:** vị trí công bố phải nằm trên đường và tạo thành chuyển động hợp lý.\n- **Có trạng thái theo thời gian:** dùng vị trí trước, vận tốc và vùng có thể tới để tránh một chuỗi rời rạc phi thực tế.\n- **Hạn chế mẫu độc lập tại điểm dừng:** tái sử dụng hoặc tạo tương quan giữa các vị trí giả trong một cửa sổ thời gian, để báo cáo lặp không liên tục cho kẻ tấn công thêm bằng chứng mới.\n- **Quản lý ngân sách và đánh giá theo tấn công:** bảo vệ cả quyết định tái sử dụng, theo dõi tổng ngân sách riêng tư, rồi so sánh các thiết kế tại cùng mức riêng tư và cùng chất lượng POI.\n\nCác biến thể REM hiện chỉ là nguyên mẫu để thử từng ý tưởng; mục tiêu cuối là một cơ chế có trạng thái, hợp lý trên mạng đường và chống được tấn công quan sát lặp."
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-08-27T07:03:34Z",
+    "status": "ready",
+    "datasets": {
+      "averaging_curve": [
+        {"mechanism": "Planar Laplace", "n_reports": 1, "median_attacker_error_m": 79.7, "ci_low_m": 73.9, "ci_high_m": 94.0, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "Planar Laplace", "n_reports": 2, "median_attacker_error_m": 70.3, "ci_low_m": 64.0, "ci_high_m": 80.4, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "Planar Laplace", "n_reports": 5, "median_attacker_error_m": 39.2, "ci_low_m": 34.4, "ci_high_m": 43.1, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "Planar Laplace", "n_reports": 10, "median_attacker_error_m": 34.4, "ci_low_m": 29.6, "ci_high_m": 37.0, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "Planar Laplace", "n_reports": 20, "median_attacker_error_m": 29.4, "ci_low_m": 23.4, "ci_high_m": 34.3, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "Planar Laplace", "n_reports": 50, "median_attacker_error_m": 24.1, "ci_low_m": 19.2, "ci_high_m": 30.3, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "Planar Laplace", "n_reports": 100, "median_attacker_error_m": 23.4, "ci_low_m": 18.5, "ci_high_m": 30.0, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "REM", "n_reports": 1, "median_attacker_error_m": 173.1, "ci_low_m": 157.8, "ci_high_m": 189.4, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "REM", "n_reports": 2, "median_attacker_error_m": 148.4, "ci_low_m": 128.5, "ci_high_m": 162.7, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "REM", "n_reports": 5, "median_attacker_error_m": 84.9, "ci_low_m": 76.8, "ci_high_m": 95.3, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "REM", "n_reports": 10, "median_attacker_error_m": 62.5, "ci_low_m": 53.3, "ci_high_m": 70.0, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "REM", "n_reports": 20, "median_attacker_error_m": 41.4, "ci_low_m": 37.4, "ci_high_m": 49.3, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "REM", "n_reports": 50, "median_attacker_error_m": 31.7, "ci_low_m": 28.0, "ci_high_m": 36.2, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "REM", "n_reports": 100, "median_attacker_error_m": 28.4, "ci_low_m": 23.6, "ci_high_m": 31.1, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "T-REM", "n_reports": 1, "median_attacker_error_m": 159.2, "ci_low_m": 140.5, "ci_high_m": 187.2, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "T-REM", "n_reports": 2, "median_attacker_error_m": 140.6, "ci_low_m": 125.9, "ci_high_m": 157.0, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "T-REM", "n_reports": 5, "median_attacker_error_m": 84.7, "ci_low_m": 74.5, "ci_high_m": 96.5, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "T-REM", "n_reports": 10, "median_attacker_error_m": 60.6, "ci_low_m": 49.9, "ci_high_m": 69.0, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "T-REM", "n_reports": 20, "median_attacker_error_m": 39.3, "ci_low_m": 35.4, "ci_high_m": 44.4, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "T-REM", "n_reports": 50, "median_attacker_error_m": 31.7, "ci_low_m": 25.2, "ci_high_m": 36.1, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "T-REM", "n_reports": 100, "median_attacker_error_m": 28.5, "ci_low_m": 23.6, "ci_high_m": 33.7, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "SM-REM", "n_reports": 1, "median_attacker_error_m": 151.8, "ci_low_m": 139.8, "ci_high_m": 179.6, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "SM-REM", "n_reports": 2, "median_attacker_error_m": 158.8, "ci_low_m": 140.6, "ci_high_m": 175.9, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "SM-REM", "n_reports": 5, "median_attacker_error_m": 148.8, "ci_low_m": 137.6, "ci_high_m": 182.6, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "SM-REM", "n_reports": 10, "median_attacker_error_m": 148.1, "ci_low_m": 138.1, "ci_high_m": 176.6, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "SM-REM", "n_reports": 20, "median_attacker_error_m": 148.5, "ci_low_m": 137.2, "ci_high_m": 177.4, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "SM-REM", "n_reports": 50, "median_attacker_error_m": 149.6, "ci_low_m": 138.6, "ci_high_m": 182.6, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "SM-REM", "n_reports": 100, "median_attacker_error_m": 148.9, "ci_low_m": 138.8, "ci_high_m": 171.8, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "PR-SM-REM", "n_reports": 1, "median_attacker_error_m": 355.5, "ci_low_m": 317.6, "ci_high_m": 387.2, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "PR-SM-REM", "n_reports": 2, "median_attacker_error_m": 283.9, "ci_low_m": 242.8, "ci_high_m": 317.3, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "PR-SM-REM", "n_reports": 5, "median_attacker_error_m": 170.9, "ci_low_m": 156.3, "ci_high_m": 184.6, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "PR-SM-REM", "n_reports": 10, "median_attacker_error_m": 119.1, "ci_low_m": 104.2, "ci_high_m": 134.6, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "PR-SM-REM", "n_reports": 20, "median_attacker_error_m": 87.5, "ci_low_m": 78.3, "ci_high_m": 102.0, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "PR-SM-REM", "n_reports": 50, "median_attacker_error_m": 63.7, "ci_low_m": 54.3, "ci_high_m": 71.6, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"},
+        {"mechanism": "PR-SM-REM", "n_reports": 100, "median_attacker_error_m": 47.4, "ci_low_m": 40.8, "ci_high_m": 50.0, "n_stay_points": 40, "n_users": 21, "n_seeds": 8, "epsilon": 0.02, "attacker": "REM-emission-form MLE proxy"}
+      ]
+    }
+  },
+  "sources": [
+    {"id": "report_data_sql", "label": "Dữ liệu đường cong lấy trung bình đã được kiểm tra (DuckDB SQL)", "path": "docs/supervisor_meeting/research_improvements/report_data.sql"},
+    {"id": "averaging_output", "label": "Thí nghiệm O5 với các báo cáo lặp", "path": "outputs/averaging_multi_results.json"},
+    {"id": "research_notes", "label": "Khảo sát tài liệu về dữ liệu và chỉ số đánh giá", "path": "docs/research_notes.md"},
+    {"id": "attack_catalog", "label": "Khảo sát các kiểu tấn công vị trí trong thực tế", "path": "docs/attack_scenarios.md"},
+    {"id": "problem_formulation", "label": "Cách đặt bài toán và phạm vi kết luận hiện tại", "path": "docs/problem_formulation.md"},
+    {"id": "thesis_ch3", "label": "Công trình liên quan, dữ liệu, chỉ số và kiểu tấn công", "path": "thesis/chapters/ch3_lienquan.tex"},
+    {"id": "thesis_ch4", "label": "Thiết kế cơ chế hiện tại", "path": "thesis/chapters/ch4_phuongphap.tex"},
+    {"id": "thesis_ch5", "label": "Quy trình thực nghiệm hiện tại", "path": "thesis/chapters/ch5_thucnghiem.tex"},
+    {"id": "thesis_ch6", "label": "Giới hạn và hướng phát triển", "path": "thesis/chapters/ch6_tongket.tex"},
+    {"id": "internship_metrics", "label": "Mã đánh giá trong Internship 2", "path": "core/trajectory_privacy.py"},
+    {"id": "current_metrics", "label": "Cài đặt chỉ số k-NN POI hiện tại", "path": "evaluation/metrics.py"}
+  ]
+}
