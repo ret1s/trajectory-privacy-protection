@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
-import os
+from experiments.artifact_paths import (
+    DUMMY_BENCHMARK_MAP_PATH,
+    DUMMY_BENCHMARK_PREVIEW_PATH,
+    DUMMY_BENCHMARK_RESULTS_PATH,
+)
 
 
-DEFAULT_OUTPUT = os.path.join("outputs", "dummy_benchmark_results.json")
-DEFAULT_MAP_OUTPUT = os.path.join("outputs", "dummy_benchmark_map.html")
-DEFAULT_PREVIEW_OUTPUT = os.path.join("outputs", "dummy_benchmark_preview.png")
+DEFAULT_OUTPUT = DUMMY_BENCHMARK_RESULTS_PATH.as_posix()
+DEFAULT_MAP_OUTPUT = DUMMY_BENCHMARK_MAP_PATH.as_posix()
+DEFAULT_PREVIEW_OUTPUT = DUMMY_BENCHMARK_PREVIEW_PATH.as_posix()
 
 BENCHMARK_SCHEMA = "msc-dummy-benchmark-v4"
 # Compatibility name retained for scripts/tests that imported the former

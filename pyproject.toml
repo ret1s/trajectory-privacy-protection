@@ -2,7 +2,7 @@
 # Canonical test scope: the thesis test suite only. `archive/` is historical
 # prototype code (needs Flask) and must NOT break collection (verifier R3-014).
 testpaths = ["tests"]
-norecursedirs = ["archive", "web", "cache", "road_network_cache", "data/raw", "outputs"]
+norecursedirs = ["archive", "web", "artifacts", "cache", "road_network_cache", "data/raw"]
 addopts = "-q"
 # The thesis tests print PASS lines and assert; they return None, so no
 # PytestReturnNotNoneWarning is expected.

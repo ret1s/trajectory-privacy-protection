@@ -1,4 +1,4 @@
-# Current experiment artifacts
+# Current benchmark artifacts
 
 This directory contains only the latest tracked machine-generated evidence:
 

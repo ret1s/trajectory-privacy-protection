@@ -19,7 +19,7 @@ Usage (from the repository root)::
 
 The default run executes a controlled Eclipse SUMO scenario over the local
 Beijing OpenStreetMap extract and writes JSON, interactive-map, and offline-PNG
-artifacts under ``outputs/``. GeoLife remains an explicit real-data validation
+artifacts under ``artifacts/benchmarks/``. GeoLife remains an explicit real-data validation
 option; neither source silently falls back to other mobility data.
 """
 

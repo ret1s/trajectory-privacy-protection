@@ -19,7 +19,8 @@ an executable integration test, and empirical evidence.
 - `experiments/`: reproducible CLI orchestration; do not trigger it from HTTP.
 - `web/`: active benchmark dashboard and thesis simulator.
 - `archive/`: historical material; never import it from active code.
-- `outputs/`: current generated experiments; `output/pdf/`: curated PDFs.
+- `artifacts/benchmarks/`: current generated evidence.
+- `artifacts/reports/`: reviewed PDF releases.
 
 The matching `benchmark/engines/*` and `benchmark/methods/*` names are
 intentional. Do not collapse them without preserving the algorithm/evidence
@@ -36,7 +37,8 @@ venv/bin/python -m pip check
 When changing the dummy benchmark, run a quick job with every output sent to
 `/private/tmp` so committed evidence is not overwritten. When changing the
 thesis, compile `thesis/main.tex` with XeLaTeX into a temporary build directory,
-then copy only the reviewed PDF to `output/pdf/graduation_thesis.pdf`.
+then copy only the reviewed PDF to
+`artifacts/reports/graduation_thesis.pdf`.
 
 ## Claim safety
 

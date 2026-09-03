@@ -11,10 +11,10 @@ from web.benchmark_app import create_app
 
 
 def _artifact(root: Path) -> Path:
-    outputs = root / "outputs"
-    outputs.mkdir()
-    map_path = outputs / "map.html"
-    preview_path = outputs / "preview.png"
+    benchmarks = root / "artifacts" / "benchmarks"
+    benchmarks.mkdir(parents=True)
+    map_path = benchmarks / "map.html"
+    preview_path = benchmarks / "preview.png"
     map_path.write_text("<html><body>map</body></html>", encoding="utf-8")
     preview_path.write_bytes(b"\x89PNG\r\n\x1a\n")
     payload = {
@@ -89,16 +89,16 @@ def _artifact(root: Path) -> Path:
             "evaluator_only": True,
             "contains_ground_truth": True,
             "interactive_map": {
-                "path": "outputs/map.html",
+                "path": "artifacts/benchmarks/map.html",
                 "sha256": hashlib.sha256(map_path.read_bytes()).hexdigest(),
             },
             "static_preview": {
-                "path": "outputs/preview.png",
+                "path": "artifacts/benchmarks/preview.png",
                 "sha256": hashlib.sha256(preview_path.read_bytes()).hexdigest(),
             },
         },
     }
-    result = outputs / "results.json"
+    result = benchmarks / "results.json"
     result.write_text(json.dumps(payload), encoding="utf-8")
     return result
 
@@ -261,7 +261,9 @@ def test_visual_artifact_fails_closed_on_sha256_mismatch():
     with tempfile.TemporaryDirectory() as directory:
         root = Path(directory)
         client = _client(root)
-        (root / "outputs" / "map.html").write_text("tampered", encoding="utf-8")
+        (root / "artifacts" / "benchmarks" / "map.html").write_text(
+            "tampered", encoding="utf-8"
+        )
         overview = client.get("/api/benchmark").get_json()
         assert overview["artifacts"]["map"]["available"] is False
         assert overview["artifacts"]["map"]["integrity_verified"] is False

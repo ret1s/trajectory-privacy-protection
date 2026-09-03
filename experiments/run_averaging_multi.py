@@ -25,6 +25,7 @@ import os
 
 import numpy as np
 
+from experiments.artifact_paths import AVERAGING_RESULTS_PATH
 from core.road_network import RoadNetwork
 from core.mechanisms import (
     PlanarLaplace,
@@ -185,9 +186,9 @@ def run(n_homes=40, seeds=8, eps=EPS, quick=False):
                               "not ground-truth homes (R2-008). Success probs pooled "
                               "without user-cluster CI (R3-010, future work).",
         })
-    os.makedirs("outputs", exist_ok=True)
-    out = os.path.join("outputs", "averaging_multi_results.json")
-    with open(out, "w") as f:
+    AVERAGING_RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    out = AVERAGING_RESULTS_PATH
+    with out.open("w", encoding="utf-8") as f:
         json.dump({"config": config, "results": results, "raw_rows": raw_rows},
                   f, indent=2)
     print(f"\nSaved {out} ({len(raw_rows)} raw rows)")

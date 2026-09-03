@@ -122,7 +122,11 @@ Cột attacker là REM-emission **proxy** — cận trên cho non-REM, xem cavea
 **Caveat trung thực (verifier R2-004/R2-006/R2-010):**
 - Cột **Bayes/HMM err** dùng attacker **REM-emission proxy** — đúng tối ưu cho REM, còn với PlanarLaplace/Baseline/SM-REM/PR-SM-REM là *xấp xỉ*, KHÔNG phải optimal attacker. Số attacker là **cận trên của sai số adversary** cho các cơ chế đó, không phải bound chặt.
 - Mọi claim ε-Geo-I là cho **ideal real-arithmetic kernel**; sampler float64 (Gumbel-max) có finite-precision zero-support (`tests/test_sampler_support.py`).
-- Bảng chuẩn (authoritative) là **Table 5.1** trong luận văn + `outputs/benchmark_results.json` (có provenance: git commit, graph SHA-256, seed order-independent theo R2-009). Bảng ở đây là bản rút gọn 4 cơ chế lõi để so REM vs T-REM; SM-REM/PR-SM-REM đo riêng ở S4 averaging study (`outputs/averaging_multi_results.json`).
+- Bảng chuẩn (authoritative) là **Table 5.1** trong luận văn +
+  `artifacts/benchmarks/benchmark_results.json` (có provenance: git commit,
+  graph SHA-256, seed order-independent theo R2-009). Bảng ở đây là bản rút gọn
+  4 cơ chế lõi để so REM vs T-REM; SM-REM/PR-SM-REM đo riêng ở S4 averaging
+  study (`artifacts/benchmarks/averaging_multi_results.json`).
 
 ---
 

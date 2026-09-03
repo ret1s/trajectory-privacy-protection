@@ -19,6 +19,8 @@ from core.demo_protocol import (
 )
 from core.road_network import RoadNetwork
 from experiments.run_dummy_benchmark import (
+    DEFAULT_MAP_OUTPUT,
+    DEFAULT_OUTPUT,
     DEFAULT_PREVIEW_OUTPUT,
     DEMO_SCHEMA,
     _display_bounds,
@@ -83,7 +85,11 @@ def test_runner_defaults_to_sumo_and_quick_does_not_change_source():
     assert args.transprotect_alpha == 10_000.0
     assert args.transprotect_probability_smoothing == 1e-6
     assert args.transprotect_probability_backoff_weight == 0.1
-    assert args.preview_output == "outputs/dummy_benchmark_preview.png"
+    assert args.output == "artifacts/benchmarks/dummy_benchmark_results.json"
+    assert args.map_output == "artifacts/benchmarks/dummy_benchmark_map.html"
+    assert args.preview_output == "artifacts/benchmarks/dummy_benchmark_preview.png"
+    assert args.output == DEFAULT_OUTPUT
+    assert args.map_output == DEFAULT_MAP_OUTPUT
     assert args.preview_output == DEFAULT_PREVIEW_OUTPUT
     assert DEMO_SCHEMA == "msc-dummy-benchmark-v4"
 

@@ -1,5 +1,7 @@
-"""Regression checks for the active/archive repository boundary."""
+"""Regression checks for repository ownership and artifact boundaries."""
 
+import hashlib
+import json
 from pathlib import Path
 import subprocess
 import sys
@@ -60,7 +62,9 @@ def test_active_python_does_not_import_archive():
 
 def test_thesis_has_canonical_source_and_release_paths():
     assert (PROJECT_ROOT / "thesis" / "main.tex").is_file()
-    assert (PROJECT_ROOT / "output" / "pdf" / "graduation_thesis.pdf").is_file()
+    assert (
+        PROJECT_ROOT / "artifacts" / "reports" / "graduation_thesis.pdf"
+    ).is_file()
     source = (PROJECT_ROOT / "thesis" / "main.tex").read_text(encoding="utf-8")
     assert "docs/supervisor_meeting" not in source
     gitignore = (PROJECT_ROOT / ".gitignore").read_text(encoding="utf-8")
@@ -69,13 +73,21 @@ def test_thesis_has_canonical_source_and_release_paths():
     assert "-outdir=../build/thesis" in build_help
 
 
-def test_outputs_has_current_artifacts_and_no_archived_patterns():
-    names = {
+def test_artifacts_has_one_canonical_hierarchy_and_valid_visual_manifest():
+    assert not (PROJECT_ROOT / "output").exists()
+    assert not (PROJECT_ROOT / "outputs").exists()
+
+    artifact_root = PROJECT_ROOT / "artifacts"
+    benchmark_dir = artifact_root / "benchmarks"
+    report_dir = artifact_root / "reports"
+    assert (artifact_root / "README.md").is_file()
+
+    benchmark_names = {
         path.name
-        for path in (PROJECT_ROOT / "outputs").iterdir()
+        for path in benchmark_dir.iterdir()
         if path.is_file()
     }
-    required = {
+    required_benchmarks = {
         "README.md",
         "averaging_multi_results.json",
         "benchmark_results.json",
@@ -83,10 +95,28 @@ def test_outputs_has_current_artifacts_and_no_archived_patterns():
         "dummy_benchmark_preview.png",
         "dummy_benchmark_results.json",
     }
-    assert required <= names
+    assert required_benchmarks <= benchmark_names
+
+    required_reports = {
+        "README.md",
+        "graduation_thesis.pdf",
+        "location_trajectory_privacy_foundations.pdf",
+        "research_improvements_report.pdf",
+    }
+    report_names = {path.name for path in report_dir.iterdir() if path.is_file()}
+    assert required_reports <= report_names
+
     retired = {
         name
-        for name in names
+        for name in benchmark_names
         if name.startswith("trajectory_privacy_map") or name.startswith("sota_demo_")
     }
     assert not retired, f"retired artifacts belong under archive/: {sorted(retired)}"
+
+    manifest_path = benchmark_dir / "dummy_benchmark_results.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    for key in ("interactive_map", "static_preview"):
+        entry = manifest["visual_artifacts"][key]
+        artifact = PROJECT_ROOT / entry["path"]
+        assert artifact.is_file()
+        assert hashlib.sha256(artifact.read_bytes()).hexdigest() == entry["sha256"]

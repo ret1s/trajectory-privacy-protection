@@ -10,5 +10,5 @@
 `run_averaging.py` and `run_sota_demo.py` are compatibility forwarding modules.
 Do not add new logic to them.
 
-Experiments write to `outputs/` by default. During verification, pass explicit
-paths under `/private/tmp` to avoid overwriting committed evidence.
+Experiments write to `artifacts/benchmarks/` by default. During verification,
+pass explicit paths under `/private/tmp` to avoid overwriting committed evidence.

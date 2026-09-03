@@ -19,7 +19,7 @@ Use this page instead of searching the repository by filename.
 - Canonical LaTeX source: [`../thesis/main.tex`](../thesis/main.tex)
 - Foundation guide source:
   [`study_guides/location_trajectory_privacy_foundations.tex`](study_guides/location_trajectory_privacy_foundations.tex)
-- Curated PDFs: [`../output/pdf/`](../output/pdf/)
+- Generated artifacts: [`../artifacts/`](../artifacts/)
 
 ## Evidence and history
 

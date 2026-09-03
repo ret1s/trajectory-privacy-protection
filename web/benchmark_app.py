@@ -2,7 +2,7 @@
 
 The application intentionally does not execute experiments.  Benchmark runs stay
 in the reproducible CLI pipeline; this process only presents artifacts that have
-already been generated under ``outputs/``.
+already been generated under ``artifacts/benchmarks/``.
 """
 
 from __future__ import annotations
@@ -15,11 +15,12 @@ from typing import Any
 from flask import Flask, abort, jsonify, render_template, send_file
 
 from benchmark.registry import METHOD_CARDS
+from experiments.artifact_paths import DUMMY_BENCHMARK_RESULTS_PATH
 from experiments.dummy_benchmark.constants import BENCHMARK_SCHEMA
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_RESULTS_PATH = PROJECT_ROOT / "outputs" / "dummy_benchmark_results.json"
+DEFAULT_RESULTS_PATH = PROJECT_ROOT / DUMMY_BENCHMARK_RESULTS_PATH
 EXPECTED_SCHEMA = BENCHMARK_SCHEMA
 CURRENT_METHOD_IDS = tuple(card.method_id for card in METHOD_CARDS)
 

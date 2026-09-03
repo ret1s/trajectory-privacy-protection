@@ -8,7 +8,7 @@
 \usepackage[margin=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
-\graphicspath{{../outputs/}}
+\graphicspath{{../artifacts/benchmarks/}}
 \usepackage{booktabs,longtable,tabularx,array}
 \usepackage{ragged2e}
 \usepackage{caption}
@@ -1103,8 +1103,10 @@ Bước quyết định tiếp theo không phải bổ sung thêm một heuristi
 venv/bin/python -m tests.run_all
 venv/bin/python -m experiments.run_dummy_benchmark --quick
 venv/bin/python -m web.benchmark_app
-cd thesis && latexmk -xelatex -interaction=nonstopmode \
-  -halt-on-error main.tex
+mkdir -p build/thesis
+cd thesis
+latexmk -xelatex -interaction=nonstopmode -halt-on-error \
+  -outdir=../build/thesis main.tex
 \end{verbatim}
 
 Canonical run được sinh từ source tree sạch ở commit:
@@ -1114,9 +1116,9 @@ Canonical run được sinh từ source tree sạch ở commit:
 \noindent Các file review chính:
 
 \begin{itemize}
-  \item \path{outputs/dummy_benchmark_results.json};
-  \item \path{outputs/dummy_benchmark_map.html};
-  \item \path{outputs/dummy_benchmark_preview.png};
+  \item \path{artifacts/benchmarks/dummy_benchmark_results.json};
+  \item \path{artifacts/benchmarks/dummy_benchmark_map.html};
+  \item \path{artifacts/benchmarks/dummy_benchmark_preview.png};
   \item \path{docs/reviews/verification_graduation_thesis_latest_v1.md};
   \item \path{docs/reproduction/transprotect.md},
         \path{docs/reproduction/anotherme.md},
@@ -1129,7 +1131,7 @@ SHA-256 của các artifact:
   \item semantic graph:\newline
         \small\path{41c40b6e2ad63b57ccecfa8ebb89b97475cd12df54e9a340a11dd8d94b21f960}\normalsize;
   \item JSON canonical:\newline
-        \small\path{18557e4a93982e676fb5edab7e7ba59efcf4bedb7a96cc4daa393c026cf646d9}\normalsize;
+        \small\path{c479be3cd84ec54e609fd6579d8e7ca096a5641eef1841b54c4dcfba3d25adad}\normalsize;
   \item map HTML:\newline
         \small\path{d076911d4d3b7e6f7845f30aa6bb0fa5de7a60db2d633bd86b3831aee24b07c9}\normalsize;
   \item preview PNG:\newline

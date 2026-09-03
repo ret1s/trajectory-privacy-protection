@@ -8,9 +8,9 @@ it against explicit attacker, utility, and output-contract assumptions.
 ## Start here
 
 - Final thesis source: [`thesis/main.tex`](thesis/main.tex)
-- Current thesis PDF: [`output/pdf/graduation_thesis.pdf`](output/pdf/graduation_thesis.pdf)
+- Current thesis PDF: [`artifacts/reports/graduation_thesis.pdf`](artifacts/reports/graduation_thesis.pdf)
 - Problem formulation: [`docs/research/problem_formulation.md`](docs/research/problem_formulation.md)
-- Foundations study guide: [`output/pdf/location_trajectory_privacy_foundations.pdf`](output/pdf/location_trajectory_privacy_foundations.pdf)
+- Foundations study guide: [`artifacts/reports/location_trajectory_privacy_foundations.pdf`](artifacts/reports/location_trajectory_privacy_foundations.pdf)
 - Comparator status and evidence: [`benchmark/README.md`](benchmark/README.md)
 - Documentation index: [`docs/README.md`](docs/README.md)
 
@@ -26,8 +26,7 @@ web/           Active read-only dashboard and thesis simulator
 tests/         Canonical regression suite
 thesis/        Canonical graduation-thesis LaTeX source
 docs/          Research notes, meeting records, reproductions, and reviews
-output/pdf/    Three curated PDF deliverables
-outputs/       Current machine-generated experiment artifacts only
+artifacts/     Current benchmark evidence and reviewed report releases
 archive/       Internship 2 code/documents and superseded prototypes
 ```
 
@@ -107,12 +106,12 @@ Raw mobility data and OSM/SUMO caches are intentionally not tracked. Follow
 The detailed claim registry, missing components, and source mapping live in
 [`benchmark/README.md`](benchmark/README.md) and [`docs/reviews/`](docs/reviews/).
 
-## Outputs and archive policy
+## Artifact and archive policy
 
-Only current reproducible results stay under `outputs/`. Curated human-facing
-PDFs stay under `output/pdf/`. Old timestamped maps, the Internship 2 pipeline,
-and superseded SOTA prototypes are retained under `archive/` for provenance and
-must not be imported by active code.
+Only current reproducible results stay under `artifacts/benchmarks/`. Curated
+human-facing PDFs stay under `artifacts/reports/`. Old timestamped maps, the
+Internship 2 pipeline, and superseded SOTA prototypes are retained under
+`archive/` for provenance and must not be imported by active code.
 
 Historical verification files preserve the paths and line numbers that were
 true at their source commits. Use [`docs/reviews/README.md`](docs/reviews/README.md)

@@ -19,6 +19,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+from experiments.artifact_paths import BENCHMARK_ARTIFACTS_DIR
 from experiments.rng_util import RNG_SCHEMA
 
 MANIFEST = os.path.join("data", "beijing_graph.manifest.json")
@@ -34,15 +35,24 @@ def sha256_file(path):
 
 
 def _git_state():
-    """Source commit + whether SOURCE (code/thesis/data) is dirty. The `outputs/`
-    directory is excluded from the dirty check: regenerating results is expected
-    and must not, by itself, mark the source state as dirty (so both experiments
-    in a run can each report a clean source commit)."""
+    """Return the source commit and whether code, thesis, or data is dirty.
+
+    Only ``artifacts/benchmarks/`` is excluded: regenerating machine evidence is
+    expected and must not mark the source dirty. Curated reports are deliberately
+    not excluded so an uncommitted report edit remains visible to provenance.
+    """
     try:
         commit = subprocess.check_output(
             ["git", "rev-parse", "HEAD"], text=True, stderr=subprocess.DEVNULL).strip()
         porcelain = subprocess.check_output(
-            ["git", "status", "--porcelain", "--", ".", ":(exclude)outputs"],
+            [
+                "git",
+                "status",
+                "--porcelain",
+                "--",
+                ".",
+                f":(exclude){BENCHMARK_ARTIFACTS_DIR.as_posix()}",
+            ],
             text=True, stderr=subprocess.DEVNULL).strip()
         return commit, bool(porcelain)
     except Exception:
