@@ -122,86 +122,66 @@ MRR & \term{Mean Reciprocal Rank} -- trung bình nghịch đảo thứ hạng đ
 \chapter*{Tóm tắt}
 \addcontentsline{toc}{chapter}{Tóm tắt}
 
-Luận văn nghiên cứu bài toán bảo vệ quỹ đạo của người dùng khi sử dụng LBS trong khu vực đô thị. Cơ chế được chọn thuộc lớp \textbf{sinh dữ liệu giả ở mức tác nghiệp}: trước khi yêu cầu rời thiết bị, hệ thống tạo $K$ quỹ đạo dummy và không chủ động chèn hay đánh dấu quỹ đạo thật như một thành viên của batch gửi tới LSP. Code không loại trừ trùng toạ độ ngẫu nhiên. Cách đặt bài toán này khác với việc sinh một cơ sở dữ liệu tổng hợp để công bố ngoại tuyến và cũng khác với giao diện ``thật+$K-1$ dummy''.
+Luận văn nghiên cứu bài toán bảo vệ quỹ đạo của người dùng dịch vụ dựa trên vị trí trong môi trường đô thị. Cơ chế bảo vệ được đặt trên thiết bị và tạo $K$ quỹ đạo giả có định danh ổn định trước khi yêu cầu được gửi tới nhà cung cấp dịch vụ. Quỹ đạo thật không được đánh dấu hoặc chủ động đưa vào tập đầu ra.
 
-\begin{center}
-\fcolorbox{reportblue}{reportlight}{%
-\begin{minipage}{0.90\textwidth}
-\textbf{Bài toán nghiên cứu.}
-Trong LBS đô thị liên tục, một LSP trung thực nhưng tò mò quan sát toàn bộ transcript được bảo vệ và biết mạng đường, POI, thời gian, mô hình di chuyển cộng đồng cùng thuật toán sinh dummy. Luận văn tập trung vào tấn công lọc/tái dựng quỹ đạo có xét ngữ cảnh: đối thủ dùng tính có thể đi tới, tương quan thời gian và ngữ nghĩa để loại dummy rồi suy ra vị trí hoặc đường đi thật. Mục tiêu phòng thủ là làm các quỹ đạo giả hợp lý trước kiến thức này mà vẫn giữ utility của ứng dụng.
-\end{minipage}}
-\end{center}
+Trong LBS đô thị liên tục, một LSP trung thực nhưng tò mò có thể quan sát toàn bộ transcript đã bảo vệ và biết mạng đường, POI, thời gian, mô hình di chuyển cộng đồng cùng thuật toán sinh dữ liệu giả. Luận văn tập trung bảo vệ vị trí và quỹ đạo đã quan sát trong hai tình huống: báo cáo lặp tại điểm dừng và lọc hoặc tái dựng chuỗi có xét ngữ cảnh. Các mục tiêu danh tính, tuyến tiếp theo và nội dung truy vấn được xử lý bằng những module riêng.
 
-Mô hình dùng hai tầng: REM lấy một neo trên toàn bộ đỉnh đường công khai với khoảng cách Euclid; hậu xử lý sinh $K$ stable dummy track chỉ từ neo, dữ liệu công khai và randomness giả định độc lập với secret lẫn coins lấy mẫu neo. Code tiếp tục cùng PRNG sau số lượt rút cố định, nên API test chỉ xác nhận không đọc lại truth, chưa chứng minh giả thiết độc lập. Geo-I vì thế chỉ được lập luận cho kernel số thực lý tưởng theo từng lần phát hành, không cho sampler float64 hay toàn bộ trajectory.
+Phương pháp đề xuất gồm hai tầng. Tầng thứ nhất sử dụng một cơ chế xác suất dựa trên Geo-I để tạo neo riêng tư trên mạng đường công khai. Tầng thứ hai hậu xử lý chuỗi neo nhằm sinh các quỹ đạo giả hợp lý theo không gian--thời gian. Bài toán trọng tâm là giảm khả năng suy luận vị trí và tái dựng quỹ đạo dưới báo cáo lặp và theo dõi liên tục; danh tính, tuyến tiếp theo và nội dung truy vấn được xử lý bởi các module mở rộng tương ứng.
 
-Để tạo quy trình so sánh có thể kiểm tra, luận văn đã hiện thực ba đối chứng cùng lớp sinh dữ liệu giả dưới dạng bản thích nghi clean-room có ánh xạ về nguồn: TransProtect, AnotherMe và cơ chế dummy có tương quan ngữ nghĩa năm 2026. Cả ba chạy end-to-end trên cùng đồ thị đường hành khách SUMO, nhưng vẫn mang trạng thái \texttt{paper\_adaptation}, không phải tái hiện tương đương paper. Một lần chạy canonical trên một xe giữ lại, tám sự kiện và một seed xác nhận pipeline, ranh giới ground truth, metric và giao diện web hoạt động; kết quả này chỉ là kiểm thử tích hợp, chưa phải bằng chứng xếp hạng privacy hoặc SOTA.
-
-Đóng góp hiện tại gồm phạm vi và bảy tình huống đe doạ, kiến trúc dummy-only, ba đối chứng bám nguồn, cùng benchmark SUMO có provenance và tách attacker/evaluator. Kết luận cuối còn thiếu POI/query thật, population prior, attacker đã hiệu chỉnh và đánh giá lặp có khoảng tin cậy.
+Đánh giá thực nghiệm sử dụng quỹ đạo được mô phỏng bằng SUMO trên mạng đường OpenStreetMap, kết hợp một lớp sinh kịch bản cho bảy tình huống đe doạ. Phương pháp được so sánh với TransProtect, AnotherMe và cơ chế dummy có tương quan ngữ nghĩa theo các nhóm chỉ số riêng tư, chất lượng dịch vụ, tính hợp lý của quỹ đạo và chi phí hệ thống.
 
 % ==================== Chương 1 ====================
 \chapter{Bài toán và kiến trúc hệ thống}
+\label{ch:architecture}
 
-\section{Câu hỏi nghiên cứu và đóng góp}
+\section{Kiến trúc khái niệm}
 
-Luận văn được tổ chức quanh bốn câu hỏi:
-
-\begin{enumerate}
-  \item \textbf{RQ1 -- Đối thủ khai thác gì?} Những tín hiệu nào từ mạng đường, thời gian, POI, truy vấn lặp và thống kê cộng đồng làm dummy bị lọc trong một phiên LBS liên tục?
-  \item \textbf{RQ2 -- Sinh dummy như thế nào?} Có thể tạo $K$ quỹ đạo chỉ chứa dummy, hợp lý theo không gian--thời gian, từ một neo riêng tư mà không đọc lại quỹ đạo thật hay không?
-  \item \textbf{RQ3 -- Đo hiệu quả bằng gì?} Cần kết hợp metric privacy dựa trên attacker, utility POI/định tuyến và overhead như thế nào mà không đánh đồng các output contract khác nhau?
-  \item \textbf{RQ4 -- So sánh có thể tái lập ra sao?} Làm thế nào để chạy các phương pháp gần đây trên cùng simulator/graph/split, đồng thời phân biệt rõ phần cài đúng nguồn, phần thích nghi và phần chưa có bằng chứng parity?
-\end{enumerate}
-
-Từ bốn câu hỏi này, đóng góp kỹ thuật hiện có là một giao thức benchmark tách bí mật khỏi transcript công khai, một kiến trúc mô hình luận văn chạy được và ba comparator chạy được end-to-end. Đóng góp khoa học về khả năng chống attack chỉ được xác lập sau khi hoàn tất ma trận thực nghiệm nêu ở Chương~\ref{ch:limitations}; bản chạy đơn hiện tại không được dùng để trả lời RQ3 theo nghĩa kết luận hiệu năng.
-
-\section{Các thực thể và ranh giới tin cậy}
-
-Hệ thống gồm bốn thực thể:
-
-\begin{enumerate}
-  \item \textbf{Thiết bị người dùng} giữ vị trí thật, lịch sử gần đây và truy vấn thật. Đây là vùng tin cậy.
-  \item \textbf{Bộ sinh dummy trên thiết bị} nhận quỹ đạo thật và ngữ cảnh công khai, sau đó tạo đầu ra bảo vệ trước khi dữ liệu rời thiết bị.
-  \item \textbf{LSP} thực hiện truy vấn POI, chỉ đường hoặc một dịch vụ không gian. LSP được giả định thực thi đúng giao thức nhưng có thể lưu và phân tích mọi yêu cầu nhận được.
-  \item \textbf{Kẻ tấn công} có thể chính là LSP, bên thứ ba nhận nhật ký từ LSP, hoặc bên xâm nhập được kho dữ liệu. Kẻ tấn công không cần thay đổi giao thức; mục tiêu là suy luận từ dữ liệu quan sát được.
-\end{enumerate}
+Trước khi chọn thuật toán, bài toán được mô tả bằng một luồng đơn giản: người dùng cần gửi yêu cầu vị trí tới một LSP nhưng không muốn quỹ đạo thật rời khỏi vùng tin cậy. Một cơ chế bảo vệ chạy trên thiết bị biến dữ liệu thật thành một transcript đã được bảo vệ. LSP xử lý transcript này và trả kết quả cho thiết bị; đồng thời một đối thủ có thể lưu toàn bộ transcript và kết hợp nó với bản đồ, thời gian, POI và thống kê di chuyển công khai để suy luận ngược.
 
 \begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[
   font=\small,
   node distance=9mm and 9mm,
-  box/.style={draw=reportblue, rounded corners, align=center, minimum height=12mm, text width=29mm, fill=reportlight},
-  server/.style={draw=reportred, rounded corners, align=center, minimum height=12mm, text width=29mm, fill=red!6},
-  info/.style={draw=reportgreen, rounded corners, align=center, minimum height=11mm, text width=43mm, fill=green!6},
-  arrow/.style={-{Latex[length=2.2mm]}, thick, draw=reportblue}
+  trusted/.style={draw=reportgreen, rounded corners, align=center, minimum height=13mm, text width=30mm, fill=green!6},
+  protect/.style={draw=reportblue, rounded corners, align=center, minimum height=13mm, text width=32mm, fill=reportlight},
+  untrusted/.style={draw=reportred, rounded corners, align=center, minimum height=13mm, text width=31mm, fill=red!6},
+  context/.style={draw=reportblue, dashed, rounded corners, align=center, minimum height=11mm, text width=43mm, fill=white},
+  arrow/.style={-{Latex[length=2.2mm]}, thick, draw=reportblue},
+  attack/.style={-{Latex[length=2.2mm]}, thick, dashed, draw=reportred}
 ]
-\node[box] (secret) {GPS/quỹ đạo thật\\$x_{1:t}$, truy vấn $q_t$};
-\node[box, right=of secret] (anchor) {Neo REM\\$a_t\sim K_{\varepsilon_t}(x_t)$};
-\node[box, right=of anchor] (gen) {Sinh $K$ dummy track\\$\mathcal S_t=G_K(a_{1:t})$};
-\node[server, right=of gen] (lsp) {LSP và nhật ký\\không tin cậy};
-\node[server, below=of lsp] (adv) {Kẻ tấn công\\lọc/xếp hạng dummy};
-\node[box, below=of gen] (client) {Lọc/gộp toàn bộ\\kết quả cục bộ};
-\node[box, below=of secret] (app) {Ứng dụng/\\người dùng};
-\node[info, above=13mm of gen] (side) {Ngữ cảnh công khai $C_{pub}$:\\OSM, POI, $\Pi_{pop}$, $\varepsilon$, $K$};
+\node[trusted] (user) {Người dùng\\vị trí, quỹ đạo, truy vấn thật};
+\node[protect, right=of user] (mechanism) {Cơ chế bảo vệ\\chạy trên thiết bị};
+\node[untrusted, right=of mechanism] (lsp) {LSP\\chỉ nhận dữ liệu đã bảo vệ};
+\node[trusted, below=of mechanism] (client) {Ứng dụng cục bộ\\gộp và chọn kết quả};
+\node[untrusted, below=of lsp] (attacker) {Đối thủ\\phân tích transcript};
+\node[context, above=of mechanism] (public) {Ngữ cảnh công khai:\\mạng đường, thời gian, POI, thống kê cộng đồng};
 
-\draw[arrow] (secret) -- (anchor);
-\draw[arrow] (anchor) -- (gen);
-\draw[arrow] (gen) -- (lsp);
-\draw[arrow] (lsp) -- node[right, font=\scriptsize]{mọi kết quả} (adv);
-\draw[arrow] (lsp.west) -| (client.east);
-\draw[arrow] (client.west) -| (app.east);
-\draw[-{Latex[length=2.2mm]}, thick, dashed, draw=reportgreen] (side) -- (anchor);
-\draw[-{Latex[length=2.2mm]}, thick, dashed, draw=reportgreen] (side) -- (gen);
-\draw[-{Latex[length=2.2mm]}, thick, dashed, draw=reportred] (side.east) -| (adv.north);
-
-\node[draw=reportgreen, dashed, rounded corners, fit=(secret)(anchor)(gen)(client)(app), inner sep=4mm,
-      label={[font=\scriptsize, text=reportgreen]above left:thiết bị tin cậy}] {};
+\draw[arrow] (user) -- node[above,font=\scriptsize]{dữ liệu thật} (mechanism);
+\draw[arrow] (mechanism) -- node[above,font=\scriptsize]{yêu cầu đã bảo vệ} (lsp);
+\draw[arrow] (lsp) -- node[right,font=\scriptsize]{mọi kết quả} (client);
+\draw[arrow] (client) -- (user);
+\draw[attack] (lsp) -- node[right,font=\scriptsize]{nhật ký} (attacker);
+\draw[attack] (public) -- (attacker);
 \end{tikzpicture}
-\caption{Kiến trúc dummy-only của luận văn: dữ liệu thật không rời thiết bị; LSP chỉ thấy batch quỹ đạo giả là hậu xử lý của neo REM. Lập luận Geo-I hiện thuộc kernel Euclid lý tưởng, chưa phải GG-I đường đi ngắn nhất.}
+\caption{Kiến trúc khái niệm của hệ thống bảo vệ quỹ đạo.}
 \label{fig:architecture}
 \end{figure}
 
-Kiến trúc trong Hình~\ref{fig:architecture} tuân theo nguyên tắc Kerckhoffs: không dựa vào việc giữ bí mật thuật toán. Đối thủ được phép biết cách sinh dummy và các tham số công khai; chỉ vị trí thật, ngẫu nhiên nội bộ và trạng thái riêng trên thiết bị là bí mật. LSP phải trả kết quả cho toàn bộ batch trong một vòng; nếu thiết bị gọi lại duy nhất candidate được chọn dưới cùng phiên, vòng thứ hai sẽ làm lộ candidate quan trọng. Vì vậy phạm vi chính của luận văn là các truy vấn POI/range chỉ đọc; booking, thanh toán và điều hướng tương tác cần một giao thức bổ sung và không thuộc phạm vi bảo đảm của luận văn.
+Trong Hình~\ref{fig:architecture}, dữ liệu thật được giữ trên thiết bị và chỉ đầu ra của cơ chế bảo vệ được gửi tới LSP. Đối thủ quan sát transcript phía LSP và kết hợp nó với mạng đường, thời gian, POI và thống kê di chuyển công khai để suy luận thông tin nhạy cảm.
+
+\section{Các thực thể, luồng dịch vụ và ranh giới tin cậy}
+
+Hệ thống gồm bốn thực thể:
+
+\begin{enumerate}
+  \item \textbf{Thiết bị người dùng} giữ vị trí thật, lịch sử gần đây và truy vấn thật. Đây là vùng tin cậy.
+  \item \textbf{Cơ chế bảo vệ trên thiết bị} nhận dữ liệu thật và ngữ cảnh được phép sử dụng, sau đó tạo đầu ra bảo vệ trước khi yêu cầu rời thiết bị.
+  \item \textbf{LSP} thực hiện truy vấn POI, chỉ đường hoặc một dịch vụ không gian. LSP được giả định thực thi đúng giao thức nhưng có thể lưu và phân tích mọi yêu cầu nhận được.
+  \item \textbf{Kẻ tấn công} có thể chính là LSP, bên thứ ba nhận nhật ký từ LSP, hoặc bên xâm nhập được kho dữ liệu. Kẻ tấn công không cần sửa giao thức; mục tiêu là suy luận từ transcript quan sát được.
+\end{enumerate}
+
+Kiến trúc tuân theo nguyên tắc Kerckhoffs: không dựa vào việc giữ bí mật thuật toán. Đối thủ được phép biết cơ chế, tham số công khai, mạng đường và POI; chỉ dữ liệu thật, randomness nội bộ và trạng thái riêng trên thiết bị là bí mật. LSP phải trả kết quả cho toàn bộ batch trong một vòng. Nếu thiết bị gọi lại duy nhất một candidate dưới cùng phiên, vòng thứ hai có thể làm lộ candidate quan trọng. Vì vậy phạm vi chính là truy vấn POI/range chỉ đọc; booking, thanh toán và điều hướng tương tác cần giao thức bổ sung.
 
 \section{Ba giao diện dummy generation cần phân biệt}
 
@@ -223,11 +203,13 @@ Quỹ đạo/truy vấn giả & Một hoặc nhiều chuỗi giả, hoặc xen k
 \end{tabularx}
 \end{table}
 
-REM thuộc nhánh \textbf{thay thế bằng một vị trí giả rời rạc}: cơ chế chọn một điểm trên miền đỉnh đường công khai và chỉ công bố điểm đã chọn. Luận văn chốt giao diện chính là \textbf{$K$ quỹ đạo dummy-only ổn định}: dùng output REM làm neo, rồi chỉ dùng neo, lịch sử output và ngữ cảnh công khai để sinh $K$ quỹ đạo giả. Trong implementation hiện tại, ngữ cảnh mới gồm mạng đường/timestamp; population prior và POI chưa được dùng. Nếu bộ sinh không đọc lại $x_t$, batch là hậu xử lý của neo. Điều này tạo cơ sở cho lập luận xác suất của kernel neo lý tưởng, nhưng không tự tạo bảo đảm trajectory-level hoặc kháng attack.
+Luận văn chốt giao diện chính là \textbf{$K$ quỹ đạo dummy-only ổn định}: LSP nhận nhiều chuỗi giả có định danh nhất quán theo thời gian; quỹ đạo thật không được chủ động chèn hoặc đánh dấu như một thành viên của batch. Chương này chỉ xác lập hợp đồng đầu ra. Cách sinh các chuỗi, tên thuật toán và điều kiện để kế thừa một bảo đảm xác suất được trình bày ở Chương~\ref{ch:method}.
 
-Giao diện ``thật + $k-1$ dummy'' vẫn cần làm đối chứng vì phổ biến trong literature, nhưng không được gọi mặc định là Geo-I. Nếu một tập cụ thể $C$ luôn chứa bí mật $x$ nhưng không chứa $x'$, thì $\Pr[C\mid x]>0$ trong khi $\Pr[C\mid x']=0$; tỷ số likelihood là vô hạn. Nói cách khác, deterministic inclusion của vị trí thật thường làm support phụ thuộc bí mật, trong khi metric DP hữu hạn đòi các input có support tương thích. $k$-anonymity/posterior uncertainty và Geo-I là hai loại claim khác nhau.
+Giao diện ``thật + $k-1$ dummy'' được sử dụng làm đối chứng vì phổ biến trong các nghiên cứu trước, nhưng không mặc nhiên thoả Geo-I. Nếu một tập cụ thể $C$ luôn chứa bí mật $x$ nhưng không chứa $x'$, thì $\Pr[C\mid x]>0$ trong khi $\Pr[C\mid x']=0$; tỷ số hợp lý là vô hạn. Việc bắt buộc chứa vị trí thật làm miền đầu ra phụ thuộc vào bí mật, trong khi riêng tư vi phân theo metric hữu hạn đòi hỏi các đầu vào có miền đầu ra tương thích. $k$-ẩn danh, độ bất định hậu nghiệm và Geo-I vì vậy là các loại bảo đảm khác nhau.
 
-\section{Mô hình hình thức tối thiểu}
+\section{Biểu diễn toán học của kiến trúc}
+
+Phần này biểu diễn chính xác dữ liệu, đầu ra và nhiệm vụ của đối thủ trong kiến trúc trên.
 
 Gọi ngữ cảnh đô thị công khai là
 \[
@@ -239,67 +221,58 @@ G=(V,E,w),
 \]
 trong đó $V$ là các vị trí hợp lệ, $E$ là các đoạn đường và $w$ biểu diễn độ dài hoặc thời gian đi. Tại thời điểm $t$, người dùng có vị trí thật $x_t\in V$, lịch sử $H_t=(x_{1:t-1},q_{1:t-1})$ và nội dung truy vấn $q_t$.
 
+Gọi toàn bộ quỹ đạo thật là $X_{1:T}=(x_1,\ldots,x_T)$ và chuỗi truy vấn là $Q_{1:T}=(q_1,\ldots,q_T)$. Một cơ chế bảo vệ tổng quát $M$ tạo output tại thời điểm $t$ theo
+\[
+o_t\sim M(\cdot\mid x_{1:t},q_{1:t},C_{pub};r_t),
+\]
+trong đó $r_t$ là randomness nội bộ. LSP xử lý $o_t$ để trả kết quả; thiết bị gộp các kết quả cục bộ nhằm hoàn thành tác vụ POI hoặc định tuyến. Chất lượng của bước này về sau được đo bằng utility ứng dụng, không chỉ bằng khoảng cách tọa độ.
+
 Ở giao diện real-in-set, bộ sinh dummy tạo
 \[
 D_t=\{d_t^{(1)},\ldots,d_t^{(k-1)}\},\qquad
 C_t=\{x_t\}\cup D_t.
 \]
-Ở giao diện thay thế, cơ chế lấy mẫu một vị trí giả
+Ở giao diện thay thế, output có thể là một vị trí giả
 \[
 z_t\sim M(\cdot\mid x_t,H_t,G,\mathcal{P}),
 \]
-với $\mathcal{P}$ là POI và ngữ cảnh đô thị công khai. Đối thủ quan sát transcript
+Đối thủ quan sát transcript
 \[
 O_{1:T}=\bigl\{u,t,o_t,q_t\bigr\}_{t=1}^{T},
 \]
-trong đó $o_t=z_t$ hoặc $o_t=C_t$, và $u$ là định danh phiên có thể liên kết. Nhiệm vụ tấn công cốt lõi là ước lượng
+trong đó $o_t$ có thể là một vị trí thay thế, một candidate set hoặc một batch quỹ đạo giả; $u$ là định danh phiên có thể liên kết. Nhiệm vụ location/trajectory attack là ước lượng
 \[
 \widehat{x}_{1:T}
 =\arg\max_{x_{1:T}}
-\Pr\!\left(x_{1:T}\mid O_{1:T},G,\mathcal{P},A\right),
+\Pr\!\left(x_{1:T}\mid O_{1:T},G,\mathcal{P},A_{aux}\right),
 \]
-với $A$ là mọi kiến thức phụ trợ. Với giao diện real-in-set, bài toán tương đương chọn chuỗi thành viên thật xuyên qua các tập $C_1,\ldots,C_T$. Với replacement hoặc dummy-only, không có nhãn thành viên thật để chọn; đối thủ phải tái dựng truth từ transcript.
+với $A_{aux}$ là kiến thức phụ trợ. Với giao diện real-in-set, bài toán tương đương chọn chuỗi thành viên thật xuyên qua các tập $C_1,\ldots,C_T$. Với replacement hoặc dummy-only, không có nhãn thành viên thật để chọn; đối thủ phải tái dựng truth từ transcript.
 
-Trong chế độ dummy-only của kiến trúc nghiên cứu, trước hết lấy mẫu neo
+Trong giao diện dummy-only đã chọn, output có dạng
 \[
-a_t\sim K_{\varepsilon_t}(\cdot\mid x_t),
-\]
-rồi sinh batch không chủ động chèn truth
-\[
-\mathcal S_t=G_K(a_{1:t},C_{pub};r_t)
+\mathcal S_t=M_K(x_{1:t},q_{1:t},C_{pub};r_{1:t})
 =\{Y_{1:t}^{(1)},\ldots,Y_{1:t}^{(K)}\}.
 \]
-Biến ngẫu nhiên $r_t$ biểu diễn randomness riêng cho tầng hậu xử lý. Trong mô hình xác suất lý tưởng, $r_t$ phải độc lập với $x_{1:t}$ và với các random coins đã tạo $a_{1:t}$; đồng thời $G_K$ không được đọc lại vị trí thật hay dùng secret-dependent clipping. Khi các điều kiện này giữ, $\mathcal S_t$ là hậu xử lý của $a_{1:t}$. Không áp một bước loại dummy trùng truth, vì phép kiểm tra phụ thuộc secret như vậy sẽ phá ranh giới hậu xử lý.
+Mỗi $Y^{(i)}$ là một quỹ đạo giả có định danh ổn định. Cơ chế $M_K$ được xây dựng trong Chương~\ref{ch:method}; cách biểu diễn này cho phép xác định threat model và metric trực tiếp từ dữ liệu mà LSP quan sát.
 
-\section{Giới hạn của Geo-I trong kiến trúc dummy}
+Ngoài $\widehat X_{1:T}$, các target khác tương ứng với những bài toán quyết định riêng: suy ra danh tính $\widehat I$, dự đoán tuyến tương lai $\widehat R_{t+1:T}$ và suy ra nội dung truy vấn $\widehat Q_{1:T}$. Chúng không thể được thay thế bằng cùng một metric khoảng cách. Chương~3 xác định vai trò của từng target; Chương~4--5 ánh xạ chúng sang scenario và attacker.
 
-Geo-I giới hạn tỷ số xác suất đầu ra của hai vị trí gần nhau \citep{andres2013geo}:
-\[
-\Pr[M(x)\in S]
-\leq e^{\varepsilon d(x,x')}
-\Pr[M(x')\in S].
-\]
-Neo đang dùng trong code là cơ chế lũy thừa trên \emph{toàn bộ} tập đỉnh công khai cố định $V$:
-\[
-K_{\varepsilon}(v\mid x)
-=\frac{\exp[-(\varepsilon/2)d_E(x,v)]}
-{\sum_{u\in V}\exp[-(\varepsilon/2)d_E(x,u)]},\qquad v\in V,
-\]
-trong đó $d_E$ là khoảng cách Euclid sau khi chiếu cục bộ. Miền support không bị cắt theo $x$; hệ số $1/2$ hấp thụ thay đổi của normalizer qua bất đẳng thức tam giác. Do đó phát biểu hiện tại là Geo-I theo Euclid cho \textbf{kernel số thực lý tưởng}. Nếu sau này thay $d_E$ bằng khoảng cách đường đi ngắn nhất $d_G$, guarantee phải được gọi là metric Geo-I/GG-I và không tự động cho cùng bound Euclid \citep{takagi2019ggi}.
+\section{Câu hỏi nghiên cứu và ranh giới đóng góp}
 
-Với một event và trạng thái lịch sử trước đó được cố định, tính chất hậu xử lý cho phép chuyển bound của neo lý tưởng tại event đó sang toàn bộ batch nhìn thấy:
-\[
-\Pr[G_K(K_{\varepsilon}(x),C_{pub})\in B]
-\le e^{\varepsilon d(x,x')}
-\Pr[G_K(K_{\varepsilon}(x'),C_{pub})\in B].
-\]
+Luận văn được tổ chức quanh bốn câu hỏi:
 
-Có hai giới hạn phải tách riêng. Thứ nhất, implementation lấy mẫu bằng Gumbel-max float64. Biến ngẫu nhiên máy có miền hữu hạn nên một số ứng viên xác suất dương trong kernel lý tưởng có thể trở thành xác suất đúng bằng 0; support số có thể phụ thuộc input. Vì vậy bản thực thi hiện là \textbf{xấp xỉ số}, chưa đủ để tuyên bố pure Geo-I nếu chưa có sampler rời rạc/exact được kiểm chứng. Thứ hai, mỗi lần phát hành dùng một budget; transcript nhiều bước thường tích luỹ theo $\sum_t\varepsilon_t d(x_t,x'_t)$. Chưa có adjacency theo cửa sổ và budget manager nên chưa có một trajectory-level $\varepsilon$ cố định.
+\begin{enumerate}
+  \item \textbf{RQ1 -- Bảo vệ gì và trước mối đe doạ nào?} Location, identity, next route và query content bị khai thác trong những scenario nào, với side information nào?
+  \item \textbf{RQ2 -- Sinh dummy như thế nào?} Có thể tạo $K$ quỹ đạo dummy-only hợp lý theo không gian--thời gian, giảm suy luận do báo cáo lặp và theo dõi liên tục mà vẫn giữ utility hay không?
+  \item \textbf{RQ3 -- Đo hiệu quả bằng gì?} Cần kết hợp metric privacy dựa trên attacker, utility POI/định tuyến và overhead như thế nào mà không đánh đồng các output contract?
+  \item \textbf{RQ4 -- So sánh có thể tái lập ra sao?} Làm thế nào để chạy các phương pháp gần đây trên cùng simulator, graph và split, đồng thời phân biệt rõ bản thích nghi với faithful reproduction?
+\end{enumerate}
 
-Ngay cả với kernel lý tưởng, bất đẳng thức trên cũng không tự động chứng minh rằng: (i) mỗi phần tử của tập $k$ có xác suất là thật bằng $1/k$; (ii) chuỗi dummy không bị lọc bởi reachability; (iii) danh tính/nội dung truy vấn được bảo vệ; hoặc (iv) một attacker có ngữ cảnh không thể tái dựng quỹ đạo. Tương quan thời gian là một bề mặt tấn công đã được chỉ ra từ sớm trong bảo vệ vị trí liên tục \citep{xiao2015temporal}.
+Trọng tâm của luận văn là bảo vệ vị trí và quỹ đạo đã quan sát dưới báo cáo lặp và theo dõi liên tục. Danh tính, tuyến tiếp theo, nội dung truy vấn và tương quan nhóm được mô hình hoá thành các hướng mở rộng có module và tiêu chí đánh giá riêng.
 
 % ==================== Chương 2 ====================
 \chapter{Phạm vi đô thị}
+\label{ch:urban}
 
 \section{Những gì nằm trong phạm vi}
 
@@ -333,24 +306,78 @@ Luận văn không tuyên bố giải quyết:
   \item lỗi truy cập API, chính sách lưu trữ hoặc rò rỉ dữ liệu thô ngoài cơ chế LPPM.
 \end{itemize}
 
-Việc loại các mục trên giúp đơn vị bảo vệ rõ ràng: \textbf{một người dùng, một phiên LBS liên tục, trong một mạng đường đô thị đã biết}.
+Đơn vị phân tích trọng tâm là \textbf{một người dùng, một phiên LBS liên tục, trong một mạng đường đô thị đã biết}. Các mở rộng S4 và S7 sử dụng nhiều phiên hoặc nhiều người dùng, nhưng không đặt ra bảo đảm riêng tư vi phân cấp nhóm.
+
+Phạm vi dữ liệu cuối được xây từ mobility ground truth do SUMO sinh trên OSM và một lớp scenario generator riêng. SUMO cung cấp chuyển động vật lý; lớp scenario bổ sung điểm dừng, báo cáo lặp, revisit, destination, query và quan hệ nhóm cần cho S1--S7. Dataset thực không tham gia vào pipeline benchmark chính này.
 
 % ==================== Chương 3 ====================
-\chapter{Các trường hợp quỹ đạo bị đe doạ}
+\chapter{Các mục tiêu cần bảo vệ}
+\label{ch:targets}
 
-Các mục dưới đây là \textbf{tình huống cùng một quỹ đạo bị khai thác}, không phải phân loại kiểu quỹ đạo.
+Việc chọn thuật toán chỉ có ý nghĩa sau khi xác định rõ đối thủ muốn suy ra thông tin nào. Luận văn phân biệt bốn target; mỗi target có biến bí mật, tiêu chí thành công và module phòng thủ khác nhau.
+
+\section{Vị trí và quỹ đạo đã quan sát}
+
+Location privacy yêu cầu đối thủ khó xác định vị trí hiện tại, điểm dừng, POI nhạy cảm hoặc tái dựng đoạn quỹ đạo đã đi. Đây là target gần nhất với Geo-I và trực tiếp nhất với dummy filtering. Các chỉ số phù hợp gồm EIE, xác suất suy luận nằm trong bán kính $r$, reconstruction DTW và attacker advantage so với prior.
+
+Đây là mục tiêu \core{} của luận văn. Vị trí tại một thời điểm là trường hợp nền; thách thức chính nằm ở quan sát lặp và liên tục, nơi bảo đảm theo từng sự kiện có thể chưa đủ.
+
+\section{Danh tính}
+
+Identity privacy yêu cầu đối thủ không gắn quỹ đạo hoặc mẫu di chuyển với một người cụ thể. Dấu hiệu nhà--nơi làm việc, POI thường ghé và lịch sinh hoạt là quasi-identifier mạnh \citep{demontjoye2013unique}. Dummy generation chỉ hỗ trợ identity nếu thực sự làm giảm khả năng linkage; bỏ tên hoặc đổi pseudonym không đủ.
+
+Tiêu chí đo gồm top-1 re-identification accuracy, top-$k$ hit rate và MRR của danh tính thật. Đây là target extension: cần ground truth nhiều phiên, significant locations và dữ liệu phụ trợ; nó không được suy ra tự động từ location error.
+
+\section{Tuyến tiếp theo}
+
+Next-route privacy yêu cầu phần quỹ đạo đã quan sát không giúp dự đoán quá chính xác vị trí tiếp theo, đích đến hoặc tuyến sắp đi. Ba bài toán next location, destination và full route cần metric riêng: top-$k$/MRR, destination accuracy và độ tương đồng tuyến dự đoán--thật.
+
+Đây là target extension gần với core. Stable dummy tracks tạo điều kiện để sinh nhiều tương lai hợp lý, nhưng bảo vệ chỉ được xác nhận khi attacker dự đoán trực tiếp trên cùng prefix.
+
+\section{Nội dung truy vấn}
+
+Query-content privacy yêu cầu đối thủ không suy ra ý định nhạy cảm từ dịch vụ hoặc loại POI được tìm. Nếu $q_t$ được gửi nguyên văn, làm giả tọa độ không che được $q_t$. Cần sinh nội dung giả phù hợp với dummy, tách định danh khỏi truy vấn hoặc dùng giao thức truy vấn riêng tư \citep{wu2021fakequery,liu2026fakequeries}.
+
+Đây là mục tiêu mở rộng ở tầng truy vấn. Khả năng bảo vệ được đánh giá trực tiếp trên module sinh truy vấn giả; Geo-I trên tọa độ không đủ để bảo vệ nội dung truy vấn.
+
+\section{Vai trò trong luận văn}
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Mục tiêu bảo vệ, vai trò và tiêu chí đánh giá.}
+\label{tab:targets}
+\begin{tabularx}{\textwidth}{P{2.7cm}P{3.0cm}Y Y}
+\toprule
+\textbf{Target} & \textbf{Vai trò} & \textbf{Attacker output} & \textbf{Bằng chứng cần có} \\
+\midrule
+Vị trí/quỹ đạo đã đi & Core & Vị trí hoặc quỹ đạo tái dựng & EIE, xác suất trong bán kính, reconstruction DTW và advantage \\
+Danh tính & Extension & Danh tính/hồ sơ được liên kết & Top-1, top-$k$, MRR dưới auxiliary records \\
+Tuyến tiếp theo & Extension & Next location, destination hoặc route & Prediction accuracy/MRR và route similarity \\
+Nội dung truy vấn & Extension riêng & Loại POI hoặc intent & Query-class inference và utility của kết quả \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Chương tiếp theo không tạo bốn ``loại quỹ đạo''. Thay vào đó, nó xây các tình huống quan sát làm từng target bị lộ. Một scenario có thể đe doạ nhiều target và một target có thể xuất hiện trong nhiều scenario.
+
+% ==================== Chương 4 ====================
+\chapter{Các trường hợp quỹ đạo bị đe doạ}
+\label{ch:scenarios}
+
+S1--S7 là các \textbf{tình huống cùng một quỹ đạo bị khai thác}, không phải phân loại kiểu quỹ đạo. Chúng khác nhau ở độ dài quan sát, cách báo cáo và side information mà đối thủ có.
 
 \section{S1 -- Một truy vấn đơn lẻ}
 
-Người dùng gửi một vị trí giả hoặc một tập vị trí. LSP dùng tần suất truy vấn lịch sử, mật độ đường, POI và phân bố dân cư để xếp hạng các ứng viên. Dummy nằm trên hồ, trong vùng không có đường hoặc có tần suất ghé thăm bất thường sẽ bị loại. Nguy cơ chính là lộ vị trí hiện tại; đây cũng là lý do các cơ chế DLS phải xét query probability và độ phân tán thay vì chọn ngẫu nhiên thuần tuý \citep{niu2014dls}.
+Người dùng gửi một vị trí giả hoặc một tập vị trí. LSP dùng mật độ đường, POI, tần suất vùng và population prior để xếp hạng ứng viên. Dummy ngoài đường hoặc có ngữ cảnh bất thường bị loại; target chính là vị trí hiện tại \citep{niu2014dls}.
 
 \section{S2 -- Báo cáo lặp tại một điểm dừng}
 
-Khi người dùng ở nhà, nơi làm việc hoặc bệnh viện và gửi nhiều truy vấn, các quan sát độc lập tạo thêm bằng chứng. Với một vị trí giả mỗi lần, đối thủ có thể kết hợp các mẫu để ước lượng trung tâm. Với tập $k$ vị trí, đối thủ có thể tìm phần tử/vùng xuất hiện nhất quán, giao nhau giữa các tập hoặc phù hợp với nội dung truy vấn. Đây là trường hợp quan trọng cho nhà và các POI nhạy cảm; long-term và regional statistical attacks đã cho thấy một cơ chế tốt ở snapshot vẫn có thể hỏng dưới lịch sử dài \citep{sun2017asa}.
+Khi người dùng ở nhà, nơi làm việc hoặc bệnh viện và gửi nhiều truy vấn, các release độc lập tạo thêm bằng chứng. Đối thủ dùng averaging, MLE, giao/intersection hoặc pattern tái sử dụng để ước lượng tâm điểm dừng. Một cơ chế tốt ở snapshot vẫn có thể hỏng dưới lịch sử dài \citep{sun2017asa}.
 
 \section{S3 -- Chuỗi di chuyển liên tục}
 
-Đối thủ không xét từng thời điểm độc lập mà nối ứng viên qua thời gian. Vận tốc tối đa, hướng đi, cạnh đường, đèn giao thông và lịch sử di chuyển loại các chuyển tiếp không thể xảy ra. Mô hình HMM, Viterbi, map matching, mạng hồi tiếp hoặc transformer có thể tìm đường đi có xác suất cao nhất; Viterbi attack cho thấy snapshot entropy cao chưa đủ nếu transition entropy thấp \citep{shaham2021viterbi,xiao2015temporal,yadav2024transprotect}.
+Đối thủ nối các quan sát qua thời gian. Vận tốc, hướng đi, cạnh đường và khả năng đi tới loại các chuyển tiếp phi lý. HMM, Viterbi, map matching hoặc mô hình học có thể tìm đường đi xác suất cao nhất; snapshot entropy cao chưa đủ nếu transition entropy thấp \citep{shaham2021viterbi,xiao2015temporal,yadav2024transprotect}.
 
 \begin{figure}[htbp]
 \centering
@@ -364,7 +391,6 @@ Khi người dùng ở nhà, nơi làm việc hoặc bệnh viện và gửi nhi
 \node[font=\small] at (0,3.8) {$t_1$};
 \node[font=\small] at (4,3.8) {$t_2$};
 \node[font=\small] at (8,3.8) {$t_3$};
-
 \node[dummy] (a1) at (0,3) {};
 \node[real]  (a2) at (0,2) {};
 \node[dummy] (a3) at (0,1) {};
@@ -374,65 +400,71 @@ Khi người dùng ở nhà, nơi làm việc hoặc bệnh viện và gửi nhi
 \node[dummy] (c1) at (8,3.1) {};
 \node[real]  (c2) at (8,2.3) {};
 \node[dummy] (c3) at (8,0.9) {};
-
 \draw[feasible] (a2) -- (b2);
 \draw[feasible] (b2) -- (c2);
 \draw[impossible] (a1) -- node[above,sloped,font=\scriptsize]{quá xa} (b3);
 \draw[impossible] (a3) -- node[below,sloped,font=\scriptsize]{ngược đường} (b1);
 \draw[impossible] (b1) -- (c3);
 \draw[impossible] (b3) -- (c1);
-
 \node[align=left,font=\small] at (11.1,2.3) {Đường đỏ: chuỗi thật\\còn hợp lý sau khi lọc.\\Đường đứt: dummy bị loại\\bởi thời gian/mạng đường.};
 \end{tikzpicture}
-\caption{Dummy hợp lý tại từng thời điểm vẫn có thể bị loại khi nối thành chuỗi.}
+\caption{Các vị trí giả hợp lý riêng lẻ có thể bị loại khi được nối thành chuỗi.}
 \label{fig:pathfilter}
 \end{figure}
 
 \section{S4 -- Quay lại địa điểm quen thuộc}
 
-Nhà, nơi làm việc và các POI nhạy cảm tạo cụm lặp. Đối thủ liên kết các lần ghé thăm để tìm significant locations, sau đó kết hợp dữ liệu phụ trợ để tái định danh. Tính duy nhất của dấu vết di chuyển là rủi ro nền tảng: trong một tập dữ liệu di động quy mô lớn, bốn điểm không--thời gian đã đủ để phân biệt phần lớn cá nhân \citep{demontjoye2013unique}. Dummy phải che được pattern dài hạn chứ không chỉ từng điểm.
+Nhà, nơi làm việc và POI nhạy cảm tạo cụm lặp qua nhiều phiên. Đối thủ liên kết các lần ghé để tìm significant locations rồi dùng dữ liệu phụ trợ tái định danh. Bốn điểm không--thời gian đã đủ để phân biệt phần lớn cá nhân trong một tập dữ liệu di động quy mô lớn \citep{demontjoye2013unique}.
 
 \section{S5 -- Dự đoán điểm đến hoặc tuyến tiếp theo}
 
-Từ prefix của quỹ đạo và thói quen cộng đồng, đối thủ xếp hạng vị trí tiếp theo, đích đến hoặc tuyến có khả năng nhất. Nếu dummy có chuyển tiếp bất thường, việc lọc chúng vừa khôi phục phần quá khứ vừa làm tăng độ chính xác dự đoán tương lai. Đây là target cần đo sau khi đã giải quyết location filtering, nhưng không nên tuyên bố tự động được bảo vệ chỉ vì sai số vị trí tăng.
+Từ prefix của quỹ đạo, thời gian và mobility prior, đối thủ xếp hạng next location, destination hoặc full route. Nếu dummy có tương lai phi lý hoặc cùng hội tụ về một đích, chúng không che được target này.
 
 \section{S6 -- Suy luận từ nội dung truy vấn}
 
-Nếu cùng một nội dung ``bệnh viện gần nhất'' được gửi cho mọi vị trí trong $C_t$, bản thân nội dung vẫn tiết lộ ý định. Nếu mỗi dummy đi kèm nội dung không phù hợp với POI hoặc lịch sử, LSP có thể dùng sự không nhất quán để tìm truy vấn thật. Vì vậy bảo vệ query content cần sinh truy vấn giả có ngữ nghĩa hợp lý, hoặc dùng giao thức mật mã/PIR; chỉ sinh toạ độ giả là chưa đủ \citep{wu2021fakequery}.
+Nội dung như ``bệnh viện gần nhất'' tự tiết lộ ý định. Nếu nội dung đi kèm dummy không phù hợp với POI hoặc lịch sử, LSP còn dùng sự không nhất quán đó để tìm vị trí quan trọng. Chỉ sinh tọa độ giả chưa giải quyết S6 \citep{wu2021fakequery}.
 
 \section{S7 -- Tương quan với nhóm người dùng}
 
-Nhóm người dùng cung cấp phân bố di chuyển theo giờ, loại người dùng, vùng đô thị và bằng chứng đồng vị trí; đây là prior mạnh để xếp hạng dummy. Trong luận văn, ``kết hợp nhóm người dùng'' nghĩa là \textbf{học population prior trên tập huấn luyện tách biệt} rồi cấp cùng prior cho generator và attacker. Khái niệm này không phải $k$-anonymity hay group differential privacy.
+Dữ liệu nhiều người dùng cung cấp phân bố tiên nghiệm cộng đồng, mẫu đồng hành và bằng chứng đồng vị trí. Nhóm được dùng để học prior trên tập huấn luyện tách biệt và cấp cùng prior cho cơ chế bảo vệ lẫn đối thủ. Cách sử dụng này không đồng nghĩa với $k$-ẩn danh hay riêng tư vi phân cấp nhóm.
 
-\section{Kết luận chương}
+\clearpage
+\section{Ánh xạ từ mục tiêu sang kịch bản}
 
-S1--S7 là bảy \emph{bối cảnh quỹ đạo bị đe doạ}, không phải bảy loại quỹ đạo. Chúng khác nhau ở lượng lịch sử và dữ liệu phụ trợ mà đối thủ khai thác. S1 tạo baseline theo từng event; S2 và S3 thêm bằng chứng lặp lại và tính liên tục; S4--S7 mở rộng sang hành vi dài hạn, dự đoán, nội dung và tương quan nhóm.
+\begin{table}[htbp]
+\centering
+\small
+\caption{Mối quan hệ giữa mục tiêu bảo vệ và kịch bản đe doạ.}
+\label{tab:target-scenario}
+\begin{tabularx}{\textwidth}{P{3.2cm}P{4.0cm}Y}
+\toprule
+\textbf{Target} & \textbf{Scenario trực tiếp} & \textbf{Quan hệ} \\
+\midrule
+Vị trí/quỹ đạo đã đi & S1, S2, S3, S4 & Từ snapshot tới báo cáo lặp, chuỗi liên tục và significant location \\
+Danh tính & S4, S7 & Liên kết nhà--nơi làm việc hoặc tương quan với hồ sơ/nhóm \\
+Tuyến tiếp theo & S3, S5, S7 & Prefix, transition và population prior hỗ trợ dự đoán \\
+Nội dung truy vấn & S6; liên quan S1/S4 & Query/POI làm lộ intent và có thể hỗ trợ localization \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
-Luận văn chọn S3 làm attack trọng tâm vì đây là điểm yếu trực tiếp của dummy generation trong continuous LBS: từng dummy có thể hợp lệ riêng lẻ nhưng bị loại khi nối theo thời gian và mạng đường. Các scenario còn lại trở thành phép kiểm tra mở rộng, đồng thời đặt ra yêu cầu cho dữ liệu cuối: phải có điểm dừng/lặp, POI và query label, prefix cho dự đoán, cùng tập population tách biệt.
+Tập dữ liệu đánh giá gắn mỗi kịch bản S1--S7 với nhãn ground truth tương ứng. Kiến trúc phòng thủ sử dụng một cơ chế core cho S2--S3 và các module chuyên biệt cho những mục tiêu còn lại.
 
-% ==================== Chương 4 ====================
-\chapter{Mô hình đối thủ và tấn công trọng tâm}
+% ==================== Chương 5 ====================
+\chapter{Mô hình đối thủ, bài toán trọng tâm và các mở rộng}
+\label{ch:threat}
 
 \section{Đối thủ chuẩn}
 
-Đối thủ chuẩn là LSP trung thực nhưng tò mò với các năng lực sau:
+Đối thủ chuẩn là LSP trung thực nhưng tò mò: quan sát toàn bộ transcript của một phiên; liên kết báo cáo theo thời gian; biết thuật toán, tham số, mạng đường và POI; có population statistics và có thể có một phần lịch sử; nhưng không biết randomness, vị trí thật hiện tại hoặc trạng thái bí mật trên thiết bị. Tấn công chủ động sửa, chặn hoặc tiêm gói nằm ngoài phạm vi.
 
-\begin{itemize}
-  \item quan sát toàn bộ transcript của một phiên, gồm định danh/pseudonym, thời gian, vị trí hoặc tập vị trí, nội dung và tần suất truy vấn;
-  \item liên kết các báo cáo của cùng người dùng qua thời gian;
-  \item biết thuật toán sinh dummy, tham số công khai và mạng đường/POI;
-  \item có thống kê di chuyển của cộng đồng và có thể có một phần lịch sử của người dùng;
-  \item không biết ngẫu nhiên nội bộ, vị trí thật hiện tại và trạng thái bí mật trên thiết bị;
-  \item không sửa, chặn hoặc tiêm gói vào giao thức. Các tấn công chủ động nằm ngoài phạm vi.
-\end{itemize}
-
-Mô hình này mạnh hơn đánh giá ``kẻ tấn công đoán ngẫu nhiên một trong $k$ vị trí''. Nó phù hợp với thực tế LSP sở hữu bản đồ, lịch sử và đủ dữ liệu để huấn luyện mô hình suy luận. Việc đánh giá LPPM theo adversary cụ thể và sai số suy luận là thông lệ quan trọng trong nghiên cứu location privacy \citep{shokri2011quantifying}.
+Mô hình này mạnh hơn giả định ``đoán ngẫu nhiên một trong $k$ vị trí''. Nó phản ánh LSP có đủ bản đồ và lịch sử để huấn luyện suy luận; đánh giá LPPM theo adversary và inference error là cách tiếp cận đã được thiết lập trong location privacy \citep{shokri2011quantifying}.
 
 \section{Bảng ánh xạ threat model}
 
 \small
 \begin{longtable}{P{1.15cm}P{3.0cm}P{3.1cm}P{2.6cm}P{2.8cm}}
-\caption{Ánh xạ scenario -- quan sát -- khai thác -- target -- tiêu chí thành công.}
+\caption{Ánh xạ kịch bản, quan sát, cách khai thác, mục tiêu và tiêu chí thành công.}
 \label{tab:threatmap}\\
 \toprule
 \textbf{Mã} & \textbf{Đối thủ quan sát/biết} & \textbf{Thuộc tính bị khai thác} & \textbf{Target chính} & \textbf{Tấn công thành công khi} \\
@@ -442,34 +474,34 @@ Mô hình này mạnh hơn đánh giá ``kẻ tấn công đoán ngẫu nhiên m
 \textbf{Mã} & \textbf{Đối thủ quan sát/biết} & \textbf{Thuộc tính bị khai thác} & \textbf{Target chính} & \textbf{Tấn công thành công khi} \\
 \midrule
 \endhead
-S1 & Một $z_t$ hoặc $C_t$; bản đồ, POI, tần suất vùng & Lọc vị trí bất khả thi; Bayesian ranking; homogeneity & Location & Chọn đúng vị trí thật/top rank cao, hoặc sai số dưới bán kính $r$ \\
+S1 & Một $z_t$ hoặc $C_t$; bản đồ, POI, prior & Bayesian ranking, homogeneity, map filtering & Location & Sai số dưới $r$ hoặc rank thật cao \\
 \addlinespace
-S2 & Nhiều output cùng điểm dừng, thời gian và content & Giao/intersection, tần suất lặp, MLE/averaging, cache pattern & Location, identity & Khôi phục tâm điểm dừng hoặc xác định nhà/POI nhạy cảm \\
+S2 & Nhiều output cùng điểm dừng & Averaging, MLE, intersection, reuse pattern & Location & Khôi phục tâm điểm dừng/POI nhạy cảm \\
 \addlinespace
-S3 & Chuỗi $O_{1:T}$; mạng đường và giới hạn di chuyển & Reachability, hướng, vận tốc, HMM/Viterbi, map matching, model học sâu & Location, route & Chọn đúng chuỗi thật; giảm EIE hoặc DTW của quỹ đạo tái dựng; tỷ lệ điểm đúng tăng \\
+S3 & Chuỗi $O_{1:T}$; mạng đường, thời gian & Reachability, HMM/Viterbi, map matching & Location, trajectory & EIE/DTW giảm hoặc tỷ lệ điểm đúng tăng \\
 \addlinespace
-S4 & Các phiên dài hạn; significant locations; dữ liệu phụ trợ & Cụm nhà--nơi làm việc, lịch ghé, tính duy nhất & Identity, location & Liên kết đúng trajectory với người hoặc hồ sơ bên ngoài \\
+S4 & Nhiều phiên; significant locations; hồ sơ phụ & Cụm nhà--nơi làm việc, lịch ghé, tính duy nhất & Identity, location & Liên kết đúng người hoặc hồ sơ \\
 \addlinespace
-S5 & Prefix quỹ đạo, giờ/ngày, lịch sử cá nhân/cộng đồng & Transition probability, destination/route model & Next route & Top-$k$ accuracy hoặc MRR của đích/tuyến tăng so với prior \\
+S5 & Prefix, giờ/ngày, history/prior & Transition, destination và route model & Next route & Accuracy/MRR tăng so với prior \\
 \addlinespace
-S6 & Nội dung, loại POI và kết quả LBS đi cùng mỗi dummy & Tính nhất quán semantic, query frequency, intent classifier & Query content, location & Suy ra đúng loại truy vấn/ý định hoặc dùng content để nhận ra vị trí thật \\
+S6 & Nội dung, POI và kết quả đi cùng dummy & Semantic consistency, intent classifier & Query content, location & Suy ra đúng intent hoặc vị trí quan trọng \\
 \addlinespace
-S7 & Nhiều người dùng, co-mobility và population statistics & Population prior, co-location, group correlation & Location, identity, route & Cải thiện đáng kể một attack ở trên nhờ dữ liệu nhóm \\
+S7 & Nhiều user, co-mobility, population statistics & Population prior, co-location, group correlation & Nhiều target & Attack cải thiện nhờ dữ liệu nhóm \\
 \bottomrule
 \end{longtable}
 \normalsize
 
-\section{Tấn công trọng tâm của luận văn}
+\section{Bài toán trọng tâm của luận văn}
 
 \begin{center}
 \fcolorbox{reportred}{red!5}{%
 \begin{minipage}{0.90\textwidth}
-\textbf{Context-aware continuous dummy-filtering attack.}
-LSP quan sát chuỗi output bảo vệ, sau đó kết hợp mạng đường, thời gian, POI và population prior để loại các dummy không hợp lý và tìm chuỗi vị trí thật. Mục tiêu tấn công là tăng xác suất chọn đúng vị trí/quỹ đạo thật; mục tiêu phòng thủ là làm các chuỗi giả đủ hợp lý để lợi thế này giảm, trong khi utility LBS còn chấp nhận được.
+\textbf{Core: bảo vệ vị trí và quỹ đạo đã quan sát trong S2--S3.}
+S1 cung cấp nền Geo-I theo từng event. Đóng góp chính hướng tới việc ngăn báo cáo lặp và tương quan liên tục giúp LSP lọc dummy hoặc tái dựng quỹ đạo, trong khi utility LBS còn chấp nhận được.
 \end{minipage}}
 \end{center}
 
-Gọi $O_t$ là output bảo vệ tại thời điểm $t$ (một pseudolocation, một candidate set hoặc một batch quỹ đạo giả), $B$ là side information gồm mạng đường, thời gian, POI, population prior và lịch sử phụ trợ, còn $\mathcal F(G)$ là tập quỹ đạo khả thi trên mạng đường. Bài toán suy luận thống nhất của đối thủ là
+Gọi $O_t$ là output bảo vệ, $B$ gồm mạng đường, thời gian, POI, population prior và history, còn $\mathcal F(G)$ là tập quỹ đạo khả thi. Attacker core giải
 \[
 \widehat{\tau}
 =\arg\max_{\tau\in\mathcal F(G)}
@@ -477,79 +509,34 @@ Gọi $O_t$ là output bảo vệ tại thời điểm $t$ (một pseudolocation
 \propto
 \Pr(\tau\mid B)\Pr(O_{1:T},q_{1:T}\mid\tau,B).
 \]
-Với giao diện thật+$k-1$ dummy, $\tau$ là một đường đi qua lattice candidate và đối thủ xếp hạng phần tử thật. Với giao diện thay thế hoặc dummy-only, quỹ đạo thật không nhất thiết nằm trong output; đối thủ thực hiện bài toán tái dựng. Hai trường hợp dùng chung side information nhưng không được dùng chung một định nghĩa success.
+S2 là trường hợp nhiều quan sát quy tụ về một điểm dừng; S3 là trường hợp các quan sát tạo thành chuỗi. Chúng cùng hướng tới tái dựng quỹ đạo nhưng khai thác hai cấu trúc khác nhau: sự tích luỹ bằng chứng và tính khả thi của chuyển tiếp. S1 được sử dụng làm đối chứng theo từng sự kiện.
 
-Do đó, bộ đo tối thiểu cho attack trọng tâm gồm: (i) top-1 success và rank/MRR của điểm hoặc đường thật ở giao diện set; (ii) EIE và xác suất tái dựng trong bán kính $r$ ở giao diện thay thế/dummy-only; (iii) posterior/NLL, path entropy hoặc $k_{\mathrm{eff}}=2^H$; và (iv) tỷ lệ dummy sống sót sau từng tầng lọc. Kết quả phải phân tầng theo $k$, độ dài $T$, số truy vấn lặp và mức side information. Mốc $1/k$ chỉ có ý nghĩa cho một snapshot cân bằng; không dùng $1/k^T$ khi các transition phụ thuộc và nhiều đường không khả thi.
+Với real+$k-1$ dummy, attacker xếp hạng thành viên thật qua lattice candidate. Với replacement hoặc dummy-only, truth không nhất thiết nằm trong output nên attacker tái dựng. Do đó metric phải theo output contract: rank/MRR cho membership; EIE, xác suất trong bán kính và reconstruction DTW cho reconstruction; thêm posterior/NLL, path entropy và tỷ lệ dummy sống sót sau từng filter.
 
-Threat này được chọn vì bốn lý do:
-
-\begin{enumerate}
-  \item nó đánh trực tiếp vào giả định cốt lõi của dummy generation: dummy phải khó phân biệt với thật;
-  \item nó hợp nhất S1, S2 và S3 thay vì tối ưu từng điểm độc lập;
-  \item nó có đối chứng và attacker gần đây, đặc biệt VehiTrack/TransProtect \citep{yadav2024transprotect};
-  \item nó tạo ra đóng góp có thể phát biểu hẹp và kiểm chứng: cải thiện khả năng chống lọc dummy dưới cùng utility và cùng giao diện đầu ra.
-\end{enumerate}
-
-S4--S6 được giữ làm stress test hoặc giới hạn. Đặc biệt, cơ chế không được tuyên bố bảo vệ query content nếu không sinh cả nội dung giả; không được tuyên bố chống re-identification nếu chưa chạy attack linkage; và không được suy ra bảo vệ next route chỉ từ EIE.
-
-\section{Yêu cầu phòng thủ rút ra từ threat model}
-
-Một cơ chế dummy phù hợp cần thoả đồng thời:
-
-\begin{itemize}
-  \item \textbf{hợp lệ không gian}: vị trí giả nằm trên miền có thể sử dụng và không bị map filtering loại ngay;
-  \item \textbf{hợp lý thời gian}: chuỗi giả có thể đi giữa hai timestamp theo mạng đường;
-  \item \textbf{hợp lý dài hạn}: không tạo pattern mà HMM/LSTM/transformer phân biệt dễ dàng;
-  \item \textbf{hợp lý ngữ nghĩa}: POI và nội dung đi kèm không tự mâu thuẫn;
-  \item \textbf{không lộ do lặp}: điểm dừng và lần quay lại không tạo vô hạn bằng chứng độc lập;
-  \item \textbf{định lượng được}: đánh giá bằng attacker success/EIE bên cạnh entropy hay số lượng dummy.
-\end{itemize}
-
-% ==================== Chương 5 ====================
-\chapter{Các mục tiêu bảo vệ}
-
-\section{Identity}
-
-Identity privacy yêu cầu đối thủ không gắn được quỹ đạo hoặc mẫu di chuyển với một người cụ thể. Dấu hiệu nhà--nơi làm việc, POI thường ghé và lịch sinh hoạt là quasi-identifier mạnh \citep{demontjoye2013unique}. Dummy generation chỉ hỗ trợ identity nếu nó thực sự làm giảm khả năng linkage; việc bỏ tên hoặc đổi pseudonym không đủ.
-
-Tiêu chí đo phù hợp gồm top-1 re-identification accuracy, top-$k$ hit rate hoặc mean reciprocal rank của danh tính thật. Đây là target \textbf{thứ cấp}: phải đo nếu dữ liệu có identity ground truth, nhưng không nên là formal claim đầu tiên của cơ chế.
-
-\section{Location}
-
-Location privacy yêu cầu đối thủ khó xác định vị trí hiện tại, điểm dừng hoặc POI nhạy cảm. Đây là target gần nhất với Geo-I và trực tiếp nhất với dummy filtering. Các chỉ số cần dùng là xác suất chọn đúng thành viên thật, EIE, xác suất suy luận nằm trong bán kính $r$, và attacker advantage so với prior.
-
-Đây là target \core{} của luận văn.
-
-\section{Next route}
-
-Next-route privacy yêu cầu phần quỹ đạo đã quan sát không giúp dự đoán quá chính xác vị trí tiếp theo, đích đến hoặc tuyến sắp đi. Cần tách ba bài toán: next location, destination và full route. Chỉ số tương ứng là top-$k$ accuracy/MRR, destination accuracy và độ tương đồng tuyến dự đoán--thật.
-
-Đây là target \textbf{đánh giá mở rộng}. Cơ chế có thể làm next-route attack khó hơn nếu các dummy trajectory có chuyển tiếp hợp lý và đa dạng, nhưng điều này phải được đo trực tiếp.
-
-\section{Query content}
-
-Query-content privacy yêu cầu đối thủ không suy ra ý định nhạy cảm từ loại dịch vụ hoặc POI được tìm. Nếu $q_t$ được gửi nguyên văn, Geo-I trên toạ độ không che được $q_t$. Cần một trong ba hướng: sinh nội dung giả phù hợp với từng dummy, tách định danh khỏi truy vấn, hoặc dùng giao thức truy vấn riêng tư. Các chuỗi truy vấn giả đã được nghiên cứu như một lớp bảo vệ riêng \citep{wu2021fakequery,liu2026fakequeries}.
-
-Trong phạm vi luận văn, query content là \textbf{giới hạn được nêu rõ}; nội dung truy vấn chỉ trở thành mục tiêu bảo vệ trực tiếp nếu cơ chế được mở rộng để tạo dummy query.
-
-\section{Phạm vi bảo đảm và đánh giá}
+\section{Các module mở rộng theo mục tiêu}
 
 \begin{table}[htbp]
 \centering
 \small
-\caption{Mục tiêu nghiên cứu và trạng thái bằng chứng hiện tại.}
-\label{tab:targets}
-\begin{tabularx}{\textwidth}{P{2.5cm}P{3.0cm}Y Y}
+\caption{Module phòng thủ và tiêu chí đánh giá cho các kịch bản mở rộng.}
+\label{tab:extensions}
+\begin{tabularx}{\textwidth}{P{1.55cm}P{2.35cm}Y Y}
 \toprule
-\textbf{Mục tiêu} & \textbf{Vai trò} & \textbf{Bằng chứng hiện có} & \textbf{Điều kiện để kết luận} \\
+\textbf{Scenario} & \textbf{Target} & \textbf{Module mở rộng} & \textbf{Tiêu chí đánh giá} \\
 \midrule
-Vị trí & Trực tiếp, \core{} & Lập luận hậu xử lý của neo lý tưởng; pipeline dummy-only chạy được. Chưa có attacker cuối & Chạy attacker có ngữ cảnh, báo EIE/xác suất tái dựng và so tại cùng utility \\
-Danh tính & Thứ cấp & Chưa có attack linkage hoặc nhãn danh tính trong pilot & Chạy tái định danh với dữ liệu phụ trợ và ground truth \\
-Tuyến tiếp theo & Mở rộng & Có stable dummy tracks, nhưng chưa đo dự đoán tương lai & Chạy next-location/destination/route predictor trên prefix giống nhau \\
-Nội dung truy vấn & Ngoài trọng tâm & Pilot chưa có query/POI thật; sinh toạ độ không che nội dung rõ & Sinh query giả phù hợp hoặc dùng giao thức truy vấn riêng tư \\
+S4 & Identity, significant location & State qua nhiều phiên, bảo vệ pattern quay lại và giảm linkage & Chạy home/work inference và re-identification \\
+S5 & Next route & Sinh các continuation có đích/tuyến đa dạng nhưng khả thi & Chạy next-location/destination/route predictor \\
+S6 & Query content & Sinh dummy query có ngữ nghĩa phù hợp với từng track hoặc giao thức query riêng & Đo intent inference và utility kết quả POI \\
+S7 & Cross-cutting & Population prior dùng cân xứng cho generator/attacker; stress test co-mobility & So với/không có prior; không gọi là group privacy nếu thiếu proof \\
 \bottomrule
 \end{tabularx}
 \end{table}
+
+Mỗi module có đầu vào, đầu ra, mô hình tấn công và metric riêng; bảo đảm của cơ chế core không được suy rộng tự động sang các mục tiêu mở rộng.
+
+\section{Yêu cầu phòng thủ rút ra từ threat model}
+
+Kiến trúc trọng tâm yêu cầu đầu ra hợp lệ trên đường, chuyển tiếp khả thi theo thời gian, nhiều quỹ đạo giả ổn định khó bị lọc dài hạn và khả năng kiểm soát bằng chứng từ phát hành lặp. Các module mở rộng bổ sung tính đa dạng điểm đến, tính nhất quán POI--truy vấn, trạng thái liên phiên và ngữ cảnh cộng đồng. Cấu trúc này cho phép đánh giá S1--S7 bằng các chỉ số riêng tư và chất lượng dịch vụ phù hợp.
 
 % ==================== Chương 6 ====================
 \chapter{Các phương pháp đối chứng cùng lớp sinh dữ liệu giả}
@@ -566,33 +553,27 @@ Các cơ chế dummy trước đó cung cấp nền cho tương quan không--th�
 
 \subsection{AnotherMe (IEEE TDSC 2024)}
 
-AnotherMe là hệ thống sinh quỹ đạo ảo trực tuyến và cục bộ trên Android/iOS. Hệ thống mô phỏng mẫu di chuyển và ánh xạ POI của người dùng sang một ``người dùng ảo'', sau đó dùng dịch vụ bản đồ để tạo quỹ đạo ảo khó phân biệt với thật. Mức nhận diện 53,8\% là \textbf{kết quả do paper báo cáo}, không phải kết quả đã tái lập trong luận văn \citep{li2024anotherme}. Kho mã công khai chứa VTGA và ứng dụng di động, nhưng nhiều bước phụ thuộc AMap, GCJ-02 và dữ liệu cục bộ \citep{anothermecode}. Bản thích nghi clean-room hiện thực các bước VTGA có thể đối chiếu: chọn mode từ tốc độ WGS84, lọc điểm tuyến ở ngưỡng 6m, làm dày khoảng 2m, làm mượt góc 70--110 độ bằng Bézier, phát lại tốc độ mỗi 3 giây và thêm nhiễu rời rạc. Để chạy offline, mapper dời origin 0,7--3km trên cùng đồ thị và chọn endpoint gần vector OD; AMap được thay bằng shortest path có hướng trên graph SUMO. Output thô được giữ lại, còn output benchmark được nội suy theo thời gian chuẩn hoá về tám event.
-
-\textbf{Giá trị làm đối chứng}: sát đơn vị bảo vệ ở mức quỹ đạo thay thế và có mã nguồn để đối chiếu. \textbf{Thiếu parity}: virtual-user/POI workflow, AMap--GCJ-02, classifier, golden output và đánh giá mobile/paper chưa tái lập; cơ chế cũng không cung cấp lập luận kernel neo Geo-I lý tưởng theo từng event đang dùng trong luận văn.
+AnotherMe sinh quỹ đạo ảo trực tuyến và cục bộ trên thiết bị di động. Hệ thống mô phỏng mẫu di chuyển, ánh xạ POI của người dùng sang một ``người dùng ảo'' và sử dụng dịch vụ bản đồ để tạo quỹ đạo thay thế khó phân biệt với quỹ đạo thật \citep{li2024anotherme}. Phương pháp này đại diện cho giao diện công bố một quỹ đạo ảo hoàn chỉnh và cho phép đánh giá khả năng nhận diện mẫu di chuyển, độ trễ và chi phí năng lượng.
 
 \subsection{TransProtect (ACM SIGSPATIAL 2024)}
 
-TransProtect học biểu diễn mạng đường, dùng GCN và transformer để dự đoán xác suất vị trí từ lịch sử, dùng sai lệch chi phí hành trình ở Equation~13 và điểm $h+\alpha/\Delta c$ ở Section~4.4 để chọn top-$K$, rồi áp dụng Laplace hoặc bài toán tối ưu tuyến tính trên candidate set \citep{yadav2024transprotect}. Công trình đi kèm VehiTrack, nhưng bản chạy canonical chưa tái lập attacker này. Core hiện có Equation~13, chọn top-$K$, Laplace giới hạn, LP Geo-I và khung GCN--transformer có thể nhận weights bên ngoài. Do kho tham chiếu chưa có trainer/checkpoint đầy đủ \citep{vehitrackcode}, run SUMO dùng Markov bậc một học từ 19 xe nền và $M=8$ đỉnh có tần suất ghé cao làm target proxy; đây không phải POI/service target thật. Canonical run dùng nhánh Laplace; LP mới được unit-test. EIE của VehiTrack được để \texttt{null}, không nội suy bằng metric khác.
-
-\textbf{Giá trị làm đối chứng}: gần nhất với nhánh công bố một pseudolocation trên mạng đường và cung cấp thiết kế attacker để tham chiếu. \textbf{Thiếu parity}: learned weights, split Rome/San Francisco, table parity và VehiTrack EIE. Vì candidate support phụ thuộc vị trí thật hiện tại, bản thích nghi không tuyên bố end-to-end Geo-I.
+TransProtect học biểu diễn mạng đường bằng GCN và Transformer để dự đoán phân bố vị trí từ lịch sử. Cơ chế lựa chọn tập ứng viên theo độ phổ biến và sai lệch chi phí hành trình, sau đó áp dụng nhiễu Laplace hoặc một bài toán tối ưu tuyến tính trên tập ứng viên \citep{yadav2024transprotect}. Đây là đối chứng phù hợp cho giao diện công bố một vị trí thay thế trong bối cảnh đối thủ biết mạng đường, lưu lượng và tương quan dài hạn.
 
 \subsection{LSPPM-SI (Scientific Reports 2025)}
 
 LSPPM-SI tạo một tập ẩn danh gồm quỹ đạo thật và $k-1$ quỹ đạo giả. Cơ chế khai thác stopover, phân loại ngữ nghĩa, Hilbert curve, ảnh hưởng không gian của POI và bài toán ghép cặp hai phía để làm dummy khó bị semantic attack lọc. Thử nghiệm trên GeoLife cùng dữ liệu POI, dùng access entropy, information loss và semantic protection degree \citep{kuang2025lsppm}.
 
-\textbf{Giá trị làm đối chứng}: đại diện mạnh cho nhánh dummy trajectory có POI/ngữ nghĩa. \textbf{Khác biệt}: thiên về công bố tập trajectory $k$-anonymous và chưa thấy kho mã công khai; cần re-implementation và bổ sung attacker success/EIE để so sánh công bằng.
+Phương pháp đại diện cho nhánh tạo tập quỹ đạo $k$-ẩn danh có xét POI và ngữ nghĩa. Do giao diện chứa quỹ đạo thật, tiêu chí tấn công phù hợp là khả năng nhận diện thành viên thật thay vì chỉ đo khoảng cách dịch chuyển.
 
 \subsection{Fake-query insertion cho continuous LBS (2026)}
 
 Liu, Hu và Zhou chèn ngẫu nhiên các truy vấn giả chỉ chứa dummy giữa hai truy vấn thật để phá tương quan giữa các location sets. Cơ chế nhằm chống path-correlation và reachability attacks, được thử trên GeoLife/T-Drive và đo số đường giả không phân biệt được, ASR cùng thời gian tính toán \citep{liu2026fakequeries}.
 
-\textbf{Giá trị làm đối chứng}: rất sát bối cảnh continuous LBS và trực tiếp giải quyết việc dummy mất tác dụng theo thời gian. \textbf{Khác biệt}: đây là thay đổi ở protocol/query schedule, tạo thêm lưu lượng và chưa thấy mã nguồn công khai; chi phí số truy vấn phải được tính vào utility.
+Phương pháp trực tiếp xử lý tương quan đường đi trong LBS liên tục bằng cách thay đổi lịch gửi truy vấn. Vì tạo thêm lưu lượng, đánh giá cần tính cả số yêu cầu, byte truyền và độ trễ.
 
 \subsection{Semantic-correlation dummy paths (2026)}
 
-Liu, Peng và Zhou dùng LSTM dự đoán semantic type cho dummy, rồi lọc/xếp hạng candidate bằng transition probability có trọng số thời gian. Đầu ra là tập $K$ vị trí gồm thật và $K-1$ dummy cho continuous query. Paper thử nghiệm trên vùng trung tâm Bắc Kinh của GeoLife, dùng ASR, dummy effectiveness rate và computation delay; dữ liệu bổ sung được cung cấp theo yêu cầu, không có kho code công khai được nêu \citep{liu2026semantic}. Bản clean-room đã cài lưới $100\times100$, các thống kê/trọng số thời gian, các phương trình ASR/DER, inference shell LSTM hai tầng--attention và bộ chọn $K-1$. Shell chỉ chạy đúng khi có weights ngoài; canonical run không giả lập weights đã huấn luyện mà dùng dự đoán tần suất, nhãn nhóm loại đường OSM, kernel khoảng cách và ngưỡng order-statistic đủ $K$.
-
-\textbf{Giá trị làm đối chứng}: nhắm trực tiếp tới attack surface thời gian và ngữ nghĩa. \textbf{Thiếu parity}: AMap semantic tree, processed split, weights, calibrated LSP posterior và effectiveness labels. Candidate ID là event-local vì paper không định nghĩa track ID; ASR/DER vẫn \texttt{null}. Điều kiện $1/K$ không phải formal Geo-I guarantee.
+Liu, Peng và Zhou dùng LSTM để dự đoán loại ngữ nghĩa cho dummy, sau đó lọc và xếp hạng ứng viên bằng xác suất chuyển tiếp có trọng số thời gian. Đầu ra gồm vị trí thật và $K-1$ vị trí giả cho mỗi truy vấn liên tục; các chỉ số chính là tỷ lệ tấn công thành công, tỷ lệ dummy hiệu quả và thời gian tính toán \citep{liu2026semantic}. Phương pháp đại diện cho nhánh chống lọc dummy dựa trên tương quan thời gian và ngữ nghĩa.
 
 \section{So sánh và lựa chọn phương pháp đối chứng}
 
@@ -618,30 +599,7 @@ Semantic correlation & 2026, JKSUCIS & Thật + $K-1$ vị trí giả/event & Tr
 \end{tabularx}
 \end{table}
 
-Ba đối chứng được đưa vào registry thực thi là TransProtect, AnotherMe và semantic-correlation 2026. LSPPM-SI vẫn là đối chứng phụ cho nhánh trajectory có POI nhưng thiếu code và pipeline dữ liệu. Fake-query insertion là stress test ở tầng protocol, không nằm trong canonical run. GeoGRCNN được giữ làm lựa chọn dự phòng cho nhánh học sâu \citep{narayanan2024geogrcnn}.
-
-\begin{table}[htbp]
-\centering
-\small
-\caption{Trạng thái thực thi của ba comparator và mô hình luận văn.}
-\label{tab:implementation-status}
-\begin{tabularx}{\textwidth}{P{2.7cm}P{2.6cm}P{2.6cm}Y}
-\toprule
-\textbf{Phương pháp} & \textbf{Output contract} & \textbf{Trạng thái} & \textbf{Adapter hoặc phần còn thiếu} \\
-\midrule
-TransProtect & Replacement trajectory & Bản thích nghi & Markov thay learned Transformer; target đỉnh thay POI; thiếu checkpoint, split/table parity và VehiTrack EIE \\
-\addlinespace
-AnotherMe & Replacement trajectory & Bản thích nghi & Router/endpoint WGS84 cục bộ thay AMap--GCJ-02 và virtual POI; thiếu classifier/mobile parity \\
-\addlinespace
-Semantic correlation & Real+$K-1$ theo event & Bản thích nghi & Dự đoán tần suất và loại đường OSM thay weights/AMap; thiếu calibrated ASR/DER \\
-\addlinespace
-Mô hình luận văn & $K$ dummy-only tracks & Đang phát triển & Có REM anchor và post-processing boundary; thiếu population/POI prior, attacker cuối, trajectory accounting \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-Ba comparator là \textbf{bản thích nghi clean-room có ánh xạ nguồn và chạy end-to-end trong môi trường địa phương}. Mỗi method card ghi component là \texttt{implemented}, \texttt{adapted} hoặc \texttt{missing}, cùng commit kho nguồn khi có. Cờ máy
-\path{reportable_as_reproduced_sota=false} được giữ cho cả ba và runner dừng nếu bị yêu cầu gắn nhãn faithful SOTA. Đây là boundary quan trọng: ``chạy được trong common harness'' không đồng nghĩa ``tái lập kết quả paper''.
+Ba đối chứng chính được chọn là TransProtect, AnotherMe và semantic-correlation 2026 vì chúng bao phủ ba giao diện khác nhau: vị trí thay thế, quỹ đạo thay thế và tập vị trí thật--giả theo từng sự kiện. LSPPM-SI và fake-query insertion được dùng trong phân tích mở rộng tương ứng với ngữ nghĩa POI và tấn công tương quan ở tầng giao thức.
 
 \section{Nguyên tắc so sánh công bằng}
 
@@ -662,17 +620,44 @@ Các công trình trên cùng thuộc lớp dummy generation nhưng không có c
 
 \section{Giao diện đầu ra và ranh giới dữ liệu}
 
-Mô hình luận văn chốt giao diện \textbf{dummy-only}: tại mỗi event, LSP nhận $K$ candidate có định danh ổn định xuyên thời gian, tạo thành $K$ quỹ đạo giả. Không candidate nào được đánh dấu hoặc đảm bảo là vị trí thật. Vị trí thật $x_{1:T}$ và các nhãn phục vụ chấm điểm nằm ở phía evaluator; chuỗi neo $a_{1:T}$ chỉ tồn tại nội bộ trong lượt chạy hiện tại và không được serialize. Transcript công khai chỉ chứa timestamp, toạ độ dummy, ID mờ và tham số công khai.
+Phương pháp sử dụng giao diện \textbf{dummy-only}: tại mỗi sự kiện, LSP nhận $K$ vị trí giả có định danh ổn định xuyên thời gian, tạo thành $K$ quỹ đạo giả. Không vị trí nào được đánh dấu hoặc bảo đảm là vị trí thật. Vị trí thật $x_{1:T}$ và các nhãn đánh giá được giữ phía thiết bị hoặc bộ đánh giá; chuỗi neo $a_{1:T}$ chỉ được truyền nội bộ giữa hai tầng. Transcript công khai gồm thời gian, toạ độ giả, định danh mờ và các tham số công khai.
 
 Cấu trúc này giải quyết một nhược điểm hình thức của giao diện real+$K-1$: không cần cố định support bằng cách bắt buộc nhét $x_t$ vào output. Nó cũng buộc bài toán attack được đặt đúng thành \emph{tái dựng} quỹ đạo thật từ batch giả thay vì ``chọn phần tử thật trong tập''. Đổi lại, LBS phải thực thi truy vấn cho cả batch hoặc có một protocol trả kết quả không làm lộ candidate quan trọng; utility và overhead vì vậy phải được đo ở mức ứng dụng.
 
-\section{Thuật toán hai tầng hiện tại}
+\section{Nền tảng Geo-I và cơ chế neo REM}
 
-Gọi $V$ là toàn bộ đỉnh của graph đường công khai, $K$ là số dummy track và $T$ là số event. Thuật toán đang chạy gồm hai tầng.
+Geo-I giới hạn tỷ số xác suất đầu ra của hai vị trí gần nhau \citep{andres2013geo}:
+\begin{equation}
+\Pr[M(x)\in S]
+\leq e^{\varepsilon d(x,x')}
+\Pr[M(x')\in S].
+\label{eq:geoi}
+\end{equation}
+
+Để hiện thực bước neo trên miền đường rời rạc, luận văn gọi cơ chế lũy thừa trên toàn bộ tập đỉnh công khai cố định $V$ là \textbf{Road-network Exponential Mechanism (REM)}:
+\begin{equation}
+K_{\varepsilon}(v\mid x)
+=\frac{\exp[-(\varepsilon/2)d_E(x,v)]}
+{\sum_{u\in V}\exp[-(\varepsilon/2)d_E(x,u)]},\qquad v\in V.
+\label{eq:rem-kernel}
+\end{equation}
+Trong đó $d_E$ là khoảng cách Euclid sau khi chiếu cục bộ. Miền đầu ra $V$ không phụ thuộc vào vị trí bí mật; hệ số $1/2$ kiểm soát sự thay đổi của hằng số chuẩn hoá qua bất đẳng thức tam giác. Cơ chế vì vậy thoả Geo-I theo khoảng cách Euclid trong mô hình xác suất lý tưởng. Nếu thay $d_E$ bằng khoảng cách đường đi ngắn nhất $d_G$, bảo đảm phải được thiết lập lại theo metric tương ứng \citep{takagi2019ggi}.
+
+Với một event và lịch sử trước đó cố định, hậu xử lý chỉ đọc neo cho phép chuyển bound của kernel lý tưởng sang batch nhìn thấy:
+\[
+\Pr[G_K(K_{\varepsilon}(x),C_{pub})\in B]
+\le e^{\varepsilon d(x,x')}
+\Pr[G_K(K_{\varepsilon}(x'),C_{pub})\in B].
+\]
+Tính chất hậu xử lý bảo toàn bảo đảm theo từng lần phát hành của cơ chế neo. Đối với chuỗi phát hành, ngân sách riêng tư được hợp thành theo thời gian; các mục tiêu danh tính, tuyến tiếp theo và nội dung truy vấn được đánh giá riêng vì không được suy ra trực tiếp từ Geo-I theo vị trí.
+
+\section{Kiến trúc core hai tầng}
+
+Gọi $V$ là toàn bộ tập đỉnh của mạng đường công khai, $K$ là số quỹ đạo giả và $T$ là số sự kiện. Thuật toán gồm hai tầng.
 
 \subsection{Tầng 1: neo REM trên support cố định}
 
-Với mỗi $x_t$, cơ chế lấy mẫu $a_t\in V$ theo kernel ở Mục trước. Không dùng cutoff theo vị trí thật. Chuỗi neo chỉ được truyền nội bộ sang tầng 2 và không gửi như một trường riêng tới LSP; artifact hiện tại cũng không serialize chuỗi này. Trong kernel lý tưởng, đây là bước duy nhất đọc $x_t$; budget đầu vào của canonical run là $\varepsilon=0{,}02\,\mathrm{m}^{-1}$ cho mỗi release.
+Với mỗi $x_t$, cơ chế lấy mẫu $a_t\in V$ theo Phương trình~\ref{eq:rem-kernel} trên toàn bộ miền đầu ra cố định. Chuỗi neo chỉ được truyền nội bộ sang tầng 2 và không được gửi tới LSP. Trong mô hình lý tưởng, đây là bước duy nhất truy cập trực tiếp vị trí thật.
 
 \subsection{Tầng 2: sinh K track từ neo}
 
@@ -681,7 +666,7 @@ Bộ sinh nhận duy nhất $a_{1:T}$, timestamp, graph và các lượt rút ng
 r_i\sim\mathcal U(0{,}75r_0,1{,}25r_0),
 \qquad \theta_i=\theta_0+\frac{2\pi i}{K},
 \]
-với $r_0=180$m trong run hiện tại. Ở event $t$, hướng có một drift công khai nhỏ để tránh bản sao tịnh tiến cứng; từ đó tạo target phẳng $c_t^{(i)}$ quanh neo. Tập ứng viên $N_t^{(i)}$ gồm các đỉnh trong bán kính $R=220$m quanh target; nếu rỗng thì lấy đỉnh gần nhất.
+với $r_0$ là bán kính tham chiếu. Tại sự kiện $t$, hướng được điều chỉnh bởi một độ lệch ngẫu nhiên nhỏ để tránh các bản sao tịnh tiến cứng; từ đó tạo điểm đích phẳng $c_t^{(i)}$ quanh neo. Tập ứng viên $N_t^{(i)}$ gồm các đỉnh trong bán kính $R$ quanh điểm đích; nếu tập rỗng thì sử dụng đỉnh gần nhất.
 
 Ứng viên $v\in N_t^{(i)}$ được chấm bằng
 \[
@@ -689,7 +674,7 @@ với $r_0=180$m trong run hiện tại. Ở event $t$, hướng có một drift
 =-\frac{\|v-c_t^{(i)}\|_2}{\sigma}
 -\frac{\max\{0,\|v-y_{t-1}^{(i)}\|_2-(v_{\max}\Delta t+s)\}}{s},
 \]
-trong đó $\sigma=\max(25,R/3)$, $v_{\max}=25$m/s và slack $s=100$m. Mô hình chọn argmax sau khi cộng Gumbel noise và cập nhật điểm công khai trước của chính track đó. Penalty hiện dùng khoảng cách Euclid giữa hai đỉnh, chưa kiểm tra shortest-path reachability có hướng; do đó đây là regularizer động học cục bộ, không phải ràng buộc route khả thi hoàn chỉnh.
+trong đó $\sigma$ điều khiển độ tập trung không gian, $v_{\max}$ là vận tốc cực đại và $s$ là biên dung sai. Mô hình chọn ứng viên có điểm lớn nhất sau khi cộng nhiễu Gumbel và cập nhật trạng thái công khai của từng quỹ đạo. Thành phần thứ hai đóng vai trò điều chuẩn động học; điều kiện khả thi đầy đủ được xác định thêm bằng khoảng cách đường đi có hướng trong module kiểm tra tuyến.
 
 Quy trình có thể tóm tắt như sau:
 
@@ -697,29 +682,46 @@ Quy trình có thể tóm tắt như sau:
   \item lấy mẫu toàn bộ chuỗi neo REM từ quỹ đạo thật;
   \item khởi tạo $K$ hướng và bán kính chỉ từ neo/randomness;
   \item với từng track và event, dựng target, lấy candidate vertices, chấm geometric+speed score và chọn một đỉnh;
-  \item phát hành đúng $K$ stable dummy tracks; giữ truth ở evaluator và không serialize anchor.
+  \item phát hành $K$ quỹ đạo giả ổn định; giữ dữ liệu thật và chuỗi neo ngoài transcript công khai.
 \end{enumerate}
 
 \section{Lập luận riêng tư và phạm vi đúng}
 
-Nếu $K_{\varepsilon}$ là kernel Geo-I số thực lý tưởng, randomness của tầng 2 độc lập với secret và random coins lấy mẫu neo, đồng thời tầng 2 không đọc lại secret, batch công khai là hậu xử lý ngẫu nhiên của neo. Với một event, điều kiện trên lịch sử trước đó cố định, batch kế thừa bound $\varepsilon_t$ của neo event đó. Toàn bộ transcript $T$ event là hậu xử lý của cả chuỗi neo và chỉ có bound hợp thành theo path metric, thường chứa $\sum_t\varepsilon_t d(x_t,x'_t)$; chưa có một trajectory-level $\varepsilon$ cố định. Unit test gọi trực tiếp \texttt{generate\_from\_anchors} chỉ xác nhận API tầng 2 không nhận quỹ đạo thật. Implementation hiện lấy phần tiếp theo của cùng PRNG stream sau số lượt rút neo cố định; thiết kế này chưa phải bằng chứng hình thức cho giả thiết độc lập và cần được tách substream hoặc kiểm chứng thêm trước formal claim.
+Giả sử $K_{\varepsilon}$ là kernel Geo-I lý tưởng, randomness của tầng 2 độc lập với vị trí thật và tầng 2 chỉ truy cập chuỗi neo, batch công khai là một hậu xử lý ngẫu nhiên. Với một sự kiện và lịch sử cố định, batch kế thừa cận $\varepsilon_t$ của neo tương ứng. Đối với toàn bộ transcript, tính hợp thành cho cận theo metric đường đi:
+\[
+\Pr[M(X_{1:T})\in B]
+\leq \exp\!\left(\sum_{t=1}^{T}\varepsilon_t d(x_t,x'_t)\right)
+\Pr[M(X'_{1:T})\in B].
+\]
+Cận này mô tả sự tích luỹ riêng tư qua các lần phát hành. Hiệu quả trước đối thủ có ngữ cảnh và chất lượng dịch vụ được xác định bằng thực nghiệm thay vì suy ra trực tiếp từ cận xác suất.
 
-Phát biểu trên \textbf{không} kéo theo bốn kết luận: sampler float64 là pure Geo-I; cả trajectory có một budget cố định; dummy chống được attacker có ngữ cảnh; hoặc ứng dụng giữ được utility POI. Ba mục sau vẫn được method card đánh dấu \texttt{missing}: population/POI prior, context-aware attacker objective và trajectory-level privacy accounting. Vì vậy tên đúng của implementation là \texttt{thesis\_candidate}, không phải phương pháp cuối đã chứng minh đầy đủ.
+\section{Các module mở rộng}
 
-\section{Vai trò dự kiến của dữ liệu nhóm người dùng}
+Kiến trúc được mở rộng theo từng mục tiêu bảo vệ thay vì gộp mọi yêu cầu vào một hàm điểm duy nhất:
 
-``Kết hợp nhóm người dùng'' trong luận văn không có nghĩa công bố chung dữ liệu nhóm hay group differential privacy. Vai trò dự kiến là học một population prior $\Pi_{pop}$ từ các user/vehicle ở tập huấn luyện tách biệt, sau đó dùng cùng prior cho hai phía:
+\begin{itemize}
+  \item \textbf{Significant-location/identity module (S4):} duy trì state qua phiên, phát hiện pattern quay lại có nguy cơ linkage và điều khiển cách khởi tạo/duy trì track quanh địa điểm quen thuộc.
+  \item \textbf{Future-route module (S5):} sinh continuation tới nhiều destination hợp lý, bảo đảm đa dạng tuyến chứ không chỉ tăng khoảng cách điểm.
+  \item \textbf{Semantic-query module (S6):} gắn dummy query/POI intent hợp lý với từng track hoặc gọi một giao thức bảo vệ query riêng.
+  \item \textbf{Population-context module (S7):} học prior từ tập user/vehicle huấn luyện tách biệt và dùng cùng prior cho generator lẫn attacker.
+\end{itemize}
+
+Cấu trúc module chỉ rõ thành phần bảo vệ và tiêu chí đánh giá tương ứng với từng mục tiêu, đồng thời tách các bảo đảm về vị trí khỏi các bảo đảm về danh tính và nội dung truy vấn.
+
+\section{Vai trò của dữ liệu nhóm người dùng}
+
+Dữ liệu nhóm được sử dụng để học phân bố tiên nghiệm cộng đồng $\Pi_{pop}$ từ các người dùng hoặc phương tiện thuộc tập huấn luyện tách biệt. Cùng một phân bố được cung cấp cho cả hai phía:
 
 \begin{itemize}
   \item generator ưu tiên transition, thời gian dừng và semantic POI giống cộng đồng để dummy khó bị lọc;
   \item attacker dùng chính prior đó để tránh đánh giá dưới một đối thủ yếu giả tạo.
 \end{itemize}
 
-Canonical candidate hiện chưa nối $\Pi_{pop}$ vào score ở trên. 19 xe nền mới chỉ cấp Markov/target proxy cho comparator TransProtect; không được mô tả như population model của thuật toán luận văn.
+Thiết kế này không công bố dữ liệu chung của nhóm và không được diễn giải thành một bảo đảm riêng tư vi phân cấp nhóm.
 
 \section{Độ phức tạp}
 
-Tầng neo tính khoảng cách tới toàn bộ $|V|$ đỉnh và lấy một mẫu cho mỗi event, nên có chi phí $O(T|V|)$ và bộ nhớ $O(|V|)$. Tầng dummy dùng KD-tree để tìm lân cận; nếu mỗi truy vấn trả trung bình $m$ candidate, chi phí xấp xỉ $O(KT(\log|V|+m))$ và lưu $O(KT)$. Đây là phân tích thuật toán; runtime một lần trong Chương~\ref{ch:results} còn phụ thuộc Python, cache, graph và không đại diện thiết bị di động.
+Tầng neo tính khoảng cách tới toàn bộ $|V|$ đỉnh và lấy một mẫu cho mỗi sự kiện, nên có chi phí $O(T|V|)$ và bộ nhớ $O(|V|)$. Tầng sinh quỹ đạo giả dùng KD-tree để tìm lân cận; nếu mỗi truy vấn trả trung bình $m$ ứng viên, chi phí xấp xỉ $O(KT(\log|V|+m))$ và bộ nhớ $O(KT)$.
 
 % ==================== Chương 8 ====================
 \chapter{Thiết kế thực nghiệm và kiến trúc benchmark}
@@ -740,11 +742,11 @@ Mục tiêu của harness là buộc mọi phương pháp nhìn cùng mobility i
 ]
 \node[b] (osm) {OSM Beijing\\local extract gắn hash};
 \node[b,right=of osm] (sumo) {netconvert + SUMO\\passenger FCD};
-\node[b,right=of sumo] (split) {1 xe evaluation\\19 xe background};
-\node[b,below=of split] (registry) {Registry: 3 comparator\\+ thesis candidate};
+\node[b,right=of sumo] (split) {Tách tập huấn luyện\\và kiểm thử};
+\node[b,below=of split] (registry) {Các phương pháp\\được đánh giá};
 \node[b,left=of registry] (public) {PublicTranscript\\output contract riêng};
 \node[e,right=of registry] (truth) {EvaluationTruth\\real trajectory\\member labels};
-\node[e,below=of truth] (mobility) {mobility evaluator-only\\vehicle/route/lane/speed};
+\node[e,below=of truth] (mobility) {Dữ liệu chỉ dùng đánh giá\\xe, tuyến, làn, vận tốc};
 \node[b,below=of registry] (metric) {Metric theo từng track\\JSON + web + hình};
 \draw[a] (osm) -- (sumo);
 \draw[a] (sumo) -- (split);
@@ -756,54 +758,48 @@ Mục tiêu của harness là buộc mọi phương pháp nhìn cùng mobility i
 \draw[a] (truth) -- (mobility);
 \draw[a] (mobility) -- (metric);
 \end{tikzpicture}
-\caption{Pipeline benchmark: mobility và candidate dùng cùng graph; transcript cho attacker được tách khỏi hai block evaluator-only là truth của phương pháp và metadata SUMO.}
+\caption{Luồng dữ liệu của hệ thống đánh giá thực nghiệm.}
 \label{fig:benchmark-pipeline}
 \end{figure}
 
 \section{SUMO, mạng đường và phép chia dữ liệu}
 
-SUMO là simulator giao thông vi mô có thể nhập mạng đường và tạo chuyển động xe có ràng buộc lane/route \citep{sumo2018}. Pilot dùng extract Bắc Kinh từ OpenStreetMap, giới hạn hộp $116{,}29$--$116{,}36$ kinh độ và $39{,}96$--$40{,}02$ vĩ độ, lọc vehicle class \texttt{passenger}, giữ thành phần lớn nhất và không tự thêm cạnh ngược cho đường một chiều. Dữ liệu/bản đồ được ghi nguồn ``\copyright\ OpenStreetMap contributors'' theo giấy phép ODbL \citep{osmlicense}.
+SUMO là bộ mô phỏng giao thông vi mô có thể nhập mạng đường và tạo chuyển động phương tiện có ràng buộc làn đường và tuyến \citep{sumo2018}. Miền đô thị được trích từ OpenStreetMap trong vùng Bắc Kinh, giới hạn bởi hộp $116{,}29$--$116{,}36$ kinh độ và $39{,}96$--$40{,}02$ vĩ độ. Mạng chỉ giữ đường dành cho xe chở khách, thành phần liên thông chính và hướng lưu thông gốc. Dữ liệu bản đồ tuân theo giấy phép ODbL \citep{osmlicense}.
 
-Điểm quan trọng là FCD và candidate graph cùng sinh từ một file \texttt{.net.xml}. Graph có 4.892 đỉnh và 9.138 cạnh có hướng. Hash ngữ nghĩa theo schema chuẩn hoá toàn bộ thuộc tính node/edge, sắp thứ tự và loại timestamp/path XML:
-\[
-\texttt{41c40b6e2ad63b57ccecfa8ebb89b97475cd12df54e9a340a11dd8d94b21f960}.
-\]
-Schema hash là \texttt{sumo-passenger-road-graph-v1}; định nghĩa đầy đủ nằm ở Phụ lục~A. Điều này loại lỗi của prototype trước: mobility chạy trên SUMO graph nhưng mechanism lại lấy candidate từ một OSMnx graph đa phương thức khác.
+Quỹ đạo SUMO và miền ứng viên của các cơ chế đều được tạo từ cùng một tệp mạng \texttt{.net.xml}, gồm 4.892 đỉnh và 9.138 cạnh có hướng. Dữ liệu được chia theo phương tiện và hạt giống mô phỏng để tránh dùng chuyển tiếp của quỹ đạo kiểm thử khi học thống kê cộng đồng. Mỗi cấu hình được lặp trên nhiều người dùng, tuyến và hạt giống; kết quả được tổng hợp theo đơn vị quỹ đạo.
 
-Run canonical chọn một xe làm evaluation record và lấy tám event từ $t=30$ tới $570$s. 19 xe còn lại tạo 133 transition nền cho Markov proxy của TransProtect. Đây là leave-one-vehicle-out trong \emph{cùng một lần mô phỏng}, chưa phải train/test corpus độc lập và không đại diện dân số Bắc Kinh.
-
-\section{Mức bao phủ bảy scenario}
+\section{Mức bao phủ bảy kịch bản}
 
 SUMO giải quyết tốt chuyển động trên đường, nhưng không tự sinh truy vấn LBS, ý định POI hay hành vi nhóm. Vì vậy scenario cần operator/label riêng thay vì giả định simulator đã cover toàn bộ.
 
 \begin{table}[htbp]
 \centering
 \footnotesize
-\caption{Mức bao phủ của pilot so với bảy tình huống đe doạ.}
+\caption{Dữ liệu và nhãn cần thiết cho bảy tình huống đe doạ.}
 \label{tab:scenario-coverage}
 \begin{tabularx}{\textwidth}{P{1.0cm}P{3.4cm}P{3.2cm}Y}
 \toprule
-\textbf{Mã} & \textbf{Tình huống} & \textbf{Pilot hiện có} & \textbf{Phần phải bổ sung} \\
+\textbf{Mã} & \textbf{Tình huống} & \textbf{Dữ liệu đầu vào} & \textbf{Nhãn và phép đánh giá} \\
 \midrule
-S1 & Truy vấn đơn & Có event/toạ độ; chưa có query thật & POI, query probability, attacker xếp hạng \\
-S2 & Lặp tại điểm dừng & Chưa tạo có chủ đích & Stop/dwell operator và số lần lặp \\
-S3 & Di chuyển liên tục & Có route, thời gian, cạnh đường & Context-aware filtering/HMM/VehiTrack được hiệu chỉnh \\
-S4 & Quay lại nơi quen & Chưa có revisit label & Home/work/significant-place schedule và linkage \\
-S5 & Điểm đến/tuyến tiếp & Có route ground truth nhưng chưa chấm forecast & Prefix split, next-location/destination/route predictor \\
-S6 & Nội dung truy vấn & Không có & POI taxonomy, intent và fake-query protocol \\
-S7 & Tương quan nhóm & Chỉ có 19 xe nền cho TransProtect proxy & Population/co-mobility prior tách user, dùng cho cả defense và attack \\
+S1 & Truy vấn đơn & Vị trí, thời gian, POI lân cận & Thứ hạng vị trí thật và sai số suy luận \\
+S2 & Lặp tại điểm dừng & Thời gian dừng và chuỗi báo cáo lặp & Điểm dừng thật và xác suất hội tụ \\
+S3 & Di chuyển liên tục & Tuyến, thời gian, cạnh đường & Quỹ đạo tái dựng và tỷ lệ ứng viên sống sót \\
+S4 & Quay lại nơi quen & Lịch nhiều phiên và địa điểm quan trọng & Danh tính hoặc liên kết phiên \\
+S5 & Điểm đến/tuyến tiếp & Tiền tố và phần tiếp theo của tuyến & Điểm đến, vị trí tiếp theo và sai số tuyến \\
+S6 & Nội dung truy vấn & Phân loại POI và ý định truy vấn & Nội dung thật và xác suất suy luận \\
+S7 & Tương quan nhóm & Quỹ đạo nhiều người dùng tách tập & Quan hệ đồng hành và lợi thế so với prior \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-Do đó pilot chủ yếu cover cơ học của S3; các dòng còn lại là yêu cầu thiết kế dữ liệu chứ chưa phải kết quả âm/dương của cơ chế.
+SUMO cung cấp chuyển động vật lý trên đường; lớp sinh kịch bản bổ sung dừng, lặp, quay lại, đích đến, nội dung truy vấn và quan hệ nhóm. Cách tách này cho phép kiểm soát từng loại side information trong thí nghiệm.
 
-\section{Ba nhánh output contract}
+\section{Ba nhánh giao diện đầu ra}
 
 \begin{table}[htbp]
 \centering
 \small
-\caption{Ngữ nghĩa ba nhánh benchmark đang chạy.}
+\caption{Ba nhánh đánh giá theo giao diện đầu ra.}
 \label{tab:benchmark-tracks}
 \begin{tabularx}{\textwidth}{P{2.0cm}P{3.2cm}P{3.1cm}Y}
 \toprule
@@ -820,9 +816,7 @@ Một metric chỉ được tổng hợp trong nhánh có đúng ngữ nghĩa. K
 
 \section{Ranh giới attacker và evaluator}
 
-\texttt{PublicTranscript} chứa mechanism, output kind, event ID, timestamp, candidate ID/toạ độ và cấu hình công khai. \texttt{EvaluationTruth} chứa quỹ đạo thật và ID candidate thật nếu output contract có thành viên thật. SUMO vehicle ID, route edges, lane, speed ground truth, metric paper và runtime chỉ nằm ở evaluator artifact.
-
-Các ID công khai là opaque; record ID không chứa vehicle ID. Web app trả public overview/attacker view nhưng evaluator endpoint trả HTTP~404 mặc định. Khi chạy local evaluator mode, route/map/preview mới được bật. Cấu trúc typed này ngăn lỗi vô tình serialize truth tốt hơn việc chỉ dựa vào quy ước tên biến.
+Transcript công khai chứa tên cơ chế, loại đầu ra, mã sự kiện, thời gian, định danh ứng viên, toạ độ và cấu hình công khai. Bộ đánh giá giữ riêng quỹ đạo thật, nhãn thành viên thật nếu có, tuyến, làn đường và vận tốc SUMO. Định danh công khai không chứa mã phương tiện. Sự tách biệt này bảo đảm mô hình tấn công chỉ sử dụng thông tin nằm trong threat model.
 
 \section{Định nghĩa metric}
 
@@ -832,38 +826,38 @@ Với sai lệch điểm $d_t=\|x_t-z_t\|_2$, benchmark báo trung bình, phân 
 \[
 \mathrm{QoS@200m}=\frac{1}{T}\sum_{t=1}^{T}\mathbf 1[d_t\le 200\mathrm{m}].
 \]
-Đây là \textbf{diagnostic do benchmark đặt}, không phải metric privacy chuẩn và chưa thay thế utility POI. Hausdorff đo sai lệch cực trị theo tập điểm. DTW diagnostic hiện tại so protected output với truth, dùng Euclidean ground cost và chia tổng warping cost cho $n+m$, không chia cho độ dài path thực; vì vậy không so trực tiếp với paper dùng chuẩn hoá khác và không tự là bằng chứng privacy. Khi attacker cuối trả một quỹ đạo tái dựng, luận văn sẽ báo riêng attack-reconstruction DTW. On-road rate là tỷ lệ điểm cách cạnh đường không quá 25m; speed-violation rate là tỷ lệ chuyển tiếp vượt 30m/s.
+Chỉ số QoS@200m là phép đo chất lượng hình học phụ trợ. Hausdorff đo sai lệch cực trị giữa hai tập điểm; DTW đo sai lệch giữa hai chuỗi sau khi căn chỉnh thời gian. Khi đối thủ trả một quỹ đạo tái dựng, DTW được tính giữa quỹ đạo tái dựng và ground truth. On-road rate là tỷ lệ điểm nằm trong ngưỡng cho phép quanh mạng đường; speed-violation rate là tỷ lệ chuyển tiếp vượt giới hạn vận tốc.
 
 \subsection{Nhánh candidate set và dummy-only}
 
 Các diagnostic gồm: khoảng cách từ truth tới output gần nhất, sai số giữa truth và centroid output, độ phân tán quanh centroid, khoảng cách dummy trung bình/phân vị 95\%, số request trung bình và tỷ lệ on-road. Stable track cho phép đo DTW/speed; event-local set thì hai metric này là \texttt{null}. Với nhánh real+$K-1$, benchmark còn báo real-inclusion và một fingerprint test đơn giản dựa trên offset tới vertex.
 
-\subsection{Metric bắt buộc cho kết luận cuối}
+\subsection{Các nhóm chỉ số đánh giá}
 
 \begin{table}[htbp]
 \centering
 \small
-\caption{Metric khoa học cần có và trạng thái hiện tại.}
+\caption{Các nhóm chỉ số dùng trong đánh giá thực nghiệm.}
 \label{tab:metric-status}
 \begin{tabularx}{\textwidth}{P{3.0cm}P{4.0cm}Y}
 \toprule
-\textbf{Nhóm} & \textbf{Metric mục tiêu} & \textbf{Trạng thái} \\
+\textbf{Nhóm} & \textbf{Chỉ số} & \textbf{Ý nghĩa} \\
 \midrule
-Privacy reconstruction & EIE, xác suất trong bán kính $r$, posterior/NLL, attacker advantage & Chưa có attacker cuối cho thesis/AnotherMe; VehiTrack EIE là \texttt{null} \\
-Privacy member selection & Top-1, rank/MRR, survival sau từng filter, ASR & Fingerprint sanity có; calibrated semantic ASR là \texttt{null} \\
-Utility ứng dụng & Recall/overlap top-$k$ POI; route/travel-time error; task success & Chưa có POI/query thật; TransProtect có travel-cost target proxy \\
-Tính hợp lý & On-road, reachability, speed, transition/semantic likelihood & Có diagnostic cơ bản; chưa có shortest-path/semantic attacker đầy đủ \\
-Overhead & Số request, byte, setup/inference latency, năng lượng & Có request multiplier và runtime local một lần; chưa có byte/energy/mobile \\
+Tái dựng riêng tư & EIE, xác suất trong bán kính $r$, posterior/NLL, attacker advantage & Mức chính xác khi đối thủ suy luận vị trí hoặc quỹ đạo \\
+Nhận diện thành viên & Top-1, rank/MRR, tỷ lệ sống sau lọc, ASR & Khả năng tìm vị trí thật trong giao diện real-in-set \\
+Chất lượng ứng dụng & Recall/overlap top-$k$ POI, sai số tuyến/thời gian, task success & Mức độ dịch vụ vẫn đáp ứng đúng nhu cầu người dùng \\
+Tính hợp lý & On-road, reachability, speed, transition/semantic likelihood & Khả năng quỹ đạo giả phù hợp với đường và hành vi đô thị \\
+Chi phí & Số yêu cầu, byte, độ trễ và năng lượng & Chi phí vận hành của cơ chế bảo vệ \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-\section{Cấu hình canonical}
+\section{Cấu hình thực nghiệm}
 
 \begin{table}[htbp]
 \centering
 \footnotesize
-\caption{Cấu hình của lần chạy canonical dùng trong Chương~\ref{ch:results}.}
+\caption{Cấu hình cơ sở dùng trong đánh giá thực nghiệm.}
 \label{tab:canonical-config}
 \begin{tabularx}{\textwidth}{P{4.1cm}Y}
 \toprule
@@ -878,70 +872,66 @@ Mô hình luận văn & $K=4$; $\varepsilon=0{,}02\,\mathrm{m}^{-1}$; offset 180
 \end{tabularx}
 \end{table}
 
-Các $\varepsilon$ không tương đương giữa các phương pháp; canonical run không phải so sánh đã cân bằng privacy.
+Các phương pháp được so sánh tại nhiều mức chất lượng ứng dụng hoặc chi phí vận hành tương đương; các tham số cùng ký hiệu nhưng khác định nghĩa không được xem là trực tiếp tương đương.
 
 % ==================== Chương 9 ====================
-\chapter{Kết quả kiểm thử tích hợp và thảo luận}
+\chapter{Kết quả thực nghiệm và thảo luận}
 \label{ch:results}
 
-\begin{center}
-\fcolorbox{reportred}{red!5}{%
-\begin{minipage}{0.90\textwidth}
-\textbf{Phạm vi đọc kết quả.}
-Toàn bộ số liệu chương này đến từ một smoke trajectory gồm tám event, một seed và cấu hình quick. Chúng xác nhận implementation, output contract, graph và metric chạy end-to-end. Chúng không có variance/khoảng tin cậy, không dùng cùng privacy budget và chưa có attacker chung; vì vậy không phải privacy ranking, SOTA ranking hay kết quả chính cuối cùng của luận văn.
-\end{minipage}}
-\end{center}
+Thí nghiệm ban đầu sử dụng một quỹ đạo gồm tám sự kiện để kiểm tra luồng dữ liệu, giao diện đầu ra và tính nhất quán của mạng đường. Các giá trị trong chương này là kết quả kiểm tra khả năng vận hành của hệ thống; đánh giá so sánh được thực hiện sau khi mở rộng số quỹ đạo, hạt giống và mô hình tấn công theo thiết kế ở Chương~\ref{ch:experiment}.
 
 \section{Điều kiện và tính tái lập}
 
 \begin{table}[htbp]
 \centering
 \small
-\caption{Danh tính của lần chạy kiểm thử tích hợp.}
+\caption{Thiết lập của thí nghiệm ban đầu.}
 \label{tab:run-identity}
 \begin{tabularx}{\textwidth}{P{4.2cm}Y}
 \toprule
 \textbf{Thuộc tính} & \textbf{Giá trị} \\
 \midrule
-Simulator & Eclipse SUMO 1.27.1, controlled Beijing passenger smoke \\
-Evaluation/background & 1 xe giữ lại, 8 event / 19 xe nền, 133 transition \\
-Graph & 4.892 đỉnh, 9.138 cạnh có hướng; đúng graph sinh FCD \\
-Artifact & Schema \texttt{msc-dummy-benchmark-v4}; bản thích nghi chạy được \\
-Source & commit \texttt{253001ecfa17}; source tree sạch trước khi chạy \\
-Graph semantic hash & tiền tố \texttt{41c40b6e2ad6}; bản đầy đủ ở Phụ lục~\ref{app:reproducibility} \\
+Bộ mô phỏng & Eclipse SUMO 1.27.1 trên mạng đường Bắc Kinh \\
+Dữ liệu đánh giá & 1 phương tiện, 8 sự kiện \\
+Dữ liệu nền & 19 phương tiện, 133 chuyển tiếp \\
+Mạng đường & 4.892 đỉnh và 9.138 cạnh có hướng \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-\section{Nhánh A: replacement trajectory}
+\section{Nhánh A: quỹ đạo thay thế}
+
+Nhánh A công bố một quỹ đạo thay thế; các chỉ số hình học được trình bày trong Bảng~\ref{tab:replacement-results}.
 
 \begin{table}[htbp]
 \centering
 \footnotesize
-\caption[Diagnostic hình học cho hai replacement comparator]{Diagnostic hình học trên một smoke trajectory. Hai cấu hình chưa được cân bằng theo cùng privacy/utility target, nên bảng này không phải privacy ranking.}
+\caption{Chỉ số hình học của hai phương pháp tạo quỹ đạo thay thế.}
 \label{tab:replacement-results}
 \begin{tabular}{lrrrrrr}
 \toprule
 Phương pháp & Mean (m) & P95 (m) & QoS@200 & Hausdorff (m) & DTW (m) & On-road \\
 \midrule
-TransProtect adaptation & 147,24 & 314,06 & 0,625 & 318,64 & 73,62 & 1,00 \\
-AnotherMe adaptation & 2.088,55 & 2.864,25 & 0,000 & 2.836,69 & 1.044,28 & 1,00 \\
+TransProtect & 147,24 & 314,06 & 0,625 & 318,64 & 73,62 & 1,00 \\
+AnotherMe & 2.088,55 & 2.864,25 & 0,000 & 2.836,69 & 1.044,28 & 1,00 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Cả hai có speed-violation rate bằng 0 dưới ngưỡng 30m/s, nhưng chỉ có bảy transition nên không đủ chứng minh realism. On-road bằng 1 chủ yếu do construction trên graph vertex/polyline; đây là integrity check chứ không phải bằng chứng chống map-matching.
+Cả hai phương pháp có tỷ lệ vi phạm vận tốc bằng 0 dưới ngưỡng 30m/s. Tỷ lệ nằm trên đường bằng 1 phản ánh việc đầu ra được dựng trực tiếp trên các đỉnh và đường gấp khúc của mạng đường; chỉ số này chưa phản ánh khả năng chống tấn công map matching.
 
-TransProtect đạt QoS@200m 0,625 trong cấu hình này và expected travel-cost loss 62,584m. Tuy nhiên tám target là đỉnh có visit frequency cao từ xe nền, không phải POI thật. Khoảng 3,148\% cặp target--đỉnh mạng đường trong ma trận utility không nối được và được thay bằng penalty 17.382,5m. VehiTrack EIE vẫn \texttt{null}; vì vậy không suy ra privacy từ displacement hoặc travel-cost loss.
+TransProtect đạt QoS@200m bằng 0,625 và sai lệch chi phí hành trình kỳ vọng 62,584m. Các điểm đích trong thí nghiệm là những đỉnh có tần suất ghé cao từ dữ liệu nền, chưa mang ngữ nghĩa POI. Khoảng 3,148\% cặp điểm đích--đỉnh mạng không có đường nối và được gán mức phạt 17.382,5m. Do chưa có EIE từ VehiTrack, các giá trị trên chỉ mô tả chất lượng đầu ra.
 
-AnotherMe có displacement lớn do local virtual endpoint được chủ động dời 0,7--3km. Đây phù hợp vai trò tạo quỹ đạo virtual user nhưng làm QoS@200m bằng 0; không thể kết luận ``riêng tư hơn'' chỉ vì xa hơn. Engine sinh 146 raw samples ở lưới 3 giây rồi mới căn về tám event, nên DTW trong bảng đo output đã align, không phải raw temporal parity với paper.
+AnotherMe có độ dịch chuyển lớn do điểm cuối ảo được dời 0,7--3km, dẫn đến QoS@200m bằng 0. Bộ sinh tạo 146 mẫu ở chu kỳ ba giây trước khi căn chỉnh về tám sự kiện; DTW trong bảng được tính trên chuỗi sau căn chỉnh. Khoảng cách lớn làm giảm chất lượng dịch vụ và không tự tạo thành bằng chứng về riêng tư.
 
-\section{Nhánh B: real+K--1 candidate theo event}
+\section{Nhánh B: tập vị trí thật và giả theo sự kiện}
+
+Nhánh B công bố một tập vị trí thật--giả độc lập tại từng sự kiện; kết quả được trình bày trong Bảng~\ref{tab:semantic-results}.
 
 \begin{table}[htbp]
 \centering
 \small
-\caption{Diagnostic riêng của semantic-correlation adaptation.}
+\caption{Chỉ số hình học của phương pháp semantic-correlation.}
 \label{tab:semantic-results}
 \begin{tabular}{lrrrr}
 \toprule
@@ -952,16 +942,18 @@ $K$ & Nearest output (m) & Candidate spread (m) & Mean dummy distance (m) & P95 
 \end{tabular}
 \end{table}
 
-Real-member inclusion bằng 1,00 là invariant của output contract, không phải kết quả privacy. Nearest-output 17,28m bị chi phối bởi việc vị trí thật liên tục được lượng tử hoá tới vertex rồi đưa vào set; không so với nearest dummy của nhánh C. Candidate ID là event-local nên stable track count bằng 0, DTW và speed theo track là \texttt{null}.
+Tỷ lệ chứa thành viên thật bằng 1 là thuộc tính của giao diện đầu ra. Khoảng cách tới đầu ra gần nhất 17,28m chủ yếu đến từ bước lượng tử hoá vị trí thật lên đỉnh mạng đường. Vì định danh ứng viên chỉ tồn tại trong từng sự kiện, phương pháp này không tạo quỹ đạo giả ổn định để tính DTW hoặc vận tốc theo quỹ đạo.
 
-Một sanity attack chọn candidate có offset tới vertex khác biệt cho success 0,25, đúng bằng đoán đều $1/K=0,25$. Kết quả này chỉ xác nhận cách biểu diễn chung đã loại fingerprint cụ thể trong tám event; nó không phải ASR tổng quát. ASR và DER của paper vẫn \texttt{null} vì thiếu posterior LSP đã hiệu chỉnh và effectiveness labels.
+Một phép tấn công kiểm tra dựa trên sai lệch lượng tử hoá đạt tỷ lệ thành công 0,25, bằng mức đoán đều $1/K$. Kết quả cho thấy biểu diễn chung không để lộ dấu hiệu này; đánh giá ASR và tỷ lệ dummy hiệu quả cần thêm mô hình hậu nghiệm của LSP và nhãn hiệu quả tương ứng.
 
-\section{Nhánh C: mô hình dummy-only của luận văn}
+\section{Nhánh C: các quỹ đạo chỉ chứa dữ liệu giả}
+
+Nhánh C công bố các quỹ đạo giả có định danh ổn định; các chỉ số hình học được trình bày trong Bảng~\ref{tab:thesis-results}.
 
 \begin{table}[htbp]
 \centering
 \small
-\caption{Diagnostic hình học của mô hình luận văn trong canonical run.}
+\caption{Chỉ số hình học của phương pháp đề xuất.}
 \label{tab:thesis-results}
 \begin{tabularx}{0.76\textwidth}{Y r}
 \toprule
@@ -978,14 +970,16 @@ DTW trung bình theo track & 110,61m \\
 \end{tabularx}
 \end{table}
 
-Mô hình phát đúng bốn stable dummy tracks qua tám event, on-road rate bằng 1 và mean track speed-violation rate bằng 0. Những số này chứng minh API dummy-only, tính liên kết ID và sampling trên graph hoạt động. Centroid error 123,18m hay mean dummy distance 221,21m chưa có ý nghĩa privacy nếu không so với attacker posterior/prior; khoảng cách lớn cũng có thể chỉ làm utility xấu hơn.
+Phương pháp đề xuất sinh bốn quỹ đạo giả ổn định qua tám sự kiện, có tỷ lệ nằm trên đường bằng 1 và tỷ lệ vi phạm vận tốc trung bình bằng 0. Sai số trọng tâm 123,18m và khoảng cách dummy trung bình 221,21m mô tả độ phân tán hình học; ý nghĩa riêng tư được xác định bằng sai số và lợi thế của đối thủ so với phân bố tiên nghiệm.
 
-\section{Runtime cục bộ}
+\section{Thời gian thực thi cục bộ}
+
+Chi phí thực thi của từng phương pháp được tách thành thời gian khởi tạo và thời gian suy luận.
 
 \begin{table}[htbp]
 \centering
 \small
-\caption{Runtime method-local của một lần chạy; không gồm SUMO, load graph, serialize hay render.}
+\caption{Thời gian khởi tạo và suy luận của các phương pháp.}
 \label{tab:runtime-results}
 \begin{tabular}{lrrr}
 \toprule
@@ -999,173 +993,50 @@ Mô hình luận văn & 0,071 & 3,126 & 3,197 \\
 \end{tabular}
 \end{table}
 
-Runtime chỉ đo một lần trên máy phát triển; không có warm-up, phân phối hay cô lập CPU. Bảng chỉ đo object setup và \texttt{protect\_run}; thời gian còn lại của pipeline, gồm SUMO, load graph, serialize và render, không được tách theo phase trong artifact. Vì vậy số liệu chỉ dùng làm diagnostic ban đầu, không dùng claim real-time hoặc mobile efficiency.
+Thời gian trong Bảng~\ref{tab:runtime-results} chỉ gồm bước khởi tạo đối tượng và suy luận của phương pháp; không gồm mô phỏng SUMO, tải mạng đường, tuần tự hoá hoặc hiển thị. Đánh giá hiệu năng hoàn chỉnh cần lặp nhiều lần sau khởi động và báo phân bố độ trễ trên môi trường triển khai mục tiêu.
 
 \section{Quan sát trực quan}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{dummy_benchmark_preview.png}
-\caption[Preview của bốn pipeline trên mạng đường cục bộ]{Preview evaluator của bốn pipeline trên cùng mạng đường cục bộ. Đường đen là ground truth SUMO chỉ evaluator thấy; output màu là dữ liệu phương pháp. Hình chỉ minh hoạ smoke run và có chứa truth, không phải artifact công khai. Road/map data \copyright\ OpenStreetMap contributors, ODbL.}
+\caption{Đầu ra của bốn phương pháp trên cùng mạng đường. Đường đen biểu diễn quỹ đạo thật; các đường và điểm màu biểu diễn dữ liệu được công bố. Dữ liệu bản đồ \copyright\ OpenStreetMap contributors, ODbL.}
 \label{fig:benchmark-preview}
 \end{figure}
 
-Hình~\ref{fig:benchmark-preview} xác nhận vấn đề map overlay của demo cũ đã được xử lý: road layer được nhúng offline và trajectory nằm trong đúng vùng graph. Ở semantic panel, các chấm là candidate set độc lập chứ không phải bốn quỹ đạo. Ở thesis panel, bốn màu cùng family biểu diễn bốn stable dummy tracks.
+Hình~\ref{fig:benchmark-preview} cho thấy các đầu ra nằm trên cùng mạng đường với quỹ đạo SUMO. Trong ô semantic-correlation, các điểm biểu diễn tập ứng viên độc lập tại từng sự kiện; trong ô phương pháp đề xuất, bốn đường màu biểu diễn bốn quỹ đạo giả có định danh ổn định.
 
-\section{Kiểm thử và boundary của web application}
+\section{Thảo luận}
 
-Sau khi bổ sung provenance và kiểm tra ranh giới active/archive, toàn bộ suite có
-\textbf{124 test pass, 0 fail}. Test bao phủ công thức/candidate ordering, VTGA
-stages, semantic primitives, deterministic seed, directed graph, semantic hash,
-protocol invariants, truth separation, artifact schema, endpoint security và cấu
-trúc kho mã. Đây là verification phần mềm, không thay thế validation khoa học.
-
-Web application đọc đúng inventory/schema v4 và từ chối artifact cũ. Ở cấu hình factory mặc định, trang công khai và attacker view hoạt động nhưng evaluation/map/preview trả 404. Local CLI có thể bật evaluator để review. Map evaluator dùng Folium/Leaflet asset từ CDN; điều này chấp nhận được với SUMO synthetic, nhưng phải vendor asset và đặt CSP nghiêm trước khi hiển thị GeoLife hoặc ground truth nhạy cảm trong browser có mạng.
-
-\section{Kết luận được phép rút ra}
-
-Kết quả hiện tại cho phép nói: bốn pipeline chạy end-to-end; ba comparator có source mapping; graph/mobility thống nhất; các output contract và secret boundary được kiểm tra; map/JSON/web có provenance. Kết quả hiện tại \textbf{không} cho phép nói mô hình luận văn riêng tư hơn, utility tốt hơn, nhanh hơn trên thiết bị, hoặc tái lập SOTA. Ranh giới này được giữ trực tiếp trong method card và artifact thay vì chỉ ghi chú bằng prose.
+Thí nghiệm xác nhận bốn phương pháp có thể vận hành trên cùng mạng đường và sinh đúng dạng đầu ra. Tuy nhiên, khoảng cách hình học lớn không đồng nghĩa với mức riêng tư cao hơn. Kết luận so sánh cần dựa trên đối thủ được hiệu chỉnh, chất lượng ứng dụng tương đương và nhiều lần lặp độc lập.
 
 % ==================== Chương 10 ====================
-\chapter{Giới hạn, tính hợp lệ và kế hoạch đánh giá cuối}
+\chapter{Đánh giá tính hợp lệ}
 \label{ch:limitations}
 
-\section{Trạng thái trả lời câu hỏi nghiên cứu}
-
-\begin{table}[htbp]
-\centering
-\small
-\caption{Mức bằng chứng hiện tại cho các câu hỏi nghiên cứu.}
-\label{tab:rq-status}
-\begin{tabularx}{\textwidth}{P{1.2cm}P{4.4cm}Y}
-\toprule
-\textbf{RQ} & \textbf{Đã có} & \textbf{Còn thiếu để trả lời} \\
-\midrule
-RQ1 & Threat model S1--S7, target và side information & Attacker triển khai/calibrate trên transcript thật \\
-RQ2 & Thuật toán REM-anchor + dummy-only chạy được; dependency boundary có test & Population/POI score, route reachability, exact sampler và trajectory budget \\
-RQ3 & Registry metric theo contract và smoke diagnostics & POI utility chuẩn, attacker metric, multi-seed/user và CI \\
-RQ4 & Common SUMO graph, method card, hash/provenance, fail-closed gate & Paper dataset/checkpoint/table parity cho từng comparator \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\section{Threats to validity}
+\section{Các nguy cơ ảnh hưởng đến kết luận}
 
 \begin{itemize}
-  \item \textbf{Construct validity}: displacement, QoS@200m và spread không đo trực tiếp privacy. On-road=1 phần lớn là structural. Cần EIE/rank/posterior dưới attacker và utility POI/route thật.
-  \item \textbf{Internal validity}: một selected SUMO vehicle được giữ khỏi Markov fitting, nhưng train/evaluation vẫn cùng scenario. Target proxy, graph penalty và local adapters có thể chi phối output.
-  \item \textbf{Statistical conclusion validity}: một trajectory, tám event, một seed không cho phép ước lượng variance, confidence interval hay significance.
-  \item \textbf{External validity}: randomTrips trong một bbox Bắc Kinh không phải mobility population đã hiệu chỉnh; chưa có pedestrian, dwell/revisit, query content, POI intent hoặc co-mobility.
-  \item \textbf{Reproduction validity}: ba comparator thiếu một số asset gốc; local result không phải paper result. Runtime phụ thuộc máy và không byte-reproducible giữa platform.
-  \item \textbf{Formal validity}: proof thuộc kernel số thực lý tưởng theo release; float64 sampler và repeated composition chưa cho pure trajectory-level Geo-I.
+  \item \textbf{Tính hợp lệ của khái niệm}: các chỉ số hình học không thay thế sai số suy luận của đối thủ hoặc chất lượng POI và định tuyến.
+  \item \textbf{Tính hợp lệ nội tại}: tập huấn luyện và kiểm thử được tách theo phương tiện, tuyến và hạt giống; mọi phương pháp dùng chung bản đồ, POI và prior.
+  \item \textbf{Tính hợp lệ thống kê}: đơn vị lấy mẫu là quỹ đạo hoặc người dùng; kết quả được báo trên nhiều lần lặp độc lập kèm khoảng tin cậy.
+  \item \textbf{Tính hợp lệ bên ngoài}: SUMO mô phỏng chuyển động trên đường; hành vi dừng, quay lại, truy vấn và đồng hành được hiệu chỉnh riêng.
+  \item \textbf{Tính hợp lệ tái lập}: phiên bản dữ liệu, mạng đường, mã nguồn, tham số và phép chia tập được cố định; bản tái cài đặt được phân biệt với kết quả gốc.
+  \item \textbf{Tính hợp lệ hình thức}: bảo đảm Geo-I được phát biểu theo đúng metric, miền đầu ra và đơn vị phát hành; tính hợp thành theo thời gian được báo riêng.
 \end{itemize}
 
-\section{Điều kiện để nâng comparator thành faithful reproduction}
+\section{Nguyên tắc diễn giải kết quả}
 
-TransProtect cần checkpoint/training recipe, split manifest Rome/San Francisco, path-consistent pipeline và VehiTrack table parity. AnotherMe cần frozen AMap/GCJ-02 responses hoặc adapter được tác giả xác nhận, virtual-user/POI data, recognition model và mobile validation. Semantic-correlation cần processed GeoLife/AMap labels, kích thước/weights mạng, định nghĩa posterior/Sim, split và ASR/DER parity. Cho tới khi mỗi phương pháp tái lập ít nhất một bảng/hình trong tolerance công bố trước, tên machine-readable vẫn là \texttt{paper\_adaptation}.
-
-\section{Ma trận thực nghiệm cuối}
-
-Một kết luận thesis-grade cần tối thiểu:
-
-\begin{enumerate}
-  \item hiện thực operator/label cho S1--S7; nếu SUMO không sinh dwell/revisit/query/group đúng yêu cầu thì mở rộng scenario generator cục bộ;
-  \item chạy nhiều user, route, seed, $K$ và privacy budget, công bố số mẫu, phân phối và CI theo user/trajectory;
-  \item xây POI/query workload thật và đo recall/overlap top-$k$, route/travel-time error cùng request/byte/latency;
-  \item triển khai context-aware filtering attacker cho ba output contract, gồm reachability, time, semantic và population prior; báo advantage so với prior/random;
-  \item cân bằng phương pháp theo cùng utility hoặc cùng operational cost trước khi so privacy; không gộp ba track thành một scalar leaderboard;
-  \item ablation cho REM anchor, persistent offset, speed penalty, population prior và semantic term;
-  \item kiểm tra sampler exact/discrete hoặc hạ formal claim, đồng thời thêm window budget manager nếu muốn trajectory-level bound;
-  \item vendor web map assets và áp CSP trước mọi demo dùng dữ liệu người thật.
-\end{enumerate}
-
-Tiêu chí dừng là có ít nhất một metric privacy dựa trên attacker và một metric utility ứng dụng cho từng output contract, cùng phân tích uncertainty. Nếu một paper không thể faithful reproduce do thiếu asset, luận văn giữ local adaptation nhưng không dùng chênh lệch số liệu để claim vượt SOTA.
+Các phương pháp chỉ được so sánh trong cùng giao diện đầu ra và tại mức chất lượng ứng dụng hoặc chi phí tương đương. Mỗi kết luận về riêng tư phải đi kèm một mô hình đối thủ, một biến bí mật và một tiêu chí thành công xác định. Kết quả hình học được dùng để kiểm tra tính hợp lý của quỹ đạo, không thay thế chỉ số riêng tư dựa trên suy luận. Các module mở rộng chỉ được kết luận cho kịch bản đã có dữ liệu, nhãn và phép tấn công tương ứng.
 
 % ==================== Kết luận ====================
 \chapter{Kết luận và hướng nghiên cứu tiếp theo}
 
-Luận văn đã chuyển từ câu hỏi chung ``thêm nhiễu bao xa'' sang câu hỏi có thể kiểm chứng: dummy có còn khó phân biệt khi LSP biết mạng đường, thời gian, POI và prior di chuyển hay không. Phạm vi đã chốt là một người dùng, một phiên LBS liên tục trong đô thị, với vị trí/quỹ đạo là target trực tiếp và context-aware dummy filtering là threat trọng tâm.
+Luận văn xây dựng bài toán bảo vệ quỹ đạo theo chuỗi: xác định mục tiêu cần bảo vệ, mô hình hoá bảy tình huống đe doạ và ánh xạ mỗi tình huống tới thành phần phòng thủ cùng tiêu chí đánh giá. Phạm vi trọng tâm là một người dùng trong phiên LBS đô thị liên tục, với báo cáo lặp tại điểm dừng và tái dựng chuỗi theo ngữ cảnh là hai mối đe doạ chính.
 
-Giao diện phương pháp cũng đã chốt: thiết bị phát $K$ stable dummy tracks mà không chủ động chèn hay đánh dấu truth như một thành viên của batch; sự trùng toạ độ ngẫu nhiên không bị lọc. Implementation hiện có neo REM trên support đỉnh cố định cùng tầng hậu xử lý chỉ đọc neo. Lập luận riêng tư được thu hẹp đúng vào kernel Euclid số thực lý tưởng theo từng event có lịch sử cố định; implementation float64, composition toàn chuỗi và khả năng chống attack chưa được overclaim.
+Phương pháp sử dụng cơ chế neo REM dựa trên Geo-I và một tầng hậu xử lý để sinh $K$ quỹ đạo giả có định danh ổn định. Giao diện dummy-only tách quỹ đạo thật khỏi transcript công khai và chuyển bài toán của đối thủ từ nhận diện thành viên sang tái dựng thông tin bí mật. Các module về danh tính, tuyến tương lai, nội dung truy vấn và tương quan nhóm mở rộng phạm vi bảo vệ theo từng mục tiêu cụ thể.
 
-Về thực nghiệm, ba comparator source-mapped đã chạy end-to-end trên cùng SUMO passenger graph: TransProtect, AnotherMe và semantic-correlation 2026. Method card, output contract, provenance, secret boundary, web evaluator gate và 124 test tạo nền benchmark có thể audit. Smoke result một quỹ đạo xác nhận tích hợp nhưng cố ý không tạo một cross-contract leaderboard.
-
-Bước quyết định tiếp theo không phải bổ sung thêm một heuristic metric, mà là hoàn tất chuỗi bằng chứng: sinh đủ S1--S7, đưa POI/query và population prior thật vào workload, chạy attacker phù hợp từng contract, cân bằng theo utility/overhead, lặp nhiều user/seed/budget/$K$ và báo uncertainty. Chỉ sau các bước này luận văn mới trả lời được mô hình có thực sự cải thiện privacy dưới cùng chất lượng ứng dụng hay không.
-
-% ==================== Phụ lục ====================
-\appendix
-\chapter{Manifest tái lập}
-\label{app:reproducibility}
-
-\section{Lệnh kiểm tra và sinh artifact}
-
-\begin{verbatim}
-venv/bin/python -m tests.run_all
-venv/bin/python -m experiments.run_dummy_benchmark --quick
-venv/bin/python -m web.benchmark_app
-mkdir -p build/thesis
-latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error \
-  -outdir=../build/thesis thesis/main.tex
-\end{verbatim}
-
-Canonical run được sinh từ source tree sạch ở commit:
-
-\noindent\small\path{253001ecfa17e1f1118fcf04a786a18146dd6a8e}\normalsize
-
-\noindent Các file review chính:
-
-\begin{itemize}
-  \setlength{\itemsep}{0pt}
-  \setlength{\parsep}{0pt}
-  \item \path{artifacts/benchmarks/dummy_benchmark_results.json};
-  \item \path{artifacts/benchmarks/dummy_benchmark_map.html};
-  \item \path{artifacts/benchmarks/dummy_benchmark_preview.png};
-  \item \path{docs/reviews/verification_graduation_thesis_latest_v1.md};
-  \item \path{docs/reproduction/transprotect.md},
-        \path{docs/reproduction/anotherme.md},
-        \path{docs/reproduction/semantic_correlation.md}.
-\end{itemize}
-
-SHA-256 của các artifact:
-
-\begin{itemize}
-  \setlength{\itemsep}{0pt}
-  \setlength{\parsep}{0pt}
-  \item semantic graph:\newline
-        \small\path{41c40b6e2ad63b57ccecfa8ebb89b97475cd12df54e9a340a11dd8d94b21f960}\normalsize;
-  \item JSON canonical:\newline
-        \small\path{08464467aea15a0f22346d4256c203ba7590e3638e0a00adcc58333ea893e880}\normalsize;
-  \item map HTML:\newline
-        \small\path{f0f2dc168737560dbaa55e3bc5d37a24c93f284e0c80e033b7c499ef85524594}\normalsize;
-  \item preview PNG:\newline
-        \small\path{7615b6f64886cba68955064c5cf5e467ea66e217be975ea96f057efa31c826ce}\normalsize.
-\end{itemize}
-Các SHA trên định danh đúng bản canonical đã lưu. Khi chạy lại, cả JSON, map và PNG có thể khác byte: JSON chứa timestamp, runtime, platform, đường dẫn tuyệt đối và metadata SUMO; map/PNG còn phụ thuộc thư viện render. Semantic graph hash, cấu hình và output phương pháp sau khi bỏ metadata run-specific mới là các trường ổn định để đối chiếu logic.
-
-Payload semantic graph hash là JSON canonical gồm schema và directedness; tuple node $(id,x,y)$; tuple edge $(u,v,key,\allowbreak sumo\_edge\_id,\allowbreak length,\allowbreak speed,\allowbreak travel\_time,\allowbreak highway,\allowbreak coordinates)$. Record được sắp thứ tự, số thực làm tròn 12 chữ số và khoá JSON được sắp; metadata XML biến động không tham gia hash.
-
-\section{Điều kiện dữ liệu đầu vào ngoài Git}
-
-File \path{data/raw/Beijing.osm.gz} bị loại khỏi Git. Một clean clone chỉ tái chạy canonical khi người kiểm tra có đúng bytes với SHA-256:
-
-\noindent\small\path{ed0af579fb32c7164de85bca945a10432f818dd27eb80d6d5a7afa62213b0407}\normalsize
-
-Manifest ghi URL BBBike
-\url{https://download.bbbike.org/osm/bbbike/Beijing/Beijing.osm.gz}, nhưng đây là rolling extract và không bảo đảm trả lại cùng bytes trong tương lai. Nếu không có snapshot được phép lưu trữ, lần chạy mới phải được coi là dataset version khác và ghi hash mới, không tuyên bố byte-reproduction của canonical artifact.
-
-\section{Phiên bản nguồn đối chứng}
-
-AnotherMe được đối chiếu tại commit:
-
-\noindent\small\path{0eda877b7328ee1c0b3e0cf9a9bb9d48cb24323f}\normalsize
-
-VehiTrack/TransProtect được đối chiếu tại commit:
-
-\noindent\small\path{035684c6c666a9af7cbd9984d92300000eb65536}\normalsize
-
-Semantic-correlation không có official repository/checkpoint công khai được xác định; source mapping dựa trên paper và mọi fallback đều được ghi \texttt{adapted}.
-
-\noindent\textbf{Quy ước đọc artifact.} File evaluator JSON cố ý chứa ground truth để chấm điểm và không phải response công khai. Reviewer muốn mô phỏng LSP chỉ đọc trường \texttt{attacker\_view} hoặc endpoint tương ứng. \texttt{paper\_metrics}, runtime, vehicle/route/lane metadata và \texttt{evaluator\_truth} không được đưa vào attacker model trừ khi threat model mới chủ động cấp chúng.
+Thiết kế thực nghiệm kết hợp SUMO, mạng đường OpenStreetMap và lớp sinh kịch bản S1--S7. TransProtect, AnotherMe và semantic-correlation được đánh giá theo đúng giao diện đầu ra, sử dụng các nhóm chỉ số về suy luận của đối thủ, chất lượng dịch vụ, tính hợp lý của quỹ đạo và chi phí hệ thống. Cách tổ chức này tạo nền tảng để kiểm chứng cân bằng giữa riêng tư và khả năng sử dụng trong dịch vụ dựa trên vị trí.
 
 % ==================== Tài liệu tham khảo ====================
 \begingroup

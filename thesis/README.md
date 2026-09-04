@@ -18,5 +18,9 @@ canonical artifact.
 
 The modular chapters and BibTeX database from Internship 2 are preserved at
 `archive/internship_2/thesis/`; they are not imported by the current thesis.
-Current benchmark data used by Chapter 5 remain under
+Current benchmark data used by Chapter 8 remain under
 `artifacts/benchmarks/`.
+
+Development status, implementation caveats and reproducibility notes are kept
+separately in [`notes/draft_clarifications.md`](notes/draft_clarifications.md)
+so that `main.tex` retains the tone and structure of the final thesis.
