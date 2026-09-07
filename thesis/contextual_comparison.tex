@@ -1,0 +1,32 @@
+\section{Phân tích thành phần ngữ cảnh trên năm ca}
+\label{sec:context-study}
+
+Hai thành phần ở Mục~\ref{sec:context-method} cải thiện chất lượng ở một số ca, nhưng chưa tạo ra cấu hình đạt yêu cầu trên cả năm ca. Thử nghiệm giữ nguyên bộ dữ liệu và BR-làn nhận GPS gốc làm đối chứng nội bộ; không thay thế bảng so sánh các công trình ở mục trước.
+
+\subsection{Thiết kế cặp và quy tắc lựa chọn}
+
+Ngoài S1.A, S2.B và S3.A, thử thêm S3.B: chuyển động trong hành lang ít lựa chọn rẽ; S3.C: quan sát thưa, cách nhau 60 giây. S3.B được chọn theo tiêu chí ít nhất một nửa các mẫu cạnh ngoài nút giao có đúng một hướng nối tiếp hợp lệ; không có nghĩa toàn tuyến không thể rẽ. Các ca vẫn là những cách quan sát liên quan trong cùng bộ SUMO, không phải năm quần thể độc lập.
+
+Họ 91 cung cấp phân bố không gian công khai, họ 92 chọn cấu hình và đối thủ, họ 93 báo kết quả phát triển. Năm bản ghi ở họ 92 giữ lần lượt 1, 9, 8, 7, 3 sự kiện; ở họ 93 là 1, 9, 12, 12, 7 theo thứ tự S1.A/S2.B/S3.A/S3.B/S3.C. Hai ca S3.A/S3.B ở họ 93 bị giới hạn từ 20 xuống 12 lần gửi. Tổng cộng 10 bản ghi và 69 sự kiện tính theo bản ghi; các cửa sổ có thể chồng lặp, không tạo thêm chuyến độc lập.
+
+Lưới định trước gồm BR-làn gốc $(\alpha,\lambda)=(0,0)$, theo đường $(0{,}5,0)$, theo POI $(0,6)$ và kết hợp $(0{,}5,6)$. Giữ $B=0{,}24$, $H=12$, $\theta=200$ m, độ lệch 80 m, $\tau=60$ m và $K\in\{3,5\}$. Hai lần lặp ngẫu nhiên cho mỗi bản ghi/cấu hình/$K$ tạo 160 lượt chạy. Mỗi nhóm bốn biến thể dùng cùng luồng neo; vì vậy khác biệt quan sát được nằm ở hậu xử lý, không phải ngẫu nhiên tạo neo khác nhau.
+
+Trên họ 92, chọn một cấu hình chung cho cả năm ca tại mỗi $K$: Recall trung bình từng ca phải đạt ít nhất 90\%, rồi giảm Hit$_{100}$ trung bình đều giữa các ca. Nếu không cấu hình nào đạt, báo không khả thi và ưu tiên Recall thấp nhất giữa các ca cao nhất, sau đó mới xét Hit. Tỷ lệ dùng để quyết định được làm tròn 12 chữ số thập phân, tránh sai khác số thực cực nhỏ quyết định thứ tự giữa hai phân số bằng nhau. Ngưỡng 90\% là mục tiêu của thử nghiệm, không phải chuẩn chất lượng bắt buộc cho mọi LBS.
+
+Ở $K=3$, quy tắc dự phòng chọn bản kết hợp, với Recall thấp nhất trên họ 92 là 78,33\%; ở $K=5$, chọn bản theo đường với 72,29\%. \textbf{Cả hai đều không đạt điều kiện chất lượng.} Nhãn được chọn ở đây không có nghĩa đủ điều kiện thay phương pháp mặc định. Hai lần lặp và một họ báo cáo cũng không đủ cho kiểm định ưu thế thống kê.
+
+\subsection{Tăng sức mạnh đối thủ và kết quả đầy đủ}
+
+Đối thủ thấy định danh luồng giả ổn định nên có thể dùng riêng từng luồng để đoán vị trí. Bộ kiểm tra bổ sung từng quỹ đạo giả và trung bình toàn cửa sổ của từng quỹ đạo vào các phép suy luận trước; S1 chỉ có một sự kiện. Cùng bộ đối thủ này được áp dụng lại cho cả bốn biến thể. Không so trực tiếp Hit/MAE của bảng mới với bảng ở Mục~\ref{sec:lane-study}, vốn chưa có các đối thủ bổ sung này.
+
+Bảng~\ref{tab:context-k3}--\ref{tab:context-k5} giữ đủ bốn cấu hình trên họ 93. MAE là giá trị nhỏ nhất và Hit là giá trị lớn nhất giữa các đối thủ định trước cho cả nhóm hai lần lặp; không chọn đáp án đúng theo từng sự kiện. Hai chỉ số có thể do hai đối thủ khác nhau đạt được. Đây là kiểm tra thăm dò trên dữ liệu phát triển; kết quả theo đối thủ chọn riêng trên họ 92 vẫn được lưu trong dữ liệu gốc. Utility là Recall@5 trung bình trên sự kiện và sáu loại POI có đáp án, rồi trung bình hai lần lặp.
+
+\input{../artifacts/benchmarks/contextual_lane/results_tables.tex}
+
+\subsection{Diễn giải, phản ví dụ và hướng cải thiện}
+
+Tại S3.C với $K=5$, bản theo đường tăng Recall từ 70,00\% lên 76,19\%, nhưng Hit cũng tăng từ 7,14\% lên 14,29\%. Chất lượng tốt hơn đi kèm giảm riêng tư trước bộ đối thủ đang xét. Bản kết hợp đạt Recall 77,38\% tại ca này, nhưng không được chọn trên họ 92; không chọn lại cấu hình chỉ vì thấy kết quả họ 93 tốt hơn.
+
+Thành phần POI cũng có phản ví dụ rõ. Ở S2.B, $K=3$, chỉ thêm POI làm Recall tăng từ 85,00\% lên 89,44\%, còn Hit tăng từ 5,56\% lên 50,00\%. Trong S3.A, bản kết hợp $K=3$ lại làm Recall giảm từ 76,53\% xuống 67,78\%. Bảo toàn sổ ngân sách lý tưởng không đồng nghĩa cải thiện hoặc bảo toàn mức riêng tư thực nghiệm, và thêm ngữ cảnh không tự động cải thiện mọi ca.
+
+Hạn chế chính là tối ưu POI quanh một neo nhiễu, có thể sai vùng. Hướng tiếp theo là tính utility kỳ vọng trên phân bố vị trí suy từ lịch sử đã bảo vệ và ngữ cảnh công khai, bằng mô hình xác suất hoặc mô hình học đã hiệu chỉnh. Cần kiểm tra bằng đối thủ mạnh hơn, họ SUMO mới và cùng ngưỡng chất lượng; chưa có bằng chứng bảo vệ đủ S1--S10.

@@ -29,7 +29,7 @@ Mục tiêu thiết kế bao gồm S1--S10 với các chức năng phối hợp 
 \draw[->,thick] (x)--(a);\draw[->,thick] (a)--(y);
 \node[box,fill=gray!12,below=of y] (lsp) {LSP nhận $Y_t$ và truy vấn\\Đối thủ quan sát cùng bản tin};
 \draw[->,thick] (y)--(lsp);
-\node[below=of a,align=center,font=\small,text width=4cm] (map) {Bản đồ công khai cố định\\Chiều đường, chiều dài, tốc độ};
+\node[below=of a,align=center,font=\small,text width=4cm] (map) {Ngữ cảnh công khai cố định\\Chiều đường, tốc độ và POI};
 \draw[->] (map)--(y);
 \end{tikzpicture}
 \caption{BR-Dummy tại thiết bị. Bước sinh giả không đọc lại tọa độ thật; neo và nhánh nội bộ không gửi tới LSP.}
@@ -118,6 +118,8 @@ Tái sử dụng có nhiễu chỉ giảm số mẫu mới trong chân trời h�
 
 Lấy neo mới cần $O(|V|)$ thời gian. Tìm thành phần liên thông mạnh khi khởi tạo cần $O(|V|+|E|)$. Giới hạn sinh $K$ dummy là $O(K(|V|+|E|)\log|V|+K^2|V|)$ khi tính cả tìm đường và chấm điểm tránh trùng. Bộ nhớ đệm phải được giới hạn nếu chạy dài hạn. Giao diện từng sự kiện là nhân quả, còn đạt thời gian thực trên điện thoại phải đo riêng.
 
+\input{contextual_method.tex}
+
 \chapter{Thực nghiệm có kiểm soát và phản biện kết quả}
 \label{ch:experiments}
 
@@ -164,6 +166,8 @@ Metric chất lượng theo Mục~\ref{sec:common-metrics} lưu mẫu số; lỗ
 
 \input{lane_comparison.tex}
 
+\input{contextual_comparison.tex}
+
 \chapter{Kết luận và hướng phát triển}
 
 \section{Kết quả đạt được}
@@ -171,6 +175,8 @@ Metric chất lượng theo Mục~\ref{sec:common-metrics} lưu mẫu số; lỗ
 Luận văn xây dựng khung nghiên cứu cho bảo vệ quỹ đạo xe đô thị tại thiết bị: bốn mục tiêu, mười tình huống có tham khảo, ràng buộc chuyển động và dữ liệu mô phỏng truy xuất nguồn. Bộ đo hợp nhất theo nhiệm vụ suy luận, POI và chi phí, giữ khác biệt với ASR, entropy hay phát hiện thật/ảo của công trình gốc.
 
 Phương pháp đề xuất dùng neo riêng tư và bộ sinh dummy có trạng thái, với BR-Dummy là phiên bản đã chạy thực nghiệm. Bản này kết hợp các thành phần riêng tư đã có, ngân sách phiên và chuyển động giả theo đường; việc dùng mô hình học trong các phiên bản tiếp theo được quyết định bằng bằng chứng thực nghiệm, không bị loại khỏi thiết kế. Bất đẳng thức áp dụng cho mô hình lý tưởng trên tọa độ biểu diễn; phép đo hiện có bằng chứng hữu hạn ở S1--S3 và S9--S10, chưa là kết luận bảo vệ toàn diện hoặc vượt phương pháp gốc.
+
+Phân tích thành phần trên miền làn bổ sung hai điểm số hậu xử lý: tiến gần mục tiêu theo đường có hướng và tăng độ phủ POI tại neo đã bảo vệ. Vòng kiểm tra năm ca cho thấy cả cải thiện cục bộ lẫn suy giảm utility hoặc riêng tư; chưa có cấu hình đạt ngưỡng Recall đã đặt trên toàn bộ tập chọn. Do đó các biến thể được giữ để phân tích và phát triển, chưa được coi là bản thay thế đã xác nhận.
 
 \section{Phản biện và điều kiện phát triển thành bài báo}
 

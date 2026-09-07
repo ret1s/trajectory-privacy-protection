@@ -1,0 +1,40 @@
+\section{Bổ sung ngữ cảnh đường và độ phủ POI}
+\label{sec:context-method}
+
+Khoảng cách thẳng tới neo chưa phản ánh việc một dummy phải đi vòng theo đường một chiều. Đồng thời, nhiều dummy gần nhau có thể nhận cùng một tập POI, làm tăng số điểm gửi nhưng không tăng số kết quả hữu ích. Hai thành phần sau được xây dựng để kiểm tra các hạn chế này, trên cùng bộ neo và sổ ngân sách của BR-làn.
+
+\subsection{Ưu tiên tiến gần mục tiêu theo đường}
+
+Với mục tiêu $c_t+o_j$, chọn trạng thái $g_{t,j}$ gần nhất trong thành phần liên thông mạnh công khai. Gọi $d_G(v,g_{t,j})$ là chiều dài đường có hướng còn lại từ ứng viên $v$ tới mục tiêu đó. Trong khoảng cách Euclid, trạng thái được hiểu qua tọa độ phẳng tương ứng. Thay khoảng cách trong điểm số bằng
+\[
+D_{t,j}(v)=(1-\alpha)\|v-(c_t+o_j)\|+\alpha d_G(v,g_{t,j}),\quad 0\leq\alpha\leq1.
+\]
+Miền ứng viên vẫn là $\mathcal R_{t,j}$: dummy phải tới được từ vị trí đã công bố trước. $g_{t,j}$ chỉ là điểm hướng tới từ neo đã bảo vệ, không phải điểm đến thật của người dùng. Khi $\alpha=0$, thành phần này trở về khoảng cách thẳng ban đầu.
+
+\subsection{Ưu tiên kết quả POI chưa được các dummy khác bao phủ}
+
+Thiết bị chuẩn bị trước một danh mục POI công khai cố định cho cả khu vực. Với loại dịch vụ $c$, ký hiệu $Q_c(v)$ là tối đa năm POI truy cập gần nhất theo đường có hướng từ tọa độ của $v$. Tập tham chiếu $R_{t,c}$ được truy vấn tại \emph{neo đã bảo vệ}, không tại GPS thật. Bỏ các loại không có đáp án tham chiếu và gọi tập loại còn lại là $C_t$.
+
+Sau khi chọn các dummy $h<j$, lợi ích của ứng viên tiếp theo là
+\[
+\Delta_{t,j}(v)=\frac{1}{|C_t|}\sum_{c\in C_t}
+\frac{\left|\left(Q_c(v)\cap R_{t,c}\right)\setminus
+\bigcup_{h<j}Q_c(y_{t,h})\right|}{|R_{t,c}|}.
+\]
+Nếu $C_t$ rỗng thì đặt lợi ích bằng không. Điểm số hoàn chỉnh là
+\[
+s_{t,j}(v)=-\frac{D_{t,j}(v)}{\tau}
+-2\sum_{h<j}\exp\!\left(-\frac{\|v-y_{t,h}\|}{40\,\mathrm{m}}\right)
++\lambda\Delta_{t,j}(v),\qquad \lambda\geq0.
+\]
+Tiếp tục dùng Gumbel-max để lấy mẫu. Thành phần POI ưu tiên một kết quả còn thiếu, không chỉ ưu tiên tách xa các tọa độ. Tuy nhiên, nó tối ưu một đại lượng thay thế tại neo nhiễu; Recall thật vẫn phải đo tại vị trí người dùng. Không dùng GPS thật để chọn dummy tốt nhất sau khi sinh, vì thao tác đó sẽ mở thêm đường truy cập dữ liệu riêng tư.
+
+\subsection{Cơ sở riêng tư, chi phí và giới hạn}
+
+Chatzikokolakis, ElSalamouny và Palamidessi~\cite{chatzikokolakis2017utility} nghiên cứu cải thiện utility bằng ánh xạ lại đầu ra đã bảo vệ, đồng thời phân biệt hậu xử lý nói chung với ánh xạ Bayes tối ưu theo hàm mất mát. Hai điểm số ở đây là lựa chọn thực nghiệm bị ràng buộc theo đường; chưa phải ánh xạ tối ưu của công trình đó.
+
+Với cùng ngữ cảnh công khai, các điểm số mới chỉ đọc neo, lịch sử giả và các tham số cố định. Nếu $A$ là chuỗi neo và $K_C(Y\mid A)$ là bộ sinh mới, thì phân phối đầu ra là tích phân của $K_C$ theo phân phối $A$. Áp dụng chặn riêng tư của $A$ bên trong tích phân giữ nguyên chặn lý tưởng cho $Y$. Điều này không bảo đảm MAE hoặc Hit trước đối thủ giữ nguyên: hậu xử lý có thể khiến thông tin trong neo trở nên dễ khai thác hơn so với một bộ sinh khác.
+
+Chỉ mục POI lưu kết quả tại toàn bộ trạng thái làn, không tải bản đồ dựa trên vị trí thật trong phiên. Với mạng đang dùng, hai mảng chỉ mục chiếm 12.663.252 byte, chưa gồm đồ thị, đối tượng POI và bộ nhớ đệm. Đây là ngữ cảnh OSM tĩnh, không giả định biết dữ liệu riêng hay kết quả cập nhật trực tiếp của LSP. Tìm đường ngược cho điểm hướng tới được giữ tối đa 32 mục trong bộ đệm. Tiền xử lý, khởi tạo và độ trễ từng lần gửi phải đo riêng; có mã xử lý từng sự kiện chưa đủ khẳng định chạy thời gian thực trên điện thoại.
+
+Các thành phần này chưa thay đổi cơ chế tạo neo hoặc giải quyết riêng S4--S10. Một mô hình học vẫn có thể thay hoặc bổ sung điểm số, nếu được huấn luyện đúng phân tách dữ liệu và tôn trọng ranh giới riêng tư. Việc tiếp nhận biến thể mới được quyết định qua đánh đổi đo được, không dựa trên việc dùng hay không dùng mạng nơ-ron.

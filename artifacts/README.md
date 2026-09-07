@@ -27,3 +27,12 @@ service, so its numeric scores must not be merged into the older leaderboard.
 `results.json` preserves validation-selected attackers; `audit.json` and the
 thesis tables additionally show an explicitly exploratory report-family attack
 envelope. Both files contain synthetic evaluator truth, not public-only exports.
+
+[`benchmarks/contextual_lane/`](benchmarks/contextual_lane/) adds a separately
+versioned 2x2 ablation of the proposed method: directed-road potential and
+marginal public POI coverage, on S1.A/S2.B/S3.A/S3.B/S3.C. All four variants use
+paired private anchors. Stronger track-based attackers are applied to all four,
+so privacy scores are not interchangeable with the earlier lane tables. Neither
+validation-selected configuration meets the all-case utility threshold; no new
+default or all-ten-scenario coverage is claimed. This local research artifact
+contains evaluator anchors/truth and is not exposed as a public web transcript.
