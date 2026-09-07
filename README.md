@@ -13,6 +13,7 @@ it against explicit attacker, utility, and output-contract assumptions.
 - Foundations study guide: [`artifacts/reports/location_trajectory_privacy_foundations.pdf`](artifacts/reports/location_trajectory_privacy_foundations.pdf)
 - Comparator status and evidence: [`benchmark/README.md`](benchmark/README.md)
 - Documentation index: [`docs/README.md`](docs/README.md)
+- Report/demo release: [`thesis/notes/report_demo_release_2026-09-07.md`](thesis/notes/report_demo_release_2026-09-07.md)
 
 ## Repository layout
 
@@ -55,10 +56,7 @@ Legacy Internship 2 applications have additional dependencies listed in
 Run from the repository root unless a command says otherwise.
 
 ```bash
-# Fast, dependency-light regression suite
-venv/bin/python -m tests.run_all
-
-# Same suite through pytest
+# Canonical regression suite (supports fixtures and temporary paths)
 venv/bin/python -m pytest -q tests
 
 # Formal mechanisms on GeoLife
@@ -72,6 +70,14 @@ venv/bin/python -m experiments.run_dummy_benchmark --quick
 
 # Read-only benchmark dashboard: http://127.0.0.1:5000/
 venv/bin/python -m web.benchmark_app
+
+# Latest S1--S3 report replay: http://127.0.0.1:5050/report-demo
+venv/bin/python -m web.benchmark_app --port 5050
+
+# Regenerate the controlled pilot using SUMO + OSM only
+venv/bin/python -m experiments.run_report_demo
+venv/bin/python -m experiments.verify_report_demo --raw
+venv/bin/python -m experiments.export_report_demo
 
 # Thesis mechanism simulator: http://127.0.0.1:5003/
 venv/bin/python -m web.simulator

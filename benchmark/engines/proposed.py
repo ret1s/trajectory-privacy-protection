@@ -19,6 +19,7 @@ from dataclasses import dataclass
 from typing import Optional, Sequence, Tuple
 
 import numpy as np
+import networkx as nx
 
 from core.mechanisms import RoadExponential
 
@@ -79,6 +80,7 @@ class GeoIAnchoredDummyEngine:
         candidate_radius_m=220.0,
         v_max=25.0,
         reachability_slack_m=100.0,
+        road_constrained=False,
         rng=None,
     ):
         if int(k) < 1:
@@ -92,13 +94,40 @@ class GeoIAnchoredDummyEngine:
         self.candidate_radius_m = float(candidate_radius_m)
         self.v_max = float(v_max)
         self.reachability_slack_m = float(reachability_slack_m)
+        self.road_constrained = bool(road_constrained)
+        if not np.isfinite(self.epsilon) or self.epsilon <= 0:
+            raise ValueError("epsilon must be finite and positive")
         self.rng = rng or np.random.default_rng()
+        # Independent streams: future anchor draws must not move the random
+        # state used for earlier public dummy points.
+        seeds = self.rng.integers(0, 2**63, size=2, dtype=np.int64)
+        self.anchor_rng = np.random.default_rng(int(seeds[0]))
+        self.dummy_rng = np.random.default_rng(int(seeds[1]))
+        self._state = None
+        self._node_to_index = {node: i for i, node in enumerate(self.rn.node_ids)}
 
     def _sample_public_candidate(self, target_xy, previous_xy, dt_s):
         idxs = np.asarray(
             self.rn.tree.query_ball_point(target_xy, self.candidate_radius_m),
             dtype=int,
         )
+        if self.road_constrained and previous_xy is not None:
+            previous_index = int(self.rn.tree.query(previous_xy)[1])
+            # Public, directed shortest free-flow travel time. Staying at the
+            # previous vertex is the fallback. This is a graph feasibility
+            # constraint; acceleration, parking legality and turn-state are
+            # not represented by this node graph.
+            def travel_time(u, v, attributes):
+                edges = attributes.values() if self.rn.graph.is_multigraph() else [attributes]
+                return min(float(e.get("length", np.linalg.norm(
+                    self.rn.xy[self._node_to_index[u]] - self.rn.xy[self._node_to_index[v]])))
+                           / min(self.v_max, max(1e-9, float(e.get("speed", self.v_max)))) for e in edges)
+            reachable = nx.single_source_dijkstra_path_length(
+                self.rn.graph, self.rn.node_ids[previous_index], cutoff=dt_s,
+                weight=travel_time)
+            idxs = np.array([i for i in idxs if self.rn.node_ids[i] in reachable], dtype=int)
+            if not len(idxs):
+                return previous_index
         if len(idxs) == 0:
             _, nearest = self.rn.tree.query(target_xy)
             return int(nearest)
@@ -110,7 +139,7 @@ class GeoIAnchoredDummyEngine:
             reach = self.v_max * dt_s + self.reachability_slack_m
             excess = np.maximum(0.0, step_dist - reach)
             logits -= excess / max(25.0, self.reachability_slack_m)
-        return int(idxs[int(np.argmax(logits + self.rng.gumbel(size=len(idxs))))])
+        return int(idxs[int(np.argmax(logits + self.dummy_rng.gumbel(size=len(idxs))))])
 
     def protect_trajectory(
         self,
@@ -122,19 +151,60 @@ class GeoIAnchoredDummyEngine:
         if times is not None and len(times) != len(points):
             raise ValueError("times must have the same length as points")
 
-        times = list(times) if times is not None else [None] * len(points)
-        anchor_mechanism = RoadExponential(
-            self.epsilon,
-            self.rn,
-            rng=self.rng,
-        )
-        anchor_mechanism.reset()
-        anchors = tuple(
-            anchor_mechanism.perturb(lat, lon, t=t)
-            for (lat, lon), t in zip(points, times)
-        )
+        times = list(times) if times is not None else [i * 60. for i in range(len(points))]
+        self.reset()
+        anchors, tracks = [], [[] for _ in range(self.k)]
+        for (lat, lon), timestamp in zip(points, times):
+            anchor, candidates = self.protect_step(lat, lon, timestamp)
+            anchors.append(anchor)
+            for track, candidate in zip(tracks, candidates):
+                track.append(candidate)
+        return AnchoredDummyBatch(tuple(anchors), tuple(tuple(t) for t in tracks))
 
-        return self.generate_from_anchors(anchors, times)
+    def reset(self):
+        """Start a new session; do not rewind the random streams."""
+        self._state = None
+        self._anchor_mechanism = RoadExponential(self.epsilon, self.rn, rng=self.anchor_rng)
+        self._anchor_mechanism.reset()
+
+    def protect_step(self, lat, lon, timestamp_s):
+        """Produce one release from the current point and retained state only.
+
+        The anchor return is diagnostic/private to the local caller. Only the
+        candidate tuple is sent to the LSP. Batch replay calls this same method.
+        """
+        if not hasattr(self, "_anchor_mechanism"):
+            self.reset()
+        self._validate_time(timestamp_s)
+        anchor = self._anchor_mechanism.perturb(lat, lon, t=timestamp_s)
+        return anchor, self._generate_step(anchor, timestamp_s)
+
+    def _validate_time(self, timestamp):
+        if isinstance(timestamp, (int, float, np.number)) and not np.isfinite(timestamp):
+            raise ValueError("timestamp must be finite")
+        if self._state is not None and timestamp <= self._state["time"]:
+            raise ValueError("timestamps must be strictly increasing")
+
+    def _generate_step(self, anchor, timestamp):
+        self._validate_time(timestamp)
+        if self._state is None:
+            angle = self.dummy_rng.uniform(0., 2. * np.pi)
+            self._state = {
+                "angles": angle + np.linspace(0., 2. * np.pi, self.k, endpoint=False),
+                "radii": self.offset_m * self.dummy_rng.uniform(.75, 1.25, self.k),
+                "previous": [None] * self.k, "time": timestamp, "step": 0,
+            }
+        state = self._state
+        dt = _delta_seconds(timestamp, state["time"]) if state["step"] else 60.
+        result = []
+        for j in range(self.k):
+            angle = state["angles"][j] + .12 * np.sin(state["step"] / 3. + j)
+            target = np.asarray(self.rn.point_xy(*anchor)) + state["radii"][j] * np.array([np.cos(angle), np.sin(angle)])
+            choice = self._sample_public_candidate(target, state["previous"][j], dt)
+            result.append(self.rn.latlon(choice))
+            state["previous"][j] = self.rn.xy[choice]
+        state["time"], state["step"] = timestamp, state["step"] + 1
+        return tuple(result)
 
     def generate_from_anchors(
         self,
@@ -152,36 +222,21 @@ class GeoIAnchoredDummyEngine:
         if times is not None and len(times) != len(anchors):
             raise ValueError("times must have the same length as anchors")
         anchors = tuple((float(lat), float(lon)) for lat, lon in anchors)
-        times = list(times) if times is not None else [None] * len(anchors)
+        times = list(times) if times is not None else [i * 60. for i in range(len(anchors))]
 
         # All remaining computation is a function of public anchors, public
         # timestamps/graph, and fresh randomness: it has no ``points`` input.
-        base_angle = self.rng.uniform(0.0, 2.0 * np.pi)
-        angles = base_angle + np.linspace(0.0, 2.0 * np.pi, self.k, endpoint=False)
-        radii = self.offset_m * self.rng.uniform(0.75, 1.25, size=self.k)
-
-        tracks = []
-        for track_idx in range(self.k):
-            previous_xy = None
-            track = []
-            for step, ((anchor_lat, anchor_lon), current_t) in enumerate(zip(anchors, times)):
-                anchor_xy = np.asarray(self.rn.point_xy(anchor_lat, anchor_lon))
-                # Slow public drift prevents a perfectly rigid translated copy.
-                angle = angles[track_idx] + 0.12 * np.sin(step / 3.0 + track_idx)
-                target_xy = anchor_xy + radii[track_idx] * np.array(
-                    [np.cos(angle), np.sin(angle)]
-                )
-                previous_t = times[step - 1] if step else None
-                dt_s = _delta_seconds(current_t, previous_t)
-                choice = self._sample_public_candidate(target_xy, previous_xy, dt_s)
-                point = self.rn.latlon(choice)
+        self._state = None
+        tracks = [[] for _ in range(self.k)]
+        # Time-major order: every prefix consumes exactly the same draws.
+        for step, ((anchor_lat, anchor_lon), current_t) in enumerate(zip(anchors, times)):
+            candidates = self._generate_step((anchor_lat, anchor_lon), current_t)
+            for track, point in zip(tracks, candidates):
                 track.append(point)
-                previous_xy = self.rn.xy[choice]
-            tracks.append(tuple(track))
 
         return AnchoredDummyBatch(
             anchors=anchors,
-            trajectories=tuple(tracks),
+            trajectories=tuple(tuple(track) for track in tracks),
         )
 
     def protect_run(self, real_trajectory):
@@ -220,6 +275,8 @@ class GeoIAnchoredDummyEngine:
                 "candidate_radius_m": self.candidate_radius_m,
                 "v_max_m_s": self.v_max,
                 "reachability_slack_m": self.reachability_slack_m,
+                "road_constrained": self.road_constrained,
+                "online_api": "protect_step",
                 "source_method": self.source_method,
             },
         )

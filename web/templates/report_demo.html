@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Riêng tư quỹ đạo · SUMO</title><link rel="stylesheet" href="{{ url_for('static', filename='report_demo.css') }}">
+</head><body>
+<header><div class="eyebrow">LUẬN VĂN · THỰC NGHIỆM CÓ KIỂM SOÁT</div><h1>Bảo vệ riêng tư quỹ đạo</h1><p>SUMO + OpenStreetMap · Quan sát dữ liệu công bố và suy luận của đối thủ</p></header>
+<main><div class="notice">Bản chạy thử S1–S3. Các đối chứng từ bài báo là bản thích nghi, chưa phải tái lập SOTA. Đây là phát lại kết quả đã chạy, không phải điều khiển SUMO trực tiếp.</div>
+<div class="workspace"><aside>
+<label>Kịch bản<select id="scenario"></select></label><p id="scenario-info"></p>
+<label>Phương pháp<select id="method"></select></label><label>Số ứng viên K<select id="k"></select></label><label>Lượt chạy<select id="run"></select></label>
+<label class="check"><input type="checkbox" id="evaluator"> Hiện dữ liệu của người đánh giá</label>
+<p id="visibility">Chỉ hiển thị dữ liệu được công bố.</p><div id="run-status"></div>
+<div class="controls"><button id="play">Phát</button><button id="reset">Về đầu</button></div><input id="step" type="range" min="0" max="0" value="0" aria-label="Bước thời gian"><p id="step-info"></p>
+<div id="metrics"></div></aside>
+<section class="map-wrap"><canvas id="map" aria-label="Bản đồ đường OSM và quỹ đạo"></canvas><div class="legend"><span class="blue">● Công bố</span><span class="black">━ Thật (người đánh giá)</span><span class="red">● Đối thủ ước lượng</span></div><small>Kéo để di chuyển · Cuộn để phóng to · Hình học đường nhúng sẵn, không cần tải bản đồ nền. © OpenStreetMap contributors, ODbL.</small></section></div>
+<details><summary>Dữ liệu công bố ở bước đang xem</summary><pre id="public-record"></pre></details>
+<section id="results" hidden><h2>Kết quả tổng hợp</h2><p>Cột Chạy được ghi số lượt hoàn tất/tổng lượt. MAE so với vị trí SUMO thật (m): cao hơn nghĩa là khó đoán hơn với đối thủ này; Hit: tỷ lệ đoán trong 100 m. Recall: giữ lại POI đúng sau lọc; lỗi thực thi tính 0 nếu truy vấn có đáp án, trường hợp không áp dụng được tách riêng. Chưa so sánh tại cùng chất lượng/chi phí. Đường nối các lần gửi dùng để nhìn trình tự, không phải tuyến đã định tuyến giữa hai điểm.</p><div class="table-scroll"><table><thead><tr><th>Case</th><th>Phương pháp</th><th>K</th><th>Chạy được</th><th>MAE (m)</th><th>Hit ≤100 m</th><th>Recall POI</th><th>Điểm/yêu cầu</th></tr></thead><tbody id="summary"></tbody></table></div></section>
+<section><h2>Phạm vi và giới hạn</h2><ul id="limitations"></ul><div id="coverage"></div></section>
+</main><script src="{{ url_for('static', filename='report_demo.js') }}"></script></body></html>

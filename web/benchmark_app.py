@@ -300,6 +300,9 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
     if config:
         app.config.update(config)
 
+    from web.report_demo import bp as report_demo_bp
+    app.register_blueprint(report_demo_bp)
+
     store = BenchmarkArtifacts(
         Path(app.config["BENCHMARK_RESULTS_PATH"]),
         Path(app.config["BENCHMARK_PROJECT_ROOT"]),
@@ -412,6 +415,11 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
 
 
 if __name__ == "__main__":
-    create_app({"BENCHMARK_ENABLE_EVALUATOR_VIEW": True}).run(
-        host="127.0.0.1", port=5000, debug=False
+    import argparse
+    parser = argparse.ArgumentParser(description="Local read-only benchmark replay")
+    parser.add_argument("--port", type=int, default=5000)
+    parser.add_argument("--public-only", action="store_true", help="Disable evaluator/ground-truth routes")
+    args = parser.parse_args()
+    create_app({"BENCHMARK_ENABLE_EVALUATOR_VIEW": not args.public_only}).run(
+        host="127.0.0.1", port=args.port, debug=False
     )

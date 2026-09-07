@@ -114,3 +114,15 @@ def test_protocol_adapter_publishes_only_dummy_tracks():
     assert public["public_parameters"]["candidate_radius_m"] == 220.0
     assert public["public_parameters"]["v_max_m_s"] == 25.0
     assert public["public_parameters"]["reachability_slack_m"] == 100.0
+
+
+def test_thesis_prefix_invariant_under_future_length_and_content():
+    rn = _road_line()
+    prefix = tuple(TrajectoryPoint(i * 30, *rn.latlon(j)) for i, j in enumerate((2, 3, 4)))
+    future = tuple(TrajectoryPoint((i + 3) * 30, *rn.latlon(j)) for i, j in enumerate((8, 0, 7)))
+    for seed in range(10):
+        def generate(points):
+            return GeoIAnchoredDummyTrajectories(
+                0.02, rn, k=3, rng=np.random.default_rng(seed)
+            ).protect_run(points).to_attacker_dict()["events"]
+        assert generate(prefix) == generate(prefix + future)[:len(prefix)]

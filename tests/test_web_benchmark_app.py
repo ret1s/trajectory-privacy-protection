@@ -329,5 +329,7 @@ def test_no_http_route_executes_a_benchmark():
     with tempfile.TemporaryDirectory() as directory:
         app = _client(Path(directory)).application
         methods = {rule.rule: sorted(rule.methods or []) for rule in app.url_map.iter_rules()}
-        assert all("run" not in path and "execute" not in path for path in methods)
+        # /runs/<id> is artifact retrieval, not benchmark execution. Check
+        # the HTTP contract instead of forbidding a substring in its name.
+        assert all(set(verbs) <= {"GET", "HEAD", "OPTIONS"} for verbs in methods.values())
         assert all("POST" not in verbs for path, verbs in methods.items() if path != "/static/<path:filename>")

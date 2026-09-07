@@ -1,0 +1,200 @@
+\section{Bản ghi dữ liệu minh hoạ S1--S7}
+\label{sec:scenario-records}
+
+Các bản ghi sau được xây dựng bằng tay để giải thích cách tấn công, không phải mẫu trích từ SUMO hoặc kết quả của các phương pháp đối chứng. Mỗi ví dụ phân biệt dữ liệu đối thủ nhìn thấy với ground truth chỉ dùng chấm điểm. Số ứng viên được chọn nhỏ để dễ theo dõi.
+
+\subsection{Mạng đường và cấu trúc bản ghi chung}
+
+Dùng tọa độ cục bộ tính bằng mét:
+\[
+\begin{aligned}
+A&=(0,0),&B&=(100,0),&C&=(200,0),\\
+D&=(300,0),&E&=(200,100),&F&=(300,100).
+\end{aligned}
+\]
+Các đoạn $AB,BC,CD,CE,EF,FD$ dài 100m, đi được hai chiều với giới hạn 10m/s. Không có các cạnh nối khác. Điểm $Z=(100,100)$ nằm ngoài mạng đường. Mạng minh hoạ bỏ qua tín hiệu và gia tốc, cho phép chờ tại mọi nút.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=3.3cm,y=3.3cm,
+ point/.style={circle,fill=reportblue,inner sep=2pt},
+ road/.style={<->,thick,draw=reportblue}]
+\node[point,label=below:{$A$: nhà}] (A) at (0,0) {};
+\node[point,label=below:{$B$: nhà hàng}] (B) at (1,0) {};
+\node[point,label=below:{$C$: giao lộ}] (C) at (2,0) {};
+\node[point,label=below:{$D$: công ty}] (D) at (3,0) {};
+\node[point,label=above:{$E$: phòng khám}] (E) at (2,1) {};
+\node[point,label=above:{$F$: cửa hàng}] (F) at (3,1) {};
+\node[text=reportred,label=above:{$Z$: ngoài đường}] at (1,1) {$\times$};
+\foreach \a/\b in {A/B,B/C,C/D,C/E,E/F,F/D}
+  \draw[road] (\a) -- (\b);
+\end{tikzpicture}
+\caption{Mạng đường minh hoạ S1--S7; nhãn POI chỉ điểm tiếp cận trên đường.}
+\label{fig:sample-network}
+\end{figure}
+
+Một hàng công khai có dạng $(u,t,\mathrm{vị\ trí\ công\ bố},\widetilde Q)$. Nội dung được gắn với vị trí tương ứng trong mỗi lô yêu cầu. Mã phiên $u$ không chứa danh tính thật. Thông tin $x$, $q$, danh tính và phần tuyến tương lai được giữ riêng trong ground truth theo mục tiêu đánh giá.
+
+\clearpage
+\subsection{S1 -- Lọc vị trí từ một lần gửi}
+\label{example:s1}
+
+Giao diện minh hoạ chứa vị trí thật và hai vị trí giả. LSP nhận:
+\begin{center}\small
+\begin{tabular}{llll}
+\toprule
+Phiên & Thời gian & Tập vị trí công bố & Nội dung tại mỗi vị trí\\
+\midrule
+u01 & 08:00:00 & $\{B,E,Z\}$ & Tìm nhà hàng\\
+\bottomrule
+\end{tabular}
+\end{center}
+\textbf{Ground truth:} $x=B$, $q=$ tìm nhà hàng; nhãn thành viên thật không gửi tới LSP.
+
+\textbf{Khai thác:} bản đồ loại được $Z$ vì không nằm trên đường. Còn $B$ và $E$, nên chưa thể kết luận chắc chắn vị trí thật chỉ bằng bộ lọc này. Ngữ cảnh nhà hàng quanh $B$ có thể tăng thứ hạng của $B$ nếu phù hợp mô hình truy vấn.
+
+\textbf{Mục tiêu:} suy ra vị trí thật từ một lần quan sát. Ví dụ cho thấy tập ứng viên bị thu hẹp, không chứng minh nhận diện duy nhất. Với dummy-only, các vị trí còn lại vẫn chỉ là dữ liệu để suy ngược, không mang nhãn thật.
+
+\clearpage
+\subsection{S2 -- Kết hợp báo cáo lặp tại điểm dừng}
+\label{example:s2}
+
+Giao diện minh hoạ công bố một vị trí thay thế mỗi lần gửi:
+\begin{center}\small
+\begin{tabular}{llll}
+\toprule
+Phiên & Thời gian & Vị trí công bố $z$ & Nội dung\\
+\midrule
+u02 & 09:00:00 & $A=(0,0)$ & Tìm nhà hàng\\
+u02 & 09:00:30 & $C=(200,0)$ & Tìm nhà hàng\\
+u02 & 09:01:00 & $B=(100,0)$ & Tìm nhà hàng\\
+\bottomrule
+\end{tabular}
+\end{center}
+\textbf{Ground truth:} vị trí thật tại cả ba lần là $B$; người dùng đang dừng.
+
+\textbf{Khai thác:} nếu đối thủ biết cơ chế dùng nhiễu độc lập, đối xứng, kỳ vọng bằng không quanh một điểm dừng, trung bình ba vị trí là
+\[
+\bar z=\frac{(0,0)+(200,0)+(100,0)}{3}=(100,0)=B.
+\]
+Với nhiễu lệch do mạng đường hoặc các lần gửi phụ thuộc nhau, đối thủ cần likelihood phù hợp thay vì mặc nhiên lấy trung bình.
+
+\textbf{Mục tiêu:} khôi phục tâm điểm dừng nhờ tích luỹ quan sát. Kết quả số này không đại diện cho tỷ lệ thành công trước một cơ chế bảo vệ cụ thể.
+
+\clearpage
+\subsection{S3 -- Lọc đường đi qua nhiều sự kiện}
+\label{example:s3}
+
+Giao diện chứa vị trí thật và một vị trí giả tại mỗi sự kiện, không có định danh ứng viên xuyên thời gian:
+\begin{center}\small
+\begin{tabular}{llll}
+\toprule
+Phiên & Thời gian & Tập vị trí công bố & Nội dung\\
+\midrule
+u03 & 10:00:00 & $\{A,E\}$ & Tìm nhà hàng\\
+u03 & 10:00:10 & $\{B,D\}$ & Tìm nhà hàng\\
+u03 & 10:00:20 & $\{C,F\}$ & Tìm nhà hàng\\
+\bottomrule
+\end{tabular}
+\end{center}
+\textbf{Ground truth:} $A\rightarrow B\rightarrow C$; nhãn thật không có trong transcript.
+
+\textbf{Khai thác:} trong 10s xe đi tối đa 100m. Từ tập đầu tới tập thứ hai, chỉ $A\rightarrow B$ khả thi: $E\rightarrow B$ và $E\rightarrow D$ đều cần ít nhất 20s, còn $A\rightarrow D$ cần 30s. Từ $B$, chỉ $C$ tới được trong 10s.
+
+\textbf{Mục tiêu:} tái dựng chuỗi thật. Đối thủ khôi phục duy nhất $A\rightarrow B\rightarrow C$ trong ví dụ này, dù mọi vị trí riêng lẻ đều nằm trên đường.
+
+\clearpage
+\subsection{S4 -- Liên kết các lần quay lại}
+\label{example:s4}
+
+Các điểm thay thế ở đầu và cuối hai phiên được công bố như sau:
+\begin{center}\small
+\begin{tabular}{llll}
+\toprule
+Ngày & Phiên & Thời gian & Vị trí công bố\\
+\midrule
+01 & u41 & 07:30:00 & $A$\\
+01 & u41 & 07:45:00 & $D$\\
+02 & u42 & 07:31:00 & $A$\\
+02 & u42 & 07:46:00 & $D$\\
+\bottomrule
+\end{tabular}
+\end{center}
+\textbf{Thông tin phụ trợ được cấp:} hai hồ sơ giả định có điểm nhà--công ty lần lượt là P01: $(A,D)$ và P02: $(E,F)$. Các yêu cầu đều tìm nhà hàng.
+
+\textbf{Ground truth:} hai phiên thuộc P01, có hành trình thật từ $A$ tới $D$. Các điểm đầu/cuối công bố được chọn trùng điểm thật để minh hoạ trường hợp lộ địa điểm quen thuộc.
+
+\textbf{Khai thác:} đối thủ liên kết hai phiên có cùng cặp đầu--cuối và đối chiếu hồ sơ để chọn P01. Nếu không có hồ sơ phụ trợ, các bản ghi chỉ hỗ trợ liên kết phiên và suy ra nơi thường ghé; chúng không tự cung cấp danh tính.
+
+\textbf{Mục tiêu:} liên kết đúng các phiên và tái định danh khi có thông tin phụ trợ tương ứng.
+
+\clearpage
+\subsection{S5 -- Dự đoán đoạn tuyến chưa quan sát}
+\label{example:s5}
+
+Tại thời điểm 11:00:20, đối thủ có đúng tiền tố vị trí thay thế sau:
+\begin{center}\small
+\begin{tabular}{llll}
+\toprule
+Phiên & Thời gian & Vị trí công bố & Nội dung\\
+\midrule
+u05 & 11:00:00 & $A$ & Tìm nhà hàng\\
+u05 & 11:00:10 & $B$ & Tìm nhà hàng\\
+u05 & 11:00:20 & $C$ & Tìm nhà hàng\\
+\bottomrule
+\end{tabular}
+\end{center}
+\textbf{Thông tin phụ trợ:} trong 10 tuyến huấn luyện riêng có cùng tiền tố và khung giờ, 8 tuyến tiếp tục tới $D$, 2 tuyến tới $E$.
+
+\textbf{Ground truth giữ lại:} người dùng tới $D$ lúc 11:00:30. Hàng tương lai chỉ dùng chấm điểm, không đưa vào đầu vào dự đoán.
+
+\textbf{Khai thác:} cả $C\rightarrow D$ và $C\rightarrow E$ đều khả thi trong 10s. Mô hình tần suất gán $P(D)=0{,}8$, $P(E)=0{,}2$ và dự đoán $D$. Các xác suất xuất phát từ tập huấn luyện minh hoạ, không phải độ chính xác thực nghiệm.
+
+\textbf{Mục tiêu:} dự đoán vị trí tiếp theo; lợi thế của transcript được đo so với đối thủ chỉ có prior mà chưa thấy tiền tố. Điểm đến cuối và toàn bộ tuyến tương lai là các đầu ra dự đoán riêng.
+
+\clearpage
+\subsection{S6 -- Đối chiếu nội dung với vị trí}
+\label{example:s6}
+
+Giao diện gửi ba cặp vị trí--truy vấn, gồm một yêu cầu thật và hai yêu cầu giả:
+\begin{center}\small
+\begin{tabular}{llll}
+\toprule
+Phiên & Thời gian & Vị trí công bố & Nội dung công bố\\
+\midrule
+u06 & 14:00:00 & $B$ & Tìm nhà hàng\\
+u06 & 14:00:00 & $E$ & Tìm phòng khám\\
+u06 & 14:00:00 & $F$ & Tìm cửa hàng\\
+\bottomrule
+\end{tabular}
+\end{center}
+\textbf{Ground truth:} người dùng ở $E$ và muốn tìm phòng khám; LSP không nhận nhãn chỉ ra yêu cầu thật.
+
+\textbf{Thông tin phụ trợ được cấp:} một tương tác trước trong cùng phiên đã để lộ việc mở thông tin phòng khám. Đối thủ có thêm căn cứ xếp hạng cặp $(E,\text{phòng khám})$ cao hơn hai cặp còn lại. Nếu không có lịch sử đó, cả ba cặp đều phù hợp POI và chưa có căn cứ nhận diện duy nhất.
+
+\textbf{Mục tiêu:} suy ra ý định truy vấn thật. Ở cấu hình chỉ bảo vệ tọa độ và gửi nguyên nội dung \emph{tìm phòng khám} cho mọi vị trí, nội dung thật đã được công bố trực tiếp. Suy ra loại dịch vụ quan tâm không đồng nghĩa suy ra chẩn đoán bệnh của người dùng.
+
+\clearpage
+\subsection{S7 -- Dùng quan hệ với người khác}
+\label{example:s7}
+
+Đối thủ nhận tập vị trí của u07 và vị trí thật của v07 từ nguồn phụ trợ:
+\begin{center}\small
+\begin{tabular}{llll}
+\toprule
+Nguồn & Thời gian & Phiên & Vị trí\\
+\midrule
+Yêu cầu bảo vệ & 15:00:00 & u07 & $\{B,E\}$\\
+Yêu cầu bảo vệ & 15:00:10 & u07 & $\{C,F\}$\\
+Nguồn phụ trợ & 15:00:00 & v07 & $B$\\
+Nguồn phụ trợ & 15:00:10 & v07 & $C$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Nội dung yêu cầu của u07 là tìm nhà hàng tại mỗi vị trí. Đối thủ được cấp thêm quan hệ u07 và v07 đi cùng một xe trong khoảng quan sát.
+
+\textbf{Ground truth:} u07 đi $B\rightarrow C$; vị trí thật thuộc mỗi tập công bố.
+
+\textbf{Khai thác:} ba tuyến $B\rightarrow C$, $E\rightarrow C$ và $E\rightarrow F$ đều khả thi trong 10s. Dữ liệu v07 cùng quan hệ đi chung xe giúp chọn $B\rightarrow C$. Quan hệ đồng hành là giả thiết được cấp rõ ràng, không tự suy ra từ mã phiên.
+
+\textbf{Mục tiêu:} tăng độ chính xác suy luận nhờ dữ liệu người khác. Biến thể chỉ cấp thống kê cộng đồng yếu hơn biến thể cấp vị trí cá nhân; hai mức thông tin phải được đánh giá riêng.

@@ -87,6 +87,7 @@ class SumoSmokeConfig:
     # randomTrips' --min-distance is the straight-line separation between the
     # sampled origin and destination edges, not the eventual routed length.
     min_trip_distance_m: float = 2500.0
+    planned_stop_duration_s: float = 0.0
 
     def __post_init__(self) -> None:
         min_lon, min_lat, max_lon, max_lat = self.bbox
@@ -108,6 +109,8 @@ class SumoSmokeConfig:
             raise ValueError("min_points cannot exceed max_points")
         if self.min_trip_distance_m < 0:
             raise ValueError("min_trip_distance_m cannot be negative")
+        if self.planned_stop_duration_s < 0:
+            raise ValueError("planned_stop_duration_s cannot be negative")
 
 
 @dataclass(frozen=True)
@@ -792,6 +795,8 @@ def _command_arrays(
             "true",
             "--no-step-log",
             "true",
+            "--time-to-teleport",
+            "-1",
         ),
     }
     files = {
@@ -837,6 +842,11 @@ def run_sumo_smoke_demo(
     )
     for stage in ("netconvert", "randomTrips.py", "sumo"):
         _run(commands[stage], environment=environment)
+        if stage == "randomTrips.py" and active_config.planned_stop_duration_s:
+            add_planned_parking_stops(
+                files["routes"], files["network"],
+                active_config.planned_stop_duration_s,
+            )
 
     traces = parse_fcd(files["fcd"])
     vehicle_id, samples = select_longest_trace(
@@ -864,7 +874,9 @@ def run_sumo_smoke_demo(
     digests = tuple(sorted((name, _sha256(path)) for name, path in files.items()))
     command_records = tuple((name, commands[name]) for name in commands)
     provenance = SumoRunProvenance(
-        scenario="controlled_beijing_passenger_smoke_v1",
+        scenario=("controlled_beijing_passenger_stops_v1"
+                  if active_config.planned_stop_duration_s
+                  else "controlled_beijing_passenger_smoke_v1"),
         disclaimer=(
             "DEMO ONLY: deterministic random traffic, not a calibrated Beijing "
             "mobility population or final thesis scenario generator."
@@ -890,6 +902,40 @@ def run_sumo_smoke_demo(
         background_trajectories=background_trajectories,
         network_path=str(files["network"]),
     )
+
+
+def add_planned_parking_stops(route_path, network_path, duration_s):
+    """Add deterministic off-traffic stops to actual SUMO routes, not to FCD.
+
+    SUMO performs braking/parking/resumption. This models synthetic legal
+    parking in SUMO, not a claim about real-world parking permissions in OSM.
+    """
+    network = _load_sumolib().net.readNet(str(network_path))
+    tree = ET.parse(route_path)
+    count = 0
+    for vehicle in tree.getroot().findall("vehicle"):
+        route = vehicle.find("route")
+        if route is None:
+            continue
+        edges = route.attrib["edges"].split()
+        for edge_id in edges[1:max(2, len(edges) // 2)]:
+            edge = network.getEdge(edge_id)
+            lanes = [lane for lane in edge.getLanes()
+                     if lane.allows("passenger") and lane.getLength() > 40]
+            if lanes:
+                lane = lanes[0]
+                ET.SubElement(vehicle, "stop", {
+                    "lane": lane.getID(),
+                    "endPos": str(lane.getLength() * 0.6),
+                    "duration": str(float(duration_s)),
+                    "parking": "true",
+                })
+                count += 1
+                break
+    if not count:
+        raise SumoOutputError("No suitable passenger lane for controlled stops")
+    tree.write(route_path, encoding="utf-8", xml_declaration=True)
+    return count
 
 
 __all__ = [
