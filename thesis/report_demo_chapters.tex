@@ -1,14 +1,22 @@
 % Canonical algorithm and experiment chapters; generated tables are verified.
-\chapter{Cơ chế sinh quỹ đạo giả có ngân sách phiên}
+\chapter{Phương pháp đề xuất}
 \label{ch:method}
 
-\section{Động cơ và quan hệ với nghiên cứu trước}
+\section{Bộ sinh dummy có trạng thái dựa trên neo riêng tư}
 
-Dummy độc lập có thể bị loại dần khi đối thủ đối chiếu nhiều lần gửi với nhau và với bản đồ. Liu và cộng sự~\cite{liu2026semantic} đặt sự nhất quán thời gian--ngữ nghĩa ở trung tâm thiết kế. Luận văn giữ cấu trúc nghiên cứu từ mô hình tấn công đến cơ chế và thực nghiệm, nhưng khảo sát hướng không cần học sâu: che vị trí bằng neo riêng tư, rồi sinh chuyển động giả từ neo và ngữ cảnh đường.
+Phương pháp đề xuất là một cơ chế sinh dummy có trạng thái chạy trên thiết bị: tạo neo riêng tư từ vị trí thật, duy trì các quỹ đạo giả qua nhiều lần gửi và sử dụng ngữ cảnh công khai để giữ chuyển động hợp lý. Geo-I là nền tảng phân tích riêng tư cho bước tạo neo; chất lượng bảo vệ toàn hệ thống còn phải đo trước từng đối thủ, cùng chất lượng dịch vụ và chi phí.
 
-Tái sử dụng dự đoán có kiểm tra riêng tư đã được Chatzikokolakis và cộng sự nghiên cứu~\cite{chatzikokolakis2014predictive}. Geo-I và phép thử dự đoán không phải phát minh của luận văn. Phương pháp \textbf{BR-Dummy} (sinh dummy tới được với ngân sách hữu hạn) kết hợp neo mới hoặc tái sử dụng có kiểm tra, sổ ngân sách phiên và hậu xử lý theo đường. Tính hữu ích của cách kết hợp là giả thuyết thực nghiệm; tính mới so với nghiên cứu liên quan còn phải xác lập trước khi viết thành đóng góp của bài báo.
+Dummy độc lập có thể bị loại dần khi đối thủ đối chiếu các lần gửi với nhau và với bản đồ. Liu và cộng sự~\cite{liu2026semantic} đặt sự nhất quán thời gian--ngữ nghĩa ở trung tâm thiết kế. Phương pháp của luận văn kết hợp yêu cầu này với trạng thái bảo vệ và quản lý ngân sách, thay vì xem mỗi truy vấn là một lần sinh tập điểm không liên quan tới quá khứ.
 
-Trọng tâm thuật toán là vị trí hiện tại, tích luỹ quan sát tại điểm dừng S2 và tái dựng chuỗi S3. S1 là mức cơ sở. S9--S10 bổ sung phép thử suy ngược điểm biên bị che; không suy ra đã bảo vệ danh tính S4, tương lai S5--S6, truy vấn S7 hoặc quan hệ đồng hành S8.
+\textbf{BR-Dummy} (sinh dummy tới được với ngân sách hữu hạn) là phiên bản thực nghiệm hiện tại của hướng đề xuất: neo mới hoặc tái sử dụng có kiểm tra, sổ ngân sách phiên và hậu xử lý theo đường. REM là thành phần lấy mẫu neo trên miền đường rời rạc, không phải toàn bộ cơ chế bảo vệ quỹ đạo. Tái sử dụng dự đoán có kiểm tra riêng tư đã được Chatzikokolakis và cộng sự nghiên cứu~\cite{chatzikokolakis2014predictive}; Geo-I và phép thử này là nền tảng kế thừa. Tính mới của cách tích hợp phải được xác lập qua nghiên cứu liên quan và thực nghiệm, không mặc nhiên xuất phát từ việc ghép các thành phần đã có.
+
+\subsection{Vai trò của mô hình học và phạm vi hiện thực}
+
+Phương pháp đề xuất không bị giới hạn ở nhóm không dùng học sâu. Một mô hình học có thể hỗ trợ đánh giá hành vi, ngữ nghĩa hoặc dự báo nhánh chuyển động nếu cải thiện kết quả tại chi phí phù hợp. Phiên bản BR-Dummy hiện chưa sử dụng mạng nơ-ron; đó là trạng thái hiện thực, không phải điều kiện thiết kế hay đóng góp của phương pháp. Nhóm đối chứng không học sâu ở Mục~\ref{sec:non-neural} bổ sung các mốc so sánh bên cạnh những công trình dùng mô hình học.
+
+Nếu bổ sung mô hình học, cần tách dữ liệu huấn luyện khỏi kiểm thử, không dùng tương lai của phiên đang bảo vệ và đo cả chi phí huấn luyện lẫn xử lý trên thiết bị. Mô hình cố định chỉ đọc bản đồ công khai và lịch sử đã bảo vệ có thể nằm trong bước hậu xử lý; mô hình đọc thêm lịch sử thật phải được đưa vào phân tích cơ chế và ngân sách. Không tự động chuyển bảo đảm Geo-I hiện tại sang một kiến trúc mới.
+
+Mục tiêu thiết kế bao gồm S1--S10 với các chức năng phối hợp ở Mục~\ref{sec:functional-modules}. Phiên bản BR-Dummy hiện được đo trước trên S1--S3 và hai phép thử điểm biên S9--S10. Phạm vi phép đo này không xác nhận đã bảo vệ danh tính S4, tương lai S5--S6, truy vấn S7 hoặc đồng hành S8.
 
 \section{Luồng xử lý và ranh giới dữ liệu}
 
@@ -149,7 +157,7 @@ Metric chất lượng theo Mục~\ref{sec:common-metrics} lưu mẫu số; lỗ
 
 Luận văn xây dựng khung nghiên cứu cho bảo vệ quỹ đạo xe đô thị tại thiết bị: bốn mục tiêu, mười tình huống có tham khảo, ràng buộc chuyển động và dữ liệu mô phỏng truy xuất nguồn. Bộ đo hợp nhất theo nhiệm vụ suy luận, POI và chi phí, giữ khác biệt với ASR, entropy hay phát hiện thật/ảo của công trình gốc.
 
-BR-Dummy là hướng không học sâu đang khảo sát, kết hợp các thành phần riêng tư đã có với ngân sách phiên và sinh giả theo đường. Bất đẳng thức áp dụng cho mô hình lý tưởng trên tọa độ biểu diễn; thực nghiệm cho bằng chứng hữu hạn ở S1--S3 và S9--S10. Giá trị hiện tại nằm ở thiết kế kiểm chứng và định lượng đánh đổi, chưa là kết luận bảo vệ toàn diện hoặc vượt phương pháp gốc.
+Phương pháp đề xuất dùng neo riêng tư và bộ sinh dummy có trạng thái, với BR-Dummy là phiên bản đã chạy thực nghiệm. Bản này kết hợp các thành phần riêng tư đã có, ngân sách phiên và chuyển động giả theo đường; việc dùng mô hình học trong các phiên bản tiếp theo được quyết định bằng bằng chứng thực nghiệm, không bị loại khỏi thiết kế. Bất đẳng thức áp dụng cho mô hình lý tưởng trên tọa độ biểu diễn; phép đo hiện có bằng chứng hữu hạn ở S1--S3 và S9--S10, chưa là kết luận bảo vệ toàn diện hoặc vượt phương pháp gốc.
 
 \section{Phản biện và điều kiện phát triển thành bài báo}
 
@@ -157,4 +165,4 @@ Số chuyến nhỏ, cùng bản đồ và điều kiện dừng chưa đại di
 
 Đối thủ tiếp theo cần likelihood đúng cơ chế, ngữ nghĩa POI và toàn bộ phần chuyến còn thấy sau che biên. Cơ chế cần ngân sách phiên dài, trạng thái cạnh/làn và chính sách biên riêng. Sửa tham số dựa trên kiểm thử này phải coi nó là dữ liệu phát triển rồi chạy tập xác nhận mới.
 
-Khẳng định vượt SOTA cần pipeline đối chứng đúng paper và xác minh đủ metrics AnotherMe. S4--S8 cần nhãn và mô-đun riêng cho danh tính, tương lai, ý định, đồng hành; năm tình huống đã chạy không chứng minh bao phủ chúng.
+Khẳng định vượt SOTA cần pipeline đối chứng đúng paper và xác minh đủ metrics AnotherMe. Bộ dữ liệu ở Mục~\ref{sec:scenario-suite} đã bổ sung nhãn tổng hợp cho S4--S8, nhưng chưa có kết quả tấn công và so sánh cơ chế trên bộ này. Năm tình huống đã đo trong chương này không chứng minh bảo vệ danh tính, tương lai, ý định hoặc đồng hành. Nhãn và dữ liệu mới là đầu vào cho vòng đánh giá tiếp theo, không thay thế các phép đo còn thiếu.

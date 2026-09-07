@@ -531,13 +531,16 @@ S9--S10 & Vùng riêng tư che đầu/cuối hành trình trong ứng dụng the
 \end{longtable}
 \endgroup
 
-\section{Phạm vi cốt lõi và các chức năng mở rộng}
+\section{Mục tiêu bao phủ và phân công chức năng bảo vệ}
 \label{sec:functional-modules}
 
-\noindent\textbf{Cốt lõi: S2--S3; kiểm tra nền: S1.}
-Trọng tâm phát triển là bảo vệ chuỗi trước việc tích luỹ quan sát: điểm dừng trong S2 và đường đã đi trong S3. Yêu cầu đặt ra cho bộ sinh là duy trì các khả năng thay thế qua thời gian, thay vì chỉ làm mỗi điểm riêng lẻ có vẻ hợp lý. S1 kiểm tra nền, không thay thế phép thử theo chuỗi.
+\noindent\textbf{Mục tiêu: đánh giá cả S1--S10.}
+Cả mười kịch bản nằm trong phạm vi thiết kế dữ liệu và đánh giá của luận văn. Phân chia thành cơ chế nền và các chức năng phối hợp là cách tổ chức giải pháp, không phải loại các kịch bản còn lại khỏi bài toán. Với từng kịch bản, cần xác định dữ liệu đầu vào, thông tin đối thủ được thấy, đáp án đánh giá và giới hạn có thể bảo vệ.
 
-\noindent\textbf{Chức năng mở rộng theo thông tin cần bảo vệ.}
+\noindent\textbf{Cơ chế nền cho vị trí và chuỗi chuyển động.}
+Bộ sinh dummy xử lý S1--S3 bằng cách duy trì các khả năng thay thế qua thời gian, thay vì chỉ làm mỗi điểm riêng lẻ có vẻ hợp lý. Điểm dừng S2 và tái dựng đường S3 là nơi kiểm chứng thành phần này trước; S1 không thay thế phép thử theo chuỗi.
+
+\noindent\textbf{Các chức năng cần phối hợp để mở rộng độ bao phủ.}
 \begin{itemize}
   \item S4: quản lý bí danh và hạn chế liên kết nhiều phiên; tách bảo vệ người khỏi bảo vệ thiết bị.
   \item S5--S6: duy trì nhiều khả năng cho bước tiếp theo và đích đến; chỉ sử dụng tiền tố được phép.
@@ -546,7 +549,7 @@ Trọng tâm phát triển là bảo vệ chuỗi trước việc tích luỹ qu
   \item S9--S10: chính sách riêng cho biên hành trình, gồm đoạn khởi hành/kết thúc và thời điểm bắt đầu/ngừng công bố.
 \end{itemize}
 
-Các chức năng mở rộng có thể chia sẻ trạng thái với cơ chế cốt lõi. Bật thêm chức năng phải được đánh giá cả lợi ích riêng tư lẫn tác động tới các kịch bản khác và chất lượng dịch vụ; không giả định các mức bảo vệ tự cộng lại.
+Các chức năng có thể chia sẻ trạng thái với cơ chế nền. Bật thêm chức năng phải được đánh giá cả lợi ích riêng tư lẫn tác động tới các kịch bản khác và chất lượng dịch vụ; không giả định các mức bảo vệ tự cộng lại. Chỉ thay tọa độ không thể giấu truy vấn nhạy cảm còn gửi nguyên văn; bảo vệ vị trí một người không thể xoá vị trí do người đồng hành đã công bố. Các trường hợp giới hạn này vẫn cần nằm trong dữ liệu, không loại bỏ để làm kết quả thuận lợi hơn.
 
 \noindent\textbf{Cơ sở xác lập đóng góp.}
 Thiết kế dữ liệu và giao thức đánh giá hướng tới cả mười kịch bản. Một đóng góp về độ bao phủ chỉ được xác lập khi cùng một giao thức cho thấy cơ chế cải thiện những target cụ thể trước các đối thủ đã định nghĩa, tại mức chất lượng và chi phí tương đương. Khảo sát nhiều trường hợp, bản thân nó, chưa chứng minh một thuật toán bảo vệ được tất cả. Khung đánh giá được hệ thống hoá trong Chương~\ref{ch:comparators}; tính mới của cơ chế sẽ được xác định sau các đối chiếu này.
@@ -621,6 +624,8 @@ Quan sát công bố & Thời điểm, mã phiên công bố, vị trí hoặc t
 \end{enumerate}
 
 S9--S10 cần giữ toàn bộ chuyến đi trong kho đáp án nhưng chỉ cấp phần công bố cho đối thủ. Thời điểm bắt đầu/ngừng gửi, thời lượng hay tổng quãng đường chỉ được cung cấp nếu cấu hình đã khai báo; không vô tình rò nhãn điểm đầu/cuối qua tên tệp, mã tuyến hoặc lịch SUMO. Với S4, quan hệ người--thiết bị được sinh riêng, không lấy mã xe SUMO làm danh tính người.
+
+\input{scenario_dataset_spec}
 
 \addtocontents{toc}{\protect\newpage}
 \chapter{Các phương pháp đối chứng}
@@ -717,7 +722,7 @@ TransProtect đại diện cho lựa chọn vị trí theo ngữ cảnh đườn
 \section{Đối chứng không sử dụng học sâu}
 \label{sec:non-neural}
 
-Không dùng học sâu không đồng nghĩa không học từ dữ liệu: mô hình Markov vẫn ước lượng xác suất chuyển tiếp. AnotherMe đã bổ sung một bộ sinh dựa vào định tuyến và quy tắc; bộ khảo sát được mở rộng bằng các cách chọn dummy theo xác suất, bộ nhớ đệm và lịch truy vấn.
+Nhóm này mở rộng tập đối chứng để so sánh với phương pháp đề xuất, không đặt ra điều kiện phương pháp đề xuất phải tránh học sâu. Không dùng học sâu cũng không đồng nghĩa không học từ dữ liệu: mô hình Markov vẫn ước lượng xác suất chuyển tiếp. AnotherMe bổ sung một bộ sinh dựa vào định tuyến và quy tắc; bộ khảo sát tiếp tục mở rộng bằng các cách chọn dummy theo xác suất, bộ nhớ đệm và lịch truy vấn.
 
 \begingroup\small\setstretch{1.1}
 \begin{longtable}{P{3.0cm}P{5.2cm}P{6.15cm}}
@@ -950,6 +955,11 @@ doi: \href{https://doi.org/10.1109/ITSC.2018.8569938}{10.1109/ITSC.2018.8569938}
 OpenStreetMap Foundation,
 ``Copyright and License,'' accessed Sep. 2, 2026.
 \url{https://www.openstreetmap.org/copyright/}.
+
+\bibitem{sumovehicles}
+Eclipse SUMO, ``Definition of Vehicles, Vehicle Types, and Routes,''
+documentation, accessed Sep. 7, 2026.
+\url{https://sumo.dlr.de/docs/Definition_of_Vehicles,_Vehicle_Types,_and_Routes.html}.
 
 \bibitem{shokri2011quantifying}
 R. Shokri, G. Theodorakopoulos, J.-Y. Le Boudec, and J.-P. Hubaux,

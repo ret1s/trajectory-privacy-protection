@@ -5,6 +5,8 @@ This is the only top-level location for tracked generated deliverables.
 - [`benchmarks/`](benchmarks/) contains current machine-generated experiment
   evidence consumed by the benchmark dashboard and thesis.
 - [`reports/`](reports/) contains reviewed human-facing PDF releases.
+- [`datasets/urban_scenarios_v1/`](datasets/urban_scenarios_v1/) contains versioned
+  pre-protection scenario data, separate from measured benchmark results.
 
 `benchmark/` at the repository root is source code; `artifacts/benchmarks/` is
 generated evidence. Unreferenced superseded artifacts belong under `archive/`;
