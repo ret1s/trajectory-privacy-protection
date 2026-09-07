@@ -35,7 +35,7 @@ Mục tiêu thiết kế bao gồm S1--S10 với các chức năng phối hợp 
 \caption{BR-Dummy tại thiết bị. Bước sinh giả không đọc lại tọa độ thật; neo và nhánh nội bộ không gửi tới LSP.}
 \end{figure}
 
-Mỗi sự kiện gửi $K$ điểm giả, không bắt buộc chứa thật. Cơ chế duy trì định danh từng luồng giả; đối thủ cũng thấy liên kết này. Mọi cơ chế nhận cùng vị trí biểu diễn tại nút gần nhất $Q(x)$, nhưng được chấm với FCD gốc. Bộ bảo vệ không nhận nhãn kịch bản hoặc tọa độ biên bị che. Bản đồ cố định trước phiên; tải ngữ cảnh thích nghi theo vị trí thật cần phân tích rò rỉ riêng.
+Mỗi sự kiện gửi $K$ điểm giả, không bắt buộc chứa thật. Cơ chế duy trì định danh từng luồng giả; đối thủ cũng thấy liên kết này. Trong vòng thực nghiệm tại nút giao, mọi cơ chế nhận vị trí biểu diễn tại nút gần nhất $Q(x)$ nhưng được chấm với FCD gốc. Biến thể trạng thái làn ở Mục~\ref{sec:lane-method} tiếp nhận GPS gốc để tạo neo. Bộ bảo vệ không nhận nhãn kịch bản hoặc tọa độ biên bị che. Bản đồ cố định trước phiên; tải ngữ cảnh thích nghi theo vị trí thật cần phân tích rò rỉ riêng.
 
 \section{Neo riêng tư và sổ ngân sách}
 
@@ -97,7 +97,18 @@ Với $\delta=d(x,x')$, bất đẳng thức tam giác chặn riêng tỷ số s
 \]
 Lần đầu dùng $\epsilon_1=\epsilon_R$. Với $D_\infty(X,X')=\max_t d(x_t,x'_t)$, hệ số không vượt $e^{B D_\infty(X,X')}$. Bản tái sử dụng có tổng chặn $B-B/(2H)$ khi đủ $H$ lần; $B$ vẫn là chặn trên hợp lệ. Bộ sinh dummy và các bước sau $H$ chỉ hậu xử lý chuỗi neo nên bảo toàn bất đẳng thức. Chứng minh trên quan sát mạnh hơn gồm cả neo cũng chặn được quan sát chỉ có dummy.
 
-Định lý áp dụng trên đầu vào $Q(x)$, trong số học lý tưởng, cùng lịch và ngữ cảnh công khai. Không thay $d(Q(x),Q(x'))$ bằng $d(x,x')$ để khẳng định cùng bảo đảm cho GPS liên tục. Kiểm thử không chứng minh mọi tỷ số xác suất của dấu phẩy động hay bộ sinh giả ngẫu nhiên.
+Ở vòng thực nghiệm tại nút giao, định lý áp dụng trên đầu vào $Q(x)$, trong số học lý tưởng, cùng lịch và ngữ cảnh công khai. Không thay $d(Q(x),Q(x'))$ bằng $d(x,x')$ để khẳng định cùng bảo đảm cho GPS liên tục. Biến thể sau đây thay đổi chính đầu vào của hạt nhân, không suy diễn bảo đảm qua phép làm tròn. Kiểm thử không chứng minh mọi tỷ số xác suất của dấu phẩy động hay bộ sinh giả ngẫu nhiên.
+
+\section{Mở rộng sang trạng thái dọc làn và đầu vào liên tục}
+\label{sec:lane-method}
+
+Chỉ biểu diễn bằng nút giao bỏ qua vị trí trên một đoạn đường dài và có thể làm mất ràng buộc rẽ. Biến thể BR-làn dùng trạng thái công khai $(\ell,s)$: làn $\ell$ và độ tiến $s$ trên làn. Hình học làn được chia với bước không quá 20 m; cạnh nối chỉ theo tiến dọc làn hoặc kết nối được SUMO cho phép, gồm làn nội bộ tại nút giao. Các làn trùng tọa độ vẫn khác trạng thái chuyển động. Điều này giữ thông tin kết nối; không bổ sung kết nối chỉ vì hai tọa độ gần nhau.
+
+Miền neo $V$ trong (\ref{eq:report-anchor}) được thay bằng toàn bộ tập trạng thái làn cố định $V_L$, mỗi trạng thái ánh xạ tới tọa độ $g(v)$. Đầu vào là GPS gốc đã đổi sang hệ phẳng công khai $x$, không làm tròn trước khi tính $d(x,g(v))$. Bất đẳng thức tam giác và tính 1-Lipschitz vẫn áp dụng cho mọi $x,x'$ liên tục trong hệ phẳng này; vì vậy chặn lý tưởng dùng $d(x,x')$ thay vì khoảng cách giữa hai nút làm tròn. Đây là cùng lập luận Geo-I trên miền đầu ra công khai, không là định lý riêng tư mới. Khoảng cách hệ phẳng không được đồng nhất chính xác với khoảng cách trắc địa.
+
+BR-làn giữ bước thử tái sử dụng, ngân sách và điểm số sinh dummy. Thời gian cạnh dùng tốc độ nhỏ hơn giữa giới hạn làn và 8 m/s; bộ nhớ đệm tìm đường được giới hạn. Miền tới được chỉ đọc trạng thái giả trước và ngữ cảnh công khai, nên không mở thêm kênh đọc vị trí thật. Mô hình học có thể tiếp tục bổ sung điểm số hành vi hoặc ngữ nghĩa theo ranh giới dữ liệu đã nêu; lựa chọn đối chứng không quyết định kiến trúc phương pháp đề xuất.
+
+Mô hình làn hiện mô tả đường đi khả thi trong điều kiện lưu thông tự do, chưa mô phỏng đổi làn, gia tốc, đèn tín hiệu hoặc hàng xe. Một đường đi tồn tại trong đồ thị chưa đủ khẳng định SUMO có thể phát lại đúng mọi mốc thời gian. Trạng thái gần nhất dùng để truy cập POI cũng có thể chọn nhầm hướng ở các làn sát nhau. Các giới hạn này phải được giữ khi diễn giải tính hợp lệ và chất lượng.
 
 \subsection{Phản biện mức bảo vệ}
 
@@ -151,6 +162,8 @@ Metric chất lượng theo Mục~\ref{sec:common-metrics} lưu mẫu số; lỗ
 \section{Kết quả và phân tích thành phần}
 \input{../artifacts/benchmarks/paper_benchmark/results_tables.tex}
 
+\input{lane_comparison.tex}
+
 \chapter{Kết luận và hướng phát triển}
 
 \section{Kết quả đạt được}
@@ -163,6 +176,6 @@ Phương pháp đề xuất dùng neo riêng tư và bộ sinh dummy có trạng
 
 Số chuyến nhỏ, cùng bản đồ và điều kiện dừng chưa đại diện người dùng thực. Chọn cơ chế có thể quá khớp bốn xe hoặc đối thủ gần đúng. Cần nhiều seed, mức $B$, độ dài phiên và thành phố để kiểm tra độ bền kết luận.
 
-Đối thủ tiếp theo cần likelihood đúng cơ chế, ngữ nghĩa POI và toàn bộ phần chuyến còn thấy sau che biên. Cơ chế cần ngân sách phiên dài, trạng thái cạnh/làn và chính sách biên riêng. Sửa tham số dựa trên kiểm thử này phải coi nó là dữ liệu phát triển rồi chạy tập xác nhận mới.
+Đối thủ tiếp theo cần likelihood đúng cơ chế, ngữ nghĩa POI và toàn bộ phần chuyến còn thấy sau che biên. Biến thể trạng thái làn đã được kiểm tra ở mức đường đi tự do; cơ chế còn cần ngân sách phiên dài, ràng buộc giao thông động và chính sách biên riêng. Sửa tham số dựa trên kiểm thử này phải coi nó là dữ liệu phát triển rồi chạy tập xác nhận mới.
 
 Khẳng định vượt SOTA cần pipeline đối chứng đúng paper và xác minh đủ metrics AnotherMe. Bộ dữ liệu ở Mục~\ref{sec:scenario-suite} đã bổ sung nhãn tổng hợp cho S4--S8, nhưng chưa có kết quả tấn công và so sánh cơ chế trên bộ này. Năm tình huống đã đo trong chương này không chứng minh bảo vệ danh tính, tương lai, ý định hoặc đồng hành. Nhãn và dữ liệu mới là đầu vào cho vòng đánh giá tiếp theo, không thay thế các phép đo còn thiếu.

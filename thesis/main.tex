@@ -757,6 +757,14 @@ Fake-query insertion\newline Liu, Hu và Zhou, 2026~\citep{liu2026fakequeries}
 
 Bộ đối chứng nên có cả phương pháp gần đây lẫn phương pháp nền có thể kiểm tra rõ. Việc thuộc nhóm dùng/không dùng học sâu là một trục mô tả, không phải điều kiện đủ của công bằng: thông tin đầu vào, chất lượng dịch vụ, dữ liệu huấn luyện và chi phí mới là các điều kiện phải đối chiếu. Giai đoạn 2023--2026 là cửa sổ khảo sát theo năm, không phải tất cả công trình trong đó đều thuộc đúng 36 tháng gần nhất.
 
+\subsection{DLS và enhanced-DLS: xác suất truy vấn và độ phân tán}
+
+DLS của Niu và cộng sự tại INFOCOM 2014 chọn các vị trí có xác suất truy vấn gần với vị trí thật, rồi giữ tập có entropy lớn trong nhiều tập thử~\cite{niu2014dls}. Cách làm nhằm tránh để điểm thật quá nổi bật về mức phổ biến. Enhanced-DLS bổ sung độ phân tán: từ $4K$ ứng viên gần nhau về thứ hạng xác suất, chọn $2K$ ứng viên qua bước entropy; sau đó lần lượt chọn $K-1$ dummy để gửi cùng vị trí thật. Ở mỗi lần chọn, xác suất của ứng viên tỷ lệ với tích khoảng cách từ nó tới các điểm đã chọn. Đây là lấy mẫu có trọng số, không phải luôn chọn điểm xa nhất.
+
+Hai bản đối chứng thích nghi thay ô lưới của công trình gốc bằng các tọa độ công khai trên mạng đường. Enhanced-DLS dùng 50 tập thử, chấm entropy của $2K$ dummy hợp với điểm thật ở bước trung gian; quy ước này được nêu riêng vì mô tả bước trung gian của paper viện dẫn lại DLS nhưng chưa làm rõ việc tính điểm thật. Các trạng thái làn trùng tọa độ chỉ được tính là một vị trí khi chọn tập. Xác suất đầu vào được ước lượng từ chuyển động huấn luyện mô phỏng, không phải thống kê truy vấn trong thực nghiệm gốc.
+
+Việc bổ sung enhanced-DLS cho phép đối chiếu vai trò của phân tán không gian bên cạnh tính nhất quán thời gian của phương pháp đề xuất. Hai thuật toán cùng một công trình, không được tính thành hai nguồn SOTA độc lập. Chúng là đối chứng nền không dùng học sâu, không thay thế yêu cầu tái lập các comparator hiện đại. Entropy cao hoặc đủ $K$ tọa độ phân biệt cũng không chứng minh đối thủ có xác suất đoán đúng bằng $1/K$.
+
 \section{Các chỉ số trong công trình gốc}
 \label{sec:original-metrics}
 

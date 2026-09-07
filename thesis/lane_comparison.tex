@@ -1,0 +1,38 @@
+\section{Thử nghiệm trạng thái làn và đa dạng hóa đối chứng}
+\label{sec:lane-study}
+
+Trạng thái làn giảm sai số biểu diễn vị trí, nhưng chưa giải quyết hết đánh đổi riêng tư--chất lượng. Thử nghiệm này tách hai câu hỏi: enhanced-DLS khác DLS thế nào trên cùng tác vụ; và tiếp nhận GPS gốc thay cho nút gần nhất có làm thay đổi kết quả BR-làn hay không. Không gộp số liệu với vòng tại nút giao, vì miền trạng thái và đường truy cập POI đã thay đổi.
+
+\subsection{Dữ liệu và điều kiện so sánh}
+
+Dữ liệu lấy từ bộ SUMO ở Mục~\ref{sec:scenario-suite}: S1.A (một lần công bố), S2.B (truy vấn lặp tại điểm dừng) và S3.A (đoạn chuyển động liên tục). Họ mô phỏng 91 chỉ dùng ước lượng phân bố không gian công khai; họ 92 chọn đối thủ; họ 93 báo kết quả phát triển. Mỗi họ chứa các chuyến liên quan trong cùng bộ sinh, không phải quần thể người dùng độc lập. Ba họ này đã dùng phát triển bộ dữ liệu, nên họ 93 không được coi là tập kiểm thử cuối hoàn toàn chưa quan sát.
+
+S1.A giữ một sự kiện, S2.B giữ chín sự kiện. S3.A giữ tám sự kiện ở họ 92 và 12 sự kiện đầu trong 20 sự kiện ở họ 93 để phù hợp $H=12$. Tổng cộng sáu đoạn, 40 sự kiện đầu vào phân biệt theo bản ghi; chưa là phép thử cả chuyến dài. Sáu cấu hình gồm không bảo vệ, tập dummy đều chứa thật, DLS, enhanced-DLS, BR-làn nhận nút gần nhất và BR-làn nhận GPS gốc. Mỗi cấu hình dùng $K\in\{3,5\}$ và hai lần lặp ngẫu nhiên: tổng 144 lượt chạy. Hai lần lặp không làm tăng số chuyến độc lập.
+
+Cả hai bản BR-làn giữ $B=0{,}24\,\mathrm{m}^{-1}$, $H=12$, $\theta=200$ m, độ lệch 80 m và $\tau=60$ m. Trong từng cặp, tham số và luồng ngẫu nhiên giống nhau; khác biệt duy nhất là làm tròn hay giữ GPS đầu vào. Hai bản cùng dùng miền làn, vì vậy cặp này không cô lập tác dụng của việc đổi từ nút giao sang làn. Bộ bảo vệ không nhận nhãn S1/S2/S3.
+
+Mạng công khai có 102.123 trạng thái trên 32.496 làn và 110.643 cạnh có hướng; 59.973 tọa độ phân biệt. DLS, enhanced-DLS và tập đều chọn trên các tọa độ phân biệt để không tính hai đầu làn trùng nhau thành hai dummy khác vị trí. BR giữ trạng thái làn cho chuyển động và đo số tọa độ phân biệt sau công bố. Xác suất công khai là hỗn hợp Gaussian với độ rộng 250 m từ FCD của họ 91, lấy mỗi 20 mẫu, có số hạng dương $10^{-9}$; đây là xấp xỉ mức xuất hiện không gian, chưa phải mô hình truy vấn của paper gốc.
+
+Tác vụ POI dùng cùng 418 điểm OSM thuộc sáu loại, loại tám POI vượt ngưỡng truy cập 250 m. Truy vấn tìm tối đa năm POI theo đường có hướng trên miền làn; thiết bị hợp nhất và xếp lại bằng GPS thật. Các tập chứa vị trí biểu diễn thật có Recall bằng một theo tác vụ này vì truy vấn thật cũng truy cập từ trạng thái gần nhất; đó là hệ quả giao thức, không chứng minh chất lượng tuyệt đối của mọi ứng dụng LBS.
+
+\subsection{Tính ổn định của lựa chọn đối thủ}
+
+Bộ đối thủ dùng tâm tập, nối ứng viên theo chuyển động và trung bình không gian huấn luyện. S2/S3 thêm trung bình tích lũy và toàn chuỗi. Với tập chứa thật, đối thủ có thể chọn ứng viên theo xác suất công khai; S2 thêm giao các tập. Đây là các phép suy luận gần đúng, chưa có likelihood đúng cơ chế, đối thủ ngữ nghĩa hoặc bộ suy ngược đường đầy đủ của vòng trước.
+
+Kết quả gốc lưu riêng đối thủ giảm MAE và đối thủ tăng Hit$_{100}$, được chọn trên họ 92 rồi áp dụng họ 93. Tập chọn quá nhỏ làm lựa chọn không ổn định: chẳng hạn DLS, $K=3$, S1.A có MAE 9,2 m theo đối thủ chọn cho MAE, nhưng Hit bằng 0 theo đối thủ khác chọn cho Hit. Không thể đọc con số sau thành ``không đối thủ nào đoán được''; một đối thủ khác trong chính bộ đã định nghĩa đạt Hit bằng một.
+
+Vì vậy Bảng~\ref{tab:lane-k3}--\ref{tab:lane-k5} trình bày thêm \textbf{kiểm tra khả năng tấn công quan sát được}: lấy MAE nhỏ nhất và Hit lớn nhất giữa các đối thủ đã định nghĩa, tính trên cùng các lượt của họ 93. Mỗi chỉ số chọn một đối thủ cho cả nhóm, không chọn đáp án theo từng sự kiện. Đây là phân tích thăm dò trên dữ liệu phát triển, không là chọn đối thủ trên tập độc lập và không ước lượng đối thủ tối ưu. MAE càng lớn và Hit càng nhỏ thì riêng tư thực nghiệm càng tốt; Recall càng lớn thì chất lượng POI càng tốt. Các chỉ số được tính trong từng đoạn rồi trung bình hai lần lặp, không kèm khoảng tin cậy với chỉ một họ mô phỏng báo cáo.
+
+\input{../artifacts/benchmarks/lane_comparison/results_tables.tex}
+
+\subsection{Kết quả, đánh đổi và kiểm chứng}
+
+Trên 40 sự kiện, khoảng cách trung bình tới trạng thái gần nhất giảm từ 29,86 m ở miền nút giao xuống 3,82 m ở miền làn; phân vị 95 giảm từ 48,22 m xuống 7,77 m. Đây là cải thiện độ phân giải hình học, không phải sai số suy luận của đối thủ. Kiểm tra đường đi dùng chỉ số trạng thái nội bộ chỉ dành cho đánh giá; không suy ngược làn duy nhất từ một tọa độ có nhiều trạng thái trùng nhau.
+
+Ở S2.B, DLS và enhanced-DLS đều có một đối thủ đạt Hit$_{100}=100\%$ trong kiểm tra thăm dò, dù tập có đủ $K$ vị trí phân biệt. Nhất quán qua nhiều lần gửi vẫn là vấn đề cần giải quyết, ngoài entropy và phân tán tại một thời điểm. Enhanced-DLS cũng không cải thiện đồng đều: ở S3.A, $K=5$, MAE nhỏ nhất quan sát được là 97,1 m so với 129,2 m của DLS. Mẫu nhỏ chưa đủ kết luận phương pháp nào tốt hơn nói chung.
+
+BR-làn nhận GPS gốc ở $K=3$ có Recall lần lượt 85,0\%, 85,0\%, 76,5\% tại S1.A/S2.B/S3.A. Với $K=5$, Recall là 98,3\%, 96,9\%, 77,2\%; tăng số điểm gửi chưa giúp S3.A đạt ngưỡng chất lượng 90\%. Ngưỡng này là mục tiêu của thí nghiệm, không phải chuẩn bắt buộc của ứng dụng. Bản GPS gốc cũng không thắng bản làm tròn đồng đều: tại S2.B, $K=3$, Recall giảm từ 86,5\% xuống 85,0\%; ở $K=5$, hai bản có cùng các số đo được báo. Do đó lý do bỏ làm tròn là biểu diễn đúng đầu vào trong phân tích riêng tư, chưa phải ưu thế thực nghiệm đã xác lập.
+
+Kiểm chứng gồm kiểm tra kết nối theo mạng SUMO gốc, đối chiếu tìm đường thưa với một cài đặt độc lập, phát lại mọi đầu ra từ cùng hạt giống, tính lại đáp án POI và kiểm tra tính nhân quả trên tiền tố. Thời gian khởi tạo và sinh được lưu riêng; tổng thời gian sinh chia số sự kiện không thay cho phân vị trễ từng sự kiện hoặc thử nghiệm trên điện thoại. Dữ liệu kiểm toán có trạng thái và nhãn thật, phải tách khỏi bản tin dành cho đối thủ.
+
+Thử nghiệm này chưa hỗ trợ kết luận vượt các phương pháp học sâu đã huấn luyện, vì chưa chạy bản tái lập mạng nơ-ron đầy đủ trên miền làn. Cũng chưa bổ sung phép đo bảo vệ S4--S10 trên bộ kịch bản mới. Bước phát triển tiếp theo là tăng số họ mô phỏng độc lập, tăng sức mạnh đối thủ, cải thiện chất lượng S3 và so sánh tại cùng ngưỡng chất lượng; thành phần học được là một lựa chọn mở nếu đáp ứng ranh giới dữ liệu và chi phí.

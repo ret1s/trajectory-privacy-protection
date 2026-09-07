@@ -19,3 +19,11 @@ be treated as an attacker-only export. The web app exposes a separate public
 transcript and an opt-in evaluator endpoint. See the
 [`protocol and research decisions`](../thesis/notes/paper_cycle_v2_protocol.md).
 The v1 predecessor remains unchanged in `benchmarks/report_demo/` for lineage.
+
+[`benchmarks/lane_comparison/`](benchmarks/lane_comparison/) is a separate,
+development-only S1.A/S2.B/S3.A experiment: enhanced-DLS and matched BR lane-state
+variants. Its directed lane POI service differs from the earlier junction
+service, so its numeric scores must not be merged into the older leaderboard.
+`results.json` preserves validation-selected attackers; `audit.json` and the
+thesis tables additionally show an explicitly exploratory report-family attack
+envelope. Both files contain synthetic evaluator truth, not public-only exports.
