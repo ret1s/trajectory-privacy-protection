@@ -1,0 +1,33 @@
+\subsection{Từ chỉ số gốc đến bộ đo được lựa chọn}
+
+Không có phép đổi đơn vị nào biến entropy, ASR, sai số tọa độ và tỷ lệ phân loại thành cùng một đại lượng. Luận văn giữ mục đích của các phép đo gốc nhưng thống nhất \emph{nhiệm vụ cần chấm}, thay vì cộng các con số khác nghĩa.
+
+\begingroup\small\setstretch{1.1}
+\begin{longtable}{P{3.0cm}P{5.1cm}P{6.25cm}}
+\caption{Hợp nhất phép đo theo câu hỏi nghiên cứu, không đồng nhất định nghĩa gốc.}\label{tab:metric-decisions}\\
+\toprule\textbf{Nguồn / chỉ số} & \textbf{Giữ lại trong giao thức chung} & \textbf{Lý do và giới hạn}\\\midrule\endhead
+TransProtect: EIE; sai lệch chi phí hành trình~\cite{yadav2024transprotect}
+& Sai số ước lượng vị trí theo mét; bổ sung chất lượng dịch vụ dựa trên đường.
+& Chấm cùng đáp án thật, nhưng MAE của một ước lượng điểm không tự bằng sai số kỳ vọng dưới hậu nghiệm. Khoảng cách đi thêm của kết quả POI không phải công thức (13) của TransProtect.\\\midrule
+AnotherMe: phát hiện thật/ảo trong mã nguồn~\cite{anothermecode}
+& Sai số suy ngược vị trí cho đầu ra thay thế. Phép phát hiện thật/ảo là nhánh bổ sung khi có dữ liệu huấn luyện tương ứng.
+& Phát hiện được dummy không đồng nghĩa định vị được người thật. Chưa xác minh đủ toàn văn để điền chính xác bộ chỉ số gốc; không tự gán AUC hoặc độ chính xác của paper.\\\midrule
+Semantic correlation: ASR, DER, thời gian sinh~\cite{liu2026semantic}
+& Hit$_r$ đo mức đoán đúng; kiểm tra tính hợp lệ và thời gian sinh được báo riêng.
+& Không đổi tên Hit thành ASR. Sinh đủ $K$ điểm không xác nhận hậu nghiệm của vị trí thật $\leq1/K$; tương đồng ngữ nghĩa không thay thế Recall POI.\\\midrule
+DLS/RDG: entropy~\cite{niu2014dls,shaham2021viterbi}
+& Giữ nguyên lý chọn dummy của đối chứng; chấm lại bằng đối thủ chung và tác vụ POI.
+& Phân bố ứng viên có vẻ đều vẫn có thể bị liên kết qua thời gian. Entropy chỉ là chẩn đoán bên trong, không là kết luận riêng tư chính.\\
+\bottomrule
+\end{longtable}\endgroup
+
+Bộ đo chính gồm ba trục: \textbf{riêng tư} (MAE, trung vị, phân vị 90 và Hit$_{100}$); \textbf{chất lượng} (Recall@5, tỷ lệ trả đủ và khoảng cách đường đi thêm); \textbf{chi phí} (số tọa độ, byte và thời gian). Hit$_{50}$ và Hit$_{200}$ là kiểm tra độ nhạy. Các ngưỡng 50/100/200 m là lựa chọn thử nghiệm công khai, không được gán thành tiêu chuẩn của paper gốc. MAE cho độ lớn sai số; trung vị/phân vị cho phân bố; Hit cho tần suất đối thủ vẫn đoán gần đúng. Chúng bổ sung nhau chứ không tạo một điểm riêng tư tổng.
+
+Gọi $C_i=\mathbf1\{|\widehat R_i|=|R_i^\star|\}$ với truy vấn có đáp án tham chiếu. Tỷ lệ trả đủ là trung bình $C_i$. Với $C_i=1$, khoảng cách đi thêm được tính bằng
+\[
+\Delta D_i=\frac{1}{|\widehat R_i|}\sum_{p\in\widehat R_i}d_G(Q(x_i),Q(p))
+-\frac{1}{|R_i^\star|}\sum_{p\in R_i^\star}d_G(Q(x_i),Q(p)).
+\]
+$d_G$ là khoảng cách ngắn nhất theo chiều đường, không phải khoảng cách thẳng. Chỉ trung bình $\Delta D_i$ trên các truy vấn trả đủ, đồng thời báo mẫu số và tỷ lệ trả đủ: kết quả rỗng không được nhận tổn thất bằng 0. Đây là chi phí của tập POI trả về, không phải đo hành vi chọn một POI hay hành trình thực của người dùng.
+
+Việc chọn cấu hình dùng ràng buộc Recall@5 tối thiểu 0,90 trên tập chọn cơ chế, rồi giảm Hit$_{100}$. Mốc 0,90 là yêu cầu chất lượng do luận văn đặt, không phải bảo đảm hệ thống hay ngưỡng phổ quát. Nếu không cấu hình nào đạt, phải công bố không khả thi trong lưới đã thử. Bộ đo này là giao thức được biện minh cho tác vụ cụ thể, chưa phải đóng góp một định nghĩa metric hoàn toàn mới.

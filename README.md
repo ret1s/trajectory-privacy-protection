@@ -13,7 +13,7 @@ it against explicit attacker, utility, and output-contract assumptions.
 - Foundations study guide: [`artifacts/reports/location_trajectory_privacy_foundations.pdf`](artifacts/reports/location_trajectory_privacy_foundations.pdf)
 - Comparator status and evidence: [`benchmark/README.md`](benchmark/README.md)
 - Documentation index: [`docs/README.md`](docs/README.md)
-- Report/demo release: [`thesis/notes/report_demo_release_2026-09-07.md`](thesis/notes/report_demo_release_2026-09-07.md)
+- Current research cycle: [`thesis/notes/paper_cycle_v2_protocol.md`](thesis/notes/paper_cycle_v2_protocol.md)
 
 ## Repository layout
 
@@ -71,13 +71,13 @@ venv/bin/python -m experiments.run_dummy_benchmark --quick
 # Read-only benchmark dashboard: http://127.0.0.1:5000/
 venv/bin/python -m web.benchmark_app
 
-# Latest S1--S3 report replay: http://127.0.0.1:5050/report-demo
+# Latest S1--S3 + S9/S10 replay: http://127.0.0.1:5050/report-demo
 venv/bin/python -m web.benchmark_app --port 5050
 
-# Regenerate the controlled pilot using SUMO + OSM only
-venv/bin/python -m experiments.run_report_demo
-venv/bin/python -m experiments.verify_report_demo --raw
-venv/bin/python -m experiments.export_report_demo
+# Current controlled study using SUMO + OSM only
+venv/bin/python -m experiments.run_paper_benchmark
+venv/bin/python -m experiments.verify_paper_benchmark --raw
+venv/bin/python -m experiments.export_paper_benchmark
 
 # Thesis mechanism simulator: http://127.0.0.1:5003/
 venv/bin/python -m web.simulator
@@ -98,8 +98,9 @@ Raw mobility data and OSM/SUMO caches are intentionally not tracked. Follow
   kernel over a fixed public road-vertex support.
 - SM-REM addresses repeated static releases but leaks its exact reuse pattern;
   it is not a trajectory-level privacy theorem.
-- PR-SM-REM randomizes reuse and has a scoped per-step bound; a complete
-  window/event budget manager is still future work.
+- PR-SM-REM randomizes reuse and has a scoped per-step bound. BR-Dummy adds a
+  fixed-horizon session ledger and stops reading new private positions after
+  exhaustion; rolling-window budgeting with sustained utility remains future work.
 - Float samplers are numerical approximations. Tests make finite-support issues
   visible instead of silently upgrading them into proofs.
 - The three paper comparators are executable clean-room adaptations. They are
@@ -114,7 +115,7 @@ The detailed claim registry, missing components, and source mapping live in
 
 ## Artifact and archive policy
 
-Only current reproducible results stay under `artifacts/benchmarks/`. Curated
+Current results and explicitly referenced predecessor evidence stay under `artifacts/benchmarks/`. Curated
 human-facing PDFs stay under `artifacts/reports/`. Old timestamped maps, the
 Internship 2 pipeline, and superseded SOTA prototypes are retained under
 `archive/` for provenance and must not be imported by active code.

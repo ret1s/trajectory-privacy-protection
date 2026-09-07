@@ -1,0 +1,141 @@
+% Historical v1 chapters, retained as research draft, NOT canonical input. Numbers are imported
+% from a checksum-validated artifact by experiments.export_report_demo.
+\chapter{Cơ chế sinh quỹ đạo giả từ neo riêng tư}
+\label{ch:method}
+
+\section{Động cơ và nguyên tắc thiết kế}
+
+Các tương quan qua nhiều lần gửi giúp đối thủ loại bỏ những điểm giả thiếu hợp lý. Công trình về tương quan ngữ nghĩa của Liu và cộng sự~\cite{liu2026semantic} đặt mối liên hệ này ở trung tâm thiết kế. Luận văn tiếp cận cùng vấn đề chuỗi quan sát, nhưng khảo sát một hướng không cần học sâu: tách bước che vị trí thật khỏi bước tạo chuyển động giả theo ngữ cảnh đường. Mục tiêu thực nghiệm cốt lõi là S2 và S3; S1 cung cấp mức tham chiếu cho một lần gửi.
+
+Thiết kế gồm hai bước. Bước thứ nhất tạo một \emph{neo riêng tư}: điểm ngẫu nhiên được lấy mẫu dựa trên vị trí hiện tại. Bước thứ hai tạo $K$ điểm giả từ neo này, lịch sử của chính các điểm giả và mạng đường công khai. Chỉ tập điểm giả được gửi tới LSP. Neo không phải vị trí thật và không được đánh dấu là một ứng viên thật trong tập công bố.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=6mm,>=latex,
+ block/.style={draw,rounded corners,align=center,text width=3.65cm,minimum height=1.3cm,font=\small}]
+\node[block,fill=blue!9] (input) {Thiết bị\\Vị trí $x_t$, thời điểm $t$};
+\node[block,fill=teal!12,right=of input] (anchor) {Lấy mẫu neo $a_t$\\REM trên miền cố định};
+\node[block,fill=orange!15,right=of anchor] (dummy) {Sinh $K$ điểm giả\\Chỉ dùng neo, đường, lịch sử giả};
+\draw[->,thick] (input)--(anchor);
+\draw[->,thick] (anchor)--(dummy);
+\node[below=7mm of dummy,align=center,font=\small] (lsp) {LSP nhận tập giả $Y_t$\\Trả POI theo các điểm nhận được};
+\draw[->,thick] (dummy)--(lsp);
+\end{tikzpicture}
+\caption{Ranh giới phụ thuộc dữ liệu của cơ chế. Bước sinh dummy không đọc lại vị trí thật.}
+\end{figure}
+
+\section{Lấy mẫu neo trên miền đường cố định}
+
+Cơ chế sử dụng khái niệm Geo-I: giới hạn khả năng phân biệt hai vị trí theo khoảng cách giữa chúng~\cite{andres2013geoi}. Cho $V$ là tập nút giao công khai, cố định trước khi quan sát người dùng; $d$ là khoảng cách Euclid trên hệ tọa độ phẳng, đơn vị mét. Cơ chế REM lấy mẫu:
+\begin{equation}
+ p_x(a)=\frac{\exp[-\epsilon d(x,a)/2]}{Z_x},\qquad
+ Z_x=\sum_{v\in V}\exp[-\epsilon d(x,v)/2],\quad a\in V.
+ \label{eq:report-anchor}
+\end{equation}
+$\epsilon$ có đơn vị $\mathrm{m}^{-1}$. Miền lấy mẫu là toàn bộ $V$, không cắt theo một bán kính phụ thuộc $x$. Việc cắt miền quanh vị trí thật có thể làm một đầu ra có xác suất dương dưới vị trí này nhưng bằng không dưới vị trí khác, phá vỡ lập luận tỷ số xác suất.
+
+Trong thực nghiệm, đầu vào của mọi cơ chế được biểu diễn tại nút gần nhất $Q(x)$. Vì vậy, lập luận dưới đây áp dụng trực tiếp trên các đầu vào đã biểu diễn. Không mặc nhiên thay $d(Q(x),Q(x'))$ bằng $d(x,x')$ để tuyên bố một bảo đảm tương đương trên vị trí GPS liên tục.
+
+\section{Sinh dummy theo từng sự kiện}
+
+Mỗi luồng giả duy trì một độ lệch có hướng quanh neo và điểm đã công bố ở lần gửi trước. Từ vị trí mục tiêu này, cơ chế xét các nút trong bán kính công khai 220 m; điểm gần mục tiêu được ưu tiên, chuyển động vượt ngưỡng tốc độ bị giảm trọng số. Bán kính độ lệch ban đầu là 180 m. Đây là các tham số của thực nghiệm thăm dò, chưa được tối ưu trên một quần thể lớn.
+
+Hai biến thể dùng để phân tích đóng góp từng thành phần:
+\begin{description}
+ \item[Hình học.] Chọn điểm theo khoảng cách tới mục tiêu và phạt bước nhảy quá lớn. Điểm nằm trên đường nhưng chưa bảo đảm có tuyến nối theo chiều đường trong khoảng thời gian cho phép.
+ \item[Ràng buộc đường.] Chỉ giữ nút có thể tới từ điểm giả trước qua đường có hướng, với thời gian tự do không vượt $\Delta t$. Chi phí một cạnh là $\ell(e)/\min\{v_{\max},v_{\mathrm{limit}}(e)\}$, $v_{\max}=25$ m/s. Nếu không còn ứng viên gần mục tiêu, giữ nguyên điểm giả trước.
+\end{description}
+Giữ nguyên là một phương án hợp lệ của đồ thị nút giao, không xác nhận đỗ xe hợp pháp. Đồ thị hiện chưa biểu diễn đầy đủ trạng thái cấm rẽ, tăng tốc, đèn tín hiệu hay tương tác giữa xe; các ràng buộc đô thị ở Chương~2 vẫn là yêu cầu tổng thể, không phải tất cả đều được chứng minh bởi phép lọc này.
+
+Hàm xử lý từng điểm duy trì trạng thái nội bộ, không nhận phần tương lai của hành trình. Luồng ngẫu nhiên lấy neo được tách khỏi luồng sinh dummy, tránh việc lấy trước nhiều neo làm thay đổi các điểm giả thuộc tiền tố. Bản xử lý cả đoạn gọi lại đúng hàm xử lý từng điểm. Việc có giao diện nhân quả khác với đạt độ trễ thời gian thực trên thiết bị di động; điều sau cần đo riêng.
+
+\section{Phân tích bảo đảm và giới hạn}
+
+\subsection{Bất đẳng thức cho cơ chế lý tưởng}
+
+Với hai đầu vào $x,x'$ và $\delta=d(x,x')$, bất đẳng thức tam giác cho
+$|d(x,a)-d(x',a)|\leq\delta$. Do đó, mỗi số hạng trong $Z_{x'}$ không vượt $\exp(\epsilon\delta/2)$ lần số hạng tương ứng trong $Z_x$. Kết hợp hai tỷ số:
+\[
+ \frac{p_x(a)}{p_{x'}(a)}
+ =\exp\!\left[\frac{\epsilon}{2}\big(d(x',a)-d(x,a)\big)\right]
+   \frac{Z_{x'}}{Z_x}
+ \leq \exp(\epsilon\delta).
+\]
+Đây là dạng phân biệt địa lý được giới hạn theo khoảng cách. Với chuỗi $n$ lần gửi, cùng lịch thời gian công khai và ngân sách $\epsilon_t$ ấn định trước, cơ chế neo thỏa
+\[
+ \Pr[A\in B\mid x_{1:n}]
+ \leq \exp\!\left(\sum_{t=1}^{n}\epsilon_t d(x_t,x'_t)\right)
+       \Pr[A\in B\mid x'_{1:n}]
+\]
+cho mọi tập quan sát $B$. Nếu bước sinh dummy là một nhân chuyển ngẫu nhiên chỉ phụ thuộc neo và ngữ cảnh công khai cố định, tích phân theo nhân này bảo toàn bất đẳng thức. Cả hai biến thể hình học và ràng buộc đường đều được thiết kế theo ranh giới phụ thuộc đó.
+
+\subsection{Những điều không suy ra từ bất đẳng thức}
+
+Lập luận áp dụng cho phân phối lý tưởng trong số học chính xác. Bản cài đặt dùng Gumbel-max dấu phẩy động, nên kiểm thử không phải chứng minh mọi tỷ số xác suất của mã máy. Khi có $n$ lần gửi cùng $\epsilon$ và các vị trí thay thế đều cách nhau không quá $r$, giới hạn hợp thành là $\exp(n\epsilon r)$, không phải $\exp(\epsilon r)$. Bản chạy hiện chưa có bộ quản lý ngân sách toàn hành trình; đặc biệt, chưa khẳng định giải quyết hoàn toàn việc tích luỹ thông tin tại điểm dừng S2.
+
+Lịch truy vấn, độ dài phiên và loại truy vấn được xem là công khai, không được bảo vệ bởi lập luận vị trí. Nếu lựa chọn hoặc tải ngữ cảnh bản đồ tiết lộ vùng riêng tư, cần một phân tích bổ sung. Kiến thức phụ trợ vẫn có thể khiến đối thủ đoán đúng: bảo đảm tỷ số phân phối không tương đương xác suất đoán đúng bằng $1/K$, cũng không chứng minh ẩn danh người, thiết bị hay nội dung truy vấn.
+
+\subsection{Chi phí tính toán}
+
+Lấy mẫu neo trên toàn miền cần $O(|V|)$ phép tính mỗi sự kiện và bộ nhớ $O(|V|)$. Với $K$ luồng giả, bản hình học truy vấn cây không gian rồi chấm điểm các ứng viên lân cận. Bản ràng buộc đường chạy tìm đường có ngưỡng thời gian cho từng luồng; giới hạn trên thông thường là $O(K(|V|+|E|)\log |V|)$ với hàng đợi ưu tiên, dù miền duyệt thực tế nhỏ hơn nhờ ngưỡng thời gian. Đổi lại, bản này có thể làm dummy bị giữ ở một vùng và giảm chất lượng POI; đó là giả thuyết cần kiểm tra bằng thực nghiệm.
+
+\chapter{Thực nghiệm có kiểm soát}
+\label{ch:experiments}
+
+\section{Dữ liệu, phân tách và khả năng tái chạy}
+
+Dữ liệu chuyển động được sinh bằng SUMO từ OpenStreetMap, không lấy quỹ đạo, lịch trình hay tham số người dùng từ GeoLife. Mỗi hạt giống 71, 72, 73 tạo 12 xe theo yêu cầu khởi hành trong 180 giây; mô phỏng tối đa 1400 giây với bước 1 giây. Lệnh dừng đỗ 180 giây được đưa vào tuyến trước khi chạy, để SUMO tự sinh quá trình giảm tốc, đứng yên và đi tiếp. Không ghép thêm các tọa độ đứng yên sau mô phỏng.
+
+Chỉ xe có cả đoạn dừng ít nhất 120 giây và đoạn di chuyển liên tục ít nhất 60 giây mới được chọn. FCD phải liên tục ở mức 1 Hz; đoạn dừng không được trôi quá 5 m. S1 lấy một điểm ở đoạn di chuyển; S2 lấy đoạn đứng yên; S3 lấy đoạn chuyển động dài nhất. Các lần gửi cách nhau ít nhất 20 giây, tối đa 12 sự kiện mỗi đoạn. Đây là bộ mẫu có điều kiện, không đại diện cho phân bố tự nhiên của giao thông đô thị.
+
+Mỗi hạt giống chia xe trước khi đo kết quả: 2 xe kiểm thử, 4 xe tạo dữ liệu phụ trợ để huấn luyện đối thủ, 2 xe chọn đối thủ và phần còn lại để xây dựng prior/mô hình chuyển động. Bốn tập không giao nhau trong cùng một hạt giống. Mã xe do SUMO sinh lại giữa các lần mô phỏng không phải cùng một người ngoài đời. Cùng bản đồ giữa các tập là giả thiết ngữ cảnh công khai, không phải đánh giá tổng quát hoá sang thành phố mới.
+
+Mỗi mẫu giữ tọa độ và thời gian FCD, tốc độ, cạnh và làn đường; nhãn kịch bản, các kiểm tra đủ điều kiện và nguồn sinh được lưu riêng. Tọa độ thật, nhãn thành viên thật và hạt giống lấy mẫu không thuộc bản tin cấp cho đối thủ. Bản ghi kết quả đi kèm mã băm dữ liệu và mã nguồn để phát hiện thay đổi sau chạy.
+
+\section{Cài đặt đối chứng và điều kiện áp dụng}
+
+Các cấu hình dùng $K\in\{3,5\}$; đối với cơ chế thay thế một điểm, $K$ của phép thử không có nghĩa là gửi $K$ điểm. REM và hai biến thể dummy dùng $\epsilon=0.02\,\mathrm{m}^{-1}$ mỗi lần gửi. TransProtect dùng tham số riêng của bản thích nghi ($\epsilon=0.005$); hai giá trị này không được diễn giải là ngân sách riêng tư tương đương.
+
+\begin{longtable}{p{0.26\textwidth}p{0.65\textwidth}}
+\caption{Các cấu hình được thực thi và thành phần thích nghi.}\\
+\toprule
+\textbf{Cấu hình} & \textbf{Thành phần thực sự được chạy}\\
+\midrule\endhead
+Không bảo vệ & Công bố vị trí tại nút đường biểu diễn đầu vào; cung cấp mốc sai số lượng tử hoá và chất lượng dịch vụ.\\
+Dummy đều & Điểm thật cộng $K-1$ nút ngẫu nhiên, không có bộ học ngữ nghĩa. Là đối chứng đơn giản, không gắn nhãn một thuật toán từ paper.\\
+DLS trên đồ thị & Chọn nhóm xác suất truy vấn lân cận, thử 50 tập chứa thật rồi tối đa entropy, theo thuật toán DLS~\cite{niu2014dls}. Thay ô lưới bằng nút đường và dùng tần suất có làm trơn từ tập huấn luyện; không gọi là enhanced-DLS.\\
+TransProtect thích nghi & Mô hình Markov từ dữ liệu huấn luyện thay mạng Transformer đã huấn luyện; giữ các thành phần lựa chọn ứng viên và chi phí công bố đã cài đặt. Không tái lập mô hình học sâu của bài gốc.\\
+AnotherMe thích nghi & Ánh xạ tuyến ảo VTGA trên đồ thị dùng thông tin cả đoạn. Chỉ báo cáo tham chiếu ngoại tuyến cho S3; S1 và đoạn đứng yên S2 không thuộc giao diện thực nghiệm này.\\
+Semantic correlation thích nghi & Bộ dự đoán thực nghiệm, nhãn loại đường OSM và bộ lọc chuyển tiếp cục bộ. Chưa có LSTM/attention đã huấn luyện như bài gốc; loại đường không thay thế được đầy đủ ngữ nghĩa POI.\\
+Chỉ neo REM & Bỏ bước sinh dummy để đánh giá riêng bước che vị trí.\\
+Neo và dummy hình học & Cơ chế ở Chương~\ref{ch:method}, chưa ép chuyển tiếp có hướng.\\
+Neo và dummy theo đường & Thêm miền nút tới được trong thời gian giữa hai lần gửi; khi rỗng thì giữ vị trí giả trước.\\
+\bottomrule
+\end{longtable}
+
+\section{Đối thủ, tác vụ POI và chỉ số thực đo}
+
+Với mỗi cơ chế, kịch bản, hạt giống và $K$, chọn đối thủ có sai số trung bình thấp nhất trên tập chọn mô hình, rồi cố định nó trước kiểm thử. Các lựa chọn gồm: tâm tập điểm công bố, trung bình tích luỹ tại điểm dừng, bộ lọc chuyển động liên tục, bộ lọc theo đường có hướng, hồi quy 3 láng giềng từ các xe phụ trợ và mức chỉ biết prior. Prior vị trí được tính từ cùng tập huấn luyện, làm trơn cộng một tại mỗi nút; không lấy đáp án kiểm thử để xây dựng prior.
+
+Bộ lọc theo đường giữ các trạng thái vị trí khả dĩ, loại chuyển tiếp không đủ thời gian theo mạng đường và phát ra ước lượng hiện tại. Với tập có thật, các ứng viên là trạng thái; với đầu ra thay thế hoặc chỉ giả, xét tối đa 24 nút gần tâm tập điểm, với trọng số giảm theo khoảng cách, thang 200 m. Cho phép thêm 10 giây để giảm sai lệch do chiếu tới nút giao; khi không còn đường khả dĩ, bộ lọc khởi tạo lại từ quan sát hiện tại. Đây là đối thủ thực nghiệm có giả thiết công khai, không phải hậu nghiệm tối ưu hay bản tái lập VehiTrack. S3 hiện chấm các ước lượng nhân quả; đối thủ dùng toàn bộ đoạn để suy luận ngược quá khứ chưa được đánh giá.
+
+Sai số chính tính bằng mét tới \emph{tọa độ FCD thật}; sai số tới nút biểu diễn được lưu như chẩn đoán riêng. MAE là trung bình sai số mỗi đoạn, sau đó trung bình các đoạn, không coi từng điểm là một mẫu độc lập. Hit$_{100}$ là tỷ lệ ước lượng cách vị trí thật không quá 100 m. Báo cáo độ lệch chuẩn giữa các đoạn để thể hiện mức phân tán, không gọi nó là khoảng tin cậy hoặc chứng cứ thắng có ý nghĩa thống kê.
+
+Dịch vụ POI sử dụng các đối tượng dạng node có nhãn nhà hàng, quán cà phê, hiệu thuốc, trạm nhiên liệu, bệnh viện hoặc phòng khám trong OSM. Loại đối tượng cách nút truy cập hơn 250 m; khoảng cách truy vấn là đường đi ngắn nhất có hướng giữa các nút biểu diễn. Dịch vụ trả 5 POI mỗi tọa độ công bố; thiết bị hợp nhất, bỏ trùng và xếp lại bằng vị trí thật cục bộ. Recall@5 là tỷ lệ POI đúng được giữ lại so với truy vấn từ vị trí thật. Đây là tác vụ thử nghiệm có thể diễn giải, không phải tuyên bố một tiêu chuẩn bắt buộc của mọi ứng dụng LBS.
+
+Loại POI truy vấn được ấn định theo hạt giống và được công bố cùng yêu cầu; S7 chưa được bảo vệ. Khi không có POI tham chiếu, chỉ số không áp dụng. Lỗi thực thi được ghi riêng và tính chất lượng dịch vụ giao được bằng 0 nếu có đáp án tham chiếu; trường hợp ngoài giao diện áp dụng không bị biến thành số 0. Chi phí ghi số tọa độ, kích thước JSON yêu cầu và phản hồi, thời gian khởi tạo, thời gian sinh bình quân mỗi sự kiện. Dung lượng này loại siêu dữ liệu thẻ phương pháp; chưa bao gồm HTTP, TLS và chi phí mạng thực tế.
+
+\section{Kết quả và phân tích thành phần}
+\input{../artifacts/benchmarks/report_demo/results_tables.tex}
+
+\section{Giới hạn và bước đánh giá tiếp theo}
+
+Ba nguồn giới hạn cần được giữ tách biệt. Thứ nhất, dữ liệu mô phỏng có điều kiện và số chuyến ít chỉ đủ kiểm tra quy trình và phát hiện đánh đổi, chưa suy rộng tới người dùng thực. Thứ hai, các đối thủ đang xét chưa có suy luận ngược toàn chuỗi, liên kết nhiều ngày, ngữ nghĩa POI hoặc nhận diện nhóm; một cơ chế có sai số lớn ở đây vẫn có thể bị đối thủ khác khai thác. Thứ ba, các đối chứng học sâu chưa có mô hình huấn luyện tương ứng paper, nên bảng này không đủ để kết luận vượt SOTA.
+
+Đánh giá tiếp theo cần tăng số xe và hạt giống, cố định ngân sách theo hành trình thay vì chỉ theo sự kiện, quét tham số trên tập chọn mô hình để so tại cùng Recall@5 và chi phí, rồi bổ sung đối thủ mạnh hơn cho S2/S3. Với S4--S10, cần sinh đủ quan hệ nhiều phiên, nhánh rẽ, đích đến, lịch truy vấn và cặp đồng hành trước khi chạy các mô-đun bảo vệ tương ứng. Bảo vệ thêm một mục tiêu phải được chứng minh bằng phép thử của mục tiêu đó, không suy ra từ số lượng kịch bản đã mô tả.
+
+\chapter{Kết luận}
+
+Luận văn xây dựng một khung nghiên cứu thống nhất từ kiến trúc bảo vệ cục bộ và phạm vi đô thị đến mục tiêu suy luận, kịch bản dữ liệu và giao thức đo lường. Đóng góp hiện có là sự liên kết có thể kiểm tra giữa bốn mục tiêu, mười kịch bản có nguồn tham khảo, dữ liệu SUMO có điều kiện và phép đánh giá tách dữ liệu thật khỏi quan sát công bố. Ba kịch bản S1--S3 đã có quy trình thực nghiệm; phần còn lại là phạm vi đặc tả và phát triển tiếp.
+
+Cơ chế neo riêng tư và sinh dummy được hiện thực theo thời gian, kèm phân tích hậu xử lý cho phân phối lý tưởng và phép so sánh thành phần có hoặc không ràng buộc đường. Tính hợp lệ của chuyển động, sai số suy luận và chất lượng dịch vụ được đo riêng. Chưa có cơ sở kết luận bảo vệ toàn bộ mục tiêu hoặc vượt các mô hình từ công trình gốc. Hướng hoàn thiện tập trung vào chống tích luỹ thông tin tại điểm dừng và tái dựng chuỗi, đồng thời duy trì chất lượng dịch vụ dưới các điều kiện so sánh tương đương.

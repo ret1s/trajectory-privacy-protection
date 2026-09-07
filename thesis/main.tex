@@ -27,6 +27,19 @@
 \setlength{\emergencystretch}{2em}
 \setlength{\headheight}{15pt}
 
+% Compact chapter openings, not a second title-page layout.
+\makeatletter
+\def\@makechapterhead#1{%
+  {\parindent\z@\raggedright\normalfont
+   \ifnum\c@secnumdepth>\m@ne
+     \Large\bfseries\chaptername\space\thechapter.\quad
+   \fi
+   \Large\bfseries #1\par\nobreak\vskip 18\p@}}
+\def\@makeschapterhead#1{%
+  {\parindent\z@\raggedright\normalfont\Large\bfseries
+   #1\par\nobreak\vskip 18\p@}}
+\makeatother
+
 \definecolor{reportblue}{HTML}{174A7E}
 \definecolor{reportlight}{HTML}{EAF2F8}
 \definecolor{reportgreen}{HTML}{26734D}
@@ -120,7 +133,7 @@ Bài toán được xác định theo bốn mục tiêu: vị trí và quỹ đ�
 
 Thiết kế tập dữ liệu sử dụng SUMO trên mạng đường OpenStreetMap, kết hợp lớp sinh kịch bản để bổ sung lịch truy vấn, ý định tìm kiếm, quan hệ nhiều phiên và quan hệ nhóm. Các phương pháp sinh dữ liệu giả được khảo sát theo nguyên lý hoạt động, giao diện đầu ra và điều kiện so sánh công bằng, đặc biệt là tính nhân quả của xử lý trực tuyến.
 
-Phần thực nghiệm hiện thực hoá ba kịch bản S1--S3 bằng dữ liệu mô phỏng có điểm dừng và đoạn di chuyển. Cơ chế được khảo sát sử dụng neo ngẫu nhiên trên mạng đường, sau đó sinh tập quỹ đạo giả bằng hậu xử lý; một biến thể bổ sung ràng buộc chuyển tiếp có hướng. Các phép đo tách riêng sai số suy luận, chất lượng truy vấn POI và chi phí. Kết quả là thực nghiệm thăm dò trên mẫu nhỏ, không phải xác nhận bao phủ cả mười kịch bản hay tái lập bảng kết quả của các công trình đối chứng.
+Phần thực nghiệm xét S1--S3 và hai tình huống che điểm đầu/cuối S9--S10 bằng dữ liệu SUMO. Luận văn xây dựng BR-Dummy: kết hợp neo riêng tư, phép kiểm tra tái sử dụng có nhiễu, ngân sách phiên hữu hạn và sinh dummy theo miền đường có thể tới. Các thành phần dự đoán riêng tư kế thừa nghiên cứu trước; đóng góp được khảo sát là cách tích hợp và quy trình kiểm chứng, không mặc nhiên là một nguyên lý riêng tư mới. Các phép đo tách sai số suy luận, tỷ lệ đoán đúng, chất lượng POI và chi phí. Số chuyến còn nhỏ và các comparator là bản thích nghi; chưa có cơ sở khẳng định bảo vệ cả mười kịch bản hoặc vượt kết quả SOTA.
 
 \chapter{Bài toán và kiến trúc hệ thống}
 \label{ch:architecture}
@@ -816,7 +829,7 @@ Một vị trí hoặc quỹ đạo thay thế & Một điểm mỗi lần gửi
 \addlinespace
 Tập bắt buộc chứa thật & Vị trí thật và $K-1$ điểm giả; semantic correlation thuộc dạng này. & Đối thủ chọn hoặc xếp hạng thành viên thật tốt đến đâu?\\
 \addlinespace
-Tập không bắt buộc chứa thật & Nhiều điểm giả mỗi lần gửi; là một giao diện có thể xét, chưa ấn định cho phương pháp của luận văn. & Đối thủ tái dựng vị trí thật từ toàn bộ dữ liệu công bố thế nào?\\
+Tập không bắt buộc chứa thật & Nhiều điểm giả mỗi lần gửi; BR-Dummy ở Chương~\ref{ch:method} dùng giao diện này. & Đối thủ tái dựng vị trí thật từ toàn bộ dữ liệu công bố thế nào?\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -835,6 +848,8 @@ trong đó $N_{\mathrm{pub}}$ có thể khác số truy vấn thật $N_{\mathrm
 
 Nghiên cứu đã có khung đánh giá cơ chế bảo vệ theo đối thủ và sai số suy luận~\citep{shokri2011quantifying}. Vấn đề cần giải quyết ở đây là xây dựng một cấu hình có thể tái lập cho \emph{xe đô thị, dịch vụ POI trực tuyến và các kiểu sinh dữ liệu giả khác nhau}. Bộ chỉ số sau là đặc tả đánh giá của luận văn, không được coi là một chuẩn duy nhất của toàn lĩnh vực hoặc khẳng định các paper đều dùng nó.
 
+\input{metrics_consolidation}
+
 \subsection{Riêng tư: chấm điều đối thủ đoán được}
 
 Với $n$ mẫu kiểm tra vị trí, đặt
@@ -845,7 +860,7 @@ E_{\mathrm{loc}}=\frac1n\sum_{i=1}^{n}d_E(x_i,\widehat x_i),\qquad
 \]
 $E_{\mathrm{loc}}$ là sai số trung bình theo mét; lớn hơn là tốt hơn cho riêng tư. $\mathrm{Hit}_r$ là tỷ lệ đối thủ đoán đúng trong bán kính $r$; lớn hơn là rủi ro cao hơn. $r$ phải được cố định trước khi xem kết quả kiểm thử. $\widehat x_i$ là ước lượng của đối thủ, không phải dummy được phát hành.
 
-S1 và S3 chấm tại thời điểm quy định; S2 chấm tâm điểm dừng; S9--S10 chấm điểm đầu/cuối. S8 đo lại sai số hoặc tỷ lệ đoán đúng khi bổ sung quan sát đồng hành. Mỗi thí nghiệm giữ nguyên định nghĩa khoảng cách, bộ ước lượng và đơn vị lấy trung bình; với quỹ đạo, báo cáo trung bình theo chuyến để chuyến dài không tự chi phối.
+S1 và S3 chấm tại thời điểm quy định; S2 chấm các vị trí thật trong cùng khoảng dừng; S9--S10 chấm một điểm đầu/cuối mỗi chuyến. S8 đo lại sai số hoặc tỷ lệ đoán đúng khi bổ sung quan sát đồng hành. Mỗi thí nghiệm giữ nguyên định nghĩa khoảng cách, bộ ước lượng và đơn vị lấy trung bình; với quỹ đạo, báo cáo trung bình theo chuyến để chuyến dài không tự chi phối.
 
 Đây là sai số thực nghiệm của một ước lượng điểm. Nếu đối thủ xuất phân bố hậu nghiệm, cần ghi rõ cách quyết định từ phân bố đó; xác suất của vị trí thật, entropy và rủi ro Bayes kỳ vọng là các đại lượng khác, không đổi tên chúng thành cùng một EIE.
 
@@ -914,8 +929,6 @@ Kết quả chính là các đường đánh đổi riêng tư--chất lượng-
   \item \textbf{Phân biệt tái lập với thích nghi.} Ghi rõ nguồn mã, tham số, mô hình đã huấn luyện, thành phần thay thế và thiếu hụt. Các bản cài đặt hiện có của ba phương pháp khảo sát là bản thích nghi; không mặc nhiên tái lập kết quả paper hoặc xác nhận đầy đủ tính trực tuyến.
   \item \textbf{Kiểm soát độ tin cậy.} Chọn tham số và huấn luyện đối thủ trên phần dữ liệu riêng; báo cáo số người, chuyến, truy vấn và hạt giống. Ước lượng khoảng tin cậy theo người/chuyến, không coi các điểm liên tiếp là mẫu độc lập. Giữ nguyên tập kiểm thử khi so sánh các cơ chế.
 \end{enumerate}
-
-Các phép đo suy luận là bằng chứng thực nghiệm với các đối thủ đã xét. Chúng không tự chứng minh bất đẳng thức riêng tư của Geo-I hoặc một bảo đảm cho mọi đối thủ. Nếu sử dụng cơ chế có bảo đảm xác suất, cần kiểm tra riêng miền đầu vào, đơn vị khoảng cách, ngân sách qua nhiều lần gửi và toàn bộ quá trình chọn ứng viên/phát hành.
 
 \input{report_demo_chapters}
 

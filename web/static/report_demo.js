@@ -4,6 +4,9 @@ const $ = id => document.getElementById(id);
 const names = {unprotected:'Không bảo vệ',uniform_dummy:'Dummy đều (đối chứng đơn giản)',rem_anchor_only:'Chỉ neo REM',transprotect_adaptation:'TransProtect · thích nghi',anotherme_adaptation:'AnotherMe · thích nghi',semantic_correlation_local_adaptation:'Semantic correlation · thích nghi',geo_i_anchored_dummy:'Neo Geo-I + dummy · thử nghiệm'};
 names.dls_graph_adaptation='DLS · không học sâu · thích nghi';
 names.geo_i_anchored_dummy_road='Neo Geo-I + dummy · ràng buộc đường';
+names.br_fresh='BR-Dummy · neo mới';
+names.br_private='BR-Dummy · tái sử dụng';
+names.br_selected='BR-Dummy · chọn trên tập riêng';
 let overview, roads, run, evaluation, privateRow, timer, requestId=0;
 let zoom=1, pan=[0,0], drag=null;
 const canvas=$('map'), ctx=canvas.getContext('2d');
@@ -30,7 +33,7 @@ async function loadRun(){
 function updateMetrics(){
   $('metrics').replaceChildren();if(!$('evaluator').checked||!privateRow?.metrics)return;
   const m=privateRow.metrics;
-  for(const text of [`Đối thủ: ${privateRow.attacker_selected||'—'}`,`Sai số so với SUMO: ${num(m.location_mae_m)} m`,`Đoán trong 100 m: ${percent(m.location_hit_100m)}`,`Giữ POI đúng: ${percent(m.poi_recall_at_k)}`,`Chuyển tiếp đúng đồ thị: ${percent(m.directed_track_validity)}`,`Điểm/yêu cầu: ${num(m.coordinates_per_request,0)}`]){const d=document.createElement('div');d.textContent=text;$('metrics').append(d);}
+  for(const text of [`Đối thủ MAE: ${privateRow.attacker_selected||'—'}`,`Đối thủ Hit: ${privateRow.hit_attacker_selected||privateRow.attacker_selected||'—'}`,`${privateRow.hidden_target?'Sai số điểm biên bị che':'Sai số vị trí SUMO'}: ${num(m.location_mae_m)} m`,`Đoán trong 100 m: ${percent(m.location_hit_100m)}`,`Giữ POI đúng: ${percent(m.poi_recall_at_k)}`,`Trả đủ POI: ${percent(m.poi_complete_rate)}`,`Chuyển tiếp đúng đồ thị: ${percent(m.directed_track_validity)}`,`Điểm/yêu cầu: ${num(m.coordinates_per_request,0)}`]){const d=document.createElement('div');d.textContent=text;$('metrics').append(d);}
 }
 function table(){
   $('summary').replaceChildren();for(const r of evaluation.summary){const tr=document.createElement('tr');
@@ -42,6 +45,7 @@ function draw(){
   if(!run?.public){$('public-record').textContent='Không có dữ liệu công bố.';$('step-info').textContent='';return;}
   const events=run.public.events, index=Number($('step').value), all=events.flatMap(e=>e.candidates.map(c=>[c.lon,c.lat]));
   const truth=$('evaluator').checked?privateRow?.truth:null;if(truth)all.push(...truth.map(p=>[p[1],p[0]]));
+  const endpoint=truth?privateRow?.hidden_target:null;if(endpoint)all.push([endpoint[1],endpoint[0]]);
   const lon0=all.reduce((s,p)=>s+p[0],0)/all.length, lat0=all.reduce((s,p)=>s+p[1],0)/all.length, cosine=Math.cos(lat0*Math.PI/180);
   const local=p=>[(p[0]-lon0)*111320*cosine,(p[1]-lat0)*111320];const bounds=all.map(local);
   const xs=bounds.map(p=>p[0]),ys=bounds.map(p=>p[1]);const minx=Math.min(...xs),maxx=Math.max(...xs),miny=Math.min(...ys),maxy=Math.max(...ys);
@@ -55,7 +59,8 @@ function draw(){
   for(const points of tracks.values())if(points.length===1)dot(points[0],'#9cbfda',2);
   if(truth){line(truth.slice(0,index+1).map(p=>[p[1],p[0]]),'#172d34',3);dot([truth[index][1],truth[index][0]],'#172d34',6);}
   for(const c of events[index].candidates)dot([c.lon,c.lat],'#2164b4',5);
-  if(truth&&privateRow?.attack_xy){const manifest=evaluation.manifests.find(m=>m.seed===privateRow.seed);const p=privateRow.attack_xy[index];const metres=6371000*Math.PI/180;dot([p[0]/(metres*Math.cos(manifest.projection_lat0*Math.PI/180)),p[1]/metres],'#cf3428',6);}
+  if(endpoint)dot([endpoint[1],endpoint[0]],'#943bc2',8);
+  if(truth&&privateRow?.attack_xy){const manifest=evaluation.manifests.find(m=>m.seed===privateRow.seed);const attackIndex=endpoint?(run.scenario==='S9'?0:privateRow.attack_xy.length-1):index;const p=privateRow.attack_xy[attackIndex];const metres=6371000*Math.PI/180;dot([p[0]/(metres*Math.cos(manifest.projection_lat0*Math.PI/180)),p[1]/metres],'#cf3428',6);}
   $('step-info').textContent=`Bước ${index+1}/${events.length} · t = ${events[index].timestamp_s} s`;
   $('public-record').textContent=JSON.stringify(events[index],null,2);
   // Fixed 100-m scale in the same local projection used for drawing.

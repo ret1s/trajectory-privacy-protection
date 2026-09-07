@@ -6,7 +6,8 @@ review when reproducing an old finding.
 
 ## Current entry points
 
-- Current report/demo release: [`verification_report_demo_release_v1.md`](verification_report_demo_release_v1.md)
+- Current BR-Dummy study: [`verification_paper_benchmark_v2.md`](verification_paper_benchmark_v2.md)
+- Previous report/demo release: [`verification_report_demo_release_v1.md`](verification_report_demo_release_v1.md)
 - Artifact hierarchy: [`verification_artifact_hierarchy_v1.md`](verification_artifact_hierarchy_v1.md)
 - Repository structure: [`verification_codebase_reorganization_v1.md`](verification_codebase_reorganization_v1.md)
 - Thesis baseline: [`verification_graduation_thesis_latest_v1.md`](verification_graduation_thesis_latest_v1.md)

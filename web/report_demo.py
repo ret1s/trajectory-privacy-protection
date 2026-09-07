@@ -6,7 +6,7 @@ from pathlib import Path
 from flask import Blueprint, abort, current_app, jsonify, render_template
 
 bp = Blueprint("report_demo", __name__)
-DEFAULT_PATH = Path(__file__).resolve().parents[1] / "artifacts/benchmarks/report_demo/results.json"
+DEFAULT_PATH = Path(__file__).resolve().parents[1] / "artifacts/benchmarks/paper_benchmark/results.json"
 
 
 def payload():

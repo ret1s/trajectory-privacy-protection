@@ -7,11 +7,13 @@ This is the only top-level location for tracked generated deliverables.
 - [`reports/`](reports/) contains reviewed human-facing PDF releases.
 
 `benchmark/` at the repository root is source code; `artifacts/benchmarks/` is
-generated evidence. Historical or superseded artifacts belong under `archive/`.
+generated evidence. Unreferenced superseded artifacts belong under `archive/`;
+an explicitly compared predecessor can remain here with its original audit.
 
-The September 7 controlled S1--S3 release is
-[`benchmarks/report_demo/`](benchmarks/report_demo/): a checksummed result JSON
+The active controlled S1--S3 and S9/S10 release is
+[`benchmarks/paper_benchmark/`](benchmarks/paper_benchmark/): a checksummed result JSON
 and generated LaTeX tables. It contains synthetic evaluation truth and must not
 be treated as an attacker-only export. The web app exposes a separate public
 transcript and an opt-in evaluator endpoint. See the
-[`release guide`](../thesis/notes/report_demo_release_2026-09-07.md).
+[`protocol and research decisions`](../thesis/notes/paper_cycle_v2_protocol.md).
+The v1 predecessor remains unchanged in `benchmarks/report_demo/` for lineage.

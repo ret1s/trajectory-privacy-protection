@@ -11,10 +11,10 @@ The current main document contains seven chapters:
    SUMO-based dataset design.
 4. Neural/non-neural comparator methods, original metrics and a common
    privacy/POI-utility/cost evaluation specification.
-5. Executable Geo-I-anchor dummy candidate, causal API, directed-road ablation,
-   ideal-kernel post-processing proof and composition limits.
-6. Controlled SUMO S1--S3 pilot, exact measured tables, attack/service protocol,
-   negative findings and verification.
+5. BR-Dummy: private anchors, noisy reuse, fixed-horizon ledger and reachable-road
+   postprocessing; pseudocode, ideal proof, complexity and limitations.
+6. Controlled SUMO S1--S3 plus S9/S10 study, stronger offline adversaries,
+   five-way split, constrained parameter selection and negative findings.
 7. Conclusions with explicit implemented versus specified coverage.
 
 The 2026-09-07 research revision and evidence boundaries are documented in
@@ -24,9 +24,9 @@ and device identity, and includes protected trajectory endpoints. The common
 benchmark specification is not a claim that all scenarios or metrics are implemented.
 
 Chapters 5--7 live in `report_demo_chapters.tex`; their numeric tables are
-generated from `artifacts/benchmarks/report_demo/results.json`, never copied
+generated from `artifacts/benchmarks/paper_benchmark/results.json`, never copied
 manually. The release guide is
-[`notes/report_demo_release_2026-09-07.md`](notes/report_demo_release_2026-09-07.md).
+[`notes/paper_cycle_v2_protocol.md`](notes/paper_cycle_v2_protocol.md).
 The earlier complete source before the four-chapter scope reduction is preserved in
 [`notes/snapshots/graduation_thesis_full_2026-09-05.tex`](notes/snapshots/graduation_thesis_full_2026-09-05.tex).
 To rebuild that reference, run LaTeX from `thesis/` using the snapshot path and
@@ -43,8 +43,8 @@ Build from this directory into an ignored scratch directory:
 
 ```bash
 # From repo root first, if the result artifact changed:
-# venv/bin/python -m experiments.verify_report_demo
-# venv/bin/python -m experiments.export_report_demo
+# venv/bin/python -m experiments.verify_paper_benchmark
+# venv/bin/python -m experiments.export_paper_benchmark
 mkdir -p ../build/thesis
 latexmk -xelatex -interaction=nonstopmode -halt-on-error \
   -outdir=../build/thesis main.tex
@@ -58,8 +58,10 @@ canonical artifact.
 The modular chapters and BibTeX database from Internship 2 are preserved at
 `archive/internship_2/thesis/`; they are not imported by the current thesis.
 Older benchmark artifacts remain available for provenance, but Chapter 6 cites
-only `artifacts/benchmarks/report_demo/`. This is a controlled pilot, not a
-publication-ready SOTA leaderboard. S4--S10 have no measured coverage yet.
+only `artifacts/benchmarks/paper_benchmark/`. This is a controlled study, not a
+publication-ready SOTA leaderboard. S4--S8 have no measured coverage yet. No BR
+grid configuration met Recall >=90% simultaneously across five scenarios on
+defense-validation data. The earlier chapters remain in `notes/report_demo_chapters_v1.tex`.
 
 Development status, implementation caveats and reproducibility notes are kept
 separately in [`notes/draft_clarifications.md`](notes/draft_clarifications.md)
