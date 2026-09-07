@@ -14,6 +14,9 @@ it against explicit attacker, utility, and output-contract assumptions.
 - Comparator status and evidence: [`benchmark/README.md`](benchmark/README.md)
 - Documentation index: [`docs/README.md`](docs/README.md)
 - Current research cycle: [`thesis/notes/paper_cycle_v2_protocol.md`](thesis/notes/paper_cycle_v2_protocol.md)
+- Latest method/dataset extension: [`belief-suite protocol`](thesis/notes/belief_evaluation_protocol.md),
+  [`verified scenario data v2`](artifacts/datasets/urban_scenarios_v2/), and
+  [`two-stage method results`](artifacts/benchmarks/belief_suite/)
 
 ## Repository layout
 

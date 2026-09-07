@@ -7,6 +7,8 @@ This is the only top-level location for tracked generated deliverables.
 - [`reports/`](reports/) contains reviewed human-facing PDF releases.
 - [`datasets/urban_scenarios_v1/`](datasets/urban_scenarios_v1/) contains versioned
   pre-protection scenario data, separate from measured benchmark results.
+- [`datasets/urban_scenarios_v2/`](datasets/urban_scenarios_v2/) is the latest
+  six-family SUMO challenge suite, including rare-POI and multi-day controls.
 
 `benchmark/` at the repository root is source code; `artifacts/benchmarks/` is
 generated evidence. Unreferenced superseded artifacts belong under `archive/`;
@@ -36,3 +38,10 @@ so privacy scores are not interchangeable with the earlier lane tables. Neither
 validation-selected configuration meets the all-case utility threshold; no new
 default or all-ten-scenario coverage is claimed. This local research artifact
 contains evaluator anchors/truth and is not exposed as a public web transcript.
+
+[`benchmarks/belief_suite/`](benchmarks/belief_suite/) extends the proposed method
+with protected-history belief-weighted POI coverage. Validation and confirmation
+are separate checksummed stages on v2 data, covering nine S1--S3 cases. This is
+the latest internal diagnostic, not a replacement for the comparator benchmark
+or an all-ten-scenario protection result. Frozen predecessor evidence above
+remains unchanged.

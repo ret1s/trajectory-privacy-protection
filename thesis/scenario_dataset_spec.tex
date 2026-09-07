@@ -2,15 +2,15 @@
 \section{Bộ dữ liệu kịch bản có kiểm soát}
 \label{sec:scenario-suite}
 
-Bộ dữ liệu cụ thể hoá S1--S10 thành 30 biến thể, mỗi biến thể có điều kiện chấp nhận kiểm tra được. Lần sinh hiện tại có mẫu cho cả mười nhóm và 28 biến thể. Điều này xác nhận khả năng tạo dữ liệu, \textbf{không xác nhận thuật toán đã chống được 28 dạng tấn công}. Các phép đo hiệu quả bảo vệ ở chương thực nghiệm vẫn thuộc bộ năm kịch bản, không được gộp với số mẫu ở đây.
+Bộ dữ liệu cụ thể hoá S1--S10 thành 30 biến thể, mỗi biến thể có điều kiện chấp nhận kiểm tra được. Phiên bản v2 có mẫu cho cả mười nhóm và đủ 30 biến thể. Điều này xác nhận khả năng tạo dữ liệu, \textbf{không xác nhận thuật toán đã chống được 30 dạng tấn công}. Các thí nghiệm bảo vệ sử dụng những tập con được nêu riêng ở Chương~\ref{ch:experiments}; không gộp tỷ lệ sinh mẫu với hiệu quả bảo vệ. Bộ v1 gồm 96 bản ghi vẫn được giữ nguyên để tái lập các thí nghiệm trước.
 
 \subsection{Từ cấu hình đến quỹ đạo thật}
 
 \begin{enumerate}
 \item \textbf{Cố định ngữ cảnh công khai.} Chuyển OSM trong khung kinh độ $[116{,}29;116{,}36]$, vĩ độ $[39{,}96;40{,}02]$ sang mạng dành cho xe con. Giữ kết nối có hướng và quyền lưu thông của làn. Chỉ đếm cạnh đường bên ngoài nút giao khi xác định số hướng rẽ; cạnh nội bộ vẫn được giữ để kiểm tra chuyển động.
 \item \textbf{Thiết kế nhóm tuyến có quan hệ.} Mỗi hạt giống chọn tuyến gốc dài 2,5--5 km theo chiều dài cạnh của mạng SUMO, rồi tạo tuyến chung đoạn đầu nhưng rẽ khác hướng, khác điểm đầu nhưng nhập đoạn chung, tuyến vòng quay lại chỗ dừng và tuyến kết thúc ở cạnh chỉ một lối vào. Tuyến được chọn trước cơ chế bảo vệ, không dựa trên sai số tấn công hay điểm số thuật toán.
-\item \textbf{Lập lịch 12 phiên mỗi nhóm.} Gồm chuyến gốc; đồng hành toàn tuyến/một phần; xe tình cờ đi gần; chuyến nhập tuyến; dừng ngắn, dừng dài và quay lại; kết thúc ở cạnh một lối vào; cùng người lặp chuyến, đổi thiết bị và người khác dùng lại thiết bị. Các phiên tái sử dụng người hoặc thiết bị được bố trí cách nhau 2.500 giây và kiểm tra không chồng lấn sau mô phỏng. Mã phiên SUMO không phải mã người, thiết bị hoặc xe vật lý.
-\item \textbf{Chạy SUMO.} Dùng bước thời gian và chu kỳ FCD 1 giây, vận tốc tối đa cấu hình 8 m/s, thời gian mô phỏng 10.000 giây; tắt dịch chuyển tự động khi tắc đường. Dừng dự kiến 30/180 giây; chuyến quay lại có hai lần dừng 45 giây trên cùng làn, ngăn cách bởi chuyển động trên tuyến vòng. Chỉ nhận phiên hoàn tất và đạt điều kiện từ dữ liệu thực tế, không dùng thời lượng dự kiến thay thời lượng đo được.
+\item \textbf{Lập lịch 22 phiên mỗi nhóm.} Giữ 12 phiên nền: chuyến gốc; đồng hành toàn tuyến/một phần; xe tình cờ đi gần; chuyến nhập tuyến; dừng ngắn, dừng dài và quay lại; kết thúc ở cạnh một lối vào; cùng người lặp chuyến, đổi thiết bị và người khác dùng lại thiết bị. Bổ sung một tuyến gần POI hiếm, một tuyến có đích gần và tám chuyến vào tám ngày riêng. Mã phiên SUMO không phải mã người, thiết bị hoặc xe vật lý. Mọi lần tái sử dụng các thực thể này phải không chồng lấn sau mô phỏng.
+\item \textbf{Chạy SUMO.} Dùng bước thời gian và chu kỳ FCD 1 giây, vận tốc tối đa cấu hình 8 m/s; tắt dịch chuyển tự động khi tắc đường. Mỗi nhóm chạy chín lượt: ngày nền và tám ngày hoạt động, mỗi lượt kết thúc tối đa 5.000 giây sau lần khởi hành cuối. Dừng dự kiến 30/180 giây; chuyến quay lại có hai lần dừng 45 giây trên cùng làn, ngăn cách bởi chuyển động trên tuyến vòng. Điểm dừng một giây chỉ để ép tuyến được khai báo trong làn, không phải đỗ xe ngoài đường. Chỉ nhận phiên hoàn tất và đạt điều kiện từ FCD cùng nhật ký SUMO.
 \item \textbf{Bổ sung lớp LBS.} Sinh tường minh nhãn người--thiết bị, ý định truy vấn và quan hệ đồng hành. Chọn sự kiện từ FCD gốc theo chu kỳ truy vấn; giữ đáp án và tương lai trong kho đánh giá. Không nội suy hay sửa tọa độ để buộc mẫu đạt kịch bản.
 \end{enumerate}
 
@@ -30,7 +30,7 @@ trong đó $\mathcal X_s$ là các quỹ đạo liên quan, $\mathcal I_s$ chỉ
 
 \subsection{Biến thể và điều kiện sinh mẫu}
 
-Bảng~\ref{tab:scenario-subcases} nêu điều kiện cho từng biến thể. Cột cuối là số bản ghi từ ba nhóm tuyến. Một bản ghi có thể gồm hai phiên; nhiều bản ghi có thể dùng lại cùng quỹ đạo. Tổng bản ghi không phải số chuyến hay số quan sát độc lập. Các ngưỡng là cách vận hành hoá của luận văn, không phải bản sao cấu hình đánh giá trong tài liệu tham khảo.
+Bảng~\ref{tab:scenario-subcases} nêu điều kiện và số bản ghi v2 từ sáu nhóm tuyến. Một bản ghi có thể gồm nhiều phiên; nhiều bản ghi có thể dùng lại cùng quỹ đạo. Tổng bản ghi không phải số chuyến hay số quan sát độc lập. Các ngưỡng là cách vận hành hoá của luận văn, không phải bản sao cấu hình đánh giá trong tài liệu tham khảo.
 
 \begingroup\small\setstretch{1.06}
 \begin{longtable}{P{1.0cm}P{11.0cm}P{1.0cm}}
@@ -38,36 +38,36 @@ Bảng~\ref{tab:scenario-subcases} nêu điều kiện cho từng biến thể. 
 \toprule\textbf{Mã} & \textbf{Nội dung và điều kiện chấp nhận} & \textbf{Số mẫu}\\\midrule\endfirsthead
 \toprule\textbf{Mã} & \textbf{Nội dung và điều kiện chấp nhận} & \textbf{Số mẫu}\\\midrule\endhead
 \bottomrule\endfoot
-S1.A & Một lần gửi trên cạnh có ít nhất hai hướng đi tiếp hợp lệ. & 3\\
-S1.B & Một lần gửi trên cạnh chỉ có một hướng đi tiếp. & 3\\
-S1.C & Ngữ cảnh POI hiếm. Chưa có mô hình độ hiếm gắn với bản đồ nên chưa gán nhãn. & 0\\\midrule
-S2.A & Dừng có chủ đích ít nhất 20 giây trong FCD; truy vấn mỗi 5 giây. & 3\\
-S2.B & Dừng có chủ đích ít nhất 120 giây; truy vấn mỗi 20 giây. & 3\\
-S2.C & Hai lần dừng trên cùng làn, mỗi lần ít nhất 20 giây; ở giữa phải thực sự di chuyển. & 3\\\midrule
-S3.A & Chạy liên tục ít nhất 60 giây qua ít nhất ba cạnh đường; truy vấn mỗi 20 giây. & 3\\
-S3.B & Đoạn chạy có ít nhất một nửa số cạnh được lấy mẫu chỉ một hướng đi tiếp. Đây là hành lang ít lựa chọn, chưa chắc là nút thắt của toàn mạng. & 3\\
-S3.C & Cùng đoạn chạy được lấy mẫu thưa hơn, mỗi 60 giây. & 3\\\midrule
-S4.A & Hai phiên không chồng lấn của cùng người, cùng thiết bị. & 3\\
-S4.B & Cùng người nhưng đổi thiết bị: đáp án liên kết người là đúng, liên kết thiết bị là sai. & 3\\
-S4.C & Hai người khác nhau dùng lại một thiết bị: đáp án người/thiết bị đảo lại so với S4.B. Đối chứng khó khi tuyến giống nhau. & 3\\\midrule
-S5.A & Tiền tố kết thúc trước lượt rẽ có ít nhất hai lựa chọn; nhãn là cạnh đường kế tiếp thực sự đi vào. & 3\\
-S5.B & Lượt rẽ chỉ một lựa chọn hợp lệ; đối chứng cho thông tin suy ra từ bản đồ. & 3\\
-S5.C & Hai tuyến có chung tiền tố nhưng đi vào hai cạnh khác nhau; kiểm tra cả hai chuyển tiếp thực tế. & 3\\\midrule
+S1.A & Một lần gửi trên cạnh có ít nhất hai hướng đi tiếp hợp lệ. & 6\\
+S1.B & Một lần gửi trên cạnh chỉ có một hướng đi tiếp. & 6\\
+S1.C & Điểm FCD cách POI không quá 150 m; loại POI chiếm không quá 5\% danh mục công khai đã giữ lại. Độ hiếm theo loại địa điểm, không phải tần suất ghé thăm. & 6\\\midrule
+S2.A & Dừng có chủ đích ít nhất 20 giây trong FCD; truy vấn mỗi 5 giây. & 6\\
+S2.B & Dừng có chủ đích ít nhất 120 giây; truy vấn mỗi 20 giây. & 6\\
+S2.C & Hai lần dừng trên cùng làn, mỗi lần ít nhất 20 giây; ở giữa phải thực sự di chuyển. & 6\\\midrule
+S3.A & Chạy liên tục ít nhất 60 giây qua ít nhất ba cạnh đường; truy vấn mỗi 20 giây. & 6\\
+S3.B & Đoạn chạy có ít nhất một nửa số cạnh được lấy mẫu chỉ một hướng đi tiếp. Đây là hành lang ít lựa chọn, chưa chắc là nút thắt của toàn mạng. & 6\\
+S3.C & Cùng đoạn chạy được lấy mẫu thưa hơn, mỗi 60 giây. & 6\\\midrule
+S4.A & Hai phiên không chồng lấn của cùng người, cùng thiết bị. & 6\\
+S4.B & Cùng người nhưng đổi thiết bị: đáp án liên kết người là đúng, liên kết thiết bị là sai. & 6\\
+S4.C & Hai người khác nhau dùng lại một thiết bị: đáp án người/thiết bị đảo lại so với S4.B. Đối chứng khó khi tuyến giống nhau. & 6\\\midrule
+S5.A & Tiền tố kết thúc trước lượt rẽ có ít nhất hai lựa chọn; nhãn là cạnh đường kế tiếp thực sự đi vào. & 6\\
+S5.B & Lượt rẽ chỉ một lựa chọn hợp lệ; đối chứng cho thông tin suy ra từ bản đồ. & 6\\
+S5.C & Hai tuyến có chung tiền tố nhưng đi vào hai cạnh khác nhau; kiểm tra cả hai chuyển tiếp thực tế. & 1\\\midrule
 S6.A & Hai chuyến chung tiền tố nhưng kết thúc ở hai nơi khác nhau; chỉ cấp phần trước khi rẽ. & 3\\
-S6.B & Như S6.A, hai điểm cuối FCD cách nhau không quá 500 m. & 1\\
-S6.C & Đích thường đến so với đích hiếm. Cần lịch nhiều ngày và tần suất xác định trước; hiện chưa sinh. & 0\\\midrule
-S7.A & Truy vấn gửi nguyên văn, làm đối chứng rò nội dung; ba ý định gồm khám bệnh, mua sắm và đi đường dài. & 9\\
-S7.B & Mỗi truy vấn thật của ba ý định nằm trong nhóm cố định sáu loại. Chính sách tham chiếu về nội dung, chưa phải đầu ra BR-Dummy. & 9\\
-S7.C & Ba ý định tổng hợp có cùng truy vấn đầu nhưng chuỗi sau khác nhau: khám bệnh, mua sắm, chuyến đi đường dài. & 9\\\midrule
-S8.A & Đồng hành một phần rồi tách: gần nhau trong 100 m ít nhất 10 giây liên tục và có lúc tách xa hơn. & 1\\
-S8.B & Chung tuyến, ít nhất 80\% thời điểm cùng xuất hiện cách nhau không quá 100 m; ít nhất 10 giây liên tục ở gần. & 3\\
-S8.C & Không được gán quan hệ đồng hành nhưng tình cờ gần nhau trong 100 m ít nhất 10 giây; đối chứng âm. & 3\\\midrule
-S9.A & Cạnh xuất phát chỉ một lối ra; che 60 giây đầu, giữ toàn bộ phần còn lại theo chu kỳ 20 giây. & 1\\
-S9.B & Khác điểm đầu nhưng nhập đoạn chung; chỉ cấp từ chỗ nhập tuyến trở đi. & 3\\
-S9.C & Lặp điểm xuất phát dự kiến; che 60 giây đầu mỗi chuyến. & 3\\\midrule
-S10.A & Cạnh kết thúc chỉ một lối vào; che 60 giây cuối chuyến hoàn tất. & 3\\
+S6.B & Như S6.A, hai điểm cuối FCD cách nhau không quá 500 m. & 3\\
+S6.C & Sáu chuyến lịch sử hoàn tất: năm tới đích thường xuyên, một tới đích hiếm. Ngày 7/8 chỉ cấp tiền tố để dự đoán đích; mỗi bản ghi gồm sáu phiên lịch sử và một phiên hiện tại. & 11\\\midrule
+S7.A & Truy vấn gửi nguyên văn, làm đối chứng rò nội dung; ba ý định gồm khám bệnh, mua sắm và đi đường dài. & 18\\
+S7.B & Mỗi truy vấn thật của ba ý định nằm trong nhóm cố định sáu loại. Chính sách tham chiếu về nội dung, chưa phải đầu ra BR-Dummy. & 18\\
+S7.C & Ba ý định tổng hợp có cùng truy vấn đầu nhưng chuỗi sau khác nhau: khám bệnh, mua sắm, chuyến đi đường dài. & 18\\\midrule
+S8.A & Đồng hành một phần rồi tách: gần nhau trong 100 m ít nhất 10 giây liên tục và có lúc tách xa hơn. & 6\\
+S8.B & Chung tuyến, ít nhất 80\% thời điểm cùng xuất hiện cách nhau không quá 100 m; ít nhất 10 giây liên tục ở gần. & 6\\
+S8.C & Không được gán quan hệ đồng hành nhưng tình cờ gần nhau trong 100 m ít nhất 10 giây; đối chứng âm. & 6\\\midrule
+S9.A & Cạnh xuất phát chỉ một lối ra; che 60 giây đầu, giữ toàn bộ phần còn lại theo chu kỳ 20 giây. & 6\\
+S9.B & Khác điểm đầu nhưng nhập đoạn chung; chỉ cấp từ chỗ nhập tuyến trở đi. & 6\\
+S9.C & Lặp điểm xuất phát dự kiến; che 60 giây đầu mỗi chuyến. & 6\\\midrule
+S10.A & Cạnh kết thúc chỉ một lối vào; che 60 giây cuối chuyến hoàn tất. & 6\\
 S10.B & Chung tiền tố nhưng khác điểm cuối; chỉ cấp đoạn trước khi tách tuyến, giữ phần cuối làm đáp án ngoại tuyến. & 3\\
-S10.C & Lặp điểm kết thúc dự kiến; che 60 giây cuối mỗi chuyến. & 3\\
+S10.C & Lặp điểm kết thúc dự kiến; che 60 giây cuối mỗi chuyến. & 6\\
 \end{longtable}
 \endgroup
 
@@ -80,13 +80,23 @@ S7 dùng mẫu ý định viết tay để kiểm thử luồng dữ liệu, ch�
 
 S9--S10 lấy điểm FCD đầu/cuối làm đáp án, không gán đó là nhà hoặc nơi làm việc. Cùng đích dự kiến vẫn có thể có điểm FCD cuối hơi khác do chu kỳ lấy mẫu. Mặt nạ 60 giây không tương đương vùng riêng tư hình học trong ứng dụng thể thao; chưa tái hiện tấn công dùng tổng quãng đường và vùng che của Dhondt và cộng sự.~\citep{dhondt2022endpoint}
 
+\subsection{POI hiếm, lịch nhiều ngày và kiểm tra chất lượng}
+
+Danh mục dịch vụ gồm 418 POI: 282 nhà hàng, 112 quán cà phê, 13 nhà thuốc, 7 bệnh viện, 3 phòng khám và 1 trạm nhiên liệu. Bốn loại sau đạt ngưỡng tần suất loại không quá 5\%. Bộ sinh chọn một POI thuộc nhóm này, tìm tuyến hợp lệ đi gần nó rồi kiểm tra khoảng cách trên FCD đã chạy. Nhãn hiếm không đồng nghĩa địa điểm nhạy cảm, cũng không dựa trên dữ liệu truy vấn người dùng.
+
+Với S6.C, sáu ngày lịch sử có thứ tự đích thường, thường, hiếm, thường, thường, thường. Ngày 7 đi tới đích thường và ngày 8 tới đích hiếm. Tám chuyến dùng cùng người, thiết bị và xe nhưng không chồng lấn; mỗi ngày khởi hành lúc 08:00 theo đồng hồ mô phỏng. Đây là lịch thử tổng hợp, không phải tỷ lệ hành vi đo từ con người. Hoạt động ban đêm và hành trình quay về nằm ngoài cửa sổ mô phỏng. Tần suất nhãn được kiểm tra lại bằng đích thực tế của tuyến hoàn tất, không chỉ bằng kế hoạch.
+
+Mỗi bản ghi S6.C chứa sáu cửa sổ lịch sử và một tiền tố hiện tại; vị trí thứ bảy mới là phiên cần dự đoán. Chỉ giữ tiền tố trước khi biết điểm cuối. Lịch sử thật phải đi qua cơ chế bảo vệ trước khi cấp cho đối thủ. Một chuyến không có điểm lấy mẫu tại cạnh cắt tiền tố không được ép nhãn để đủ số lượng; do đó chỉ có 11 bản ghi thay vì 12.
+
+Hai cặp S5.C có cạnh kế tiếp quá ngắn nên không xuất hiện trong FCD 1 Hz. Chúng bị loại khỏi tác vụ dự đoán \emph{cạnh ngay kế tiếp}, thay vì dùng nhầm cạnh được quan sát sau đó. Tương tự, ba chuyến đi qua cạnh cuối rất ngắn giữa mẫu FCD cuối và thời điểm đến: kiểm tra tuyến gốc hoàn tất, phần khoảng cách ngoại vi còn lại không quá 8,1 m và thời gian chưa lấy mẫu không quá một giây. Không tạo thêm tọa độ đích giả.
+
 \subsection{Độ bao phủ và giới hạn hiện tại}
 
-Ba nhóm tuyến dùng hạt giống 91, 92, 93, lần lượt gán vai trò phát triển huấn luyện, phát triển chọn cấu hình và phát triển kiểm thử. Mọi phiên dùng chung người, thiết bị hoặc quan hệ đồng hành nằm trong cùng nhóm. Đây là ba nhóm có quan hệ nội bộ, không phải 96 quan sát độc lập và chưa là tập kiểm thử cuối được giữ kín cho bài báo.
+Hạt giống 101/102 dùng huấn luyện, 103/104 dùng chọn cấu hình và 105/106 dùng xác nhận trong cùng thành phố. Mọi phiên dùng chung người, thiết bị, lịch ngày hoặc quan hệ đồng hành nằm trong cùng nhóm. Hai nhóm mỗi phần chưa đủ đại diện quần thể; các mẫu liên quan không phải quan sát độc lập.
 
-Kết quả gồm \textbf{36/36 phiên hoàn tất, 21.818 mẫu FCD, 96 bản ghi kịch bản}. S1.C và S6.C vẫn giữ trong danh mục với số mẫu bằng không. S6.B, S8.A, S9.A chỉ xuất hiện ở một nhóm: dùng được cho kiểm tra chức năng, chưa đủ hiện diện trên các phần dữ liệu để học, chọn và chấm đối thủ riêng từng biến thể. Không sửa nhãn mẫu không đạt điều kiện để lấp các khoảng trống này.
+Kết quả gồm \textbf{132/132 phiên hoàn tất, 94.334 mẫu FCD và 207 bản ghi kịch bản}. Có đủ 30 biến thể trong hợp của sáu nhóm; từng nhóm lần lượt có 26, 28, 27, 29, 26 và 30 biến thể. S5.C chỉ còn một bản ghi ở nhóm 106, chưa đủ phân bố để huấn luyện và chọn đối thủ. S6.A, S6.B, S10.B có ba bản ghi mỗi ca. Các giới hạn này vẫn được giữ trong danh mục, không suy ra rằng mọi ca đã đủ điều kiện benchmark.
 
-Để tiến tới đánh giá cho bài báo cần thêm nhóm tuyến độc lập và mức tải giao thông, đủ mẫu mỗi biến thể trên các phần dữ liệu; gắn POI để xác định độ hiếm; lập lịch nhiều ngày cho đích thường xuyên; bổ sung dừng do giao thông làm đối chứng âm; chốt tập kiểm thử mới sau khi ổn định điều kiện. Thông tin phụ trợ, lịch gửi và cách che biên cũng cần được thay đổi có kiểm soát.
+Kiểm tra độc lập đối chiếu toàn bộ 94.334 mẫu với 54 lượt SUMO gốc, 7.052 chuyển tiếp cạnh ngoài nút giao, nhãn và quyền quan sát. Độ dịch chuyển lớn nhất giữa hai mẫu một giây là 9,20 m. Đây là kiểm chứng nguồn dữ liệu và điều kiện thử, không phải bằng chứng hiệu quả bảo vệ. Cần tăng số nhóm, hiệu chỉnh giao thông, bổ sung đối chứng dừng do ùn tắc và dữ liệu khác thành phố trước kết luận tổng quát.
 
 \clearpage
 \subsection{Từ dữ liệu đến kiểm chứng cơ chế}

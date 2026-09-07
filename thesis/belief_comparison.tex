@@ -1,0 +1,38 @@
+\section{Kiểm tra BR-phân bố trên chín biến thể S1--S3}
+\label{sec:belief-experiment}
+
+\subsection{Giao thức hai giai đoạn và cấu hình đã khóa}
+
+Thí nghiệm dùng bộ dữ liệu v2 ở Mục~\ref{sec:scenario-suite}: hai nhóm 101/102 ước lượng tần suất, 103/104 chọn cấu hình và đối thủ, 105/106 xác nhận trong cùng bản đồ. Tệp lựa chọn cùng dấu vân tay mã nguồn được lưu trước khi bắt đầu giai đoạn xác nhận. Đây là phép thử chẩn đoán quy mô nhỏ, không phải tập người dùng độc lập hay kiểm thử thành phố mới.
+
+Mỗi phần đánh giá có 18 bản ghi, gồm hai nhóm tuyến cho mỗi ca S1.A--S3.C. Năm cấu hình là BR-làn gốc, POI tại neo với trọng số 6, BR-phân bố với trọng số 6 hoặc 24, và bản trọng số 24 dùng trung bình phân bố làm tâm. Giữ $K\in\{3,5\}$, $B=0{,}24/\mathrm m$, $H=12$, $\theta=200$ m, $\tau=60$ m và độ lệch tâm 80 m. Một hạt ngẫu nhiên ghép cặp cho mỗi bản ghi/$K$; cả năm biến thể dùng cùng chuỗi neo. Tổng cộng 180 lượt validation và 180 lượt xác nhận. Không đổi tham số theo nhãn kịch bản.
+
+Giữ tối đa 12 quan sát được phép, không nén khoảng thời gian ở giữa. S2.C giữ chín mẫu của lần dừng thứ nhất và ba mẫu của lần dừng thứ hai; do đó phép thử thật sự chứa hai lần ghé lại. Đáp án vẫn là vị trí, chưa là suy luận nhà/nơi làm việc. Các ca S4--S10 có dữ liệu nhưng chưa được chạy đối thủ trong thí nghiệm này.
+
+Chọn một cấu hình chung cho mỗi $K$, yêu cầu Recall trung bình của \emph{từng ca} đạt ít nhất 90\%, rồi tối thiểu hoá Hit$_{100}$ trung bình đều các ca. Nếu không cấu hình nào đạt yêu cầu, giữ trạng thái không khả thi và chọn cấu hình có Recall của ca yếu nhất cao nhất để phân tích. Cả hai $K$ chọn trọng số 24, nhưng Recall thấp nhất trên validation chỉ đạt 77,92\% và 79,35\%; bản gốc lần lượt là 74,05\% và 71,67\%. Đây là cấu hình dự phòng theo quy tắc, không phải nghiệm đã đạt ràng buộc.
+
+Với mỗi cơ chế/$K$/ca, đối thủ tối thiểu MAE và đối thủ tối đa Hit được chọn riêng bằng validation. Khi chấm xác nhận, giữ nguyên lựa chọn đó. Đồng thời báo cáo bao trên Hit giữa các đối thủ cố định trên tập xác nhận như kiểm tra thăm dò. Không dùng bao trên này để chọn lại cơ chế hoặc mô tả nó như kết quả của một đối thủ đã giữ kín.
+
+\subsection{Kết quả xác nhận và các đánh đổi}
+
+Ở $K=5$, BR-phân bố 24 giảm Hit của đối thủ đã chọn từ 23,15\% xuống 18,70\%, đồng thời tăng MAE từ 480,6 lên 509,7 m. Recall trung bình thay đổi từ 91,73\% xuống 91,44\%. Bao trên Hit thăm dò cũng giảm từ 33,57\% xuống 28,15\%. Tuy nhiên, Recall của ca yếu nhất giảm từ 85,33\% xuống 83,61\%: trung bình cao không bảo đảm chất lượng đồng đều.
+
+Ở $K=3$, Recall trung bình gần như không đổi (91,24\% so với 91,34\%), nhưng ca yếu nhất giảm từ 83,33\% xuống 77,78\%. Hit của đối thủ đã chọn giảm nhẹ (12,69\% xuống 12,22\%), trong khi bao trên thăm dò tăng (26,11\% lên 27,22\%). Vì vậy không kết luận riêng tư cải thiện nhất quán ở $K=3$.
+
+\input{../artifacts/benchmarks/belief_suite/results_tables.tex}
+
+Một số phản ví dụ cần giữ lại: S3.B/$K=3$ giảm Recall từ 83,33\% xuống 77,78\%; S3.C/$K=5$ tăng Hit của đối thủ đã chọn từ 0\% lên 10\%. Ngược lại, S2.B/$K=5$ giảm Hit từ 100\% xuống 50\% với Recall từ 100\% xuống 99,44\%. Các tỷ lệ này chỉ dựa trên hai nhóm tuyến, không chứng minh cải thiện thống kê hay chống được đối thủ tối ưu.
+
+Biến thể lấy trung bình phân bố làm tâm cho Hit rất thấp nhưng Recall chỉ khoảng 67,98\%--70,52\%. Đây là đánh đổi bằng cách đưa đầu ra xa vùng phục vụ, không phải thành công toàn diện. Bộ lọc xấp xỉ có thể đa đỉnh hoặc lệch do tần suất huấn luyện; trung bình của các vùng xa nhau không nhất thiết là một vị trí đáng tin cậy.
+
+Tỷ lệ truy vấn trả đủ số kết quả bằng 100\% trong thí nghiệm này, kể cả khi Recall thấp. Chỉ số đó đo \emph{số lượng}, không đo đúng POI mong muốn. Danh mục nhỏ còn có loại chỉ một hoặc ba địa điểm; nhiều vị trí khác nhau vẫn nhận cùng danh sách. Vì vậy phải giữ Recall theo loại dịch vụ, sai lệch khoảng cách và điều kiện bản đồ khi diễn giải chất lượng, không xem tỷ lệ trả đủ là bằng chứng utility hoàn hảo.
+
+\subsection{Chi phí, kiểm chứng và hướng phát triển}
+
+Trên máy phát triển, chuẩn bị đồ thị mất khoảng 2,4 giây, tần suất huấn luyện 3,35 giây và mô hình phân bố từ đầu 1,70 giây; tải mô hình đã lưu khoảng 0,18 giây. Với cấu hình trọng số 24 ở phần xác nhận, trung vị thời gian sinh từng sự kiện là 3,03/3,22 ms và phân vị 95 là 35,64/62,54 ms cho $K=3/5$, chưa tính khởi tạo cơ chế hay mạng LSP. Không chuyển số đo này thành cam kết thời gian thực trên thiết bị di động.
+
+Kiểm chứng gồm đối chiếu nguồn dữ liệu, phép tính xác suất trên mạng nhỏ có tọa độ trùng, phát lại từng đầu ra và truy vấn POI, kiểm tra tiền tố nhân quả, ghép cặp neo và đường đi có hướng. Kiểm tra đường xác nhận khả năng tới trong thời gian cho trước theo mô hình vận tốc tự do, chưa bao gồm đèn giao thông, gia tốc hay ùn tắc. Giao diện công bố không chứa phân bố, neo thật của bộ bảo vệ hoặc đáp án.
+
+Một lần gửi vẫn có thể chứa hai trạng thái làn trùng tọa độ. Trong phần xác nhận của cấu hình được chọn, số tọa độ phân biệt nhỏ nhất là 2 khi $K=3$ và 4 khi $K=5$. Vì vậy $K$ đo số ứng viên được gửi, không tự động tạo bảo đảm $K$-ẩn danh.
+
+Kết quả ủng hộ việc tiếp tục nghiên cứu mục tiêu POI theo phân bố, nhưng chưa đủ thay thế mặc định. Cần chuyển trạng thái theo làn/hướng di chuyển từ lịch sử đã bảo vệ, kiểm tra độ phù hợp của phân bố, tăng số nhóm và lần lặp ngẫu nhiên, bổ sung đối thủ biết cơ chế và nhiều mức ngân sách. Mọi cải tiến dựa trên kết quả 105/106 phải thuộc một vòng phát triển mới với dữ liệu xác nhận mới. Lớp sinh dữ liệu S4--S10 còn cần đủ mẫu từng phần và đối thủ riêng; không dùng chín ca S1--S3 để tuyên bố bảo vệ cả mười kịch bản.

@@ -119,6 +119,7 @@ Tái sử dụng có nhiễu chỉ giảm số mẫu mới trong chân trời h�
 Lấy neo mới cần $O(|V|)$ thời gian. Tìm thành phần liên thông mạnh khi khởi tạo cần $O(|V|+|E|)$. Giới hạn sinh $K$ dummy là $O(K(|V|+|E|)\log|V|+K^2|V|)$ khi tính cả tìm đường và chấm điểm tránh trùng. Bộ nhớ đệm phải được giới hạn nếu chạy dài hạn. Giao diện từng sự kiện là nhân quả, còn đạt thời gian thực trên điện thoại phải đo riêng.
 
 \input{contextual_method.tex}
+\input{belief_method.tex}
 
 \chapter{Thực nghiệm có kiểm soát và phản biện kết quả}
 \label{ch:experiments}
@@ -167,6 +168,7 @@ Metric chất lượng theo Mục~\ref{sec:common-metrics} lưu mẫu số; lỗ
 \input{lane_comparison.tex}
 
 \input{contextual_comparison.tex}
+\input{belief_comparison.tex}
 
 \chapter{Kết luận và hướng phát triển}
 
@@ -174,14 +176,16 @@ Metric chất lượng theo Mục~\ref{sec:common-metrics} lưu mẫu số; lỗ
 
 Luận văn xây dựng khung nghiên cứu cho bảo vệ quỹ đạo xe đô thị tại thiết bị: bốn mục tiêu, mười tình huống có tham khảo, ràng buộc chuyển động và dữ liệu mô phỏng truy xuất nguồn. Bộ đo hợp nhất theo nhiệm vụ suy luận, POI và chi phí, giữ khác biệt với ASR, entropy hay phát hiện thật/ảo của công trình gốc.
 
-Phương pháp đề xuất dùng neo riêng tư và bộ sinh dummy có trạng thái, với BR-Dummy là phiên bản đã chạy thực nghiệm. Bản này kết hợp các thành phần riêng tư đã có, ngân sách phiên và chuyển động giả theo đường; việc dùng mô hình học trong các phiên bản tiếp theo được quyết định bằng bằng chứng thực nghiệm, không bị loại khỏi thiết kế. Bất đẳng thức áp dụng cho mô hình lý tưởng trên tọa độ biểu diễn; phép đo hiện có bằng chứng hữu hạn ở S1--S3 và S9--S10, chưa là kết luận bảo vệ toàn diện hoặc vượt phương pháp gốc.
+BR-Dummy kết hợp neo riêng tư, phép thử tái sử dụng có nhiễu, ngân sách phiên hữu hạn và dummy theo đường. Mô hình học vẫn là lựa chọn phát triển, không bị loại khỏi thiết kế. Chặn riêng tư áp dụng cho mô hình lý tưởng; bằng chứng hữu hạn ở S1--S3 và S9--S10 chưa chứng minh bảo vệ toàn diện hoặc vượt SOTA.
 
 Phân tích thành phần trên miền làn bổ sung hai điểm số hậu xử lý: tiến gần mục tiêu theo đường có hướng và tăng độ phủ POI tại neo đã bảo vệ. Vòng kiểm tra năm ca cho thấy cả cải thiện cục bộ lẫn suy giảm utility hoặc riêng tư; chưa có cấu hình đạt ngưỡng Recall đã đặt trên toàn bộ tập chọn. Do đó các biến thể được giữ để phân tích và phát triển, chưa được coi là bản thay thế đã xác nhận.
 
+Vòng tiếp theo bổ sung bộ dữ liệu v2 gồm 132 phiên, 207 bản ghi và đủ 30 biến thể trong hợp sáu nhóm tuyến; kiểm tra độc lập giữ lại cả các thiếu hụt phân bố mẫu. BR-phân bố dùng lịch sử neo đã bảo vệ để tối ưu độ phủ POI kỳ vọng. Trên chín ca S1--S3, cấu hình chọn bằng validation có cải thiện riêng tư trung bình ở $K=5$ nhưng còn suy giảm utility cục bộ và chưa đạt ràng buộc cho mọi ca. Kết quả là bằng chứng phát triển có đối chứng và phản ví dụ, chưa là mô hình bảo vệ toàn diện đã hoàn tất.
+
 \section{Phản biện và điều kiện phát triển thành bài báo}
 
-Số chuyến nhỏ, cùng bản đồ và điều kiện dừng chưa đại diện người dùng thực. Chọn cơ chế có thể quá khớp bốn xe hoặc đối thủ gần đúng. Cần nhiều seed, mức $B$, độ dài phiên và thành phố để kiểm tra độ bền kết luận.
+Số chuyến nhỏ, cùng bản đồ và điều kiện dừng chưa đại diện người dùng thực. Chọn cơ chế có thể quá khớp số ít nhóm tuyến hoặc đối thủ gần đúng. Cần nhiều seed, mức $B$, độ dài phiên và thành phố để kiểm tra độ bền kết luận.
 
 Đối thủ tiếp theo cần likelihood đúng cơ chế, ngữ nghĩa POI và toàn bộ phần chuyến còn thấy sau che biên. Biến thể trạng thái làn đã được kiểm tra ở mức đường đi tự do; cơ chế còn cần ngân sách phiên dài, ràng buộc giao thông động và chính sách biên riêng. Sửa tham số dựa trên kiểm thử này phải coi nó là dữ liệu phát triển rồi chạy tập xác nhận mới.
 
-Khẳng định vượt SOTA cần pipeline đối chứng đúng paper và xác minh đủ metrics AnotherMe. Bộ dữ liệu ở Mục~\ref{sec:scenario-suite} đã bổ sung nhãn tổng hợp cho S4--S8, nhưng chưa có kết quả tấn công và so sánh cơ chế trên bộ này. Năm tình huống đã đo trong chương này không chứng minh bảo vệ danh tính, tương lai, ý định hoặc đồng hành. Nhãn và dữ liệu mới là đầu vào cho vòng đánh giá tiếp theo, không thay thế các phép đo còn thiếu.
+Khẳng định vượt SOTA còn cần đối chứng đúng bài gốc. Dù v2 có đủ loại kịch bản, chưa có kết quả bảo vệ danh tính, tương lai, ý định hay đồng hành. Dữ liệu S4--S8 chỉ hỗ trợ vòng đánh giá tiếp theo, không thay thế bằng chứng còn thiếu.

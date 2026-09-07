@@ -108,8 +108,9 @@ def test_stops_do_not_bridge_missing_fcd():
     assert sample(t,interval=2)==[0,2,3]
 
 
-def test_thesis_case_table_matches_frozen_dataset(suite):
+def test_thesis_case_table_matches_current_dataset():
     import re
+    suite=json.loads((ROOT/'artifacts/datasets/urban_scenarios_v2/dataset.json').read_text())
     text=(ROOT/'thesis/scenario_dataset_spec.tex').read_text()
     counts={key:int(n) for key,n in re.findall(r'^(S\d+\.[ABC]) & .*? & (\d+)\\\\',text,re.M)}
     assert len(counts)==30

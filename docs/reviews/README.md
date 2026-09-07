@@ -6,6 +6,8 @@ review when reproducing an old finding.
 
 ## Current entry points
 
+- Latest proposed method and scenario data: [`verification_belief_suite.md`](verification_belief_suite.md)
+- Preceding contextual ablation: [`verification_contextual_lane.md`](verification_contextual_lane.md)
 - Current BR-Dummy study: [`verification_paper_benchmark_v2.md`](verification_paper_benchmark_v2.md)
 - Previous report/demo release: [`verification_report_demo_release_v1.md`](verification_report_demo_release_v1.md)
 - Artifact hierarchy: [`verification_artifact_hierarchy_v1.md`](verification_artifact_hierarchy_v1.md)

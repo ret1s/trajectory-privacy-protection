@@ -1,0 +1,55 @@
+\section{Sinh dummy theo phân bố vị trí từ lịch sử đã bảo vệ}
+\label{sec:belief-method}
+
+Tối ưu POI quanh một neo nhiễu có thể chọn đúng địa điểm của \emph{vùng sai}. Thay vì coi neo là vị trí thật, biến thể BR-phân bố duy trì các giả thuyết về vị trí cùng trọng số của chúng. Một dummy được ưu tiên nếu bổ sung POI hữu ích cho nhiều giả thuyết còn khả dĩ. Đây là bước hậu xử lý của BR-làn, không mở thêm đường đọc GPS và không thay đổi ngân sách tạo neo.
+
+\subsection{Cập nhật giả thuyết từ đầu ra của cơ chế neo}
+
+Chia bản đồ công khai thành ô 120 m, chọn một trạng thái làn gần tâm mỗi ô. Mạng đang xét tạo được $M=2.076$ trạng thái ẩn đại diện $x_i$. Phân bố ban đầu $b_0(i)$ cộng dồn xác suất xuất hiện của các trạng thái trong ô, ước lượng từ hai nhóm mô phỏng huấn luyện. Phân bố này phản ánh lịch SUMO tổng hợp, chưa là phân bố di chuyển thực của dân cư.
+
+Cần phân biệt miền trạng thái ẩn xấp xỉ với miền đầu ra thật của cơ chế neo. Gọi $V$ là toàn bộ 102.123 trạng thái làn và $m(a)$ là số trạng thái có cùng tọa độ $a$. Xác suất sinh mới một tọa độ neo là
+\[
+p(a\mid x_i)=\frac{m(a)\exp(-\varepsilon_r\|x_i-a\|/2)}
+{\sum_{v\in V}\exp(-\varepsilon_r\|x_i-v\|/2)}.
+\]
+Mẫu số dùng toàn bộ $V$, không chỉ 2.076 trạng thái đại diện. Hệ số $m(a)$ tránh coi các đầu làn trùng tọa độ là những đầu ra phân biệt khi thực tế chỉ công bố kinh độ, vĩ độ.
+
+Từ lần gửi thứ hai, xác suất tái sử dụng neo cũ $a_{t-1}$ tại giả thuyết $x_i$ là
+\[
+q_i=F_{\mathrm{Lap}(0,1/\varepsilon_t)}
+\bigl(\theta-\|x_i-a_{t-1}\|\bigr).
+\]
+Vì một lần sinh mới cũng có thể trúng tọa độ cũ, khả năng quan sát phải là
+\[
+L_i(a_t\mid a_{t-1})=(1-q_i)p(a_t\mid x_i)
++q_i\,\mathbf 1[a_t=a_{t-1}].
+\]
+Không dùng nhãn nội bộ ``đã tái sử dụng'' làm dữ liệu quan sát. Lần đầu chỉ dùng $p(a_1\mid x_i)$; sau khi hết chân trời ngân sách, bước dự đoán tiếp tục nhưng không đếm neo giữ nguyên như một lần quan sát riêng tư mới.
+
+Sau bước dự đoán công khai $\widetilde b_t$, chuẩn hoá
+$b_t(i)\propto \widetilde b_t(i)L_i$.
+Trong khoảng không quá 120 giây, mô hình chuyển trạng thái là hỗn hợp 0,6 giữ nguyên và 0,4 khuếch tán đẳng hướng có trọng số tần suất công khai. Với khoảng nghỉ dài hơn, dùng
+$\widetilde b_t=\rho b_{t-1}+(1-\rho)b_0$,
+$\rho=0{,}6^{\Delta t/20}$.
+Đây là giả định chuyển động thô, chưa phải xác suất di chuyển theo làn đã hiệu chỉnh. Nó tránh kéo dài một dự đoán cục bộ quá tự tin qua chuyến đi không được quan sát.
+
+\subsection{Từ phân bố đến lợi ích POI}
+
+Với từng giả thuyết $x_i$, tính lợi ích POI còn thiếu $\Delta_j(v;x_i)$ như Mục~\ref{sec:context-method}, nhưng tập tham chiếu nằm tại $x_i$. Điểm số dùng lợi ích kỳ vọng
+\[
+\begin{aligned}
+\overline\Delta_{t,j}(v)&=\sum_{i=1}^{M}b_t(i)\Delta_j(v;x_i),\\
+s_{t,j}(v)&=-\frac{\|v-(c_t+o_j)\|}{\tau}
+-2\sum_{h<j}e^{-\|v-y_{t,h}\|/(40\,\mathrm m)}
++\lambda\overline\Delta_{t,j}(v).
+\end{aligned}
+\]
+Giữ lấy mẫu Gumbel-max và miền tới được của từng dummy trên đồ thị làn có hướng. Hai mức $\lambda=6$ và $24$ kiểm tra mức ưu tiên chất lượng ứng dụng. Một biến thể riêng thay tâm hình học $c_t=a_t$ bằng trung bình $\sum_i b_t(i)x_i$; không thay âm thầm tâm của bản đối chứng.
+
+Các bước trực tuyến gồm: tạo hoặc tái sử dụng neo theo ngân sách; dự đoán và cập nhật phân bố; tính POI kỳ vọng; chọn lần lượt các dummy tới được; gửi duy nhất các điểm giả cùng thời gian công khai. Phân bố, neo và đáp án chỉ nằm phía thiết bị hoặc bộ đánh giá, không xuất ra giao diện LSP.
+
+\subsection{Cơ sở và giới hạn của cải tiến}
+
+Hướng tiếp cận kế thừa nguyên lý cải thiện utility bằng ánh xạ đầu ra đã bảo vệ của Chatzikokolakis và cộng sự.~\citep{chatzikokolakis2017utility} Tuy nhiên, lưới hữu hạn, giả định chuyển động và lựa chọn tuần tự bị ràng buộc đường ở đây chỉ tạo một xấp xỉ thực nghiệm, không phải ánh xạ Bayes tối ưu của công trình gốc. Trung bình phân bố có thể nằm giữa các đường hoặc làm lộ vùng có xác suất cao; hiệu quả thực tế phải kiểm tra đồng thời riêng tư và POI.
+
+Với ngữ cảnh và phân bố ban đầu công khai cố định, mọi bước mới chỉ phụ thuộc chuỗi neo đã bảo vệ nên giữ chặn hợp thành \emph{lý tưởng} của BR-Dummy. Kết luận này vẫn có điều kiện về quan hệ lân cận, lịch quan sát cố định và tính chính xác của lấy mẫu; mã dấu phẩy động chưa được chứng nhận riêng tư thuần. Phân bố thiết bị không phải phân bố của kẻ tấn công vì neo không được gửi trực tiếp. Chưa khẳng định bảo vệ danh tính, ý định hoặc điểm đến chỉ từ việc thêm bộ lọc này.
