@@ -6,9 +6,11 @@ review when reproducing an old finding.
 
 ## Current entry points
 
+- Latest method, independent confirmation and literature critique: [`verification_service_cover.md`](verification_service_cover.md)
+
 - Dataset database and thesis reproducibility: [`verification_scenario_store.md`](verification_scenario_store.md)
 
-- Latest proposed method and scenario data: [`verification_belief_suite.md`](verification_belief_suite.md)
+- Preceding proposed method and scenario data: [`verification_belief_suite.md`](verification_belief_suite.md)
 - Preceding contextual ablation: [`verification_contextual_lane.md`](verification_contextual_lane.md)
 - Current BR-Dummy study: [`verification_paper_benchmark_v2.md`](verification_paper_benchmark_v2.md)
 - Previous report/demo release: [`verification_report_demo_release_v1.md`](verification_report_demo_release_v1.md)

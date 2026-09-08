@@ -38,7 +38,8 @@ def verify(path=DEFAULT_DB):
         assert file_hash(ROOT / name) == expected, name
     with ScenarioStore(path) as store:
         result = store.verify()
-        assert store.head() == 'urban-scenarios-v2' and len(store.releases()) == 2
+        # The original migration is a frozen prefix, not the permanent DB head.
+        assert [r['release_id'] for r in store.releases()][:2] == ['urban-scenarios-v1', 'urban-scenarios-v2']
         counts = {'raw_points': 0, 'records': 0, 'device_slots': 0, 'allowed_observations': 0}
         for v, original in enumerate(snapshots, 1):
             release = f'urban-scenarios-v{v}'

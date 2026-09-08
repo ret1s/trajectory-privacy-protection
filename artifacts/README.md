@@ -3,7 +3,7 @@
 This is the only top-level location for tracked generated deliverables.
 
 The current scenario registry is [`datasets/scenarios.sqlite3`](datasets/scenarios.sqlite3).
-It contains both frozen SUMO dataset releases, normalized records and an append-only
+It contains three frozen SUMO dataset releases, normalized records and an append-only
 update log. See the [storage guide](../data/scenario_store/README.md) and
 [migration verification](datasets/scenario_store_verification.json).
 
@@ -12,8 +12,12 @@ update log. See the [storage guide](../data/scenario_store/README.md) and
 - [`reports/`](reports/) contains reviewed human-facing PDF releases.
 - [`datasets/urban_scenarios_v1/`](datasets/urban_scenarios_v1/) contains versioned
   pre-protection scenario data, separate from measured benchmark results.
-- [`datasets/urban_scenarios_v2/`](datasets/urban_scenarios_v2/) is the latest
+- [`datasets/urban_scenarios_v2/`](datasets/urban_scenarios_v2/) is the frozen
   six-family SUMO challenge suite, including rare-POI and multi-day controls.
+- [`datasets/urban_scenarios_v3/`](datasets/urban_scenarios_v3/) retains development
+  families 101–104 and adds fresh confirmation families 201–204 (176 sessions,
+  269 records). Its registry verification supersedes the original two-release
+  migration receipt for the current DB head; that original receipt is historical.
 
 `benchmark/` at the repository root is source code; `artifacts/benchmarks/` is
 generated evidence. Unreferenced superseded artifacts belong under `archive/`;
@@ -47,6 +51,13 @@ contains evaluator anchors/truth and is not exposed as a public web transcript.
 [`benchmarks/belief_suite/`](benchmarks/belief_suite/) extends the proposed method
 with protected-history belief-weighted POI coverage. Validation and confirmation
 are separate checksummed stages on v2 data, covering nine S1--S3 cases. This is
-the latest internal diagnostic, not a replacement for the comparator benchmark
+a preceding internal diagnostic, not a replacement for the comparator benchmark
 or an all-ten-scenario protection result. Frozen predecessor evidence above
 remains unchanged.
+
+[`benchmarks/service_cover/`](benchmarks/service_cover/) is the latest proposed-
+method ablation: joint POI coverage, prior-only negative control, method-specific
+shadow attacks, three RNG repetitions and four new confirmation families.
+It reads a pinned SQLite release; training, validation/selection and confirmation
+have separate manifests. This remains an S1–S3 diagnostic, not ten solved attacks
+or a new leaderboard against faithful SOTA implementations.

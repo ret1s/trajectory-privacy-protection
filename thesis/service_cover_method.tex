@@ -1,0 +1,46 @@
+\begingroup
+\widowpenalty=10000
+\clubpenalty=10000
+\section{Tối ưu chung tập truy vấn giả theo độ phủ dịch vụ}
+\label{sec:service-cover-method}
+
+\subsection{Động cơ và mục tiêu tối ưu}
+
+Vị trí giả gần một neo nhiễu chưa chắc trả về đúng POI cần dùng. Ngược lại, một điểm gửi đi xa người dùng vẫn có thể trả về địa điểm hữu ích. Vì vậy, biến thể \emph{BR-phủ dịch vụ} chọn cả tập truy vấn dựa trên kết quả mà LSP sẽ trả, thay vì cộng lợi ích POI vào điểm số khoảng cách. Giữ nguyên cơ chế neo, bộ lọc phân bố ở Mục~\ref{sec:belief-method}, ngân sách và miền làn công khai.
+
+Gọi $Q_c(v)$ là tối đa năm POI loại $c$ mà dịch vụ trả khi truy vấn tại $v$, và $R_c(x_i)$ là tập tham chiếu ở giả thuyết vị trí $x_i$. Với $C_i$ là các loại có tập tham chiếu không rỗng, đặt trọng số cho POI $p$:
+\[
+w_t(p)=\sum_{i:C_i\ne\varnothing} b_t(i)\frac{1}{|C_i|}
+\sum_{c\in C_i}\frac{\mathbf 1[p\in R_c(x_i)]}{|R_c(x_i)|}.
+\]
+Các loại POI không có đáp án được loại khỏi mẫu số; nếu $C_i$ rỗng thì giả thuyết đó đóng góp bằng không. Đây là trung bình đều theo loại, chưa là tần suất truy vấn của người dùng thực. Với tập cặp gồm mã nhánh dummy và vị trí $A$, lợi ích là
+\[
+F_t(A)=\sum_p w_t(p)\,
+\mathbf 1\!\left[p\in\bigcup_{(j,v)\in A}\bigcup_c Q_c(v)\right].
+\]
+POI chỉ được tính một lần, dù nhiều dummy cùng trả về nó. $F_t$ là mục tiêu thay thế cho Recall tại một bước, lấy kỳ vọng theo phân bố xấp xỉ của thiết bị và quy ước đóng góp bằng không khi không có loại nào khả dụng. Nó không đồng nhất với Recall toàn lượt chạy: phép đánh giá loại các tham chiếu rỗng khỏi mẫu số và tổng hợp trên nhiều thời điểm. $F_t$ cũng không phải Recall tại vị trí thật hay xác suất đoán sai của đối thủ.
+
+\subsection{Chọn tham lam với ràng buộc từng nhánh}
+
+Tại thời điểm $t$, tính trước tập trạng thái $\mathcal R_{t,j}$ tới được từ vị trí đã công bố trước của nhánh $j$, theo đồ thị làn có hướng và thời gian đã trôi qua. Ở lần đầu, miền ứng viên là thành phần liên thông mạnh công khai đã cố định. Mỗi nhánh nhận đúng một trạng thái:
+\[
+A\subseteq\bigcup_{j=1}^{K}\{j\}\times\mathcal R_{t,j},
+\qquad |A\cap(\{j\}\times\mathcal R_{t,j})|=1.
+\]
+
+Khởi đầu với tập rỗng. Ở mỗi vòng, xét \emph{mọi nhánh chưa được gán}, chọn cặp có lợi ích tăng thêm $F_t(A\cup\{(j,v)\})-F_t(A)$ lớn nhất; gán trạng thái đó cho nhánh $j$ rồi lặp đến đủ $K$. Không cố định nhánh thứ nhất phải chọn trước. Khi bằng điểm chính xác, ưu tiên ít di chuyển, gần tâm của prior cố định, rồi thứ tự mã nhánh/trạng thái. Các quy tắc phụ này không đọc vị trí thật và không được phép lấn át lợi ích POI.
+
+Hàm phủ với trọng số không âm có tính đơn điệu và lợi ích biên giảm dần: POI đã được phủ không tạo thêm lợi ích khi bổ sung một dummy khác. Ràng buộc tối đa một cặp cho mỗi nhánh là \emph{matroid phân hoạch}. Theo kết quả tham lam cổ điển được tổng hợp bởi Călinescu và cộng sự, lựa chọn trên đạt ít nhất $1/2$ giá trị tối ưu của \emph{bài toán tại một thời điểm}, với oracle chính xác.~\citep{calinescu2011matroid} Đây không phải chặn $1-1/e$ của thuật toán tham lam liên tục trong công trình đó.
+
+Chặn này có phạm vi hẹp: miền tới được được giữ cố định trong bước chọn; lựa chọn hiện tại có thể hạn chế các bước sau. Nó không bảo đảm tối ưu cả quỹ đạo, Recall tối thiểu cho từng người, hay độ chính xác của $b_t$. Mã sử dụng số dấu phẩy động; các phép thử vét cạn trên mạng nhỏ kiểm tra triển khai, không thay thế chứng minh toán học. Không ràng buộc hai nhánh phải khác tọa độ: thêm ràng buộc này sẽ thay đổi bài toán tổ hợp. Do đó vẫn phải đo số tọa độ phân biệt và chi phí của các truy vấn trùng.
+
+\subsection{Đối chứng prior và giới hạn đóng góp}
+
+Bản \emph{phủ-prior} dùng cố định $b_0$ thay cho $b_t$. Nó không dùng neo để chọn đầu ra, nhằm xác định mức utility chỉ nhờ bản đồ và danh mục POI. Thí nghiệm vẫn chạy bộ neo nội bộ để đối chiếu hạt ngẫu nhiên; các neo đó không được công bố hoặc dùng bởi bộ chọn của đối chứng. Với cùng lịch gửi công khai, đầu ra của đối chứng không phụ thuộc tọa độ thật. Không suy rộng tính độc lập này sang thời gian, nội dung truy vấn hoặc thông tin tài khoản nằm ngoài mô hình.
+
+Ánh xạ Bayes cải thiện utility của đầu ra đã bảo vệ là hướng đã được thiết lập.~\citep{chatzikokolakis2017utility} Bổ sung tối ưu phủ không tạo một định nghĩa riêng tư mới. Đóng góp cần kiểm chứng ở đây là cách tổ chức tập truy vấn trực tuyến trên miền tới được, cùng đánh giá tách lợi ích của neo khỏi lợi ích của ngữ cảnh. Không nhận tính mới cho riêng bộ lọc Bayes, phép thử tái sử dụng, hoặc thuật toán tham lam.
+
+Atmaca và cộng sự đã kết hợp Geo-I xấp xỉ với dữ liệu giả cho truy vấn trạm sạc của xe điện.~\citep{atmaca2024ev} Vì vậy, riêng ý tưởng kết hợp Geo-I và dummy cho xe đô thị chưa đủ làm tính mới. Cần phân biệt nhiệm vụ truy vấn, chặn riêng tư, cách sinh và ngân sách giao tiếp trước khi so sánh; vòng hiện tại chưa tái lập phương pháp này.
+
+Vì chỉ hậu xử lý lịch sử neo, BR-phủ dịch vụ kế thừa chặn hợp thành lý tưởng và các điều kiện của BR-Dummy. Với $B=0{,}24/\mathrm m$, hệ số $\exp(Bd)$ tại $d=100$ m là $\exp(24)$: một chặn rất lỏng, không phải bằng chứng bảo vệ mạnh trong thực tế. Việc tăng sai số suy luận trung bình cũng không đủ: các cơ chế tối ưu theo một chỉ tiêu có thể khác đáng kể theo tiêu chí riêng tư và chất lượng khác.~\citep{oya2017drawing} Vì vậy cần đối thủ biết cách sinh dummy, chỉ tiêu theo từng ca và kết quả âm, bên cạnh lập luận hậu xử lý.
+\par\endgroup

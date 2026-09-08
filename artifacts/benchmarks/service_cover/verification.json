@@ -1,0 +1,34 @@
+{
+  "verified": true,
+  "rows": 1728,
+  "events": 11160,
+  "scored_rows": 1296,
+  "poi_queries": 49680,
+  "replay_rows": 576,
+  "prefix_checks": 576,
+  "paired_anchor_groups": 432,
+  "shadow_models": 8,
+  "motion_transitions": 37728,
+  "native_connections": 41016,
+  "unique_motion_origins_times": 12050,
+  "replay_one_of_three_replicates": true,
+  "dataset_release": "urban-scenarios-v3",
+  "dataset_content_sha256": "213886fc2722bbecf5e55f61e8978d2c2842bb6018b7f65f5021a261bd79358d",
+  "artifact_sha256": {
+    "training": "d6926342b73094bc05583202fdb7bbcc4189f10be308799a7c7ee54d4087909d",
+    "validation": "3a677cfa3d3ef6f1dab5995529310dc29adf004e7850abcabd6a09a43cc787a1",
+    "selection": "248cd93ba3b45cd9b3b21091cc7abf94a48950b25886a0e6ef26c31b2b4a438a",
+    "confirmation": "c579a87125b5fc8daeedf327c5e247d98948710d27c8eeeff3a67da151e74faf"
+  },
+  "verifier_source_sha256": {
+    "experiments/verify_service_cover.py": "642ec52e72284056b31cec550f3dbdaabd54714dd51564eca950115779e7008a",
+    "experiments/verify_scenario_suite_v3.py": "b00f493aebb0d4cda14e8187a5577eddf942e9ab1906b929b135e38e2dd6917d",
+    "tests/test_service_cover_evidence.py": "1a2db6233ebd28c390d4c3dae22ce31bacce986ad921bce0b29ee53bc5153342"
+  },
+  "limitations": [
+    "Same city; four confirmation families.",
+    "Heuristic/shadow attacks are not optimal adversaries.",
+    "Native motion is free-flow feasibility, not traffic compliance.",
+    "S4-S10 are not protection-evaluated here."
+  ]
+}

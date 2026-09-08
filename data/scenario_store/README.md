@@ -4,7 +4,7 @@ The local evaluator dataset registry is
 [`artifacts/datasets/scenarios.sqlite3`](../../artifacts/datasets/scenarios.sqlite3).
 SQLite is embedded in Python; no server, credentials, cloud upload or extra
 Python dependency. Requires SQLite >=3.37 with JSON functions (verified here
-with 3.50.4). This registry contains **SUMO+OSM v1/v2 only**, not GeoLife.
+with 3.50.4). This registry contains **SUMO+OSM v1/v2/v3 only**, not GeoLife.
 
 ## Contract
 
@@ -68,6 +68,7 @@ Release IDs and semantic hashes:
 ```text
 urban-scenarios-v1  6fc977209401f8591360e35bd7ce390bfadd9cd5098d74b47a5c9d3a9cefe358
 urban-scenarios-v2  27ea74e3d13deea059df663b5429f4333af97b096888cb8ee5f0669eefbbaff0
+urban-scenarios-v3  213886fc2722bbecf5e55f61e8978d2c2842bb6018b7f65f5021a261bd79358d
 ```
 
 Export one S1.A device input (output file must not exist):
@@ -93,6 +94,11 @@ original JSON paths and byte hashes to avoid rewriting past experimental inputs.
 **They have not silently been switched to SQLite.** New experiments can consume
 the DB device API or a pinned export and must record that choice in their protocol.
 
+`experiments.run_service_cover` now consumes the **pinned v3 DB device API**;
+its prior query joins only training families. v3 preserves 101–104 and adds
+201–204 as fresh confirmation; inspected 105/106 are excluded. The on-disk
+record schema remains v2, independently of the release version.
+
 ## Rebuild or publish a new revision
 
 Use a **new** database path; `init` refuses to replace an existing file:
@@ -106,6 +112,10 @@ venv/bin/python -m experiments.scenario_db --db /private/tmp/scenario-rebuild.sq
   artifacts/datasets/urban_scenarios_v2/dataset.json \
   --release urban-scenarios-v2 --parent urban-scenarios-v1 \
   --actor researcher --reason 'Import frozen v2 without altering v1'
+venv/bin/python -m experiments.scenario_db --db /private/tmp/scenario-rebuild.sqlite3 import \
+  artifacts/datasets/urban_scenarios_v3/dataset.json \
+  --release urban-scenarios-v3 --parent urban-scenarios-v2 \
+  --actor researcher --reason 'Add fresh confirmation families; preserve development inputs'
 venv/bin/python -m experiments.scenario_db --db /private/tmp/scenario-rebuild.sqlite3 verify
 ```
 
@@ -115,15 +125,17 @@ current parent. Log a concrete reason (e.g. new simulation families for S5.C),
 not merely “improve results”. Import supports existing v1/v2 dataset schemas;
 new field formats need an explicit adapter/schema migration and tests first.
 
-Run `verify_scenario_db` for the **frozen two-release migration**, including all
-device inputs and historical scientific-source checks. General future-release
-integrity is checked by `scenario_db verify`; update the migration-specific
-regression fixtures deliberately when publishing additional canonical releases.
+Run `verify_scenario_db` for the **frozen two-release migration prefix**, including
+its device inputs and historical scientific-source checks; later releases are
+allowed and receive structural checks. The original migration receipt remains
+at commit 232adf3. The service-cover verifier additionally audits v3 JSON/DB
+parity and every allowed input. Do not overwrite historical receipts.
 
 ```bash
 venv/bin/python -m experiments.verify_scenario_db \
-  --output artifacts/datasets/scenario_store_verification.json
+  --output /private/tmp/scenario-registry-current-verification.json
 venv/bin/python -m experiments.verify_scenario_suite_v2 --raw
+venv/bin/python -m experiments.verify_scenario_suite_v3 --raw
 venv/bin/python -m pytest -q tests/test_scenario_store.py
 ```
 

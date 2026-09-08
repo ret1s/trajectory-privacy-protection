@@ -208,8 +208,9 @@ def test_cli_pin_and_no_overwrite(database, bundle, tmp_path):
 
 def test_current_store_all_releases_and_private_input_parity():
     with ScenarioStore(ROOT / 'artifacts/datasets/scenarios.sqlite3') as store:
-        assert len(store.verify()['releases']) == 2
-        for version in (1, 2):
+        releases = store.verify()['releases']
+        assert [r['release_id'] for r in releases][:2] == ['urban-scenarios-v1', 'urban-scenarios-v2']
+        for version in range(1, len(releases) + 1):
             source = json.loads((ROOT / f'artifacts/datasets/urban_scenarios_v{version}/dataset.json').read_text())
             release = f'urban-scenarios-v{version}'
             assert store.export_bundle(release) == source

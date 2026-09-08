@@ -1,0 +1,44 @@
+\begingroup
+\widowpenalty=10000
+\clubpenalty=10000
+\section{Đánh giá tối ưu phủ dịch vụ và đối thủ học theo cơ chế}
+\label{sec:service-cover-experiment}
+
+\subsection{Thiết kế thí nghiệm và lựa chọn trước xác nhận}
+
+Vòng này dùng phiên bản v3 của kho dữ liệu ở Mục~\ref{sec:dataset-registry}. Các nhóm 101/102 huấn luyện prior và đối thủ phụ trợ; 103/104 chọn cấu hình và đối thủ; 201--204 xác nhận. Dữ liệu 105/106 đã được phân tích ở vòng trước không được coi là tập xác nhận mới. Các ca S1.A--S3.C dùng tối đa 12 quan sát được phép, giữ khoảng nghỉ thật trong đồng hồ mô phỏng.
+
+Bốn cấu hình gồm BR-làn gốc, BR-phân bố 24, BR-phủ dịch vụ và đối chứng phủ-prior. Giữ $K=3,5$, $B=0{,}24/\mathrm m$, $H=12$, $\theta=200$ m; ba lần lặp ngẫu nhiên ghép cặp cho mỗi bản ghi/$K$. Các cấu hình nhận cùng chuỗi neo. Không tìm thêm trọng số sau khi xem điểm: bộ phủ mới không có hệ số đánh đổi giữa hình học và POI. Đối chứng chỉ dùng prior không được tham gia chọn phương pháp đề xuất.
+
+Bổ sung đối thủ học riêng theo cơ chế và $K$. Đầu vào gồm tọa độ các nhánh công bố, trung bình tích lũy nhân quả của chúng và thời gian đã trôi qua; chuẩn hóa chỉ bằng dữ liệu học. Tám bộ suy ngược dùng 360 quan sát phụ trợ mỗi bộ, nhưng các quan sát chỉ đến từ hai nhóm mô phỏng, không phải 360 người độc lập. Ba số láng giềng $1,5,15$ được xem như ba đối thủ, bên cạnh các đối thủ hình học/đường có sẵn. Chọn riêng đối thủ tối thiểu MAE và tối đa Hit$_{100}$ theo từng cơ chế/$K$/ca trên validation, rồi giữ nguyên khi xác nhận.
+
+Quy tắc chọn cơ chế vẫn yêu cầu Recall trung bình của từng ca đạt 90\% trước khi tối ưu Hit. Không cấu hình nào đạt điều kiện này trên validation. Với $K=3$, giữ BR-phân bố 24 làm lựa chọn dự phòng: ca yếu nhất đạt 80,30\%; BR-phủ chỉ đạt 71,11\%. Với $K=5$, chọn BR-phủ: ca yếu nhất tăng từ 79,76\% của BR-làn và 79,82\% của BR-phân bố lên 84,44\%. Đây là cải thiện trong tập phát triển, chưa là nghiệm thỏa yêu cầu. Tệp lựa chọn cùng 40 dấu vân tay mã nguồn được khóa trước khi chấm bốn nhóm mới.
+
+\subsection{Kết quả xác nhận}
+
+Phần xác nhận có 36 bản ghi, tạo 864 lượt chạy bảo vệ và 5.448 sự kiện công bố. Với mỗi cơ chế/$K$, sáu tác vụ POI tạo 4.086 lượt đánh giá: 4.017 có đáp án và 69 có tập tham chiếu rỗng, được ghi N/A thay vì gán Recall bằng 1. Các tỷ lệ dưới đây trung bình đều chín ca, rồi nhóm và lần lặp; không coi mọi sự kiện là mẫu độc lập.
+
+Ở $K=5$, BR-phủ dịch vụ được chọn trước xác nhận nhưng Recall trung bình chỉ đạt 84,12\%, thấp hơn BR-làn 87,48\% và BR-phân bố 24 đạt 89,77\%. Ca yếu nhất của BR-phủ đạt 78,89\%, so với 84,01\% của BR-làn. Recall tăng 5,67 điểm phần trăm ở nhóm 201 nhưng giảm ở ba nhóm còn lại; mức giảm lớn nhất là 12,48 điểm ở nhóm 203. Kết quả 94,64\% trên validation không chuyển thành hiệu quả tương tự ở bốn nhóm mới. Do đó không chấp nhận biến thể này như một cải tiến utility đã xác nhận.
+
+Hit của đối thủ đã chọn cho BR-phủ bằng 0\%, nhưng bao trên thăm dò giữa các đối thủ cố định là 5,06\%. Sự khác biệt cho thấy lựa chọn đối thủ từ hai nhóm phát triển có thể chuyển kém sang dữ liệu mới. Đồng thời, Recall cà phê/nhà hàng trung bình chỉ đạt 55,36\%, so với 65,48\% của BR-làn và 71,75\% của BR-phân bố. Khoảng cách tăng thêm trung bình khi đủ kết quả là 184,2 m, cao hơn 106,4 m của BR-làn. Vì vậy Hit thấp không được diễn giải là đạt đồng thời riêng tư và chất lượng.
+
+Ở $K=3$, BR-phủ không được chọn trên validation và chỉ là kết quả đối chứng: Recall 81,84\%, thấp hơn BR-làn 85,57\%. Lựa chọn dự phòng đã khóa là BR-phân bố đạt Recall 86,83\%, nhưng Hit đã chọn tăng từ 11,43\% lên 13,33\%. Không có bằng chứng về một phương pháp thắng đồng thời mọi chỉ tiêu ở cả hai mức $K$.
+
+\input{../artifacts/benchmarks/service_cover/results_tables.tex}
+
+Đối chứng phủ-prior cho Recall 65,60\%/71,59\% ở $K=3/5$, nhưng trung bình cà phê/nhà hàng chỉ là 10,81\%/20,99\%. Phòng khám và nhiên liệu đạt 100\% ở mọi phương pháp: danh mục nhỏ giúp đạt điểm cao mà không cần định vị chính xác. Kết quả của BR-phủ cao hơn prior-only cho thấy lịch sử neo đem lại utility trong cấu hình này, nhưng chưa khắc phục được khác biệt giữa nhóm phát triển và nhóm xác nhận.
+
+Tỷ lệ trả đủ số POI bằng 100\% trên các lượt có đáp án, dù Recall khác nhau đáng kể. Đây là minh họa trực tiếp cho việc không dùng riêng độ đầy đủ làm chất lượng ứng dụng. Cũng không dùng số dummy để suy ra $K$-ẩn danh: ở BR-làn, số tọa độ phân biệt nhỏ nhất là 2/4 khi $K=3/5$; BR-phủ đạt 3/5 trong phép thử này nhưng vẫn không tạo chứng minh ẩn danh.
+
+Các số đo trên máy phát triển cho BR-phủ có trung vị thời gian bước 2,94/3,16 ms và phân vị 95 là 41,73/105,59 ms ở $K=3/5$, chưa tính khởi tạo khoảng 0,37 giây hoặc mạng LSP. Đây là số đo trên máy dùng chung, không phải cam kết thời gian thực trên điện thoại. Kiểm chứng kết quả phải tách khỏi kết luận triển khai.
+
+\subsection{Giới hạn khi diễn giải và phát triển thành bài báo}
+
+Đơn vị độc lập là nhóm mô phỏng. Tăng số hạt ngẫu nhiên giúp kiểm tra dao động của cơ chế trên cùng chuyến, không làm tăng số tuyến độc lập. Bốn nhóm xác nhận vẫn dùng cùng bản đồ, danh mục POI và cách thiết kế lịch di chuyển. Đối thủ phụ trợ biết cơ chế nhưng chỉ học từ hai nhóm tổng hợp; không được xem là hậu nghiệm đã hiệu chỉnh hoặc đối thủ tối ưu.
+
+Một giả thuyết cần kiểm tra tiếp là bộ lọc dựa trên prior huấn luyện có thể ưu tiên sai vùng phục vụ, trong khi tối ưu tham lam tại một bước hạn chế khả năng sửa ở các bước sau. Kết quả hiện tại chưa tách được hai nguyên nhân này. Vòng sau cần phép loại bỏ từng thành phần và đối chứng khi prior lệch, chỉ dùng lịch sử đã bảo vệ để điều chỉnh. Nếu dùng kết quả 201--204 để sửa mô hình thì các nhóm đó trở thành dữ liệu phát triển; không tiếp tục gọi chúng là xác nhận độc lập.
+
+Chỉ tiêu theo loại POI giúp phân biệt lợi ích ở quán cà phê/nhà hàng với các loại thưa hơn. Tỷ lệ trả đủ đo số lượng kết quả, còn Recall đo lấy đúng POI; cần giữ cả hai và khoảng cách tăng thêm có điều kiện. Sáu loại dịch vụ là sáu tác vụ đánh giá tại mỗi sự kiện. Số truy vấn tọa độ--loại dịch vụ chỉ là chi phí logic của giao thức này, chưa là số gói HTTP hay độ trễ mạng thực.
+
+Các tổng quan về sinh quỹ đạo riêng tư nhấn mạnh cần xác định rõ đơn vị bảo vệ và đồng thời kiểm tra utility, tấn công và khả năng triển khai.~\citep{buchholz2024sok} Tuy nhiên, sinh dữ liệu để công bố ngoại tuyến khác với truy vấn LBS trực tuyến; không chuyển trực tiếp bảng xếp hạng hoặc bảo đảm giữa hai bài toán. Vòng này chưa đánh giá bảo vệ S4--S10 và không thay bảng comparator bằng một tuyên bố vượt SOTA. Cần đối thủ riêng cho các mục tiêu còn lại, bản tái lập đúng công trình đối chứng, nhiều miền đô thị và đường đánh đổi ngân sách--utility trước khi đưa ra kết luận bài báo.
+\par\endgroup

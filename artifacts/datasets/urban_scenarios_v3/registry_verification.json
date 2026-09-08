@@ -1,0 +1,647 @@
+{
+  "status": "passed",
+  "schema_version": 1,
+  "head": "urban-scenarios-v3",
+  "releases": [
+    {
+      "release_id": "urban-scenarios-v1",
+      "content_sha256": "6fc977209401f8591360e35bd7ce390bfadd9cd5098d74b47a5c9d3a9cefe358",
+      "families": 3,
+      "sessions": 36,
+      "points": 21818,
+      "records": 96,
+      "observations": 1894
+    },
+    {
+      "release_id": "urban-scenarios-v2",
+      "content_sha256": "27ea74e3d13deea059df663b5429f4333af97b096888cb8ee5f0669eefbbaff0",
+      "families": 6,
+      "sessions": 132,
+      "points": 94334,
+      "records": 207,
+      "observations": 6572
+    },
+    {
+      "release_id": "urban-scenarios-v3",
+      "content_sha256": "213886fc2722bbecf5e55f61e8978d2c2842bb6018b7f65f5021a261bd79358d",
+      "families": 8,
+      "sessions": 176,
+      "points": 124852,
+      "records": 269,
+      "observations": 7778
+    }
+  ],
+  "scope": "storage integrity, not native SUMO or attack/protection validity",
+  "verified_at": "2026-09-08T02:50:59.262965+00:00",
+  "database_sha256": "fb28dc526fe7825ac025ff076470d3da3ada32cbb06c15791b28490423081499",
+  "sqlite_version": "3.50.4",
+  "migration_comparisons": {
+    "raw_points": 116152,
+    "records": 303,
+    "device_slots": 468,
+    "allowed_observations": 8466
+  },
+  "update_log": [
+    {
+      "event_id": 1,
+      "release_id": "urban-scenarios-v1",
+      "parent_id": null,
+      "created_at": "2026-09-08T02:09:20.494136+00:00",
+      "actor": "codex",
+      "reason": "Migrate frozen SUMO v1 snapshot into immutable scenario registry",
+      "source_sha256": "826bf236588448e5e59b5e4e0304ddef3e3cf85751df8dddf901b72ae88aabb9",
+      "content_sha256": "6fc977209401f8591360e35bd7ce390bfadd9cd5098d74b47a5c9d3a9cefe358",
+      "counts_json": "{\"families\":3,\"sessions\":36,\"points\":21818,\"records\":96,\"observations\":1894}"
+    },
+    {
+      "event_id": 2,
+      "release_id": "urban-scenarios-v2",
+      "parent_id": "urban-scenarios-v1",
+      "created_at": "2026-09-08T02:09:21.355311+00:00",
+      "actor": "codex",
+      "reason": "Migrate frozen six-family SUMO v2 dataset; preserve v1 lineage and benchmark hashes",
+      "source_sha256": "e5ee6dad69074f870f2ef4cd2c1ada1a33d3fd71b846c8ef771a3b7b72856ef8",
+      "content_sha256": "27ea74e3d13deea059df663b5429f4333af97b096888cb8ee5f0669eefbbaff0",
+      "counts_json": "{\"families\":6,\"sessions\":132,\"points\":94334,\"records\":207,\"observations\":6572}"
+    },
+    {
+      "event_id": 3,
+      "release_id": "urban-scenarios-v3",
+      "parent_id": "urban-scenarios-v2",
+      "created_at": "2026-09-08T02:47:52.268189+00:00",
+      "actor": "Codex",
+      "reason": "Service-cover protocol: preserve development families 101-104; add fresh SUMO confirmation families 201-204 with native verification; no protection-score selection",
+      "source_sha256": "6ba4a1caa978540ede91b59f23d097e4a9b5e6bad17243890f17c9c49cf9a94f",
+      "content_sha256": "213886fc2722bbecf5e55f61e8978d2c2842bb6018b7f65f5021a261bd79358d",
+      "counts_json": "{\"families\":8,\"sessions\":176,\"points\":124852,\"records\":269,\"observations\":7778}"
+    }
+  ],
+  "v2_case_split_coverage": [
+    {
+      "case_id": "S1.A",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S1.A",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S1.A",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S1.B",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S1.B",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S1.B",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S1.C",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S1.C",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S1.C",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S10.A",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S10.A",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S10.A",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S10.B",
+      "split": "confirmation",
+      "records": 1,
+      "families": 1
+    },
+    {
+      "case_id": "S10.B",
+      "split": "development_train",
+      "records": 1,
+      "families": 1
+    },
+    {
+      "case_id": "S10.B",
+      "split": "development_validation",
+      "records": 1,
+      "families": 1
+    },
+    {
+      "case_id": "S10.C",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S10.C",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S10.C",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S2.A",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S2.A",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S2.A",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S2.B",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S2.B",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S2.B",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S2.C",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S2.C",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S2.C",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S3.A",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S3.A",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S3.A",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S3.B",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S3.B",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S3.B",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S3.C",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S3.C",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S3.C",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S4.A",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S4.A",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S4.A",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S4.B",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S4.B",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S4.B",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S4.C",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S4.C",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S4.C",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S5.A",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S5.A",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S5.A",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S5.B",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S5.B",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S5.B",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S5.C",
+      "split": "confirmation",
+      "records": 1,
+      "families": 1
+    },
+    {
+      "case_id": "S5.C",
+      "split": "development_train",
+      "records": 0,
+      "families": 0
+    },
+    {
+      "case_id": "S5.C",
+      "split": "development_validation",
+      "records": 0,
+      "families": 0
+    },
+    {
+      "case_id": "S6.A",
+      "split": "confirmation",
+      "records": 1,
+      "families": 1
+    },
+    {
+      "case_id": "S6.A",
+      "split": "development_train",
+      "records": 1,
+      "families": 1
+    },
+    {
+      "case_id": "S6.A",
+      "split": "development_validation",
+      "records": 1,
+      "families": 1
+    },
+    {
+      "case_id": "S6.B",
+      "split": "confirmation",
+      "records": 1,
+      "families": 1
+    },
+    {
+      "case_id": "S6.B",
+      "split": "development_train",
+      "records": 0,
+      "families": 0
+    },
+    {
+      "case_id": "S6.B",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S6.C",
+      "split": "confirmation",
+      "records": 4,
+      "families": 2
+    },
+    {
+      "case_id": "S6.C",
+      "split": "development_train",
+      "records": 3,
+      "families": 2
+    },
+    {
+      "case_id": "S6.C",
+      "split": "development_validation",
+      "records": 4,
+      "families": 2
+    },
+    {
+      "case_id": "S7.A",
+      "split": "confirmation",
+      "records": 6,
+      "families": 2
+    },
+    {
+      "case_id": "S7.A",
+      "split": "development_train",
+      "records": 6,
+      "families": 2
+    },
+    {
+      "case_id": "S7.A",
+      "split": "development_validation",
+      "records": 6,
+      "families": 2
+    },
+    {
+      "case_id": "S7.B",
+      "split": "confirmation",
+      "records": 6,
+      "families": 2
+    },
+    {
+      "case_id": "S7.B",
+      "split": "development_train",
+      "records": 6,
+      "families": 2
+    },
+    {
+      "case_id": "S7.B",
+      "split": "development_validation",
+      "records": 6,
+      "families": 2
+    },
+    {
+      "case_id": "S7.C",
+      "split": "confirmation",
+      "records": 6,
+      "families": 2
+    },
+    {
+      "case_id": "S7.C",
+      "split": "development_train",
+      "records": 6,
+      "families": 2
+    },
+    {
+      "case_id": "S7.C",
+      "split": "development_validation",
+      "records": 6,
+      "families": 2
+    },
+    {
+      "case_id": "S8.A",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S8.A",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S8.A",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S8.B",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S8.B",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S8.B",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S8.C",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S8.C",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S8.C",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S9.A",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S9.A",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S9.A",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S9.B",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S9.B",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S9.B",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S9.C",
+      "split": "confirmation",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S9.C",
+      "split": "development_train",
+      "records": 2,
+      "families": 2
+    },
+    {
+      "case_id": "S9.C",
+      "split": "development_validation",
+      "records": 2,
+      "families": 2
+    }
+  ],
+  "frozen_artifact_sha256": {
+    "artifacts/datasets/urban_scenarios_v1/dataset.json": "826bf236588448e5e59b5e4e0304ddef3e3cf85751df8dddf901b72ae88aabb9",
+    "artifacts/datasets/urban_scenarios_v2/dataset.json": "e5ee6dad69074f870f2ef4cd2c1ada1a33d3fd71b846c8ef771a3b7b72856ef8",
+    "artifacts/benchmarks/paper_benchmark/results.json": "2df043bfb73c3b2f630046381daf5b4bc9f6941fb5be925b0967d6de98f27538",
+    "artifacts/benchmarks/lane_comparison/results.json": "20f93757ba2e2dde28a3b63db01363c8689aa7692b0703c5212412f9e3b7b65c",
+    "artifacts/benchmarks/contextual_lane/results.json": "61274220fd89b2ec06ebda6be67cc7f01f305b4e610307fe990486258ef85d0a",
+    "artifacts/benchmarks/belief_suite/validation.json": "009d5c0a73ca43d439bd938e374a507f39660d25f3a94e5943e0449a5dc6a5c3",
+    "artifacts/benchmarks/belief_suite/selection.json": "a5d80de1aa1299ecce57c5a49a4f744409a1b5f603c6a17f6850e6efe3d854b6",
+    "artifacts/benchmarks/belief_suite/confirmation.json": "0319caba8029aa59f7069ccf58500ab355bb180cda6ec9595eda7b5bdf8382cc",
+    "artifacts/benchmarks/belief_suite/results_tables.tex": "5c2a72a3f5d48aa4c0a89f0354700f2ff9e4b0bfed7d1cee9a526df947128a19"
+  },
+  "frozen_scientific_sources_checked": 32,
+  "storage_source_sha256": {
+    "data/scenario_store/schema.sql": "cef2ad4fb52800503604983d629f15cd5da6b95f05c78fa05b5f42569fc7934e",
+    "data/scenario_store/store.py": "ceb29bb6fed6cc530eaf1bc2b83b3457fa56b39fd8bff97150342d5bb30b74f8",
+    "data/scenario_store/__init__.py": "770139c23f19d766f50b953d2110de66b08a1fdef56c4b147142b7dbe3b1f429",
+    "experiments/scenario_db.py": "fea830da301a5797000fcfb65f542e5b1f69af97f921226a27fa772d097e98ad",
+    "experiments/verify_scenario_db.py": "5768f979fa984711eaca8f7f1946b989da3be7bc63b0f94965b01d6173122f14",
+    "tests/test_scenario_store.py": "a7630f80ac7e7e8d29bf173ff29c5c21ce736719d18f9435e6147924f7c5f4f8"
+  },
+  "limitations": [
+    "No new protection/attacker experiment is implied by migration.",
+    "Native FCD and scenario gates require their separate SUMO verifiers.",
+    "Database and device observations are evaluator/private input, not public transcripts.",
+    "Checks detect ordinary corruption, not a database administrator forging every artifact."
+  ]
+}

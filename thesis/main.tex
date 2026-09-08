@@ -103,7 +103,7 @@ cho người dùng dịch vụ dựa trên vị trí\par}
 \hypersetup{pageanchor=true}
 \pagenumbering{roman}
 \begingroup
-\setstretch{1.10}
+\setstretch{1.04}
 \tableofcontents
 \endgroup
 \listoffigures
@@ -136,7 +136,7 @@ Bài toán được xác định theo bốn mục tiêu: vị trí và quỹ đ�
 
 Thiết kế tập dữ liệu sử dụng SUMO trên mạng đường OpenStreetMap, kết hợp lớp sinh kịch bản để bổ sung lịch truy vấn, ý định tìm kiếm, quan hệ nhiều phiên và quan hệ nhóm. Các phương pháp sinh dữ liệu giả được khảo sát theo nguyên lý hoạt động, giao diện đầu ra và điều kiện so sánh công bằng, đặc biệt là tính nhân quả của xử lý trực tuyến.
 
-Bộ dữ liệu v2 gồm 132 phiên mô phỏng hoàn tất và 207 bản ghi, bổ sung POI hiếm cùng lịch di chuyển nhiều ngày. Biến thể BR-phân bố dùng lịch sử neo đã bảo vệ để lựa chọn POI theo phân bố vị trí xấp xỉ. Thí nghiệm hai giai đoạn trên chín ca S1--S3 ghi nhận cải thiện riêng tư trung bình ở một cấu hình, nhưng chưa đạt chất lượng ứng dụng yêu cầu trên mọi ca; các kết quả âm được giữ để định hướng phát triển.
+Bộ dữ liệu được phiên bản hóa bằng SQLite; v3 chứa 176 phiên, 124.852 mẫu FCD và 269 bản ghi kịch bản. Bốn nhóm xác nhận mới được tách khỏi dữ liệu đã dùng để sửa mô hình. Biến thể BR-phân bố khai thác lịch sử neo đã bảo vệ; BR-phủ dịch vụ tối ưu chung tập truy vấn theo độ phủ POI dưới ràng buộc tới được. Trên chín ca S1--S3, biến thể phủ cải thiện validation ở một cấu hình nhưng không giữ được lợi ích utility trên xác nhận. Các kết quả âm và đối chứng chỉ dùng prior được giữ để phân biệt tiến bộ thực nghiệm với giả thuyết chưa được xác nhận.
 
 Phần thực nghiệm xét S1--S3 và hai tình huống che điểm đầu/cuối S9--S10 bằng dữ liệu SUMO. Luận văn xây dựng BR-Dummy: kết hợp neo riêng tư, phép kiểm tra tái sử dụng có nhiễu, ngân sách phiên hữu hạn và sinh dummy theo miền đường có thể tới. Các thành phần dự đoán riêng tư kế thừa nghiên cứu trước; đóng góp được khảo sát là cách tích hợp và quy trình kiểm chứng, không mặc nhiên là một nguyên lý riêng tư mới. Các phép đo tách sai số suy luận, tỷ lệ đoán đúng, chất lượng POI và chi phí. Số chuyến còn nhỏ và các comparator là bản thích nghi; chưa có cơ sở khẳng định bảo vệ cả mười kịch bản hoặc vượt kết quả SOTA.
 
@@ -1098,6 +1098,30 @@ K. Chatzikokolakis, E. ElSalamouny, and C. Palamidessi,
 pp. 308--328, 2017.
 doi: \href{https://doi.org/10.1515/popets-2017-0051}{10.1515/popets-2017-0051}.
 \url{https://petsymposium.org/popets/2017/popets-2017-0051.pdf}.
+
+\bibitem{atmaca2024ev}
+U. I. Atmaca, S. Biswas, C. Maple, and C. Palamidessi,
+``A Privacy-Preserving Querying Mechanism with High Utility for Electric Vehicles,''
+\emph{IEEE Open Journal of Vehicular Technology}, vol. 5, pp. 262--277, 2024.
+doi: \href{https://doi.org/10.1109/OJVT.2024.3360302}{10.1109/OJVT.2024.3360302}.
+
+\bibitem{calinescu2011matroid}
+G. Călinescu, C. Chekuri, M. Pál, and J. Vondrák,
+``Maximizing a Monotone Submodular Function Subject to a Matroid Constraint,''
+\emph{SIAM Journal on Computing}, vol. 40, no. 6, pp. 1740--1766, 2011.
+doi: \href{https://doi.org/10.1137/080733991}{10.1137/080733991}.
+
+\bibitem{oya2017drawing}
+S. Oya, C. Troncoso, and F. Pérez-González,
+``Back to the Drawing Board: Revisiting the Design of Optimal Location Privacy-preserving Mechanisms,''
+in \emph{ACM CCS}, 2017, pp. 1959--1972.
+doi: \href{https://doi.org/10.1145/3133956.3134004}{10.1145/3133956.3134004}.
+
+\bibitem{buchholz2024sok}
+E. Buchholz, A. Abuadbba, S. Wang, S. Nepal, and S. S. Kanhere,
+``SoK: Can Trajectory Generation Combine Privacy and Utility?''
+\emph{Proceedings on Privacy Enhancing Technologies}, no. 3, pp. 75--93, 2024.
+doi: \href{https://doi.org/10.56553/popets-2024-0068}{10.56553/popets-2024-0068}.
 
 \bibitem{cao2019priste}
 Y. Cao, Y. Xiao, L. Xiong, and L. Bai,

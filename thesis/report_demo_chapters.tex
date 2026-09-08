@@ -120,6 +120,7 @@ Lấy neo mới cần $O(|V|)$ thời gian. Tìm thành phần liên thông mạ
 
 \input{contextual_method.tex}
 \input{belief_method.tex}
+\input{service_cover_method.tex}
 
 \chapter{Thực nghiệm có kiểm soát và phản biện kết quả}
 \label{ch:experiments}
@@ -169,6 +170,7 @@ Metric chất lượng theo Mục~\ref{sec:common-metrics} lưu mẫu số; lỗ
 
 \input{contextual_comparison.tex}
 \input{belief_comparison.tex}
+\input{service_cover_comparison.tex}
 
 \chapter{Kết luận và hướng phát triển}
 
@@ -183,6 +185,8 @@ Phân tích thành phần trên miền làn bổ sung hai điểm số hậu x�
 Vòng tiếp theo bổ sung bộ dữ liệu v2 gồm 132 phiên, 207 bản ghi và đủ 30 biến thể trong hợp sáu nhóm tuyến; kiểm tra độc lập giữ lại cả các thiếu hụt phân bố mẫu. BR-phân bố dùng lịch sử neo đã bảo vệ để tối ưu độ phủ POI kỳ vọng. Trên chín ca S1--S3, cấu hình chọn bằng validation có cải thiện riêng tư trung bình ở $K=5$ nhưng còn suy giảm utility cục bộ và chưa đạt ràng buộc cho mọi ca. Kết quả là bằng chứng phát triển có đối chứng và phản ví dụ, chưa là mô hình bảo vệ toàn diện đã hoàn tất.
 
 \section{Phản biện và điều kiện phát triển thành bài báo}
+
+Vòng tối ưu phủ dịch vụ bổ sung bốn nhóm xác nhận mới, ba lần lặp ngẫu nhiên và đối thủ học theo từng cơ chế. Tuy có cơ sở tối ưu tổ hợp rõ hơn, biến thể được chọn ở $K=5$ không giữ được lợi ích utility trên xác nhận: Recall 84,12\% so với 87,48\% của BR-làn. Luận văn giữ nguyên kết quả âm này, chưa thay phương pháp mặc định và chưa đạt ngưỡng 90\% cho mọi ca. Đóng góp hiện tại nằm ở mô hình bài toán, hạ tầng kiểm chứng và bằng chứng có đối chứng; hiệu quả thuật toán còn phải phát triển.
 
 Số chuyến nhỏ, cùng bản đồ và điều kiện dừng chưa đại diện người dùng thực. Chọn cơ chế có thể quá khớp số ít nhóm tuyến hoặc đối thủ gần đúng. Cần nhiều seed, mức $B$, độ dài phiên và thành phố để kiểm tra độ bền kết luận.
 

@@ -29,3 +29,13 @@ Cần phân biệt ba mức bằng chứng: \emph{có mẫu hợp lệ}, \emph{�
 Chẳng hạn S5.C có số bản ghi học/chọn cấu hình/xác nhận lần lượt là $0/0/1$. Việc ca này xuất hiện trong hợp bộ dữ liệu không cho phép tuyên bố đã benchmark được đối thủ cần huấn luyện. Đối thủ định sẵn có thể chạy như phép thử chẩn đoán trên mẫu đơn, nhưng không hỗ trợ kết luận tổng quát. Khi bổ sung dữ liệu, cần sinh thêm nhóm theo điều kiện kịch bản đã định trước, không chọn mẫu bằng điểm số bảo vệ thuận lợi. Tập xác nhận đã được dùng để sửa thuật toán phải được xem là dữ liệu phát triển cho vòng sau; cần tập xác nhận mới.
 
 Khóa ngoại, giao dịch và mã băm không thay thế kiểm tra tuyến SUMO, điều kiện tấn công, tính đại diện của giao thông hoặc rò rỉ thông tin qua giao thức. Nhật ký và các ràng buộc chống sửa nhầm trong quy trình thông thường, không chống quản trị viên có toàn quyền thay cơ sở dữ liệu và mã kiểm tra. Dữ liệu liên quan trong cùng nhóm không trở thành các quan sát độc lập chỉ vì được lưu thành nhiều dòng. Các giới hạn này phải được giữ khi diễn giải kết quả và mở rộng sang nhiều thành phố.
+
+\subsection{Phiên bản xác nhận cho vòng tối ưu phủ dịch vụ}
+
+Phiên bản v3 giữ nguyên nội dung bốn nhóm phát triển 101--104 của v2 và bổ sung bốn nhóm SUMO mới 201--204. Hai nhóm 105/106 đã được xem kết quả không tham gia xác nhận vòng mới. Mã định dạng bản ghi vẫn là v2 vì cấu trúc không đổi; mã phiên bản dữ liệu trong kho là \texttt{urban-scenarios-v3}. Tám nhóm chứa 176 phiên di chuyển, 124.852 mẫu FCD và 269 bản ghi kịch bản. Hợp dữ liệu có đủ 30 ca, nhưng từng nhóm chỉ đạt 24--30 ca; không diễn giải độ phủ hợp thành đủ dữ liệu cho mọi phép thử.
+
+Các điều kiện sinh và loại mẫu của v2 được giữ nguyên. Ở S1--S3, mỗi ca có hai nhóm học, hai nhóm chọn cấu hình và bốn nhóm xác nhận. Các thiếu hụt ở phần khác vẫn hiện trong danh mục: S5.C chỉ có một bản ghi và không có mẫu học/chọn cấu hình. Bản ghi thiếu điều kiện không được sửa tọa độ hoặc đổi nhãn để làm đẹp độ phủ.
+
+Bộ kiểm chứng đối chiếu lại 72 lượt SUMO theo ngày, gồm cả nguồn của bốn nhóm được giữ lại; toàn bộ 124.852 mẫu khớp FCD gốc. Kiểm tra tuyến gồm 9.080 lần chuyển cạnh ngoài. Các số này kiểm chứng nguồn gốc và điều kiện mô phỏng, chưa chứng minh tính đại diện cho dân cư đô thị.
+
+Vòng thí nghiệm mới đọc trực tiếp kho SQLite với mã phiên bản và mã băm nội dung cố định. Prior chỉ lấy các phiên học; đầu vào mỗi cơ chế chỉ gồm cửa sổ quan sát được phép. Các thí nghiệm trước vẫn dùng ảnh chụp và mã băm cũ để phát lại. Việc thêm v3 tạo một dòng nhật ký mới và không thay nội dung hai phiên bản đã khóa.
