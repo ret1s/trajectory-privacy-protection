@@ -57,8 +57,9 @@ canonical artifact.
 
 The modular chapters and BibTeX database from Internship 2 are preserved at
 `archive/internship_2/thesis/`; they are not imported by the current thesis.
-Older benchmark artifacts remain available for provenance, but Chapter 6 cites
-only `artifacts/benchmarks/paper_benchmark/`. This is a controlled study, not a
+Older benchmark artifacts remain available for provenance. Chapter 6 now covers
+the controlled paper/lane/context/belief/service/prior-factor cycles and the
+`artifacts/benchmarks/expanded_shadow/` inference audit. This is a controlled study, not a
 publication-ready SOTA leaderboard. S4--S8 have no measured coverage yet. No BR
 grid configuration met Recall >=90% simultaneously across five scenarios on
 defense-validation data. The earlier chapters remain in `notes/report_demo_chapters_v1.tex`.
@@ -66,3 +67,11 @@ defense-validation data. The earlier chapters remain in `notes/report_demo_chapt
 Development status, implementation caveats and reproducibility notes are kept
 separately in [`notes/draft_clarifications.md`](notes/draft_clarifications.md)
 so that `main.tex` retains the tone and structure of the final thesis.
+
+The latest auxiliary-data specification is in `dataset_registry.tex`; the
+frozen-defender attack comparison is in `expanded_shadow_comparison.tex`.
+It adds 80 SUMO route groups (64 auxiliary training, 16 auxiliary holdout), not
+a new core-scenario confirmation set. Exact tables are exported only after the
+independent verifier passes. Literature and QA handoff:
+`docs/research/expanded_shadow_literature_review.md` and
+`docs/reviews/verification_expanded_shadow.md`.

@@ -39,3 +39,30 @@ Các điều kiện sinh và loại mẫu của v2 được giữ nguyên. Ở S
 Bộ kiểm chứng đối chiếu lại 72 lượt SUMO theo ngày, gồm cả nguồn của bốn nhóm được giữ lại; toàn bộ 124.852 mẫu khớp FCD gốc. Kiểm tra tuyến gồm 9.080 lần chuyển cạnh ngoài. Các số này kiểm chứng nguồn gốc và điều kiện mô phỏng, chưa chứng minh tính đại diện cho dân cư đô thị.
 
 Vòng thí nghiệm mới đọc trực tiếp kho SQLite với mã phiên bản và mã băm nội dung cố định. Prior chỉ lấy các phiên học; đầu vào mỗi cơ chế chỉ gồm cửa sổ quan sát được phép. Các thí nghiệm trước vẫn dùng ảnh chụp và mã băm cũ để phát lại. Việc thêm v3 tạo một dòng nhật ký mới và không thay nội dung hai phiên bản đã khóa.
+
+\subsection{Tuyến phụ trợ cho học đối thủ suy luận}
+\label{sec:auxiliary-shadow-data}
+
+Học đối thủ từ nhiều đầu ra ngẫu nhiên trên cùng vài vị trí chưa tạo ra độ phủ không gian rộng. Vì vậy, kho bổ sung phiên bản \texttt{urban-shadow-v1}, độc lập về mục đích với bộ ca S1--S10. Phiên bản này chứa 80 nhóm tuyến SUMO, 160 phiên, 175.211 mẫu FCD nguyên gốc và 320 cửa sổ quan sát. Có 64 nhóm dùng học đối thủ, 16 nhóm giữ lại để kiểm tra chuyển giao; ba phiên bản dữ liệu cũ không thay đổi.
+
+Tuyến được lập từ bản đồ đường công khai, không dựa vào vị trí thật của nhóm cần đánh giá. Chọn ô xuất phát 120 m không hoàn lại; đường đi cơ sở dài 2,5--4 km, có ít nhất 12 cạnh ngoài nút giao. Mỗi nhóm gồm một chuyến di chuyển và một chuyến quay lại cùng điểm dừng, với hai lần dừng 180 giây. Điểm dừng giữa các nhóm phải thuộc làn và ô 1 m khác nhau. Đây là lấy mẫu có kiểm soát độ phủ, không phải mô phỏng phân bố cư dân hoặc nhu cầu giao thông đã hiệu chuẩn. SUMO thực thi chuyển động ở bước 1 giây, vận tốc tối đa 8 m/s, không dịch chuyển tức thời và dừng trên làn.~\citep{sumotrip}
+
+\begin{table}[htbp]
+\centering\small
+\caption{Bốn dạng cửa sổ phụ trợ; mỗi dạng có 64 nhóm học và 16 nhóm giữ lại. Đây là lịch quan sát, không phải bốn kịch bản đe dọa mới.}
+\label{tab:auxiliary-profiles}
+\begin{tabularx}{\textwidth}{p{2.6cm}X}
+\toprule
+Dạng quan sát & Quy tắc lấy từ FCD đã thực hiện\\
+\midrule
+Di chuyển, 20 s & Tối đa 12 điểm, cách nhau 20 giây trên chuyến cơ sở.\\
+Di chuyển, 60 s & Tối đa 12 điểm, cách nhau 60 giây từ đầu chuyến cơ sở.\\
+Dừng, 5 s & 12 điểm cách nhau 5 giây trong lần dừng thứ nhất.\\
+Quay lại, 5 s & Sáu điểm ở mỗi lần dừng; giữa hai lần quan sát có khoảng trống trên 120 giây và chuyển động thực.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Các cửa sổ học có 2.873 quan sát, 1.345 tọa độ khác nhau trên 587 ô 120 m; tập giữ lại có 714 quan sát, 322 tọa độ khác nhau trên 208 ô. Số điểm khác nhau không phải số người độc lập: nhiều cửa sổ trong một nhóm vẫn liên quan. Không có tuyến hoàn chỉnh hoặc cửa sổ trùng chính xác với v3, cũng không có cửa sổ trùng giữa các nhóm phụ trợ. Tuy nhiên, các tuyến mới dùng chung 901 cạnh với v3; khoảng cách từ nhãn giữ lại đến nhãn học gần nhất có trung vị 30,47 m và phân vị 95 là 159,59 m. Đây là kiểm tra trên cùng bản đồ, không phải tổng quát hóa sang vùng địa lý mới.
+
+Kiểm tra độc lập đối chiếu toàn bộ FCD với XML gốc, tuyến tới đích, thời gian dừng, liên tục thời gian và vị trí trên làn trước khi ghi kho. Hai thiết kế ban đầu bị loại do chế độ đỗ làm lệch điểm khỏi làn và cửa sổ dừng trùng giữa các nhóm; quy tắc được sửa trước khi học hoặc chấm đối thủ. Dữ liệu không được thêm nhiễu hay chỉnh tọa độ để vượt kiểm tra. Các cửa sổ phụ trợ dùng cho phép kiểm tra ở Mục~\ref{sec:expanded-shadow-experiment}; chúng không thay thế các điều kiện hợp lệ riêng của bộ ca chính.

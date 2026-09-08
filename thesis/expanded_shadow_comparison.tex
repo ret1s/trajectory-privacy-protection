@@ -1,0 +1,51 @@
+\begingroup
+\widowpenalty=10000
+\clubpenalty=10000
+\section{Mở rộng dữ liệu phụ trợ và năng lực suy luận}
+\label{sec:expanded-shadow-experiment}
+
+\subsection{Câu hỏi kiểm tra và giả định đối thủ}
+
+Phép kiểm tra giữ nguyên bảy cơ chế, $K=5$, ngân sách $0{,}24/\mathrm m$, đầu ra và utility của vòng phân rã prior. Thành phần thay đổi là đối thủ: liệu kết quả riêng tư còn giữ khi đối thủ có dữ liệu phụ trợ rộng hơn và phép suy luận phi tuyến? Cấu hình bảo vệ $U/U$ đã chọn không được chọn lại; bốn nhóm 201--204 vẫn là dữ liệu phát triển đã xem, không trở thành xác nhận mới.
+
+Đối thủ biết cơ chế và bản đồ, có thể chạy cơ chế trên tuyến mô phỏng để tạo cặp đầu ra công khai--vị trí thật cho học. Nguồn phụ trợ tổng hợp là giả định cần xét: Guan và cộng sự sử dụng tuyến tổng hợp cho suy luận thành viên trên dữ liệu vị trí tổng hợp.~\citep{guan2024synthetic} Tuy nhiên mục tiêu và đầu ra của họ khác bài toán ở đây; thí nghiệm này suy luận tọa độ từ chuỗi dummy, không tái hiện tấn công đó và không giả định đối thủ hoàn toàn không có dữ liệu phụ trợ.
+
+\subsection{Bộ học và các quyết định bổ sung}
+
+Bộ dữ liệu ở Mục~\ref{sec:auxiliary-shadow-data} bổ sung 64 nhóm học và giữ lại 16 nhóm riêng. Mỗi cấu hình tạo đầu ra cho 256 cửa sổ học, với một lần sinh ngẫu nhiên trên mỗi cửa sổ; các cấu hình dùng neo ngẫu nhiên ghép cặp. Ghép với 360 quan sát cũ, mỗi bộ học có 3.233 quan sát và 1.381 tọa độ khác nhau từ 66 nhóm tuyến. Các cửa sổ dừng/quay lại cùng nhóm có liên quan; đây là học theo trọng số quan sát, không phải lấy mẫu người dùng độc lập hay phân bố cư dân đã hiệu chuẩn.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{../artifacts/datasets/urban_shadow_v1/spatial_support.png}
+\caption{Độ phủ tọa độ nhãn trước và sau mở rộng. Mọi điểm GPS được đổi về cùng hệ tọa độ SUMO; mỗi dấu là một tọa độ khác nhau. Tập giữ lại có thể đi trên đường chung với tập học.}
+\label{fig:expanded-shadow-support}
+\end{figure}
+
+Mỗi sự kiện được biểu diễn bằng 21 đặc trưng công khai: mười thành phần tọa độ của năm dummy theo thứ tự cố định, mười thành phần trung bình tiền tố và thời gian đã trôi qua. Chuẩn hóa chỉ dùng tập học. Vị trí thật, neo riêng tư, làn thật, tốc độ thật, nhãn kịch bản và phần tương lai không đi vào mô hình suy luận. Đối thủ cũ quan sát cả cửa sổ vẫn được giữ; chỉ các mô hình học mới bị giới hạn ở đặc trưng tiền tố.
+
+Thêm tám quyết định cùng dạng với vòng trước nhưng học lại trên dữ liệu rộng hơn: trung bình 1/5/15 láng giềng, quyết định MAE và Hit với 15/45 láng giềng, cùng trung bình 45 láng giềng. Đối chiếu này tách tác động tăng dữ liệu khỏi thay kiến trúc học. Thêm hai bộ hồi quy ExtraTrees: dự đoán trực tiếp tọa độ và dự đoán phần lệch so với tâm năm dummy hiện tại rồi cộng tâm trở lại. Mỗi bộ có 128 cây, độ sâu tối đa 18, ít nhất năm mẫu ở lá; một đặc trưng được lấy ngẫu nhiên tại mỗi lần tách nút. Tham số và seed được cố định trước khi chấm, không tìm lại theo kết quả.
+
+Hai bộ cây tối ưu sai số bình phương, không phải trực tiếp MAE hoặc Hit. Các quyết định láng giềng tối ưu mất mát trên một phân bố thực nghiệm hữu hạn, chưa phải hậu nghiệm đúng cơ chế.~\citep{shokri2015privacygames} Điểm đoán được phép nằm ngoài đường hoặc tập dummy và được chấm với GPS thật. Dung sai trong dựng hình học không được cộng vào ngưỡng Hit: phép chấm vẫn dùng khoảng cách $\leq100$ m.
+
+\subsection{Chọn đối thủ và kiểm tra chuyển giao}
+
+Nhóm 103/104 chọn một đối thủ cho từng cấu hình, ca và phép đo; không dùng nhãn phát triển để chọn. Giữ cả lựa chọn cũ và lựa chọn mở rộng. Bao đối thủ thăm dò lấy cực đại Hit hoặc cực tiểu MAE trong từng ca trên tập phát triển rồi mới trung bình, không phải kết quả xác nhận của một đối thủ đã khóa. Vì giữ toàn bộ bộ cũ, bao Hit mới không thể giảm và bao MAE mới không thể tăng; đây là tính chất bao hàm tập đối thủ, không là bảo đảm rằng lựa chọn validation luôn tốt hơn.
+
+Để chấm 16 nhóm phụ trợ giữ lại, chọn một đối thủ toàn cục cho mỗi cấu hình và phép đo bằng trung bình chín ca validation cũ, chỉ xét đối thủ có mặt ở mọi ca. Không chọn lại riêng theo bốn dạng cửa sổ giữ lại. Dữ liệu này có tuyến chưa dùng để học nhưng vẫn chung bản đồ và không được sinh từ điều kiện hợp lệ của chín ca chính; kết quả chỉ đánh giá chuyển giao sang lịch quan sát phụ trợ.
+
+\input{../artifacts/benchmarks/expanded_shadow/results_tables.tex}
+
+Trên cùng đầu ra $U/U$, Hit của đối thủ chọn bằng validation tăng từ 2,78\% lên 3,76\%, còn MAE giảm từ 1.283,6 m xuống 1.110,1 m. Bao Hit thăm dò tăng từ 14,30\% lên 16,23\%. Cả hai thay đổi cho thấy các phép đo cũ chưa khai thác hết rò rỉ có thể suy luận bằng bộ mới; chúng không thể hiện cải tiến cơ chế bảo vệ. Recall $U/U$ vẫn là 92,35\%, ca thấp nhất 86,01\%, nên ràng buộc utility từng ca chưa đạt.
+
+Tuy nhiên, bao MAE thăm dò của $U/U$ chỉ giảm từ 508,2 m xuống 503,8 m. Vì bộ cũ đã có đối thủ đạt sai số thấp ở từng ca, mức giảm lớn hơn của MAE chọn không đồng nghĩa với tăng mạnh năng lực tốt nhất trong toàn bộ bộ đối thủ. Phải xét cả hai bảng để tránh phóng đại tác động mở rộng dữ liệu.
+
+Kết quả không tăng đồng đều theo mọi lựa chọn. Với $M/M$, Hit của đối thủ được chọn giảm từ 2,08\% xuống 1,47\%, trong khi bao Hit thăm dò tăng từ 8,72\% lên 9,93\%. Đây là phản ví dụ về khả năng chuyển giao lựa chọn từ hai nhóm validation: thêm đối thủ có thể làm lộ thêm điểm yếu nhưng vẫn chọn nhầm đối thủ cho nhóm khác. Không được dùng mức Hit chọn thấp hơn để tuyên bố $M/M$ riêng tư hơn trong vòng kiểm tra này.
+
+Phân tích từng quy tắc cố định ở Bảng~\ref{tab:expanded-shadow-data-effect} làm rõ tác động dữ liệu. Ở $U/U$, cùng quy tắc 1-NN giảm MAE từ 1.486,7 m xuống 802,6 m khi mở rộng bộ học. Bộ cây dự đoán phần lệch đạt 550,4 m trên trung bình chín ca phát triển, nhưng không được chọn làm đối thủ MAE toàn cục trên validation. Khoảng cách này cho thấy tăng năng lực bộ đối thủ và chọn được đối thủ chuyển giao tốt là hai yêu cầu khác nhau. Không lấy điểm phát triển thuận lợi để sửa lại lựa chọn đã khóa.
+
+Tập phụ trợ giữ lại cung cấp thêm phản ví dụ. Với $U/U$, Hit của đối thủ toàn cục mới giảm từ 4,17\% xuống 2,60\% ở cửa sổ di chuyển 20 giây và từ 9,38\% xuống 3,12\% ở cửa sổ quay lại; ở cửa sổ 60 giây tăng từ 2,85\% lên 3,14\%. Lựa chọn MAE toàn cục vẫn là đối thủ 1-NN cũ nên MAE giữ nguyên. Như vậy, mở rộng dữ liệu học đã tăng khả năng của một số phép suy luận, nhưng bộ chọn từ hai nhóm validation chưa chuyển giao ổn định sang lịch quan sát khác.
+
+\subsection{Điều kiện để kết luận về riêng tư}
+
+Đánh giá lại cùng đầu ra giúp quy thay đổi điểm suy luận cho bộ đối thủ, không nhầm với cải tiến cơ chế bảo vệ. Ngược lại, nếu điểm của một đối thủ mới kém hơn, đó có thể là lệch phân bố, thiếu đặc trưng hoặc quá khớp tập chọn nhỏ; không phải bằng chứng người dùng được bảo vệ tốt hơn. Kiểm tra tiếp theo cần nhiều nhóm chọn độc lập, đặc trưng chuyển động/ngữ nghĩa mạnh hơn hoặc likelihood đúng cơ chế, và tập xác nhận mới sau khi khóa phương pháp. Các kết quả hữu hạn không chặn năng lực mọi đối thủ, không chứng minh mới về Geo-I và chưa mở rộng bảo vệ đo được sang S4--S8.
+\par\endgroup

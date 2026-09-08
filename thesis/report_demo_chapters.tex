@@ -175,6 +175,7 @@ Metric chất lượng theo Mục~\ref{sec:common-metrics} lưu mẫu số; lỗ
 \input{service_cover_comparison.tex}
 \input{service_recovery_comparison.tex}
 \input{prior_factor_comparison.tex}
+\input{expanded_shadow_comparison.tex}
 
 \chapter{Kết luận và hướng phát triển}
 
@@ -190,7 +191,9 @@ Vòng tiếp theo bổ sung bộ dữ liệu v2 gồm 132 phiên, 207 bản ghi 
 
 \section{Phản biện và điều kiện phát triển thành bài báo}
 
-Phân rã prior bổ sung bằng chứng rằng thay thành phần khởi tạo có tác động lớn hơn thay phân bố chuyển động trong cấu hình hiện tại. Bản trộn cân bằng có Recall phát triển 93,04\%, nhưng không thắng quy tắc chọn validation và không tăng trên mọi nhóm. Việc bổ sung đối thủ quyết định theo mục tiêu không làm tăng bao trên Hit đã đo; bộ học chỉ có 36 tọa độ nhãn khác nhau nên chưa đủ để kết luận về đối thủ mạnh trong thực tế.
+Phân rã prior bổ sung bằng chứng rằng thay thành phần khởi tạo có tác động lớn hơn thay phân bố chuyển động trong cấu hình hiện tại. Bản trộn cân bằng có Recall phát triển 93,04\%, nhưng không thắng quy tắc chọn validation và không tăng trên mọi nhóm. Trong vòng dùng bộ học cũ chỉ có 36 tọa độ nhãn khác nhau, bổ sung quyết định theo mục tiêu chưa làm tăng bao trên Hit. Hạn chế này dẫn tới phép kiểm tra với 64 nhóm phụ trợ bổ sung và hai mô hình hồi quy phi tuyến ở Mục~\ref{sec:expanded-shadow-experiment}; kết quả cũ không được diễn giải thành bảo đảm trước đối thủ mạnh.
+
+Khi mở rộng bộ học lên 1.381 tọa độ khác nhau, Hit của đối thủ chọn bằng validation trên cùng đầu ra $U/U$ tăng từ 2,78\% lên 3,76\%, MAE giảm từ 1.283,6 m xuống 1.110,1 m. Đây là rò rỉ được phép thử mạnh hơn phát hiện, không phải thay đổi của cơ chế bảo vệ. Tập 16 nhóm phụ trợ giữ lại còn cho thấy lựa chọn đối thủ chưa chuyển giao ổn định; tăng dữ liệu học không thay thế yêu cầu về tập chọn đủ rộng và xác nhận đúng phân bố mục tiêu.
 
 Vòng tối ưu phủ dịch vụ bổ sung bốn nhóm xác nhận mới, ba lần lặp ngẫu nhiên và đối thủ học theo từng cơ chế. Tuy có cơ sở tối ưu tổ hợp rõ hơn, biến thể được chọn ở $K=5$ không giữ được lợi ích utility trên xác nhận: Recall 84,12\% so với 87,48\% của BR-làn. Luận văn giữ nguyên kết quả âm này, chưa thay phương pháp mặc định và chưa đạt ngưỡng 90\% cho mọi ca. Đóng góp hiện tại nằm ở mô hình bài toán, hạ tầng kiểm chứng và bằng chứng có đối chứng; hiệu quả thuật toán còn phải phát triển.
 

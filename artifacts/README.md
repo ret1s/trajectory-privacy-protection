@@ -77,3 +77,12 @@ still wins validation, without meeting the all-case utility requirement. The
 mixture's higher development Recall is exploratory, and each shadow bank has
 only 36 distinct true-coordinate labels. See its independent replay receipt and
 [publication critique](../docs/reviews/verification_prior_factors.md).
+
+[`benchmarks/expanded_shadow/`](benchmarks/expanded_shadow/) audits those same
+seven frozen protectors with expanded auxiliary data and ten additional
+inference rules. [`datasets/urban_shadow_v1/`](datasets/urban_shadow_v1/) adds
+80 SUMO route groups (64 train, 16 auxiliary holdout), 160 sessions and 320 query
+windows, as a fourth immutable SQLite release. It is not core scenario v4.
+Same-output comparisons preserve old utility and scores; reused development
+and auxiliary transfer are reported separately. See the
+[independent audit](../docs/reviews/verification_expanded_shadow.md).

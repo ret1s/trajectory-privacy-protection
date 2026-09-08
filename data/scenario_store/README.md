@@ -4,7 +4,8 @@ The local evaluator dataset registry is
 [`artifacts/datasets/scenarios.sqlite3`](../../artifacts/datasets/scenarios.sqlite3).
 SQLite is embedded in Python; no server, credentials, cloud upload or extra
 Python dependency. Requires SQLite >=3.37 with JSON functions (verified here
-with 3.50.4). This registry contains **SUMO+OSM v1/v2/v3 only**, not GeoLife.
+with 3.50.4). This registry contains **SUMO+OSM only**, not GeoLife: core
+v1/v2/v3 and a separate `urban-shadow-v1` auxiliary release.
 
 ## Contract
 
@@ -69,6 +70,7 @@ Release IDs and semantic hashes:
 urban-scenarios-v1  6fc977209401f8591360e35bd7ce390bfadd9cd5098d74b47a5c9d3a9cefe358
 urban-scenarios-v2  27ea74e3d13deea059df663b5429f4333af97b096888cb8ee5f0669eefbbaff0
 urban-scenarios-v3  213886fc2722bbecf5e55f61e8978d2c2842bb6018b7f65f5021a261bd79358d
+urban-shadow-v1     7563a904421ed569425c893eda36221146729a32a3eff50366faec0fb93901b0
 ```
 
 Export one S1.A device input (output file must not exist):
@@ -98,6 +100,15 @@ the DB device API or a pinned export and must record that choice in their protoc
 its prior query joins only training families. v3 preserves 101–104 and adds
 201–204 as fresh confirmation; inspected 105/106 are excluded. The on-disk
 record schema remains v2, independently of the release version.
+
+The fourth log entry is **not core v4**. `urban-shadow-v1` adds 80 groups,
+160 native SUMO sessions, 175,211 points and 320 auxiliary query windows.
+Its 64 training / 16 holdout groups are explicitly scoped to a shadow-inference
+audit; consumers pin that release and purpose. The `development_validation`
+split label here denotes an auxiliary holdout, **not** original 103/104 attacker
+selection. See `artifacts/datasets/urban_shadow_v1/README.md` for the distinction.
+Experiments keep their original release IDs; registry head must never silently
+switch a benchmark to different data.
 
 ## Rebuild or publish a new revision
 

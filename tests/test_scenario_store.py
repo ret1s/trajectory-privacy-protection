@@ -210,9 +210,11 @@ def test_current_store_all_releases_and_private_input_parity():
     with ScenarioStore(ROOT / 'artifacts/datasets/scenarios.sqlite3') as store:
         releases = store.verify()['releases']
         assert [r['release_id'] for r in releases][:2] == ['urban-scenarios-v1', 'urban-scenarios-v2']
-        for version in range(1, len(releases) + 1):
-            source = json.loads((ROOT / f'artifacts/datasets/urban_scenarios_v{version}/dataset.json').read_text())
-            release = f'urban-scenarios-v{version}'
+        for entry in releases:
+            release = entry['release_id']
+            # Release identity is semantic, not its ordinal in the log:
+            # the fourth snapshot is auxiliary urban-shadow-v1, not core v4.
+            source = json.loads((ROOT / 'artifacts/datasets' / release.replace('-', '_') / 'dataset.json').read_text())
             assert store.export_bundle(release) == source
             for record in source['records']:
                 for slot in range(len(record['session_ids'])):

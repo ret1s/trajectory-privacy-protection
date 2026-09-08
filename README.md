@@ -21,8 +21,12 @@ it against explicit attacker, utility, and output-contract assumptions.
 - Preceding method development: [`prior/corridor ablation`](artifacts/benchmarks/service_recovery/).
 - Preceding independent confirmation: [`service-cover study`](artifacts/benchmarks/service_cover/)
   on [`scenario data v3`](artifacts/datasets/urban_scenarios_v3/)
-- Publication-oriented critique: [`latest targeted literature review`](docs/research/prior_factor_literature_review.md)
-  and [`independent verification / next research gates`](docs/reviews/verification_prior_factors.md).
+- Latest inference audit: [`expanded SUMO shadow routes and attacks`](artifacts/benchmarks/expanded_shadow/),
+  with [`80 auxiliary route groups`](artifacts/datasets/urban_shadow_v1/).
+  Protection outputs and prior-factor utility stay frozen; auxiliary holdout
+  does not replace fresh core-scenario confirmation.
+- Publication-oriented critique: [`latest targeted literature review`](docs/research/expanded_shadow_literature_review.md)
+  and [`independent verification / next research gates`](docs/reviews/verification_expanded_shadow.md).
 - Preceding frozen study: [`belief-suite results`](artifacts/benchmarks/belief_suite/)
 
 ## Repository layout

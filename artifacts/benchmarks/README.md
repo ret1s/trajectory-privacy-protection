@@ -1,6 +1,11 @@
 # Current benchmark artifacts
 
-This directory contains only the latest tracked machine-generated evidence:
+This directory contains tracked machine-generated evidence. The newest audit is
+[`expanded_shadow/`](expanded_shadow/): expanded SUMO auxiliary training and
+inference against unchanged prior-factor outputs. Preceding frozen cycles are
+retained for provenance; use each subdirectory's protocol and source hashes.
+
+The original top-level artifacts are:
 
 - `benchmark_results.json` — GeoLife REM-family moving benchmark.
 - `averaging_multi_results.json` — repeated-report study.

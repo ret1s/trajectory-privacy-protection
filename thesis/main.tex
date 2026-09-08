@@ -140,7 +140,7 @@ Thiết kế tập dữ liệu sử dụng SUMO trên mạng đường OpenStree
 
 Bộ dữ liệu được phiên bản hóa bằng SQLite; v3 chứa 176 phiên, 124.852 mẫu FCD và 269 bản ghi kịch bản. Bốn nhóm xác nhận mới được tách khỏi dữ liệu đã dùng để sửa mô hình. Biến thể BR-phân bố khai thác lịch sử neo đã bảo vệ; BR-phủ dịch vụ tối ưu chung tập truy vấn theo độ phủ POI dưới ràng buộc tới được. Trên chín ca S1--S3, biến thể phủ cải thiện validation ở một cấu hình nhưng không giữ được lợi ích utility trên xác nhận. Các kết quả âm và đối chứng chỉ dùng prior được giữ để phân biệt tiến bộ thực nghiệm với giả thuyết chưa được xác nhận.
 
-Sau khi chuyển các nhóm đã xem sang vai trò phát triển, biến thể phủ-đều đạt Recall 92,35\% so với 87,48\% của BR-làn ở $K=5$. Phân rã thành phần cho thấy khởi tạo có ảnh hưởng lớn hơn thay prior chuyển động trong cấu hình đã thử; bản trộn đạt 93,04\% nhưng chưa thắng quy tắc chọn cấu hình. Chưa có xác nhận mới; hai ca vẫn dưới ngưỡng dịch vụ và dữ liệu học đối thủ còn hẹp.
+Sau khi chuyển các nhóm đã xem sang vai trò phát triển, biến thể phủ-đều đạt Recall 92,35\% so với 87,48\% của BR-làn ở $K=5$. Phân rã thành phần cho thấy khởi tạo có ảnh hưởng lớn hơn thay prior chuyển động trong cấu hình đã thử; bản trộn đạt 93,04\% nhưng chưa thắng quy tắc chọn cấu hình. Chưa có xác nhận mới; hai ca vẫn dưới ngưỡng dịch vụ. Kho phụ trợ bổ sung 80 nhóm tuyến, tách 64 nhóm học và 16 nhóm kiểm tra chuyển giao, để đánh giá lại cùng đầu ra bằng đối thủ có dữ liệu rộng hơn và hồi quy phi tuyến.
 
 Phần thực nghiệm xét S1--S3 và hai tình huống che điểm đầu/cuối S9--S10 bằng dữ liệu SUMO. Luận văn xây dựng BR-Dummy: kết hợp neo riêng tư, phép kiểm tra tái sử dụng có nhiễu, ngân sách phiên hữu hạn và sinh dummy theo miền đường có thể tới. Các thành phần dự đoán riêng tư kế thừa nghiên cứu trước; đóng góp được khảo sát là cách tích hợp và quy trình kiểm chứng, không mặc nhiên là một nguyên lý riêng tư mới. Các phép đo tách sai số suy luận, tỷ lệ đoán đúng, chất lượng POI và chi phí. Số chuyến còn nhỏ và các comparator là bản thích nghi; chưa có cơ sở khẳng định bảo vệ cả mười kịch bản hoặc vượt kết quả SOTA.
 
@@ -1072,6 +1072,16 @@ Eclipse SUMO, \emph{OpenStreetMap import}, tài liệu chính thức, truy cập
 \bibitem{sumofcd}
 Eclipse SUMO, \emph{FCDOutput}, tài liệu chính thức, truy cập ngày 05/09/2026.
 \url{https://sumo.dlr.de/docs/Simulation/Output/FCDOutput.html}.
+
+\bibitem{sumotrip}
+Eclipse SUMO. \emph{Trip tools: randomTrips, edge sampling and route validation}.
+\url{https://sumo.dlr.de/docs/Tools/Trip.html}. Truy cập 08/09/2026.
+
+\bibitem{guan2024synthetic}
+V. Guan, F. Guépin, A.-M. Cretu và Y.-A. de Montjoye.
+\emph{A Zero Auxiliary Knowledge Membership Inference Attack on Aggregate Location Data}.
+Proceedings on Privacy Enhancing Technologies, 2024(4):80--101, 2024.
+doi: \href{https://doi.org/10.56553/popets-2024-0108}{10.56553/popets-2024-0108}.
 
 \bibitem{sumotraci}
 Eclipse SUMO, \emph{TraCI: Change Vehicle State}, tài liệu chính thức, truy cập ngày 05/09/2026.
