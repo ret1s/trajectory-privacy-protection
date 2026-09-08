@@ -15,9 +15,10 @@ it against explicit attacker, utility, and output-contract assumptions.
 - Comparator status and evidence: [`benchmark/README.md`](benchmark/README.md)
 - Documentation index: [`docs/README.md`](docs/README.md)
 - Current research cycle: [`thesis/notes/paper_cycle_v2_protocol.md`](thesis/notes/paper_cycle_v2_protocol.md)
-- Latest method development: [`prior factors and loss-aware attacks`](artifacts/benchmarks/prior_factors/)
-  and [`prespecified protocol`](thesis/notes/prior_factor_protocol.md).
+- Latest method development: [`reachable coverage and resource frontier`](artifacts/benchmarks/coverage_frontier/)
+  and [`prespecified protocol`](thesis/notes/coverage_frontier_protocol.md).
   Reused 201–204 families are development evidence, not new confirmation.
+- Preceding method development: [`prior factors and loss-aware attacks`](artifacts/benchmarks/prior_factors/).
 - Preceding method development: [`prior/corridor ablation`](artifacts/benchmarks/service_recovery/).
 - Preceding independent confirmation: [`service-cover study`](artifacts/benchmarks/service_cover/)
   on [`scenario data v3`](artifacts/datasets/urban_scenarios_v3/)
@@ -25,8 +26,8 @@ it against explicit attacker, utility, and output-contract assumptions.
   with [`80 auxiliary route groups`](artifacts/datasets/urban_shadow_v1/).
   Protection outputs and prior-factor utility stay frozen; auxiliary holdout
   does not replace fresh core-scenario confirmation.
-- Publication-oriented critique: [`latest targeted literature review`](docs/research/expanded_shadow_literature_review.md)
-  and [`independent verification / next research gates`](docs/reviews/verification_expanded_shadow.md).
+- Publication-oriented critique: [`latest targeted literature review`](docs/research/coverage_frontier_literature_review.md)
+  and [`independent verification / next research gates`](docs/reviews/verification_coverage_frontier.md).
 - Preceding frozen study: [`belief-suite results`](artifacts/benchmarks/belief_suite/)
 
 ## Repository layout

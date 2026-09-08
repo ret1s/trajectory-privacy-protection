@@ -6,7 +6,9 @@ review when reproducing an old finding.
 
 ## Current entry points
 
-- Latest prior-factor / loss-aware attack verification: [`verification_prior_factors.md`](verification_prior_factors.md)
+- Latest coverage / privacy–utility–cost verification: [`verification_coverage_frontier.md`](verification_coverage_frontier.md)
+- Preceding expanded SUMO shadow / inference audit: [`verification_expanded_shadow.md`](verification_expanded_shadow.md)
+- Preceding prior-factor / loss-aware attack verification: [`verification_prior_factors.md`](verification_prior_factors.md)
 - Preceding prior/corridor development ablation: [`verification_service_recovery.md`](verification_service_recovery.md)
 - Preceding independent confirmation and literature critique: [`verification_service_cover.md`](verification_service_cover.md)
 

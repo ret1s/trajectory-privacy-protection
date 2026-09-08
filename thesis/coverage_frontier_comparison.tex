@@ -1,0 +1,32 @@
+\section{Đánh đổi riêng tư, chất lượng và tài nguyên truy hồi}
+\label{sec:coverage-frontier-experiment}
+
+\subsection{Thiết kế phép so sánh}
+
+Phép thử xét bốn bộ chọn: BR-làn theo hình học; phủ trung bình với prior đều trên ô công khai; cùng hàm mục tiêu nhưng cho phép thay điểm; và phủ cân bằng có cắt ngưỡng loại dịch vụ. Mỗi bộ chọn chạy với $B\in\{0{,}12;0{,}24;0{,}48\}\,\mathrm{m}^{-1}$, $K=5$, $H=12$ và $\theta=200$ m. Tại cùng $B$, các phương pháp dùng cùng dữ liệu thật và cùng dãy neo bảo vệ. Hai biến thể mới không thay cơ chế neo, lịch gửi hoặc số lượng điểm công bố.
+
+Dữ liệu gồm chín ca S1--S3 từ các nhóm đã được xem trong quá trình phát triển. Hai nhóm 101--102 dùng để học, 103--104 dùng để chọn, 201--204 dùng để đối chiếu phát triển, với ba lần lặp ngẫu nhiên theo từng bản ghi. Thêm 256 cửa sổ từ 64 nhóm SUMO phụ trợ chỉ phục vụ huấn luyện đối thủ. Tập 16 nhóm phụ trợ giữ lại không được sử dụng trong vòng này. Không có nhóm xác nhận mới và không mở rộng tuyên bố bảo vệ sang S4--S8.
+
+Mỗi cặp phương pháp--ngân sách có bộ đối thủ riêng nhưng cùng lượng dữ liệu học: 360 quan sát lõi và 2.873 quan sát phụ trợ, tổng 3.233 quan sát. Giữ cả các bộ suy luận trên dữ liệu lõi, trên dữ liệu mở rộng, hai bộ hồi quy cây và các đối thủ trực tiếp từ tập/chuỗi điểm công bố. Đối thủ MAE và Hit được chọn riêng cho từng ca trên validation trước khi chấm phát triển. Cực trị trong toàn bộ bộ đối thủ được báo cáo thêm để chỉ ra hạn chế của cách chọn, không thay thế kết quả đã khoá.
+
+Hai mức phản hồi $L=5$ và $L=10$ được chấm trên cùng tọa độ công bố; top-5 tham chiếu không thay đổi. Tất cả phương pháp đều được cấp cả hai mức. Các kết quả trong bảng lấy trung bình đều qua chín ca; mỗi ca lấy trung bình các nhóm và lần lặp, mỗi bản ghi lấy trung bình các truy vấn loại--thời điểm có đáp án tham chiếu. Các loại không có tham chiếu được đếm riêng, không coi là trả lời đúng. Thời gian sinh đo tuần tự riêng trên ba bản ghi validation thuộc một nhóm, tách khỏi thời gian chạy thí nghiệm đồng thời.
+
+\subsection{Kết quả theo ngân sách và độ sâu phản hồi}
+
+\input{../artifacts/benchmarks/coverage_frontier/tables.tex}
+
+\clearpage
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../artifacts/benchmarks/coverage_frontier/frontier.png}
+\caption{Recall@5 và Hit cực trị trong bộ đối thủ đã thử. Mỗi điểm là một cặp bộ chọn--ngân sách, cùng bốn nhóm phát triển đã dùng lại. Biểu đồ không thể hiện toàn bộ chi phí hay độ bất định và không được đọc như bảng xếp hạng SOTA.}
+\label{fig:coverage-frontier}
+\end{figure}
+
+\input{coverage_frontier_findings.tex}
+
+\subsection{Giới hạn của đóng góp}
+
+Một bước thay điểm tăng hàm mục tiêu gần đúng chưa bảo đảm tăng Recall thật: prior có thể lệch, ngưỡng có thể ngừng thưởng quá sớm và vị trí chọn hiện tại quyết định miền tới được về sau. Hai thao tác chuẩn hoá loại dịch vụ và cắt ngưỡng đi cùng nhau trong biến thể cân bằng; cần phân rã riêng nếu quy kết lợi ích cho từng thao tác. Cả hai phép tối ưu là thành phần kế thừa, không phải cơ sở đủ để khẳng định tính mới.
+
+Biên thực nghiệm được xét trong từng $B$, với chất lượng, rủi ro suy luận và byte phản hồi; thời gian được bổ sung như phép đo cục bộ riêng. Không tuyên bố một ngân sách bảo vệ lỏng hơn tốt hơn chỉ dựa vào lỗi của đối thủ đã thử. Lưới này là phân tích thành phần trên cùng giao diện dummy-only. Đối chứng khác giao diện và mô hình gốc vẫn cần tái lập/điều chỉnh có giải thích trước khi đưa ra kết luận vượt SOTA.

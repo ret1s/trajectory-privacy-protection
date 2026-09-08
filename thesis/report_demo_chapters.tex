@@ -123,6 +123,7 @@ Lấy neo mới cần $O(|V|)$ thời gian. Tìm thành phần liên thông mạ
 \input{service_cover_method.tex}
 \input{service_recovery_method.tex}
 \input{prior_factor_method.tex}
+\input{coverage_frontier_method.tex}
 
 \chapter{Thực nghiệm có kiểm soát và phản biện kết quả}
 \label{ch:experiments}
@@ -176,6 +177,7 @@ Metric chất lượng theo Mục~\ref{sec:common-metrics} lưu mẫu số; lỗ
 \input{service_recovery_comparison.tex}
 \input{prior_factor_comparison.tex}
 \input{expanded_shadow_comparison.tex}
+\input{coverage_frontier_comparison.tex}
 
 \chapter{Kết luận và hướng phát triển}
 
@@ -188,6 +190,8 @@ BR-Dummy kết hợp neo riêng tư, phép thử tái sử dụng có nhiễu, n
 Phân tích thành phần trên miền làn bổ sung hai điểm số hậu xử lý: tiến gần mục tiêu theo đường có hướng và tăng độ phủ POI tại neo đã bảo vệ. Vòng kiểm tra năm ca cho thấy cả cải thiện cục bộ lẫn suy giảm utility hoặc riêng tư; chưa có cấu hình đạt ngưỡng Recall đã đặt trên toàn bộ tập chọn. Do đó các biến thể được giữ để phân tích và phát triển, chưa được coi là bản thay thế đã xác nhận.
 
 Vòng tiếp theo bổ sung bộ dữ liệu v2 gồm 132 phiên, 207 bản ghi và đủ 30 biến thể trong hợp sáu nhóm tuyến; kiểm tra độc lập giữ lại cả các thiếu hụt phân bố mẫu. BR-phân bố dùng lịch sử neo đã bảo vệ để tối ưu độ phủ POI kỳ vọng. Trên chín ca S1--S3, cấu hình chọn bằng validation có cải thiện riêng tư trung bình ở $K=5$ nhưng còn suy giảm utility cục bộ và chưa đạt ràng buộc cho mọi ca. Kết quả là bằng chứng phát triển có đối chứng và phản ví dụ, chưa là mô hình bảo vệ toàn diện đã hoàn tất.
+
+Phân tích ba mức ngân sách với cùng $K=5$ bổ sung bước thay điểm và đối chứng cân bằng loại dịch vụ. Tại ngân sách cũ, bước thay nâng Recall top-5 từ 92,35\% lên 92,93\%, nhưng ca thấp nhất còn 86,36\%. Cấu hình được chọn với phản hồi top-10 đạt Recall 96,38\%, ca thấp nhất 92,44\% trên dữ liệu phát triển; phần lớn mức tăng so với cấu hình cũ đến từ phản hồi sâu hơn, không phải bộ chọn. Khung thực nghiệm vì vậy tách ngân sách, số truy vấn, độ sâu phản hồi, chất lượng và chi phí, thay vì gộp thành một điểm số.
 
 \section{Phản biện và điều kiện phát triển thành bài báo}
 
@@ -202,5 +206,7 @@ Số chuyến nhỏ, cùng bản đồ và điều kiện dừng chưa đại di
 Phân tích tiếp theo dùng các nhóm đã xem như dữ liệu phát triển, cho thấy thay prior học bằng prior đều trên ô công khai cải thiện Recall ở $K=5$ từ 87,48\% của BR-làn lên 92,35\%, đồng thời giữ mức tăng ở cả bốn nhóm. Tuy vậy hai ca còn dưới ngưỡng 90\% và chưa có xác nhận mới. Ràng buộc miền hướng neo được giữ như kết quả âm vì làm giảm chất lượng. Các kết quả này xác định hướng tiếp tục kiểm nghiệm, không thay thế điều kiện xác nhận và đối chứng của bài báo.
 
 Đối thủ tiếp theo cần likelihood đúng cơ chế, ngữ nghĩa POI và toàn bộ phần chuyến còn thấy sau che biên. Biến thể trạng thái làn đã được kiểm tra ở mức đường đi tự do; cơ chế còn cần ngân sách phiên dài, ràng buộc giao thông động và chính sách biên riêng. Sửa tham số dựa trên kiểm thử này phải coi nó là dữ liệu phát triển rồi chạy tập xác nhận mới.
+
+Bước thay điểm chưa cho lợi ích riêng tư nhất quán; cắt ngưỡng loại dịch vụ có thể làm chất lượng giảm. Khoảng cách giữa Hit chọn trên validation và Hit cực trị phát triển vẫn lớn, nên không diễn giải lỗi của phép chọn đối thủ thành bảo đảm bảo vệ. Cấu hình phủ có thay điểm tại $B=0{,}24$, $L=10$ chỉ là ứng viên cho vòng xác nhận mới. Mỗi kết luận về lợi ích cần giữ cố định độ sâu phản hồi hoặc ghi nhận đầy đủ chi phí tăng thêm; không xem các công cụ tối ưu kế thừa là tính mới đã được chứng minh.
 
 Khẳng định vượt SOTA còn cần đối chứng đúng bài gốc. Dù v2 có đủ loại kịch bản, chưa có kết quả bảo vệ danh tính, tương lai, ý định hay đồng hành. Dữ liệu S4--S8 chỉ hỗ trợ vòng đánh giá tiếp theo, không thay thế bằng chứng còn thiếu.

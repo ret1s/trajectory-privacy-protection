@@ -12,7 +12,8 @@ The current main document contains seven chapters:
 4. Neural/non-neural comparator methods, original metrics and a common
    privacy/POI-utility/cost evaluation specification.
 5. BR-Dummy: private anchors, noisy reuse, fixed-horizon ledger and reachable-road
-   postprocessing; pseudocode, ideal proof, complexity and limitations.
+   postprocessing; protected-history service coverage, bounded exchanges and
+   category-capped coverage; ideal proof, complexity and limitations.
 6. Controlled SUMO S1--S3 plus S9/S10 study, stronger offline adversaries,
    five-way split, constrained parameter selection and negative findings.
 7. Conclusions with explicit implemented versus specified coverage.
@@ -75,3 +76,12 @@ a new core-scenario confirmation set. Exact tables are exported only after the
 independent verifier passes. Literature and QA handoff:
 `docs/research/expanded_shadow_literature_review.md` and
 `docs/reviews/verification_expanded_shadow.md`.
+
+The newest matched development cycle is in `coverage_frontier_method.tex`,
+`coverage_frontier_comparison.tex` and `coverage_frontier_findings.tex`.
+It separates selector changes from top-L response allowances at a fixed top-5
+reference, across three B values. Category balancing is a tested hypothesis,
+not guaranteed robustness. The original anchors and legacy controls stay fixed;
+no default defender or SOTA claim is promoted by these internal ablations.
+Source-pinned protocol: `notes/coverage_frontier_protocol.md`. Exact evidence,
+independent checks and rebuild order: `artifacts/benchmarks/coverage_frontier/`.

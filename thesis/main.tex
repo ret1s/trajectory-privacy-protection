@@ -138,9 +138,9 @@ Bài toán được xác định theo bốn mục tiêu: vị trí và quỹ đ�
 
 Thiết kế tập dữ liệu sử dụng SUMO trên mạng đường OpenStreetMap, kết hợp lớp sinh kịch bản để bổ sung lịch truy vấn, ý định tìm kiếm, quan hệ nhiều phiên và quan hệ nhóm. Các phương pháp sinh dữ liệu giả được khảo sát theo nguyên lý hoạt động, giao diện đầu ra và điều kiện so sánh công bằng, đặc biệt là tính nhân quả của xử lý trực tuyến.
 
-Bộ dữ liệu được phiên bản hóa bằng SQLite; v3 chứa 176 phiên, 124.852 mẫu FCD và 269 bản ghi kịch bản. Bốn nhóm xác nhận mới được tách khỏi dữ liệu đã dùng để sửa mô hình. Biến thể BR-phân bố khai thác lịch sử neo đã bảo vệ; BR-phủ dịch vụ tối ưu chung tập truy vấn theo độ phủ POI dưới ràng buộc tới được. Trên chín ca S1--S3, biến thể phủ cải thiện validation ở một cấu hình nhưng không giữ được lợi ích utility trên xác nhận. Các kết quả âm và đối chứng chỉ dùng prior được giữ để phân biệt tiến bộ thực nghiệm với giả thuyết chưa được xác nhận.
+Bộ dữ liệu được phiên bản hóa bằng SQLite; v3 chứa 176 phiên, 124.852 mẫu FCD và 269 bản ghi kịch bản. Kho phụ trợ thêm 80 nhóm tuyến, tách 64 nhóm học và 16 nhóm kiểm tra chuyển giao. Bộ bảo vệ khai thác lịch sử neo đã bảo vệ để tối ưu tập truy vấn theo độ phủ POI và miền đường có thể tới. Các vòng thử giữ riêng dữ liệu học, chọn và xác nhận; những nhóm đã xem được chuyển sang vai trò phát triển. Kết quả âm khi chất lượng không chuyển giao được giữ lại, cùng đối chứng chỉ dùng prior và đối thủ có dữ liệu phụ trợ rộng hơn.
 
-Sau khi chuyển các nhóm đã xem sang vai trò phát triển, biến thể phủ-đều đạt Recall 92,35\% so với 87,48\% của BR-làn ở $K=5$. Phân rã thành phần cho thấy khởi tạo có ảnh hưởng lớn hơn thay prior chuyển động trong cấu hình đã thử; bản trộn đạt 93,04\% nhưng chưa thắng quy tắc chọn cấu hình. Chưa có xác nhận mới; hai ca vẫn dưới ngưỡng dịch vụ. Kho phụ trợ bổ sung 80 nhóm tuyến, tách 64 nhóm học và 16 nhóm kiểm tra chuyển giao, để đánh giá lại cùng đầu ra bằng đối thủ có dữ liệu rộng hơn và hồi quy phi tuyến.
+Phân tích tiếp theo tách cải tiến bộ chọn khỏi tài nguyên truy hồi. Ở cùng ngân sách $B=0{,}24$ và phản hồi top-5, bước thay điểm nâng Recall từ 92,35\% lên 92,93\%, chưa đạt 90\% ở ca thấp nhất. Phản hồi top-10 với cùng bộ chọn mới đạt Recall 96,38\%, ca thấp nhất 92,44\%, nhưng phần lớn lợi ích đến từ tăng kết quả trả về. Biến thể cân bằng loại dịch vụ có các suy giảm và chưa được chọn; bước thay điểm cũng chưa cải thiện riêng tư nhất quán.
 
 Phần thực nghiệm xét S1--S3 và hai tình huống che điểm đầu/cuối S9--S10 bằng dữ liệu SUMO. Luận văn xây dựng BR-Dummy: kết hợp neo riêng tư, phép kiểm tra tái sử dụng có nhiễu, ngân sách phiên hữu hạn và sinh dummy theo miền đường có thể tới. Các thành phần dự đoán riêng tư kế thừa nghiên cứu trước; đóng góp được khảo sát là cách tích hợp và quy trình kiểm chứng, không mặc nhiên là một nguyên lý riêng tư mới. Các phép đo tách sai số suy luận, tỷ lệ đoán đúng, chất lượng POI và chi phí. Số chuyến còn nhỏ và các comparator là bản thích nghi; chưa có cơ sở khẳng định bảo vệ cả mười kịch bản hoặc vượt kết quả SOTA.
 
@@ -940,6 +940,12 @@ Các phương pháp dùng chung ground truth, tác vụ dịch vụ và thông t
 
 Kết quả chính là các đường đánh đổi riêng tư--chất lượng--chi phí theo từng kịch bản. Các chỉ số riêng của paper được giữ ở bảng tái lập, không thay thế kết quả chung và không được điền 0 cho mục không áp dụng. So sánh ngang tại chất lượng/chi phí tương đương; việc đặt cùng $K$ hoặc cùng tham số mang tên $\epsilon$ không đủ để bảo đảm tương đương.
 
+\subsection{Tách chất lượng bộ bảo vệ khỏi tài nguyên truy hồi}
+
+Một phép đo cần cố định đồng thời số điểm truy vấn $K$, top-$k$ mà ứng dụng cần và top-$L$ mà LSP trả cho mỗi điểm. Tăng $L$ có thể tăng Recall dù cơ chế bảo vệ không đổi; vì vậy mọi comparator phải được cấp cùng lựa chọn $L$, giữ nguyên top-$k$ tham chiếu và tính cả phản hồi trùng trước hợp nhất. Trong thí nghiệm phủ dịch vụ, mỗi sự kiện gửi $K$ truy vấn cho từng loại trong sáu loại POI; số $6K$ là số truy vấn logic, không khẳng định có $6K$ gói HTTP.
+
+Mỗi mức ngân sách riêng tư và chi phí phản hồi có một phép so sánh riêng. Báo cáo cả Recall trung bình và Recall thấp nhất theo ca; dùng ngưỡng đã công bố trên tập chọn để xác định cấu hình khả thi. Không kết luận cấu hình có ngân sách riêng tư lỏng hơn vượt cấu hình chặt hơn chỉ vì một bộ tấn công hữu hạn cho điểm thấp. Bộ tối ưu, phép đo truy hồi và biên thực nghiệm tương ứng được trình bày tại Mục~\ref{sec:coverage-frontier-method} và Mục~\ref{sec:coverage-frontier-experiment}.
+
 \section{Nguyên tắc so sánh công bằng}
 
 \begin{enumerate}
@@ -1175,6 +1181,12 @@ R. Shokri,
 \emph{Proceedings on Privacy Enhancing Technologies}, vol. 2015, no. 2,
 pp. 299--315, 2015.
 doi: \href{https://doi.org/10.1515/popets-2015-0024}{10.1515/popets-2015-0024}.
+
+\bibitem{krause2008robust}
+A. Krause, H. B. McMahan, C. Guestrin, and A. Gupta,
+``Robust Submodular Observation Selection,''
+\emph{Journal of Machine Learning Research}, vol. 9, pp. 2761--2801, 2008.
+\url{https://www.jmlr.org/papers/v9/krause08b.html}.
 
 \end{thebibliography}
 

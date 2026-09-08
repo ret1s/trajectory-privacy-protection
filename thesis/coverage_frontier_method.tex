@@ -1,0 +1,55 @@
+\section{Tối ưu tập truy vấn theo độ phủ dịch vụ và chi phí}
+\label{sec:coverage-frontier-method}
+
+\subsection{Vấn đề nghiên cứu và phần kế thừa}
+
+Một tập điểm giả có chuyển động hợp lệ chưa chắc trả lại đúng địa điểm người dùng cần. Với đầu ra không bắt buộc chứa vị trí thật, chất lượng phụ thuộc vào hợp các kết quả LSP trả về và bước xếp hạng tại thiết bị. Bài toán được tập trung thành: \emph{chọn trực tuyến một tập truy vấn giả khả thi trên mạng đường, sử dụng lịch sử đã bảo vệ để phục hồi kết quả POI, đồng thời kiểm soát khả năng suy luận và chi phí dịch vụ}.
+
+Tối ưu hậu xử lý Bayes đã được nghiên cứu trong~\cite{chatzikokolakis2017utility}; cắt ngưỡng hàm độ phủ kế thừa tư tưởng tối ưu dưới nhiều mục tiêu~\cite{krause2008robust}. Do đó, bộ lọc, phép cắt ngưỡng, tìm kiếm cục bộ và Geo-I không được xem riêng lẻ là phát minh của luận văn. Giả thuyết đóng góp nằm ở việc gắn quyết định \emph{tập truy vấn có ràng buộc chuyển động} với chất lượng ứng dụng và phép đánh giá cùng điều kiện. Bằng chứng cần có là phân tích thành phần chỉ ra lợi ích của từng quyết định thiết kế, thay vì chỉ so một cấu hình với một baseline yếu.
+
+Phương pháp tương quan ngữ nghĩa~\cite{liu2026semantic} chú trọng tính hợp lý của chuỗi giả trong giao diện chứa thật. Thiết kế ở đây không thay thế mục tiêu đó: cân bằng loại dịch vụ được trả về không đồng nghĩa với che được ngữ nghĩa hành vi. Phạm vi thực nghiệm của thành phần này là suy luận vị trí trong S1--S3; chưa suy ra bảo vệ danh tính, điểm đến hay quan hệ đồng hành.
+
+\subsection{Tách điểm truy vấn, đáp án cần tìm và độ sâu phản hồi}
+
+Gọi $A_t=(a_{t,1},\ldots,a_{t,K})$ là các tọa độ gửi đi, $R_k(x_t,c)$ là top-$k$ POI tham chiếu tại vị trí thật, và $Q_L(a,c)$ là tối đa $L$ kết quả LSP trả cho một truy vấn. Thiết bị tạo
+\[
+ U_{t,c}^{(L)}=\bigcup_{j=1}^{K}Q_L(a_{t,j},c),\qquad
+ \widehat R_k(x_t,c)=\operatorname{TopK}_{x_t}
+       \bigl(U_{t,c}^{(L)}\bigr).
+\]
+Phép xếp hạng dùng khoảng cách đường có hướng, loại POI không thể đến từ $x_t$ và giữ quy tắc phá hoà cố định. $K$ là số điểm giả; $k=5$ là số đáp án ứng dụng cần; $L\in\{5,10\}$ là độ sâu phản hồi. Ba đại lượng này không được dùng thay cho nhau. Khi tăng $L$, tập tham chiếu $R_5$ không đổi.
+
+Với cùng tọa độ truy vấn, danh mục và thứ tự xếp hạng cố định, $L_2\geq L_1$ cho $U^{(L_1)}\subseteq U^{(L_2)}$. Các POI thuộc top-5 thật không thể bị một POI xếp hạng thấp hơn đẩy khỏi top-5 tại thiết bị; vì vậy Recall@5 không giảm. Đây là quan hệ của tác vụ truy hồi, không phải đóng góp thuật toán hay lợi ích miễn phí: số mục phản hồi và byte tăng phải được ghi nhận cho mọi phương pháp.
+
+\subsection{Ưu tiên nhóm dịch vụ chưa được bao phủ đủ}
+
+Gọi $w_t(p)\geq0$ là trọng số POI từ bộ lọc lịch sử neo đã bảo vệ ở Mục~\ref{sec:service-cover-method}. Với tập POI $\mathcal P_c$ của loại $c$, đặt
+\[
+ m_{t,c}=\sum_{p\in\mathcal P_c}w_t(p),\qquad
+ f_{t,c}(A)=\frac{\sum_{p\in\mathcal P_c\cap U_{t,c}^{(5)}(A)}w_t(p)}{m_{t,c}}
+ \quad(m_{t,c}>0).
+\]
+$f_{t,c}$ là tỷ lệ trọng số được phủ sau chuẩn hoá loại dịch vụ, không phải hậu nghiệm đã hiệu chỉnh của Recall thật. Gọi $\mathcal C_t^+$ là các loại có $m_{t,c}>0$. Biến thể phủ cân bằng dùng
+\begin{equation}
+ F_{t,\eta}(A)=\frac{1}{|\mathcal C_t^+|}
+       \sum_{c\in\mathcal C_t^+}\min\{f_{t,c}(A),\eta\},
+ \qquad \eta=0{,}9.
+ \label{eq:capped-service-cover}
+\end{equation}
+Nếu không có loại hợp lệ thì đặt $F=0$. Khi một loại đã phủ tới ngưỡng, phủ thêm loại đó không tăng điểm; phần lựa chọn còn lại ưu tiên loại chưa đủ. Tương đương, thuật toán giảm trung bình phần thiếu hụt $(\eta-f_{t,c}(A))_+$. Ngưỡng trong hàm mục tiêu không bảo đảm Recall thật đạt 90\%, không tối ưu trực tiếp ca tấn công yếu nhất và không dùng nhãn ca hay nội dung truy vấn riêng tư.
+
+\subsection{Chọn toàn cục rồi thay từng điểm giả}
+
+Trước mỗi bước, tính miền $\mathcal V_{t,j}$ có thể đến từ điểm đã công bố của luồng $j$ trong thời gian cho phép. Miền chỉ phụ thuộc bản đồ, thời gian và đầu ra trước đó. Thuật toán tham lam chọn cặp luồng--trạng thái có mức tăng lớn nhất trong các luồng chưa được gán. Sau khi đủ $K$ luồng, xét mọi phép thay một trạng thái trong đúng miền của luồng đó; nhận phép thay tăng điểm nhiều nhất. Dừng khi không còn cải thiện lớn hơn $10^{-12}$ hoặc đã thực hiện ba lần thay.
+
+Đối chứng \emph{phủ trung bình có thay điểm} giữ nguyên hàm mục tiêu cũ, chỉ thêm bước thay. So sánh nó với phủ trung bình tham lam cô lập hiệu ứng tối ưu; so với phủ cân bằng cho thấy tác động của hàm mục tiêu và chuẩn hoá loại dịch vụ. Hai yếu tố cắt ngưỡng và chuẩn hoá vẫn đi cùng nhau trong biến thể này, nên chưa tách riêng được đóng góp của chúng.
+
+Với các miền khả thi đã cố định trong một bước, mỗi $f_{t,c}$ là hàm hợp tập có trọng số không âm; phép cắt ngưỡng và tổng bảo toàn tính đơn điệu, dưới mô-đun. Ràng buộc nhiều nhất một trạng thái mỗi luồng là matroid phân hoạch. Vì vậy, trong số học lý tưởng, tham lam thông thường đạt chặn cổ điển $1/2$ cho chính hàm mục tiêu này~\cite{calinescu2011matroid}. Thay điểm chỉ tăng giá trị nên giữ chặn đó. Đây không phải chặn $1-1/e$, không bảo đảm hội tụ tối ưu sau ba lần thay và không bảo đảm chất lượng của cả hành trình: chọn tốt ở bước này có thể làm miền bước sau kém thuận lợi.
+
+\subsection{Bảo đảm kế thừa và điều kiện so sánh}
+
+Bộ chọn chỉ nhận neo đã bảo vệ, bộ lọc gần đúng và ngữ cảnh công khai. Nó không đọc thêm GPS để chỉnh điểm, ngưỡng hay độ sâu phản hồi. Do đó chặn riêng tư lý tưởng của cơ chế neo được kế thừa qua hậu xử lý; không có định lý riêng tư mạnh hơn. Khi $L$ và danh mục POI công khai đã cố định, phản hồi là hàm xác định của truy vấn và không thêm thông tin ngoài truy vấn trong mô hình này. Lập luận không áp dụng nếu $L$ phụ thuộc vị trí thật, thiết bị gửi lại kết quả xếp hạng riêng tư hoặc siêu dữ liệu làm lộ ý định.
+
+Khung so sánh giữ riêng ba trục: ngân sách riêng tư $B$, số truy vấn $K$ và độ sâu $L$. Mỗi điểm so sánh báo cáo Recall trung bình, Recall thấp nhất theo ca, theo loại POI; Hit và MAE của đối thủ được chọn trên validation; cực trị thăm dò trong bộ đối thủ đã thử; số yêu cầu, mục phản hồi, byte danh sách ID và thời gian sinh. Byte danh sách ID không đại diện phản hồi đầy đủ hay lưu lượng HTTP. Không gộp các đại lượng này thành một điểm số có trọng số tuỳ ý.
+
+Đối chiếu cùng $B,K,L$ kiểm tra hiệu quả thành phần; đối chiếu tại cùng chất lượng và chi phí kiểm tra giá trị sử dụng. Các cấu hình không bị cấu hình khác vượt trên mọi trục chỉ tạo thành biên không bị trội \emph{trên lưới đã thử}; chưa là biên tối ưu hay kết quả có ý nghĩa thống kê. Điều kiện Recall tối thiểu 90\% được giữ như yêu cầu của nghiên cứu. Nếu không có ứng viên đạt trên validation, khung đánh giá báo không khả thi thay vì tự hạ ngưỡng.

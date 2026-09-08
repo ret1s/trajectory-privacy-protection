@@ -1,8 +1,10 @@
 # Current benchmark artifacts
 
 This directory contains tracked machine-generated evidence. The newest audit is
-[`expanded_shadow/`](expanded_shadow/): expanded SUMO auxiliary training and
-inference against unchanged prior-factor outputs. Preceding frozen cycles are
+[`coverage_frontier/`](coverage_frontier/): reachable coverage refinements at
+three fixed budgets, matched inference and explicit service-resource costs.
+[`expanded_shadow/`](expanded_shadow/) retains the preceding expanded SUMO
+auxiliary training and inference against unchanged prior-factor outputs. Frozen cycles are
 retained for provenance; use each subdirectory's protocol and source hashes.
 
 The original top-level artifacts are:

@@ -1,0 +1,23 @@
+\subsection{Phân biệt cải thiện thuật toán và tăng tài nguyên}
+
+Ở cùng $B=0{,}24$, $K=5$ và $L=5$, thêm bước thay điểm nâng Recall trung bình từ 92,35\% lên 92,93\%; ca thấp nhất chỉ tăng từ 86,01\% lên 86,36\%, vẫn chưa đạt yêu cầu dịch vụ. Mức tăng trung bình xuất hiện ở cả bốn nhóm phát triển, trong khoảng 0,04--1,12 điểm phần trăm. Với hai ngân sách còn lại, bước thay điểm cũng tăng Recall trung bình ở $L=5$ trên cả bốn nhóm. Đây là bằng chứng thuận lợi cho bước tối ưu tập truy vấn, nhưng quy mô nhóm nhỏ và đã dùng lại chưa cho phép kết luận tổng quát.
+
+Khi giữ bộ chọn phủ trung bình và chỉ tăng phản hồi từ top-5 lên top-10 tại $B=0{,}24$, Recall tăng từ 92,35\% lên 96,12\%. Thay bộ chọn bằng bản có thay điểm tại \emph{cùng} top-10 chỉ tăng tiếp lên 96,38\%, với ca thấp nhất 92,44\%. Như vậy, trong mức tăng tổng cộng khoảng 4,03 điểm phần trăm so với cấu hình cũ, khoảng 3,78 điểm đến từ độ sâu phản hồi và 0,26 điểm từ thay bộ chọn ở cùng độ sâu. Không quy toàn bộ lợi ích đó cho thuật toán mới. Ở $L=10$, một nhóm tại $B=0{,}24$ còn giảm 0,14 điểm phần trăm khi thêm bước thay; lợi ích không đồng đều trên mọi nhóm và mức tài nguyên.
+
+Biến thể phủ cân bằng không trở thành lựa chọn mặc định. Tại $B=0{,}24$, Recall ở $L=5$ là 91,99\%, thấp hơn bản phủ trung bình; ba trong bốn nhóm suy giảm. Nó nâng ca thấp nhất nhưng không đồng thời nâng chất lượng trung bình, và không đạt ngưỡng chọn trên validation ở cả hai độ sâu. Tại $B=0{,}48$, nó cũng giảm Recall trung bình so với phủ trung bình. Chuẩn hoá và cắt ngưỡng một hàm gần đúng chưa đủ để bảo vệ ca khó; kết quả âm này không được bỏ khỏi phép so sánh.
+
+Với bộ chọn có thay điểm tại $B=0{,}24$, tăng $L$ làm số mục phản hồi trung bình tăng từ 120 lên 200 mỗi sự kiện; byte danh sách ID tăng từ khoảng 2.738 lên 4.513, tức gần 65\%, dù số yêu cầu vẫn là 30. Số mục thực nhận nhỏ hơn giới hạn $6KL$ do một số loại có ít POI khả dụng. Phép đo tuần tự riêng cho thấy thời gian mỗi bước tăng từ trung bình 18,8 ms của phủ tham lam lên 24,0 ms khi thêm thay điểm; p95 tăng từ 85,8 lên 150,7 ms. Mỗi cấu hình chỉ có 20 bước từ ba bản ghi trong phép đo này, nên chưa đại diện độ trễ trên điện thoại hay tải dịch vụ thật.
+
+\subsection{Riêng tư và khả năng chuyển giao của phép chọn}
+
+Tăng chất lượng không kéo theo tăng riêng tư. Tại $B=0{,}24$, thêm thay điểm làm Hit của đối thủ chọn trên validation tăng từ 3,76\% lên 5,99\%, còn Hit cực trị trong bộ đã thử gần như không đổi: 16,23\% xuống 16,17\%. Chưa có cơ sở gọi đây là cải thiện riêng tư. Tại $B=0{,}48$, Hit chọn giảm nhưng Hit cực trị lại tăng, tiếp tục cho thấy cần đọc cả hai cột.
+
+Một phản ví dụ rõ là phủ cân bằng tại $B=0{,}12$: Hit chọn bằng 0\% nhưng cực trị phát triển là 9,59\%. Con số 0 không có nghĩa đối thủ không thể định vị; nó cho thấy quyết định chọn trên tập nhỏ không chuyển giao tốt. Cực trị cũng chỉ phản ánh bộ tấn công hữu hạn đã thử, không phải đối thủ tối ưu. Các chặn Geo-I ở ba mức $B$ vẫn lỏng tại khoảng cách 100 m; không xếp hạng ngân sách bằng riêng lỗi thực nghiệm của bộ đối thủ này.
+
+Quy tắc chọn ghi nhận không có phương pháp khả thi ở $B=0{,}12$ cho cả hai độ sâu, và ở $B=0{,}24$, $L=5$. Với $B=0{,}24$, $L=10$, bản phủ có thay điểm là ứng viên được chọn, đạt ca thấp nhất 91,37\% trên validation và 92,44\% trên phát triển. Bản phủ trung bình ở cùng điều kiện chỉ đạt 89,96\% trên validation, nên không được làm tròn thành đạt 90\% dù kết quả phát triển tốt hơn ngưỡng.
+
+Ở $B=0{,}48$, bản có thay điểm được chọn tại cả hai độ sâu. Tuy nhiên, tại $L=5$, ca thấp nhất giảm từ 91,61\% trên validation xuống 87,42\% trên phát triển; chỉ $L=10$ giữ được ngưỡng trong dữ liệu đã thử. Kết quả này phân biệt \emph{được chọn} với \emph{giữ được chất lượng sau lựa chọn}. Cấu hình $B=0{,}24$, $L=10$ là ứng viên hợp lý cho vòng xác nhận riêng tiếp theo, không phải mô hình đã xác nhận hoặc quyết định triển khai mặc định.
+
+\subsection{Ý nghĩa đối với hướng nghiên cứu}
+
+Thực nghiệm ủng hộ hướng cải thiện bộ chọn tập truy vấn và thiết kế dịch vụ phối hợp tại thiết bị, nhưng chưa ủng hộ ưu thế riêng tư của bước thay điểm hay tính bền vững của cắt ngưỡng. Đóng góp có thể kiểm chứng ở giai đoạn này là đặc tả rõ quyết định nhân quả, miền chuyển động khả thi, tác vụ truy hồi cố định và chi phí; sau đó đo riêng tác động của từng thành phần. Vòng tiếp theo cần tập chọn đa dạng hơn và nhóm xác nhận mới, cùng kiểm tra đối thủ mạnh hơn, trước khi quy kết thành ưu thế thuật toán trong bài báo.

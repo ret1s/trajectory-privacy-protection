@@ -1,0 +1,85 @@
+\begin{table}[htbp]
+\centering\small
+\setlength{\tabcolsep}{3pt}
+\caption{Biên thực nghiệm với phản hồi top-5; đáp án tham chiếu luôn top-5. Recall và Hit tính theo phần trăm; byte là danh sách ID mỗi sự kiện. Hit chọn trên validation khác cực trị thăm dò.}\label{tab:coverage-frontier-5}
+\begin{tabular}{rlrrrrr}
+\toprule
+$B$ & Bộ chọn & Recall & Ca thấp & Hit chọn & Hit cực trị & Byte\\\midrule
+0.12 & BR-làn & 80.03 & 71.67 & 2.85 & 7.04 & 2737\\
+0.12 & Phủ trung bình & 87.69 & 83.81 & 1.34 & 6.59 & 2737\\
+0.12 & Phủ + thay điểm & 88.40 & 84.68 & 0.93 & 9.29 & 2737\\
+0.12 & Phủ cân bằng & 88.10 & 83.79 & 0.00 & 9.59 & 2738\\
+0.24 & BR-làn & 87.48 & 84.01 & 8.65 & 17.05 & 2728\\
+0.24 & Phủ trung bình & 92.35 & 86.01 & 3.76 & 16.23 & 2738\\
+0.24 & Phủ + thay điểm & 92.93 & 86.36 & 5.99 & 16.17 & 2738\\
+0.24 & Phủ cân bằng & 91.99 & 86.94 & 2.66 & 16.61 & 2738\\
+0.48 & BR-làn & 91.37 & 85.43 & 17.73 & 26.00 & 2726\\
+0.48 & Phủ trung bình & 94.22 & 85.65 & 5.42 & 19.87 & 2738\\
+0.48 & Phủ + thay điểm & 94.95 & 87.42 & 4.02 & 20.42 & 2737\\
+0.48 & Phủ cân bằng & 93.98 & 87.82 & 3.41 & 18.89 & 2736\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering\small
+\setlength{\tabcolsep}{3pt}
+\caption{Biên thực nghiệm với phản hồi top-10; đáp án tham chiếu luôn top-5. Recall và Hit tính theo phần trăm; byte là danh sách ID mỗi sự kiện. Hit chọn trên validation khác cực trị thăm dò.}\label{tab:coverage-frontier-10}
+\begin{tabular}{rlrrrrr}
+\toprule
+$B$ & Bộ chọn & Recall & Ca thấp & Hit chọn & Hit cực trị & Byte\\\midrule
+0.12 & BR-làn & 86.41 & 81.38 & 2.85 & 7.04 & 4511\\
+0.12 & Phủ trung bình & 92.28 & 88.50 & 1.34 & 6.59 & 4512\\
+0.12 & Phủ + thay điểm & 92.36 & 89.04 & 0.93 & 9.29 & 4511\\
+0.12 & Phủ cân bằng & 92.13 & 88.36 & 0.00 & 9.59 & 4512\\
+0.24 & BR-làn & 92.85 & 90.85 & 8.65 & 17.05 & 4498\\
+0.24 & Phủ trung bình & 96.12 & 92.31 & 3.76 & 16.23 & 4513\\
+0.24 & Phủ + thay điểm & 96.38 & 92.44 & 5.99 & 16.17 & 4513\\
+0.24 & Phủ cân bằng & 96.01 & 93.26 & 2.66 & 16.61 & 4510\\
+0.48 & BR-làn & 95.48 & 92.53 & 17.73 & 26.00 & 4495\\
+0.48 & Phủ trung bình & 97.12 & 92.04 & 5.42 & 19.87 & 4513\\
+0.48 & Phủ + thay điểm & 97.65 & 94.59 & 4.02 & 20.42 & 4513\\
+0.48 & Phủ cân bằng & 96.87 & 93.43 & 3.41 & 18.89 & 4506\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering\small
+\setlength{\tabcolsep}{3pt}
+\caption{Sai số suy luận (m) và thời gian sinh (ms). Thời gian đo tuần tự riêng trên ba bản ghi validation, không phải tốc độ thiết bị di động; MAE không đổi khi chỉ tăng độ sâu phản hồi.}\label{tab:coverage-frontier-timing}
+\begin{tabular}{rlrrrr}
+\toprule
+$B$ & Bộ chọn & MAE chọn & MAE cực trị & Bước TB & Bước p95\\\midrule
+0.12 & BR-làn & 1346.5 & 736.7 & 6.6 & 29.8\\
+0.12 & Phủ trung bình & 1469.5 & 805.0 & 18.8 & 85.8\\
+0.12 & Phủ + thay điểm & 1505.3 & 810.2 & 24.0 & 130.5\\
+0.12 & Phủ cân bằng & 1555.8 & 792.0 & 28.0 & 161.0\\
+0.24 & BR-làn & 747.9 & 426.1 & 6.5 & 30.0\\
+0.24 & Phủ trung bình & 1110.1 & 503.8 & 18.8 & 85.8\\
+0.24 & Phủ + thay điểm & 1086.0 & 526.4 & 24.0 & 150.7\\
+0.24 & Phủ cân bằng & 1216.0 & 515.0 & 28.9 & 171.6\\
+0.48 & BR-làn & 365.7 & 283.3 & 6.2 & 29.7\\
+0.48 & Phủ trung bình & 919.7 & 414.1 & 18.2 & 83.5\\
+0.48 & Phủ + thay điểm & 865.5 & 434.1 & 18.5 & 103.0\\
+0.48 & Phủ cân bằng & 1037.1 & 457.7 & 29.9 & 173.0\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering\small
+\setlength{\tabcolsep}{3pt}
+\caption{Cấu hình chọn trước khi chấm phát triển. Điều kiện là Recall thấp nhất theo ca đạt 90\% trên validation; không có ứng viên thì không chọn phương án thay thế. Hai cột cuối là Recall của ca thấp nhất (\%).}\label{tab:coverage-frontier-selection}
+\begin{tabular}{rrlrr}
+\toprule
+$B$ & $L$ & Chọn trên validation & Validation & Phát triển\\\midrule
+0.12 & 5 & Không có & --- & ---\\
+0.12 & 10 & Không có & --- & ---\\
+0.24 & 5 & Không có & --- & ---\\
+0.24 & 10 & Phủ + thay điểm & 91.37 & 92.44\\
+0.48 & 5 & Phủ + thay điểm & 91.61 & 87.42\\
+0.48 & 10 & Phủ + thay điểm & 93.06 & 94.59\\
+\bottomrule
+\end{tabular}
+\end{table}
