@@ -122,6 +122,7 @@ Lấy neo mới cần $O(|V|)$ thời gian. Tìm thành phần liên thông mạ
 \input{belief_method.tex}
 \input{service_cover_method.tex}
 \input{service_recovery_method.tex}
+\input{prior_factor_method.tex}
 
 \chapter{Thực nghiệm có kiểm soát và phản biện kết quả}
 \label{ch:experiments}
@@ -173,6 +174,7 @@ Metric chất lượng theo Mục~\ref{sec:common-metrics} lưu mẫu số; lỗ
 \input{belief_comparison.tex}
 \input{service_cover_comparison.tex}
 \input{service_recovery_comparison.tex}
+\input{prior_factor_comparison.tex}
 
 \chapter{Kết luận và hướng phát triển}
 
@@ -187,6 +189,8 @@ Phân tích thành phần trên miền làn bổ sung hai điểm số hậu x�
 Vòng tiếp theo bổ sung bộ dữ liệu v2 gồm 132 phiên, 207 bản ghi và đủ 30 biến thể trong hợp sáu nhóm tuyến; kiểm tra độc lập giữ lại cả các thiếu hụt phân bố mẫu. BR-phân bố dùng lịch sử neo đã bảo vệ để tối ưu độ phủ POI kỳ vọng. Trên chín ca S1--S3, cấu hình chọn bằng validation có cải thiện riêng tư trung bình ở $K=5$ nhưng còn suy giảm utility cục bộ và chưa đạt ràng buộc cho mọi ca. Kết quả là bằng chứng phát triển có đối chứng và phản ví dụ, chưa là mô hình bảo vệ toàn diện đã hoàn tất.
 
 \section{Phản biện và điều kiện phát triển thành bài báo}
+
+Phân rã prior bổ sung bằng chứng rằng thay thành phần khởi tạo có tác động lớn hơn thay phân bố chuyển động trong cấu hình hiện tại. Bản trộn cân bằng có Recall phát triển 93,04\%, nhưng không thắng quy tắc chọn validation và không tăng trên mọi nhóm. Việc bổ sung đối thủ quyết định theo mục tiêu không làm tăng bao trên Hit đã đo; bộ học chỉ có 36 tọa độ nhãn khác nhau nên chưa đủ để kết luận về đối thủ mạnh trong thực tế.
 
 Vòng tối ưu phủ dịch vụ bổ sung bốn nhóm xác nhận mới, ba lần lặp ngẫu nhiên và đối thủ học theo từng cơ chế. Tuy có cơ sở tối ưu tổ hợp rõ hơn, biến thể được chọn ở $K=5$ không giữ được lợi ích utility trên xác nhận: Recall 84,12\% so với 87,48\% của BR-làn. Luận văn giữ nguyên kết quả âm này, chưa thay phương pháp mặc định và chưa đạt ngưỡng 90\% cho mọi ca. Đóng góp hiện tại nằm ở mô hình bài toán, hạ tầng kiểm chứng và bằng chứng có đối chứng; hiệu quả thuật toán còn phải phát triển.
 

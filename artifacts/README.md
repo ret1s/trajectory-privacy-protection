@@ -68,3 +68,12 @@ candidate corridor at K=5. Its 201–204 results are **reused development**, not
 fresh confirmation; the immutable dataset and its historical split labels stay
 unchanged. Only experiment roles change. Six methods, including three exactly
 reused controls, share the same allowed inputs, anchor draws and service metrics.
+
+[`benchmarks/prior_factors/`](benchmarks/prior_factors/) separates initialization
+from motion weighting, adds cell-balanced/fixed-mixture priors and five empirical
+loss-aware/mean shadow decisions. Seven configurations share the same frozen v3
+data and budget; 201–204 remain reused development. The uniform configuration
+still wins validation, without meeting the all-case utility requirement. The
+mixture's higher development Recall is exploratory, and each shadow bank has
+only 36 distinct true-coordinate labels. See its independent replay receipt and
+[publication critique](../docs/reviews/verification_prior_factors.md).

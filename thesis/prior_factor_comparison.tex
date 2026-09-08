@@ -1,0 +1,37 @@
+\begingroup
+\widowpenalty=10000
+\clubpenalty=10000
+\section{Phân rã prior và đánh giá đối thủ theo mục tiêu}
+\label{sec:prior-factor-experiment}
+
+\subsection{Thiết kế kiểm tra và quyết định suy luận}
+
+Thực nghiệm so sánh bảy cấu hình: BR-làn và sáu kết hợp phân bố ở Mục~\ref{sec:prior-factor-method}. Các cấu hình dùng cùng $K=5$, ngân sách $0{,}24/\mathrm m$, dữ liệu SUMO, chín ca S1--S3 và ba lần lặp ghép cặp. Ba cấu hình cũ giữ nguyên đầu ra; bốn cấu hình mới sinh toàn bộ chuỗi từ lịch sử dummy riêng. Nhóm 101/102 dùng học, 103/104 dùng chọn cấu hình, còn 201--204 tiếp tục là dữ liệu phát triển đã được xem trước.
+
+Đối thủ bổ sung không chỉ lấy trung bình tọa độ từ các mẫu gần nhất. Quyết định suy luận phải phù hợp với hàm mất mát: tối thiểu hóa khoảng cách khác với tối đa hóa khả năng đoán đúng trong bán kính.~\citep{shokri2015privacygames} Với $m\in\{15,45\}$ mẫu học gần nhất theo đặc trưng đầu ra công khai, đặt phân bố thực nghiệm đều trên các nhãn tọa độ $y_i$. Hai quyết định là
+\[
+\widehat x_{\mathrm{MAE}}=\arg\min_{z\in\mathcal A}
+\frac1m\sum_{i=1}^m\|z-y_i\|_2,\qquad
+\widehat x_{\mathrm{Hit}}=\arg\max_{z\in\mathcal H}
+\frac1m\sum_{i=1}^m\mathbf1[\|z-y_i\|_2\leq100\,\mathrm m].
+\]
+$\mathcal A$ gồm các tọa độ nhãn và trung bình của chúng. $\mathcal H$ bổ sung hai tâm đường tròn bán kính 100 m đi qua mỗi cặp nhãn có khoảng cách dương và không quá 200 m. Điểm đoán không bị ép nằm trong tập dummy hoặc trên đường. Tính hình học có dung sai số; phép chấm Hit với GPS thật vẫn dùng đúng ngưỡng 100 m.
+
+Thêm bốn quyết định theo mất mát và đối chứng trung bình 45 mẫu vào toàn bộ bộ đối thủ cũ. Đặc trưng mới chỉ dùng tiền tố công bố; các đối thủ cũ quan sát cả cửa sổ vẫn được giữ. Chọn đối thủ riêng cho MAE và Hit trên nhóm 103/104. Phân bố láng giềng này chưa phải likelihood đúng của cơ chế, chưa được hiệu chuẩn; nghiệm MAE chỉ tối ưu trên tập hành động hữu hạn, không phải nghiệm tối ưu toàn mặt phẳng.
+
+\subsection{Kết quả và mức đóng góp của từng thành phần}
+
+Không cấu hình nào đạt ngưỡng Recall 90\% ở mọi ca validation. Bản $U/U$ vẫn được chọn dự phòng: ca thấp nhất 88,13\%; bản trộn $M/M$ đạt 88,09\%. Vì lựa chọn đã khóa trước lượt phát triển, không đổi người thắng chỉ vì kết quả sau đó thuận lợi hơn.
+
+\input{../artifacts/benchmarks/prior_factors/results_tables.tex}
+
+Tách hai thành phần cho thấy ảnh hưởng khởi tạo lớn hơn ảnh hưởng chuyển động trong phạm vi đã thử. Đổi $L$ sang $U$ ở khởi tạo làm Recall tăng 8,22 điểm phần trăm khi giữ chuyển động học, và 8,29 điểm khi giữ chuyển động đều. Ngược lại, chỉ đổi chuyển động làm Recall thay đổi khoảng $-0{,}058$ và $+0{,}006$ điểm. Các đối chứng đổi chuyển động cho cùng đầu ra ở sự kiện đầu tiên, như thiết kế yêu cầu. Tuy vậy khởi tạo còn quyết định tập dummy đầu và tâm phá hòa, nên không diễn giải đây là hiệu ứng của prior thuần túy độc lập với đường đi sau đó.
+
+Cân bằng mật độ trạng thái nâng Recall từ 84,12\% của $L/L$ lên 85,14\% của $C/C$, chưa giải thích được toàn bộ lợi ích của $U/U$. Bản trộn cố định $M/M$ đạt 93,04\%, so với 92,35\% của $U/U$; trung bình cà phê/nhà hàng đạt 80,15\%, so với 78,00\%. Tuy nhiên mức tăng theo bốn nhóm lần lượt là $+2{,}78$, $+0{,}34$, $0{,}00$ và $-0{,}33$ điểm, không tăng ở mọi nhóm. Hai ca S3.A/S3.C còn ở 88,61\%/89,55\%, chưa đạt yêu cầu từng ca.
+
+Bộ đối thủ mở rộng không làm tăng bao trên Hit ở các cấu hình trong lần thử này. Điều đó không chứng minh riêng tư mạnh hơn: mỗi bộ học có 360 quan sát nhưng chỉ \emph{36 tọa độ nhãn khác nhau}, từ hai nhóm tuyến. Với $L/L$, MAE của đối thủ được chọn lại tăng từ 1.349,5 m lên 1.467,2 m dù có thêm lựa chọn; đây là hạn chế chuyển giao lựa chọn validation, không phải do cơ chế bảo vệ thay đổi. Cần phân biệt điểm của đối thủ đã chọn với kết quả thăm dò tốt nhất trên tập phát triển.
+
+\subsection{Kết luận và yêu cầu trước xác nhận mới}
+
+Phân tích giữ $U/U$ làm cấu hình đã chọn và $M/M$ làm ứng viên tiếp tục khảo sát. Đã thu hẹp giả thuyết về nguồn cải thiện, nhưng chưa xác nhận ưu thế tổng quát, chưa tăng độ chặt của bảo đảm Geo-I và chưa chứng minh vượt đối chứng SOTA. Bước tiếp theo cần mở rộng các tuyến phụ trợ dùng học đối thủ, kiểm tra suy luận có likelihood phù hợp hơn, rồi đánh giá trên dữ liệu xác nhận mới sau khi khóa lựa chọn. Trộn phân bố, hậu xử lý Bayes và quyết định theo hàm mất mát đều có nền tảng trước; tính mới của cơ chế phải được xác lập bằng sự khác biệt cụ thể và bằng chứng độc lập, không chỉ mức Recall trung bình.
+\par\endgroup

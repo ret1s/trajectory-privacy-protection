@@ -1,0 +1,36 @@
+\begin{table}[htbp]
+\centering\small
+\caption{Phân rã prior trên bốn nhóm phát triển 201--204: $K=5$, chín ca, ba lần lặp. $A/B$: khởi tạo/chuyển động. Đơn vị Recall là \%.}
+\label{tab:prior-factor-utility}
+\begin{tabular}{lrrrr}
+\toprule
+Cấu hình & Recall & Ca thấp nhất & Cà phê & Nhà hàng\\
+\midrule
+BR-làn & 87.48 & 84.01 & 76.01 & 54.95 \\
+L/L & 84.12 & 78.89 & 71.50 & 39.22 \\
+U/U & 92.35 & 86.01 & 88.51 & 67.48 \\
+L/U & 84.06 & 78.89 & 71.00 & 39.34 \\
+U/L & 92.34 & 86.49 & 88.21 & 68.35 \\
+C/C & 85.14 & 79.72 & 74.71 & 40.96 \\
+M/M & 93.04 & 88.61 & 89.80 & 70.50 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{table}[htbp]
+\centering\small
+\caption{Đánh giá lại cùng đầu ra với bộ đối thủ mở rộng. Hit (\%) càng cao, MAE (m) càng thấp thì đối thủ càng hiệu quả. Bao trên chỉ xét các đối thủ đã thử.}
+\label{tab:prior-factor-attacks}
+\begin{tabular}{lrrrr}
+\toprule
+Cấu hình & Hit chọn cũ & Hit chọn mới & Bao trên mới & MAE chọn mới\\
+\midrule
+BR-làn & 8.46 & 8.46 & 16.81 & 744.8 \\
+L/L & 0.00 & 0.00 & 5.06 & 1467.2 \\
+U/U & 2.78 & 2.78 & 14.30 & 1283.6 \\
+L/U & 0.00 & 0.00 & 5.20 & 1449.3 \\
+U/L & 2.78 & 2.78 & 14.14 & 1316.5 \\
+C/C & 0.93 & 1.00 & 6.42 & 1263.4 \\
+M/M & 2.08 & 2.08 & 8.72 & 1082.9 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,26 @@
+\begingroup
+\widowpenalty=10000
+\clubpenalty=10000
+\section{Tách ảnh hưởng của phân bố ban đầu và chuyển động}
+\label{sec:prior-factor-method}
+
+Phân bố ban đầu và mô hình chuyển động có vai trò khác nhau. Phân bố ban đầu mô tả người dùng có thể ở đâu trước quan sát đầu tiên. Mô hình chuyển động chuyển khối lượng xác suất giữa các vị trí sau mỗi khoảng thời gian. Thay cả hai cùng lúc bằng phân bố đều có thể cải thiện Recall, nhưng chưa chỉ ra thành phần nào tạo ra lợi ích. Hơn nữa, chất lượng ánh xạ phụ thuộc vào mức phù hợp giữa prior và hành vi thực tế.~\citep{chatzikokolakis2017utility}
+
+Gọi $p^{\mathrm I}$ là phân bố khởi tạo và $p^{\mathrm T}$ là phân bố dùng trong dự đoán chuyển động. Bộ lọc giữ cùng mô hình phát neo $L(a_t\mid x,a_{t-1})$, nhưng tách hai tham số:
+\[
+w_0(x)\propto p^{\mathrm I}(x)L(a_0\mid x),\qquad
+w_t(x)\propto [w_{t-1}T_{\Delta t}(p^{\mathrm T})](x)
+L(a_t\mid x,a_{t-1}).
+\]
+Khi khoảng trống quan sát vượt 120 giây, phép dự đoán trộn trạng thái trước với $p^{\mathrm T}$: trọng số giữ trạng thái cũ là $0{,}6^{\Delta t/20}$, phần còn lại dành cho $p^{\mathrm T}$, không phải $p^{\mathrm I}$. Đây là hồi về prior dần, không phải đặt lại hoàn toàn ngay sau 120 giây. Sau hết chân trời quan sát được cấp, bộ lọc chỉ dự đoán từ dữ liệu công khai, không tiếp tục dùng vị trí thật. Các ràng buộc đường đi và phép chọn phủ POI giữ nguyên.
+
+Ký hiệu $L$ là phân bố học, $U$ là phân bố đều trên các ô có đường. Bốn kết hợp $(L,L)$, $(L,U)$, $(U,L)$ và $(U,U)$ cho phép kiểm tra từng yếu tố. Phép đổi $p^{\mathrm I}$ đồng thời đổi tâm cố định dùng phá hòa của phép chọn dummy; vì vậy đây là phân tích thành phần khởi tạo, không chỉ riêng phép nhân ở bước đầu. Phép đổi $p^{\mathrm T}$ bao gồm cả chuyển động cục bộ lẫn hồi về prior sau khoảng trống dài.
+
+Để kiểm tra ảnh hưởng mật độ lấy mẫu làn, thêm phân bố $C$. Với trọng số học $q_i$ của trạng thái đường $i$ và số trạng thái $n_{c(i)}$ trong ô của nó, đặt
+\[
+q_i^{C}=\frac{q_i/n_{c(i)}}{\sum_j q_j/n_{c(j)}}.
+\]
+Khối lượng của ô lúc này tỷ lệ với \emph{trọng số học trung bình} trong ô, không phải tổng trọng số của mọi điểm lấy mẫu. Thử thêm $q^M=(q^C+q^U)/2$ để kết hợp lịch sử với miền bản đồ công khai, theo hệ số cố định trước thực nghiệm. Đây là cân bằng theo ô, không phải mô hình dân số hoặc bảo đảm bất biến với mọi cách rời rạc hóa đường.
+
+Các thay đổi trên chỉ dùng dữ liệu học được phép, bản đồ và neo đã bảo vệ, nên không thêm ngân sách truy cập vị trí thật. Tuy nhiên trộn prior hoặc cân bằng mật độ không tự tạo ra một định lý riêng tư hay bảo đảm Recall mới; chúng phải được kiểm tra dưới cùng bộ đối thủ và cùng tác vụ dịch vụ.
+\par\endgroup

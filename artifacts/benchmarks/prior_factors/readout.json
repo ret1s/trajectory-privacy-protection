@@ -1,0 +1,1088 @@
+{
+  "scope": "reused_development_only",
+  "summary": [
+    {
+      "method": "baseline",
+      "label": "BR-làn",
+      "validation_recall": 0.8653987850284147,
+      "validation_min_case": 0.7975925925925926,
+      "recall": 0.8747658908307056,
+      "min_case_recall": 0.8401346801346801,
+      "old_selected_hit100": 0.08457892416225748,
+      "selected_hit100": 0.08457892416225748,
+      "old_selected_mae_m": 744.8160829900813,
+      "selected_mae_m": 744.8160829900813,
+      "old_exploratory_hit100": 0.1681437389770723,
+      "exploratory_hit100": 0.1681437389770723,
+      "by_category": {
+        "cafe": 0.760124124846347,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 0.9798637165303832,
+        "pharmacy": 0.9350018037518039,
+        "restaurant": 0.5495316257816258
+      },
+      "dense_category_recall": 0.6548278753139865,
+      "valid_query_n": 4017,
+      "empty_reference_n": 69,
+      "min_distinct_coordinates": 4,
+      "step_p95_ms": 33.25591699103825,
+      "cases": [
+        {
+          "case_id": "S1.A",
+          "recall": 0.8777777777777778,
+          "old_selected_hit": 0.08333333333333333,
+          "new_selected_hit": 0.08333333333333333,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.16666666666666666,
+          "new_envelope": 0.16666666666666666
+        },
+        {
+          "case_id": "S1.B",
+          "recall": 0.9166666666666666,
+          "old_selected_hit": 0.08333333333333333,
+          "new_selected_hit": 0.08333333333333333,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.25,
+          "new_envelope": 0.25
+        },
+        {
+          "case_id": "S1.C",
+          "recall": 0.8916666666666666,
+          "old_selected_hit": 0.3333333333333333,
+          "new_selected_hit": 0.3333333333333333,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.3333333333333333,
+          "new_envelope": 0.3333333333333333
+        },
+        {
+          "case_id": "S2.A",
+          "recall": 0.8691798941798942,
+          "old_selected_hit": 0.08333333333333333,
+          "new_selected_hit": 0.08333333333333333,
+          "old_selected_attack": "track_3",
+          "new_selected_attack": "track_3",
+          "old_envelope": 0.16666666666666666,
+          "new_envelope": 0.16666666666666666
+        },
+        {
+          "case_id": "S2.B",
+          "recall": 0.8876543209876543,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "track_mean_0",
+          "new_selected_attack": "track_mean_0",
+          "old_envelope": 0.25,
+          "new_envelope": 0.25
+        },
+        {
+          "case_id": "S2.C",
+          "recall": 0.8865740740740741,
+          "old_selected_hit": 0.08333333333333333,
+          "new_selected_hit": 0.08333333333333333,
+          "old_selected_attack": "track_mean_3",
+          "new_selected_attack": "track_mean_3",
+          "old_envelope": 0.16666666666666666,
+          "new_envelope": 0.16666666666666666
+        },
+        {
+          "case_id": "S3.A",
+          "recall": 0.8401346801346801,
+          "old_selected_hit": 0.013888888888888888,
+          "new_selected_hit": 0.013888888888888888,
+          "old_selected_attack": "running_mean",
+          "new_selected_attack": "running_mean",
+          "old_envelope": 0.049999999999999996,
+          "new_envelope": 0.049999999999999996
+        },
+        {
+          "case_id": "S3.B",
+          "recall": 0.846611952861953,
+          "old_selected_hit": 0.03125,
+          "new_selected_hit": 0.03125,
+          "old_selected_attack": "track_0",
+          "new_selected_attack": "track_0",
+          "old_envelope": 0.07638888888888888,
+          "new_envelope": 0.07638888888888888
+        },
+        {
+          "case_id": "S3.C",
+          "recall": 0.8566269841269841,
+          "old_selected_hit": 0.0494047619047619,
+          "new_selected_hit": 0.0494047619047619,
+          "old_selected_attack": "track_2",
+          "new_selected_attack": "track_2",
+          "old_envelope": 0.05357142857142857,
+          "new_envelope": 0.05357142857142857
+        }
+      ],
+      "families": [
+        {
+          "family_id": "family-201",
+          "recall": 0.8747393689986283,
+          "recall_delta_vs_uniform": -0.03834411130707438
+        },
+        {
+          "family_id": "family-202",
+          "recall": 0.8767651826911085,
+          "recall_delta_vs_uniform": -0.06595834892131192
+        },
+        {
+          "family_id": "family-203",
+          "recall": 0.8218525644451572,
+          "recall_delta_vs_uniform": -0.04027265601339658
+        },
+        {
+          "family_id": "family-204",
+          "recall": 0.9257064471879285,
+          "recall_delta_vs_uniform": -0.05021947873799748
+        }
+      ]
+    },
+    {
+      "method": "service_cover",
+      "label": "L/L",
+      "validation_recall": 0.946423182441701,
+      "validation_min_case": 0.8444444444444444,
+      "recall": 0.8411953307323679,
+      "min_case_recall": 0.7888888888888888,
+      "old_selected_hit100": 0.0,
+      "selected_hit100": 0.0,
+      "old_selected_mae_m": 1349.4599989409444,
+      "selected_mae_m": 1467.2128804904007,
+      "old_exploratory_hit100": 0.050617283950617285,
+      "exploratory_hit100": 0.050617283950617285,
+      "by_category": {
+        "cafe": 0.7150454946288279,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 0.9923611111111111,
+        "pharmacy": 0.914800384800385,
+        "restaurant": 0.39224894447116676
+      },
+      "dense_category_recall": 0.5536472195499973,
+      "valid_query_n": 4017,
+      "empty_reference_n": 69,
+      "min_distinct_coordinates": 5,
+      "step_p95_ms": 105.59495800407603,
+      "cases": [
+        {
+          "case_id": "S1.A",
+          "recall": 0.8305555555555556,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.08333333333333333,
+          "new_envelope": 0.08333333333333333
+        },
+        {
+          "case_id": "S1.B",
+          "recall": 0.7888888888888888,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.0,
+          "new_envelope": 0.0
+        },
+        {
+          "case_id": "S1.C",
+          "recall": 0.8527777777777777,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.25,
+          "new_envelope": 0.25
+        },
+        {
+          "case_id": "S2.A",
+          "recall": 0.8638888888888889,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "shadow_mean_45",
+          "old_envelope": 0.0,
+          "new_envelope": 0.0
+        },
+        {
+          "case_id": "S2.B",
+          "recall": 0.8117283950617286,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_5",
+          "new_selected_attack": "shadow_mean_45",
+          "old_envelope": 0.0,
+          "new_envelope": 0.0
+        },
+        {
+          "case_id": "S2.C",
+          "recall": 0.8523148148148149,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "track_mean_1",
+          "new_selected_attack": "track_mean_1",
+          "old_envelope": 0.0,
+          "new_envelope": 0.0
+        },
+        {
+          "case_id": "S3.A",
+          "recall": 0.8556986531986531,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_knn_1",
+          "old_envelope": 0.030555555555555558,
+          "new_envelope": 0.030555555555555558
+        },
+        {
+          "case_id": "S3.B",
+          "recall": 0.8163930976430976,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_knn_1",
+          "old_envelope": 0.020833333333333332,
+          "new_envelope": 0.020833333333333332
+        },
+        {
+          "case_id": "S3.C",
+          "recall": 0.8985119047619049,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_loss_hit_action_15",
+          "old_envelope": 0.07083333333333335,
+          "new_envelope": 0.07083333333333335
+        }
+      ],
+      "families": [
+        {
+          "family_id": "family-201",
+          "recall": 0.9314452282970801,
+          "recall_delta_vs_uniform": 0.018361747991377464
+        },
+        {
+          "family_id": "family-202",
+          "recall": 0.8547830153385708,
+          "recall_delta_vs_uniform": -0.08794051627384958
+        },
+        {
+          "family_id": "family-203",
+          "recall": 0.6970921739440258,
+          "recall_delta_vs_uniform": -0.165033046514528
+        },
+        {
+          "family_id": "family-204",
+          "recall": 0.8814609053497944,
+          "recall_delta_vs_uniform": -0.0944650205761316
+        }
+      ]
+    },
+    {
+      "method": "uniform_cover",
+      "label": "U/U",
+      "validation_recall": 0.9523402900254752,
+      "validation_min_case": 0.8812962962962962,
+      "recall": 0.9234645395756507,
+      "min_case_recall": 0.8600595238095239,
+      "old_selected_hit100": 0.027777777777777776,
+      "selected_hit100": 0.027777777777777776,
+      "old_selected_mae_m": 1283.558343680452,
+      "selected_mae_m": 1283.558343680452,
+      "old_exploratory_hit100": 0.14298941798941797,
+      "exploratory_hit100": 0.14298941798941797,
+      "by_category": {
+        "cafe": 0.8851491769547325,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 0.9952044252044252,
+        "pharmacy": 0.9856681898348564,
+        "restaurant": 0.6747654454598899
+      },
+      "dense_category_recall": 0.7799573112073113,
+      "valid_query_n": 4017,
+      "empty_reference_n": 69,
+      "min_distinct_coordinates": 5,
+      "step_p95_ms": 93.18750002421439,
+      "cases": [
+        {
+          "case_id": "S1.A",
+          "recall": 0.9305555555555557,
+          "old_selected_hit": 0.16666666666666666,
+          "new_selected_hit": 0.16666666666666666,
+          "old_selected_attack": "continuity",
+          "new_selected_attack": "continuity",
+          "old_envelope": 0.16666666666666666,
+          "new_envelope": 0.16666666666666666
+        },
+        {
+          "case_id": "S1.B",
+          "recall": 0.9416666666666668,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.08333333333333333,
+          "new_envelope": 0.08333333333333333
+        },
+        {
+          "case_id": "S1.C",
+          "recall": 1.0,
+          "old_selected_hit": 0.08333333333333333,
+          "new_selected_hit": 0.08333333333333333,
+          "old_selected_attack": "continuity",
+          "new_selected_attack": "continuity",
+          "old_envelope": 0.25,
+          "new_envelope": 0.25
+        },
+        {
+          "case_id": "S2.A",
+          "recall": 0.925595238095238,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.25,
+          "new_envelope": 0.25
+        },
+        {
+          "case_id": "S2.B",
+          "recall": 0.9361111111111109,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_15",
+          "new_selected_attack": "shadow_knn_15",
+          "old_envelope": 0.25,
+          "new_envelope": 0.25
+        },
+        {
+          "case_id": "S2.C",
+          "recall": 0.9430555555555555,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_15",
+          "new_selected_attack": "shadow_knn_15",
+          "old_envelope": 0.16666666666666666,
+          "new_envelope": 0.16666666666666666
+        },
+        {
+          "case_id": "S3.A",
+          "recall": 0.8669402356902358,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_knn_1",
+          "old_envelope": 0.05694444444444444,
+          "new_envelope": 0.05694444444444444
+        },
+        {
+          "case_id": "S3.B",
+          "recall": 0.9071969696969697,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_loss_hit_action_15",
+          "old_envelope": 0.03472222222222222,
+          "new_envelope": 0.03472222222222222
+        },
+        {
+          "case_id": "S3.C",
+          "recall": 0.8600595238095239,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_knn_1",
+          "old_envelope": 0.02857142857142857,
+          "new_envelope": 0.02857142857142857
+        }
+      ],
+      "families": [
+        {
+          "family_id": "family-201",
+          "recall": 0.9130834803057026,
+          "recall_delta_vs_uniform": 0.0
+        },
+        {
+          "family_id": "family-202",
+          "recall": 0.9427235316124204,
+          "recall_delta_vs_uniform": 0.0
+        },
+        {
+          "family_id": "family-203",
+          "recall": 0.8621252204585538,
+          "recall_delta_vs_uniform": 0.0
+        },
+        {
+          "family_id": "family-204",
+          "recall": 0.975925925925926,
+          "recall_delta_vs_uniform": 0.0
+        }
+      ]
+    },
+    {
+      "method": "learned_initial_uniform_motion",
+      "label": "L/U",
+      "validation_recall": 0.9458617479913778,
+      "validation_min_case": 0.8444444444444444,
+      "recall": 0.8406141886234478,
+      "min_case_recall": 0.7888888888888888,
+      "old_selected_hit100": 0.0,
+      "selected_hit100": 0.0,
+      "old_selected_mae_m": 1331.4655216506017,
+      "selected_mae_m": 1449.3382710017706,
+      "old_exploratory_hit100": 0.052006172839506176,
+      "exploratory_hit100": 0.052006172839506176,
+      "by_category": {
+        "cafe": 0.7099837662337661,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 0.993287037037037,
+        "pharmacy": 0.9142748917748919,
+        "restaurant": 0.3934233873122762
+      },
+      "dense_category_recall": 0.5517035767730212,
+      "valid_query_n": 4017,
+      "empty_reference_n": 69,
+      "min_distinct_coordinates": 5,
+      "step_p95_ms": 97.37808399950154,
+      "cases": [
+        {
+          "case_id": "S1.A",
+          "recall": 0.8305555555555556,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.08333333333333333,
+          "new_envelope": 0.08333333333333333
+        },
+        {
+          "case_id": "S1.B",
+          "recall": 0.7888888888888888,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.0,
+          "new_envelope": 0.0
+        },
+        {
+          "case_id": "S1.C",
+          "recall": 0.8527777777777777,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.25,
+          "new_envelope": 0.25
+        },
+        {
+          "case_id": "S2.A",
+          "recall": 0.8646825396825397,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "shadow_mean_45",
+          "old_envelope": 0.0,
+          "new_envelope": 0.0
+        },
+        {
+          "case_id": "S2.B",
+          "recall": 0.8117283950617286,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_15",
+          "new_selected_attack": "shadow_mean_45",
+          "old_envelope": 0.0,
+          "new_envelope": 0.0
+        },
+        {
+          "case_id": "S2.C",
+          "recall": 0.8710648148148148,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "track_1",
+          "new_selected_attack": "track_1",
+          "old_envelope": 0.020833333333333332,
+          "new_envelope": 0.020833333333333332
+        },
+        {
+          "case_id": "S3.A",
+          "recall": 0.8503703703703703,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_knn_1",
+          "old_envelope": 0.03888888888888889,
+          "new_envelope": 0.03888888888888889
+        },
+        {
+          "case_id": "S3.B",
+          "recall": 0.8191498316498316,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_loss_hit_action_15",
+          "old_envelope": 0.020833333333333332,
+          "new_envelope": 0.020833333333333332
+        },
+        {
+          "case_id": "S3.C",
+          "recall": 0.8763095238095239,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_loss_hit_action_15",
+          "old_envelope": 0.05416666666666667,
+          "new_envelope": 0.05416666666666667
+        }
+      ],
+      "families": [
+        {
+          "family_id": "family-201",
+          "recall": 0.9259337644522829,
+          "recall_delta_vs_uniform": 0.012850284146580293
+        },
+        {
+          "family_id": "family-202",
+          "recall": 0.8528264122708565,
+          "recall_delta_vs_uniform": -0.08989711934156386
+        },
+        {
+          "family_id": "family-203",
+          "recall": 0.6977294995813514,
+          "recall_delta_vs_uniform": -0.16439572087720233
+        },
+        {
+          "family_id": "family-204",
+          "recall": 0.8859670781893003,
+          "recall_delta_vs_uniform": -0.08995884773662566
+        }
+      ]
+    },
+    {
+      "method": "uniform_initial_learned_motion",
+      "label": "U/L",
+      "validation_recall": 0.952283950617284,
+      "validation_min_case": 0.8803703703703704,
+      "recall": 0.9233998605989348,
+      "min_case_recall": 0.8648611111111112,
+      "old_selected_hit100": 0.027777777777777776,
+      "selected_hit100": 0.027777777777777776,
+      "old_selected_mae_m": 1316.4788807489708,
+      "selected_mae_m": 1316.4788807489708,
+      "old_exploratory_hit100": 0.14144620811287478,
+      "exploratory_hit100": 0.14144620811287478,
+      "by_category": {
+        "cafe": 0.8820938218160441,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 0.9914646464646465,
+        "pharmacy": 0.9833557800224467,
+        "restaurant": 0.6834849152904708
+      },
+      "dense_category_recall": 0.7827893685532574,
+      "valid_query_n": 4017,
+      "empty_reference_n": 69,
+      "min_distinct_coordinates": 5,
+      "step_p95_ms": 96.29870799835771,
+      "cases": [
+        {
+          "case_id": "S1.A",
+          "recall": 0.9305555555555557,
+          "old_selected_hit": 0.16666666666666666,
+          "new_selected_hit": 0.16666666666666666,
+          "old_selected_attack": "continuity",
+          "new_selected_attack": "continuity",
+          "old_envelope": 0.16666666666666666,
+          "new_envelope": 0.16666666666666666
+        },
+        {
+          "case_id": "S1.B",
+          "recall": 0.9416666666666668,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.08333333333333333,
+          "new_envelope": 0.08333333333333333
+        },
+        {
+          "case_id": "S1.C",
+          "recall": 1.0,
+          "old_selected_hit": 0.08333333333333333,
+          "new_selected_hit": 0.08333333333333333,
+          "old_selected_attack": "continuity",
+          "new_selected_attack": "continuity",
+          "old_envelope": 0.25,
+          "new_envelope": 0.25
+        },
+        {
+          "case_id": "S2.A",
+          "recall": 0.9251322751322749,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.25,
+          "new_envelope": 0.25
+        },
+        {
+          "case_id": "S2.B",
+          "recall": 0.9382716049382714,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.25,
+          "new_envelope": 0.25
+        },
+        {
+          "case_id": "S2.C",
+          "recall": 0.9270833333333334,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_15",
+          "new_selected_attack": "shadow_knn_15",
+          "old_envelope": 0.1597222222222222,
+          "new_envelope": 0.1597222222222222
+        },
+        {
+          "case_id": "S3.A",
+          "recall": 0.8692129629629631,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_knn_1",
+          "old_envelope": 0.05694444444444444,
+          "new_envelope": 0.05694444444444444
+        },
+        {
+          "case_id": "S3.B",
+          "recall": 0.9138152356902357,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_knn_1",
+          "old_envelope": 0.027777777777777776,
+          "new_envelope": 0.027777777777777776
+        },
+        {
+          "case_id": "S3.C",
+          "recall": 0.8648611111111112,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_knn_1",
+          "old_envelope": 0.02857142857142857,
+          "new_envelope": 0.02857142857142857
+        }
+      ],
+      "families": [
+        {
+          "family_id": "family-201",
+          "recall": 0.920127376053302,
+          "recall_delta_vs_uniform": 0.007043895747599338
+        },
+        {
+          "family_id": "family-202",
+          "recall": 0.9488009726898616,
+          "recall_delta_vs_uniform": 0.006077441077441237
+        },
+        {
+          "family_id": "family-203",
+          "recall": 0.8514029180695848,
+          "recall_delta_vs_uniform": -0.010722302388968985
+        },
+        {
+          "family_id": "family-204",
+          "recall": 0.9732681755829904,
+          "recall_delta_vs_uniform": -0.002657750342935583
+        }
+      ]
+    },
+    {
+      "method": "balanced_cover",
+      "label": "C/C",
+      "validation_recall": 0.949129923574368,
+      "validation_min_case": 0.8666666666666666,
+      "recall": 0.8513739801008319,
+      "min_case_recall": 0.7972222222222222,
+      "old_selected_hit100": 0.009259259259259259,
+      "selected_hit100": 0.010030864197530864,
+      "old_selected_mae_m": 1263.360788835792,
+      "selected_mae_m": 1263.360788835792,
+      "old_exploratory_hit100": 0.06418283362727806,
+      "exploratory_hit100": 0.06418283362727806,
+      "by_category": {
+        "cafe": 0.7470620891454225,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 0.9937242798353911,
+        "pharmacy": 0.9276125006680562,
+        "restaurant": 0.40959809737587516
+      },
+      "dense_category_recall": 0.5783300932606488,
+      "valid_query_n": 4017,
+      "empty_reference_n": 69,
+      "min_distinct_coordinates": 5,
+      "step_p95_ms": 95.56312501081266,
+      "cases": [
+        {
+          "case_id": "S1.A",
+          "recall": 0.8305555555555556,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.08333333333333333,
+          "new_envelope": 0.08333333333333333
+        },
+        {
+          "case_id": "S1.B",
+          "recall": 0.7972222222222222,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.0,
+          "new_envelope": 0.0
+        },
+        {
+          "case_id": "S1.C",
+          "recall": 0.8638888888888888,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.25,
+          "new_envelope": 0.25
+        },
+        {
+          "case_id": "S2.A",
+          "recall": 0.8821428571428572,
+          "old_selected_hit": 0.08333333333333333,
+          "new_selected_hit": 0.08333333333333333,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.08333333333333333,
+          "new_envelope": 0.08333333333333333
+        },
+        {
+          "case_id": "S2.B",
+          "recall": 0.8243827160493827,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_5",
+          "new_selected_attack": "shadow_mean_45",
+          "old_envelope": 0.018518518518518517,
+          "new_envelope": 0.018518518518518517
+        },
+        {
+          "case_id": "S2.C",
+          "recall": 0.880324074074074,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "track_mean_1",
+          "new_selected_attack": "track_mean_1",
+          "old_envelope": 0.020833333333333332,
+          "new_envelope": 0.020833333333333332
+        },
+        {
+          "case_id": "S3.A",
+          "recall": 0.8700084175084175,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_knn_1",
+          "old_envelope": 0.03472222222222222,
+          "new_envelope": 0.03472222222222222
+        },
+        {
+          "case_id": "S3.B",
+          "recall": 0.8264204545454543,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.006944444444444444,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_loss_hit_action_15",
+          "old_envelope": 0.041666666666666664,
+          "new_envelope": 0.041666666666666664
+        },
+        {
+          "case_id": "S3.C",
+          "recall": 0.8874206349206349,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_knn_1",
+          "old_envelope": 0.045238095238095244,
+          "new_envelope": 0.045238095238095244
+        }
+      ],
+      "families": [
+        {
+          "family_id": "family-201",
+          "recall": 0.9496364883401921,
+          "recall_delta_vs_uniform": 0.036553008034489465
+        },
+        {
+          "family_id": "family-202",
+          "recall": 0.860746352413019,
+          "recall_delta_vs_uniform": -0.0819771791994014
+        },
+        {
+          "family_id": "family-203",
+          "recall": 0.7132577984429836,
+          "recall_delta_vs_uniform": -0.14886742201557013
+        },
+        {
+          "family_id": "family-204",
+          "recall": 0.8818552812071331,
+          "recall_delta_vs_uniform": -0.0940706447187929
+        }
+      ]
+    },
+    {
+      "method": "mixed_cover",
+      "label": "M/M",
+      "validation_recall": 0.9523358808543994,
+      "validation_min_case": 0.880925925925926,
+      "recall": 0.9304312525608821,
+      "min_case_recall": 0.8861111111111111,
+      "old_selected_hit100": 0.020833333333333332,
+      "selected_hit100": 0.020833333333333332,
+      "old_selected_mae_m": 1082.904843165983,
+      "selected_mae_m": 1082.904843165983,
+      "old_exploratory_hit100": 0.08721340388007054,
+      "exploratory_hit100": 0.08721340388007054,
+      "by_category": {
+        "cafe": 0.8979739858906525,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 0.9955747955747954,
+        "pharmacy": 0.9840323873657206,
+        "restaurant": 0.7050063465341244
+      },
+      "dense_category_recall": 0.8014901662123884,
+      "valid_query_n": 4017,
+      "empty_reference_n": 69,
+      "min_distinct_coordinates": 5,
+      "step_p95_ms": 94.36487502534874,
+      "cases": [
+        {
+          "case_id": "S1.A",
+          "recall": 0.9333333333333335,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.08333333333333333,
+          "new_envelope": 0.08333333333333333
+        },
+        {
+          "case_id": "S1.B",
+          "recall": 0.9333333333333332,
+          "old_selected_hit": 0.08333333333333333,
+          "new_selected_hit": 0.08333333333333333,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.08333333333333333,
+          "new_envelope": 0.08333333333333333
+        },
+        {
+          "case_id": "S1.C",
+          "recall": 1.0,
+          "old_selected_hit": 0.08333333333333333,
+          "new_selected_hit": 0.08333333333333333,
+          "old_selected_attack": "continuity",
+          "new_selected_attack": "continuity",
+          "old_envelope": 0.25,
+          "new_envelope": 0.25
+        },
+        {
+          "case_id": "S2.A",
+          "recall": 0.9301587301587301,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "centroid",
+          "new_selected_attack": "centroid",
+          "old_envelope": 0.08333333333333333,
+          "new_envelope": 0.08333333333333333
+        },
+        {
+          "case_id": "S2.B",
+          "recall": 0.93179012345679,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_5",
+          "new_selected_attack": "shadow_knn_5",
+          "old_envelope": 0.08333333333333333,
+          "new_envelope": 0.08333333333333333
+        },
+        {
+          "case_id": "S2.C",
+          "recall": 0.9456018518518517,
+          "old_selected_hit": 0.020833333333333332,
+          "new_selected_hit": 0.020833333333333332,
+          "old_selected_attack": "track_2",
+          "new_selected_attack": "track_2",
+          "old_envelope": 0.08333333333333333,
+          "new_envelope": 0.08333333333333333
+        },
+        {
+          "case_id": "S3.A",
+          "recall": 0.8861111111111111,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_loss_hit_action_45",
+          "old_envelope": 0.04305555555555555,
+          "new_envelope": 0.04305555555555555
+        },
+        {
+          "case_id": "S3.B",
+          "recall": 0.9180765993265995,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_loss_hit_action_45",
+          "old_envelope": 0.03472222222222222,
+          "new_envelope": 0.03472222222222222
+        },
+        {
+          "case_id": "S3.C",
+          "recall": 0.8954761904761904,
+          "old_selected_hit": 0.0,
+          "new_selected_hit": 0.0,
+          "old_selected_attack": "shadow_knn_1",
+          "new_selected_attack": "shadow_loss_hit_action_45",
+          "old_envelope": 0.04047619047619048,
+          "new_envelope": 0.04047619047619048
+        }
+      ],
+      "families": [
+        {
+          "family_id": "family-201",
+          "recall": 0.9408935920047031,
+          "recall_delta_vs_uniform": 0.027810111699000495
+        },
+        {
+          "family_id": "family-202",
+          "recall": 0.9461067464771168,
+          "recall_delta_vs_uniform": 0.0033832148646963933
+        },
+        {
+          "family_id": "family-203",
+          "recall": 0.8621252204585538,
+          "recall_delta_vs_uniform": 0.0
+        },
+        {
+          "family_id": "family-204",
+          "recall": 0.9725994513031551,
+          "recall_delta_vs_uniform": -0.003326474622770914
+        }
+      ]
+    }
+  ],
+  "selection": {
+    "chosen": {
+      "method": "uniform_cover",
+      "min_case_recall": 0.8812962962962962,
+      "macro_hit100": 0.0785166479610924
+    },
+    "utility_feasible": false,
+    "candidates": [
+      {
+        "method": "baseline",
+        "min_case_recall": 0.7975925925925926,
+        "macro_hit100": 0.22971781305114636
+      },
+      {
+        "method": "service_cover",
+        "min_case_recall": 0.8444444444444444,
+        "macro_hit100": 0.07645903479236812
+      },
+      {
+        "method": "uniform_cover",
+        "min_case_recall": 0.8812962962962962,
+        "macro_hit100": 0.0785166479610924
+      },
+      {
+        "method": "learned_initial_uniform_motion",
+        "min_case_recall": 0.8444444444444444,
+        "macro_hit100": 0.09189113355780022
+      },
+      {
+        "method": "uniform_initial_learned_motion",
+        "min_case_recall": 0.8803703703703704,
+        "macro_hit100": 0.06719977553310887
+      },
+      {
+        "method": "balanced_cover",
+        "min_case_recall": 0.8666666666666666,
+        "macro_hit100": 0.0733726150392817
+      },
+      {
+        "method": "mixed_cover",
+        "min_case_recall": 0.880925925925926,
+        "macro_hit100": 0.09189113355780022
+      }
+    ]
+  },
+  "factorial_recall_contrasts": {
+    "initial_change_given_learned_motion": 0.0822045298665669,
+    "initial_change_given_uniform_motion": 0.08285035095220283,
+    "motion_change_given_learned_initial": -0.0005811421089200186,
+    "motion_change_given_uniform_initial": 6.467897671591505e-05
+  },
+  "sources": {
+    "training": "d3ec90d22ccd0c2aafcc365355864c354e2f17eb6443929c985f95d0eb2f6fe7",
+    "validation": "5a76f89c651bd9387bc29eb301faae71dd3c0ee839ab26e779c2eb46d1f4b68c",
+    "selection": "f41f47fd483bfc08e04b31fe3f9a8319aeee61feadcba068fa1ea6969fa2e6ba",
+    "development": "55a11dd9b7d3d0fd860985e90ea27d29be6ff32295cfef1d0fb8068df11b6e4b"
+  },
+  "exporter_sha256": "5ada5e3a62fd27ea3f0ad2e8a5f30d380526694fec35560c5ab18a63d1de1c60",
+  "training_support": {
+    "baseline": {
+      "observations": 360,
+      "unique_xy": 36
+    },
+    "service_cover": {
+      "observations": 360,
+      "unique_xy": 36
+    },
+    "uniform_cover": {
+      "observations": 360,
+      "unique_xy": 36
+    },
+    "learned_initial_uniform_motion": {
+      "observations": 360,
+      "unique_xy": 36
+    },
+    "uniform_initial_learned_motion": {
+      "observations": 360,
+      "unique_xy": 36
+    },
+    "balanced_cover": {
+      "observations": 360,
+      "unique_xy": 36
+    },
+    "mixed_cover": {
+      "observations": 360,
+      "unique_xy": 36
+    }
+  },
+  "definitions": {
+    "aggregation": "eligible category-event mean per run, equal case/family/replicate averages",
+    "old_bank": "all original attacks incl kNN 1/5/15; validation-selected independently per metric/case",
+    "new_bank": "old bank plus 5 loss-aware/mean45 attacks, same train data, validation selection",
+    "independence": "four reused families; three RNG draws are not additional independent users",
+    "privacy": "approximate empirical attacks, not calibrated posterior or bound on all attacks",
+    "timing": "shared machine; controls reuse old timings, not a controlled speed comparison"
+  }
+}

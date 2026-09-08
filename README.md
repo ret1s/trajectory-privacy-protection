@@ -15,12 +15,14 @@ it against explicit attacker, utility, and output-contract assumptions.
 - Comparator status and evidence: [`benchmark/README.md`](benchmark/README.md)
 - Documentation index: [`docs/README.md`](docs/README.md)
 - Current research cycle: [`thesis/notes/paper_cycle_v2_protocol.md`](thesis/notes/paper_cycle_v2_protocol.md)
-- Latest method development: [`prior/corridor ablation`](artifacts/benchmarks/service_recovery/)
-  and [`candidate declaration`](thesis/notes/service_recovery_candidate_protocol.md).
+- Latest method development: [`prior factors and loss-aware attacks`](artifacts/benchmarks/prior_factors/)
+  and [`prespecified protocol`](thesis/notes/prior_factor_protocol.md).
   Reused 201–204 families are development evidence, not new confirmation.
+- Preceding method development: [`prior/corridor ablation`](artifacts/benchmarks/service_recovery/).
 - Preceding independent confirmation: [`service-cover study`](artifacts/benchmarks/service_cover/)
   on [`scenario data v3`](artifacts/datasets/urban_scenarios_v3/)
-- Publication-oriented critique: [`latest targeted literature review`](docs/research/service_recovery_literature_review.md)
+- Publication-oriented critique: [`latest targeted literature review`](docs/research/prior_factor_literature_review.md)
+  and [`independent verification / next research gates`](docs/reviews/verification_prior_factors.md).
 - Preceding frozen study: [`belief-suite results`](artifacts/benchmarks/belief_suite/)
 
 ## Repository layout

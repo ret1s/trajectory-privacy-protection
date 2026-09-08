@@ -6,7 +6,8 @@ review when reproducing an old finding.
 
 ## Current entry points
 
-- Latest prior/corridor development ablation: [`verification_service_recovery.md`](verification_service_recovery.md)
+- Latest prior-factor / loss-aware attack verification: [`verification_prior_factors.md`](verification_prior_factors.md)
+- Preceding prior/corridor development ablation: [`verification_service_recovery.md`](verification_service_recovery.md)
 - Preceding independent confirmation and literature critique: [`verification_service_cover.md`](verification_service_cover.md)
 
 - Dataset database and thesis reproducibility: [`verification_scenario_store.md`](verification_scenario_store.md)
