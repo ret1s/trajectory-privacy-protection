@@ -103,6 +103,7 @@ cho người dùng dịch vụ dựa trên vị trí\par}
 \hypersetup{pageanchor=true}
 \pagenumbering{roman}
 \begingroup
+\small
 \setstretch{1.04}
 \tableofcontents
 \endgroup
@@ -137,6 +138,8 @@ Bài toán được xác định theo bốn mục tiêu: vị trí và quỹ đ�
 Thiết kế tập dữ liệu sử dụng SUMO trên mạng đường OpenStreetMap, kết hợp lớp sinh kịch bản để bổ sung lịch truy vấn, ý định tìm kiếm, quan hệ nhiều phiên và quan hệ nhóm. Các phương pháp sinh dữ liệu giả được khảo sát theo nguyên lý hoạt động, giao diện đầu ra và điều kiện so sánh công bằng, đặc biệt là tính nhân quả của xử lý trực tuyến.
 
 Bộ dữ liệu được phiên bản hóa bằng SQLite; v3 chứa 176 phiên, 124.852 mẫu FCD và 269 bản ghi kịch bản. Bốn nhóm xác nhận mới được tách khỏi dữ liệu đã dùng để sửa mô hình. Biến thể BR-phân bố khai thác lịch sử neo đã bảo vệ; BR-phủ dịch vụ tối ưu chung tập truy vấn theo độ phủ POI dưới ràng buộc tới được. Trên chín ca S1--S3, biến thể phủ cải thiện validation ở một cấu hình nhưng không giữ được lợi ích utility trên xác nhận. Các kết quả âm và đối chứng chỉ dùng prior được giữ để phân biệt tiến bộ thực nghiệm với giả thuyết chưa được xác nhận.
+
+Sau khi chuyển các nhóm đã xem sang vai trò phát triển, biến thể phủ-đều đạt Recall 92,35\% so với 87,48\% của BR-làn ở $K=5$. Giới hạn ứng viên hướng neo không cải thiện chất lượng trong cấu hình đã thử. Kết quả giúp định hướng thuật toán, nhưng chưa có tập xác nhận mới và vẫn còn các ca chưa đạt ngưỡng dịch vụ.
 
 Phần thực nghiệm xét S1--S3 và hai tình huống che điểm đầu/cuối S9--S10 bằng dữ liệu SUMO. Luận văn xây dựng BR-Dummy: kết hợp neo riêng tư, phép kiểm tra tái sử dụng có nhiễu, ngân sách phiên hữu hạn và sinh dummy theo miền đường có thể tới. Các thành phần dự đoán riêng tư kế thừa nghiên cứu trước; đóng góp được khảo sát là cách tích hợp và quy trình kiểm chứng, không mặc nhiên là một nguyên lý riêng tư mới. Các phép đo tách sai số suy luận, tỷ lệ đoán đúng, chất lượng POI và chi phí. Số chuyến còn nhỏ và các comparator là bản thích nghi; chưa có cơ sở khẳng định bảo vệ cả mười kịch bản hoặc vượt kết quả SOTA.
 

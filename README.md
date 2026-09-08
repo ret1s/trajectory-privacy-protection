@@ -15,10 +15,12 @@ it against explicit attacker, utility, and output-contract assumptions.
 - Comparator status and evidence: [`benchmark/README.md`](benchmark/README.md)
 - Documentation index: [`docs/README.md`](docs/README.md)
 - Current research cycle: [`thesis/notes/paper_cycle_v2_protocol.md`](thesis/notes/paper_cycle_v2_protocol.md)
-- Latest method/dataset extension: [`service-cover protocol`](thesis/notes/service_cover_protocol.md),
-  [`scenario data v3`](artifacts/datasets/urban_scenarios_v3/), and
-  [`three-stage method study`](artifacts/benchmarks/service_cover/)
-- Publication-oriented critique: [`targeted literature review`](docs/research/service_cover_literature_review.md)
+- Latest method development: [`prior/corridor ablation`](artifacts/benchmarks/service_recovery/)
+  and [`candidate declaration`](thesis/notes/service_recovery_candidate_protocol.md).
+  Reused 201–204 families are development evidence, not new confirmation.
+- Preceding independent confirmation: [`service-cover study`](artifacts/benchmarks/service_cover/)
+  on [`scenario data v3`](artifacts/datasets/urban_scenarios_v3/)
+- Publication-oriented critique: [`latest targeted literature review`](docs/research/service_recovery_literature_review.md)
 - Preceding frozen study: [`belief-suite results`](artifacts/benchmarks/belief_suite/)
 
 ## Repository layout

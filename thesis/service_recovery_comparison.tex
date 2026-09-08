@@ -1,0 +1,52 @@
+\begingroup
+\widowpenalty=10000
+\clubpenalty=10000
+\section{Phân tích phụ thuộc prior và kiểm tra miền hướng neo}
+\label{sec:recovery-experiment}
+
+\subsection{Chẩn đoán tại lịch sử công bố cố định}
+
+Kết quả âm ở Mục~\ref{sec:service-cover-experiment} đặt ra hai khả năng: phân bố vị trí ước lượng ưu tiên sai vùng, hoặc các dummy đã chọn hạn chế vùng có thể phục vụ tiếp. Phép chẩn đoán giữ nguyên các trạng thái dummy trước mỗi sự kiện của bản phủ-học, rồi thay mục tiêu phủ hoặc bỏ ràng buộc tới được cho riêng bước đó. Dùng đủ 36 bản ghi của nhóm 201--204, $K=5$, một hạt ngẫu nhiên, gồm 227 sự kiện. Các nhóm này đã được xem kết quả nên từ đây chỉ là dữ liệu phát triển; nhãn chia tập trong phiên bản SQLite lịch sử không bị sửa.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Recall (\%) của các can thiệp tại một bước, trên cùng lịch sử dummy cũ. Cột bỏ ràng buộc và hàng dùng vị trí thật chỉ phục vụ chẩn đoán.}
+\label{tab:recovery-diagnostic}
+\begin{tabular}{lrr}
+\toprule
+Nguồn trọng số POI & Có ràng buộc tới được & Bỏ ràng buộc tới được\\
+\midrule
+Phân bố học & 84,98 & 89,98\\
+Phân bố đều & 89,74 & 95,00\\
+Chỉ neo đã bảo vệ & 84,53 & 87,42\\
+Vị trí thật, chỉ bộ đánh giá & 91,88 & 100,00\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Thay phân bố học bằng phân bố đều cải thiện các quyết định tại lịch sử cố định; chỉ thay bằng POI quanh một neo không cho hiệu quả tương tự. Khoảng cách giữa hai cột cũng cho thấy miền tới được hạn chế lựa chọn có ích. Tuy nhiên không cộng các mức tăng thành lợi ích của một thuật toán hoàn chỉnh: thay một bước sẽ làm đổi miền ở những bước sau. Hàng vị trí thật sử dụng thông tin không được cấp cho cơ chế bảo vệ; phép tham lam này cũng không phải chứng nhận nghiệm tối ưu.
+
+Trong phép chẩn đoán bổ sung, sai số tâm phân bố học, phân bố đều và neo lần lượt là 637,0 m, 267,1 m và 281,0 m, tính tới trạng thái đường gần vị trí thật nhất. Đây là sai số ước lượng bên trong thiết bị, \emph{không phải MAE của đối thủ}; cũng không thay thế phép đo bằng GPS gốc trong benchmark. Phân bố đều đồng thời thay trọng số ban đầu, trọng số chuyển động và cách cân bằng mật độ trạng thái giữa các ô, nên chưa thể quy mọi khác biệt cho riêng prior ban đầu.
+
+\subsection{Thực nghiệm trên toàn bộ chuỗi quan sát}
+
+Ba cấu hình mới ở Mục~\ref{sec:recovery-method} được chạy cùng BR-làn, BR-phân bố 24 và phủ-học. Vòng phát triển giới hạn ở $K=5$, $B=0{,}24/\mathrm m$, tối đa 12 quan sát được phép và ba hạt ngẫu nhiên ghép cặp. Các nhánh được sinh nối tiếp từ \emph{đầu ra riêng của từng cơ chế}, không dùng lại lịch sử dummy cố định của phép chẩn đoán. Dữ liệu và kết quả cũ giữ nguyên; không tạo thêm bản dữ liệu chỉ vì đổi thuật toán.
+
+Nhóm 101/102 học sáu bộ suy ngược, mỗi bộ ứng với một cơ chế; 103/104 chọn đối thủ và cấu hình. Quy tắc chọn giữ ngưỡng Recall trung bình của mọi ca đạt 90\%. Không cấu hình nào đạt: bản phủ-đều được chọn dự phòng với Recall trung bình 95,23\% và ca yếu nhất 88,13\%. Miền hướng neo làm ca yếu nhất giảm còn 70,17\% ở cả hai loại prior. Cấu hình và lựa chọn đối thủ được khóa trước khi đọc điểm của ba biến thể mới trên 201--204; điều này không khôi phục tính độc lập cho dữ liệu đã được dùng chẩn đoán.
+
+\input{../artifacts/benchmarks/service_recovery/results_tables.tex}
+
+Trên bốn nhóm phát triển 201--204, phủ-đều đạt Recall 92,35\%, cao hơn BR-làn 87,48\% và phủ-học 84,12\%. Chênh lệch so với BR-làn theo từng nhóm là $+3{,}83$, $+6{,}60$, $+4{,}03$ và $+5{,}02$ điểm phần trăm. Các mức này là mô tả ghép cặp, không phải khoảng tin cậy. Cột \emph{POI dày} là trung bình cà phê/nhà hàng: tăng từ 65,48\% lên 78,00\%, cho thấy mức tăng không chỉ đến từ các danh mục nhỏ vốn dễ đạt 100\%.
+
+Mỗi cơ chế có 4.017 lượt loại dịch vụ--sự kiện đánh giá được và 69 lượt không có tham chiếu, giữ N/A. Tỷ lệ trả đủ bằng 100\% ở cả sáu cơ chế, nhưng khoảng cách tăng thêm có điều kiện của phủ-đều là 49,96 m, so với 106,39 m của BR-làn. Số truy vấn logic cho sáu tác vụ đánh giá vẫn là 20.430 mỗi cơ chế; chưa đo số gói mạng thực.
+
+Hit của đối thủ đã chọn cho phủ-đều là 2,78\%, thấp hơn 8,46\% của BR-làn. Tuy nhiên bao trên thăm dò đạt 14,30\%, và một số ca dừng có đối thủ đạt 25\%; không được hiểu 2,78\% là xác suất thành công của mọi đối thủ. So với phủ-học, phủ-đều tăng utility nhưng cũng tăng Hit, nên không phải cải thiện đồng thời theo mọi đối chứng. Đối thủ phụ trợ vẫn chỉ học từ hai nhóm tổng hợp.
+
+Hai bản có miền hướng neo đạt Recall 82,50\% và 82,09\%; có sự kiện cả năm nhánh trùng một tọa độ. Chúng không được chọn làm hướng chính. Kết quả phản bác giả định rằng ép dummy tiến gần một neo hiện tại luôn giúp dịch vụ: miền quá hẹp có thể làm mất khả năng phủ nhiều vùng. Đây là kết luận về cấu hình đã thử, không phủ nhận mọi hình thức lập kế hoạch theo đường.
+
+\subsection{Kết luận phát triển và giới hạn suy rộng}
+
+Phủ-đều là ứng viên đáng tiếp tục kiểm tra, chưa là bản thay thế đã xác nhận. Hai ca S3.A và S3.C vẫn chỉ đạt 86,69\% và 86,01\%. Bốn nhóm dùng cùng bản đồ, danh mục POI và quy tắc sinh; các lần lặp ngẫu nhiên không tạo thêm người dùng độc lập. Thời gian bước trung vị của phủ-đều là 3,06 ms và phân vị 95 là 93,19 ms trên máy phát triển, chưa tính khởi tạo, mạng hoặc đo trên thiết bị di động. Thời gian của các bản cũ được tái sử dụng nên không dùng bảng này để tuyên bố tăng tốc.
+
+Nghiên cứu gần của Atmaca và cộng sự dùng một vị trí đã làm nhiễu cùng các dummy và tầng Edge xáo trộn truy vấn; chỉ tiêu CoP đo chi phí di chuyển tăng thêm.~\citep{atmaca2024ev} So sánh trực tiếp còn cần thống nhất ranh giới tin cậy và tác vụ dịch vụ, không chỉ cùng số dummy. Bước tiếp theo cần tách ảnh hưởng của mật độ trạng thái khỏi prior học, tăng độ mạnh của đối thủ, rồi khóa ứng viên trước một tập xác nhận mới. Chưa có kết luận vượt SOTA, bảo vệ đủ mười kịch bản hoặc sẵn sàng nộp hội nghị từ phép thử phát triển này.
+\par\endgroup

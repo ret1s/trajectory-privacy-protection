@@ -55,9 +55,16 @@ a preceding internal diagnostic, not a replacement for the comparator benchmark
 or an all-ten-scenario protection result. Frozen predecessor evidence above
 remains unchanged.
 
-[`benchmarks/service_cover/`](benchmarks/service_cover/) is the latest proposed-
+[`benchmarks/service_cover/`](benchmarks/service_cover/) is the preceding proposed-
 method ablation: joint POI coverage, prior-only negative control, method-specific
 shadow attacks, three RNG repetitions and four new confirmation families.
 It reads a pinned SQLite release; training, validation/selection and confirmation
 have separate manifests. This remains an S1–S3 diagnostic, not ten solved attacks
 or a new leaderboard against faithful SOTA implementations.
+
+[`benchmarks/service_recovery/`](benchmarks/service_recovery/) diagnoses the
+service-cover failure and tests a uniform-public-cell prior and a directed
+candidate corridor at K=5. Its 201–204 results are **reused development**, not
+fresh confirmation; the immutable dataset and its historical split labels stay
+unchanged. Only experiment roles change. Six methods, including three exactly
+reused controls, share the same allowed inputs, anchor draws and service metrics.

@@ -1,0 +1,32 @@
+\begingroup
+\widowpenalty=10000
+\clubpenalty=10000
+\section{Phân bố tham chiếu công khai và miền ứng viên hướng tới neo}
+\label{sec:recovery-method}
+
+\subsection{Giảm phụ thuộc vào phân bố tuyến huấn luyện}
+
+Tối ưu theo một phân bố học từ ít tuyến có thể ưu tiên đúng các vùng quen thuộc nhưng bỏ sót vùng người dùng mới đi qua. Đây không phải hạn chế mới của ánh xạ Bayes: nghiên cứu về cải thiện utility đã chỉ ra người dùng lệch khỏi prior chung có thể chịu thiệt, đồng thời đề cập biện pháp dự phòng và giới hạn miền ánh xạ quanh đầu ra đã bảo vệ.~\citep{chatzikokolakis2017utility}
+
+Đối chứng \emph{phủ-đều} thay prior học bằng phân bố đều trên các ô bản đồ công khai có chứa trạng thái đường. Nếu ô $c$ chứa $n_c$ trạng thái và có $M$ ô, gán trọng số mỗi trạng thái là $1/(Mn_c)$; khi gộp lên lưới 120 m, mỗi ô nhận đúng $1/M$. Vì vậy nhiều điểm lấy mẫu làn trong một ô không tự động làm ô đó có xác suất cao hơn. Thay đổi này áp dụng cả prior ban đầu và các trọng số prior trong chuyển động xấp xỉ; không chỉ thay giá trị khởi tạo của bộ lọc.
+
+Giữ nguyên lưới, mô hình phát neo, phép cập nhật Bayes và mục tiêu phủ POI ở Mục~\ref{sec:service-cover-method}. Phân bố đều không phải mô hình dân cư thực, cũng không loại hết giả định chuyển động. Nó là đối chứng nhằm kiểm tra mức lệ thuộc của cơ chế vào các tuyến học, thay vì mặc định rằng dữ liệu lịch sử luôn giúp ích.
+
+\subsection{Giới hạn ứng viên theo khoảng cách đường}
+
+Một tập dummy có thể đạt điểm phủ tốt nhưng ở vị trí khó tiếp tục phục vụ khi neo thay đổi. Biến thể \emph{có miền hướng neo} bổ sung một giới hạn cục bộ trước bước chọn tham lam. Với neo đã bảo vệ $a_t$, chọn trạng thái $g_t$ trong thành phần liên thông mạnh công khai gần $a_t$ nhất theo khoảng cách Euclid. Gọi $d_G(v,g_t)$ là độ dài đường có hướng từ $v$ tới $g_t$. Miền ứng viên mới của nhánh $j$ là
+\[
+\widetilde{\mathcal R}_{t,j}=\left\{v\in\mathcal R_{t,j}:\;
+d_G(v,g_t)\leq\min_{u\in\mathcal R_{t,j}}d_G(u,g_t)+\Delta\right\},
+\qquad \Delta=200\ \mathrm m.
+\]
+Miền này luôn không rỗng vì chứa ít nhất một trạng thái đạt cực tiểu. Giới hạn là tương đối với vị trí tốt nhất mà từng nhánh \emph{có thể tới}, không yêu cầu tất cả dummy cách neo dưới 200 m. Sau đó áp dụng cùng phép chọn phủ tham lam và quy tắc xử lý bằng điểm như trước.
+
+Khoảng cách có hướng giúp phân biệt hai điểm gần nhau về hình học nhưng phải đi vòng theo đường. Tuy nhiên đây chỉ là ưu tiên tiến gần một mục tiêu hiện tại, chưa là tối ưu nhìn trước cả tuyến hoặc tuân thủ đèn giao thông. Giá trị 200 m là một lựa chọn phát triển cố định, chưa được chứng minh tối ưu. Thử riêng prior học, prior đều và việc bật/tắt miền cho phép quan sát lợi ích hoặc tác hại của từng thành phần.
+
+\subsection{Bảo đảm và giới hạn}
+
+Cả prior đều và miền hướng neo chỉ sử dụng bản đồ, thời gian công khai và lịch sử neo đã bảo vệ. Không thêm lần đọc GPS, không cắt miền nhiễu theo vị trí thật. Do đó lập luận hậu xử lý và ngân sách neo lý tưởng được giữ nguyên. Chặn tham lam $1/2$ chỉ áp dụng trên \emph{miền đã thu hẹp} của bước hiện tại, không so với nghiệm của miền ban đầu; giới hạn ứng viên có thể loại các điểm trả POI hữu ích.
+
+Tăng Recall có thể đi kèm tăng khả năng suy luận của đối thủ. Vì vậy không xem ưu tiên utility là một cải tiến riêng tư mặc nhiên, không suy ra ẩn danh từ số nhánh, và chưa đổi phương pháp mặc định chỉ bằng một phép thử phát triển.
+\par\endgroup

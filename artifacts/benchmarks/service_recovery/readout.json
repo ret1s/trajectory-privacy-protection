@@ -1,0 +1,380 @@
+{
+  "scope": "development_only_not_independent_confirmation",
+  "summary": [
+    {
+      "method": "baseline",
+      "validation_recall": 0.8653987850284147,
+      "validation_min_case_recall": 0.7975925925925926,
+      "recall": 0.8747658908307056,
+      "min_case_recall": 0.8401346801346801,
+      "selected_hit100": 0.08457892416225748,
+      "selected_mae_m": 744.8160829900813,
+      "exploratory_hit100": 0.1681437389770723,
+      "completion": 1.0,
+      "by_category": {
+        "cafe": 0.760124124846347,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 0.9798637165303832,
+        "pharmacy": 0.9350018037518039,
+        "restaurant": 0.5495316257816258
+      },
+      "dense_category_recall": 0.6548278753139865,
+      "valid_query_n": 4017,
+      "empty_reference_n": 69,
+      "extra_distance_conditional_mean_m": 106.38707086238719,
+      "extra_distance_n": 4017,
+      "step_p50_ms": 2.9323749768082052,
+      "step_p95_ms": 33.25591699103825,
+      "init_mean_ms": 363.1339764364788,
+      "min_distinct_coordinates": 4,
+      "logical_category_location_queries": 20430,
+      "paired_families": [
+        {
+          "family_id": "family-201",
+          "recall": 0.8747393689986283,
+          "recall_delta_vs_baseline": 0.0
+        },
+        {
+          "family_id": "family-202",
+          "recall": 0.8767651826911085,
+          "recall_delta_vs_baseline": 0.0
+        },
+        {
+          "family_id": "family-203",
+          "recall": 0.8218525644451572,
+          "recall_delta_vs_baseline": 0.0
+        },
+        {
+          "family_id": "family-204",
+          "recall": 0.9257064471879285,
+          "recall_delta_vs_baseline": 0.0
+        }
+      ]
+    },
+    {
+      "method": "belief24",
+      "validation_recall": 0.8994434646286498,
+      "validation_min_case_recall": 0.7982407407407407,
+      "recall": 0.8976503126503127,
+      "min_case_recall": 0.8559343434343436,
+      "selected_hit100": 0.07978395061728394,
+      "selected_mae_m": 650.2429437796659,
+      "exploratory_hit100": 0.15242504409171076,
+      "completion": 1.0,
+      "by_category": {
+        "cafe": 0.8258302602747047,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 0.9857223023889693,
+        "pharmacy": 0.9546602934102935,
+        "restaurant": 0.6091951926674148
+      },
+      "dense_category_recall": 0.7175127264710598,
+      "valid_query_n": 4017,
+      "empty_reference_n": 69,
+      "extra_distance_conditional_mean_m": 79.47310999360583,
+      "extra_distance_n": 4017,
+      "step_p50_ms": 3.304333979031071,
+      "step_p95_ms": 68.44541701138951,
+      "init_mean_ms": 358.971255769979,
+      "min_distinct_coordinates": 4,
+      "logical_category_location_queries": 20430,
+      "paired_families": [
+        {
+          "family_id": "family-201",
+          "recall": 0.900286106212032,
+          "recall_delta_vs_baseline": 0.025546737213403725
+        },
+        {
+          "family_id": "family-202",
+          "recall": 0.8904102755954606,
+          "recall_delta_vs_baseline": 0.013645092904352119
+        },
+        {
+          "family_id": "family-203",
+          "recall": 0.866153154116117,
+          "recall_delta_vs_baseline": 0.044300589670959845
+        },
+        {
+          "family_id": "family-204",
+          "recall": 0.9337517146776405,
+          "recall_delta_vs_baseline": 0.008045267489712016
+        }
+      ]
+    },
+    {
+      "method": "service_cover",
+      "validation_recall": 0.946423182441701,
+      "validation_min_case_recall": 0.8444444444444444,
+      "recall": 0.8411953307323679,
+      "min_case_recall": 0.7888888888888888,
+      "selected_hit100": 0.0,
+      "selected_mae_m": 1349.4599989409444,
+      "exploratory_hit100": 0.050617283950617285,
+      "completion": 1.0,
+      "by_category": {
+        "cafe": 0.7150454946288279,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 0.9923611111111111,
+        "pharmacy": 0.914800384800385,
+        "restaurant": 0.39224894447116676
+      },
+      "dense_category_recall": 0.5536472195499973,
+      "valid_query_n": 4017,
+      "empty_reference_n": 69,
+      "extra_distance_conditional_mean_m": 184.17049989736662,
+      "extra_distance_n": 4017,
+      "step_p50_ms": 3.1633749895263463,
+      "step_p95_ms": 105.59495800407603,
+      "init_mean_ms": 366.47403893423166,
+      "min_distinct_coordinates": 5,
+      "logical_category_location_queries": 20430,
+      "paired_families": [
+        {
+          "family_id": "family-201",
+          "recall": 0.9314452282970801,
+          "recall_delta_vs_baseline": 0.056705859298451844
+        },
+        {
+          "family_id": "family-202",
+          "recall": 0.8547830153385708,
+          "recall_delta_vs_baseline": -0.021982167352537663
+        },
+        {
+          "family_id": "family-203",
+          "recall": 0.6970921739440258,
+          "recall_delta_vs_baseline": -0.12476039050113141
+        },
+        {
+          "family_id": "family-204",
+          "recall": 0.8814609053497944,
+          "recall_delta_vs_baseline": -0.04424554183813412
+        }
+      ]
+    },
+    {
+      "method": "uniform_cover",
+      "validation_recall": 0.9523402900254752,
+      "validation_min_case_recall": 0.8812962962962962,
+      "recall": 0.9234645395756507,
+      "min_case_recall": 0.8600595238095239,
+      "selected_hit100": 0.027777777777777776,
+      "selected_mae_m": 1283.558343680452,
+      "exploratory_hit100": 0.14298941798941797,
+      "completion": 1.0,
+      "by_category": {
+        "cafe": 0.8851491769547325,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 0.9952044252044252,
+        "pharmacy": 0.9856681898348564,
+        "restaurant": 0.6747654454598899
+      },
+      "dense_category_recall": 0.7799573112073113,
+      "valid_query_n": 4017,
+      "empty_reference_n": 69,
+      "extra_distance_conditional_mean_m": 49.95942407825213,
+      "extra_distance_n": 4017,
+      "step_p50_ms": 3.0576669960282743,
+      "step_p95_ms": 93.18750002421439,
+      "init_mean_ms": 316.52695835887073,
+      "min_distinct_coordinates": 5,
+      "logical_category_location_queries": 20430,
+      "paired_families": [
+        {
+          "family_id": "family-201",
+          "recall": 0.9130834803057026,
+          "recall_delta_vs_baseline": 0.03834411130707438
+        },
+        {
+          "family_id": "family-202",
+          "recall": 0.9427235316124204,
+          "recall_delta_vs_baseline": 0.06595834892131192
+        },
+        {
+          "family_id": "family-203",
+          "recall": 0.8621252204585538,
+          "recall_delta_vs_baseline": 0.04027265601339658
+        },
+        {
+          "family_id": "family-204",
+          "recall": 0.975925925925926,
+          "recall_delta_vs_baseline": 0.05021947873799748
+        }
+      ]
+    },
+    {
+      "method": "learned_corridor",
+      "validation_recall": 0.8252714089751128,
+      "validation_min_case_recall": 0.7016666666666668,
+      "recall": 0.8250209212940695,
+      "min_case_recall": 0.7606797138047137,
+      "selected_hit100": 0.047619047619047616,
+      "selected_mae_m": 758.2826589042011,
+      "exploratory_hit100": 0.10208333333333335,
+      "completion": 1.0,
+      "by_category": {
+        "cafe": 0.6603628213350435,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 0.9613139329805998,
+        "pharmacy": 0.8877971514082624,
+        "restaurant": 0.42645409117631344
+      },
+      "dense_category_recall": 0.5434084562556785,
+      "valid_query_n": 4017,
+      "empty_reference_n": 69,
+      "extra_distance_conditional_mean_m": 197.0341766019114,
+      "extra_distance_n": 4017,
+      "step_p50_ms": 9.425666008610278,
+      "step_p95_ms": 11.115792003693059,
+      "init_mean_ms": 433.64045989814997,
+      "min_distinct_coordinates": 1,
+      "logical_category_location_queries": 20430,
+      "paired_families": [
+        {
+          "family_id": "family-201",
+          "recall": 0.7906447187928669,
+          "recall_delta_vs_baseline": -0.08409465020576135
+        },
+        {
+          "family_id": "family-202",
+          "recall": 0.812186681631126,
+          "recall_delta_vs_baseline": -0.06457850105998253
+        },
+        {
+          "family_id": "family-203",
+          "recall": 0.8390732724066057,
+          "recall_delta_vs_baseline": 0.017220707961448478
+        },
+        {
+          "family_id": "family-204",
+          "recall": 0.8581790123456791,
+          "recall_delta_vs_baseline": -0.06752743484224943
+        }
+      ]
+    },
+    {
+      "method": "uniform_corridor",
+      "validation_recall": 0.8255286106212031,
+      "validation_min_case_recall": 0.7016666666666668,
+      "recall": 0.8209449655282989,
+      "min_case_recall": 0.7659722222222224,
+      "selected_hit100": 0.07592592592592592,
+      "selected_mae_m": 751.233582329822,
+      "exploratory_hit100": 0.13581349206349205,
+      "completion": 1.0,
+      "by_category": {
+        "cafe": 0.6545169953503287,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 0.960843621399177,
+        "pharmacy": 0.8864288386510609,
+        "restaurant": 0.4096828069050291
+      },
+      "dense_category_recall": 0.5320999011276789,
+      "valid_query_n": 4017,
+      "empty_reference_n": 69,
+      "extra_distance_conditional_mean_m": 200.02794765150034,
+      "extra_distance_n": 4017,
+      "step_p50_ms": 9.40562499454245,
+      "step_p95_ms": 10.876875021494925,
+      "init_mean_ms": 435.9600382209734,
+      "min_distinct_coordinates": 1,
+      "logical_category_location_queries": 20430,
+      "paired_families": [
+        {
+          "family_id": "family-201",
+          "recall": 0.7924279835390947,
+          "recall_delta_vs_baseline": -0.08231138545953354
+        },
+        {
+          "family_id": "family-202",
+          "recall": 0.8125158997381219,
+          "recall_delta_vs_baseline": -0.0642492829529866
+        },
+        {
+          "family_id": "family-203",
+          "recall": 0.8211199294532628,
+          "recall_delta_vs_baseline": -0.0007326349918943542
+        },
+        {
+          "family_id": "family-204",
+          "recall": 0.8577160493827161,
+          "recall_delta_vs_baseline": -0.06799039780521243
+        }
+      ]
+    }
+  ],
+  "selection": {
+    "chosen": {
+      "method": "uniform_cover",
+      "min_case_recall": 0.8812962962962962,
+      "macro_hit100": 0.0768331462775907
+    },
+    "utility_feasible": false,
+    "candidates": [
+      {
+        "method": "baseline",
+        "min_case_recall": 0.7975925925925926,
+        "macro_hit100": 0.22971781305114636
+      },
+      {
+        "method": "belief24",
+        "min_case_recall": 0.7982407407407407,
+        "macro_hit100": 0.2609427609427609
+      },
+      {
+        "method": "service_cover",
+        "min_case_recall": 0.8444444444444444,
+        "macro_hit100": 0.04405162738496071
+      },
+      {
+        "method": "uniform_cover",
+        "min_case_recall": 0.8812962962962962,
+        "macro_hit100": 0.0768331462775907
+      },
+      {
+        "method": "learned_corridor",
+        "min_case_recall": 0.7016666666666668,
+        "macro_hit100": 0.09938672438672438
+      },
+      {
+        "method": "uniform_corridor",
+        "min_case_recall": 0.7016666666666668,
+        "macro_hit100": 0.11525974025974024
+      }
+    ]
+  },
+  "diagnostic": {
+    "learned/reachable": 0.8497897961092405,
+    "learned/free": 0.8998406685906686,
+    "uniform/reachable": 0.8973683929239483,
+    "uniform/free": 0.9499539041205709,
+    "anchor/reachable": 0.8452585377585378,
+    "anchor/free": 0.8742164368553256,
+    "truth_oracle/reachable": 0.9188118954091178,
+    "truth_oracle/free": 1.0,
+    "learned_mean_error_m": 637.0420547816738,
+    "uniform_mean_error_m": 267.1086694660657,
+    "anchor_error_m": 281.0203352818608
+  },
+  "sources": {
+    "training": "4aa3159f46b049bdd89d9e58cdd5db53edcd8a63b33fe63daeb30142c2b3a993",
+    "validation": "98907c9d7308d17bbb70af3404fee7b243a15a823ef1828209ba315256c5cfab",
+    "development": "faff8a035e3c6831c0d1873155c22d747cad95863ab47fc3923bf7b0310f6d2a",
+    "selection": "5c16a7d606476d262193ee47931646a8f1220e09ff59a8f3e27c62edd15be9c9",
+    "diagnostic": "8a1f0e045487f19f87afb92da064d4ba631392fe41aa2057dddf9ce2b3955fd0"
+  },
+  "exporter_sha256": "eec17ca63ae706f4edbb1f00c806840bd85f610a998aac7fc0dcf587f8effab6",
+  "definitions": {
+    "aggregation": "eligible category-events per run, then equal case/family/replicate",
+    "min_case": "minimum of nine case means, not a per-event bound",
+    "selected_attacks": "separate validation selections for MAE and Hit per method/case",
+    "timing": "shared development machine; old baseline times reused, not a controlled cross-method speed test",
+    "independence": "four previously inspected SUMO families; three RNG repetitions do not create more independent trajectories",
+    "logical_queries": "six counterfactual category workloads, not measured HTTP packets"
+  }
+}
