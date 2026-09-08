@@ -1,0 +1,31 @@
+\clearpage
+\section{Quản lý phiên bản và tính nhất quán dữ liệu}
+\label{sec:dataset-registry}
+
+Bộ dữ liệu được lưu trong cơ sở dữ liệu SQLite với các phiên bản bất biến. Mục đích là bảo đảm mỗi kết quả thực nghiệm truy ngược được đúng quỹ đạo, nhãn và cửa sổ quan sát đã sử dụng. SQLite phù hợp kho nghiên cứu cục bộ, không cần dịch vụ máy chủ; các thao tác nhập được thực hiện trong một giao dịch và bật kiểm tra khóa ngoại trên từng kết nối.~\citep{sqlitetransactions,sqliteforeignkeys,sqliteuses} Đây là thành phần quản lý thực nghiệm, không phải một cơ chế bảo vệ vị trí mới.
+
+\subsection{Tổ chức dữ liệu và lịch sử thay đổi}
+
+Một phiên bản chứa các nhóm mô phỏng, mỗi nhóm thuộc đúng một phần dữ liệu học, chọn cấu hình hoặc kiểm thử/xác nhận. Mỗi phiên di chuyển thuộc một nhóm và giữ riêng mã người, thiết bị, xe vật lý. Chuỗi FCD được lưu theo khóa gồm phiên bản, mã phiên và chỉ số mẫu; thời điểm phải tăng nghiêm ngặt. Vĩ độ, kinh độ, vận tốc, làn, cạnh đường, vị trí dọc làn và góc hướng được giữ nguyên từ bản xuất SUMO.
+
+Danh mục kịch bản được lưu độc lập với các mẫu đã sinh, nên ca chưa có dữ liệu không biến mất khỏi mẫu số. Một bản ghi kịch bản tham chiếu tới một hoặc nhiều phiên và danh sách chỉ số quan sát được phép. Khóa ngoại bảo đảm chỉ số trỏ tới mẫu có thật, phiên thuộc đúng nhóm và bản ghi không bị gán sang phần dữ liệu khác. Nhãn đặc thù, điều kiện chấp nhận, cấu hình sinh và nguồn gốc được lưu kèm; tính đúng đắn vật lý của các trường này vẫn cần bộ kiểm chứng kịch bản.
+
+Khi nhập một bản mới, hệ thống kiểm tra cấu trúc, thời gian, quan hệ định danh, chỉ số và số lượng khai báo; sau đó đối chiếu bản xuất lại với nội dung gốc. Chỉ khi toàn bộ bước thành công mới khóa phiên bản và ghi vào bảng \texttt{update\_log}. Mỗi mục lịch sử gồm phiên bản trước/sau, người thực hiện, thời điểm nhập, lý do, mã băm và số dòng ở các lớp dữ liệu. Thời điểm nhật ký là thời gian quản lý dữ liệu, không phải đồng hồ mô phỏng của chuyến đi.
+
+Thay đổi quỹ đạo, nhãn hoặc cách chia dữ liệu phải tạo phiên bản mới, không sửa trực tiếp bản đã khóa. Ghi dữ liệu và nhật ký cùng một giao dịch giúp tránh tình trạng nhập dở hoặc dữ liệu đã đổi nhưng không có lịch sử. Hai tiến trình cùng cập nhật phải khai báo phiên bản cha dự kiến; tiến trình có trạng thái cũ bị từ chối nếu tiến trình khác đã công bố bản mới. Đây là chuỗi phiên bản tuyến tính cho nghiên cứu cục bộ, chưa phải hệ thống cộng tác nhiều nhánh.
+
+\subsection{Cố định đầu vào và ranh giới truy cập}
+
+Mỗi lần chạy cần cố định cặp $(v,h_v)$, trong đó $v$ là mã phiên bản và $h_v$ là SHA-256 của nội dung JSON chuẩn hóa: sắp thứ tự khóa, giữ thứ tự danh sách và giá trị, không phụ thuộc thụt lề. Mã băm theo byte của tệp gốc được lưu riêng; hai mã không được dùng thay nhau. Không dùng tên \emph{mới nhất} như đầu vào ngầm định, vì tên đó có thể trỏ sang dữ liệu khác sau một lần cập nhật.
+
+Đối với benchmark đã công bố, giữ nguyên bản JSON và mã băm ban đầu để phát lại đúng giao thức cũ. Kho SQLite cung cấp phiên bản đã khóa và luồng quan sát cho các bước phát triển tiếp theo; việc chuyển nơi lưu không tạo một bộ dữ liệu khoa học mới. Kiểm tra di chuyển v1 và v2 đối chiếu 116.152 điểm, 303 bản ghi và 468 luồng phiên được phép. Tất cả 8.466 lượt quan sát khớp bản gốc. Một điểm có thể được dùng bởi nhiều kịch bản, nên số lượt quan sát không phải số điểm hay số người độc lập.
+
+Cơ sở dữ liệu là kho đáp án của bộ đánh giá, \textbf{không phải dữ liệu gửi tới LSP}. Giao diện đầu vào thiết bị chỉ xuất thời gian tương đối, tọa độ và loại truy vấn trong cửa sổ được phép. S8 giữ chênh lệch thời gian giữa hai phiên bằng cùng mốc quan sát; S6.C phân biệt sáu phiên lịch sử với phiên hiện tại. Các quan sát thật này vẫn phải qua cơ chế bảo vệ trước khi đối thủ được xem. Tương lai, định danh nội bộ, làn đường và nhãn đánh giá không được ghép vào bản công bố.
+
+\subsection{Điều kiện dùng một kịch bản để benchmark}
+
+Cần phân biệt ba mức bằng chứng: \emph{có mẫu hợp lệ}, \emph{đủ dữ liệu cho giao thức đánh giá}, và \emph{đã đo hiệu quả bảo vệ}. Cơ sở dữ liệu hỗ trợ mức đầu về tính nhất quán và đếm mẫu, nhưng không tự suy ra hai mức sau. Để kiểm tra độ bao phủ, lấy tích của danh mục 30 ca với ba phần dữ liệu v2 rồi đếm cả các tổ hợp bằng không. Một ca chỉ đủ điều kiện cho giao thức có học/chọn đối thủ khi có dữ liệu phù hợp trong các phần cần thiết, nhãn đối chứng đủ và số nhóm độc lập được công bố.
+
+Chẳng hạn S5.C có số bản ghi học/chọn cấu hình/xác nhận lần lượt là $0/0/1$. Việc ca này xuất hiện trong hợp bộ dữ liệu không cho phép tuyên bố đã benchmark được đối thủ cần huấn luyện. Đối thủ định sẵn có thể chạy như phép thử chẩn đoán trên mẫu đơn, nhưng không hỗ trợ kết luận tổng quát. Khi bổ sung dữ liệu, cần sinh thêm nhóm theo điều kiện kịch bản đã định trước, không chọn mẫu bằng điểm số bảo vệ thuận lợi. Tập xác nhận đã được dùng để sửa thuật toán phải được xem là dữ liệu phát triển cho vòng sau; cần tập xác nhận mới.
+
+Khóa ngoại, giao dịch và mã băm không thay thế kiểm tra tuyến SUMO, điều kiện tấn công, tính đại diện của giao thông hoặc rò rỉ thông tin qua giao thức. Nhật ký và các ràng buộc chống sửa nhầm trong quy trình thông thường, không chống quản trị viên có toàn quyền thay cơ sở dữ liệu và mã kiểm tra. Dữ liệu liên quan trong cùng nhóm không trở thành các quan sát độc lập chỉ vì được lưu thành nhiều dòng. Các giới hạn này phải được giữ khi diễn giải kết quả và mở rộng sang nhiều thành phố.

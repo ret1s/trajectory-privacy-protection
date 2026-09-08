@@ -2,6 +2,11 @@
 
 This is the only top-level location for tracked generated deliverables.
 
+The current scenario registry is [`datasets/scenarios.sqlite3`](datasets/scenarios.sqlite3).
+It contains both frozen SUMO dataset releases, normalized records and an append-only
+update log. See the [storage guide](../data/scenario_store/README.md) and
+[migration verification](datasets/scenario_store_verification.json).
+
 - [`benchmarks/`](benchmarks/) contains current machine-generated experiment
   evidence consumed by the benchmark dashboard and thesis.
 - [`reports/`](reports/) contains reviewed human-facing PDF releases.

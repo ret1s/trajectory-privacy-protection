@@ -2,6 +2,16 @@
 
 Raw data lives in `data/raw/` (gitignored). To reproduce the benchmark:
 
+## Versioned scenario database (current research dataset)
+
+SUMO v1/v2 scenario releases are stored in
+[`artifacts/datasets/scenarios.sqlite3`](../artifacts/datasets/scenarios.sqlite3),
+with immutable revisions, relational constraints and an `update_log` table.
+See [`scenario_store/README.md`](scenario_store/README.md) for inspection,
+checksummed reads, migration, and the distinction between evaluator truth and
+private device inputs. Frozen JSON snapshots remain for historical benchmark replay.
+The active scenario registry and proposed-method experiments do not use GeoLife.
+
 ## SUMO controlled mobility source (default for the dummy benchmark)
 
 Install the pinned optional simulator stack:
@@ -23,7 +33,7 @@ FCD files live under `cache/sumo_demo/` and are reproducible from the pinned OSM
 SUMO version and seeds. This is a controlled smoke scenario, not a calibrated
 urban population model. Map data: © OpenStreetMap contributors, ODbL.
 
-## GeoLife v1.3 (optional real-data validation)
+## GeoLife v1.3 (legacy studies only; not the active scenario dataset)
 
 ```bash
 cd data/raw

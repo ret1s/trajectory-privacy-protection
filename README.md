@@ -8,6 +8,7 @@ it against explicit attacker, utility, and output-contract assumptions.
 ## Start here
 
 - Final thesis source: [`thesis/main.tex`](thesis/main.tex)
+- Scenario database and update history: [`storage guide`](data/scenario_store/README.md)
 - Current thesis PDF: [`artifacts/reports/graduation_thesis.pdf`](artifacts/reports/graduation_thesis.pdf)
 - Problem formulation: [`docs/research/problem_formulation.md`](docs/research/problem_formulation.md)
 - Foundations study guide: [`artifacts/reports/location_trajectory_privacy_foundations.pdf`](artifacts/reports/location_trajectory_privacy_foundations.pdf)

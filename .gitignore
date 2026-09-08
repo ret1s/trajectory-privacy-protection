@@ -33,6 +33,11 @@ tmp/
 build/
 .pytest_cache/
 
+# SQLite transaction sidecars are local, never checkpoint these into Git.
+*.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
+
 # OS / editor junk
 .DS_Store
 .idea/

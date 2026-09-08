@@ -102,7 +102,10 @@ cho người dùng dịch vụ dựa trên vị trí\par}
 
 \hypersetup{pageanchor=true}
 \pagenumbering{roman}
+\begingroup
+\setstretch{1.10}
 \tableofcontents
+\endgroup
 \listoffigures
 \listoftables
 
@@ -628,8 +631,8 @@ Quan sát công bố & Thời điểm, mã phiên công bố, vị trí hoặc t
 S9--S10 cần giữ toàn bộ chuyến đi trong kho đáp án nhưng chỉ cấp phần công bố cho đối thủ. Thời điểm bắt đầu/ngừng gửi, thời lượng hay tổng quãng đường chỉ được cung cấp nếu cấu hình đã khai báo; không vô tình rò nhãn điểm đầu/cuối qua tên tệp, mã tuyến hoặc lịch SUMO. Với S4, quan hệ người--thiết bị được sinh riêng, không lấy mã xe SUMO làm danh tính người.
 
 \input{scenario_dataset_spec}
+\input{dataset_registry}
 
-\addtocontents{toc}{\protect\newpage}
 \chapter{Các phương pháp đối chứng}
 \label{ch:comparators}
 
@@ -965,6 +968,18 @@ doi: \href{https://doi.org/10.1109/ITSC.2018.8569938}{10.1109/ITSC.2018.8569938}
 OpenStreetMap Foundation,
 ``Copyright and License,'' accessed Sep. 2, 2026.
 \url{https://www.openstreetmap.org/copyright/}.
+
+\bibitem{sqlitetransactions}
+SQLite, ``Transaction,'' documentation, accessed Sep. 8, 2026.
+\url{https://www.sqlite.org/lang_transaction.html}.
+
+\bibitem{sqliteforeignkeys}
+SQLite, ``SQLite Foreign Key Support,'' documentation, accessed Sep. 8, 2026.
+\url{https://www.sqlite.org/foreignkeys.html}.
+
+\bibitem{sqliteuses}
+SQLite, ``Appropriate Uses For SQLite,'' documentation, accessed Sep. 8, 2026.
+\url{https://www.sqlite.org/whentouse.html}.
 
 \bibitem{sumovehicles}
 Eclipse SUMO, ``Definition of Vehicles, Vehicle Types, and Routes,''

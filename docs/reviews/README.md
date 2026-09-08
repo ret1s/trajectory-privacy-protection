@@ -6,6 +6,8 @@ review when reproducing an old finding.
 
 ## Current entry points
 
+- Dataset database and thesis reproducibility: [`verification_scenario_store.md`](verification_scenario_store.md)
+
 - Latest proposed method and scenario data: [`verification_belief_suite.md`](verification_belief_suite.md)
 - Preceding contextual ablation: [`verification_contextual_lane.md`](verification_contextual_lane.md)
 - Current BR-Dummy study: [`verification_paper_benchmark_v2.md`](verification_paper_benchmark_v2.md)
