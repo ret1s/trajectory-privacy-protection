@@ -2,10 +2,16 @@
 
 This is the only top-level location for tracked generated deliverables.
 
-The current scenario registry is [`datasets/scenarios.sqlite3`](datasets/scenarios.sqlite3).
-It contains three frozen SUMO dataset releases, normalized records and an append-only
+The historical scenario registry is [`datasets/scenarios.sqlite3`](datasets/scenarios.sqlite3).
+It contains four frozen SUMO dataset releases (three core revisions and an auxiliary release), normalized records and an append-only
 update log. See the [storage guide](../data/scenario_store/README.md) and
 [migration verification](datasets/scenario_store_verification.json).
+
+New same-city evaluation data are isolated in
+[`datasets/evaluation_v1.sqlite3`](datasets/evaluation_v1.sqlite3), release
+`urban-fresh-v2`; see its [source and adapter guide](datasets/urban_fresh_v2/README.md).
+The latest matched S1–S3 results are in [`benchmarks/fresh_switching/`](benchmarks/fresh_switching/).
+The first fresh simulation build is marked rejected and is never benchmark input.
 
 - [`benchmarks/`](benchmarks/) contains current machine-generated experiment
   evidence consumed by the benchmark dashboard and thesis.

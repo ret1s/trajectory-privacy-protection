@@ -1,0 +1,30 @@
+\section{Bộ lọc hai trạng thái chuyển động từ lịch sử đã bảo vệ}
+\label{sec:switching-method}
+
+\subsection{Động cơ và ranh giới thông tin}
+
+Một phân bố chuyển động cố định phải đồng thời biểu diễn người đang đứng yên và người đang di chuyển. Điều này có thể làm phân bố vị trí trải rộng quá nhanh tại điểm dừng hoặc bám quá lâu vào vị trí cũ khi xe tiếp tục đi. Biến thể được khảo sát thay bộ lọc một chế độ bằng bộ lọc hữu hạn với hai trạng thái ẩn: dừng và di chuyển. Mục tiêu là cải thiện phân bố trọng số dùng cho độ phủ POI, không thay đổi cơ chế tạo neo riêng tư.
+
+Tại thời điểm $t$, bộ lọc chỉ nhận neo đã bảo vệ $a_t$, thời gian công khai và ngữ cảnh bản đồ--POI. Nó không đọc tốc độ thật, nhãn kịch bản hay điểm tương lai. Xác suất của hai chế độ là trạng thái nội bộ, không gửi cho LSP. Việc dùng mô hình xác suất chuyển động và ánh xạ lại theo lịch sử đầu ra có cơ sở từ nghiên cứu trước; sai khác giữa mô hình thiết kế và hành vi thật vẫn phải được kiểm nghiệm độc lập~\cite{oya2019unknown}.
+
+\subsection{Cập nhật phân bố và chọn tập điểm giả}
+
+Gọi $i$ là ô vị trí công khai, $m\in\{0,1\}$ là chế độ dừng/di chuyển, và $b_t(i,m)$ là phân bố chung sau khi nhận neo thứ $t$. Khởi tạo bằng prior đều trên các ô công khai, chia đều xác suất cho hai chế độ. Với khoảng thời gian $\Delta t$, ma trận chuyển chế độ đối xứng có xác suất giữ chế độ
+\begin{equation}
+ p_{\mathrm{stay}}(\Delta t)=\frac{1+\exp(-\Delta t/100)}{2}.
+\end{equation}
+Hằng số 100 có đơn vị giây và được cố định trước phép thử. Với $0<\Delta t\leq120$ s, gọi $D_{\Delta t}$ là ma trận khuếch tán công khai của bộ lọc trước, tức $T_{\Delta t}=0{,}6I+0{,}4D_{\Delta t}$. Hai nhân chuyển vị trí là
+\begin{equation}
+ T^{(0)}_{\Delta t}=0{,}95I+0{,}05D_{\Delta t},\qquad
+ T^{(1)}_{\Delta t}=0{,}10I+0{,}90D_{\Delta t}.
+\end{equation}
+Nhân thứ nhất ưu tiên giữ vị trí; nhân thứ hai cho phép phân bố dịch chuyển mạnh hơn. Đây là lựa chọn mô hình gần đúng, chưa được hiệu chỉnh bằng quan sát giao thông thực.
+
+Với $A_{nm}(\Delta t)$ là xác suất chuyển chế độ và $\ell_t(i)$ là likelihood của neo riêng tư đã định nghĩa trước, phép lọc tiến thực hiện
+\begin{align}
+ \widetilde b_t(i,m)&=\sum_{n,j}b_{t-1}(j,n)A_{nm}(\Delta t)T^{(m)}_{\Delta t}(j,i),\\
+ b_t(i,m)&=\frac{\ell_t(i)\widetilde b_t(i,m)}{\sum_{m',j}\ell_t(j)\widetilde b_t(j,m')}.
+\end{align}
+Đây là truy hồi tiến chuẩn trên trạng thái kết hợp của mô hình Markov ẩn~\cite{rabiner1989hmm}. Với khoảng trống trên 120 s, cả hai chế độ dùng quy tắc hồi về prior công khai đã nêu ở bộ lọc trước, giữ đúng tổng khối xác suất mỗi chế độ. Sau khi hết chân trời riêng tư, không sử dụng thêm likelihood từ dữ liệu thật.
+
+Phân bố vị trí $w_t(i)=\sum_m b_t(i,m)$ tạo trọng số POI kỳ vọng. Bộ chọn giữ hàm mục tiêu phủ trung bình, khởi tạo tham lam và tối đa ba lượt thay một điểm cải thiện mục tiêu, trong miền đường có thể tới của từng dummy. Các tham số $B,K,H,\theta$ không đổi. Vì phần mới là hậu xử lý của neo, nó không bổ sung ngân sách riêng tư trong mô hình lý tưởng đã giả định. Điều đó không làm chặn Geo-I chặt hơn và cũng không bảo đảm riêng tư thực nghiệm tốt hơn.

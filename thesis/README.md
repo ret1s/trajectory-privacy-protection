@@ -77,7 +77,7 @@ independent verifier passes. Literature and QA handoff:
 `docs/research/expanded_shadow_literature_review.md` and
 `docs/reviews/verification_expanded_shadow.md`.
 
-The newest matched development cycle is in `coverage_frontier_method.tex`,
+The preceding matched development cycle is in `coverage_frontier_method.tex`,
 `coverage_frontier_comparison.tex` and `coverage_frontier_findings.tex`.
 It separates selector changes from top-L response allowances at a fixed top-5
 reference, across three B values. Category balancing is a tested hypothesis,
@@ -85,3 +85,11 @@ not guaranteed robustness. The original anchors and legacy controls stay fixed;
 no default defender or SOTA claim is promoted by these internal ablations.
 Source-pinned protocol: `notes/coverage_frontier_protocol.md`. Exact evidence,
 independent checks and rebuild order: `artifacts/benchmarks/coverage_frontier/`.
+
+The newest fresh-family cycle adds `fresh_dataset.tex`, `switching_method.tex`
+and `fresh_switching_comparison.tex`. It tests a two-mode protected-history
+filter on six selection and six confirmation families. No configuration passes
+the prespecified 90% minimum-case validation gate, even at top-10 server depth;
+the candidate is not promoted as a new default. Full confirmation and overlap
+sensitivity results are in `artifacts/benchmarks/fresh_switching/`.
+The canonical PDF is still the same file under `artifacts/reports/`.

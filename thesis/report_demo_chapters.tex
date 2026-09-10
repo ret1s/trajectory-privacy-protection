@@ -124,6 +124,7 @@ Lấy neo mới cần $O(|V|)$ thời gian. Tìm thành phần liên thông mạ
 \input{service_recovery_method.tex}
 \input{prior_factor_method.tex}
 \input{coverage_frontier_method.tex}
+\input{switching_method.tex}
 
 \chapter{Thực nghiệm có kiểm soát và phản biện kết quả}
 \label{ch:experiments}
@@ -178,35 +179,32 @@ Metric chất lượng theo Mục~\ref{sec:common-metrics} lưu mẫu số; lỗ
 \input{prior_factor_comparison.tex}
 \input{expanded_shadow_comparison.tex}
 \input{coverage_frontier_comparison.tex}
+\input{fresh_switching_comparison.tex}
 
 \chapter{Kết luận và hướng phát triển}
 
 \section{Kết quả đạt được}
 
-Luận văn xây dựng khung nghiên cứu cho bảo vệ quỹ đạo xe đô thị tại thiết bị: bốn mục tiêu, mười tình huống có tham khảo, ràng buộc chuyển động và dữ liệu mô phỏng truy xuất nguồn, phiên bản hóa bằng SQLite. Bộ đo hợp nhất theo nhiệm vụ suy luận, POI và chi phí, giữ khác biệt với ASR, entropy hay phát hiện thật/ảo của công trình gốc.
+Luận văn xây dựng khung nghiên cứu cho bảo vệ quỹ đạo xe đô thị tại thiết bị: kiến trúc và ranh giới tin cậy, bốn mục tiêu bảo vệ, mười kịch bản đe doạ có tham khảo, ràng buộc chuyển động và bộ đo theo nhiệm vụ. Dữ liệu mô phỏng có nguồn gốc SUMO--OSM, tách dữ liệu đầu vào thiết bị khỏi đáp án của bộ đánh giá và được phiên bản hoá bằng SQLite với nhật ký bất biến.
 
-BR-Dummy kết hợp neo riêng tư, phép thử tái sử dụng có nhiễu, ngân sách phiên hữu hạn và dummy theo đường. Mô hình học vẫn là lựa chọn phát triển, không bị loại khỏi thiết kế. Chặn riêng tư áp dụng cho mô hình lý tưởng; bằng chứng hữu hạn ở S1--S3 và S9--S10 chưa chứng minh bảo vệ toàn diện hoặc vượt SOTA.
+Tập mới mở rộng thêm 12 nhóm tuyến, gồm 264 chuyến và 393 bản ghi, tách sáu nhóm chọn và sáu nhóm xác nhận. Kiểm tra gốc phát hiện và sửa cấu hình đổi làn gây bước nhảy tọa độ, đồng thời giữ lại những trường hợp kịch bản không sinh được và cửa sổ bị trùng. Quy trình vì vậy không đồng nhất số lượng dữ liệu với chất lượng bằng chứng: phủ đủ 30 trường hợp con trong hợp tập vẫn chưa đủ để học và đánh giá ổn định mọi mục tiêu.
 
-Phân tích thành phần trên miền làn bổ sung hai điểm số hậu xử lý: tiến gần mục tiêu theo đường có hướng và tăng độ phủ POI tại neo đã bảo vệ. Vòng kiểm tra năm ca cho thấy cả cải thiện cục bộ lẫn suy giảm utility hoặc riêng tư; chưa có cấu hình đạt ngưỡng Recall đã đặt trên toàn bộ tập chọn. Do đó các biến thể được giữ để phân tích và phát triển, chưa được coi là bản thay thế đã xác nhận.
+BR-Dummy kết hợp neo riêng tư, phép thử tái sử dụng có nhiễu, ngân sách phiên và dummy theo miền đường có thể tới. Các biến thể phủ dịch vụ, thay điểm và lọc hai chế độ kiểm tra cách khai thác lịch sử đã bảo vệ trong hậu xử lý. Chặn riêng tư áp dụng trong mô hình lý tưởng; kiểm tra mã và chạy lại tiền tố xác nhận ranh giới dữ liệu và tính nhân quả, không phải chứng minh máy tính số thực hiện đúng mọi giả định xác suất.
 
-Vòng tiếp theo bổ sung bộ dữ liệu v2 gồm 132 phiên, 207 bản ghi và đủ 30 biến thể trong hợp sáu nhóm tuyến; kiểm tra độc lập giữ lại cả các thiếu hụt phân bố mẫu. BR-phân bố dùng lịch sử neo đã bảo vệ để tối ưu độ phủ POI kỳ vọng. Trên chín ca S1--S3, cấu hình chọn bằng validation có cải thiện riêng tư trung bình ở $K=5$ nhưng còn suy giảm utility cục bộ và chưa đạt ràng buộc cho mọi ca. Kết quả là bằng chứng phát triển có đối chứng và phản ví dụ, chưa là mô hình bảo vệ toàn diện đã hoàn tất.
+Trên xác nhận mới, phủ có thay điểm đạt Recall 92,78\% khi máy chủ trả top-5 và 96,33\% khi trả top-10. Bộ lọc hai chế độ cho Recall top-10 gần tương đương, Hit thấp hơn trung bình nhưng MAE cũng thấp hơn và hiệu quả không cùng chiều ở mọi nhóm. Kết quả cho thấy cần giữ nhiều phép đo và ghi riêng chi phí phản hồi. Không ứng viên nào vượt điều kiện 90\% ở tất cả ca trên tập chọn, nên chưa có căn cứ đổi phương pháp mặc định bằng phép chọn đã công bố.
 
-Phân tích ba mức ngân sách với cùng $K=5$ bổ sung bước thay điểm và đối chứng cân bằng loại dịch vụ. Tại ngân sách cũ, bước thay nâng Recall top-5 từ 92,35\% lên 92,93\%, nhưng ca thấp nhất còn 86,36\%. Cấu hình được chọn với phản hồi top-10 đạt Recall 96,38\%, ca thấp nhất 92,44\% trên dữ liệu phát triển; phần lớn mức tăng so với cấu hình cũ đến từ phản hồi sâu hơn, không phải bộ chọn. Khung thực nghiệm vì vậy tách ngân sách, số truy vấn, độ sâu phản hồi, chất lượng và chi phí, thay vì gộp thành một điểm số.
+\section{Giới hạn của bằng chứng}
 
-\section{Phản biện và điều kiện phát triển thành bài báo}
+Tập xác nhận mới nằm trên cùng bản đồ; hai cửa sổ dừng trùng tọa độ được kiểm tra độ nhạy riêng nhưng không loại được thiên lệch không gian chung. Đơn vị lặp độc lập là nhóm tuyến, không phải từng điểm GPS hay từng seed cơ chế. Sáu nhóm xác nhận, tối đa 12 sự kiện mỗi cửa sổ và lịch truy vấn tổng hợp chưa đại diện sử dụng thực tế dài hạn.
 
-Phân rã prior bổ sung bằng chứng rằng thay thành phần khởi tạo có tác động lớn hơn thay phân bố chuyển động trong cấu hình hiện tại. Bản trộn cân bằng có Recall phát triển 93,04\%, nhưng không thắng quy tắc chọn validation và không tăng trên mọi nhóm. Trong vòng dùng bộ học cũ chỉ có 36 tọa độ nhãn khác nhau, bổ sung quyết định theo mục tiêu chưa làm tăng bao trên Hit. Hạn chế này dẫn tới phép kiểm tra với 64 nhóm phụ trợ bổ sung và hai mô hình hồi quy phi tuyến ở Mục~\ref{sec:expanded-shadow-experiment}; kết quả cũ không được diễn giải thành bảo đảm trước đối thủ mạnh.
+Bộ đối thủ gồm nhiều quyết định và dữ liệu phụ trợ hơn các vòng trước, nhưng vẫn hữu hạn. Hit cực trị của bộ thử không là chặn cho mọi đối thủ; đối thủ được chọn từ validation có thể không chuyển giao tốt. Prior, chuyển động khuếch tán và hai chế độ chưa được hiệu chỉnh từ giao thông thực. Miền dummy hợp lệ theo đường không đồng nghĩa xác suất của bộ lọc đúng với người dùng.
 
-Khi mở rộng bộ học lên 1.381 tọa độ khác nhau, Hit của đối thủ chọn bằng validation trên cùng đầu ra $U/U$ tăng từ 2,78\% lên 3,76\%, MAE giảm từ 1.283,6 m xuống 1.110,1 m. Đây là rò rỉ được phép thử mạnh hơn phát hiện, không phải thay đổi của cơ chế bảo vệ. Tập 16 nhóm phụ trợ giữ lại còn cho thấy lựa chọn đối thủ chưa chuyển giao ổn định; tăng dữ liệu học không thay thế yêu cầu về tập chọn đủ rộng và xác nhận đúng phân bố mục tiêu.
+Các vòng S1--S3 và thử nghiệm biên S9--S10 chưa chứng minh bảo vệ danh tính, ý định, tương lai và đồng hành. Tập mới phủ S4--S10 mới là đầu vào cho phép thử tiếp theo. Các comparator ngoài vẫn cần kiểm tra độ trung thành với bài gốc, giao diện và điều kiện quan sát trước khi khẳng định vượt SOTA. Thành phần Bayes, mô hình Markov ẩn và tối ưu tổ hợp là kiến thức kế thừa, không được tự nhận là đóng góp nguyên lý mới.
 
-Vòng tối ưu phủ dịch vụ bổ sung bốn nhóm xác nhận mới, ba lần lặp ngẫu nhiên và đối thủ học theo từng cơ chế. Tuy có cơ sở tối ưu tổ hợp rõ hơn, biến thể được chọn ở $K=5$ không giữ được lợi ích utility trên xác nhận: Recall 84,12\% so với 87,48\% của BR-làn. Luận văn giữ nguyên kết quả âm này, chưa thay phương pháp mặc định và chưa đạt ngưỡng 90\% cho mọi ca. Đóng góp hiện tại nằm ở mô hình bài toán, hạ tầng kiểm chứng và bằng chứng có đối chứng; hiệu quả thuật toán còn phải phát triển.
+\section{Hướng phát triển}
 
-Số chuyến nhỏ, cùng bản đồ và điều kiện dừng chưa đại diện người dùng thực. Chọn cơ chế có thể quá khớp số ít nhóm tuyến hoặc đối thủ gần đúng. Cần nhiều seed, mức $B$, độ dài phiên và thành phố để kiểm tra độ bền kết luận.
+Ưu tiên tiếp theo là truy vấn thưa S3.C: kiểm tra độ đúng của phân bố dự đoán và khảo sát chuyển động có hướng, tách khỏi thay đổi ngân sách hay số POI phản hồi. Bộ lọc hai chế độ hiện tại là kết quả đối chứng để xác định chỗ còn yếu, không phải lý do tiếp tục tăng độ phức tạp khi chưa có giả thuyết rõ.
 
-Phân tích tiếp theo dùng các nhóm đã xem như dữ liệu phát triển, cho thấy thay prior học bằng prior đều trên ô công khai cải thiện Recall ở $K=5$ từ 87,48\% của BR-làn lên 92,35\%, đồng thời giữ mức tăng ở cả bốn nhóm. Tuy vậy hai ca còn dưới ngưỡng 90\% và chưa có xác nhận mới. Ràng buộc miền hướng neo được giữ như kết quả âm vì làm giảm chất lượng. Các kết quả này xác định hướng tiếp tục kiểm nghiệm, không thay thế điều kiện xác nhận và đối chứng của bài báo.
+Về dữ liệu, cần tăng hỗ trợ mẫu cho S5.C, S6 và các ca điểm cuối; điều chỉnh thiết kế quan sát hoặc điều kiện tuyến công khai trước khi sinh, rồi kiểm tra lại nhãn và số mẫu độc lập. Các mục tiêu danh tính, tương lai và nội dung truy vấn phải có đối thủ, đáp án và tập học/chọn/xác nhận riêng phù hợp.
 
-Đối thủ tiếp theo cần likelihood đúng cơ chế, ngữ nghĩa POI và toàn bộ phần chuyến còn thấy sau che biên. Biến thể trạng thái làn đã được kiểm tra ở mức đường đi tự do; cơ chế còn cần ngân sách phiên dài, ràng buộc giao thông động và chính sách biên riêng. Sửa tham số dựa trên kiểm thử này phải coi nó là dữ liệu phát triển rồi chạy tập xác nhận mới.
-
-Bước thay điểm chưa cho lợi ích riêng tư nhất quán; cắt ngưỡng loại dịch vụ có thể làm chất lượng giảm. Khoảng cách giữa Hit chọn trên validation và Hit cực trị phát triển vẫn lớn, nên không diễn giải lỗi của phép chọn đối thủ thành bảo đảm bảo vệ. Cấu hình phủ có thay điểm tại $B=0{,}24$, $L=10$ chỉ là ứng viên cho vòng xác nhận mới. Mỗi kết luận về lợi ích cần giữ cố định độ sâu phản hồi hoặc ghi nhận đầy đủ chi phí tăng thêm; không xem các công cụ tối ưu kế thừa là tính mới đã được chứng minh.
-
-Khẳng định vượt SOTA còn cần đối chứng đúng bài gốc. Dù v2 có đủ loại kịch bản, chưa có kết quả bảo vệ danh tính, tương lai, ý định hay đồng hành. Dữ liệu S4--S8 chỉ hỗ trợ vòng đánh giá tiếp theo, không thay thế bằng chứng còn thiếu.
+Để phát triển thành bài báo, cần xác định rõ khoảng trống so với công trình gần nhất, so sánh ngoài đủ trung thành, thêm đô thị và nhóm tuyến, đánh giá phiên dài và tài nguyên thiết bị. Mọi sửa đổi sau khi xem xác nhận phải coi tập này là dữ liệu phát triển; kết luận tiếp theo cần một tập xác nhận mới và quy tắc chọn được khoá trước.

@@ -169,3 +169,12 @@ Primary documentation consulted: [SQLite transactions](https://www.sqlite.org/la
 [foreign keys](https://www.sqlite.org/foreignkeys.html), and
 [appropriate uses](https://www.sqlite.org/whentouse.html). Constraints implement
 our experimental protocol; SQLite does not prescribe location-privacy metrics.
+
+## Fresh evaluation shard (2026-09-10)
+
+The historical database described above is unchanged. New fixed-family validation and
+confirmation data live in `artifacts/datasets/evaluation_v1.sqlite3`, release
+`urban-fresh-v2`. The source, hash pin, split-name adapter and update-log receipt
+are documented in [`urban_fresh_v2`](../../artifacts/datasets/urban_fresh_v2/README.md).
+Select the database and release explicitly; do not merge results using an implicit
+"latest" release across shards. Both stores use the same immutable schema and API.

@@ -15,7 +15,12 @@ it against explicit attacker, utility, and output-contract assumptions.
 - Comparator status and evidence: [`benchmark/README.md`](benchmark/README.md)
 - Documentation index: [`docs/README.md`](docs/README.md)
 - Current research cycle: [`thesis/notes/paper_cycle_v2_protocol.md`](thesis/notes/paper_cycle_v2_protocol.md)
-- Latest method development: [`reachable coverage and resource frontier`](artifacts/benchmarks/coverage_frontier/)
+- Latest evaluation: [`fresh-family switching study`](artifacts/benchmarks/fresh_switching/),
+  [`12 new SUMO families`](artifacts/datasets/urban_fresh_v2/), and
+  [`frozen protocol`](thesis/notes/fresh_switching_protocol.md).
+  Six selection and six confirmation families; no training on these routes.
+  Internal ablations are not faithful external SOTA reproductions.
+- Preceding method development: [`reachable coverage and resource frontier`](artifacts/benchmarks/coverage_frontier/)
   and [`prespecified protocol`](thesis/notes/coverage_frontier_protocol.md).
   Reused 201–204 families are development evidence, not new confirmation.
 - Preceding method development: [`prior factors and loss-aware attacks`](artifacts/benchmarks/prior_factors/).
@@ -26,8 +31,9 @@ it against explicit attacker, utility, and output-contract assumptions.
   with [`80 auxiliary route groups`](artifacts/datasets/urban_shadow_v1/).
   Protection outputs and prior-factor utility stay frozen; auxiliary holdout
   does not replace fresh core-scenario confirmation.
-- Publication-oriented critique: [`latest targeted literature review`](docs/research/coverage_frontier_literature_review.md)
-  and [`independent verification / next research gates`](docs/reviews/verification_coverage_frontier.md).
+- Publication-oriented critique: [`latest targeted literature review`](docs/research/fresh_switching_literature_review.md)
+  and [`independent verification / next research gates`](docs/reviews/verification_fresh_switching.md).
+- This week's supervisor handoff: [`verified findings and speaking outline`](docs/supervisor_meeting/2026-09-10_verified_update.md).
 - Preceding frozen study: [`belief-suite results`](artifacts/benchmarks/belief_suite/)
 
 ## Repository layout

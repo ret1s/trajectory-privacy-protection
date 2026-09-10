@@ -1,0 +1,31 @@
+\section{Xác nhận trên nhóm tuyến mới và kiểm tra bộ lọc hai chế độ}
+\label{sec:fresh-switching}
+
+\subsection{Thiết kế và quy tắc khoá lựa chọn}
+
+Phép thử sử dụng tập dữ liệu ở Mục~\ref{sec:fresh-dataset}. Bộ học giữ nguyên hai nhóm lõi 101--102 và 64 nhóm phụ trợ, với 3.233 quan sát cho mỗi cơ chế. Các nhóm mới 301--306 chỉ chọn cấu hình và đối thủ; nhóm 307--312 chỉ chấm xác nhận sau khi các lựa chọn đã được đóng dấu. Có 54 bản ghi chọn và 53 bản ghi xác nhận S1--S3; ba lần lặp ngẫu nhiên cho mỗi bản ghi và bốn biến thể cho tổng 648 lượt chọn, 636 lượt xác nhận. Những lần lặp này không phải các người dùng độc lập.
+
+Bốn biến thể gồm BR-làn theo hình học, phủ trung bình tham lam, phủ trung bình có thay điểm và bộ lọc hai chế độ có cùng bước thay điểm. Chúng dùng chung $B=0{,}24\,\mathrm{m}^{-1}$, $K=5$, $H=12$, $\theta=200$ m, cùng dữ liệu và dãy neo ngẫu nhiên. Đây là đối chứng nội bộ để tách ảnh hưởng thành phần, không phải bốn bản tái lập SOTA. Bộ đối thủ giữ cả suy luận trực tiếp, suy luận hồi cứu toàn cửa sổ, các bộ học trên dữ liệu lõi/mở rộng và hai bộ hồi quy cây; S1 có 26 quyết định tấn công, S2/S3 có 33. Đối thủ có mục tiêu tối thiểu MAE và tối đa Hit$_{100}$ được chọn riêng cho từng cơ chế--ca.
+
+Kết quả lấy trung bình đều qua chín ca; trong mỗi ca lấy trung bình các nhóm và lần lặp. S3.B có năm nhóm xác nhận thay vì sáu và được ghi rõ mẫu số. Mỗi ứng viên được thử với cả $L=5$ và $L=10$, giữ top-5 tham chiếu và cùng đầu ra bảo vệ. Quy tắc chọn yêu cầu Recall trung bình của \emph{từng ca} trên validation ít nhất 90\%, rồi tối thiểu hoá Hit cực trị trong bộ đối thủ đã thử. Ngưỡng này là yêu cầu thực nghiệm của luận văn, không phải tiêu chuẩn phổ quát.
+
+\subsection{Kết quả chất lượng và rủi ro suy luận}
+
+\input{../artifacts/benchmarks/fresh_switching/utility_table.tex}
+\input{../artifacts/benchmarks/fresh_switching/privacy_table.tex}
+
+Tại $L=5$, không ứng viên nào qua ngưỡng chất lượng trên tập chọn. Tại $L=10$, ca yếu nhất của phủ có thay điểm đạt 89,25\%, còn bộ lọc hai chế độ đạt 89,32\%; cả hai vẫn không được chọn. S3.C, tức truy vấn thưa mỗi 60 giây khi đang di chuyển, là ca giới hạn của các bộ phủ. Kết quả xác nhận đạt ngưỡng ở một số ứng viên không cho phép chọn lại trên xác nhận: quyết định đã khoá vẫn là \emph{chưa có cấu hình khả thi trong lưới xét}.
+
+Trên xác nhận, bộ phủ có thay điểm đạt Recall 92,78\% ở $L=5$ và 96,33\% ở $L=10$. Bộ lọc hai chế độ tương ứng đạt 92,76\% và 96,31\%, gần như không đổi chất lượng. So với phủ có thay điểm, Hit của đối thủ đã chọn giảm từ 3,73\% xuống 2,92\%; Hit cực trị giảm từ 9,59\% xuống 8,40\%. Tuy nhiên MAE đã chọn cũng giảm từ 577,4 m xuống 555,1 m, nghĩa là đối thủ ước lượng trung bình gần vị trí thật hơn. Vì vậy không kết luận bộ lọc mới cải thiện riêng tư theo mọi tiêu chí; giảm số lần đoán trong 100 m và tăng sai số trung bình là hai mục tiêu khác nhau.
+
+Cực trị ở đây là kết quả cao nhất trong \emph{bộ đối thủ hữu hạn đã thử}, không phải chặn trên khả năng của mọi đối thủ. Sự khác biệt giữa Hit được chọn và Hit cực trị tiếp tục cho thấy giới hạn của lựa chọn đối thủ từ validation. Không dùng điểm Hit thấp của một quyết định cụ thể làm bảo đảm riêng tư.
+
+\subsection{Chi phí, độ nhạy và giới hạn chuyển giao}
+
+Với các bộ phủ, máy chủ nhận 30 truy vấn loại--tọa độ ở mỗi sự kiện. Tăng $L$ từ 5 lên 10 tăng số mục POI phản hồi từ 120 lên 200 và dung lượng danh sách mã POI từ khoảng 2.735 lên 4.504 byte/sự kiện, tăng xấp xỉ 64,7\%. Đây không phải toàn bộ lưu lượng HTTP, thời gian mạng hay chi phí trên điện thoại. Mức tăng Recall do lấy thêm kết quả phản hồi phải được tách khỏi thay đổi bộ chọn.
+
+\input{fresh_switching_findings.tex}
+
+Các kiểm tra độc lập dựng lại đặc trưng và nhãn huấn luyện, học lại các cây để đối chiếu tham số, tính lại suy luận và Recall bằng bộ truy vấn đường đi ngắn nhất. Kiểm tra chạy lại phiên đầy đủ và tiền tố xác nhận tính nhân quả trên mẫu kiểm tra; kiểm tra toàn bộ chuyển trạng thái dummy xác nhận miền đường có thể tới. Chúng kiểm tra tính đúng của thực nghiệm, không thay thế đánh giá xác suất trên phân bố giao thông thực.
+
+Phép thử cung cấp bằng chứng trên sáu nhóm xác nhận mới cùng đô thị, không phải trên sáu thành phố hay hàng trăm người dùng thực độc lập. Cửa sổ chỉ dài tối đa 12 sự kiện, prior chuyển động chưa hiệu chỉnh, các nhãn mở rộng là tổng hợp và S4--S10 chưa được chấm bảo vệ trong vòng này. Bộ lọc hai chế độ được giữ như một ứng viên có đánh đổi cần giải thích, chưa là mặc định đã xác nhận. Hướng tiếp theo là kiểm tra độ đúng của phân bố dự đoán ở truy vấn thưa, tăng hỗ trợ mẫu cho các ca ít xuất hiện và xây dựng phép chọn ổn định trên nhiều nhóm hơn; không chỉnh tham số dựa vào tập xác nhận vừa chấm.

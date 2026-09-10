@@ -1,0 +1,14 @@
+\subsection{Nhóm tuyến mới và kho xác nhận độc lập}
+\label{sec:fresh-dataset}
+
+Để tách xác nhận khỏi các tuyến đã dùng phát triển thuật toán, bộ sinh bổ sung 12 nhóm có seed cố định 301--312. Sáu nhóm đầu phục vụ chọn cấu hình, sáu nhóm cuối phục vụ xác nhận; dữ liệu học vẫn giữ nguyên. Mỗi nhóm có 22 chuyến trên chín ngày tổng hợp, với lịch truy vấn và nhãn kịch bản được tạo từ hành trình SUMO thực sự hoàn thành. Toàn bộ tập mới gồm 264 chuyến, 172.443 mẫu FCD và 393 bản ghi, phủ đủ 10 kịch bản và 30 trường hợp con trong cả hai tập. Bản đồ đô thị được giữ nguyên; dữ liệu không liên quan đến GeoLife.
+
+Một bản sinh ban đầu có bước nhảy 10,87 m trong một giây, vượt ngưỡng kiểm tra 10,1 m. Thay vì sửa tọa độ hoặc nới ngưỡng, bộ sinh áp dụng đổi làn liên tục trong ba giây cho tất cả nhóm, sử dụng chức năng có sẵn của SUMO~\cite{sumosublane}. Bản sinh lại được đối chiếu với 108 lần chạy SUMO gốc: 264/264 chuyến hoàn thành; 14.520 chuyển cạnh ngoài được kiểm tra; dịch chuyển một giây lớn nhất là 9,45 m và sai lệch lớn nhất so với vị trí trên hình học làn là 1,97 m. Bản không đạt được lưu riêng, không dùng làm đầu vào benchmark.
+
+Các nhóm không trùng định danh hoặc tuyến hoàn chỉnh với kho cũ, cũng không trùng cửa sổ quan sát với dữ liệu lịch sử. Tuy nhiên chúng dùng chung đường trong một đô thị; đây không phải kiểm tra chuyển sang thành phố khác. Giữa tập chọn và xác nhận có hai cửa sổ dừng S2.A/S2.B trùng tọa độ, thuộc các hành trình khác nhau. Kết quả chính giữ nguyên các mẫu đã định trước; phép kiểm tra nhạy cảm loại hai cửa sổ xác nhận này nhưng không chọn lại cấu hình hoặc đối thủ.
+
+\input{../artifacts/benchmarks/fresh_switching/dataset_table.tex}
+
+Phủ đủ loại không đồng nghĩa cân bằng mẫu. Có 43 cặp nhóm--trường hợp con không thoả điều kiện sinh; S5.C, S6.A và S10.B chỉ có hai bản ghi ở mỗi tập. Riêng S3.B có sáu nhóm chọn nhưng năm nhóm xác nhận. Các thiếu hụt được giữ trong thống kê, không thay nhóm theo kết quả bảo vệ. Nhãn danh tính, ý định và quan hệ là nhãn tổng hợp; đủ dữ liệu S4--S10 chưa chứng minh các mục tiêu này được bảo vệ.
+
+Tập mới được đóng dấu thành phiên bản \texttt{urban-fresh-v2} trong kho SQLite đánh giá riêng, vì kho lịch sử đã gần giới hạn kích thước tệp lưu trên Git. Kho mới giữ các ràng buộc toàn vẹn, phiên bản bất biến và bảng nhật ký cập nhật. Bộ chuyển đổi chỉ ánh xạ tên vai trò sang tên tập được lược đồ cho phép, lưu lại vai trò gốc và hash dữ liệu nguồn; kiểm tra đảo chuyển đổi phải khôi phục chính xác toàn bộ dữ liệu ban đầu. Kho lịch sử không bị sửa. Các kết quả luôn ghim cả phiên bản và hash nội dung, không đọc một phiên bản ``mới nhất'' ngầm định.

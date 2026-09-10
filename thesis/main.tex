@@ -132,17 +132,17 @@ VTGA & Thuật toán sinh quỹ đạo ảo (Virtual Trajectory Generation Algor
 \chapter*{Tóm tắt}
 \addcontentsline{toc}{chapter}{Tóm tắt}
 
-Luận văn nghiên cứu bảo vệ tính riêng tư về quỹ đạo của người dùng dịch vụ dựa trên vị trí trong môi trường đô thị. Thiết bị xử lý vị trí, lịch sử di chuyển và truy vấn trước khi gửi yêu cầu tới nhà cung cấp dịch vụ. Đối thủ được xét là nhà cung cấp trung thực nhưng tò mò, có thể khai thác chuỗi yêu cầu cùng bản đồ và kiến thức phụ trợ để suy ra thông tin người dùng.
+Luận văn nghiên cứu bảo vệ tính riêng tư về quỹ đạo của người dùng dịch vụ dựa trên vị trí trong đô thị. Thiết bị xử lý vị trí, lịch sử di chuyển và truy vấn trước khi gửi tới nhà cung cấp dịch vụ trung thực nhưng tò mò. Phạm vi chuyển động là xe chở khách trên mạng đường đô thị; cơ chế xử lý trực tuyến, không đọc phần tương lai của hành trình.
 
-Bài toán được xác định theo bốn mục tiêu: vị trí và quỹ đạo đã quan sát, danh tính, tuyến tiếp theo và nội dung truy vấn. Mười kịch bản đe doạ liên kết các mục tiêu này với điều kiện quan sát, yêu cầu chức năng bảo vệ và dữ liệu đánh giá. Phạm vi chuyển động là xe chở khách trên mạng đường đô thị; cơ chế phải xử lý trực tuyến, không sử dụng phần tương lai chưa quan sát của hành trình.
+Bài toán được xác định theo bốn mục tiêu: vị trí và quỹ đạo đã quan sát, danh tính, tuyến tiếp theo và nội dung truy vấn. Mười kịch bản đe doạ liên kết mục tiêu, điều kiện quan sát và dữ liệu đánh giá. Bộ đo tách sai số suy luận, tỷ lệ đoán đúng, chất lượng POI và chi phí, giữ khác biệt với chỉ số và giao diện của các công trình đối chứng.
 
-Thiết kế tập dữ liệu sử dụng SUMO trên mạng đường OpenStreetMap, kết hợp lớp sinh kịch bản để bổ sung lịch truy vấn, ý định tìm kiếm, quan hệ nhiều phiên và quan hệ nhóm. Các phương pháp sinh dữ liệu giả được khảo sát theo nguyên lý hoạt động, giao diện đầu ra và điều kiện so sánh công bằng, đặc biệt là tính nhân quả của xử lý trực tuyến.
+Dữ liệu được sinh từ SUMO và OpenStreetMap, bổ sung lịch truy vấn và nhãn nhiều phiên có kiểm soát, không sử dụng GeoLife. Các phiên bản được quản lý bằng SQLite bất biến và nhật ký cập nhật. Sau tập lõi và 80 nhóm phụ trợ, tập mới bổ sung 12 nhóm tuyến, 264 chuyến, 172.443 điểm FCD và 393 bản ghi. Cả tập chọn và tập xác nhận có đủ 30 trường hợp con, nhưng còn thiếu mẫu ở từng nhóm và có hai cửa sổ dừng trùng tọa độ giữa hai tập; những giới hạn này được công bố.
 
-Bộ dữ liệu được phiên bản hóa bằng SQLite; v3 chứa 176 phiên, 124.852 mẫu FCD và 269 bản ghi kịch bản. Kho phụ trợ thêm 80 nhóm tuyến, tách 64 nhóm học và 16 nhóm kiểm tra chuyển giao. Bộ bảo vệ khai thác lịch sử neo đã bảo vệ để tối ưu tập truy vấn theo độ phủ POI và miền đường có thể tới. Các vòng thử giữ riêng dữ liệu học, chọn và xác nhận; những nhóm đã xem được chuyển sang vai trò phát triển. Kết quả âm khi chất lượng không chuyển giao được giữ lại, cùng đối chứng chỉ dùng prior và đối thủ có dữ liệu phụ trợ rộng hơn.
+BR-Dummy kết hợp neo riêng tư, kiểm tra tái sử dụng có nhiễu, ngân sách phiên hữu hạn và sinh dummy theo đường có thể tới. Bộ chọn dùng lịch sử neo đã bảo vệ để tối ưu độ phủ POI; biến thể hai chế độ khảo sát ảnh hưởng của mô hình dừng/di chuyển. Các nguyên lý riêng tư, phép lọc và tối ưu kế thừa nghiên cứu trước; tính mới không được suy ra chỉ từ việc kết hợp chúng.
 
-Phân tích tiếp theo tách cải tiến bộ chọn khỏi tài nguyên truy hồi. Ở cùng ngân sách $B=0{,}24$ và phản hồi top-5, bước thay điểm nâng Recall từ 92,35\% lên 92,93\%, chưa đạt 90\% ở ca thấp nhất. Phản hồi top-10 với cùng bộ chọn mới đạt Recall 96,38\%, ca thấp nhất 92,44\%, nhưng phần lớn lợi ích đến từ tăng kết quả trả về. Biến thể cân bằng loại dịch vụ có các suy giảm và chưa được chọn; bước thay điểm cũng chưa cải thiện riêng tư nhất quán.
+Phép thử mới giữ riêng dữ liệu học, sáu nhóm chọn và sáu nhóm xác nhận. Trên S1--S3, phủ có thay điểm đạt Recall top-5 là 92,78\%; tăng phản hồi máy chủ lên top-10 nâng Recall lên 96,33\% với chi phí danh sách mã POI tăng khoảng 64,7\%. Bộ lọc hai chế độ giữ Recall top-10 gần như tương đương (96,31\%), giảm Hit đã chọn từ 3,73\% xuống 2,92\%, nhưng MAE cũng giảm từ 577,4 m xuống 555,1 m. Đây là đánh đổi, không phải cải thiện riêng tư theo mọi tiêu chí. Không cấu hình nào đạt ngưỡng Recall 90\% ở mọi ca trên tập chọn; kết quả xác nhận không được dùng để chọn lại.
 
-Phần thực nghiệm xét S1--S3 và hai tình huống che điểm đầu/cuối S9--S10 bằng dữ liệu SUMO. Luận văn xây dựng BR-Dummy: kết hợp neo riêng tư, phép kiểm tra tái sử dụng có nhiễu, ngân sách phiên hữu hạn và sinh dummy theo miền đường có thể tới. Các thành phần dự đoán riêng tư kế thừa nghiên cứu trước; đóng góp được khảo sát là cách tích hợp và quy trình kiểm chứng, không mặc nhiên là một nguyên lý riêng tư mới. Các phép đo tách sai số suy luận, tỷ lệ đoán đúng, chất lượng POI và chi phí. Số chuyến còn nhỏ và các comparator là bản thích nghi; chưa có cơ sở khẳng định bảo vệ cả mười kịch bản hoặc vượt kết quả SOTA.
+Các phép kiểm tra độc lập đối chiếu dữ liệu SUMO gốc, trạng thái kho, mô hình tấn công, phép đo và tính nhân quả. Bằng chứng hiện tại hỗ trợ phân tích S1--S3 và các thử nghiệm biên S9--S10 trước đó, chưa chứng minh bảo vệ toàn bộ mục tiêu hoặc vượt SOTA. Các giới hạn về cùng đô thị, hành vi tổng hợp, phiên ngắn và độ đúng của mô hình chuyển động vẫn là điều kiện cần giải quyết.
 
 \chapter{Bài toán và kiến trúc hệ thống}
 \label{ch:architecture}
@@ -636,6 +636,7 @@ S9--S10 cần giữ toàn bộ chuyến đi trong kho đáp án nhưng chỉ c�
 
 \input{scenario_dataset_spec}
 \input{dataset_registry}
+\input{fresh_dataset}
 
 \chapter{Các phương pháp đối chứng}
 \label{ch:comparators}
@@ -1187,6 +1188,20 @@ A. Krause, H. B. McMahan, C. Guestrin, and A. Gupta,
 ``Robust Submodular Observation Selection,''
 \emph{Journal of Machine Learning Research}, vol. 9, pp. 2761--2801, 2008.
 \url{https://www.jmlr.org/papers/v9/krause08b.html}.
+
+\bibitem{oya2019unknown}
+S. Oya, C. Troncoso và F. Pérez-González,
+``Rethinking Location Privacy for Unknown Mobility Behaviors,''
+\emph{IEEE European Symposium on Security and Privacy}, tr. 416--431, 2019.
+\url{https://simonoya.com/files/oya-2019-06-eurosp.pdf}.
+
+\bibitem{rabiner1989hmm}
+L. R. Rabiner, ``A Tutorial on Hidden Markov Models and Selected Applications in Speech Recognition,''
+\emph{Proceedings of the IEEE}, tập 77, số 2, tr. 257--286, 1989.
+
+\bibitem{sumosublane}
+Eclipse SUMO, ``Sublane Model: Simple Continuous Lane-Change Model,''
+\url{https://eclipse.dev/sumo/docs/Simulation/SublaneModel.html}, truy cập 10/09/2026.
 
 \end{thebibliography}
 
