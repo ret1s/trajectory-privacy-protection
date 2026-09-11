@@ -1,0 +1,152 @@
+{
+  "source_sha256": {
+    "artifacts/datasets/urban_fresh_v2/dataset.json": "b15d79f51ffc8ae57d348032495c0d8170e6b12642b7d144c2de833ef9808a79",
+    "artifacts/benchmarks/fresh_switching/readout.json": "32871f9037726d29d5437003a8a4ced2171f83a895e27a48464351253b2707c2",
+    "artifacts/benchmarks/fresh_switching/selection.json": "bc92403a139186d630ee55590fd89ba411ec4454765ed06433c6f43cbfa4fd6e",
+    "artifacts/benchmarks/fresh_switching/readout_verification.json": "05a9b5ffbf3d55958459b720e9f0c75c174c0936064ed552e2799f4edee4f26e"
+  },
+  "totals": {
+    "families": 12,
+    "trips": 264,
+    "fcd": 172443,
+    "records": 393
+  },
+  "scenario_counts": [
+    {
+      "order": 1,
+      "scenario": "S1",
+      "validation": "6 / 6 / 6",
+      "confirmation": "6 / 6 / 6"
+    },
+    {
+      "order": 2,
+      "scenario": "S2",
+      "validation": "6 / 6 / 6",
+      "confirmation": "6 / 6 / 6"
+    },
+    {
+      "order": 3,
+      "scenario": "S3",
+      "validation": "6 / 6 / 6",
+      "confirmation": "6 / 5 / 6"
+    },
+    {
+      "order": 4,
+      "scenario": "S4",
+      "validation": "6 / 6 / 6",
+      "confirmation": "6 / 6 / 6"
+    },
+    {
+      "order": 5,
+      "scenario": "S5",
+      "validation": "6 / 6 / 2",
+      "confirmation": "6 / 6 / 2"
+    },
+    {
+      "order": 6,
+      "scenario": "S6",
+      "validation": "2 / 2 / 5",
+      "confirmation": "2 / 3 / 5"
+    },
+    {
+      "order": 7,
+      "scenario": "S7",
+      "validation": "18 / 18 / 18",
+      "confirmation": "18 / 18 / 18"
+    },
+    {
+      "order": 8,
+      "scenario": "S8",
+      "validation": "6 / 5 / 6",
+      "confirmation": "6 / 4 / 6"
+    },
+    {
+      "order": 9,
+      "scenario": "S9",
+      "validation": "6 / 6 / 6",
+      "confirmation": "6 / 5 / 6"
+    },
+    {
+      "order": 10,
+      "scenario": "S10",
+      "validation": "5 / 2 / 6",
+      "confirmation": "6 / 2 / 6"
+    }
+  ],
+  "selected_external_methods": [
+    "TransProtect",
+    "Semantic correlation",
+    "Fake-query insertion",
+    "DLS/enhanced-DLS",
+    "RDG",
+    "AnotherMe (trajectory reference)"
+  ],
+  "quantitative_scope": "Four internal variants, S1-S3, same-city confirmation. No external SOTA win claim.",
+  "sources": {
+    "DLS": {
+      "label": "Niu và cs., INFOCOM 2014",
+      "url": "https://doi.org/10.1109/INFOCOM.2014.6848002"
+    },
+    "ASA": {
+      "label": "Sun và cs., FGCS 2017",
+      "url": "https://doi.org/10.1016/j.future.2016.06.017"
+    },
+    "RDG": {
+      "label": "Shaham và cs., TMC 2021",
+      "url": "https://doi.org/10.1109/TMC.2020.2993599"
+    },
+    "TP": {
+      "label": "Yadav và cs., SIGSPATIAL 2024",
+      "url": "https://arxiv.org/html/2409.09495v1"
+    },
+    "AM": {
+      "label": "Li và cs., TDSC 2024; online 2023",
+      "url": "https://ieeexplore.ieee.org/document/10246991/"
+    },
+    "SC": {
+      "label": "Liu, Peng, Zhou, JKSUCIS 2026",
+      "url": "https://link.springer.com/article/10.1007/s44443-026-00899-w"
+    },
+    "FQ": {
+      "label": "Liu, Hu, Zhou, JKSUCIS 2026",
+      "url": "https://link.springer.com/article/10.1007/s44443-025-00438-z"
+    },
+    "MIX": {
+      "label": "Beresford & Stajano, 2004",
+      "url": "https://www.cl.cam.ac.uk/~fms27/papers/2004-BeresfordSta-mix.pdf"
+    },
+    "FUT": {
+      "label": "Theodorakopoulos và cs., WPES 2014",
+      "url": "https://arxiv.org/abs/1409.1716"
+    },
+    "DEST": {
+      "label": "Xue và cs., 2017: DesPre/CkiDel",
+      "url": "https://journals.sagepub.com/doi/10.1177/1550147716685421"
+    },
+    "QUERY": {
+      "label": "Wu và cs., WWW 2021; online 2020",
+      "url": "https://link.springer.com/article/10.1007/s11280-020-00830-x"
+    },
+    "CO": {
+      "label": "Olteanu và cs., TMC 2017",
+      "url": "https://www.mhumbert.com/publications/tmc16.pdf"
+    },
+    "GAME": {
+      "label": "Olteanu và cs., PoPETs 2019",
+      "url": "https://petsymposium.org/popets/2019/popets-2019-0017.pdf"
+    },
+    "END": {
+      "label": "Dhondt và cs., CCS 2022",
+      "url": "https://people.cs.kuleuven.be/~stijn.volckaert/papers/2022_CCS_Fitness_Tracking.pdf"
+    },
+    "Q": {
+      "label": "Shokri và cs., S&P 2011",
+      "url": "https://doi.org/10.1109/SP.2011.18"
+    },
+    "SUMO": {
+      "label": "SUMO: FCD",
+      "url": "https://sumo.dlr.de/docs/Simulation/Output/FCDOutput.html"
+    }
+  },
+  "word_budget_policy": "Short paraphrases; no copied publisher figures or long quotations."
+}

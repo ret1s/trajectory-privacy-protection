@@ -1,0 +1,46 @@
+.report-page { --data-app-layout-intent: authored-report; --data-app-content-width: 1180px; }
+.supervisor-brief { color: var(--text); font-size: 15px; line-height: 1.5; }
+.supervisor-brief .brief-page { margin: 0 0 44px; padding: 16px 0 24px; border-bottom: 1px solid var(--border); }
+.supervisor-brief .brief-kicker { color: #47739c; font-size: 11px; letter-spacing: .08em; margin-bottom: 16px; }
+.supervisor-brief .brief-copy h1 { font-size: 35px; line-height: 1.2; color: #163E65; margin: 12px 0 24px; }
+.supervisor-brief .brief-copy h2 { font-size: 25px; line-height: 1.25; color: #163E65; margin: 8px 0 14px; }
+.supervisor-brief .brief-copy p { margin: 10px 0; }
+.supervisor-brief .brief-copy a { color: #245787; }
+.supervisor-brief .brief-flow { margin: 20px 0; }
+.supervisor-brief .brief-footer { display: flex; justify-content: space-between; color: #64748b; font-size: 10px; margin-top: 20px; }
+.supervisor-brief .brief-table { margin: 14px 0; }
+.supervisor-brief .brief-table .table { width: 100%; table-layout: fixed; }
+.supervisor-brief .brief-table td, .supervisor-brief .brief-table th { white-space: normal; overflow-wrap: break-word; vertical-align: top; padding: 9px 8px; font-size: 13px; line-height: 1.35; }
+.supervisor-brief .brief-table td:first-child, .supervisor-brief .brief-table th:first-child { width: 44px; }
+.supervisor-brief .metrics td:first-child, .supervisor-brief .metrics th:first-child { width: 15%; }
+.supervisor-brief .brief-table td { color: #253B50; }
+.supervisor-brief .brief-table-pair { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.supervisor-brief .scenario-refs-0, .supervisor-brief .scenario-refs-1, .supervisor-brief .comparator-refs, .supervisor-brief .metrics-refs { font-size: 11px; line-height: 1.5; }
+.supervisor-brief .brief-chart { margin: 8px 0; }
+@media(max-width:700px) {
+  .supervisor-brief .brief-table-pair { grid-template-columns:1fr; }
+  .supervisor-brief .brief-table .table { min-width:760px; }
+  .supervisor-brief .brief-flow table { min-width:760px; }
+}
+@media print {
+  @page { size: A4 landscape; margin: 11mm 13mm; }
+  .supervisor-brief { font-size: 11pt; line-height: 1.35; }
+  .supervisor-brief .brief-page { break-after: page; margin: 0; padding: 0; border: 0; }
+  .supervisor-brief .brief-page:last-child { break-after: auto; }
+  .supervisor-brief .brief-kicker { margin-bottom: 10px; font-size: 8pt; }
+  .supervisor-brief .brief-copy h1 { font-size: 26pt; margin: 12px 0 20px; }
+  .supervisor-brief .brief-copy h2 { font-size: 19pt; margin: 5px 0 12px; }
+  .supervisor-brief .brief-copy p { margin: 8px 0; }
+  .supervisor-brief .brief-flow { margin: 14px 0; }
+  .supervisor-brief .brief-table td, .supervisor-brief .brief-table th { font-size: 9.3pt; padding: 7px 6px; line-height: 1.25; }
+  .supervisor-brief .brief-table { margin: 8px 0; }
+  .supervisor-brief .brief-table-pair { grid-template-columns:1fr 1fr; gap:14px; }
+  .supervisor-brief .brief-footer { margin-top: 12px; font-size: 8pt; }
+  .supervisor-brief .brief-page-9, .supervisor-brief .brief-page-10 { font-size: 10pt; }
+  .supervisor-brief .brief-page-9 .brief-table td, .supervisor-brief .brief-page-9 .brief-table th { padding: 4px 6px; }
+  .supervisor-brief .brief-page-5 { font-size: 10pt; }
+  .supervisor-brief .brief-page-5 .brief-table td, .supervisor-brief .brief-page-5 .brief-table th { font-size: 9pt; padding: 5px 6px; }
+  .supervisor-brief .brief-page-6 { font-size: 10pt; }
+  .supervisor-brief .brief-page-6 .brief-table td, .supervisor-brief .brief-page-6 .brief-table th { font-size: 9pt; padding: 5px 6px; }
+  .supervisor-brief .brief-page-9 .brief-copy p { margin: 5px 0; }
+}

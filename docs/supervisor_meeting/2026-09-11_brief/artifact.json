@@ -1,0 +1,952 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "Bảo vệ tính riêng tư về quỹ đạo cho người dùng dịch vụ dựa trên vị trí",
+    "description": "Nội dung trao đổi với GVHD, 11/09/2026. Khép các yêu cầu cũ trước khi trình bày kết quả mới.",
+    "generatedAt": "2026-09-11T10:28:43+07:00",
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# Bảo vệ tính riêng tư về quỹ đạo cho người dùng dịch vụ dựa trên vị trí"
+      },
+      {
+        "id": "overview",
+        "type": "markdown",
+        "body": "## Nội dung trình bày ngày 11/09/2026\n\n**Phần 1 - Hoàn thiện yêu cầu tuần trước:** phân biệt 10 kịch bản; nối từng kịch bản với nghiên cứu bảo vệ; chốt danh sách đối chứng và chỉ số gốc.\n\n**Phần 2 - Bằng chứng mới:** cơ chế sinh điểm giả có trạng thái, quy trình thực nghiệm đã khóa và đánh đổi giữa chất lượng POI với rủi ro suy luận.\n\n**Kết luận chính:** đã có khung dữ liệu và phép thử có thể kiểm tra lại. Chưa chứng minh bảo vệ toàn bộ 10 kịch bản hoặc vượt các phương pháp đối chứng hiện đại."
+      },
+      {
+        "id": "architecture",
+        "type": "html",
+        "body": "<div style=\"overflow-x:auto\"><table style=\"width:100%;table-layout:fixed;border-spacing:4px\"><tbody><tr><td style=\"background:#E6EFF9;border:1px solid #94A3B8;border-radius:8px;padding:13px 11px;vertical-align:top;color:#172235\"><strong>THIẾT BỊ</strong><br><span style=\"font-size:14px\">Vị trí, lịch sử, truy vấn thật; chỉ đọc tới hiện tại.</span></td><td style=\"width:3%;text-align:center;font-size:24px;color:#334155\">→</td><td style=\"background:#FBEAD2;border:1px solid #94A3B8;border-radius:8px;padding:13px 11px;vertical-align:top;color:#172235\"><strong>CƠ CHẾ BẢO VỆ</strong><br><span style=\"font-size:14px\">Chạy cục bộ; nhận thêm bản đồ, luật đường và POI công khai.</span></td><td style=\"width:3%;text-align:center;font-size:24px;color:#334155\">→</td><td style=\"background:#E6EFF9;border:1px solid #94A3B8;border-radius:8px;padding:13px 11px;vertical-align:top;color:#172235\"><strong>LSP / ĐỐI THỦ</strong><br><span style=\"font-size:14px\">Chỉ nhận dữ liệu đã bảo vệ; xử lý dịch vụ nhưng có thể lưu và suy luận.</span></td><td style=\"width:3%;text-align:center;font-size:24px;color:#334155\">→</td><td style=\"background:#F3F4F6;border:1px solid #94A3B8;border-radius:8px;padding:13px 11px;vertical-align:top;color:#172235\"><strong>THIẾT BỊ</strong><br><span style=\"font-size:14px\">Nhận POI; gộp, loại trùng và xếp lại bằng vị trí thật cục bộ.</span></td></tr></tbody></table></div><p style=\"font-size:13px;color:#475569\">Ranh giới tin cậy: vị trí thật và trạng thái bảo vệ ở thiết bị. Mũi tên sang LSP là kênh công bố cần đánh giá; sơ đồ mô tả giao tiếp, không phải bảo đảm đã che mọi trường dữ liệu.</p>"
+      },
+      {
+        "id": "scope",
+        "type": "markdown",
+        "body": "**Phạm vi:** xe con trên mạng đường đô thị có hướng. Dữ liệu SUMO + OpenStreetMap, không dùng GeoLife. Một chuyến có thể tạo nhiều bài kiểm tra với quyền quan sát khác nhau; bản ghi không đồng nghĩa người dùng độc lập."
+      },
+      {
+        "id": "scenarios-0",
+        "type": "markdown",
+        "body": "## 1. Kịch bản, dữ liệu và nghiên cứu bảo vệ (S1-S5)\n\n**Đọc theo hàng:** mục tiêu → điều kiện tạo dữ liệu → cách bảo vệ liên quan → mức bằng chứng hiện có. S1-S10 là cách tổ chức của luận văn, không phải một hệ phân loại chuẩn của các paper."
+      },
+      {
+        "id": "scenarios-table-0-block",
+        "type": "table",
+        "tableId": "scenarios-table-0"
+      },
+      {
+        "id": "scenario-refs-0",
+        "type": "markdown",
+        "body": "**Nguồn:** [DLS] [Niu và cs., INFOCOM 2014](https://doi.org/10.1109/INFOCOM.2014.6848002) · [ASA] [Sun và cs., FGCS 2017](https://doi.org/10.1016/j.future.2016.06.017) · [RDG] [Shaham và cs., TMC 2021](https://doi.org/10.1109/TMC.2020.2993599) · [TP] [Yadav và cs., SIGSPATIAL 2024](https://arxiv.org/html/2409.09495v1) · [SC] [Liu, Peng, Zhou, JKSUCIS 2026](https://link.springer.com/article/10.1007/s44443-026-00899-w) · [FQ] [Liu, Hu, Zhou, JKSUCIS 2026](https://link.springer.com/article/10.1007/s44443-025-00438-z) · [MIX] [Beresford & Stajano, 2004](https://www.cl.cam.ac.uk/~fms27/papers/2004-BeresfordSta-mix.pdf) · [AM] [Li và cs., TDSC 2024; online 2023](https://ieeexplore.ieee.org/document/10246991/) · [FUT] [Theodorakopoulos và cs., WPES 2014](https://arxiv.org/abs/1409.1716)"
+      },
+      {
+        "id": "scenarios-1",
+        "type": "markdown",
+        "body": "## 1. Kịch bản, dữ liệu và nghiên cứu bảo vệ (S6-S10)\n\n**Đọc theo hàng:** mục tiêu → điều kiện tạo dữ liệu → cách bảo vệ liên quan → mức bằng chứng hiện có. S1-S10 là cách tổ chức của luận văn, không phải một hệ phân loại chuẩn của các paper."
+      },
+      {
+        "id": "scenarios-table-1-block",
+        "type": "table",
+        "tableId": "scenarios-table-1"
+      },
+      {
+        "id": "scenario-refs-1",
+        "type": "markdown",
+        "body": "**Nguồn:** [DEST] [Xue và cs., 2017: DesPre/CkiDel](https://journals.sagepub.com/doi/10.1177/1550147716685421) · [QUERY] [Wu và cs., WWW 2021; online 2020](https://link.springer.com/article/10.1007/s11280-020-00830-x) · [CO] [Olteanu và cs., TMC 2017](https://www.mhumbert.com/publications/tmc16.pdf) · [GAME] [Olteanu và cs., PoPETs 2019](https://petsymposium.org/popets/2019/popets-2019-0017.pdf) · [END] [Dhondt và cs., CCS 2022](https://people.cs.kuleuven.be/~stijn.volckaert/papers/2022_CCS_Fitness_Tracking.pdf)"
+      },
+      {
+        "id": "coverage-conclusion",
+        "type": "markdown",
+        "body": "**Không đánh dấu “đã bao phủ” chỉ vì có liên quan.** Muốn kết luận hơn đối chứng phải chạy cùng mục tiêu, quyền quan sát, chất lượng dịch vụ và chi phí. Bỏ trống bằng chứng bảo vệ S8 là một thiếu hụt cần xử lý, không chứng minh lĩnh vực chưa có lời giải."
+      },
+      {
+        "id": "dataset-page",
+        "type": "markdown",
+        "body": "## 2. Dataset: tách chuyển động, kịch bản và phép đo\n\n**12 nhóm tuyến mới; 264 chuyến; 172.443 điểm FCD; 393 bản ghi.** Hai tập mới đều có đủ 30 ca con, nhưng không phải ca nào cũng nhiều mẫu.",
+        "sourceId": "dataset"
+      },
+      {
+        "id": "data-flow",
+        "type": "html",
+        "body": "<div style=\"overflow-x:auto\"><table style=\"width:100%;table-layout:fixed;border-spacing:4px\"><tbody><tr><td style=\"background:#E6EFF9;border:1px solid #94A3B8;border-radius:8px;padding:13px 11px;vertical-align:top;color:#172235\"><strong>1. THIẾT KẾ</strong><br><span style=\"font-size:14px\">OSM có hướng; tuyến chung / rẽ khác; điểm dừng; lịch nhiều ngày.</span></td><td style=\"width:3%;text-align:center;font-size:24px;color:#334155\">→</td><td style=\"background:#FBEAD2;border:1px solid #94A3B8;border-radius:8px;padding:13px 11px;vertical-align:top;color:#172235\"><strong>2. SUMO</strong><br><span style=\"font-size:14px\">Chạy xe thật trong mô phỏng; ghi tọa độ, tốc độ, làn và thời gian mỗi giây.</span></td><td style=\"width:3%;text-align:center;font-size:24px;color:#334155\">→</td><td style=\"background:#E6EFF9;border:1px solid #94A3B8;border-radius:8px;padding:13px 11px;vertical-align:top;color:#172235\"><strong>3. LỚP KỊCH BẢN</strong><br><span style=\"font-size:14px\">Chọn cửa sổ; gắn truy vấn, người/thiết bị, quan hệ và đáp án.</span></td><td style=\"width:3%;text-align:center;font-size:24px;color:#334155\">→</td><td style=\"background:#F3F4F6;border:1px solid #94A3B8;border-radius:8px;padding:13px 11px;vertical-align:top;color:#172235\"><strong>4. KIỂM TRA / LƯU</strong><br><span style=\"font-size:14px\">Chấp nhận hoặc ghi lý do loại; SQLite có phiên bản và nhật ký.</span></td></tr></tbody></table></div><p style=\"font-size:13px;color:#475569\">Một bản ghi có thể tham chiếu nhiều chuyến. Đáp án và tương lai chỉ dành cho bộ đánh giá; không đưa vào quan sát của LSP.</p>"
+      },
+      {
+        "id": "data-counts-block",
+        "type": "table",
+        "tableId": "data-counts"
+      },
+      {
+        "id": "dataset-caveat",
+        "type": "markdown",
+        "body": "**Điều kiện và giới hạn:** tốc độ cấu hình tối đa 8 m/s; lịch truy vấn khác nhịp FCD. Có 43 cặp nhóm-ca không đạt điều kiện; hai cửa sổ dừng trùng tọa độ giữa hai tập được công bố và kiểm tra độ nhạy. Đổi làn đã được sửa ở cấu hình mô phỏng, không sửa tọa độ. Cùng một đô thị; nhãn ý định/danh tính là tổng hợp. [Nguồn FCD SUMO](https://sumo.dlr.de/docs/Simulation/Output/FCDOutput.html).",
+        "sourceId": "dataset"
+      },
+      {
+        "id": "comparator-page",
+        "type": "markdown",
+        "body": "## 3. Chốt đối chứng cho thiết kế benchmark\n\n**Ba phương pháp hiện đại chính:** TransProtect, semantic correlation và fake-query insertion. **Hai nguồn nền:** DLS/enhanced-DLS và RDG. **AnotherMe giữ nhánh tham chiếu quỹ đạo ảo.** Đây là quyết định lựa chọn cho milestone này, không phải tuyên bố tất cả đã được tái lập và chạy trên tập mới."
+      },
+      {
+        "id": "comparators-block",
+        "type": "table",
+        "tableId": "comparators"
+      },
+      {
+        "id": "comparator-refs",
+        "type": "markdown",
+        "body": "**Nguồn:** [TP] [Yadav và cs., SIGSPATIAL 2024](https://arxiv.org/html/2409.09495v1) · [SC] [Liu, Peng, Zhou, JKSUCIS 2026](https://link.springer.com/article/10.1007/s44443-026-00899-w) · [FQ] [Liu, Hu, Zhou, JKSUCIS 2026](https://link.springer.com/article/10.1007/s44443-025-00438-z) · [DLS] [Niu và cs., INFOCOM 2014](https://doi.org/10.1109/INFOCOM.2014.6848002) · [RDG] [Shaham và cs., TMC 2021](https://doi.org/10.1109/TMC.2020.2993599) · [AM] [Li và cs., TDSC 2024; online 2023](https://ieeexplore.ieee.org/document/10246991/)"
+      },
+      {
+        "id": "comparator-boundary",
+        "type": "markdown",
+        "body": "ASA, mix zones, CkiDel, chuỗi truy vấn giả của Wu, EPZ và mô hình đồng hành là **nghiên cứu liên quan cho từng mục tiêu**, chưa đưa tất cả vào bảng xếp hạng chính. Nhóm được chọn gồm cả sinh tập thật-giả và sinh dữ liệu thay thế; không gọi mọi phương pháp là cùng một giao diện dummy-generation."
+      },
+      {
+        "id": "metrics-page",
+        "type": "markdown",
+        "body": "## 4. Giữ chỉ số gốc; thống nhất nhiệm vụ cần chấm\n\n**Không quy entropy, ASR và sai số vị trí về một “điểm riêng tư”.** Giao thức chung hỏi: đối thủ đoán được gì, ứng dụng còn trả đúng bao nhiêu và tốn thêm bao nhiêu. Đây là lựa chọn có lý do cho bài toán này, không phải chuẩn duy nhất của lĩnh vực."
+      },
+      {
+        "id": "metrics-block",
+        "type": "table",
+        "tableId": "metrics"
+      },
+      {
+        "id": "metric-contract",
+        "type": "markdown",
+        "body": "**Ba giao diện, một đáp án cần suy luận:** một vị trí thay thế → ước lượng vị trí thật; tập chứa thật → chọn ứng viên hoặc ước lượng vị trí; tập không bắt buộc chứa thật → ước lượng từ toàn bộ bản tin. Mỗi đối thủ dùng đúng quan sát được cấp rồi trả cùng loại đáp án để chấm.\n\n**Ba số khác nhau:** K = số điểm công bố; k = 5 POI ứng dụng cần; L = 5 hoặc 10 POI máy chủ trả cho từng truy vấn. Đổi L không đổi k. Ngưỡng Recall 90% là yêu cầu ta đặt, không phải ngưỡng chuẩn của paper.\n\n**Điểm cần giữ khi tái lập:** ASR của semantic correlation đòi một mô hình xác suất nhận diện, không chỉ đếm đủ K điểm. DER trong bài có cả công thức tương đồng và diễn giải tỷ lệ đạt ngưỡng; phải công bố cách thực thi. EIE gốc và MAE của một ước lượng điểm không mặc nhiên là cùng định nghĩa."
+      },
+      {
+        "id": "metrics-refs",
+        "type": "markdown",
+        "body": "**Cơ sở đánh giá theo đối thủ:** [Shokri và cs., S&P 2011](https://doi.org/10.1109/SP.2011.18); **đối chiếu định nghĩa gốc:** [Yadav và cs., SIGSPATIAL 2024](https://arxiv.org/html/2409.09495v1) và [Liu, Peng, Zhou, JKSUCIS 2026](https://link.springer.com/article/10.1007/s44443-026-00899-w)."
+      },
+      {
+        "id": "method-page",
+        "type": "markdown",
+        "body": "## 5. Phương pháp đề xuất: giữ riêng tư, duy trì đường giả, phục hồi dịch vụ\n\n**BR-Dummy là cơ chế nền đang phát triển.** Hướng mới không chỉ làm điểm giả trông hợp lý: nó chọn tập truy vấn để kết quả trả về vẫn chứa các POI người dùng cần. Phiên bản chưa bị ràng buộc phải dùng hay không dùng học sâu."
+      },
+      {
+        "id": "method-flow",
+        "type": "html",
+        "body": "<div style=\"overflow-x:auto\"><table style=\"width:100%;table-layout:fixed;border-spacing:4px\"><tbody><tr><td style=\"background:#E6EFF9;border:1px solid #94A3B8;border-radius:8px;padding:13px 11px;vertical-align:top;color:#172235\"><strong>1. NEO RIÊNG TƯ</strong><br><span style=\"font-size:14px\">Từ GPS thật tạo neo nhiễu; thử tái sử dụng có nhiễu; ghi ngân sách phiên.</span></td><td style=\"width:3%;text-align:center;font-size:24px;color:#334155\">→</td><td style=\"background:#FBEAD2;border:1px solid #94A3B8;border-radius:8px;padding:13px 11px;vertical-align:top;color:#172235\"><strong>2. ƯỚC LƯỢNG</strong><br><span style=\"font-size:14px\">Chỉ dùng lịch sử neo đã bảo vệ để ước lượng vùng vị trí và nhu cầu POI khả dĩ.</span></td><td style=\"width:3%;text-align:center;font-size:24px;color:#334155\">→</td><td style=\"background:#E6EFF9;border:1px solid #94A3B8;border-radius:8px;padding:13px 11px;vertical-align:top;color:#172235\"><strong>3. CHỌN DUMMY</strong><br><span style=\"font-size:14px\">Giữ khả năng đi tới trên đường; chọn tham lam rồi thay điểm để tăng độ phủ.</span></td><td style=\"width:3%;text-align:center;font-size:24px;color:#334155\">→</td><td style=\"background:#F3F4F6;border:1px solid #94A3B8;border-radius:8px;padding:13px 11px;vertical-align:top;color:#172235\"><strong>4. DỊCH VỤ</strong><br><span style=\"font-size:14px\">LSP trả POI cho điểm giả; thiết bị gộp và xếp lại tại vị trí thật.</span></td></tr></tbody></table></div><p style=\"font-size:13px;color:#475569\">Đường đi dữ liệu của đề xuất: phần sau neo không đọc lại GPS thật, tốc độ thật hoặc nhãn kịch bản. Ngữ cảnh công khai được cố định trước phiên.</p>"
+      },
+      {
+        "id": "method-note",
+        "type": "markdown",
+        "body": "**Biến thể mới:** bộ lọc hai chế độ “đang dừng / đang đi” thay cho mô hình chuyển động một chế độ, nhưng giữ ngân sách và bước chọn điểm. Mục tiêu là ước lượng độ phủ tốt hơn; kết quả chưa cho thấy ưu thế đồng đều.\n\n**Phần kế thừa:** Geo-I, hợp thành ngân sách, phép lọc Markov và tìm kiếm tham lam. Giả thuyết đóng góp là cách kết hợp chọn tập truy vấn có ràng buộc đường với chất lượng dịch vụ và đánh giá đối thủ; chưa tự nhận các thành phần chuẩn là thuật toán mới.\n\n**Phạm vi:** lõi kiểm tra S1-S3. Mở rộng cần cơ chế liên phiên cho S4; đa nhánh tương lai S5-S6; xử lý nội dung S7; phối hợp đồng hành S8; chính sách biên S9-S10. Đây là yêu cầu phát triển, không phải các module đã hoàn tất.\n\n**Giới hạn lý thuyết:** B = 0,24 m⁻¹ và H = 12 lần đọc. Chặn lý tưởng ở khoảng cách quỹ đạo 100 m là e²⁴, còn lỏng; không chuyển thành cam kết xác suất đoán đúng nhỏ.",
+        "sourceId": "method"
+      },
+      {
+        "id": "protocol-page",
+        "type": "markdown",
+        "body": "## 6. Quá trình thực nghiệm: khóa lựa chọn trước khi xác nhận\n\n**Vòng mới so sánh bốn biến thể nội bộ, chưa phải bảng so với SOTA.** Dùng cùng B = 0,24 m⁻¹, K = 5, H = 12, dãy neo ngẫu nhiên và dịch vụ POI; chỉ thay các thành phần cần kiểm tra.",
+        "sourceId": "method"
+      },
+      {
+        "id": "protocol-flow",
+        "type": "html",
+        "body": "<div style=\"overflow-x:auto\"><table style=\"width:100%;table-layout:fixed;border-spacing:4px\"><tbody><tr><td style=\"background:#E6EFF9;border:1px solid #94A3B8;border-radius:8px;padding:13px 11px;vertical-align:top;color:#172235\"><strong>HỌC</strong><br><span style=\"font-size:14px\">2 nhóm lõi + 64 nhóm phụ trợ. Học đối thủ; giữ nguyên dữ liệu học.</span></td><td style=\"width:3%;text-align:center;font-size:24px;color:#334155\">→</td><td style=\"background:#FBEAD2;border:1px solid #94A3B8;border-radius:8px;padding:13px 11px;vertical-align:top;color:#172235\"><strong>CHỌN</strong><br><span style=\"font-size:14px\">6 nhóm mới 301-306; 54 bản ghi S1-S3. Chọn đối thủ và cấu hình.</span></td><td style=\"width:3%;text-align:center;font-size:24px;color:#334155\">→</td><td style=\"background:#E6EFF9;border:1px solid #94A3B8;border-radius:8px;padding:13px 11px;vertical-align:top;color:#172235\"><strong>KHÓA</strong><br><span style=\"font-size:14px\">Recall từng ca ≥90%; sau đó giảm Hit. Không đạt thì ghi không khả thi.</span></td><td style=\"width:3%;text-align:center;font-size:24px;color:#334155\">→</td><td style=\"background:#F3F4F6;border:1px solid #94A3B8;border-radius:8px;padding:13px 11px;vertical-align:top;color:#172235\"><strong>XÁC NHẬN</strong><br><span style=\"font-size:14px\">6 nhóm mới 307-312; 53 bản ghi. Không chọn lại sau khi xem điểm.</span></td></tr></tbody></table></div><p style=\"font-size:13px;color:#475569\">Huấn luyện cơ chế bảo vệ, nếu có, cũng phải nằm ở phần học. Phép xác nhận này không huấn luyện lại một mạng nơ-ron sinh dummy.</p>"
+      },
+      {
+        "id": "protocol-text",
+        "type": "markdown",
+        "body": "**Bốn cấu hình:** (1) dummy hình học; (2) phủ POI tham lam; (3) phủ POI + thay điểm; (4) hai chế độ + thay điểm. Ba lần lặp mỗi bản ghi tạo 648 lượt chọn và 636 lượt xác nhận, không phải 636 người độc lập.\n\n**Đối thủ:** suy luận từ tâm/trung bình, đường đi, cả cửa sổ và các mô hình học từ dữ liệu phụ trợ; 26 quyết định ở S1, 33 ở S2/S3. Chọn đối thủ tối thiểu MAE và tối đa Hit riêng trên tập chọn. Báo thêm Hit lớn nhất trong bộ đối thủ đã thử để thấy rủi ro chọn đối thủ yếu.\n\n**Lấy trung bình:** sự kiện trong một lượt → các lượt trong từng ca → trung bình đều qua 9 ca con S1-S3. S3.B chỉ có 5 nhóm xác nhận, các ca còn lại có 6. Mỗi sự kiện thử sáu loại POI; không dùng nhãn kịch bản để điều khiển bộ bảo vệ.\n\n**Kiểm tra:** dữ liệu gốc SUMO, quyền quan sát, học/chọn/kiểm thử, đường đi dummy, chạy lại tiền tố, tính lại dự đoán và Recall. Báo cáo ngắn dùng các kết quả đã lưu; không tinh chỉnh thêm thuật toán trong lần biên tập này.",
+        "sourceId": "method"
+      },
+      {
+        "id": "results-page",
+        "type": "markdown",
+        "body": "## 7. Kết quả mới: chất lượng tăng, riêng tư có đánh đổi\n\n**Đọc biểu đồ:** tỷ lệ top-5 đúng còn lấy được trên tập xác nhận; cao hơn tốt hơn. Cặp cột thay độ sâu phản hồi L, không thay số đáp án k = 5. Tăng L phải tính thêm chi phí.",
+        "sourceId": "result"
+      },
+      {
+        "id": "recall-chart-block",
+        "type": "chart",
+        "chartId": "recall-chart"
+      },
+      {
+        "id": "privacy-block",
+        "type": "table",
+        "tableId": "privacy"
+      },
+      {
+        "id": "decision-page",
+        "type": "markdown",
+        "body": "## 8. Điều được kết luận và điều chưa được kết luận\n\n**Chưa có cấu hình vượt quy tắc chọn.** Trên validation ở L = 10, Recall ca yếu nhất của “phủ + thay điểm” là 89,25%, của “hai chế độ” là 89,32%; đều dưới 90%. Kết quả xác nhận đẹp hơn không cho phép chọn lại.",
+        "sourceId": "selection"
+      },
+      {
+        "id": "result-interpretation",
+        "type": "markdown",
+        "body": "**Hai chế độ so với phủ + thay điểm:** Recall gần như giữ nguyên; Hit100 giảm 3.73% → 2.92%, nhưng MAE giảm 577.4 → 555.1 m, bất lợi cho riêng tư. Chưa kết luận tốt hơn trên mọi tiêu chí.\n\n**Giá của phản hồi sâu hơn:** L = 5 → 10 tăng byte danh sách mã POI khoảng 64.7%; không phải toàn bộ HTTP. Cực trị là lớn nhất trong bộ đối thủ hữu hạn, không phải bảo đảm trước mọi đối thủ.",
+        "sourceId": "result"
+      },
+      {
+        "id": "family-chart-block",
+        "type": "chart",
+        "chartId": "family-chart"
+      },
+      {
+        "id": "finish",
+        "type": "markdown",
+        "body": "**Không đồng đều:** Hit giảm ở 2 nhóm, tăng ở 2 nhóm, bằng nhau ở 2 nhóm. Kiểm tra loại hai cửa sổ dừng trùng vẫn cho đánh đổi Hit/MAE; chưa có kiểm định khẳng định thắng. Chỉ có sáu nhóm cùng đô thị và cửa sổ tối đa 12 sự kiện.\n\n**Nội dung có thể báo cáo:** kịch bản và dữ liệu đã cụ thể hơn; có lựa chọn đối chứng và lý do đo; đã thực nghiệm một giả thuyết thuật toán và ghi nhận cả kết quả không thuận lợi.\n\n**Ba việc cần chốt tiếp với thầy:** (1) thống nhất tác vụ/quan sát của S1-S10 và tăng mẫu các ca ít; (2) hoàn thiện tái lập đối chứng đã chọn, đặc biệt fake queries, RDG và các thành phần học; (3) kiểm tra truy vấn thưa S3.C, rồi mở phép thử riêng cho mục tiêu mở rộng. Không hạ ngưỡng hoặc dùng lại tập xác nhận để tuyên bố cải thiện mới.",
+        "sourceId": "result"
+      }
+    ],
+    "charts": [
+      {
+        "id": "recall-chart",
+        "title": "Recall@5 của bốn biến thể",
+        "subtitle": "Xác nhận cùng đô thị; 9 ca S1-S3, 53 bản ghi; đơn vị %.",
+        "showDescription": true,
+        "type": "bar",
+        "dataset": "recall",
+        "sourceId": "result",
+        "valueFormat": "number",
+        "encodings": {
+          "x": {
+            "field": "method",
+            "type": "nominal",
+            "label": "Biến thể"
+          },
+          "y": {
+            "field": "recall",
+            "type": "quantitative",
+            "label": "Recall@5 (%)"
+          },
+          "color": {
+            "field": "depth",
+            "type": "nominal",
+            "label": "LSP trả"
+          },
+          "tooltip": [
+            {
+              "field": "id_bytes",
+              "type": "quantitative",
+              "label": "Byte mã POI / sự kiện"
+            }
+          ]
+        },
+        "palette": {
+          "kind": "categorical"
+        },
+        "legend": {
+          "position": "top"
+        },
+        "labels": {
+          "values": "always"
+        }
+      },
+      {
+        "id": "family-chart",
+        "title": "Thay đổi Hit100 đã chọn theo nhóm tuyến",
+        "subtitle": "Hai chế độ trừ phủ + thay điểm; âm là giảm rủi ro, dương là tăng rủi ro.",
+        "showDescription": true,
+        "type": "bar",
+        "dataset": "family",
+        "sourceId": "result",
+        "valueFormat": "number",
+        "encodings": {
+          "x": {
+            "field": "family",
+            "type": "nominal",
+            "label": "Nhóm xác nhận"
+          },
+          "y": {
+            "field": "delta",
+            "type": "quantitative",
+            "label": "Chênh lệch (điểm %)"
+          }
+        },
+        "palette": {
+          "kind": "sequential"
+        },
+        "legend": {
+          "position": "none"
+        },
+        "labels": {
+          "values": "always"
+        }
+      }
+    ],
+    "tables": [
+      {
+        "id": "scenarios-table-0",
+        "title": "Ánh xạ kịch bản và bằng chứng",
+        "dataset": "scenarios-table-0",
+        "sourceId": "literature",
+        "defaultSort": {
+          "field": "id",
+          "direction": "asc"
+        },
+        "columns": [
+          {
+            "field": "id",
+            "label": "Ca",
+            "type": "text"
+          },
+          {
+            "field": "target",
+            "label": "Thông tin đối thủ muốn biết",
+            "type": "text"
+          },
+          {
+            "field": "cases",
+            "label": "Các trường hợp dữ liệu A / B / C",
+            "type": "text"
+          },
+          {
+            "field": "related",
+            "label": "Bảo vệ đã được nghiên cứu và giới hạn",
+            "type": "text"
+          },
+          {
+            "field": "status",
+            "label": "Bằng chứng của ta",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "scenarios-table-1",
+        "title": "Ánh xạ kịch bản và bằng chứng",
+        "dataset": "scenarios-table-1",
+        "sourceId": "literature",
+        "defaultSort": {
+          "field": "id",
+          "direction": "asc"
+        },
+        "columns": [
+          {
+            "field": "id",
+            "label": "Ca",
+            "type": "text"
+          },
+          {
+            "field": "target",
+            "label": "Thông tin đối thủ muốn biết",
+            "type": "text"
+          },
+          {
+            "field": "cases",
+            "label": "Các trường hợp dữ liệu A / B / C",
+            "type": "text"
+          },
+          {
+            "field": "related",
+            "label": "Bảo vệ đã được nghiên cứu và giới hạn",
+            "type": "text"
+          },
+          {
+            "field": "status",
+            "label": "Bằng chứng của ta",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "data-counts",
+        "title": "Số bản ghi theo ca con A / B / C",
+        "dataset": "data-counts",
+        "sourceId": "dataset",
+        "defaultSort": {
+          "field": "order",
+          "direction": "asc"
+        },
+        "columns": [
+          {
+            "field": "order",
+            "label": "STT",
+            "type": "text"
+          },
+          {
+            "field": "scenario",
+            "label": "Kịch bản",
+            "type": "text"
+          },
+          {
+            "field": "validation",
+            "label": "Tập chọn: 301-306",
+            "type": "text"
+          },
+          {
+            "field": "confirmation",
+            "label": "Xác nhận: 307-312",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "comparators",
+        "title": "Phương pháp được chọn và chỉ số trong nguồn gốc",
+        "dataset": "comparators",
+        "sourceId": "literature",
+        "defaultSort": {
+          "field": "order",
+          "direction": "asc"
+        },
+        "columns": [
+          {
+            "field": "order",
+            "label": "STT",
+            "type": "text"
+          },
+          {
+            "field": "method",
+            "label": "Phương pháp / năm",
+            "type": "text"
+          },
+          {
+            "field": "concept",
+            "label": "Nguyên lý và vai trò",
+            "type": "text"
+          },
+          {
+            "field": "metrics",
+            "label": "Chỉ số gốc",
+            "type": "text"
+          },
+          {
+            "field": "status",
+            "label": "Tình trạng sử dụng",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "metrics",
+        "title": "Bộ đo dùng chung và lý do chọn",
+        "dataset": "metrics",
+        "sourceId": "literature",
+        "defaultSort": {
+          "field": "axis",
+          "direction": "asc"
+        },
+        "columns": [
+          {
+            "field": "axis",
+            "label": "Trục đánh giá",
+            "type": "text"
+          },
+          {
+            "field": "measure",
+            "label": "Định nghĩa dễ hiểu",
+            "type": "text"
+          },
+          {
+            "field": "why",
+            "label": "Lý do cần đo",
+            "type": "text"
+          },
+          {
+            "field": "scope",
+            "label": "Phạm vi / giới hạn",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "privacy",
+        "title": "Riêng tư trên cùng tập xác nhận",
+        "dataset": "privacy",
+        "sourceId": "result",
+        "defaultSort": {
+          "field": "order",
+          "direction": "asc"
+        },
+        "columns": [
+          {
+            "field": "order",
+            "label": "STT",
+            "type": "text"
+          },
+          {
+            "field": "method",
+            "label": "Biến thể",
+            "type": "text"
+          },
+          {
+            "field": "hit",
+            "label": "Hit100 đã chọn ↓",
+            "type": "text"
+          },
+          {
+            "field": "envelope",
+            "label": "Hit100 cực trị bộ thử ↓",
+            "type": "text"
+          },
+          {
+            "field": "mae",
+            "label": "MAE đã chọn ↑",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "literature",
+        "label": "Đối chiếu công trình gốc, phạm vi và chỉ số",
+        "path": "docs/supervisor_meeting/2026-09-11_brief/source_notes.md"
+      },
+      {
+        "id": "dataset",
+        "label": "Bản ghi urban-fresh-v2, SUMO + OSM",
+        "path": "artifacts/datasets/urban_fresh_v2/dataset.json"
+      },
+      {
+        "id": "result",
+        "label": "Kết quả xác nhận fresh_switching",
+        "path": "artifacts/benchmarks/fresh_switching/readout.json"
+      },
+      {
+        "id": "selection",
+        "label": "Quyết định chọn đã khóa trên validation",
+        "path": "artifacts/benchmarks/fresh_switching/selection.json"
+      },
+      {
+        "id": "method",
+        "label": "Đặc tả phương pháp và thí nghiệm",
+        "path": "thesis/fresh_switching_comparison.tex"
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-09-11T10:28:43+07:00",
+    "status": "ready",
+    "datasets": {
+      "scenarios-table-0": [
+        {
+          "id": "S1",
+          "target": "Định vị một lần gửi. Vị trí hiện tại; chỉ một bản tin.",
+          "cases": "A: nhiều hướng; B: một hướng; C: gần POI hiếm.",
+          "related": "DLS chọn dummy theo xác suất truy vấn; đối chứng trực tiếp về suy luận điểm. [DLS]",
+          "status": "Lõi; đã chấm vòng mới."
+        },
+        {
+          "id": "S2",
+          "target": "Suy luận điểm dừng. Nơi đang dừng; nhiều bản tin trong cùng điểm dừng.",
+          "cases": "A: dừng ≥20 s / gửi 5 s; B: ≥120 s / gửi 20 s; C: dừng - đi - quay lại.",
+          "related": "ASA chống thống kê dài hạn/vùng bằng SNAME/MNAME và phân bố dummy. Liên quan, không đúng nguyên phép thử dừng. [ASA]",
+          "status": "Lõi; đã chấm vòng mới."
+        },
+        {
+          "id": "S3",
+          "target": "Tái dựng đường đã đi. Chuỗi quá khứ; ghép bản tin theo bản đồ và thời gian.",
+          "cases": "A: chạy ≥60 s, ≥3 cạnh; B: hành lang ít nhánh; C: gửi thưa 60 s.",
+          "related": "RDG chống Viterbi; TransProtect xét đường; semantic correlation xét ngữ nghĩa; fake queries chèn bản tin. [RDG, TP, SC, FQ]",
+          "status": "Lõi; đã chấm vòng mới."
+        },
+        {
+          "id": "S4",
+          "target": "Liên kết người / thiết bị. Hai phiên có cùng người hay thiết bị? Chấm riêng hai nhãn.",
+          "cases": "A: cùng người/thiết bị; B: cùng người đổi máy; C: khác người dùng chung máy.",
+          "related": "Mix zones đổi bí danh để làm khó liên kết. AnotherMe tạo hồ sơ ảo nhưng chưa có bằng chứng cho đúng hai nhãn ở đây. [MIX, AM]",
+          "status": "Mở rộng; đã có dữ liệu."
+        },
+        {
+          "id": "S5",
+          "target": "Dự đoán cạnh tiếp theo. Cạnh đường ngay sau tiền tố; không phải vị trí sau đúng 30 s.",
+          "cases": "A: nhiều lựa chọn rẽ; B: chỉ một lựa chọn; C: chung tiền tố, khác cạnh tiếp.",
+          "related": "LPPM của Theodorakopoulos và cs. bảo vệ hiện tại - tương lai theo mô hình chuyển động. Khác tác vụ dự đoán cạnh xe đô thị. [FUT]",
+          "status": "Mở rộng; đã có dữ liệu."
+        }
+      ],
+      "scenarios-table-1": [
+        {
+          "id": "S6",
+          "target": "Dự đoán đích đến. Đích chưa tới; chỉ thấy tiền tố và lịch sử được cấp.",
+          "cases": "A: chung đầu, khác đích; B: hai đích ≤500 m; C: đích quen / hiếm qua nhiều ngày.",
+          "related": "CkiDel xóa check-in lịch sử để chống DesPre; có đánh giá suy luận đích. Khác dữ liệu xe trực tuyến và không sinh dummy. [DEST]",
+          "status": "Mở rộng; đã có dữ liệu."
+        },
+        {
+          "id": "S7",
+          "target": "Suy luận nhu cầu truy vấn. Ý định thật qua nội dung và chuỗi yêu cầu.",
+          "cases": "A: gửi nguyên văn; B: trộn sáu loại; C: cùng truy vấn đầu, khác chuỗi sau.",
+          "related": "Wu và cs. sinh chuỗi truy vấn giả để che vị trí và thuộc tính truy vấn. Ngữ nghĩa địa điểm đơn thuần chưa che được văn bản. [QUERY]",
+          "status": "Mở rộng; nhãn tổng hợp."
+        },
+        {
+          "id": "S8",
+          "target": "Suy luận qua người đi cùng. Vị trí mục tiêu khi có thêm dữ liệu của người đồng hành.",
+          "cases": "A: đi cùng rồi tách; B: cùng tuyến; C: tình cờ gần nhau, không đồng hành.",
+          "related": "Olteanu và cs. lượng hóa rò rỉ và mô hình hóa quyết định chia sẻ. Chưa xác minh bộ sinh dummy bảo vệ đúng S8. [CO, GAME]",
+          "status": "Mở rộng; chưa có đối chứng trực tiếp."
+        },
+        {
+          "id": "S9",
+          "target": "Suy luận điểm xuất phát. Điểm đầu bị che; suy ngược từ đoạn công bố.",
+          "cases": "A: đầu chỉ một lối ra; B: khác đầu rồi nhập tuyến; C: lặp điểm đầu.",
+          "related": "EPZ che biên; Dhondt và cs. đánh giá cả tấn công và biện pháp giảm rò siêu dữ liệu khoảng cách. Khác xe đô thị. [END]",
+          "status": "Có phép thử biên cũ; vòng mới chỉ dữ liệu."
+        },
+        {
+          "id": "S10",
+          "target": "Suy luận điểm kết thúc. Điểm cuối bị che sau khi chuyến đã hoàn tất; khác S6 dự báo.",
+          "cases": "A: cuối chỉ một lối vào; B: chung đầu rồi tách; C: lặp điểm cuối.",
+          "related": "Cùng họ EPZ và biện pháp xử lý siêu dữ liệu. Che 60 s trong bộ thử không tái lập nguyên EPZ hình học. [END]",
+          "status": "Có phép thử biên cũ; vòng mới chỉ dữ liệu."
+        }
+      ],
+      "data-counts": [
+        {
+          "order": 1,
+          "scenario": "S1",
+          "validation": "6 / 6 / 6",
+          "confirmation": "6 / 6 / 6"
+        },
+        {
+          "order": 2,
+          "scenario": "S2",
+          "validation": "6 / 6 / 6",
+          "confirmation": "6 / 6 / 6"
+        },
+        {
+          "order": 3,
+          "scenario": "S3",
+          "validation": "6 / 6 / 6",
+          "confirmation": "6 / 5 / 6"
+        },
+        {
+          "order": 4,
+          "scenario": "S4",
+          "validation": "6 / 6 / 6",
+          "confirmation": "6 / 6 / 6"
+        },
+        {
+          "order": 5,
+          "scenario": "S5",
+          "validation": "6 / 6 / 2",
+          "confirmation": "6 / 6 / 2"
+        },
+        {
+          "order": 6,
+          "scenario": "S6",
+          "validation": "2 / 2 / 5",
+          "confirmation": "2 / 3 / 5"
+        },
+        {
+          "order": 7,
+          "scenario": "S7",
+          "validation": "18 / 18 / 18",
+          "confirmation": "18 / 18 / 18"
+        },
+        {
+          "order": 8,
+          "scenario": "S8",
+          "validation": "6 / 5 / 6",
+          "confirmation": "6 / 4 / 6"
+        },
+        {
+          "order": 9,
+          "scenario": "S9",
+          "validation": "6 / 6 / 6",
+          "confirmation": "6 / 5 / 6"
+        },
+        {
+          "order": 10,
+          "scenario": "S10",
+          "validation": "5 / 2 / 6",
+          "confirmation": "6 / 2 / 6"
+        }
+      ],
+      "comparators": [
+        {
+          "order": "1",
+          "method": "TransProtect · 2024",
+          "concept": "GCN + Transformer xếp hạng vị trí, rồi công bố một vị trí thay thế; đối chiếu ngữ cảnh đường.",
+          "metrics": "EIE: sai số suy luận kỳ vọng (km) ↑; sai lệch chi phí hành trình kỳ vọng ↓.",
+          "status": "Có bản thích nghi; lượt cũ dùng Markov thay Transformer. Chưa có kết quả SOTA đầy đủ. [TP]"
+        },
+        {
+          "order": "2",
+          "method": "Semantic correlation · 2026",
+          "concept": "LSTM + attention hỗ trợ chọn K−1 dummy hợp lý về thời gian/ngữ nghĩa; gửi cùng điểm thật.",
+          "metrics": "ASR ẩn danh thành công ↑; DER hiệu quả dummy ↑; thời gian sinh ↓. Không phải Recall POI.",
+          "status": "Có bản thích nghi; chưa tái lập mô hình học và ngữ nghĩa đầy đủ. [SC]"
+        },
+        {
+          "order": "3",
+          "method": "Fake-query insertion · 2026",
+          "concept": "Không học sâu; chèn bản tin chỉ có dummy giữa truy vấn thật để làm khó nối đường.",
+          "metrics": "Số đường nối khó phân biệt ↑; ASR ↑; độ trễ, bộ nhớ ↓.",
+          "status": "Được chọn bổ sung; chưa có lượt benchmark. Phải tính mọi truy vấn chèn thêm. [FQ]"
+        },
+        {
+          "order": "4",
+          "method": "DLS / enhanced-DLS · 2014",
+          "concept": "Không học sâu; dummy có xác suất truy vấn gần nhau, thêm phân tán không gian.",
+          "metrics": "Entropy H = −Σp log₂p (bit) ↑; vùng che phủ CR lớn hơn trong bản enhanced.",
+          "status": "Đối chứng nền đã có bản thích nghi trên đường. Hai cấu hình, không tính thành hai paper. [DLS]"
+        },
+        {
+          "order": "5",
+          "method": "RDG · 2021",
+          "concept": "Không học sâu; sinh dummy chống nối chuỗi bằng Viterbi.",
+          "metrics": "Entropy, entropy chuyển tiếp ↑; hiệu quả chống Viterbi.",
+          "status": "Được chọn làm nền theo chuỗi; chưa có lượt đối chiếu trên tập mới. [RDG]"
+        },
+        {
+          "order": "6",
+          "method": "AnotherMe · 2024 (online 2023)",
+          "concept": "Ánh xạ POI, định tuyến và mô phỏng tốc độ để dựng người dùng/quỹ đạo ảo.",
+          "metrics": "Tỷ lệ nhận ra quỹ đạo giả; thời gian đáp ứng và pin. Mốc ngẫu nhiên phụ thuộc cách dựng phép phân loại.",
+          "status": "Có VTGA thích nghi, không toàn hệ thống. Chỉ số này xác nhận từ abstract/mã; toàn bộ protocol gốc còn thiếu. [AM]"
+        }
+      ],
+      "metrics": [
+        {
+          "axis": "1. Riêng tư vị trí",
+          "measure": "MAE: sai số vị trí trung bình (m) ↑; Hit100: % lần đoán cách vị trí thật ≤100 m ↓.",
+          "why": "MAE đo độ lớn sai số; Hit đo số lần vẫn đoán rất gần. Một chỉ số có thể tốt lên trong khi chỉ số kia xấu đi.",
+          "scope": "S1-S3; S9-S10 chấm điểm biên. S8 đo thêm tác động của dữ liệu đồng hành."
+        },
+        {
+          "axis": "2. Mục tiêu khác",
+          "measure": "Liên kết người/thiết bị: F1 riêng; cạnh tiếp/đích: độ đúng; ý định: macro-F1. Thành công đối thủ càng thấp càng tốt.",
+          "why": "Định vị sai không chứng minh giấu được danh tính, tương lai hoặc nội dung truy vấn.",
+          "scope": "Đặc tả cho S4-S8; chưa có kết quả bảo vệ vòng mới."
+        },
+        {
+          "axis": "3. Chất lượng POI",
+          "measure": "Recall@5 = số POI đúng còn lấy được / số POI đúng cần tìm ↑. Kèm tỷ lệ trả đủ và quãng đường đi thêm.",
+          "why": "Đo trực tiếp khả năng trả lời yêu cầu tìm địa điểm, thay vì chỉ khoảng cách dịch chuyển tọa độ.",
+          "scope": "Giữ danh mục, loại dịch vụ, khoảng cách đường và quy tắc xếp hạng chung."
+        },
+        {
+          "axis": "4. Chi phí / hợp lệ",
+          "measure": "Số truy vấn và tọa độ; byte phản hồi; thời gian sinh p50/p95; lỗi chuyển đường.",
+          "why": "Tăng dummy hay phản hồi có thể cải thiện Recall nhưng không miễn phí; nằm đúng đường không tự chứng minh riêng tư.",
+          "scope": "Vòng mới chỉ có byte danh sách mã POI, chưa phải HTTP hoặc độ trễ điện thoại."
+        }
+      ],
+      "recall": [
+        {
+          "method": "Hình học",
+          "depth": "L = 5",
+          "recall": 84.81058527663464,
+          "min_case": 76.12808641975309,
+          "mae_m": 481.79667318187126,
+          "hit100": 5.88991769547325,
+          "id_bytes": 2731.6852880658435,
+          "cases": 9,
+          "records": 53,
+          "split": "confirmation",
+          "k": 5,
+          "K": 5
+        },
+        {
+          "method": "Hình học",
+          "depth": "L = 10",
+          "recall": 90.10813900320073,
+          "min_case": 82.72067901234567,
+          "mae_m": 481.79667318187126,
+          "hit100": 5.88991769547325,
+          "id_bytes": 4498.918209876543,
+          "cases": 9,
+          "records": 53,
+          "split": "confirmation",
+          "k": 5,
+          "K": 5
+        },
+        {
+          "method": "Phủ tham lam",
+          "depth": "L = 5",
+          "recall": 92.45730452674896,
+          "min_case": 84.74537037037038,
+          "mae_m": 571.454313196896,
+          "hit100": 4.188957475994513,
+          "id_bytes": 2735.0453875171465,
+          "cases": 9,
+          "records": 53,
+          "split": "confirmation",
+          "k": 5,
+          "K": 5
+        },
+        {
+          "method": "Phủ tham lam",
+          "depth": "L = 10",
+          "recall": 95.98988340192042,
+          "min_case": 90.50771604938271,
+          "mae_m": 571.454313196896,
+          "hit100": 4.188957475994513,
+          "id_bytes": 4504.531172839506,
+          "cases": 9,
+          "records": 53,
+          "split": "confirmation",
+          "k": 5,
+          "K": 5
+        },
+        {
+          "method": "Phủ + thay điểm",
+          "depth": "L = 5",
+          "recall": 92.78412208504801,
+          "min_case": 85.55555555555556,
+          "mae_m": 577.4369402486429,
+          "hit100": 3.729423868312757,
+          "id_bytes": 2734.9404663923183,
+          "cases": 9,
+          "records": 53,
+          "split": "confirmation",
+          "k": 5,
+          "K": 5
+        },
+        {
+          "method": "Phủ + thay điểm",
+          "depth": "L = 10",
+          "recall": 96.32870370370371,
+          "min_case": 91.17283950617285,
+          "mae_m": 577.4369402486429,
+          "hit100": 3.729423868312757,
+          "id_bytes": 4504.3595850480115,
+          "cases": 9,
+          "records": 53,
+          "split": "confirmation",
+          "k": 5,
+          "K": 5
+        },
+        {
+          "method": "Hai chế độ + thay điểm",
+          "depth": "L = 5",
+          "recall": 92.76154549611338,
+          "min_case": 85.55555555555556,
+          "mae_m": 555.1316717970032,
+          "hit100": 2.916666666666666,
+          "id_bytes": 2734.9325617283953,
+          "cases": 9,
+          "records": 53,
+          "split": "confirmation",
+          "k": 5,
+          "K": 5
+        },
+        {
+          "method": "Hai chế độ + thay điểm",
+          "depth": "L = 10",
+          "recall": 96.30658436213993,
+          "min_case": 91.21913580246913,
+          "mae_m": 555.1316717970032,
+          "hit100": 2.916666666666666,
+          "id_bytes": 4504.3227537722905,
+          "cases": 9,
+          "records": 53,
+          "split": "confirmation",
+          "k": 5,
+          "K": 5
+        }
+      ],
+      "privacy": [
+        {
+          "order": 1,
+          "method": "Hình học",
+          "hit": "5.89%",
+          "envelope": "12.34%",
+          "mae": "481.8 m"
+        },
+        {
+          "order": 2,
+          "method": "Phủ tham lam",
+          "hit": "4.19%",
+          "envelope": "9.38%",
+          "mae": "571.5 m"
+        },
+        {
+          "order": 3,
+          "method": "Phủ + thay điểm",
+          "hit": "3.73%",
+          "envelope": "9.59%",
+          "mae": "577.4 m"
+        },
+        {
+          "order": 4,
+          "method": "Hai chế độ + thay điểm",
+          "hit": "2.92%",
+          "envelope": "8.40%",
+          "mae": "555.1 m"
+        }
+      ],
+      "family": [
+        {
+          "family": "Nhóm 307",
+          "delta": 0.0,
+          "recall_delta": 0.0,
+          "envelope_delta": 1.69753086419753,
+          "comparison": "Hai chế độ trừ phủ + thay điểm",
+          "unit": "điểm phần trăm"
+        },
+        {
+          "family": "Nhóm 308",
+          "delta": -4.166666666666666,
+          "recall_delta": 0.0,
+          "envelope_delta": 0.0,
+          "comparison": "Hai chế độ trừ phủ + thay điểm",
+          "unit": "điểm phần trăm"
+        },
+        {
+          "family": "Nhóm 309",
+          "delta": 0.30864197530864196,
+          "recall_delta": -0.06790123456791308,
+          "envelope_delta": 0.0,
+          "comparison": "Hai chế độ trừ phủ + thay điểm",
+          "unit": "điểm phần trăm"
+        },
+        {
+          "family": "Nhóm 310",
+          "delta": -5.06172839506173,
+          "recall_delta": -0.014403292181064398,
+          "envelope_delta": -4.32098765432099,
+          "comparison": "Hai chế độ trừ phủ + thay điểm",
+          "unit": "điểm phần trăm"
+        },
+        {
+          "family": "Nhóm 311",
+          "delta": 3.703703703703703,
+          "recall_delta": 0.005144032921822195,
+          "envelope_delta": -0.30864197530864335,
+          "comparison": "Hai chế độ trừ phủ + thay điểm",
+          "unit": "điểm phần trăm"
+        },
+        {
+          "family": "Nhóm 312",
+          "delta": 0.0,
+          "recall_delta": -0.06172839506174421,
+          "envelope_delta": -4.320987654320986,
+          "comparison": "Hai chế độ trừ phủ + thay điểm",
+          "unit": "điểm phần trăm"
+        }
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "literature",
+      "label": "Đối chiếu công trình gốc, phạm vi và chỉ số",
+      "path": "docs/supervisor_meeting/2026-09-11_brief/source_notes.md"
+    },
+    {
+      "id": "dataset",
+      "label": "Bản ghi urban-fresh-v2, SUMO + OSM",
+      "path": "artifacts/datasets/urban_fresh_v2/dataset.json"
+    },
+    {
+      "id": "result",
+      "label": "Kết quả xác nhận fresh_switching",
+      "path": "artifacts/benchmarks/fresh_switching/readout.json"
+    },
+    {
+      "id": "selection",
+      "label": "Quyết định chọn đã khóa trên validation",
+      "path": "artifacts/benchmarks/fresh_switching/selection.json"
+    },
+    {
+      "id": "method",
+      "label": "Đặc tả phương pháp và thí nghiệm",
+      "path": "thesis/fresh_switching_comparison.tex"
+    }
+  ]
+}
