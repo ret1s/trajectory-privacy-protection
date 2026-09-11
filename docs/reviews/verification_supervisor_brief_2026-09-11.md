@@ -56,3 +56,34 @@ result or graduation-thesis source was modified in this task.
 - PDF/HTML: `artifacts/reports/supervisor_brief_2026-09-11.*`
 - Speaking guide and regeneration: `docs/supervisor_meeting/2026-09-11_brief/README.md`
 - Literature qualifications: `source_notes.md` in that same directory.
+
+## Follow-up revision — explicit method-to-scenario mapping
+
+Request: the sources were visible, but it was unclear which protection method
+addresses which scenario. Updated only the supervisor brief and its companion
+content/checks; the graduation thesis, algorithms and experiment artifacts remain
+unchanged.
+
+- Pages 2–3 now name each method, explain its protection mechanism and distinguish
+  a shared target from an adjacent task. S3 has four separate method entries.
+  S8 remains an explicitly unverified direct-dummy-defense mapping.
+- Page 5 labels the principal S1/S3 targets of the selected comparators. AnotherMe
+  remains a virtual-trajectory reference, without an unsupported S4–S6 coverage
+  claim. The speaking guide and literature notes use the same distinction.
+- Compared the new snapshot with commit `93382fb`: all scenario IDs, targets and
+  A/B/C conditions, data counts, metric definitions, numerical tables and both
+  chart datasets are unchanged. No experiment was run or benchmark claim upgraded.
+- Extended `verify_brief.py` with ten method-to-scenario assertions and the key
+  caveats. All assertions passed, including four source hashes, PDF/HTML receipts,
+  ten PDF pages, page footers and the unchanged quantitative reconciliation.
+- Native Data app build/offline export passed. Final PDF conversion recorded
+  zero runtime errors. Visually inspected revised pages 2/3/5; final pages 2/3
+  are pixel-identical to the inspected draft. Pages 1/4/6/7/8/9/10 are
+  pixel-identical to the previously accepted pages at the same raster resolution.
+  No overflow or lost scenario rows were found. Interactive/mobile QA remains
+  outside this check.
+- The previous local server was not responding; printing succeeded through a
+  new loopback server on port 4184. This was a tooling recovery, not a report
+  or experimental-data modification.
+- `git diff --check` passed for this revision, including the exact generated HTML.
+  Current output hashes are recorded in `verification.json` and the PDF receipt.

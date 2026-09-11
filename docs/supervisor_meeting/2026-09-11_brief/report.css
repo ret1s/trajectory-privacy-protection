@@ -17,6 +17,9 @@
 .supervisor-brief .brief-table-pair { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
 .supervisor-brief .scenario-refs-0, .supervisor-brief .scenario-refs-1, .supervisor-brief .comparator-refs, .supervisor-brief .metrics-refs { font-size: 11px; line-height: 1.5; }
 .supervisor-brief .brief-chart { margin: 8px 0; }
+.supervisor-brief .brief-method-lines > div + div { margin-top: 4px; }
+.supervisor-brief .scenarios-table-0 td:nth-child(4), .supervisor-brief .scenarios-table-0 th:nth-child(4),
+.supervisor-brief .scenarios-table-1 td:nth-child(4), .supervisor-brief .scenarios-table-1 th:nth-child(4) { width: 29%; }
 @media(max-width:700px) {
   .supervisor-brief .brief-table-pair { grid-template-columns:1fr; }
   .supervisor-brief .brief-table .table { min-width:760px; }

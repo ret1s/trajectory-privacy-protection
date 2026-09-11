@@ -120,27 +120,27 @@ diagram('architecture', [
 md('scope', '**Phạm vi:** xe con trên mạng đường đô thị có hướng. Dữ liệu SUMO + OpenStreetMap, không dùng GeoLife. Một chuyến có thể tạo nhiều bài kiểm tra với quyền quan sát khác nhau; bản ghi không đồng nghĩa người dùng độc lập.')
 
 scenario_rows = [
-('S1', 'Định vị một lần gửi', 'Vị trí hiện tại; chỉ một bản tin.', 'A: nhiều hướng; B: một hướng; C: gần POI hiếm.', 'DLS chọn dummy theo xác suất truy vấn; đối chứng trực tiếp về suy luận điểm. [DLS]', 'Lõi; đã chấm vòng mới.'),
-('S2', 'Suy luận điểm dừng', 'Nơi đang dừng; nhiều bản tin trong cùng điểm dừng.', 'A: dừng ≥20 s / gửi 5 s; B: ≥120 s / gửi 20 s; C: dừng - đi - quay lại.', 'ASA chống thống kê dài hạn/vùng bằng SNAME/MNAME và phân bố dummy. Liên quan, không đúng nguyên phép thử dừng. [ASA]', 'Lõi; đã chấm vòng mới.'),
-('S3', 'Tái dựng đường đã đi', 'Chuỗi quá khứ; ghép bản tin theo bản đồ và thời gian.', 'A: chạy ≥60 s, ≥3 cạnh; B: hành lang ít nhánh; C: gửi thưa 60 s.', 'RDG chống Viterbi; TransProtect xét đường; semantic correlation xét ngữ nghĩa; fake queries chèn bản tin. [RDG, TP, SC, FQ]', 'Lõi; đã chấm vòng mới.'),
-('S4', 'Liên kết người / thiết bị', 'Hai phiên có cùng người hay thiết bị? Chấm riêng hai nhãn.', 'A: cùng người/thiết bị; B: cùng người đổi máy; C: khác người dùng chung máy.', 'Mix zones đổi bí danh để làm khó liên kết. AnotherMe tạo hồ sơ ảo nhưng chưa có bằng chứng cho đúng hai nhãn ở đây. [MIX, AM]', 'Mở rộng; đã có dữ liệu.'),
-('S5', 'Dự đoán cạnh tiếp theo', 'Cạnh đường ngay sau tiền tố; không phải vị trí sau đúng 30 s.', 'A: nhiều lựa chọn rẽ; B: chỉ một lựa chọn; C: chung tiền tố, khác cạnh tiếp.', 'LPPM của Theodorakopoulos và cs. bảo vệ hiện tại - tương lai theo mô hình chuyển động. Khác tác vụ dự đoán cạnh xe đô thị. [FUT]', 'Mở rộng; đã có dữ liệu.'),
-('S6', 'Dự đoán đích đến', 'Đích chưa tới; chỉ thấy tiền tố và lịch sử được cấp.', 'A: chung đầu, khác đích; B: hai đích ≤500 m; C: đích quen / hiếm qua nhiều ngày.', 'CkiDel xóa check-in lịch sử để chống DesPre; có đánh giá suy luận đích. Khác dữ liệu xe trực tuyến và không sinh dummy. [DEST]', 'Mở rộng; đã có dữ liệu.'),
-('S7', 'Suy luận nhu cầu truy vấn', 'Ý định thật qua nội dung và chuỗi yêu cầu.', 'A: gửi nguyên văn; B: trộn sáu loại; C: cùng truy vấn đầu, khác chuỗi sau.', 'Wu và cs. sinh chuỗi truy vấn giả để che vị trí và thuộc tính truy vấn. Ngữ nghĩa địa điểm đơn thuần chưa che được văn bản. [QUERY]', 'Mở rộng; nhãn tổng hợp.'),
-('S8', 'Suy luận qua người đi cùng', 'Vị trí mục tiêu khi có thêm dữ liệu của người đồng hành.', 'A: đi cùng rồi tách; B: cùng tuyến; C: tình cờ gần nhau, không đồng hành.', 'Olteanu và cs. lượng hóa rò rỉ và mô hình hóa quyết định chia sẻ. Chưa xác minh bộ sinh dummy bảo vệ đúng S8. [CO, GAME]', 'Mở rộng; chưa có đối chứng trực tiếp.'),
-('S9', 'Suy luận điểm xuất phát', 'Điểm đầu bị che; suy ngược từ đoạn công bố.', 'A: đầu chỉ một lối ra; B: khác đầu rồi nhập tuyến; C: lặp điểm đầu.', 'EPZ che biên; Dhondt và cs. đánh giá cả tấn công và biện pháp giảm rò siêu dữ liệu khoảng cách. Khác xe đô thị. [END]', 'Có phép thử biên cũ; vòng mới chỉ dữ liệu.'),
-('S10', 'Suy luận điểm kết thúc', 'Điểm cuối bị che sau khi chuyến đã hoàn tất; khác S6 dự báo.', 'A: cuối chỉ một lối vào; B: chung đầu rồi tách; C: lặp điểm cuối.', 'Cùng họ EPZ và biện pháp xử lý siêu dữ liệu. Che 60 s trong bộ thử không tái lập nguyên EPZ hình học. [END]', 'Có phép thử biên cũ; vòng mới chỉ dữ liệu.'),
+('S1', 'Định vị một lần gửi', 'Vị trí hiện tại; chỉ một bản tin.', 'A: nhiều hướng; B: một hướng; C: gần POI hiếm.', 'DLS / enhanced-DLS: chọn điểm giả có xác suất truy vấn gần điểm thật, làm khó chọn ra điểm thật. [DLS]', 'Cùng mục tiêu định vị. Ta: đã thử lõi; chưa đối chiếu DLS trên tập mới.'),
+('S2', 'Suy luận điểm dừng', 'Nơi đang dừng; nhiều bản tin trong cùng điểm dừng.', 'A: dừng ≥20 s / gửi 5 s; B: ≥120 s / gửi 20 s; C: dừng - đi - quay lại.', 'ASA: tổ chức bí danh và phân bố điểm giả để chống thống kê qua nhiều lần truy vấn. [ASA]', 'Liên quan: chưa kiểm chứng đúng ca dừng S2. Ta: đã thử lõi.'),
+('S3', 'Tái dựng đường đã đi', 'Chuỗi quá khứ; ghép bản tin theo bản đồ và thời gian.', 'A: chạy ≥60 s, ≥3 cạnh; B: hành lang ít nhánh; C: gửi thưa 60 s.', 'RDG: chống ghép chuỗi bằng Viterbi. [RDG]\nTransProtect: tránh điểm giả vô lý trên đường. [TP]\nSemantic correlation: đường giả hợp thời gian/ngữ nghĩa. [SC]\nFake queries: chèn bản tin để làm khó nối đường. [FQ]', 'Cùng hướng chống theo dõi chuỗi; giả định từng bài khác nhau. Ta: mới có kết quả các biến thể nội bộ.'),
+('S4', 'Liên kết người / thiết bị', 'Hai phiên có cùng người hay thiết bị? Chấm riêng hai nhãn.', 'A: cùng người/thiết bị; B: cùng người đổi máy; C: khác người dùng chung máy.', 'Mix zones: đổi bí danh trong vùng có nhiều người để làm khó nối hai phiên trước - sau. [MIX]', 'Liên quan: không che được ID tài khoản/thiết bị ổn định vẫn gửi. Ta: mới có dữ liệu.'),
+('S5', 'Dự đoán cạnh tiếp theo', 'Cạnh đường ngay sau tiền tố; không phải vị trí sau đúng 30 s.', 'A: nhiều lựa chọn rẽ; B: chỉ một lựa chọn; C: chung tiền tố, khác cạnh tiếp.', 'LPPM hiện tại - tương lai: tối ưu cách che vị trí có xét suy luận tương lai; Theodorakopoulos và cs. [FUT]', 'Liên quan: chưa phải tác vụ đoán cạnh tiếp của ta. Ta: mới có dữ liệu.'),
+('S6', 'Dự đoán đích đến', 'Đích chưa tới; chỉ thấy tiền tố và lịch sử được cấp.', 'A: chung đầu, khác đích; B: hai đích ≤500 m; C: đích quen / hiếm qua nhiều ngày.', 'CkiDel: xóa một số check-in lịch sử để giảm khả năng đoán đích bằng DesPre. [DEST]', 'Cùng mục tiêu đích; khác xe trực tuyến, không sinh dummy. Ta: mới có dữ liệu.'),
+('S7', 'Suy luận nhu cầu truy vấn', 'Ý định thật qua nội dung và chuỗi yêu cầu.', 'A: gửi nguyên văn; B: trộn sáu loại; C: cùng truy vấn đầu, khác chuỗi sau.', 'Chuỗi truy vấn giả của Wu: che cả vị trí và thuộc tính truy vấn. Không chỉ làm địa điểm giả hợp lý. [QUERY]', 'Cùng hướng che truy vấn; không mặc nhiên che mọi văn bản. Ta: có nhãn tổng hợp, chưa chấm bảo vệ.'),
+('S8', 'Suy luận qua người đi cùng', 'Vị trí mục tiêu khi có thêm dữ liệu của người đồng hành.', 'A: đi cùng rồi tách; B: cùng tuyến; C: tình cờ gần nhau, không đồng hành.', 'Chưa xác minh cơ chế dummy trực tiếp: nguồn Olteanu nói về rò rỉ và quyết định chia sẻ, không là lời giải đã đủ cho S8. [CO, GAME]', 'Chưa đủ bằng chứng để gán bảo vệ. Ta: mới có dữ liệu.'),
+('S9', 'Suy luận điểm xuất phát', 'Điểm đầu bị che; suy ngược từ đoạn công bố.', 'A: đầu chỉ một lối ra; B: khác đầu rồi nhập tuyến; C: lặp điểm đầu.', 'Vùng che biên (EPZ): ẩn đoạn gần điểm đầu; cần xử lý thêm thông tin như tổng quãng đường. [END]', 'Cùng mục tiêu biên, khác SUMO; che đoạn vẫn có thể lộ điểm đầu. Ta: có phép thử biên cũ.'),
+('S10', 'Suy luận điểm kết thúc', 'Điểm cuối bị che sau khi chuyến đã hoàn tất; khác S6 dự báo.', 'A: cuối chỉ một lối vào; B: chung đầu rồi tách; C: lặp điểm cuối.', 'Vùng che biên (EPZ): ẩn đoạn gần điểm cuối, kèm xử lý thông tin phụ để giảm suy ngược. [END]', 'Che 60 s của ta không tái lập nguyên EPZ; không bảo đảm hết rò rỉ. Ta: có phép thử biên cũ.'),
 ]
-cols = [('id','Ca'),('target','Thông tin đối thủ muốn biết'),('cases','Các trường hợp dữ liệu A / B / C'),('related','Bảo vệ đã được nghiên cứu và giới hạn'),('status','Bằng chứng của ta')]
+cols = [('id','Ca'),('target','Thông tin đối thủ muốn biết'),('cases','Các trường hợp dữ liệu A / B / C'),('related','Phương pháp phù hợp - cách bảo vệ'),('status','Giới hạn và bằng chứng của ta')]
 for i, group in enumerate((scenario_rows[:5],scenario_rows[5:])):
     md(f'scenarios-{i}', '## 1. Kịch bản, dữ liệu và nghiên cứu bảo vệ' + (' (S1-S5)' if not i else ' (S6-S10)') +
-       '\n\n**Đọc theo hàng:** mục tiêu → điều kiện tạo dữ liệu → cách bảo vệ liên quan → mức bằng chứng hiện có. S1-S10 là cách tổ chức của luận văn, không phải một hệ phân loại chuẩn của các paper.', new_page=True)
+       '\n\n**Ánh xạ theo mục tiêu, chưa phải kết quả vượt qua các ca SUMO.** “Cùng mục tiêu” là cùng điều cần giấu; “liên quan” là cần thích nghi thêm. S1-S10 là cách tổ chức của luận văn.', new_page=True)
     rows = [dict(id=x[0],target=x[1]+'. '+x[2],cases=x[3],related=x[4],status=x[5]) for x in group]
-    table(f'scenarios-table-{i}', 'Ánh xạ kịch bản và bằng chứng', rows, cols, 'literature')
-    keys = ['DLS','ASA','RDG','TP','SC','FQ','MIX','AM','FUT'] if not i else ['DEST','QUERY','CO','GAME','END']
+    table(f'scenarios-table-{i}', 'Phương pháp nào bảo vệ mục tiêu nào?', rows, cols, 'literature')
+    keys = ['DLS','ASA','RDG','TP','SC','FQ','MIX','FUT'] if not i else ['DEST','QUERY','CO','GAME','END']
     md(f'scenario-refs-{i}', '**Nguồn:** ' + ' · '.join(f'[{k}] {cite(k)}' for k in keys))
     if i:
-        md('coverage-conclusion', '**Không đánh dấu “đã bao phủ” chỉ vì có liên quan.** Muốn kết luận hơn đối chứng phải chạy cùng mục tiêu, quyền quan sát, chất lượng dịch vụ và chi phí. Bỏ trống bằng chứng bảo vệ S8 là một thiếu hụt cần xử lý, không chứng minh lĩnh vực chưa có lời giải.')
+        md('coverage-conclusion', '**Phương pháp của ta:** đã có phép thử lõi S1-S3; S4-S10 còn cần đánh giá từng mục tiêu trên tập mới. “Đã thử” không nghĩa “đã giải quyết tốt”. Khoảng trống S8 là giới hạn của khảo sát này, không phải kết luận lĩnh vực chưa có lời giải.')
 
 md('dataset-page', '## 2. Dataset: tách chuyển động, kịch bản và phép đo\n\n**12 nhóm tuyến mới; 264 chuyến; 172.443 điểm FCD; 393 bản ghi.** Hai tập mới đều có đủ 30 ca con, nhưng không phải ca nào cũng nhiều mẫu.', 'dataset', True)
 diagram('data-flow', [
@@ -165,18 +165,18 @@ md('comparator-page', '''## 3. Chốt đối chứng cho thiết kế benchmark
 
 **Ba phương pháp hiện đại chính:** TransProtect, semantic correlation và fake-query insertion. **Hai nguồn nền:** DLS/enhanced-DLS và RDG. **AnotherMe giữ nhánh tham chiếu quỹ đạo ảo.** Đây là quyết định lựa chọn cho milestone này, không phải tuyên bố tất cả đã được tái lập và chạy trên tập mới.''', new_page=True)
 comps = [
-('1','TransProtect · 2024','GCN + Transformer xếp hạng vị trí, rồi công bố một vị trí thay thế; đối chiếu ngữ cảnh đường.','EIE: sai số suy luận kỳ vọng (km) ↑; sai lệch chi phí hành trình kỳ vọng ↓.','Có bản thích nghi; lượt cũ dùng Markov thay Transformer. Chưa có kết quả SOTA đầy đủ. [TP]'),
-('2','Semantic correlation · 2026','LSTM + attention hỗ trợ chọn K−1 dummy hợp lý về thời gian/ngữ nghĩa; gửi cùng điểm thật.','ASR ẩn danh thành công ↑; DER hiệu quả dummy ↑; thời gian sinh ↓. Không phải Recall POI.','Có bản thích nghi; chưa tái lập mô hình học và ngữ nghĩa đầy đủ. [SC]'),
-('3','Fake-query insertion · 2026','Không học sâu; chèn bản tin chỉ có dummy giữa truy vấn thật để làm khó nối đường.','Số đường nối khó phân biệt ↑; ASR ↑; độ trễ, bộ nhớ ↓.','Được chọn bổ sung; chưa có lượt benchmark. Phải tính mọi truy vấn chèn thêm. [FQ]'),
-('4','DLS / enhanced-DLS · 2014','Không học sâu; dummy có xác suất truy vấn gần nhau, thêm phân tán không gian.','Entropy H = −Σp log₂p (bit) ↑; vùng che phủ CR lớn hơn trong bản enhanced.','Đối chứng nền đã có bản thích nghi trên đường. Hai cấu hình, không tính thành hai paper. [DLS]'),
-('5','RDG · 2021','Không học sâu; sinh dummy chống nối chuỗi bằng Viterbi.','Entropy, entropy chuyển tiếp ↑; hiệu quả chống Viterbi.','Được chọn làm nền theo chuỗi; chưa có lượt đối chiếu trên tập mới. [RDG]'),
+('1','TransProtect · 2024','S3: GCN + Transformer xếp hạng vị trí theo ngữ cảnh đường; công bố một vị trí thay thế.','EIE: sai số suy luận kỳ vọng (km) ↑; sai lệch chi phí hành trình kỳ vọng ↓.','Có bản thích nghi; lượt cũ dùng Markov thay Transformer. Chưa có kết quả SOTA đầy đủ. [TP]'),
+('2','Semantic correlation · 2026','S3: LSTM + attention hỗ trợ chọn K−1 dummy hợp thời gian/ngữ nghĩa; gửi cùng điểm thật.','ASR ẩn danh thành công ↑; DER hiệu quả dummy ↑; thời gian sinh ↓. Không phải Recall POI.','Có bản thích nghi; chưa tái lập mô hình học và ngữ nghĩa đầy đủ. [SC]'),
+('3','Fake-query insertion · 2026','S3: không học sâu; chèn bản tin chỉ có dummy giữa truy vấn thật để làm khó nối đường.','Số đường nối khó phân biệt ↑; ASR ↑; độ trễ, bộ nhớ ↓.','Được chọn bổ sung; chưa có lượt benchmark. Phải tính mọi truy vấn chèn thêm. [FQ]'),
+('4','DLS / enhanced-DLS · 2014','S1: không học sâu; dummy có xác suất truy vấn gần nhau, thêm phân tán không gian.','Entropy H = −Σp log₂p (bit) ↑; vùng che phủ CR lớn hơn trong bản enhanced.','Đối chứng nền đã có bản thích nghi trên đường. Hai cấu hình, không tính thành hai paper. [DLS]'),
+('5','RDG · 2021','S3: không học sâu; sinh dummy chống nối chuỗi bằng Viterbi.','Entropy, entropy chuyển tiếp ↑; hiệu quả chống Viterbi.','Được chọn làm nền theo chuỗi; chưa có lượt đối chiếu trên tập mới. [RDG]'),
 ('6','AnotherMe · 2024 (online 2023)','Ánh xạ POI, định tuyến và mô phỏng tốc độ để dựng người dùng/quỹ đạo ảo.','Tỷ lệ nhận ra quỹ đạo giả; thời gian đáp ứng và pin. Mốc ngẫu nhiên phụ thuộc cách dựng phép phân loại.','Có VTGA thích nghi, không toàn hệ thống. Chỉ số này xác nhận từ abstract/mã; toàn bộ protocol gốc còn thiếu. [AM]'),
 ]
 table('comparators','Phương pháp được chọn và chỉ số trong nguồn gốc',
       [dict(order=a,method=b,concept=c,metrics=d,status=e) for a,b,c,d,e in comps],
-      [('order','STT'),('method','Phương pháp / năm'),('concept','Nguyên lý và vai trò'),('metrics','Chỉ số gốc'),('status','Tình trạng sử dụng')],'literature')
+      [('order','STT'),('method','Phương pháp / năm'),('concept','Mục tiêu chính và nguyên lý'),('metrics','Chỉ số gốc'),('status','Tình trạng sử dụng')],'literature')
 md('comparator-refs','**Nguồn:** '+' · '.join(f'[{k}] {cite(k)}' for k in ['TP','SC','FQ','DLS','RDG','AM']))
-md('comparator-boundary','ASA, mix zones, CkiDel, chuỗi truy vấn giả của Wu, EPZ và mô hình đồng hành là **nghiên cứu liên quan cho từng mục tiêu**, chưa đưa tất cả vào bảng xếp hạng chính. Nhóm được chọn gồm cả sinh tập thật-giả và sinh dữ liệu thay thế; không gọi mọi phương pháp là cùng một giao diện dummy-generation.')
+md('comparator-boundary','**Đọc phạm vi:** mã S1/S3 là hướng mục tiêu chính, không là chứng nhận đã chống được ca SUMO. **AnotherMe** giữ vai trò tham chiếu quỹ đạo ảo; chưa đủ bằng chứng để gán bảo vệ S4-S6. ASA, mix zones, CkiDel, chuỗi truy vấn giả và EPZ là nghiên cứu liên quan, chưa thuộc bảng xếp hạng chính. Các đầu ra vẫn khác giao diện như mục 4.')
 
 md('metrics-page', '''## 4. Giữ chỉ số gốc; thống nhất nhiệm vụ cần chấm
 
@@ -310,6 +310,6 @@ for widget in manifest['tables'] + manifest['charts']:
         methods=[dict(language='python',code='Run docs/supervisor_meeting/2026-09-11_brief/build_report.py from repository root.')])
 (HERE/'data.json').write_text(json.dumps(dict(
     id='report:2a1213ff-1d88-4e76-9c15-89e97de08c48',surface='report',title=TITLE,
-    generatedAt=STAMP,status='ready',buildStatus='complete' if args.complete else 'creating',
+    generatedAt=STAMP,status='ready',buildStatus='complete' if args.complete else 'updating',
     report=dict(asOf='2026-09-11'),filters=[],queries=queries
 ),ensure_ascii=False,indent=2)+'\n')

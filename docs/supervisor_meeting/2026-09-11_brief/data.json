@@ -2,7 +2,7 @@
   "id": "report:2a1213ff-1d88-4e76-9c15-89e97de08c48",
   "surface": "report",
   "title": "Bảo vệ tính riêng tư về quỹ đạo cho người dùng dịch vụ dựa trên vị trí",
-  "generatedAt": "2026-09-11T10:28:43+07:00",
+  "generatedAt": "2026-09-11T10:45:12+07:00",
   "status": "ready",
   "buildStatus": "complete",
   "report": {
@@ -16,36 +16,36 @@
           "id": "S1",
           "target": "Định vị một lần gửi. Vị trí hiện tại; chỉ một bản tin.",
           "cases": "A: nhiều hướng; B: một hướng; C: gần POI hiếm.",
-          "related": "DLS chọn dummy theo xác suất truy vấn; đối chứng trực tiếp về suy luận điểm. [DLS]",
-          "status": "Lõi; đã chấm vòng mới."
+          "related": "DLS / enhanced-DLS: chọn điểm giả có xác suất truy vấn gần điểm thật, làm khó chọn ra điểm thật. [DLS]",
+          "status": "Cùng mục tiêu định vị. Ta: đã thử lõi; chưa đối chiếu DLS trên tập mới."
         },
         {
           "id": "S2",
           "target": "Suy luận điểm dừng. Nơi đang dừng; nhiều bản tin trong cùng điểm dừng.",
           "cases": "A: dừng ≥20 s / gửi 5 s; B: ≥120 s / gửi 20 s; C: dừng - đi - quay lại.",
-          "related": "ASA chống thống kê dài hạn/vùng bằng SNAME/MNAME và phân bố dummy. Liên quan, không đúng nguyên phép thử dừng. [ASA]",
-          "status": "Lõi; đã chấm vòng mới."
+          "related": "ASA: tổ chức bí danh và phân bố điểm giả để chống thống kê qua nhiều lần truy vấn. [ASA]",
+          "status": "Liên quan: chưa kiểm chứng đúng ca dừng S2. Ta: đã thử lõi."
         },
         {
           "id": "S3",
           "target": "Tái dựng đường đã đi. Chuỗi quá khứ; ghép bản tin theo bản đồ và thời gian.",
           "cases": "A: chạy ≥60 s, ≥3 cạnh; B: hành lang ít nhánh; C: gửi thưa 60 s.",
-          "related": "RDG chống Viterbi; TransProtect xét đường; semantic correlation xét ngữ nghĩa; fake queries chèn bản tin. [RDG, TP, SC, FQ]",
-          "status": "Lõi; đã chấm vòng mới."
+          "related": "RDG: chống ghép chuỗi bằng Viterbi. [RDG]\nTransProtect: tránh điểm giả vô lý trên đường. [TP]\nSemantic correlation: đường giả hợp thời gian/ngữ nghĩa. [SC]\nFake queries: chèn bản tin để làm khó nối đường. [FQ]",
+          "status": "Cùng hướng chống theo dõi chuỗi; giả định từng bài khác nhau. Ta: mới có kết quả các biến thể nội bộ."
         },
         {
           "id": "S4",
           "target": "Liên kết người / thiết bị. Hai phiên có cùng người hay thiết bị? Chấm riêng hai nhãn.",
           "cases": "A: cùng người/thiết bị; B: cùng người đổi máy; C: khác người dùng chung máy.",
-          "related": "Mix zones đổi bí danh để làm khó liên kết. AnotherMe tạo hồ sơ ảo nhưng chưa có bằng chứng cho đúng hai nhãn ở đây. [MIX, AM]",
-          "status": "Mở rộng; đã có dữ liệu."
+          "related": "Mix zones: đổi bí danh trong vùng có nhiều người để làm khó nối hai phiên trước - sau. [MIX]",
+          "status": "Liên quan: không che được ID tài khoản/thiết bị ổn định vẫn gửi. Ta: mới có dữ liệu."
         },
         {
           "id": "S5",
           "target": "Dự đoán cạnh tiếp theo. Cạnh đường ngay sau tiền tố; không phải vị trí sau đúng 30 s.",
           "cases": "A: nhiều lựa chọn rẽ; B: chỉ một lựa chọn; C: chung tiền tố, khác cạnh tiếp.",
-          "related": "LPPM của Theodorakopoulos và cs. bảo vệ hiện tại - tương lai theo mô hình chuyển động. Khác tác vụ dự đoán cạnh xe đô thị. [FUT]",
-          "status": "Mở rộng; đã có dữ liệu."
+          "related": "LPPM hiện tại - tương lai: tối ưu cách che vị trí có xét suy luận tương lai; Theodorakopoulos và cs. [FUT]",
+          "status": "Liên quan: chưa phải tác vụ đoán cạnh tiếp của ta. Ta: mới có dữ liệu."
         }
       ],
       "source": {
@@ -65,7 +65,7 @@
         ],
         "metricDefinitions": [
           {
-            "label": "Ánh xạ kịch bản và bằng chứng",
+            "label": "Phương pháp nào bảo vệ mục tiêu nào?",
             "componentIds": [
               "scenarios-table-0"
             ],
@@ -86,36 +86,36 @@
           "id": "S6",
           "target": "Dự đoán đích đến. Đích chưa tới; chỉ thấy tiền tố và lịch sử được cấp.",
           "cases": "A: chung đầu, khác đích; B: hai đích ≤500 m; C: đích quen / hiếm qua nhiều ngày.",
-          "related": "CkiDel xóa check-in lịch sử để chống DesPre; có đánh giá suy luận đích. Khác dữ liệu xe trực tuyến và không sinh dummy. [DEST]",
-          "status": "Mở rộng; đã có dữ liệu."
+          "related": "CkiDel: xóa một số check-in lịch sử để giảm khả năng đoán đích bằng DesPre. [DEST]",
+          "status": "Cùng mục tiêu đích; khác xe trực tuyến, không sinh dummy. Ta: mới có dữ liệu."
         },
         {
           "id": "S7",
           "target": "Suy luận nhu cầu truy vấn. Ý định thật qua nội dung và chuỗi yêu cầu.",
           "cases": "A: gửi nguyên văn; B: trộn sáu loại; C: cùng truy vấn đầu, khác chuỗi sau.",
-          "related": "Wu và cs. sinh chuỗi truy vấn giả để che vị trí và thuộc tính truy vấn. Ngữ nghĩa địa điểm đơn thuần chưa che được văn bản. [QUERY]",
-          "status": "Mở rộng; nhãn tổng hợp."
+          "related": "Chuỗi truy vấn giả của Wu: che cả vị trí và thuộc tính truy vấn. Không chỉ làm địa điểm giả hợp lý. [QUERY]",
+          "status": "Cùng hướng che truy vấn; không mặc nhiên che mọi văn bản. Ta: có nhãn tổng hợp, chưa chấm bảo vệ."
         },
         {
           "id": "S8",
           "target": "Suy luận qua người đi cùng. Vị trí mục tiêu khi có thêm dữ liệu của người đồng hành.",
           "cases": "A: đi cùng rồi tách; B: cùng tuyến; C: tình cờ gần nhau, không đồng hành.",
-          "related": "Olteanu và cs. lượng hóa rò rỉ và mô hình hóa quyết định chia sẻ. Chưa xác minh bộ sinh dummy bảo vệ đúng S8. [CO, GAME]",
-          "status": "Mở rộng; chưa có đối chứng trực tiếp."
+          "related": "Chưa xác minh cơ chế dummy trực tiếp: nguồn Olteanu nói về rò rỉ và quyết định chia sẻ, không là lời giải đã đủ cho S8. [CO, GAME]",
+          "status": "Chưa đủ bằng chứng để gán bảo vệ. Ta: mới có dữ liệu."
         },
         {
           "id": "S9",
           "target": "Suy luận điểm xuất phát. Điểm đầu bị che; suy ngược từ đoạn công bố.",
           "cases": "A: đầu chỉ một lối ra; B: khác đầu rồi nhập tuyến; C: lặp điểm đầu.",
-          "related": "EPZ che biên; Dhondt và cs. đánh giá cả tấn công và biện pháp giảm rò siêu dữ liệu khoảng cách. Khác xe đô thị. [END]",
-          "status": "Có phép thử biên cũ; vòng mới chỉ dữ liệu."
+          "related": "Vùng che biên (EPZ): ẩn đoạn gần điểm đầu; cần xử lý thêm thông tin như tổng quãng đường. [END]",
+          "status": "Cùng mục tiêu biên, khác SUMO; che đoạn vẫn có thể lộ điểm đầu. Ta: có phép thử biên cũ."
         },
         {
           "id": "S10",
           "target": "Suy luận điểm kết thúc. Điểm cuối bị che sau khi chuyến đã hoàn tất; khác S6 dự báo.",
           "cases": "A: cuối chỉ một lối vào; B: chung đầu rồi tách; C: lặp điểm cuối.",
-          "related": "Cùng họ EPZ và biện pháp xử lý siêu dữ liệu. Che 60 s trong bộ thử không tái lập nguyên EPZ hình học. [END]",
-          "status": "Có phép thử biên cũ; vòng mới chỉ dữ liệu."
+          "related": "Vùng che biên (EPZ): ẩn đoạn gần điểm cuối, kèm xử lý thông tin phụ để giảm suy ngược. [END]",
+          "status": "Che 60 s của ta không tái lập nguyên EPZ; không bảo đảm hết rò rỉ. Ta: có phép thử biên cũ."
         }
       ],
       "source": {
@@ -135,7 +135,7 @@
         ],
         "metricDefinitions": [
           {
-            "label": "Ánh xạ kịch bản và bằng chứng",
+            "label": "Phương pháp nào bảo vệ mục tiêu nào?",
             "componentIds": [
               "scenarios-table-1"
             ],
@@ -250,35 +250,35 @@
         {
           "order": "1",
           "method": "TransProtect · 2024",
-          "concept": "GCN + Transformer xếp hạng vị trí, rồi công bố một vị trí thay thế; đối chiếu ngữ cảnh đường.",
+          "concept": "S3: GCN + Transformer xếp hạng vị trí theo ngữ cảnh đường; công bố một vị trí thay thế.",
           "metrics": "EIE: sai số suy luận kỳ vọng (km) ↑; sai lệch chi phí hành trình kỳ vọng ↓.",
           "status": "Có bản thích nghi; lượt cũ dùng Markov thay Transformer. Chưa có kết quả SOTA đầy đủ. [TP]"
         },
         {
           "order": "2",
           "method": "Semantic correlation · 2026",
-          "concept": "LSTM + attention hỗ trợ chọn K−1 dummy hợp lý về thời gian/ngữ nghĩa; gửi cùng điểm thật.",
+          "concept": "S3: LSTM + attention hỗ trợ chọn K−1 dummy hợp thời gian/ngữ nghĩa; gửi cùng điểm thật.",
           "metrics": "ASR ẩn danh thành công ↑; DER hiệu quả dummy ↑; thời gian sinh ↓. Không phải Recall POI.",
           "status": "Có bản thích nghi; chưa tái lập mô hình học và ngữ nghĩa đầy đủ. [SC]"
         },
         {
           "order": "3",
           "method": "Fake-query insertion · 2026",
-          "concept": "Không học sâu; chèn bản tin chỉ có dummy giữa truy vấn thật để làm khó nối đường.",
+          "concept": "S3: không học sâu; chèn bản tin chỉ có dummy giữa truy vấn thật để làm khó nối đường.",
           "metrics": "Số đường nối khó phân biệt ↑; ASR ↑; độ trễ, bộ nhớ ↓.",
           "status": "Được chọn bổ sung; chưa có lượt benchmark. Phải tính mọi truy vấn chèn thêm. [FQ]"
         },
         {
           "order": "4",
           "method": "DLS / enhanced-DLS · 2014",
-          "concept": "Không học sâu; dummy có xác suất truy vấn gần nhau, thêm phân tán không gian.",
+          "concept": "S1: không học sâu; dummy có xác suất truy vấn gần nhau, thêm phân tán không gian.",
           "metrics": "Entropy H = −Σp log₂p (bit) ↑; vùng che phủ CR lớn hơn trong bản enhanced.",
           "status": "Đối chứng nền đã có bản thích nghi trên đường. Hai cấu hình, không tính thành hai paper. [DLS]"
         },
         {
           "order": "5",
           "method": "RDG · 2021",
-          "concept": "Không học sâu; sinh dummy chống nối chuỗi bằng Viterbi.",
+          "concept": "S3: không học sâu; sinh dummy chống nối chuỗi bằng Viterbi.",
           "metrics": "Entropy, entropy chuyển tiếp ↑; hiệu quả chống Viterbi.",
           "status": "Được chọn làm nền theo chuỗi; chưa có lượt đối chiếu trên tập mới. [RDG]"
         },

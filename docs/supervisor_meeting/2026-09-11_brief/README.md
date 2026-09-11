@@ -10,16 +10,21 @@ Bản HTML tự chứa: `artifacts/reports/supervisor_brief_2026-09-11.html`.
   rồi mới báo kết quả thuật toán. Dữ liệu thật nằm trên thiết bị; bên dịch vụ chỉ
   nhận dữ liệu sau bảo vệ. Phạm vi hiện tại là xe con trong đô thị.”
 - **Trang 2–3 (2 phút):** “Mỗi kịch bản xác định một điều đối thủ muốn biết,
-  điều kiện dữ liệu và nghiên cứu bảo vệ liên quan. S5 đoán bước tiếp; S6 đoán
-  đích khi chưa tới; S10 suy ra điểm cuối bị che sau chuyến đi. Có dữ liệu không
-  đồng nghĩa đã chứng minh bảo vệ.” Chọn hai hàng để giải thích, không đọc hết bảng.
+  điều kiện dữ liệu và phương pháp bảo vệ tương ứng. DLS chủ yếu làm khó chọn
+  điểm thật ở S1; RDG, TransProtect, semantic correlation và fake queries cùng
+  hướng chống nối đường S3, nhưng dùng những cơ chế khác nhau. Mix zones liên
+  quan nối phiên S4; che biên liên quan điểm đầu/cuối S9–S10. Đây là ánh xạ mục
+  tiêu, không phải bảng kết quả các paper đã vượt qua ca SUMO của em.” Chọn hai
+  hàng để giải thích, không đọc hết bảng. “S8 chưa có cơ chế dummy trực tiếp
+  được xác minh trong khảo sát; có dữ liệu không đồng nghĩa đã bảo vệ được.”
 - **Trang 4 (1 phút):** Theo bốn ô của sơ đồ: thiết kế tuyến → SUMO → gắn nhãn
   kịch bản → kiểm tra/lưu. “Có 12 nhóm tuyến mới, 264 chuyến và 393 bản ghi; một
   chuyến dùng được cho nhiều phép thử. SUMO tạo chuyển động, lớp kịch bản mới
   tạo bài toán riêng tư. Một số ca vẫn ít mẫu.”
 - **Trang 5 (1 phút):** “Chọn đối chứng theo cơ chế, không chỉ theo năm:
   ngữ cảnh đường, ngữ nghĩa, chèn truy vấn; thêm DLS và RDG không học sâu.
-  AnotherMe giữ tham chiếu quỹ đạo ảo. Cột cuối nói rõ cái nào mới được chọn,
+  Mã S1/S3 ở từng hàng cho biết mục tiêu chính. AnotherMe giữ tham chiếu quỹ
+  đạo ảo, chưa gán thành lời giải cho S4–S6. Cột cuối nói rõ cái nào mới được chọn,
   cái nào đã thích nghi; chưa phải tất cả đã chạy xong.”
 - **Trang 6 (1 phút):** “Không gộp mọi chỉ số thành một điểm. Đối thủ đoán sai
   bao xa, có còn đoán rất gần không; ứng dụng lấy lại được bao nhiêu POI đúng;

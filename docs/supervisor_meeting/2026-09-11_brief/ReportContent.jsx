@@ -43,7 +43,14 @@ export function ReportContent() {
     }
     const table = content.manifest.tables.find(t=>t.id===block.tableId);
     const rows = snapshot.queries[table.dataset].rows;
-    const render = part => <DataTable rows={part} columns={table.columns}
+    const columns = table.columns.map(column => column.field !== 'related' ? column : {
+      ...column,
+      renderCell: value => <div className="brief-method-lines">{value.split('\n').map((line,i) => {
+        const colon = line.indexOf(':');
+        return <div key={i}>{colon < 0 ? line : <><strong>{line.slice(0,colon)}:</strong>{line.slice(colon+1)}</>}</div>;
+      })}</div>,
+    });
+    const render = part => <DataTable rows={part} columns={columns}
       searchable={false} compactNumbers={false} label={table.title} />;
     return <DataComponent key={block.id} id={table.id} title={table.title}
       kind="table" queryId={table.dataset} sourceRows={rows} displayRows={rows}

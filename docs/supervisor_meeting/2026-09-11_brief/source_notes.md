@@ -27,6 +27,32 @@ commit `c47f61bd4036918b993e1a3a4eb1c804cb35ae16`; hash từng đầu vào nằm
 
 ## Đối chiếu nguồn gốc, truy cập 11/09/2026
 
+### Cách đọc ánh xạ phương pháp → kịch bản trong bản cập nhật
+
+Bảng trang 2–3 gọi tên phương pháp và giải thích cơ chế trước, sau đó mới dẫn
+nguồn. Đây là tổng hợp của luận văn theo mục tiêu được bảo vệ, không phải kết
+quả kiểm thử chung của các paper trên mười kịch bản SUMO.
+
+- S1: DLS/enhanced-DLS; S3: RDG, TransProtect, semantic correlation và fake queries.
+  Mã S1/S3 trên bảng đối chứng trang 5 chỉ hướng mục tiêu chính, không phải danh
+  sách bao phủ đầy đủ hoặc chứng nhận mức bảo vệ.
+- S2: ASA liên quan thống kê nhiều truy vấn, chưa phải nguyên phép thử dừng.
+- S4: mix zones liên quan nối bí danh; không che ID ổn định vẫn được gửi.
+  Không gán AnotherMe thành lời giải S4–S6 chỉ vì tạo được quỹ đạo ảo.
+- S5: LPPM hiện tại–tương lai liên quan nhưng khác đoán cạnh tiếp theo.
+- S6: CkiDel có cùng mục tiêu đích, nhưng xóa check-in lịch sử, không sinh dummy.
+- S7: chuỗi truy vấn giả của Wu che vị trí và thuộc tính truy vấn; ngữ nghĩa
+  địa điểm của semantic correlation không tự động bảo vệ nội dung truy vấn.
+- S8: nguồn đồng hành xác lập nguy cơ/quyết định chia sẻ, chưa xác minh cơ chế
+  dummy bảo vệ trực tiếp. Không diễn giải khoảng trống khảo sát thành khoảng
+  trống của toàn lĩnh vực.
+- S9–S10: EPZ và xử lý thông tin phụ liên quan bảo vệ biên. Chỉ che đoạn vẫn
+  có thể bị suy ngược; phép che 60 giây của ta không tái lập đầy đủ EPZ.
+
+Giữ nguyên dữ liệu A/B/C, số liệu, hai biểu đồ và các kết luận thực nghiệm.
+S1–S3 có phép thử lõi; S4–S10 cần kiểm chứng riêng trên tập mới. Không thêm dấu
+“đã bảo vệ” từ ánh xạ tài liệu này.
+
 Chỉ sử dụng nguồn tác giả, nhà xuất bản và kho cơ quan cho các khẳng định kỹ thuật.
 Tên ngắn [DLS], [SC]... trong bảng ánh xạ sang liên kết ngay dưới bảng và trong
 `evidence.json`. Các hình là sơ đồ tổng hợp mới, không chép hình từ publisher.
