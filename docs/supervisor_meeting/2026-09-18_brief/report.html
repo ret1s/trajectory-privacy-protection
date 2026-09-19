@@ -1,0 +1,440 @@
+<title>BR-Dummy Brief 18/09</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F5F6F8; --surface:#FFFFFF; --surface-2:#EEF1F5; --line:#D9DEE6;
+  --ink:#171B22; --ink-2:#4F5866; --ink-3:#7A8494;
+  --accent:#1C5CAB; --accent-soft:#E3ECF8;
+  --s1:#2a78d6; --s2:#eb6834;
+  --good:#0ca30c; --warn:#b97a00; --crit:#d03b3b;
+  --good-bg:#E6F6E6; --warn-bg:#FFF1CC; --crit-bg:#FBE3E3; --neutral-bg:#EEF1F5;
+  --thin-bg:#FFF1CC;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14171C; --surface:#1C2027; --surface-2:#242932; --line:#333A45;
+    --ink:#ECEEF2; --ink-2:#A9B1BE; --ink-3:#7E8794;
+    --accent:#7FB0F0; --accent-soft:#1F2E44;
+    --s1:#3987e5; --s2:#d95926;
+    --good:#4CC24C; --warn:#F0B84A; --crit:#F07070;
+    --good-bg:#16301A; --warn-bg:#3A2F10; --crit-bg:#3B1B1B; --neutral-bg:#242932;
+    --thin-bg:#3A2F10;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14171C; --surface:#1C2027; --surface-2:#242932; --line:#333A45;
+  --ink:#ECEEF2; --ink-2:#A9B1BE; --ink-3:#7E8794;
+  --accent:#7FB0F0; --accent-soft:#1F2E44;
+  --s1:#3987e5; --s2:#d95926;
+  --good:#4CC24C; --warn:#F0B84A; --crit:#F07070;
+  --good-bg:#16301A; --warn-bg:#3A2F10; --crit-bg:#3B1B1B; --neutral-bg:#242932;
+  --thin-bg:#3A2F10;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 "IBM Plex Sans",system-ui,"Segoe UI",Arial,sans-serif;padding-inline:16px;padding-block:28px 64px}
+.wrap{max-width:900px;margin:0 auto;display:grid;gap:44px}
+h1,h2,h3{font-family:"Be Vietnam Pro","IBM Plex Sans",system-ui,sans-serif;text-wrap:balance;margin:0}
+h1{font-size:clamp(24px,4vw,32px);line-height:1.2;font-weight:700}
+h2{font-size:21px;font-weight:700;letter-spacing:-.01em}
+h3{font-size:15px;font-weight:600}
+p{margin:0}
+a{color:var(--accent)}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.muted{color:var(--ink-2)}
+.small{font-size:13px}
+section{display:grid;gap:14px}
+.sechead{display:grid;gap:4px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+
+/* header */
+.hero{display:grid;gap:16px}
+.sub{color:var(--ink-2);max-width:62ch}
+.headline{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.hl{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:6px;align-content:start}
+.hl .tag{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.hl.ok .tag{color:var(--good)} .hl.mid .tag{color:var(--warn)} .hl.no .tag{color:var(--crit)}
+.hl p{font-size:14px}
+.nav{display:flex;flex-wrap:wrap;gap:6px}
+.nav a{font-size:12.5px;text-decoration:none;color:var(--ink-2);background:var(--surface-2);border-radius:999px;padding:4px 10px}
+.nav a:hover,.nav a:focus-visible{color:var(--accent);outline:2px solid var(--accent);outline-offset:1px}
+
+/* decisions */
+.decide{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dcard{background:var(--accent-soft);border-radius:10px;padding:16px 18px;display:grid;gap:8px}
+.dcard h3{font-size:16px}
+.opt{display:grid;gap:6px}
+.opt div{background:var(--surface);border-radius:6px;padding:8px 10px;font-size:14px;border:1px solid var(--line)}
+.opt div b{color:var(--accent)}
+
+/* flow */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.box{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px;display:grid;gap:4px;align-content:start;font-size:13.5px}
+.box b{font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.box.hi{background:var(--accent-soft);border-color:transparent}
+.flow .box:not(:last-child)::after{content:"→";position:absolute;right:-13px;top:50%;transform:translateY(-50%);color:var(--ink-3);font-size:16px}
+.caption{font-size:13px;color:var(--ink-2)}
+
+/* tables */
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:8px 10px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);font-weight:600;background:var(--surface-2)}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+td.num{white-space:nowrap}
+td.thin{background:var(--thin-bg);font-weight:600}
+.grid td.cell{text-align:center;font-family:"IBM Plex Mono",ui-monospace,monospace;font-weight:500;font-size:13px}
+.grid td.cell.empty{color:var(--ink-3);font-weight:400}
+.grid td.cell.mod{background:var(--accent-soft)}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.b-ok{background:var(--good-bg);color:var(--good)} .b-warn{background:var(--warn-bg);color:var(--warn)} .b-no{background:var(--crit-bg);color:var(--crit)} .b-neu{background:var(--neutral-bg);color:var(--ink-2)}
+.src{font-size:11.5px;color:var(--ink-3);white-space:nowrap}
+
+/* tiles */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:2px}
+.tile .v{font-family:"IBM Plex Sans",system-ui,sans-serif;font-weight:600;font-size:26px;line-height:1.1}
+.tile .l{font-size:12.5px;color:var(--ink-2)}
+
+/* list */
+ul.tight{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+ul.tight li::marker{color:var(--ink-3)}
+
+/* chart */
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 12px 6px;display:grid;gap:4px}
+.panel h3{font-size:14px}
+.legend{display:flex;gap:14px;font-size:12.5px;color:var(--ink-2);flex-wrap:wrap}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.legend .l5::before{background:var(--s1)} .legend .l10::before{background:var(--s2)}
+svg{width:100%;height:auto;display:block}
+svg .grid{stroke:var(--line);stroke-width:1}
+svg .ref{stroke:var(--ink-2);stroke-width:1.5}
+svg .tick,svg .rowlbl,svg .val,svg .reflbl{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;fill:var(--ink-2)}
+svg .rowlbl{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:12px;fill:var(--ink)}
+svg .reflbl{fill:var(--ink-2);font-size:10.5px}
+svg .conn{stroke:var(--line);stroke-width:2}
+svg .dot{stroke:var(--surface);stroke-width:2}
+svg .dot.s1{fill:var(--s1)} svg .dot.s2{fill:var(--s2)}
+.callout{border-left:3px solid var(--accent);background:var(--surface);border-radius:0 8px 8px 0;padding:12px 16px;display:grid;gap:6px}
+.callout.warn{border-left-color:var(--warn)}
+.callout p{font-size:14px}
+
+/* three columns */
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.col{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:8px;align-content:start}
+.col h3{display:flex;align-items:center;gap:6px}
+.col ul{font-size:13.5px}
+footer{font-size:12.5px;color:var(--ink-2);display:grid;gap:8px;border-top:1px solid var(--line);padding-top:16px}
+footer .srcs{display:grid;grid-template-columns:repeat(2,1fr);gap:2px 16px}
+
+@media (max-width:680px){
+  .headline,.decide,.tiles,.charts,.three,footer .srcs{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}
+  .flow .box:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-15px;transform:translateX(-50%)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<!-- ============ HEADER ============ -->
+<header class="hero">
+  <p class="eyebrow">Báo cáo tiến độ với GVHD · 18/09/2026</p>
+  <h1>Bảo vệ tính riêng tư về quỹ đạo cho người dùng dịch vụ dựa trên vị trí</h1>
+  <p class="sub">Cơ chế sinh điểm giả có trạng thái trên thiết bị, đánh giá theo 10 kịch bản đe doạ trên dữ liệu SUMO + OpenStreetMap. Phạm vi: xe con trong đô thị.</p>
+
+  <div class="headline">
+    <div class="hl ok"><span class="tag">✔ Đã có</span><p>Khung dữ liệu và phép thử <b>kiểm tra lại được</b>: 10 kịch bản, 393 bản ghi, quy trình khoá trước xác nhận.</p></div>
+    <div class="hl mid"><span class="tag">◐ Kết quả</span><p>Một giả thuyết thuật toán đã thử có kiểm soát. Là <b>đánh đổi, không phải thắng</b>; chưa cấu hình nào qua ngưỡng chất lượng 90%.</p></div>
+    <div class="hl no"><span class="tag">✖ Chưa có</span><p>Chưa có bảng so sánh SOTA trên tập mới. Chưa chứng minh bảo vệ S4–S10 — có dữ liệu ≠ đã bảo vệ.</p></div>
+  </div>
+
+  <nav class="nav" aria-label="Mục">
+    <a href="#quyet">Quyết định</a><a href="#kientruc">Kiến trúc</a><a href="#kichban">Kịch bản</a><a href="#dulieu">Dữ liệu</a><a href="#doichung">Đối chứng</a><a href="#phuongphap">Phương pháp</a><a href="#quytrinh">Quy trình</a><a href="#ketqua">Kết quả</a><a href="#ketluan">Kết luận</a>
+  </nav>
+</header>
+
+<!-- ============ 1. DECISIONS ============ -->
+<section id="quyet">
+  <div class="sechead"><p class="eyebrow">Phần 1 · 1 phút</p><h2>Hai điều em cần thầy chốt hôm nay</h2></div>
+  <div class="decide">
+    <div class="dcard">
+      <h3>① Phạm vi claim của luận văn</h3>
+      <div class="opt">
+        <div><b>Đề xuất:</b> claim bảo vệ ở <b>S1–S3</b>; S4–S10 là thiết kế dữ liệu + hướng mở rộng.</div>
+        <div>Hoặc: giữ claim S1–S10 → cần đối thủ riêng cho từng mục tiêu, thêm mẫu, thêm thời gian.</div>
+      </div>
+      <p class="small muted">Lý do: chỉ S1, S3, S7 có phòng thủ cùng lớp sinh dữ liệu giả để so công bằng.</p>
+    </div>
+    <div class="dcard">
+      <h3>② Ưu tiên vòng tiếp theo</h3>
+      <div class="opt">
+        <div><b>Đề xuất:</b> tái lập đối chứng đã chọn (RDG, fake queries, chạy lại 3 adapter trên tập mới), rồi sửa ca S3.C.</div>
+        <div>Hoặc: mở rộng bảo vệ sang S4–S10 trước.</div>
+      </div>
+      <p class="small muted">Lý do: không có đối chứng chạy trên cùng dữ liệu thì không có claim “tốt hơn” nào tồn tại.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. ARCHITECTURE ============ -->
+<section id="kientruc">
+  <div class="sechead"><p class="eyebrow">Phần 2 · 30 giây</p><h2>Kiến trúc và ranh giới tin cậy</h2></div>
+  <div class="flow">
+    <div class="box"><b>Thiết bị</b>Vị trí, lịch sử, truy vấn thật. Chỉ đọc tới hiện tại.</div>
+    <div class="box hi"><b>Cơ chế bảo vệ</b>Chạy cục bộ. Nhận thêm bản đồ, luật đường, POI công khai.</div>
+    <div class="box"><b>LSP / đối thủ</b>Chỉ nhận dữ liệu đã bảo vệ. Xử lý dịch vụ, có thể lưu và suy luận.</div>
+    <div class="box"><b>Thiết bị</b>Nhận POI. Gộp, loại trùng, xếp lại bằng vị trí thật cục bộ.</div>
+  </div>
+  <p class="caption">Vị trí thật và trạng thái bảo vệ nằm ở thiết bị. Mũi tên sang LSP là kênh công bố cần đánh giá. Một chuyến SUMO tạo được nhiều bài kiểm tra — <b>bản ghi ≠ người dùng độc lập</b>.</p>
+</section>
+
+<!-- ============ 3. SCENARIOS ============ -->
+<section id="kichban">
+  <div class="sechead"><p class="eyebrow">Phần 3 · 2 phút</p><h2>Mười kịch bản, xếp trên ba trục</h2></div>
+  <p class="muted">Không phải 10 lớp rời nhau. Mỗi ô khác ô kia ở ít nhất một trục: <b>target</b> · <b>vị trí thời gian so với cửa sổ quan sát</b> · <b>mật độ gửi</b>.</p>
+
+  <div class="tablewrap">
+    <table class="grid">
+      <thead><tr><th>Target vị trí × thời gian</th><th style="text-align:center">1 lần gửi</th><th style="text-align:center">n lần, đứng yên</th><th style="text-align:center">n lần, di chuyển</th></tr></thead>
+      <tbody>
+        <tr><td>Trong cửa sổ quan sát</td><td class="cell">S1</td><td class="cell">S2</td><td class="cell">S3</td></tr>
+        <tr><td>Trước cửa sổ (đoạn đầu bị che)</td><td class="cell empty">—</td><td class="cell empty">—</td><td class="cell">S9</td></tr>
+        <tr><td>Sau cửa sổ (đoạn cuối bị che, đã xảy ra)</td><td class="cell empty">—</td><td class="cell empty">—</td><td class="cell">S10</td></tr>
+        <tr><td>Chưa xảy ra — cạnh đường kế tiếp</td><td class="cell empty">—</td><td class="cell empty">—</td><td class="cell">S5</td></tr>
+        <tr><td>Chưa xảy ra — đích đến</td><td class="cell empty">—</td><td class="cell empty">—</td><td class="cell">S6</td></tr>
+        <tr><td colspan="4" class="small muted" style="background:var(--surface-2)">Target khác loại, ngoài lưới vị trí: <b class="mono">S4</b> liên kết người/thiết bị · <b class="mono">S7</b> ý định truy vấn. &nbsp; Điều kiện quan sát bổ sung (áp lên S1–S3): <b class="mono">S8</b> có dữ liệu người đồng hành.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Kịch bản · target</th><th>Nghiên cứu bảo vệ liên quan</th><th>Tình trạng của ta</th></tr></thead>
+      <tbody>
+        <tr><td><b>S1</b> Định vị một lần gửi · vị trí hiện tại</td><td>DLS / enhanced-DLS — dummy có xác suất truy vấn tương đương <span class="src">[DLS]</span></td><td><span class="badge b-ok">● Đã thử lõi</span></td></tr>
+        <tr><td><b>S2</b> Suy luận điểm dừng · nơi đang dừng</td><td>ASA — chống thống kê nhiều lần gửi <span class="src">[ASA]</span>; tái dùng có phép thử riêng tư <span class="src">[PRED]</span></td><td><span class="badge b-ok">● Đã thử lõi</span></td></tr>
+        <tr><td><b>S3</b> Tái dựng đường đã đi · chuỗi quá khứ</td><td>RDG chống Viterbi <span class="src">[RDG]</span> · TransProtect <span class="src">[TP]</span> · Semantic correlation <span class="src">[SC]</span> · Fake queries <span class="src">[FQ]</span></td><td><span class="badge b-ok">● Đã thử lõi</span></td></tr>
+        <tr><td><b>S4</b> Liên kết phiên · người / thiết bị (chấm riêng)</td><td>Mix zones — đổi bí danh trong vùng trộn <span class="src">[MIX]</span>; vô hiệu nếu ID tài khoản vẫn gửi</td><td><span class="badge b-neu">○ Mới có dữ liệu</span></td></tr>
+        <tr><td><b>S5</b> Dự đoán cạnh kế tiếp</td><td>LPPM xét cả tương lai <span class="src">[FUT]</span>; khác tác vụ đoán cạnh của ta</td><td><span class="badge b-neu">○ Mới có dữ liệu</span></td></tr>
+        <tr><td><b>S6</b> Dự đoán đích đến</td><td>CkiDel — xóa check-in lịch sử <span class="src">[DEST]</span>; không sinh dummy</td><td><span class="badge b-neu">○ Mới có dữ liệu</span></td></tr>
+        <tr><td><b>S7</b> Suy luận ý định truy vấn</td><td>Chuỗi truy vấn giả che cả vị trí và thuộc tính <span class="src">[QUERY]</span></td><td><span class="badge b-neu">○ Có nhãn, chưa chấm</span></td></tr>
+        <tr><td><b>S8</b> Suy luận qua người đồng hành</td><td>Chỉ có phân tích rò rỉ <span class="src">[CO]</span> — <b>chưa xác minh cơ chế dummy nào</b></td><td><span class="badge b-no">✖ Khoảng trống</span></td></tr>
+        <tr><td><b>S9</b> Điểm xuất phát bị che</td><td rowspan="2">Vùng che biên EPZ + 6 biện pháp <span class="src">[END]</span>; che 60 s của ta không tái lập EPZ</td><td><span class="badge b-warn">◐ Phép thử biên cũ</span></td></tr>
+        <tr><td><b>S10</b> Điểm kết thúc bị che (khác S6: đã xảy ra)</td><td><span class="badge b-warn">◐ Phép thử biên cũ</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="caption">“Liên quan” = cùng điều cần giấu, chưa được kiểm thử trên dữ liệu của luận văn. Khoảng trống S8 là giới hạn của khảo sát này, không phải kết luận lĩnh vực chưa có lời giải.</p>
+</section>
+
+<!-- ============ 4. DATA ============ -->
+<section id="dulieu">
+  <div class="sechead"><p class="eyebrow">Phần 4 · 1 phút</p><h2>Dữ liệu mới: SUMO tạo chuyển động, lớp kịch bản tạo bài toán</h2></div>
+  <div class="tiles">
+    <div class="tile"><span class="v">12</span><span class="l">nhóm tuyến mới · 301–306 chọn, 307–312 xác nhận</span></div>
+    <div class="tile"><span class="v">264</span><span class="l">chuyến hoàn tất · 22 phiên / nhóm</span></div>
+    <div class="tile"><span class="v">172.443</span><span class="l">điểm FCD 1 Hz, đối chiếu 108 lượt SUMO gốc</span></div>
+    <div class="tile"><span class="v">393</span><span class="l">bản ghi kịch bản · đủ 30 ca con ở cả hai tập</span></div>
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Kịch bản</th><th class="num">Tập chọn A</th><th class="num">B</th><th class="num">C</th><th class="num">Xác nhận A</th><th class="num">B</th><th class="num">C</th></tr></thead>
+      <tbody>
+        <tr><td>S1</td><td class="num">6</td><td class="num">6</td><td class="num">6</td><td class="num">6</td><td class="num">6</td><td class="num">6</td></tr>
+        <tr><td>S2</td><td class="num">6</td><td class="num">6</td><td class="num">6</td><td class="num">6</td><td class="num">6</td><td class="num">6</td></tr>
+        <tr><td>S3</td><td class="num">6</td><td class="num">6</td><td class="num">6</td><td class="num">6</td><td class="num">5</td><td class="num">6</td></tr>
+        <tr><td>S4</td><td class="num">6</td><td class="num">6</td><td class="num">6</td><td class="num">6</td><td class="num">6</td><td class="num">6</td></tr>
+        <tr><td>S5</td><td class="num">6</td><td class="num">6</td><td class="num thin">2</td><td class="num">6</td><td class="num">6</td><td class="num thin">2</td></tr>
+        <tr><td>S6</td><td class="num thin">2</td><td class="num thin">2</td><td class="num">5</td><td class="num thin">2</td><td class="num thin">3</td><td class="num">5</td></tr>
+        <tr><td>S7</td><td class="num">18</td><td class="num">18</td><td class="num">18</td><td class="num">18</td><td class="num">18</td><td class="num">18</td></tr>
+        <tr><td>S8</td><td class="num">6</td><td class="num">5</td><td class="num">6</td><td class="num">6</td><td class="num">4</td><td class="num">6</td></tr>
+        <tr><td>S9</td><td class="num">6</td><td class="num">6</td><td class="num">6</td><td class="num">6</td><td class="num">5</td><td class="num">6</td></tr>
+        <tr><td>S10</td><td class="num">5</td><td class="num thin">2</td><td class="num">6</td><td class="num">6</td><td class="num thin">2</td><td class="num">6</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <ul class="tight">
+    <li><b>Ô tô đậm = ≤ 3 bản ghi</b>, chưa đủ để học và chọn đối thủ. 43 cặp nhóm–ca không đạt điều kiện sinh; không ép nhãn cho đủ số.</li>
+    <li>Build đầu có bước nhảy 10,87 m/giây (vượt ngưỡng 10,1 m) → <b>sửa cấu hình đổi làn SUMO, không sửa tọa độ</b>. Sau sửa: 9,45 m.</li>
+    <li>Hai cửa sổ dừng S2 trùng tọa độ giữa hai tập: đã công bố, có kiểm tra độ nhạy. Cùng một đô thị; nhãn danh tính/ý định là tổng hợp.</li>
+  </ul>
+</section>
+
+<!-- ============ 5. COMPARATORS ============ -->
+<section id="doichung">
+  <div class="sechead"><p class="eyebrow">Phần 5 · 1 phút</p><h2>Đối chứng: đã chọn theo cơ chế, chưa chạy đủ</h2></div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Phương pháp</th><th>Cơ chế · đầu ra</th><th>Chỉ số gốc</th><th>Trạng thái</th></tr></thead>
+      <tbody>
+        <tr><td><b>TransProtect</b> · 2024 <span class="src">[TP]</span></td><td>GCN + Transformer xếp hạng vị trí theo ngữ cảnh đường · <b>1 vị trí thay thế</b></td><td>EIE (km) ↑ · sai lệch chi phí hành trình ↓</td><td><span class="badge b-warn">◐ Đã thích nghi</span></td></tr>
+        <tr><td><b>Semantic correlation</b> · 2026 <span class="src">[SC]</span></td><td>LSTM + attention chọn K−1 dummy hợp ngữ nghĩa/thời gian · <b>thật + K−1</b></td><td>ASR ↑ · DER ↑ · thời gian sinh ↓</td><td><span class="badge b-warn">◐ Đã thích nghi</span></td></tr>
+        <tr><td><b>Fake-query insertion</b> · 2026 <span class="src">[FQ]</span></td><td>Không học sâu; chèn bản tin chỉ có dummy giữa truy vấn thật</td><td>Số đường nối khó phân biệt ↑ · ASR ↑ · độ trễ ↓</td><td><span class="badge b-no">✖ Chưa chạy</span></td></tr>
+        <tr><td><b>DLS / enhanced-DLS</b> · 2014 <span class="src">[DLS]</span></td><td>Không học sâu; dummy cùng xác suất truy vấn + phân tán</td><td>Entropy (bit) ↑ · vùng che phủ</td><td><span class="badge b-warn">◐ Đã thích nghi</span></td></tr>
+        <tr><td><b>RDG</b> · 2021 <span class="src">[RDG]</span></td><td>Không học sâu; dummy chống nối chuỗi bằng Viterbi</td><td>Entropy chuyển tiếp ↑</td><td><span class="badge b-no">✖ Chưa chạy</span></td></tr>
+        <tr><td><b>AnotherMe</b> · 2024 <span class="src">[AM]</span></td><td>Dựng người dùng / quỹ đạo ảo (VTGA)</td><td>Tỷ lệ nhận ra quỹ đạo giả · pin</td><td><span class="badge b-neu">○ Tham chiếu</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout warn">
+    <p><b>Ba adapter là <span class="mono">paper_adaptation</span>, không phải tái lập trung thực</b> — thiếu trainer/checkpoint (TransProtect), AMap semantics và trọng số (Semantic), toàn văn (AnotherMe). <b>Chưa có đối chứng nào chạy trên tập xác nhận mới.</b> Bốn đầu ra khác giao diện → không gộp một bảng xếp hạng.</p>
+  </div>
+</section>
+
+<!-- ============ 6. METHOD ============ -->
+<section id="phuongphap">
+  <div class="sechead"><p class="eyebrow">Phần 6 · 1 phút</p><h2>Phương pháp đề xuất: BR-Dummy</h2></div>
+  <div class="flow">
+    <div class="box hi"><b>1 · Neo riêng tư</b>Từ GPS thật tạo neo nhiễu (Geo-I). Thử tái dùng có nhiễu. Ghi sổ ngân sách phiên.</div>
+    <div class="box"><b>2 · Ước lượng</b>Chỉ từ lịch sử neo <em>đã bảo vệ</em>: vùng có thể đang ở và POI khả dĩ cần.</div>
+    <div class="box"><b>3 · Chọn dummy</b>Giữ khả năng đi tới trên đường. Chọn tham lam rồi thay điểm để tăng độ phủ POI.</div>
+    <div class="box"><b>4 · Dịch vụ</b>LSP trả POI cho điểm giả. Thiết bị gộp và xếp lại tại vị trí thật.</div>
+  </div>
+  <ul class="tight">
+    <li><b>Điểm khác của hướng này:</b> không chỉ làm dummy trông hợp lý — chọn tập truy vấn sao cho kết quả trả về <b>vẫn chứa POI người dùng cần</b>.</li>
+    <li><b>Biến thể mới đang thử:</b> bộ lọc hai chế độ <em>đang dừng / đang đi</em>, giữ nguyên ngân sách và bước chọn điểm để so công bằng.</li>
+    <li><b>Tham số:</b> <span class="mono">B = 0,24 m⁻¹ · H = 12 · K = 5 · θ = 200 m</span>. Sau bước neo không đọc lại GPS thật, tốc độ thật hay nhãn kịch bản.</li>
+    <li><b>Kế thừa, không nhận là mới:</b> Geo-I, hợp thành ngân sách, lọc Markov, tìm kiếm tham lam. Chặn lý tưởng ở 100 m là e²⁴ — còn lỏng.</li>
+  </ul>
+</section>
+
+<!-- ============ 7. PROTOCOL ============ -->
+<section id="quytrinh">
+  <div class="sechead"><p class="eyebrow">Phần 7 · 1 phút</p><h2>Quy trình: khoá lựa chọn trước khi xem xác nhận</h2></div>
+  <div class="flow">
+    <div class="box"><b>Học</b>2 nhóm lõi + 64 nhóm phụ trợ. Học đối thủ. Không đổi dữ liệu học.</div>
+    <div class="box"><b>Chọn</b>6 nhóm mới 301–306 · 54 bản ghi S1–S3. Chọn đối thủ và cấu hình.</div>
+    <div class="box hi"><b>Khoá</b>Recall từng ca ≥ 90%, rồi mới giảm Hit. Không đạt → ghi “không khả thi”.</div>
+    <div class="box"><b>Xác nhận</b>6 nhóm mới 307–312 · 53 bản ghi. <b>Không chọn lại sau khi xem điểm.</b></div>
+  </div>
+  <ul class="tight">
+    <li>Bốn cấu hình <b>nội bộ</b> (không phải bốn SOTA): hình học · phủ tham lam · phủ + thay điểm · hai chế độ + thay điểm. Cùng B, K, H, dãy neo ngẫu nhiên và dịch vụ POI.</li>
+    <li>3 lần lặp / bản ghi → 648 lượt chọn, 636 lượt xác nhận, 3.984 sự kiện. <b>Không phải 636 người độc lập.</b></li>
+    <li>Đối thủ: tâm/trung bình, đường đi, cả cửa sổ, và mô hình học từ dữ liệu phụ trợ — 26 quyết định ở S1, 33 ở S2/S3. Chọn riêng đối thủ min-MAE và max-Hit trên tập chọn; báo thêm Hit lớn nhất trong bộ đã thử.</li>
+  </ul>
+</section>
+
+<!-- ============ 8. RESULTS ============ -->
+<section id="ketqua">
+  <div class="sechead"><p class="eyebrow">Phần 8 · 2 phút</p><h2>Kết quả xác nhận: chất lượng tăng, riêng tư là đánh đổi</h2></div>
+
+  <div class="legend"><span class="l5">L = 5 POI / truy vấn</span><span class="l10">L = 10 POI / truy vấn</span><span class="muted">— đường đậm: ngưỡng 90% · k = 5 không đổi</span></div>
+  <div class="charts">
+    <div class="panel"><h3>Recall@5 trung bình 9 ca (%)</h3><svg id="chart-mean" viewBox="0 0 600 196" role="img" aria-label="Recall trung bình theo cấu hình và độ sâu L"></svg></div>
+    <div class="panel"><h3>Recall@5 ca yếu nhất (%)</h3><svg id="chart-min" viewBox="0 0 600 196" role="img" aria-label="Recall ca yếu nhất theo cấu hình và độ sâu L"></svg></div>
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Cấu hình</th><th class="num">Recall L5</th><th class="num">Recall L10</th><th class="num">Ca yếu nhất L10</th><th class="num">Hit100 chọn ↓</th><th class="num">Hit100 cực trị ↓</th><th class="num">MAE ↑</th></tr></thead>
+      <tbody>
+        <tr><td>Hình học</td><td class="num">84,81%</td><td class="num">90,11%</td><td class="num">82,72%</td><td class="num">5,89%</td><td class="num">12,34%</td><td class="num">481,8 m</td></tr>
+        <tr><td>Phủ tham lam</td><td class="num">92,46%</td><td class="num">95,99%</td><td class="num">90,51%</td><td class="num">4,19%</td><td class="num">9,38%</td><td class="num">571,5 m</td></tr>
+        <tr><td>Phủ + thay điểm</td><td class="num">92,78%</td><td class="num"><b>96,33%</b></td><td class="num">91,17%</td><td class="num"><b>3,73%</b></td><td class="num">9,59%</td><td class="num"><b>577,4 m</b></td></tr>
+        <tr><td><b>Hai chế độ + thay điểm</b></td><td class="num">92,76%</td><td class="num">96,31%</td><td class="num"><b>91,22%</b></td><td class="num"><b>2,92%</b></td><td class="num"><b>8,40%</b></td><td class="num">555,1 m</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <p><b>Cách đọc đúng:</b> hai chế độ giảm Hit100 <span class="mono">3,73% → 2,92%</span> (ít lần đoán rất gần hơn) <b>nhưng</b> MAE cũng giảm <span class="mono">577,4 → 555,1 m</span> (sai số trung bình nhỏ hơn — bất lợi). Recall gần như không đổi. → <b>Đánh đổi, chưa phải tốt hơn trên mọi tiêu chí.</b></p>
+    <p><b>Chưa cấu hình nào qua quy tắc chọn.</b> Trên tập chọn ở L = 10, ca yếu nhất (S3.C, gửi thưa 60 s) là 89,25% và 89,32% — đều dưới 90%. Tập xác nhận đẹp hơn <b>không cho phép chọn lại</b>.</p>
+    <p><b>Giá của L = 10:</b> phản hồi 120 → 200 mục POI, byte mã POI +64,7% (không phải toàn bộ HTTP). Phần lớn mức tăng Recall đến từ L, không từ bộ chọn. Theo 6 nhóm: Hit giảm 2, tăng 2, ngang 2 — không có ưu thế ổn định.</p>
+  </div>
+</section>
+
+<!-- ============ 9. CONCLUSION ============ -->
+<section id="ketluan">
+  <div class="sechead"><p class="eyebrow">Phần 9 · 2 phút</p><h2>Kết luận và bước tiếp</h2></div>
+  <div class="three">
+    <div class="col"><h3><span class="badge b-ok">●</span> Được kết luận</h3>
+      <ul class="tight">
+        <li>Kịch bản và dữ liệu đã cụ thể, kiểm tra được bằng máy.</li>
+        <li>Có lựa chọn đối chứng kèm lý do và chỉ số gốc.</li>
+        <li>Đã thử một giả thuyết thuật toán có kiểm soát và <b>giữ cả kết quả bất lợi</b>.</li>
+        <li>270 kiểm thử; kiểm tra độc lập dựng lại 265.068 dự đoán; luận văn 107 trang.</li>
+      </ul></div>
+    <div class="col"><h3><span class="badge b-no">✖</span> Chưa kết luận</h3>
+      <ul class="tight">
+        <li>Chưa thắng đối chứng nào — chưa có đối chứng chạy trên tập mới.</li>
+        <li>Chưa bảo vệ S4–S10; có dữ liệu không phải đã bảo vệ.</li>
+        <li>Hit thấp hơn ≠ riêng tư tốt hơn khi MAE cũng thấp hơn.</li>
+        <li>Chặn Geo-I e²⁴ còn lỏng; hợp thành mức quỹ đạo là việc tương lai.</li>
+      </ul></div>
+    <div class="col"><h3><span class="badge b-warn">◐</span> Bước tiếp (xin ý kiến)</h3>
+      <ul class="tight">
+        <li>Tái lập đối chứng đã chọn trên tập mới; giữ chỉ số gốc ở bảng riêng.</li>
+        <li>Chẩn đoán ca gửi thưa S3.C trên dữ liệu phát triển — không hạ ngưỡng.</li>
+        <li>Tăng mẫu S5.C, S6.A/B, S10.B từ điều kiện tuyến công khai.</li>
+        <li><em>Đề xuất:</em> thêm phép thử <b>kênh quay lại</b> (đối thủ đoán có/không quay lại chỗ cũ từ chuỗi output) — đúng điểm yếu lý thuyết đã biết của tái dùng neo.</li>
+      </ul></div>
+  </div>
+  <div class="callout warn">
+    <p><b>Còn tồn từ 05/09, xin thầy trả lời:</b> (1) target nào là đóng góp chính? (2) “kết hợp group of users” = population prior, anonymity context hay group guarantee? (3) “SOTA 3 năm” tính theo năm nào, có bắt buộc source code? (4) mô phỏng là benchmark chính, dữ liệu thật chỉ để validation — đúng ý thầy? (5) simulator cần phủ mọi kịch bản hay chỉ target trọng tâm?</p>
+  </div>
+</section>
+
+<footer>
+  <p><b>Bằng chứng:</b> số liệu ghim tại commit <span class="mono">c47f61b</span> · <span class="mono">artifacts/benchmarks/fresh_switching/readout.json</span> · <span class="mono">artifacts/datasets/urban_fresh_v2/dataset.json</span> · hồ sơ kiểm tra <span class="mono">docs/reviews/verification_fresh_switching.md</span> · luận văn <span class="mono">artifacts/reports/graduation_thesis.pdf</span> (mục 3.9.6, 5.13, 6.14).</p>
+  <div class="srcs">
+    <span>[DLS] <a href="https://doi.org/10.1109/INFOCOM.2014.6848002">Niu et al., INFOCOM 2014</a></span>
+    <span>[ASA] <a href="https://doi.org/10.1016/j.future.2016.06.017">Sun et al., FGCS 2017</a></span>
+    <span>[PRED] <a href="https://arxiv.org/abs/1311.4008">Chatzikokolakis et al., PETS 2014</a></span>
+    <span>[RDG] <a href="https://doi.org/10.1109/TMC.2020.2993599">Shaham et al., TMC 2021</a></span>
+    <span>[TP] <a href="https://arxiv.org/html/2409.09495v1">Yadav et al., SIGSPATIAL 2024</a></span>
+    <span>[SC] <a href="https://link.springer.com/article/10.1007/s44443-026-00899-w">Liu, Peng, Zhou, JKSUCIS 2026</a></span>
+    <span>[FQ] <a href="https://link.springer.com/article/10.1007/s44443-025-00438-z">Liu, Hu, Zhou, JKSUCIS 2026</a></span>
+    <span>[MIX] <a href="https://www.cl.cam.ac.uk/~fms27/papers/2004-BeresfordSta-mix.pdf">Beresford &amp; Stajano, 2004</a></span>
+    <span>[FUT] <a href="https://arxiv.org/abs/1409.1716">Theodorakopoulos et al., WPES 2014</a></span>
+    <span>[DEST] <a href="https://journals.sagepub.com/doi/10.1177/1550147716685421">Xue et al., 2017</a></span>
+    <span>[QUERY] <a href="https://link.springer.com/article/10.1007/s11280-020-00830-x">Wu et al., WWW 2021</a></span>
+    <span>[CO] <a href="https://www.mhumbert.com/publications/tmc16.pdf">Olteanu et al., TMC 2017</a></span>
+    <span>[END] <a href="https://people.cs.kuleuven.be/~stijn.volckaert/papers/2022_CCS_Fitness_Tracking.pdf">Dhondt et al., CCS 2022</a></span>
+    <span>[AM] <a href="https://ieeexplore.ieee.org/document/10246991/">Li et al., TDSC 2024</a></span>
+    <span>Khung đánh giá theo đối thủ: <a href="https://doi.org/10.1109/SP.2011.18">Shokri et al., S&amp;P 2011</a></span>
+  </div>
+  <p>Bản ngắn đi kèm luận văn, không thay thế luận văn. Không chạy lại thí nghiệm hay tinh chỉnh thuật toán khi soạn bản này.</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var cfgs=["Hình học","Phủ tham lam","Phủ + thay điểm","Hai chế độ + thay điểm"];
+  var mean={l5:[84.81,92.46,92.78,92.76], l10:[90.11,95.99,96.33,96.31]};
+  var minc={l5:[76.13,84.75,85.56,85.56], l10:[82.72,90.51,91.17,91.22]};
+  function fmt(v){return v.toFixed(2).replace('.',',');}
+  function panel(id,d){
+    var svg=document.getElementById(id); if(!svg) return;
+    var W=600,H=196,L=172,R=34,x0=70,x1=100;
+    function x(v){return L+(v-x0)/(x1-x0)*(W-L-R);}
+    var s='';
+    [70,80,90,100].forEach(function(v){
+      var ref=(v===90);
+      s+='<line x1="'+x(v)+'" y1="22" x2="'+x(v)+'" y2="'+(H-28)+'" class="'+(ref?'ref':'grid')+'"/>';
+      s+='<text x="'+x(v)+'" y="'+(H-10)+'" class="tick" text-anchor="middle">'+v+'%</text>';
+    });
+    s+='<text x="'+(x(90)+4)+'" y="16" class="reflbl">ngưỡng 90%</text>';
+    cfgs.forEach(function(c,i){
+      var y=44+i*36, a=x(d.l5[i]), b=x(d.l10[i]);
+      s+='<text x="'+(L-12)+'" y="'+(y+4)+'" class="rowlbl" text-anchor="end">'+c+'</text>';
+      s+='<line x1="'+a+'" y1="'+y+'" x2="'+b+'" y2="'+y+'" class="conn"/>';
+      s+='<circle cx="'+a+'" cy="'+y+'" r="6" class="dot s1"><title>'+c+' · L=5 · '+fmt(d.l5[i])+'%</title></circle>';
+      s+='<circle cx="'+b+'" cy="'+y+'" r="6" class="dot s2"><title>'+c+' · L=10 · '+fmt(d.l10[i])+'%</title></circle>';
+      // L=5 label goes left of its dot unless that would cross the 90% line; then it sits above the dot.
+      if(a>x(90) && (a-11-38)<x(90)+2){
+        s+='<text x="'+a+'" y="'+(y-10)+'" class="val" text-anchor="middle">'+fmt(d.l5[i])+'</text>';
+      }else{
+        s+='<text x="'+(a-11)+'" y="'+(y+4)+'" class="val" text-anchor="end">'+fmt(d.l5[i])+'</text>';
+      }
+      s+='<text x="'+(b+11)+'" y="'+(y+4)+'" class="val" text-anchor="start">'+fmt(d.l10[i])+'</text>';
+    });
+    svg.innerHTML=s;
+  }
+  panel('chart-mean',mean);
+  panel('chart-min',minc);
+})();
+</script>

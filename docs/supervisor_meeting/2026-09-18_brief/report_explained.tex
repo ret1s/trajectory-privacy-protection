@@ -1,0 +1,672 @@
+% Biên dịch: xelatex report_explained.tex (hai lần để cập nhật tham chiếu).
+% Tài liệu tự chứa; không cần ảnh, BibTeX hoặc dữ liệu ngoài khi biên dịch.
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,
+  BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,longtable,tabularx,array}
+\usepackage{ragged2e}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage[hidelinks,unicode]{hyperref}
+
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\arraystretch}{1.18}
+\setlist{nosep,leftmargin=1.5em,topsep=4pt}
+\renewcommand{\refname}{Tài liệu tham khảo}
+\renewcommand{\tablename}{Bảng}
+\hypersetup{pdftitle={Bảo vệ riêng tư quỹ đạo: bài toán, phương pháp và đánh giá}}
+\newcommand{\up}{\ensuremath{\uparrow}}
+\newcommand{\down}{\ensuremath{\downarrow}}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries Bảo vệ riêng tư quỹ đạo trong dịch vụ vị trí}\\[5pt]
+{\large Bài toán, phương pháp đối chứng và đánh giá}\\[4pt]
+18/09/2026
+\end{center}
+
+\textbf{Tóm tắt.}
+Nghiên cứu tổ chức bốn mục tiêu riêng tư thành mười kịch bản đánh giá cho xe
+đô thị sử dụng dịch vụ vị trí. Trọng tâm hiện tại là hoàn thiện bộ dữ liệu,
+quyền quan sát của đối thủ và bộ chỉ số chung về riêng tư, chất lượng dịch
+vụ và chi phí. BR-Dummy là hướng tiếp cận sơ bộ dùng truy vấn giả có xét
+chuyển động và độ phủ địa điểm. Các thử nghiệm hiện có chủ yếu kiểm tra
+luồng đánh giá trên S1--S3; chưa đủ để xác lập mô hình cuối cùng hoặc ưu thế
+so với đối chứng. Cần chốt giao thức đánh giá trước khi tối ưu mô hình và
+đánh giá xác nhận trên dữ liệu chưa dùng để ra quyết định thiết kế.
+
+\section{Bài toán và mục tiêu bảo vệ}
+
+Người dùng cần tìm địa điểm gần mình nhưng không muốn nhà cung cấp dịch vụ
+biết chính xác vị trí, lịch sử di chuyển hoặc nhu cầu thật. Ví dụ, một chuyến
+đi từ nhà qua quán cà phê đến phòng khám có thể làm lộ nhiều thông tin dù tên
+người dùng đã được thay bằng bí danh.
+
+\begin{tabularx}{\linewidth}{@{}P{3.1cm}Y P{3.2cm}@{}}
+\toprule
+\textbf{Mục tiêu} & \textbf{Thông tin cần giữ riêng} & \textbf{Kịch bản trực tiếp}\\
+\midrule
+Vị trí và quỹ đạo & Đang ở đâu, dừng ở đâu, đã đi đường nào, xuất phát và kết thúc ở đâu. & S1--S3, S9--S10; thêm điều kiện S8.\\
+Danh tính & Các phiên có thuộc cùng người, cùng thiết bị hoặc hồ sơ nào không. & S4.\\
+Tuyến tiếp theo & Sắp đi cạnh đường nào và cuối cùng sẽ đến đâu. & S5--S6.\\
+Nội dung truy vấn & Thực sự đang tìm loại địa điểm, dịch vụ hoặc có ý định gì. & S7.\\
+\bottomrule
+\end{tabularx}
+
+\textbf{Mục tiêu} xác định thông tin cần giấu; \textbf{kịch bản} xác định
+hoàn cảnh đối thủ khai thác; \textbf{chỉ số} đo mức suy luận thành công.
+Chất lượng dịch vụ và chi phí là các yêu cầu đi kèm. Che tốt tọa độ không tự
+động che được danh tính hay nội dung truy vấn.
+
+Đối thủ cơ sở là nhà cung cấp dịch vụ vị trí (LSP): xử lý đúng yêu cầu nhưng
+có thể lưu và phân tích dữ liệu công bố. Đối thủ biết thuật toán, bản đồ và
+tham số công khai; dữ liệu nhiều phiên, hồ sơ và người đồng hành chỉ được
+cấp theo từng kịch bản. Vị trí thật và trạng thái bảo vệ nằm trên thiết bị.
+
+\section{Mười kịch bản}
+
+S1--S10 là cách tổ chức bài toán của nghiên cứu, không phải hệ phân loại
+chuẩn được lấy nguyên từ một paper. Một chuyến đi có thể được đánh giá theo nhiều kịch bản. Mỗi phép thử quy
+định riêng đoạn thời gian đối thủ được xem, thông tin họ biết thêm và thông
+tin riêng tư họ cần suy ra. Các phép thử dùng chung chuyến đi không phải
+những mẫu độc lập.
+
+\small
+\begin{longtable}{@{}P{1.0cm}P{3.8cm}P{10.8cm}@{}}
+\toprule
+\textbf{Mã} & \textbf{Câu hỏi của đối thủ} & \textbf{Cách khai thác và ví dụ}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Mã} & \textbf{Câu hỏi của đối thủ} & \textbf{Cách khai thác và ví dụ}\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+S1 & Ngay lúc gửi tin, người dùng ở đâu? & Xem một bản tin đã bảo vệ; dùng bản đồ và mức phổ biến để ưu tiên vị trí có khả năng là thật.\\
+S2 & Người dùng đang dừng ở đâu? & Gộp nhiều bản tin trong khoảng dừng. Mỗi lần riêng lẻ còn mơ hồ nhưng giao các dấu vết có thể làm lộ quán cà phê đang ngồi.\\
+S3 & Người dùng đã đi đường nào? & Nối bản tin theo thời gian, hướng và khả năng đi tới. Nhiều ứng viên ở từng thời điểm vẫn có thể chỉ tạo được một chuỗi hợp lý.\\
+S4 & Hai phiên có cùng người hoặc thiết bị không? & Liên kết mẫu di chuyển giữa các phiên. Cùng người đổi máy và khác người dùng chung máy phải có nhãn riêng.\\
+S5 & Cạnh đường kế tiếp là gì? & Dự đoán từ phần đường đã thấy trước khi người dùng đi tiếp. Đây là đoán cạnh kế tiếp, không phải tọa độ sau đúng 30 giây.\\
+S6 & Người dùng sẽ đến đâu? & Dùng tiền tố và lịch sử được cấp để đoán đích chưa tới; có thể đoán phòng khám dù chưa biết mọi ngã rẽ.\\
+S7 & Người dùng thực sự muốn tìm gì? & Đọc nội dung và chuỗi yêu cầu. Giấu vị trí nhưng liên tục tìm phòng khám, nhà thuốc vẫn có thể lộ nhu cầu.\\
+S8 & Dữ liệu người đi cùng tiết lộ gì? & Kết hợp dữ liệu mục tiêu với quan hệ/quan sát đồng hành. Người dùng che vị trí nhưng bạn đi cùng để lộ vị trí có thể làm giảm hiệu quả bảo vệ.\\
+S9 & Điểm xuất phát bị che nằm ở đâu? & Suy ngược từ phần công bố sau đoạn đầu bị ẩn. Xóa đoạn rời nhà chưa chắc ngăn được việc lần ngược về nhà.\\
+S10 & Điểm kết thúc bị che nằm ở đâu? & Chuyến đi đã xảy ra; suy điểm cuối từ phần công bố trước đoạn cuối bị ẩn. Khác S6, đây không phải dự đoán một đích chưa tới.\\
+\end{longtable}
+\normalsize
+
+\textbf{Phân biệt phần hành trình và thời điểm suy luận.}
+Với chuyến đã hoàn tất, S9 suy điểm đầu bị che; S1--S3 suy vị trí, điểm dừng
+hoặc đường đi từ phần công bố; S10 suy điểm cuối bị che. ``Được quan sát''
+là thấy bản tin đã bảo vệ, không đồng nghĩa biết vị trí thật. Khi chuyến
+còn diễn ra, S5--S6 dự đoán bước tiếp theo hoặc đích chưa tới. Vì vậy, S6
+hỏi ``sẽ đến đâu'', còn S10 hỏi ``đã đến đâu''. Đây không phải các giai đoạn
+tấn công bắt buộc nối tiếp nhau: đối thủ có thể đợi chuyến kết thúc mới suy
+ngược điểm xuất phát. S4 xét liên kết phiên, S7 xét nội dung, S8 xét thông
+tin từ người đồng hành; chúng không gắn với một đoạn thời gian riêng.
+
+\textbf{Cách đọc A/B/C.}
+Mỗi kịch bản có ba tình huống kiểm tra, ký hiệu A/B/C: tổng cộng 30 ca.
+Các chữ này không chỉ mức dễ--vừa--khó và không có cùng ý nghĩa giữa các
+kịch bản. Ví dụ, S3.C là bài toán suy đường đi trong điều kiện gửi thưa;
+S4.C là bài toán liên kết phiên khi hai người dùng chung thiết bị.
+Chia ca giúp kiểm tra điều kiện nào làm phòng thủ hiệu quả hoặc thất bại,
+thay vì chỉ báo một số trung bình cho cả kịch bản. Phủ đủ 30 ca không có
+nghĩa dữ liệu cân bằng hay mô hình đã bảo vệ được cả 30 ca.
+
+Các định nghĩa dưới đây theo \path{thesis/scenario_dataset_spec.tex}.
+\textbf{Ví dụ đời thường chỉ để minh họa}, không phải dữ liệu người thật:
+ngữ cảnh xuyên suốt là một sinh viên đi gặp giảng viên hướng dẫn lúc 15 giờ
+thứ Bảy, có thể ghé quán cà phê trước khi đến trường. Địa điểm và hoạt động
+được thay đổi khi cần minh họa loại rủi ro khác. Một ``cạnh đường'' là một
+đoạn nối trong bản đồ; ``tiền tố'' là phần đầu hành trình đã quan sát.
+
+\noindent\begin{minipage}{\linewidth}
+\subsection{S1: Vị trí tại một lần gửi}
+\begin{itemize}
+\item \textbf{A -- Nhiều hướng đi tiếp:} một lần gửi trên đoạn đường có ít
+nhất hai hướng nối tiếp hợp lệ.
+\item \textbf{B -- Chỉ một hướng đi tiếp:} một lần gửi trên đoạn chỉ có một
+hướng nối tiếp, để xét điều kiện bản đồ hạn chế lựa chọn.
+\item \textbf{C -- Gần loại địa điểm hiếm:} vị trí thật cách một địa điểm
+không quá 150 m; loại địa điểm đó chiếm không quá 5\% danh mục công khai.
+``Hiếm'' ở đây là ít địa điểm thuộc loại đó, không phải ít người ghé.
+\end{itemize}
+\textbf{Ví dụ.} Trên đường đến trường, sinh viên mở ứng dụng tìm cà phê.
+Đối thủ muốn biết ngay lúc gửi, xe thật ở đâu trong các vị trí công bố.
+Ba ca lần lượt đặt lần gửi ở đoạn nhiều lựa chọn, đoạn một hướng đi tiếp,
+và gần một loại địa điểm ít xuất hiện trong danh mục.
+\end{minipage}\par\medskip
+
+\noindent\begin{minipage}{\linewidth}
+\subsection{S2: Điểm dừng qua nhiều lần gửi}
+\begin{itemize}
+\item \textbf{A -- Dừng ngắn:} dừng có chủ đích ít nhất 20 giây, gửi mỗi 5 giây.
+\item \textbf{B -- Dừng dài:} dừng có chủ đích ít nhất 120 giây, gửi mỗi 20 giây.
+\item \textbf{C -- Dừng lại lần nữa:} hai lần dừng trên cùng làn, mỗi lần ít
+nhất 20 giây; giữa hai lần phải thực sự di chuyển.
+\end{itemize}
+\textbf{Ví dụ.} Sinh viên dừng mua cà phê trước buổi hẹn: lấy nhanh, ngồi
+chờ lâu, hoặc rời đi rồi quay lại dừng trên cùng làn. Đối thủ gộp các lần
+gửi để suy nơi dừng thật. Các vị trí giả thay đổi qua mỗi lần gửi vẫn có
+thể để lộ một khu vực ổn định quanh quán.
+\end{minipage}\par\medskip
+
+\noindent\begin{minipage}{\linewidth}
+\subsection{S3: Đường đã đi}
+\begin{itemize}
+\item \textbf{A -- Chạy qua nhiều đoạn:} di chuyển liên tục ít nhất 60 giây
+qua ít nhất ba cạnh đường; gửi mỗi 20 giây.
+\item \textbf{B -- Hành lang ít lựa chọn:} ít nhất một nửa số cạnh được lấy
+mẫu chỉ có một hướng đi tiếp. Điều này không có nghĩa cả tuyến không thể rẽ.
+\item \textbf{C -- Gửi thưa:} lấy mẫu đoạn chạy mỗi 60 giây, thay vì mỗi 20 giây.
+\end{itemize}
+\textbf{Ví dụ.} Sinh viên đi từ quán đến trường qua nhiều con phố. Đối thủ
+muốn nối các quan sát thành đường đã đi. Ca B kiểm tra khi bản đồ giúp thu
+hẹp tuyến; ca C kiểm tra khi có khoảng trống lớn giữa các lần gửi. Ít bản
+tin hơn không tự động bảo đảm riêng tư tốt hơn hoặc chất lượng dịch vụ tốt hơn.
+\end{minipage}\par\medskip
+
+\noindent\begin{minipage}{\linewidth}
+\subsection{S4: Liên kết người và thiết bị giữa các phiên}
+\begin{itemize}
+\item \textbf{A -- Cùng người, cùng thiết bị:} hai phiên không chồng lấn,
+thuộc cùng người và cùng thiết bị.
+\item \textbf{B -- Cùng người, đổi thiết bị:} đáp án ``cùng người'' là đúng,
+nhưng ``cùng thiết bị'' là sai.
+\item \textbf{C -- Khác người, chung thiết bị:} hai người lần lượt dùng một
+thiết bị; đáp án ngược với B. Tuyến giống nhau tạo đối chứng khó.
+\end{itemize}
+\textbf{Ví dụ.} Sinh viên thường đến gặp giảng viên lúc 15 giờ thứ Bảy.
+A là hai lần đi bằng cùng điện thoại; B là lần sau đổi điện thoại; C là cho
+bạn mượn điện thoại và người bạn cũng đi tuyến tương tự. Đối thủ phải phân
+biệt dấu vết của người với dấu vết của thiết bị, thay vì ghép mọi phiên
+trên một máy thành một người.
+
+S4 kiểm tra khả năng nối phiên, chưa yêu cầu biết tên thật. Nếu có thêm
+thông tin một phiên thuộc sinh viên nào, liên kết có thể giúp gắn các phiên
+khác với người đó; bước nhận diện tên không phải nhãn đánh giá S4 hiện tại.
+Lịch hẹn lặp lại là dấu hiệu có thể khai thác, không phải bằng chứng chắc chắn.
+\end{minipage}\par\medskip
+
+\noindent\begin{minipage}{\linewidth}
+\subsection{S5: Cạnh đường tiếp theo}
+\begin{itemize}
+\item \textbf{A -- Có lựa chọn rẽ:} chỉ xem phần đường trước lượt rẽ có ít
+nhất hai lựa chọn; dự đoán cạnh thực sự được đi vào tiếp theo.
+\item \textbf{B -- Chỉ một lựa chọn:} lượt chuyển chỉ có một hướng hợp lệ;
+làm đối chứng cho thông tin vốn suy được từ bản đồ.
+\item \textbf{C -- Cùng đoạn đầu, khác bước tiếp:} hai tuyến chung phần đầu
+nhưng đi vào hai cạnh khác nhau; kiểm tra cả hai chuyển tiếp thực tế.
+\end{itemize}
+\textbf{Ví dụ.} Trước ngã ba, sinh viên có thể rẽ phải về trường hoặc đi
+thẳng đến cửa hàng. A yêu cầu đoán hướng thật; B đặt xe ở chỗ chỉ có một
+hướng hợp lệ; C dùng hai chuyến giống nhau đến ngã ba nhưng sau đó chọn
+hai hướng khác nhau. Đối thủ không cần biết tên người lái để dự đoán bước đi.
+Nếu chỉ có bản đồ, dự đoán ở A/C có thể rất yếu; B giúp nhận ra kết quả cao
+chỉ vì không có lựa chọn khác. Đoạn tương lai chỉ dùng làm đáp án.
+\end{minipage}\par\medskip
+
+\noindent\begin{minipage}{\linewidth}
+\subsection{S6: Đích đến chưa tới}
+\begin{itemize}
+\item \textbf{A -- Cùng đoạn đầu, khác đích:} hai chuyến có phần đầu chung
+nhưng kết thúc ở hai nơi khác nhau; chỉ cho xem phần trước khi rẽ tách.
+\item \textbf{B -- Hai đích gần nhau:} như A, nhưng hai vị trí kết thúc
+trong dữ liệu mô phỏng cách nhau không quá 500 m.
+\item \textbf{C -- Đích quen và đích hiếm:} cấp sáu chuyến lịch sử đã hoàn
+tất, năm tới đích thường xuyên và một tới đích hiếm. Với phiên ngày 7/8,
+chỉ cấp phần đầu để đoán đích; mỗi bản ghi gồm sáu phiên lịch sử và một
+phiên hiện tại.
+\end{itemize}
+\textbf{Ví dụ.} Hai chuyến đi cùng đường lớn, nhưng một chuyến đến trường,
+chuyến kia đến cửa hàng (A); nếu cửa hàng cách điểm đến ở trường không quá
+500 m thì minh họa B. Với C, hình dung năm chuyến trước đến trường, một
+chuyến đến nơi khác: đối thủ dùng lịch sử được cấp để đoán chuyến hiện tại.
+Đây là cấu trúc lịch sử minh họa, không phải dữ liệu lịch hẹn thứ Bảy thật.
+
+Không mặc định đối thủ biết lịch sử của mọi phương tiện. C cấp lịch sử
+liên quan theo thiết kế phép thử, không giả định việc liên kết đó tự nhiên
+luôn thành công. Với A/B, phần đầu giống nhau có thể chưa đủ để phân biệt
+đích. Cần báo thời điểm dự đoán và so với cách đoán đơn giản theo thông tin
+nền; dự đoán kém trên cả dữ liệu gốc chưa chứng minh phòng thủ hiệu quả.
+\end{minipage}\par\medskip
+
+\noindent\begin{minipage}{\linewidth}
+\subsection{S7: Nhu cầu thật trong truy vấn}
+\begin{itemize}
+\item \textbf{A -- Gửi nguyên nội dung:} truy vấn nguyên văn của ba ý định
+khám bệnh, mua sắm và đi đường dài; làm đối chứng rò nội dung.
+\item \textbf{B -- Trộn loại truy vấn:} mỗi truy vấn thật nằm trong nhóm
+cố định sáu loại. Đây là chính sách tham chiếu, chưa phải đầu ra BR-Dummy.
+\item \textbf{C -- Cùng truy vấn đầu, khác chuỗi sau:} ba ý định bắt đầu
+bằng cùng một truy vấn nhưng có các yêu cầu tiếp theo khác nhau.
+\end{itemize}
+\textbf{Ví dụ.} Thay buổi hẹn ở trường bằng một chuyến đi khám: ứng dụng
+liên tục tìm phòng khám rồi nhà thuốc. A để lộ trực tiếp nội dung; B trộn
+truy vấn thật với các loại khác; C kiểm tra liệu chuỗi yêu cầu có làm lộ
+ý định dù yêu cầu đầu giống nhau. Các chuỗi ý định hiện là mẫu tổng hợp
+viết tay, chưa đại diện hành vi tìm kiếm thực tế.
+\end{minipage}\par\medskip
+
+\noindent\begin{minipage}{\linewidth}
+\subsection{S8: Thông tin từ người đi cùng}
+\begin{itemize}
+\item \textbf{A -- Đi cùng rồi tách:} hai xe cách nhau không quá 100 m
+trong ít nhất 10 giây liên tục và có lúc tách xa hơn.
+\item \textbf{B -- Chung tuyến:} ít nhất 80\% thời điểm cả hai cùng xuất
+hiện có khoảng cách không quá 100 m; có ít nhất 10 giây liên tục ở gần.
+\item \textbf{C -- Tình cờ ở gần:} không được gán quan hệ đồng hành nhưng
+ở gần trong 100 m ít nhất 10 giây; làm đối chứng âm.
+\end{itemize}
+\textbf{Ví dụ.} Hai sinh viên đi hai xe đến trường: đi chung một đoạn rồi
+tách (A), đi gần nhau phần lớn hành trình (B), hoặc một xe lạ chỉ tình cờ
+đi cạnh xe mục tiêu (C). Nếu được cấp dấu vết người đồng hành, đối thủ có
+thể dùng nó để thu hẹp vị trí mục tiêu. Việc ở gần không tự chứng minh có
+quan hệ; quyền xem dữ liệu xe còn lại phải được quy định trong phép thử.
+\end{minipage}\par\medskip
+
+\noindent\begin{minipage}{\linewidth}
+\subsection{S9: Điểm xuất phát bị che}
+\begin{itemize}
+\item \textbf{A -- Điểm đầu có một lối ra:} cạnh xuất phát chỉ có một lối
+ra; che 60 giây đầu, giữ phần còn lại với chu kỳ 20 giây.
+\item \textbf{B -- Khác điểm đầu, nhập tuyến chung:} chỉ cấp dữ liệu từ
+chỗ hai tuyến nhập vào nhau trở đi.
+\item \textbf{C -- Lặp điểm xuất phát:} nhiều chuyến có cùng điểm xuất
+phát dự kiến; che 60 giây đầu mỗi chuyến.
+\end{itemize}
+\textbf{Ví dụ.} Sinh viên ẩn đoạn rời nhà. A xét đường ra chỉ có một lối;
+B xét hai ngôi nhà có đường ra nhập vào cùng phố; C xét nhiều lần xuất
+phát từ cùng nhà. Đối thủ muốn suy ngược nơi bắt đầu từ phần còn nhìn thấy,
+có thể sau khi chuyến đi đã kết thúc.
+\end{minipage}\par\medskip
+
+\noindent\begin{minipage}{\linewidth}
+\subsection{S10: Điểm kết thúc bị che}
+\begin{itemize}
+\item \textbf{A -- Điểm cuối có một lối vào:} cạnh kết thúc chỉ có một
+lối vào; che 60 giây cuối của chuyến đã hoàn tất.
+\item \textbf{B -- Chung đoạn đầu, khác điểm cuối:} chỉ cấp phần trước
+khi hai tuyến tách; phần cuối được giữ riêng làm đáp án.
+\item \textbf{C -- Lặp điểm kết thúc:} nhiều chuyến có cùng đích dự kiến;
+che 60 giây cuối mỗi chuyến.
+\end{itemize}
+\textbf{Ví dụ.} Sinh viên đã đến trường nhưng ẩn đoạn cuối trước khi chia
+sẻ chuyến đi. A xét đích chỉ có một lối vào; B xét hai chuyến có phần công
+bố giống nhau nhưng một chuyến kết thúc ở trường, một ở nơi khác; C xét
+nhiều lần tới cùng đích. Đối thủ suy nơi đã đến, khác với dự đoán trước khi
+đến ở S6.
+
+Với S9/S10, đáp án thực tế là vị trí đầu/cuối được ghi trong dữ liệu mô
+phỏng, chưa mang nhãn ``nhà'' hay ``trường''. Che 60 giây là mặt nạ theo
+thời gian, không đồng nghĩa che một vùng địa lý có bán kính cố định.
+\end{minipage}\par\medskip
+
+\section{Nghiên cứu bảo vệ tương ứng}
+
+Ánh xạ dưới đây dựa trên mục tiêu và cơ chế; không khẳng định các paper đã
+được kiểm thử trên các kịch bản SUMO của nghiên cứu này.
+
+\begin{description}[style=nextline,leftmargin=0pt,font=\normalfont\bfseries]
+\item[S1: DLS / enhanced-DLS, Niu và cộng sự (2014) \cite{dls}.]
+Chọn dummy có xác suất truy vấn gần vị trí thật để tránh một ứng viên quá
+nổi bật. Bản enhanced tăng phân tán không gian. Tương tự giấu một vật giữa
+những vật có vẻ ngoài giống nhau: số lượng ứng viên không đủ nếu phần lớn
+có thể bị loại ngay. Bài phù hợp đối chứng một lần gửi, chưa chứng minh
+bảo vệ chuỗi dài.
+
+\item[S2: ASA, Sun và cộng sự (2017) \cite{asa}.]
+Tổ chức bí danh và phân bố dummy theo vùng để chống thống kê lịch sử;
+các vùng cần bảo vệ cao được chọn làm dummy thường xuyên hơn. Mục tiêu là
+không để quy luật thật nổi lên qua nhiều truy vấn. Cơ chế liên quan S2 nhưng
+không trùng nguyên phép thử dừng hoặc quay lại của nghiên cứu này.
+
+\item[S3: bốn hướng chống tái dựng chuỗi.]
+\textbf{RDG} của Shaham và cộng sự (2021) sinh dummy chống đối thủ Viterbi,
+vốn tìm chuỗi vị trí có khả năng cao nhất \cite{rdg}.
+\textbf{TransProtect} của Yadav và cộng sự (2024) chọn vị trí thay thế hợp
+mạng đường và lịch sử chuyển động \cite{tp}.
+\textbf{Semantic correlation} của Liu, Peng và Zhou (2026) dùng LSTM và
+attention để chọn dummy hợp thời gian và loại địa điểm \cite{sc}.
+\textbf{Fake-query insertion} của Liu, Hu và Zhou (2026) chèn bản tin chỉ
+có dummy giữa truy vấn thật để làm khó nối đường \cite{fq}.
+Các hướng lần lượt xử lý xác suất chuỗi, ngữ cảnh đường, ngữ nghĩa và lịch công bố.
+
+\item[S4: Mix Zones, Beresford và Stajano (2004) \cite{mix}.]
+Người dùng đổi bí danh trong vùng không theo dõi được chuyển động; nhiều
+người cùng đi qua làm khó ghép dấu vết trước và sau. Giống nhiều người vào
+phòng kín, đổi áo rồi đi ra. Cần điều kiện vùng trộn phù hợp; không che được
+liên kết nếu vẫn gửi cùng ID tài khoản.
+
+\item[S5: cơ chế xét cả tương lai, Theodorakopoulos và cộng sự (2014) \cite{future}.]
+Tối ưu công bố theo mô hình di chuyển, chất lượng dịch vụ và đối thủ biết
+cơ chế; tính đến tương quan giữa quá khứ, hiện tại và tương lai. Một vị trí
+hiện tại có thể tiết lộ nơi sắp đến qua thói quen. Tác vụ gốc rộng hơn phép
+đoán cạnh kế tiếp của S5.
+
+\item[S6: CkiDel, Xue và cộng sự (2017) \cite{dest}.]
+Mô hình DesPre dự đoán đích từ check-in và thông tin phụ trợ; CkiDel xóa có
+chọn lọc check-in lịch sử để giảm khả năng dự đoán. Ý tưởng là bỏ các dấu
+vết làm lộ quy luật. Đúng mục tiêu giấu đích nhưng khác sinh dummy xe trực tuyến.
+
+\item[S7: chuỗi truy vấn giả, Wu và cộng sự (2021) \cite{query}.]
+Tạo các chuỗi giả che cả vị trí và thuộc tính truy vấn, với ràng buộc về
+tương đồng đặc trưng và mức lộ thông tin. Khác với chỉ làm giả tọa độ,
+cơ chế phải làm nhu cầu thật khó nhận ra giữa các nhu cầu có vẻ hợp lý.
+Diễn giải dựa trên abstract; chưa đủ toàn văn để tái lập.
+
+\item[S8: phối hợp bảo vệ, Olteanu và cộng sự (2017) \cite{co}.]
+Ngoài phân tích rủi ro đồng vị trí, bài đề xuất người ở cùng nhau gửi cùng
+vị trí đã làm mờ, hoặc làm thô thời gian/thông tin người trong khai báo
+đồng vị trí. Hai gợi ý độc lập có thể bị lấy giao để thu hẹp vị trí; phối
+hợp giúp hạn chế điều đó. Cần giả định phối hợp và quan sát phù hợp;
+chưa có bản dummy đối chứng đúng S8 được xác minh trong dự án.
+
+\item[S9--S10: bảo vệ hai đầu, Dhondt và cộng sự (2022) \cite{end}.]
+Bài chỉ ra vùng che đầu/cuối (EPZ) vẫn có thể lộ vị trí qua mạng đường,
+điểm vào vùng che và metadata quãng đường; đề xuất sáu biện pháp bổ sung,
+gồm làm thô quãng đường. Che đoạn đầu nhưng giữ tổng độ dài có thể giúp
+đối thủ tính phần bị thiếu. Phép che 60 giây của xe đô thị chưa tái lập EPZ.
+\end{description}
+
+\section{Đối chứng trực tiếp và chỉ số gốc}
+
+Bộ ưu tiên gồm TransProtect, semantic correlation và fake-query insertion;
+DLS/enhanced-DLS và RDG làm đối chứng nền. AnotherMe \cite{am} bổ sung
+góc nhìn quỹ đạo ảo: ánh xạ địa điểm, định tuyến và mô phỏng chuyển động
+bằng VTGA. Đây là lựa chọn theo cơ chế, không phải xếp hạng phương pháp mạnh nhất.
+
+\subsection{TransProtect: sai số suy luận và chi phí hành trình}
+
+GCN học mạng đường, Transformer học lịch sử; cơ chế xếp hạng ứng viên theo
+khả năng xuất hiện và tổn thất dịch vụ, rồi công bố một vị trí thay thế.
+Chỉ số gốc gồm \textbf{EIE} (sai số suy luận kỳ vọng, km, \up) và
+\textbf{sai lệch chi phí hành trình} (\down):
+\[
+\Delta c(x,y)=\sum_p\pi(p)\,|c(x,p)-c(y,p)|.
+\]
+$x$ là vị trí thật, $y$ là vị trí thay thế, $p$ là đích dịch vụ và $\pi(p)$
+là trọng số. Nếu $c$ đo thời gian đi trên đường thì $\Delta c$ cũng theo
+đơn vị thời gian. Nó đo mức sai lệch khi dùng điểm thay thế để tính chi phí
+tới đích, không đo tỷ lệ lấy lại đúng địa điểm.
+
+\textbf{Lựa chọn:} giữ EIE và $\Delta c$ trong kiểm tra tái lập. Bảng chung
+chấm lỗi định vị và chất lượng POI. MAE của một dự đoán điểm không mặc nhiên
+bằng EIE theo định nghĩa của paper.
+
+\subsection{Semantic correlation: ASR, DER và thời gian sinh}
+
+Phương pháp gửi vị trí thật cùng $K-1$ dummy được chọn theo tương quan
+thời gian--ngữ nghĩa.
+\begin{itemize}
+\item \textbf{ASR \up:} tỷ lệ truy vấn đạt điều kiện ẩn danh, gắn với xác suất
+nhận diện vị trí thật không vượt $1/K$. Phải có mô hình xác suất cụ thể;
+sinh đủ $K$ điểm không chứng minh điều kiện này.
+\item \textbf{DER \up:} hiệu quả dummy. Paper có cả biểu diễn trung bình độ
+tương đồng và diễn giải tỷ lệ dummy đạt ngưỡng. Cần xác định hàm tương đồng,
+ngưỡng và mẫu số trước khi hiện thực.
+\item \textbf{Độ trễ sinh \down:} thời gian tạo tập dummy, tách huấn luyện.
+MSE hoặc accuracy dự đoán ngữ nghĩa chỉ là chỉ số mô hình học.
+\end{itemize}
+
+\textbf{Lựa chọn:} giữ ASR/DER để đối chiếu bài gốc khi đủ định nghĩa thực thi.
+Chấm chung bằng đối thủ suy luận vị trí, không đổi tên Hit thành ASR.
+Dummy hợp ngữ nghĩa không bảo đảm trả đúng POI hoặc che nội dung truy vấn.
+
+\subsection{Fake queries: khó nối đường và chi phí công bố}
+
+Chỉ số gốc gồm \textbf{số đường nối khó phân biệt \up}, \textbf{ASR \up}
+dưới các tấn công tương quan/khả năng tới/ngữ nghĩa, cùng độ trễ, thời gian
+và bộ nhớ thiết bị. Nhiều đường nối giữa hai lần gửi không có nghĩa nhiều
+quỹ đạo toàn cục có xác suất bằng nhau. ASR ở hai paper khác nhau cần được
+đối chiếu định nghĩa, không chỉ tên gọi.
+
+\textbf{Lựa chọn:} chấm vị trí thật tại các thời điểm mục tiêu, cho đối thủ
+thấy toàn bộ luồng công bố nhưng không thấy nhãn bản tin giả. Tính mọi truy
+vấn chèn thêm: bảo vệ tốt hơn nhờ gửi nhiều hơn phải đi cùng chi phí đó.
+
+\subsection{DLS và RDG: entropy của ứng viên và chuyển tiếp}
+
+DLS dùng \textbf{entropy} $H=-\sum_i p_i\log_2p_i$ (bit, \up);
+enhanced-DLS bổ sung vùng che phủ/độ phân tán. RDG xét thêm
+\textbf{entropy chuyển tiếp} và chống nối chuỗi bằng Viterbi.
+Các phép đo mô tả mức bất định của phân bố được chọn, nhưng không trực tiếp
+cho biết đối thủ đoán lệch bao nhiêu mét. Nhiều ứng viên trong một vùng rất
+nhỏ vẫn có thể làm lộ vị trí gần đúng.
+
+\textbf{Lựa chọn:} giữ các chỉ số này làm chẩn đoán và kiểm tra tái lập;
+đánh giá hiệu quả bằng cùng nhiệm vụ suy luận và dịch vụ POI.
+
+\subsection{AnotherMe: phân biệt thật/ảo}
+
+Một nhánh đánh giá hỏi bộ phát hiện có nhận ra quỹ đạo giả hay không;
+nguồn đã khảo sát còn đề cập đáp ứng và pin. Nhận ra ``đây là quỹ đạo giả''
+khác với biết người thật ở đâu. Accuracy ngẫu nhiên chỉ là 50\% khi hai lớp
+cân bằng. Cần biết cách chia người/chuyến, tỷ lệ lớp và bộ phát hiện.
+
+\textbf{Lựa chọn:} giữ phép phân biệt thật/ảo như nhánh bổ sung; dùng suy
+ngược vị trí cho so sánh chính. Chưa đủ toàn văn/protocol để gán chính xác
+AUC, F1 hoặc mẫu số của bài. Adapter xử lý toàn hành trình phải tách khỏi
+phép thử trực tuyến chỉ biết quá khứ.
+
+\subsection{Mức độ hiện thực đối chứng}
+
+\small
+\begin{tabularx}{\linewidth}{@{}P{3.2cm}Y@{}}
+\toprule
+\textbf{Phương pháp} & \textbf{Trạng thái trong vòng báo cáo}\\
+\midrule
+TransProtect & Có lõi và kiến trúc học tùy chọn; benchmark cũ dùng Markov proxy. Thiếu cấu hình/weights gốc và kiểm chứng đối thủ tương đương paper.\\
+Semantic correlation & Có adapter SUMO/OSM; dùng tần suất và loại đường thay LSTM/POI gốc. Thiếu dữ liệu AMap, weights và một số định nghĩa thực thi.\\
+AnotherMe & Có VTGA thích nghi; chưa tái lập toàn hệ thống, protocol phát hiện và chi phí điện thoại.\\
+DLS/enhanced-DLS & Có bản thích nghi trên đường với thống kê mô phỏng; khác miền và nguồn thống kê gốc.\\
+RDG; fake queries & Đã chọn vào thiết kế; chưa có lượt đối chiếu trên tập mới.\\
+\bottomrule
+\end{tabularx}
+\normalsize
+
+Ba adapter TransProtect, semantic correlation và AnotherMe vẫn là
+\texttt{paper\_adaptation}. Có mã chưa đồng nghĩa tái lập được kết quả gốc.
+Chưa có phương pháp đối chứng ngoài nào được chấm trên tập xác nhận mới
+trong vòng này.
+
+\section{Từ chỉ số gốc đến bộ đo chung}
+
+\subsection{Nguyên tắc lựa chọn}
+
+Không có phép đổi đơn vị biến entropy, ASR và sai số tọa độ thành cùng một
+đại lượng. Giao thức giữ \textbf{hai lớp đánh giá}: chỉ số gốc để kiểm tra
+tái lập; bộ đo chung để so sánh trên tác vụ xe đô thị tìm POI.
+
+Đầu ra có thể là một điểm thay thế, tập chứa thật hoặc tập không bắt buộc
+chứa thật. Vì vậy, thống nhất \emph{đáp án cần suy luận} thay vì buộc đối thủ
+luôn chọn một thành viên của tập. Với BR-Dummy, vị trí thật có thể không
+nằm trong các điểm công bố.
+
+\subsection{Riêng tư: đo suy luận của đối thủ}
+
+Với vị trí thật $x_i$ và dự đoán $\widehat x_i$ của đối thủ:
+\[
+\operatorname{MAE}=\frac1n\sum_i d_E(x_i,\widehat x_i),\qquad
+\operatorname{Hit}_r=\frac1n\sum_i\mathbf1[d_E(x_i,\widehat x_i)\le r].
+\]
+\textbf{MAE \up} đo độ lệch trung bình theo mét; \textbf{Hit100 \down} đo
+tần suất vẫn đoán trong 100 m. Đây là khoảng cách từ \emph{dự đoán} tới vị
+trí thật, không phải khoảng cách từ dummy tới vị trí thật. Trung vị và phân
+vị 90 bổ sung phân bố sai số; Hit50/Hit200 kiểm tra độ nhạy.
+
+Một đối thủ có thể thường đoán rất xa nhưng đôi lúc trúng sát mục tiêu.
+Vì thế MAE lớn chưa đủ; cần xem cả số lần đoán gần. Các bán kính trên là lựa
+chọn của thực nghiệm, không phải chuẩn phổ quát.
+
+\begin{tabularx}{\linewidth}{@{}P{2.6cm}Y@{}}
+\toprule
+\textbf{Kịch bản} & \textbf{Đầu suy luận cần đánh giá}\\
+\midrule
+S1--S3 & MAE/Hit theo thời điểm và cửa sổ; tổng hợp theo ca/chuyến để không ưu tiên chuyến dài.\\
+S4 & Accuracy nhận diện hoặc F1 liên kết phiên; chấm người và thiết bị riêng.\\
+S5--S6 & Accuracy cạnh kế tiếp; accuracy đích hoặc sai số tới đích, với cùng tiền tố quan sát.\\
+S7 & Macro-F1 ý định; phân biệt lộ nội dung trực tiếp và suy luận.\\
+S8 & Thay đổi MAE/Hit khi bật/tắt dữ liệu đồng hành, giữ các điều kiện khác.\\
+S9--S10 & MAE/Hit của một điểm đầu/cuối mỗi chuyến, theo đúng phần bị che.\\
+\bottomrule
+\end{tabularx}
+
+Ngoài mức thành công tuyệt đối, cần so với đối thủ chỉ có thông tin phụ trợ:
+\[
+\Delta S=S(\text{dữ liệu công bố, phụ trợ})-S(\text{phụ trợ}).
+\]
+Nếu đường chỉ có một lối đi, đối thủ vốn đã dễ đoán. Phép so này tách mức
+lộ thêm do công bố khỏi khả năng đoán từ kiến thức ban đầu. Không cộng các
+đầu suy luận thành một điểm riêng tư tổng.
+
+\subsection{Chất lượng và chi phí}
+
+\textbf{Recall@5 \up} là tỷ lệ địa điểm trong top-5 tham chiếu tại vị trí
+thật vẫn lấy được sau bảo vệ. Cần $\{A,B,C,D,E\}$ nhưng nhận
+$\{A,B,C,D,F\}$ thì Recall bằng 80\%. \textbf{Tỷ lệ trả đủ} đo số lượng
+kết quả; đủ năm địa điểm chưa có nghĩa đúng năm địa điểm.
+
+\textbf{Khoảng cách đường đi thêm \down} so khoảng cách đường trung bình
+từ vị trí thật tới tập trả về với tập tham chiếu. Chỉ tính các truy vấn
+trả đủ và báo kèm mẫu số; không cho kết quả rỗng tổn thất bằng 0. Đây là
+chi phí của tập địa điểm, không phải hành trình thực người dùng đã chọn.
+
+Chi phí gồm số bản tin, truy vấn loại--tọa độ, tọa độ công bố/phân biệt,
+byte yêu cầu/phản hồi và thời gian sinh p50/p95. Huấn luyện, chuẩn bị và xử
+lý trực tuyến tách riêng; pin cần thí nghiệm thiết bị. Tính hợp lệ trên
+đường được kiểm tra riêng, không thay thế phép đo riêng tư.
+
+\textbf{Ba ký hiệu khác nhau:} $K$ là số điểm công bố; $k=5$ là số POI ứng
+dụng cần; $L$ là số POI máy chủ trả cho mỗi truy vấn. Tăng $L$ từ 5 lên 10
+vẫn chấm Recall@5. $K$ ứng viên nội bộ của TransProtect không phải số điểm
+nó công bố: đầu ra của phương pháp đó vẫn là một điểm.
+
+\subsection{Quy tắc chọn và phạm vi đã đo}
+
+Trên tập chọn, Recall@5 trung bình của \textbf{từng ca con} phải đạt ít
+nhất 90\%; sau đó mới chọn cấu hình có Hit100 cực trị trung bình thấp nhất
+trong bộ đối thủ thử. Nếu không ứng viên nào đạt, kết luận là
+\emph{chưa có cấu hình khả thi trong lưới đã thử}, không phải bài toán bất khả thi.
+
+Vòng mới có MAE, Hit100 đã chọn/cực trị, Recall@5, tỷ lệ trả đủ, số truy vấn,
+mục phản hồi và byte mã POI. Bảng median/p90, Hit50/200, toàn bộ HTTP, pin,
+độ trễ điện thoại và các đầu suy luận S4--S10 chưa được trình bày như kết
+quả của vòng này. Bộ đo được đặc tả rộng hơn phần thực nghiệm đã hoàn tất.
+
+\section{Hướng tiếp cận dự kiến}
+
+BR-Dummy hiện là nguyên mẫu để thăm dò hướng bảo vệ bằng truy vấn giả.
+Ý tưởng là chọn các vị trí công bố có xét khả năng di chuyển trên mạng
+đường, đồng thời giữ được các địa điểm người dùng cần trong kết quả dịch
+vụ. Thiết bị nhận, gộp và lọc kết quả để phục vụ người dùng. Giả thuyết cần
+kiểm chứng là chọn tập truy vấn theo ích lợi của cả tập có thể tạo đánh
+đổi tốt hơn giữa riêng tư, chất lượng và chi phí.
+
+\textbf{Thiết kế mô hình chưa được chốt.} Các lựa chọn về biểu diễn chuyển
+động, tạo dummy và tối ưu tập truy vấn sẽ được đánh giá sau khi ổn định
+dataset và metrics. Phạm vi cuối cùng vẫn là S1--S10; hướng truy vấn giả
+hiện tại chưa đủ cơ sở để khẳng định xử lý mọi mục tiêu. Những phần như
+liên kết phiên, nội dung truy vấn và che biên hành trình có thể cần cơ chế
+bổ sung phù hợp với từng phép thử.
+
+\section{Thực nghiệm thăm dò và phạm vi bằng chứng}
+
+Đã có luồng mô phỏng SUMO/OSM, sinh bản ghi kịch bản, truy vấn POI và chấm
+một số đối thủ. Phiên bản dữ liệu đang khảo sát có 12 nhóm tuyến, 264 chuyến
+hoàn tất và 393 bản ghi, phủ 30 ca con S1--S10. Một chuyến có thể tạo nhiều
+bản ghi; các ca chưa cân bằng và nhãn mở rộng là tổng hợp. Đây là cơ sở
+để rà soát thiết kế dữ liệu, chưa phải bộ đánh giá cuối cùng đã chốt.
+
+Các phép thử đã lưu so sánh một số biến thể nội bộ trên S1--S3, nhằm kiểm
+tra luồng đánh giá và phát hiện các đánh đổi giữa riêng tư, độ phủ POI và
+chi phí. Chưa cấu hình nào đạt đầy đủ quy tắc chọn của vòng đã chạy; chưa
+có đối chứng ngoài trên tập xác nhận mới của vòng đó, cũng chưa có bằng
+chứng bảo vệ S4--S10. Báo cáo này không dùng các kết quả thăm dò để lựa
+chọn kiến trúc cuối cùng hoặc tuyên bố ưu thế của phương pháp.
+
+Chi tiết cấu hình và số liệu được giữ trong hồ sơ thực nghiệm để truy
+vết, không trình bày thành bảng xếp hạng mô hình ở giai đoạn này. Dữ liệu
+đã xem kết quả có thể tiếp tục phục vụ phát triển, nhưng không còn là
+kiểm thử độc lập cho các thay đổi được quyết định từ chính kết quả đó.
+
+\section{Ưu tiên chốt khung đánh giá}
+
+Trình tự tiếp theo là \textbf{chốt dataset và giao thức đo, rồi mới phát
+triển và so sánh mô hình trên khung đã khóa}. Các định nghĩa metrics ở
+trên là đề xuất hiện tại cần rà soát, không phải bộ tiêu chí bất biến đã
+được xác nhận. Những điểm cần thống nhất gồm:
+\begin{enumerate}
+\item \textbf{Dataset:} định nghĩa và nhãn của 30 ca; đoạn được quan sát,
+dữ liệu phụ trợ và đáp án bị giữ kín; đơn vị mẫu, độ phủ và cách xử lý
+các bản ghi liên quan hoặc chồng lặp.
+\item \textbf{Metrics và quy tắc chọn:} công thức, mẫu số, cách tổng hợp
+qua ca/chuyến, ngưỡng chất lượng và ngân sách so sánh. Xác định trước
+chỉ số chính và chỉ số bổ sung; không thay tiêu chí theo mô hình đang có lợi.
+\item \textbf{Giao thức thực nghiệm:} tách dữ liệu học, chọn và kiểm thử;
+quy định cách chọn đối thủ, đối chứng và điều kiện thông tin tương đương.
+Ghi phiên bản dữ liệu, bộ đo và các quyết định trước khi đánh giá cuối.
+\item \textbf{Phát triển mô hình:} sau khi khóa khung, tối ưu trên dữ liệu
+phát triển, kiểm tra đóng góp thành phần và đối chiếu với các phương pháp
+đã chọn. Dùng tập kiểm thử chưa tham gia quyết định thiết kế để xác nhận.
+\end{enumerate}
+
+\textbf{Tránh thích nghi theo kết quả đánh giá.} Sửa dataset hoặc metrics
+để khắc phục lỗi không tự nó là overfitting. Rủi ro phát sinh khi xem kết
+quả rồi liên tục đổi ca, ngưỡng hoặc cách tính để mô hình hiện tại có lợi;
+khi đó thiết kế có thể khớp với bộ đánh giá mà không tổng quát tốt. Nếu cần
+sửa giao thức sau khi đã xem kết quả, phải ghi rõ lý do, tạo phiên bản mới,
+chấm lại các đối chứng chịu ảnh hưởng và dành dữ liệu xác nhận mới cho
+kết luận tiếp theo. Không hạ ngưỡng chỉ để một cấu hình vượt qua.
+
+\section*{Nguồn số liệu và phạm vi tài liệu}
+
+Bản này dùng các báo cáo ngày 11/09 và 18/09 làm hồ sơ nền; không chạy
+lại thí nghiệm. Chi tiết kết quả thăm dò được lưu tại
+\href{../../../artifacts/benchmarks/fresh_switching/readout.json}{\texttt{fresh\_switching/readout.json}}
+và \href{../../../artifacts/benchmarks/fresh_switching/selection.json}{\texttt{selection.json}}.
+Định nghĩa bộ đo ở \path{thesis/metrics_consolidation.tex}; protocol ở
+\path{thesis/notes/fresh_switching_protocol.md}; hồ sơ tái lập ở
+\path{docs/reproduction/}. Các ví dụ trong nội dung chỉ nhằm giải thích.
+
+\begin{thebibliography}{99}
+\small
+\bibitem{dls} B. Niu và cộng sự. \emph{Achieving k-Anonymity in Privacy-Aware Location-Based Services}. INFOCOM, 2014.
+\href{https://doi.org/10.1109/INFOCOM.2014.6848002}{doi:10.1109/INFOCOM.2014.6848002}.
+\bibitem{asa} Y. Sun và cộng sự. \emph{ASA: Against Statistical Attacks for Privacy-Aware Users in Location Based Service}. FGCS 70, 2017.
+\href{https://doi.org/10.1016/j.future.2016.06.017}{doi:10.1016/j.future.2016.06.017}.
+\bibitem{rdg} S. Shaham và cộng sự. \emph{Privacy Preservation in Location-Based Services: A Novel Metric and Attack Model}. IEEE TMC 20(10), 2021.
+\href{https://doi.org/10.1109/TMC.2020.2993599}{doi:10.1109/TMC.2020.2993599}.
+\bibitem{tp} S. Yadav và cộng sự. \emph{Protecting Vehicle Location Privacy with Contextually-Driven Synthetic Location Generation}. SIGSPATIAL, 2024.
+\href{https://doi.org/10.1145/3678717.3691211}{doi:10.1145/3678717.3691211}.
+\bibitem{sc} H. Liu, H. Peng, N. Zhou. \emph{A Dummy-Based Location Privacy Protection Scheme with Semantic Correlation of Moving Paths}. JKSUCIS 38:478, 2026.
+\href{https://doi.org/10.1007/s44443-026-00899-w}{doi:10.1007/s44443-026-00899-w}.
+\bibitem{fq} H. Liu, S. Hu, N. Zhou. \emph{Location Privacy Protection in Continuous LBSs: Enhancing Anonymity via Fake Queries}. JKSUCIS 38:53, 2026.
+\href{https://doi.org/10.1007/s44443-025-00438-z}{doi:10.1007/s44443-025-00438-z}.
+\bibitem{mix} A. R. Beresford, F. Stajano. \emph{Mix Zones: User Privacy in Location-aware Services}. PerCom Workshops, 2004.
+\href{https://doi.org/10.1109/PERCOMW.2004.1276918}{doi:10.1109/PERCOMW.2004.1276918}.
+\bibitem{future} G. Theodorakopoulos và cộng sự. \emph{Prolonging the Hide-and-Seek Game: Optimal Trajectory Privacy for Location-Based Services}. WPES, 2014.
+\href{https://arxiv.org/abs/1409.1716}{arXiv:1409.1716}.
+\bibitem{dest} D. Xue và cộng sự. \emph{A Novel Destination Prediction Attack and Corresponding Location Privacy Protection Method in Geo-social Networks}. IJDSN 13(1), 2017.
+\href{https://doi.org/10.1177/1550147716685421}{doi:10.1177/1550147716685421}.
+\bibitem{query} Z. Wu và cộng sự. \emph{Constructing Dummy Query Sequences to Protect Location Privacy and Query Privacy in Location-Based Services}. World Wide Web 24, 2021.
+\href{https://doi.org/10.1007/s11280-020-00830-x}{doi:10.1007/s11280-020-00830-x}.
+\bibitem{co} A.-M. Olteanu và cộng sự. \emph{Quantifying Interdependent Privacy Risks with Location Data}. IEEE TMC 16(3), 2017. Mục 5 trình bày các biện pháp bảo vệ.
+\href{https://doi.org/10.1109/TMC.2016.2561281}{doi:10.1109/TMC.2016.2561281}.
+\bibitem{end} K. Dhondt và cộng sự. \emph{A Run a Day Won't Keep the Hacker Away: Inference Attacks on Endpoint Privacy Zones in Fitness Tracking Social Networks}. CCS, 2022.
+\href{https://doi.org/10.1145/3548606.3560616}{doi:10.1145/3548606.3560616}.
+\bibitem{am} Y. Li và cộng sự. \emph{AnotherMe: A Location Privacy Protection System Based on Online Virtual Trajectory Generation}. IEEE TDSC 21(4), 2024.
+\href{https://doi.org/10.1109/TDSC.2023.3314200}{doi:10.1109/TDSC.2023.3314200}.
+\end{thebibliography}
+
+\end{document}
