@@ -70,17 +70,18 @@ def plot(ax,c):
  ax.set_title(c['case']+' · '+c['record'],fontsize=9)
  return ax
 
-with PdfPages(OUT/'sample_maps.pdf') as pdf:
- for scenario in ['S1','S2','S3','S9','S10','S5','S6','S8','S4','S7']:
-  cases=[next(c for c in payload['cases'] if c['case']==scenario+'.'+s) for s in 'ABC']
-  fig,axs=plt.subplots(1,3,figsize=(12,4.6))
-  for ax,c in zip(axs,cases):plot(ax,c);ax.set_xlabel(c['note'],fontsize=9,wrap=True)
-  fig.subplots_adjust(left=.015,right=.99,top=.91,bottom=.22,wspace=.08)
-  fig.text(.02,.10,'Chấm màu: mẫu được phép trước bảo vệ · Nét đứt: toàn chuyến (chỉ để đánh giá) · Sao đỏ: nhãn vị trí cần suy luận',fontsize=9)
-  fig.text(.02,.045,'Nền SUMO lưu từ benchmark, cùng nguồn OSM; chưa xác minh trùng hình học mạng dataset. © OpenStreetMap contributors',fontsize=8,color='#626b70')
-  for ext in ['pdf','svg','png']:fig.savefig(OUT/'figures'/f'map_{scenario}.{ext}',dpi=170,bbox_inches='tight')
-  pdf.savefig(fig,bbox_inches='tight');plt.close(fig)
-# Offline explorer embeds all geometry, so opening from file:// works.
-template=(OUT/'sample_map_template.html').read_text()
-(OUT/'sample_maps.html').write_text(template.replace('__DATA__',json.dumps(payload,ensure_ascii=False,separators=(',',':'))))
-print('Rendered 30 cases, 10 triptychs, atlas PDF and offline map explorer.')
+if __name__ == '__main__':
+    with PdfPages(OUT/'sample_maps.pdf') as pdf:
+     for scenario in ['S1','S2','S3','S9','S10','S5','S6','S8','S4','S7']:
+      cases=[next(c for c in payload['cases'] if c['case']==scenario+'.'+s) for s in 'ABC']
+      fig,axs=plt.subplots(1,3,figsize=(12,4.6))
+      for ax,c in zip(axs,cases):plot(ax,c);ax.set_xlabel(c['note'],fontsize=9,wrap=True)
+      fig.subplots_adjust(left=.015,right=.99,top=.91,bottom=.22,wspace=.08)
+      fig.text(.02,.10,'Chấm màu: mẫu được phép trước bảo vệ · Nét đứt: toàn chuyến (chỉ để đánh giá) · Sao đỏ: nhãn vị trí cần suy luận',fontsize=9)
+      fig.text(.02,.045,'Nền SUMO lưu từ benchmark, cùng nguồn OSM; chưa xác minh trùng hình học mạng dataset. © OpenStreetMap contributors',fontsize=8,color='#626b70')
+      for ext in ['pdf','svg','png']:fig.savefig(OUT/'figures'/f'map_{scenario}.{ext}',dpi=170,bbox_inches='tight')
+      pdf.savefig(fig,bbox_inches='tight');plt.close(fig)
+    # Offline explorer embeds all geometry, so opening from file:// works.
+    template=(OUT/'sample_map_template.html').read_text()
+    (OUT/'sample_maps.html').write_text(template.replace('__DATA__',json.dumps(payload,ensure_ascii=False,separators=(',',':'))))
+    print('Rendered 30 cases, 10 triptychs, atlas PDF and offline map explorer.')

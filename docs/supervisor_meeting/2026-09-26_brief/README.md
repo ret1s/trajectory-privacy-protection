@@ -1,18 +1,19 @@
 # Báo cáo chuẩn bị cho 26/09/2026
 
 Cập nhật theo ghi chú 19/09 và yêu cầu bổ sung phương pháp/kết quả. Nguồn rà soát
-đến 21/09/2026. Bản PDF hiện có **35 trang**.
+đến 21/09/2026. Bản PDF hiện có **26 trang**.
 
 - [PDF](report_explained.pdf), [LaTeX](report_explained.tex), [HTML](report_explained.html)
-- Mục 8, trang 13–16: kiến trúc, neo/ngân sách, bộ lọc, chọn truy vấn và mẫu công bố.
-- Mục 9, trang 17–20: kết quả lịch sử; tách paper-v2 khỏi fresh-switching.
-- Mục 10, trang 21–23: đề xuất bảo vệ biên và phép thử cắt thêm cửa sổ.
-- Mục 11, trang 24–33: in trực tiếp 30 mẫu A/B/C và hình cặp tuyến.
+- Mục 1–2, trang 1–6: cấu trúc dataset, A/B/C và 10 map đại diện lớn đặt cạnh đặc tả.
+- Mục 8, trang 14–17: kiến trúc, neo/ngân sách, bộ lọc, chọn truy vấn và mẫu công bố.
+- Mục 9, trang 18–21: kết quả lịch sử; tách paper-v2 khỏi fresh-switching.
+- Mục 10, trang 22–24: đề xuất bảo vệ biên và phép thử cắt thêm cửa sổ.
+- Bản tương tác và atlas riêng giữ đủ 30 map; bỏ chương sample lặp lại ở cuối report.
 
 ## Tệp bằng chứng
 
 - `data_samples.json`: 30 bản ghi nguồn cùng các điểm FCD thật.
-- `printed_samples.json`: điểm và nhãn rút gọn được in trong phụ lục.
+- `printed_samples.json`: điểm và nhãn rút gọn để tra cùng bản đồ tương tác.
 - `sample_maps.html`: bản đồ tương tác offline cho 30 ca, zoom/pan và bật/tắt nhãn.
 - `sample_maps.pdf`: tập 10 hình A/B/C trên mạng đường.
 - `map_provenance.json`: nguồn hình học, checksum và giới hạn so khớp mạng.
@@ -21,11 +22,11 @@ Cập nhật theo ghi chú 19/09 và yêu cầu bổ sung phương pháp/kết q
 - `method_evidence.json`: SHA-256 dữ liệu/mã nguồn dùng cho phần phương pháp và kết quả.
 - `score_example.json`: ví dụ tính điểm tổng, **không phải kết quả model**.
 - `boundary_audit_protocol.md`: protocol thăm dò ghi trước khi tính thêm kết quả.
-- `figures/`: 5 hình phương pháp và 10 hình bản đồ ở dạng vector PDF/SVG và PNG; hình cắt biên gốc vẫn có trong report.
+- `figures/`: hình phương pháp, 10 triptych A/B/C và 10 map đại diện lớn ở dạng vector PDF/SVG và PNG; hình cắt biên gốc vẫn có trong report.
 
 ## Sinh lại
 
-Nội dung chung nằm trong `build_report.py` và `method_content.py`. Generator ghi
+Nội dung chung nằm trong `build_report.py`, `dataset_content.py`, `scenario_guide.json` và `method_content.py`. Generator ghi
 đè `.tex`/`.html`, vì vậy các sửa đổi trực tiếp vào tệp sinh ra cần được chuyển lại
 vào nguồn nếu muốn tái sinh. Các hình dùng matplotlib; bước audit/build chỉ dùng
 thư viện chuẩn Python. Không sửa dataset hoặc kết quả lịch sử.
@@ -36,6 +37,7 @@ Từ thư mục gốc repository:
 python3 -m experiments.report_boundary_audit
 python3 docs/supervisor_meeting/2026-09-26_brief/plot_method_figures.py
 python3 docs/supervisor_meeting/2026-09-26_brief/build_report.py
+python3 docs/supervisor_meeting/2026-09-26_brief/plot_dataset_panels.py
 python3 docs/supervisor_meeting/2026-09-26_brief/plot_sample_maps.py
 tectonic --untrusted --outdir docs/supervisor_meeting/2026-09-26_brief docs/supervisor_meeting/2026-09-26_brief/report_explained.tex
 python3 -m unittest discover -s tests -p test_report_boundary_audit.py -v
@@ -54,7 +56,7 @@ Có thể dùng XeLaTeX với font TeX Gyre Termes thay Tectonic. Hình được
 - 5 unit tests: cắt đúng phía/không đổi nguồn; ngoại suy tuyến tính; mẫu số giữ
   truy vấn bị mất; dự đoán không dùng nhãn; từ chối grid chưa đăng ký.
 - Kiểm tra liên kết HTML/hình, hash bằng chứng và ví dụ Q.
-- PDF 35 trang: không tràn dòng hoặc thiếu glyph; render và kiểm tra trang/hình.
+- PDF 26 trang: không tràn dòng hoặc thiếu glyph; render và kiểm tra trang/hình.
 
 ## Cách đọc kết quả
 

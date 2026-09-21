@@ -28,7 +28,7 @@ def add_method_content(ns):
     (out/'method_evidence.json').write_text(json.dumps(evidence,ensure_ascii=False,indent=2)+'\n')
     page();sec('Phương pháp BR-Dummy: kiến trúc và luồng xử lý')
     p('**Ý tưởng trung tâm:** vị trí thật tạo một neo riêng tư; từ lịch sử neo và ngữ cảnh công khai, thiết bị chọn một tập vị trí truy vấn vừa đi được trên đường vừa có khả năng trả đúng POI. Máy chủ chỉ thấy tập công bố. Sau khi nhận phản hồi, thiết bị dùng vị trí thật để gộp và chọn kết quả phục vụ người dùng.')
-    figure('architecture','Hình 2. Kiến trúc lõi đã có trong mã nguồn và vị trí dự kiến của cổng bảo vệ biên S9/S10. Neo và nhãn thật không thuộc transcript máy chủ.')
+    figure('architecture','Hình 1. Kiến trúc lõi đã có trong mã nguồn và vị trí dự kiến của cổng bảo vệ biên S9/S10. Neo và nhãn thật không thuộc transcript máy chủ.')
     table(['Khối','Đầu vào → đầu ra','Trạng thái'],[
       ['Neo + ngân sách','GPS hiện tại, neo trước, tham số → neo riêng tư zₜ.','Đã hiện thực; quyết định tái dùng cũng có nhiễu.'],
       ['Belief chuyển động','Neo đã bảo vệ, thời gian, mạng đường → phân bố vị trí/chế độ.','Đã có biến thể hai trạng thái; chưa hiệu chỉnh bằng giao thông thật.'],
@@ -77,7 +77,7 @@ def add_method_content(ns):
     p('Một sự kiện đúng đủ POI không chứng minh toàn bộ phương pháp đạt yêu cầu. Biểu đồ ở trang sau cho thấy cả chuỗi vị trí thật, neo và các track công bố; chỉ panel bên phải là thông tin không gian máy chủ nhận trong phép thử này.')
 
     page();sub('Quan sát kiến trúc qua một chuỗi đã chạy')
-    figure('protected_sample','Hình 3. Mẫu S3.A của biến thể switching_exchange. Hai panel dùng cùng hệ trục và cùng tỷ lệ; gốc tọa độ đặt ở điểm thật đầu cửa sổ, chỉ phục vụ hình đánh giá.')
+    figure('protected_sample','Hình 2. Mẫu S3.A của biến thể switching_exchange. Hai panel dùng cùng hệ trục và cùng tỷ lệ; gốc tọa độ đặt ở điểm thật đầu cửa sổ, chỉ phục vụ hình đánh giá.')
     table(['Nhìn vào hình','Điều được kiểm tra'],[
       ['Neo có thể đứng yên qua nhiều lần','Kết quả của kiểm tra tái dùng riêng tư; không phải giữ nguyên GPS thật.'],
       ['Dummy thay đổi ít ở mẫu này','Năm track có lần lượt 1, 2, 2, 1, 1 vị trí phân biệt. Nhiều sự kiện chồng nhau nên khó thấy đường nối; ràng buộc tới được cho phép đứng yên.'],
@@ -109,7 +109,7 @@ def add_method_content(ns):
     ss=[s for s in fresh['summaries'] if s['method']=='switching_exchange']
     table(['Ca','Nhóm','MAE m ↑','Hit chọn ↓','Hit env. ↓','Recall L5 ↑','Recall L10 ↑'],
       [[s['case_id'],str(s['families']),f1(s['selected_mae_m']),pct(s['selected_hit100']),pct(s['envelope_hit100']),pct(s['utility']['5']['poi_recall_at_5']),pct(s['utility']['10']['poi_recall_at_5'])] for s in ss], [1.7,1.2,2.6,2.8,2.8,3.0,3.0])
-    figure('fresh_cases','Hình 4. Kết quả chín ca của switching_exchange. Đường 90% chỉ giúp đọc bảng confirmation; không dùng để chọn lại cấu hình.',width=r'0.91\linewidth')
+    figure('fresh_cases','Hình 3. Kết quả chín ca của switching_exchange. Đường 90% chỉ giúp đọc bảng confirmation; không dùng để chọn lại cấu hình.',width=r'0.91\linewidth')
     p('Ca khó về dịch vụ là chuyển động và gửi thưa: S3.A/S3.C ở L=5 chỉ đạt 85,56%/87,01%. S3.B có 5 nhóm confirmation, các ca khác có 6; ba lần nhiễu lặp không làm tăng số nhóm độc lập.')
 
     page();sub('Quy tắc chọn vẫn chưa có cấu hình khả thi')
@@ -162,7 +162,7 @@ def add_method_content(ns):
     p('Kết quả khác bảng lịch sử do audit dùng bộ đối thủ mới và không chọn trên validation. Không so chéo MAE hai bảng để kết luận model đã tốt/xấu đi. Kết quả audit không được đưa vào Q như một lượt xác nhận độc lập.')
 
     page();sub('Đọc đánh đổi và xác định phép thử tiếp theo')
-    figure('boundary_tradeoff','Hình 5. Phép thử thăm dò trên transcript đã lưu. Mỗi điểm dựa trên 12 chuyến; các mức cắt cùng dùng lại các chuyến đó.')
+    figure('boundary_tradeoff','Hình 4. Phép thử thăm dò trên transcript đã lưu. Mỗi điểm dựa trên 12 chuyến; các mức cắt cùng dùng lại các chuyến đó.')
     p('Cắt dữ liệu không làm tăng lượng thông tin khả dụng cho đối thủ tối ưu: đối thủ có transcript dài cũng có thể tự bỏ điểm. Tuy nhiên ba decoder hữu hạn ở đây không làm mọi phép bỏ điểm có thể có; khi đổi cửa sổ, chúng có thể dự đoán tốt hơn. Vì thế Hit đo được tăng không phải mâu thuẫn định lý hậu xử lý, mà là dấu hiệu phải kiểm tra đối thủ kỹ hơn.')
     table(['Bước tiếp theo','Điều kiện để có kết luận mạnh hơn'],[
       ['Áp dụng lõi mới cho S9/S10 A/B/C','Giữ đầy đủ cửa sổ được đặc tả, nhãn đầu/cuối và lịch truy vấn toàn chuyến; xử lý chân trời H thay vì reset miễn phí.'],
@@ -171,11 +171,7 @@ def add_method_content(ns):
       ['Xác nhận','Tăng nhóm độc lập và khóa protocol trước khi sinh/chấm; giữ S1–S3 để phát hiện extension gây hồi quy.']],[5.0,11.9])
     key('Đến hiện tại: có kết quả nền cho cả năm scenario; có kết quả chi tiết của lõi mới cho S1–S3; còn thiếu xác nhận lõi mới + cơ chế biên trên S9/S10.')
 
-    # Concrete values for all 30 subcases, directly printed rather than ID-only.
-    page();sec('Mẫu dữ liệu hiển thị trực tiếp cho 30 ca')
-    p('Các mẫu sau trích từ dataset hiện tại, mỗi ca lấy bản ghi đầu tiên theo thứ tự nguồn. Tọa độ viết (lat; lon), chỉ số FCD tính từ 0. “Quan sát” là đầu vào được phép trên thiết bị, phải đi qua bảo vệ trước khi gửi cho đối thủ. “Nhãn” chỉ dành cho đánh giá; các giá trị dưới đây không phải gói tin máy chủ.')
-    p('Bản đồ bên dưới giúp đọc cửa sổ trước khi xem chỉ số: chấm màu là mẫu được phép trước bảo vệ; nét đứt là toàn chuyến chỉ cho bộ đánh giá; sao đỏ là nhãn vị trí cần suy luận. Màu khác nhau phân biệt session. Không nối thẳng các mẫu thưa để tránh nhầm đoạn bị che là đoạn được quan sát.')
-    p('Nền đường lấy từ hình học SUMO đã lưu trong paper_benchmark (9.138 polyline), cùng checksum OSM với dataset hiện tại. Checksum file mạng khác nhau và thiếu file .net.xml hiện tại nên chưa xác minh trùng hình học; bản đồ không dùng để kiểm chứng kết nối làn hay tính lại metric. © OpenStreetMap contributors. Bản tương tác offline: sample_maps.html; tập hình riêng: sample_maps.pdf.')
+    # Companion sample registry; detailed coordinate tables stay outside the main report.
     D=ns['D'];first=ns['FIRST'];samples=[]
     concise={
       'S1.A':'legal_successors=4','S1.B':'legal_successors=1','S1.C':'pharmacy; distance=12,03 m; category_share=3,11%',
@@ -195,30 +191,14 @@ def add_method_content(ns):
       'S10.A':'target_index=817; mask=60 s; legal_access=1','S10.B':'target_indices=[693,483]; offline_hidden_endpoint',
       'S10.C':'target_indices=[592,581]; lặp điểm cuối; mask=60 s'}
     order=['S1','S2','S3','S9','S10','S5','S6','S8','S4','S7']
-    for si,scenario in enumerate(order):
-        if si:page()
-        sub(scenario+' — bản ghi, cửa sổ và đáp án')
-        figure('map_'+scenario,scenario+': ba mẫu A/B/C trên nền đường SUMO. Xem nhãn và chỉ số tương ứng trong bảng dưới.')
-        rows=[]
+    for scenario in order:
         for suffix in 'ABC':
             case=scenario+'.'+suffix;r=first[case]
-            obs=[]
-            for sid,indices in zip(r['session_ids'],r['observed_indices']):
-                # Prefix/postfix are exact; ellipsis deliberately omits middle entries.
-                ix=str(indices) if len(indices)<=7 else '['+','.join(map(str,indices[:2]))+',…,'+str(indices[-1])+']'
-                obs.append(sid+': '+ix)
-            sid=r['session_ids'][-1] if case=='S6.C' else r['session_ids'][0]
             slot=-1 if case=='S6.C' else 0
-            idx=r['observed_indices'][slot][0];pt=D['traces'][sid][idx]
-            point=f'FCD[{idx}]=({pt["lat"]:.6f}; {pt["lon"]:.6f}); speed={pt["speed_m_s"]:.2f} m/s.'
-            if case=='S6.C':obs=['u302_14…u302_19: 6 cửa sổ lịch sử (33,33,19,33,34,33 điểm).','u302_20: [0,20,40,60,80,100,120].']
-            rows.append([case+'\n'+r['record_id'],' '.join(obs)+' '+point,concise[case]])
+            sid=r['session_ids'][slot];idx=r['observed_indices'][slot][0];pt=D['traces'][sid][idx]
+            obs=[]
+            for session,indices in zip(r['session_ids'],r['observed_indices']):
+                ix=str(indices) if len(indices)<=7 else '['+','.join(map(str,indices[:2]))+',…,'+str(indices[-1])+']'
+                obs.append(session+': '+ix)
             samples.append({'case_id':case,'record_id':r['record_id'],'first_shown_point':{'session_id':sid,'fcd_index':idx,**pt},'observation_text':' '.join(obs),'label_text':concise[case]})
-        table(['Ca / ID','Cửa sổ và một điểm thật','Nhãn / điều kiện từ nguồn'],rows,[3.1,8.0,5.8])
-        if scenario=='S2':p('S2.C không phải đứng yên suốt từ 214 đến 1197: hai khoảng dừng được ngăn bởi một đoạn thực sự di chuyển. Các điểm ở giữa không tự động thuộc cửa sổ quan sát.')
-        if scenario=='S9':p('S9.A: FCD[0] là đáp án bị che; FCD[60] là điểm được phép đầu tiên. Đồng hồ gói công bố có thể được đưa về 0, còn chỉ số FCD vẫn giữ để kiểm toán.')
-        if scenario=='S5':p('S5.C/S6.A/S10.B có thể dùng cùng cặp u304_00–u304_02. Khác biệt là nhãn cần đo và thời điểm suy luận; không phải mỗi record đều là một chuyến mới.')
-        if scenario=='S8':p('Nhãn companions là quan hệ tổng hợp được gán, còn tỷ lệ gần nhau đo từ tọa độ FCD. S8.C là ví dụ hai đại lượng này không đồng nghĩa. Lịch sử S6.C cũng là lịch thử, không phải lịch sinh hoạt thật.')
-        if scenario=='S7':p('Bó 6 loại của S7.B: cafe, clinic, fuel, hospital, pharmacy, restaurant. Trong bản ghi, true_queries vẫn là nhãn đánh giá; không được gửi kèm cờ cho biết query nào là thật.')
     (out/'printed_samples.json').write_text(json.dumps(samples,ensure_ascii=False,indent=2)+'\n')
-    figure('fork_sample','Hình 6. S5.C: u304_00–u304_02; nét liền là tiền tố được phép, nét đứt là phần còn lại chỉ dùng để đánh giá.',width=r'0.82\linewidth')

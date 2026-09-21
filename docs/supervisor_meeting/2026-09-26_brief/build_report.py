@@ -81,12 +81,7 @@ def sample_point(sid,i):
 
 sec('Khung cập nhật và dữ liệu nền')
 p('**Bản chuẩn bị ngày 26/09/2026 — cập nhật theo ghi chú 19/09.** Phạm vi bảo vệ vẫn gồm S1–S10; thứ tự triển khai thay đổi. Ưu tiên chốt dữ liệu, quyền quan sát và giao thức đánh giá trước khi tối ưu phương pháp. Tài liệu được rà soát đến 21/09/2026; các thiết lập mới dưới đây là đề xuất cho vòng tiếp theo, chưa phải kết quả thực nghiệm.')
-table(['Nội dung cần cập nhật','Cách xử lý trong bản này'],[
-['Thứ tự phát triển','Giai đoạn I: S1, S2, S3, S9, S10 → II: S5, S6, S8 → III: S4, S7.'],
-['A/B/C và mẫu dữ liệu','Giải thích đủ 30 ca; mỗi ca có số mẫu và ID nguồn. Ví dụ tọa độ, nhãn và cửa sổ được trích từ dataset.'],
-['Related works và metrics','10 công trình trong cửa sổ ba năm; bảng metrics cho toàn bộ 13 nguồn được đưa vào, gồm 3 ngoại lệ đối chứng.'],
-['Sáu đối chứng','DLS, RDG, TransProtect, semantic correlation, fake-query insertion và AnotherMe.'],
-['Điểm tổng hợp','Ba trục P–U–F, chuẩn hóa cố định, trung bình nhân có trọng số; báo thêm từng thành phần và kiểm tra độ nhạy.']],[3.9,13.0])
+p('Thứ tự triển khai: **S1, S2, S3, S9, S10 → S5, S6, S8 → S4, S7**. Sáu đối chứng và bộ đo privacy–utility–performance được trình bày sau phần dữ liệu.')
 sub('Ba cấp dữ liệu: nhóm tuyến → chuyến → bản ghi')
 p('**12 nhóm tuyến** là 12 cấu hình tuyến có quan hệ trên cùng một mạng đường. Mỗi nhóm có tuyến gốc và các biến thể: chung đoạn đầu rồi rẽ khác, nhập tuyến từ nơi khác, dừng, quay lại, đi cùng hoặc lặp chuyến. Chúng không phải 12 loại tấn công và cũng không đơn giản là 12 tuyến độc lập.')
 p('**Mỗi nhóm có 22 phiên/chuyến hoàn tất**, tổng cộng 264. Một nhóm trải trên chín ngày mô phỏng để tạo các quan hệ cần kiểm tra. **393 bản ghi** là các phép thử được rút từ những chuyến ấy: chọn cửa sổ quan sát, một hoặc nhiều chuyến, thông tin phụ trợ và đáp án. Có 172.443 điểm FCD và đủ 30 ca A/B/C.')
@@ -98,100 +93,8 @@ table(['Phía giữ dữ liệu','Nội dung được sử dụng'],[
 ['Đối thủ','Chỉ transcript đã bảo vệ và thông tin phụ trợ được cho phép. Không nhận record_id, nhãn thật, kế hoạch tuyến hoặc toàn bộ dataset.']],[3.9,13.0])
 p('Các mẫu trong báo cáo là dữ liệu của thiết bị/bộ đánh giá, chưa phải đầu ra bảo vệ. Đồng hồ được chuẩn hóa theo cửa sổ; S8 dùng mốc chung cho cặp xe. Đầy đủ 30 mẫu và dấu vết nguồn nằm trong data_samples.json; số lượng tra trong scenario_inventory.csv.')
 
-page();sec('Kịch bản và ba ca A/B/C')
-p('A/B/C thay đổi điều kiện của cùng một nhiệm vụ suy luận, không phải ba mức độ khó tăng dần. Số sau dấu “/” là số bản ghi hiện có. Mã mẫu giúp truy ngược đến đúng cửa sổ và nhãn; ví dụ đời thường chỉ minh họa ý nghĩa, không phải sự kiện có thật trong dữ liệu mô phỏng.')
-sub('S1 — suy ra vị trí tại một lần gửi')
-case_table('S1',[
-'Một bản tin tại cạnh có ≥2 hướng đi tiếp hợp lệ: kiểm tra khi mạng đường còn nhiều khả năng.',
-'Một bản tin tại cạnh chỉ có 1 hướng đi tiếp: bản đồ tự loại bớt khả năng.',
-'Cách POI ≤150 m; loại POI chiếm ≤5% danh mục công khai. Hiếm theo loại địa điểm, không phải theo tần suất ghé thăm.'])
-p('**Ví dụ.** Bạn tìm quán cà phê khi đang gần trường. A: đang ở đường có nhiều nhánh; B: đang trong đường một lối; C: đang gần một loại địa điểm hiếm trong khu vực. Cả ba đều hỏi “bạn đang ở đâu?”, nhưng bằng chứng bản đồ khác nhau.')
-sub('S2 — suy ra nơi dừng qua nhiều lần gửi')
-case_table('S2',[
-'Dừng có chủ đích ≥20 giây; lấy truy vấn mỗi 5 giây.',
-'Dừng ≥120 giây; lấy truy vấn mỗi 20 giây.',
-'Hai lần dừng trên cùng làn, mỗi lần ≥20 giây; ở giữa thực sự di chuyển.'])
-p('**Ví dụ.** Bạn chờ trước cổng trường: A chờ ngắn, B chờ lâu, C rời đi mua nước rồi quay lại. Đối thủ tận dụng tính lặp để suy ra điểm dừng. Mẫu A có 6 lần quan sát trong đoạn dừng 29 giây; mẫu B có 9 lần trong đoạn dừng 179 giây.')
-sub('S3 — tái dựng đoạn đường đã đi')
-case_table('S3',[
-'Đoạn di chuyển ≥60 giây qua ≥3 cạnh; gửi mỗi 20 giây.',
-'Ít nhất một nửa số cạnh được lấy mẫu chỉ có một hướng đi tiếp: hành lang ít lựa chọn.',
-'Lấy mẫu đoạn di chuyển thưa hơn, mỗi 60 giây.'])
-p('**Ví dụ.** Bạn đi từ nhà tới trường. A có chuỗi đủ dày để nối đường; B đi qua hành lang khó rẽ; C chỉ để lộ một điểm mỗi phút. Đối thủ phải tái dựng cùng loại đáp án từ mức quan sát khác nhau. Mẫu S3.A có 12 điểm; S3.C có 4 điểm của cùng đoạn u301_00.')
-sub('Một tọa độ thật trong mẫu S1.A')
-table(['Phiên','Chỉ số FCD','Kinh độ; vĩ độ','Cạnh đường'],[sample_point('u301_00',333)],[2.2,2.2,5.5,7.0])
-p('Bộ đánh giá giữ điểm trên làm đáp án; cơ chế tạo transcript công bố từ đầu vào được phép. Không lấy tọa độ giả tự dựng làm “kết quả bảo vệ đã chạy”.')
-
-page();sub('S9 — suy ra điểm xuất phát bị che')
-case_table('S9',[
-'Cạnh xuất phát chỉ một lối ra. Che 60 giây đầu, lấy phần còn lại mỗi 20 giây.',
-'Hai chuyến khác điểm đầu nhưng nhập một đoạn chung; chỉ cấp từ chỗ nhập tuyến.',
-'Nhiều chuyến có cùng điểm xuất phát dự kiến; che 60 giây đầu từng chuyến.'])
-p('**Ví dụ.** Ứng dụng không hiện đoạn bạn rời nhà. A: chỉ có một lối ra khu dân cư; B: hai khu nhà có đường nhập chung; C: qua nhiều thứ Bảy, đoạn công bố luôn bắt đầu gần cùng một vùng. Đối thủ suy ngược nơi xuất phát từ những phần còn nhìn thấy.')
-sub('S10 — suy ra điểm kết thúc bị che')
-case_table('S10',[
-'Cạnh kết thúc chỉ một lối vào. Che 60 giây cuối của chuyến đã hoàn tất.',
-'Hai chuyến chung tiền tố nhưng tới hai đích khác nhau; giữ đoạn cuối làm đáp án ngoại tuyến.',
-'Nhiều chuyến cùng điểm kết thúc dự kiến; che 60 giây cuối từng chuyến.'])
-p('**Ví dụ.** Bạn đã đến trường nhưng ứng dụng giấu đoạn vào cổng. A có một cổng vào; B đoạn nhìn thấy có thể dẫn đến trường hoặc bệnh viện; C nhiều chuyến đều biến mất gần cùng một nơi. S10 hỏi nơi đã kết thúc; S6 hỏi nơi sẽ tới khi chuyến vẫn đang diễn ra.')
-key('S9/S10 chấm điểm FCD đầu/cuối, chưa khẳng định đó là “nhà” hay “nơi làm việc”. Che 60 giây cũng khác che một vùng tròn trên bản đồ.')
-graphic(r'''\begin{tikzpicture}[x=1cm,y=1cm,>=Latex,font=\small]
-\node[anchor=east] at (1,1.1) {S9}; \draw[very thick,dashed,gray] (1.2,1.1)--(4,1.1); \draw[very thick,teal,->] (4,1.1)--(14,1.1);
-\node[above] at (2.6,1.1) {Che đầu chuyến}; \node[above] at (8.9,1.1) {Phần công bố được phép};
-\node[below] at (1.2,1.1) {Đáp án}; \node[below] at (4,1.1) {60 s};
-\node[anchor=east] at (1,-.4) {S10}; \draw[very thick,teal] (1.2,-.4)--(11.2,-.4); \draw[very thick,dashed,gray,->] (11.2,-.4)--(14,-.4);
-\node[above] at (6,-.4) {Phần công bố được phép}; \node[above] at (12.6,-.4) {Che cuối chuyến};
-\node[below] at (11.2,-.4) {$T-60$ s}; \node[below] at (14,-.4) {Đáp án};
-\end{tikzpicture}''', '''<svg viewBox="0 0 850 175" role="img" aria-label="S9 che đầu; S10 che cuối chuyến"><g fill="#183a45" font-size="17"><text x="0" y="43">S9</text><text x="0" y="127">S10</text><text x="80" y="21">Che đầu chuyến</text><text x="425" y="21">Phần công bố được phép</text><text x="180" y="106">Phần công bố được phép</text><text x="655" y="106">Che cuối chuyến</text><text x="55" y="72">Đáp án</text><text x="220" y="72">60 s</text><text x="635" y="162">T − 60 s</text><text x="769" y="162">Đáp án</text></g><path d="M55 40H240 M650 125H820" stroke="#777" stroke-width="4" stroke-dasharray="7 5"/><path d="M240 40H820 M55 125H650" stroke="#087f7a" stroke-width="4"/></svg>''','Hình 1. Cửa sổ của ca A/C; sơ đồ thời gian, không phải kết quả bảo vệ. Trong phần được phép, đối thủ vẫn chỉ nhận dữ liệu sau bảo vệ.')
-sub('Mẫu dữ liệu: S9.A')
-r=FIRST['S9.A'];inds=r['observed_indices'][0]
-p(f'Bản ghi {r["record_id"]}, phiên u301_00: đáp án là FCD[0]; cửa sổ được phép chứa {len(inds)} điểm, từ FCD[{inds[0]}] đến FCD[{inds[-1]}]. Bộ phát lại đặt lần gửi đầu về thời gian tương đối 0; không tự tiết lộ thời điểm khởi hành gốc hoặc toàn bộ thời lượng chuyến.')
-table(['Vai trò điểm','Chỉ số','Kinh độ; vĩ độ'],[
-['Đáp án bị che','0',sample_point('u301_00',0)[2]],['Đầu cửa sổ được phép','60',sample_point('u301_00',60)[2]],['Cuối cửa sổ được phép','580',sample_point('u301_00',580)[2]]],[5.8,2.6,8.5])
-p('Dịch vụ bị bỏ lỡ trong khoảng không gửi phải được ghi nhận khi đánh giá chính sách che đầu/cuối. Không chỉ chấm các truy vấn sống sót rồi kết luận utility không bị ảnh hưởng.')
-
-page();sub('S5 — dự đoán cạnh đường kế tiếp')
-case_table('S5',[
-'Chỉ tiền tố trước một lượt rẽ có ≥2 lựa chọn; nhãn là cạnh kế tiếp thực sự đi vào.',
-'Lượt chuyển chỉ có 1 lựa chọn; kiểm tra mức suy luận vốn đã có từ bản đồ.',
-'Hai chuyến chung tiền tố tuyến kế hoạch nhưng đi vào hai cạnh khác nhau. Tốc độ và thời điểm không bắt buộc giống hệt.'])
-p('**Ví dụ.** Bạn đang tới ngã rẽ gần trường. A có thể rẽ vào trường hoặc đi thẳng; B là đường chỉ đi tiếp một hướng; C hai chuyến đều đi tới ngã rẽ đó nhưng sau đó rẽ khác nhau. Không cần biết tên bạn để đoán bước tiếp theo; độ tin cậy phải được kiểm chứng, không chỉ nhìn đường rồi phỏng đoán.')
-sub('S6 — dự đoán đích chưa tới')
-case_table('S6',[
-'Hai chuyến chung tiền tố nhưng có đích khác nhau; phần sau không được cấp.',
-'Hai đích cách nhau ≤500 m: phân biệt đúng đích có thể khó dù sai số tọa độ nhỏ.',
-'Sáu chuyến lịch sử: 5 tới đích thường, 1 tới đích hiếm; chỉ tiền tố của chuyến hiện tại. Lịch sử phải được bảo vệ trước khi cấp.'])
-p('**Ví dụ.** Bạn thường tới trường lúc 15h thứ Bảy nhưng hôm nay có thể tới bệnh viện. A: đoạn đang đi chưa phân biệt được hai nơi; B: trường và quán cà phê rất gần nhau; C: đối thủ có lịch sử liên quan để tăng xác suất dự đoán. Lịch 15h thứ Bảy chỉ là minh họa; dataset dùng lịch tổng hợp nhiều ngày, không chứa lịch cá nhân này.')
-sub('Cùng dữ liệu hình học, ba câu hỏi khác nhau')
-table(['Mẫu / phần được phép','Đáp án giữ kín','Ý nghĩa'],[
-['S5.C: v2-r304-013; u304_00 và u304_02; chỉ số [0,20,40,60,80,100,119] ở mỗi phiên.','Cạnh 1104429375 và 120491943, tại FCD[122].','Hai nhánh tiếp theo khác nhau.'],
-['S6.A: v2-r304-014; cùng cặp và tiền tố.','FCD cuối [693,483]; hai đích cách ≈4.474,4 m.','Dự đoán đích khi còn đang đi.'],
-['S10.B: v2-r304-015; cùng cặp và tiền tố.','Cùng hai điểm cuối, chuyến đã hoàn tất.','Suy ngược phần kết thúc bị giấu.']],[6.4,5.8,4.7])
-p('S6.B có một mẫu với hai đích chỉ cách 46,2 m. Vì vậy Hit100 có thể coi cả hai dự đoán là gần đúng trong khi nhãn đích khác nhau: cần báo cả sai số tọa độ và độ đúng đích.')
-key('S5/S6 phải có đối thủ chỉ dùng bản đồ hoặc tần suất nền. Báo cả khả năng đoán đúng tuyệt đối và phần tăng thêm do transcript công bố.')
-p('Mẫu S6.C v2-r302-030 gồm u302_14…u302_20: sáu phiên lịch sử và tiền tố 7 điểm của phiên cuối. Nhãn destination_class=routine và target_index=659 nằm ở bộ đánh giá. Không cấp nhãn này hoặc FCD tương lai cho cơ chế trực tuyến/đối thủ.')
-
-page();sub('S8 — định vị khi có dữ liệu người đi cùng')
-case_table('S8',[
-'Đi cùng một phần rồi tách; ở gần ≤100 m trong ≥10 giây liên tục.',
-'Chung tuyến; ≥80% thời điểm đồng xuất hiện cách ≤100 m, có ≥10 giây liên tục ở gần.',
-'Không gán quan hệ đồng hành nhưng tình cờ ở gần; đối chứng âm.'])
-p('**Ví dụ.** Bạn và bạn học cùng đi gặp giảng viên. Dù vị trí của bạn được làm mờ, vị trí của người kia có thể giúp định vị bạn. A người kia rẽ trước trường; B đi cùng gần suốt đường; C chỉ là xe lạ chạy gần. Mẫu S8.A có 325/466 thời điểm đồng bộ ở trong 100 m; S8.C vẫn có 309/460. Gần nhau chưa đủ để kết luận quan hệ xã hội.')
-p('S8 chấm cùng mục tiêu trong hai chế độ: không có và có dữ liệu đồng hành. Quy định rõ đó là dữ liệu công bố đã bảo vệ hay dữ liệu thật bị lộ. Dùng một mốc thời gian chung; không đưa hai phiên về 0 riêng rẽ làm mất độ lệch khởi hành.')
-sub('S4 — liên kết danh tính giữa các phiên')
-case_table('S4',[
-'Hai phiên không chồng lấn, cùng người và cùng thiết bị.',
-'Cùng người nhưng đổi thiết bị: liên kết người đúng, liên kết thiết bị sai.',
-'Khác người nhưng dùng chung thiết bị: liên kết người sai, liên kết thiết bị đúng.'])
-p('**Ví dụ.** Lịch tới trường lúc 15h thứ Bảy có thể giúp nối các phiên của bạn dù đổi điện thoại. Nhưng người khác mượn điện thoại hoặc xe của bạn không phải chính bạn. Cần chấm riêng **người, phương tiện và thiết bị**; nối hai phiên cùng người chưa đồng nghĩa biết tên thật.')
-p('**Trạng thái nhãn.** Bản ghi hiện có same_person và same_device; physical_vehicle_id nằm ở bảng phiên. Chưa có trường same_vehicle trong bản ghi và chưa có thiết kế cân bằng đầy đủ các tổ hợp người–xe–máy. Vòng mới cần suy nhãn xe từ thực thể gốc, thêm cặp âm/dương phù hợp và kiểm tra không chồng lấn trước khi báo metric xe.')
-sub('S7 — suy ra nội dung hoặc ý định truy vấn')
-case_table('S7',[
-'Gửi nguyên văn; nhãn tổng hợp gồm khám bệnh, mua sắm, đi đường dài.',
-'Trộn truy vấn thật trong bó cố định 6 loại; chính sách tham chiếu, chưa phải đầu ra BR-Dummy.',
-'Cùng truy vấn đầu nhưng chuỗi sau khác nhau; kiểm tra suy luận từ chuỗi.'])
-p('**Ví dụ.** Một lần tìm nhà thuốc chưa chắc là đi khám; chuỗi nhà thuốc → phòng khám → bệnh viện cung cấp dấu hiệu rõ hơn. S7.C v2-r301-019 chứa đúng chuỗi này, nhãn medical_visit. Các ý định là mẫu viết tay để kiểm thử, chưa đại diện hành vi con người.')
-key('Đủ 30 ca không có nghĩa đủ benchmark. Ca ít mẫu cần mở rộng theo đặc tả đã khóa; S4 cần nhãn xe, S7 cần dữ liệu nội dung phong phú hơn.')
+from dataset_content import add_dataset_content
+add_dataset_content(globals())
 
 page();sec('Related works gần đây: cơ chế và phạm vi')
 p('Khảo sát tập trung vào công trình công bố trong **21/09/2023–21/09/2026**, liên quan tới công bố vị trí/quỹ đạo, nội dung, liên kết hoặc đánh giá bảo vệ. Đây là cập nhật có chọn lọc, chưa phải tổng quan hệ thống bao quát mọi paper. Mỗi nguồn được đưa vào đều có một dòng metrics ở mục sau. Liên hệ với S1–S10 là phân tích của nghiên cứu này, không phải các paper đã đánh giá đúng bộ ca A/B/C của ta.')
@@ -431,6 +334,12 @@ for kind,data in blocks:
         for i,row in enumerate(rows):tex.append(' & '.join(inline(str(x),True) for x in row)+r'\\'+ ('\n\\addlinespace[3pt]\n' if i<len(rows)-1 else '\n'))
         tex.append('\\end{longtable}\n\\endgroup\n')
         ht.append('<div class="table-wrap"><table><thead><tr>'+''.join('<th>'+inline(h)+'</th>' for h in headers)+'</tr></thead><tbody>'+''.join('<tr>'+''.join('<td>'+inline(str(x))+'</td>' for x in row)+'</tr>' for row in rows)+'</tbody></table></div>')
+    elif kind=='scenario_panel':
+        name,case,descs,note=data
+        path='figures/sample_'+name
+        body=''.join(r'\textbf{'+suffix+' / '+str(COUNTS[name+'.'+suffix])+r'.} '+inline(desc,True)+r'\par '+ '\n' for suffix,desc in zip('ABC',descs))
+        tex.append(r'\noindent\begin{minipage}[t]{0.55\linewidth}\vspace{0pt}\includegraphics[width=\linewidth]{'+path+r'.pdf}\end{minipage}\hfill\begin{minipage}[t]{0.42\linewidth}\vspace{0pt}'+body+r'\smallskip\textbf{Đọc hình '+case+r'.} '+inline(note,True)+r'\end{minipage}\par'+'\n')
+        ht.append('<div class="scenario-panel"><img src="'+path+'.svg" alt="Bản đồ mẫu '+case+'"><div>'+''.join('<p><strong>'+suffix+' / '+str(COUNTS[name+'.'+suffix])+'.</strong> '+inline(desc)+'</p>' for suffix,desc in zip('ABC',descs))+'<p><strong>Đọc hình '+case+'.</strong> '+inline(note)+'</p></div></div>')
     elif kind=='graphic':
         tex.append('\\begin{center}\n'+data[0]+'\n\\end{center}\n'+inline(data[2],True)+'\n')
         ht.append('<figure>'+data[1]+'<figcaption>'+inline(data[2])+'</figcaption></figure>')
@@ -440,7 +349,7 @@ for kind,data in blocks:
         ht.append(f'<p class="reference" id="ref-{rid}"><strong>[{rid}]</strong> {html.escape(citation)} <a href="{html.escape(url)}">Nguồn gốc</a>. {html.escape(verify)}</p>')
 tex.append('\\end{document}\n')
 (OUT/'report_explained.tex').write_text(''.join(tex))
-css='''body{margin:0;background:#f4f4f1;color:#172329;font:17px/1.55 Georgia,"Times New Roman",serif}main{max-width:1000px;margin:24px auto;background:white;padding:42px 54px}header{text-align:center;border-bottom:1px solid #b6c4c7;padding-bottom:18px}h1{font-size:31px;margin:0}h2{font-size:25px;margin-top:32px;color:#183a45}h3{font-size:20px;margin-top:24px}p{margin:12px 0}a{color:#176364;text-decoration:underline;text-underline-offset:3px}.muted{color:#56656b;font-size:15px}.key{padding:13px 16px;background:#eaf4f2;border-left:3px solid #087f7a;font-weight:bold}.table-wrap{overflow-x:auto;margin:16px 0}table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.45}th,td{text-align:left;vertical-align:top;padding:10px 9px;border-bottom:1px solid #d4dddd;overflow-wrap:anywhere}th{border-top:2px solid #183a45;border-bottom:1px solid #183a45;background:#fafbfb}tr:last-child td{border-bottom:2px solid #183a45}th:first-child{min-width:105px}.equation{padding:15px;background:#f8f9f8;text-align:center;font-size:18px;overflow-wrap:anywhere}li{margin:7px 0}hr{border:0;border-top:1px solid #ccd6d7;margin:38px 0}svg{width:100%;height:auto}figure{margin:24px 0}figcaption,.reference{font-size:15px}.reference{overflow-wrap:anywhere}@media(max-width:650px){body{font-size:16px}main{margin:0;padding:24px 16px}h1{font-size:27px}h2{font-size:23px}table{min-width:620px}}@media print{body{background:white}main{margin:0;max-width:none;padding:0}.pagebreak{break-before:page;border:0;margin:0}.table-wrap{overflow:visible}tr{break-inside:avoid}a{color:inherit}header a{display:none}}'''
+css='''.scenario-panel{display:grid;grid-template-columns:55% 42%;gap:3%;align-items:start;margin:16px 0}.scenario-panel img{width:100%}.scenario-panel p:first-child{margin-top:0}@media(max-width:700px){.scenario-panel{display:block}}body{margin:0;background:#f4f4f1;color:#172329;font:17px/1.55 Georgia,"Times New Roman",serif}main{max-width:1000px;margin:24px auto;background:white;padding:42px 54px}header{text-align:center;border-bottom:1px solid #b6c4c7;padding-bottom:18px}h1{font-size:31px;margin:0}h2{font-size:25px;margin-top:32px;color:#183a45}h3{font-size:20px;margin-top:24px}p{margin:12px 0}a{color:#176364;text-decoration:underline;text-underline-offset:3px}.muted{color:#56656b;font-size:15px}.key{padding:13px 16px;background:#eaf4f2;border-left:3px solid #087f7a;font-weight:bold}.table-wrap{overflow-x:auto;margin:16px 0}table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.45}th,td{text-align:left;vertical-align:top;padding:10px 9px;border-bottom:1px solid #d4dddd;overflow-wrap:anywhere}th{border-top:2px solid #183a45;border-bottom:1px solid #183a45;background:#fafbfb}tr:last-child td{border-bottom:2px solid #183a45}th:first-child{min-width:105px}.equation{padding:15px;background:#f8f9f8;text-align:center;font-size:18px;overflow-wrap:anywhere}li{margin:7px 0}hr{border:0;border-top:1px solid #ccd6d7;margin:38px 0}svg{width:100%;height:auto}figure{margin:24px 0}figcaption,.reference{font-size:15px}.reference{overflow-wrap:anywhere}@media(max-width:650px){body{font-size:16px}main{margin:0;padding:24px 16px}h1{font-size:27px}h2{font-size:23px}table{min-width:620px}}@media print{body{background:white}main{margin:0;max-width:none;padding:0}.pagebreak{break-before:page;border:0;margin:0}.table-wrap{overflow:visible}tr{break-inside:avoid}a{color:inherit}header a{display:none}}'''
 (OUT/'report_explained.html').write_text('<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bảo vệ riêng tư quỹ đạo — 26/09/2026</title><style>'+css+'</style></head><body><main>'+''.join(ht).replace('sample_maps.html', '<a href="sample_maps.html">sample_maps.html</a>').replace('sample_maps.pdf', '<a href="sample_maps.pdf">sample_maps.pdf</a>')+'</main></body></html>\n')
 print('Generated LaTeX/HTML, 30 sample records, source registry and numerical example.')
 print('Source SHA-256:',SHA)
