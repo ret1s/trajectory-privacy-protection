@@ -1,0 +1,588 @@
+{
+  "schema": "sequential-shadow-generation-v1",
+  "provenance": {
+    "dataset_sha256": "93625f23195ee72498b48ace4c540f7ea51d1757e4601080e0a0ce2db106a702",
+    "code_sha256": "f252fe99db04646207bcf8139dff759a86e653e3fcfb278b3d23d91e161fd5c4",
+    "source_sha256": {
+      "benchmark/engines/quotient_cover.py": "93db80c1acce17b50e6dcdf4c711189604b003735b41a087c4d8d9ccaada8ed2",
+      "benchmark/engines/filtered_cover.py": "59633ff32d36de8be5d20e88d62fa579d6c7bc24f9f081904326140ddc00ee7c",
+      "benchmark/engines/progress_cover.py": "9e1121793209e86c825dfc785a6b6859219443fd0ec86557eebdf5035a3cb4d0",
+      "benchmark/engines/matched_filter.py": "147c298c6f128c680ce899465a6dc2f980bb8f8456d38c2cc98726f47cd7e5e8",
+      "benchmark/engines/origin_guard.py": "d311ef1142b641376c9aceea543419254620cf49387feea85fda03c9aea59ccb",
+      "benchmark/engines/paced_guard.py": "740b6b8eabce33a8b50bca55f33b22b868f5f42211f86600924d4d8d43b6ecf0",
+      "benchmark/anchor_belief.py": "9a4d99261ce43c3ebc6d0ce118e974ea3778ca82d0a02ac36b428e669d43dc61",
+      "core/mechanisms.py": "2c950335809507f0551eeeea62089260e74fa94624b3a84eb64b4666ca0cadfa"
+    },
+    "resources_sha256": "3b5afa2bb7a69537b0f60824fbee5b24212f0968436806f69bd4a44e11bd1dd7",
+    "early_belief_sha256": "be5feb1a93b30ab720769bad2580578db3f9c37ce89203eb0726dbba77569a1e"
+  },
+  "scope": "attacker training/selection only; never defender confirmation",
+  "methods": [
+    "filter_progress",
+    "origin_first",
+    "paced",
+    "paced_origin"
+  ],
+  "shards": [
+    {
+      "file": "shadow-family-1201.json.gz",
+      "sha256": "f30be1630ce8777ef2643b57b1d82b738ca33b652ea7320ea57ede9abecbea27",
+      "family_id": "shadow-family-1201",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1202.json.gz",
+      "sha256": "00fb2aec842cf9656904727e50d510575cf78fdc5176b650704f5d99b0a70437",
+      "family_id": "shadow-family-1202",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1203.json.gz",
+      "sha256": "1aa037cf186ffdff84c6744fcba8e1c165d839313ed679f84d78f422b13d5f69",
+      "family_id": "shadow-family-1203",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1204.json.gz",
+      "sha256": "aaf9bdf000f530ee7ec76477bbca1278cd382cc6976180537648503149af1c12",
+      "family_id": "shadow-family-1204",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1205.json.gz",
+      "sha256": "be65f40f33de20765872f9477894d1d26d5bb29392d4d06c6714c0a86c1991a7",
+      "family_id": "shadow-family-1205",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1206.json.gz",
+      "sha256": "9dabc49ebd4d6a96d3fd8d24a1f64a0c9e36f2ff6557445095e62a8bcfbf0c97",
+      "family_id": "shadow-family-1206",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1207.json.gz",
+      "sha256": "bea7a2a9784286fc7a6cbb99c5f90daa1b984717282fcc2143fb197798bc7726",
+      "family_id": "shadow-family-1207",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1208.json.gz",
+      "sha256": "2a11d2ba99fad88b0501f12d04b1c6b2d843f05396199026d546f5f507731fe5",
+      "family_id": "shadow-family-1208",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1209.json.gz",
+      "sha256": "e92af49b5777b32d68cfcbbc3d73b58c8e61af47fc89162669df47a5e55bbf34",
+      "family_id": "shadow-family-1209",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1210.json.gz",
+      "sha256": "45b1749fc9d3424f524ca7cc947591c5ff5ce408b5d24dc19aa1bbc89d4725e2",
+      "family_id": "shadow-family-1210",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1211.json.gz",
+      "sha256": "cfa4608a0e300ebdcea6f629bfbc7cbec2a181717dad2efebb413d6a9b0fd534",
+      "family_id": "shadow-family-1211",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1212.json.gz",
+      "sha256": "d5617145e35623f0f176941a28635c0ee61ef7c9019a1d93c4d625eedf3736bb",
+      "family_id": "shadow-family-1212",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1213.json.gz",
+      "sha256": "9715bebf0dddd5a3ae97dd31ed8f83f957e07419ebfcfccdd5fedf25659bcf2a",
+      "family_id": "shadow-family-1213",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1214.json.gz",
+      "sha256": "191178c02d3fe9fad63aac944326ab06931e6a7cfb1323cb3449e34c61162de4",
+      "family_id": "shadow-family-1214",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1215.json.gz",
+      "sha256": "dfe8cab620fb84d179d9763a8d1281f6b7c3fd524639775e8cd6a7ddffa3ebfc",
+      "family_id": "shadow-family-1215",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1216.json.gz",
+      "sha256": "42741631c88e6e6ce1916d707c0ab2bbad6c4fe06ba3466b84b6cbdf10db950e",
+      "family_id": "shadow-family-1216",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1217.json.gz",
+      "sha256": "d61772d98cddca5ee45a19a59872b6a0d318390304465efcfb8e505ecd8f5ffe",
+      "family_id": "shadow-family-1217",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1218.json.gz",
+      "sha256": "57d36033c5bca4ee701227a4b28125efa0eed7ae5b44ad52583e8f1d280f00f8",
+      "family_id": "shadow-family-1218",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1219.json.gz",
+      "sha256": "386ae33e01fbd60d706c59c21279ed07be645d761aff50d3383d517ff138a84f",
+      "family_id": "shadow-family-1219",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1220.json.gz",
+      "sha256": "2b43c97dcd04fcfd64dc23113df7ebd0e3c836e62ba02cec8d8893d343b4c05e",
+      "family_id": "shadow-family-1220",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1221.json.gz",
+      "sha256": "4999956cea8648a43375614026deb0e4c39c659bedfd69d0b49fccb1f585ff0f",
+      "family_id": "shadow-family-1221",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1222.json.gz",
+      "sha256": "a532792d36934f519a7a4adbb8ce5fadaa0b8999a2e51c0d660a4fdb9d13c2f8",
+      "family_id": "shadow-family-1222",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1223.json.gz",
+      "sha256": "7aefed7dd4e871310e8cf6e0aca3e892a76d2ffe2d0e6a9554cbb6aebd8f001b",
+      "family_id": "shadow-family-1223",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1224.json.gz",
+      "sha256": "1dfe8d93d260f46666b9a2c2d8e852b0508e9c2c4811bb94cf049d264bfd28ff",
+      "family_id": "shadow-family-1224",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1225.json.gz",
+      "sha256": "dd0a056b4edd3e8a167a235a4d2ee1501880aed1c841dbbd486b7fa3852d742d",
+      "family_id": "shadow-family-1225",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1226.json.gz",
+      "sha256": "35813b93a6a91fd82f44ce52eb20648f5a82ea331fc03a899f9931814a8e243a",
+      "family_id": "shadow-family-1226",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1227.json.gz",
+      "sha256": "68ad6fe70bef7fa9213c1204f989fa5a1bcc459970fe55c51b17fbfeceae1ee1",
+      "family_id": "shadow-family-1227",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1228.json.gz",
+      "sha256": "145b5748b9f7ca3826ba4b942505a427a6e5bed5a5ab005c7154009e8fa5d8a9",
+      "family_id": "shadow-family-1228",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1229.json.gz",
+      "sha256": "da6c22eecedec45837888011dc8642ed9759046c7c0c9197bd84c28ca9d055f7",
+      "family_id": "shadow-family-1229",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1230.json.gz",
+      "sha256": "c5eb16b33c92d93289acb8cbe2a8af8a3643ac7764098bc8b3a20ee444b963ab",
+      "family_id": "shadow-family-1230",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1231.json.gz",
+      "sha256": "4ec1502d66d8f2e6ccbc92e4e341ca8a6fa3bcc29921846039e06fc229cfaa31",
+      "family_id": "shadow-family-1231",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1232.json.gz",
+      "sha256": "20707e026ab88209a6c725823f2d2f75c6f456264f1f0083849bf913ce7b1b33",
+      "family_id": "shadow-family-1232",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1233.json.gz",
+      "sha256": "d6c7554ccd50bfd4d4a032983b18bf67e5d4c6bd493fd286e9c5de6f2fb1de0d",
+      "family_id": "shadow-family-1233",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1234.json.gz",
+      "sha256": "2f852c0fb3ad8427c7fc71463140ef1caed1299ad545f6a7718fc82df107f4c1",
+      "family_id": "shadow-family-1234",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1235.json.gz",
+      "sha256": "5fd79fad8ae87788afff2aa98459556f93bf707dfc53a8be49ea3cbb3581e33d",
+      "family_id": "shadow-family-1235",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1236.json.gz",
+      "sha256": "5f1beaf798805dbbd4ed7b21e3d951da490295e2b91074ca9b9362c54096aab8",
+      "family_id": "shadow-family-1236",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1237.json.gz",
+      "sha256": "33695d0ee8dc6a9eb2aa82214b54497647c231e00db1a04d821f318d8c49e9e1",
+      "family_id": "shadow-family-1237",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1238.json.gz",
+      "sha256": "61ff72dfb5126bf4a9507c5738a8de86765136f906fe20bd33f94b064fcaf218",
+      "family_id": "shadow-family-1238",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1239.json.gz",
+      "sha256": "3a5dbbab70b99108d7439daf7989a5ef860cdc6c44d3c6c5cf3b21090707771d",
+      "family_id": "shadow-family-1239",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1240.json.gz",
+      "sha256": "a289e49e6599c335e2a73ee2a81670b088c948ebdf786e1bdd53b5d821532a1e",
+      "family_id": "shadow-family-1240",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1241.json.gz",
+      "sha256": "03305370997f470de2f7a1d2a052ed9c4558a6e939a4f1768544936df7087fd1",
+      "family_id": "shadow-family-1241",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1242.json.gz",
+      "sha256": "0ef91ace7879e0815a08f15bb2864425c46b45f4f0203a4f3508823d1bb2c638",
+      "family_id": "shadow-family-1242",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1243.json.gz",
+      "sha256": "89f91d05db40460815cb7bf8059edb1ccc15bf9c22df66e8252916ef62259f4d",
+      "family_id": "shadow-family-1243",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1244.json.gz",
+      "sha256": "a4c9b1a767bf0ea05fdeb584383742bb40aca2957daf146148c65d850c611683",
+      "family_id": "shadow-family-1244",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1245.json.gz",
+      "sha256": "5276a7546e85682fbf50dd252e723d45257fd048f7b443047d1f892d84616553",
+      "family_id": "shadow-family-1245",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1246.json.gz",
+      "sha256": "7d234146d5c357ffee79c35264d37179133a273b17434b32bce6aac728b10277",
+      "family_id": "shadow-family-1246",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1247.json.gz",
+      "sha256": "247e286b3488fa89ccc9a7f592dfd68f911e87c50b7cf43e9ef9ac9d3fb65188",
+      "family_id": "shadow-family-1247",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1248.json.gz",
+      "sha256": "b98775b83afaff6615f76ff53544c7d7978aa8b225922b7e18f79659e8f06557",
+      "family_id": "shadow-family-1248",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1249.json.gz",
+      "sha256": "72de221ee70af3e462a31fb2383ee176c1ef615bb229839474e4761c0c68123c",
+      "family_id": "shadow-family-1249",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1250.json.gz",
+      "sha256": "f306cfff2c267ad852890d41899282f3ed6842a7533c184caa10c8dc90b065af",
+      "family_id": "shadow-family-1250",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1251.json.gz",
+      "sha256": "f397519b2122930ae9b6f583adcb607c96429add54158fb54b05dc03d4f83fa3",
+      "family_id": "shadow-family-1251",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1252.json.gz",
+      "sha256": "191fb4f78ac2e4982e3c6c82e3af52852c9557ed3c1994a46016eb917326d3ea",
+      "family_id": "shadow-family-1252",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1253.json.gz",
+      "sha256": "d1b5ad3296f0d72c4168116ab86f0960d685bee0abd4568b9bc5b75013862f2d",
+      "family_id": "shadow-family-1253",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1254.json.gz",
+      "sha256": "db8fac3b5fbad3509fd2b331f2d5fa1d350b6c28b7be454fa295c78374e3a763",
+      "family_id": "shadow-family-1254",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1255.json.gz",
+      "sha256": "56b2f20b46e7a1ebdb261785cd7a96d3cfd4e4f0d4c84d2ef7cfd3cda28d56a6",
+      "family_id": "shadow-family-1255",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1256.json.gz",
+      "sha256": "738ed34c92b0ae1b6b859155aeae8b9b786f2fa3abb3dca7c3b396a79bec065b",
+      "family_id": "shadow-family-1256",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1257.json.gz",
+      "sha256": "29f9c85a40bc71c97311e6cfad3f14b70813a42e33f38bd967f2a6e3251a0d8c",
+      "family_id": "shadow-family-1257",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1258.json.gz",
+      "sha256": "dcb242aa304468fd15e6f8031f6449accf3d240bea5f1a012d58e9c7c7a10b2b",
+      "family_id": "shadow-family-1258",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1259.json.gz",
+      "sha256": "2d46d6b8bc8fabcafba935f521fae4419fc6ae22424504b0c4a28b6e0a947ec7",
+      "family_id": "shadow-family-1259",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1260.json.gz",
+      "sha256": "587b7df32949013676d58efa8d447154b14d38a631a3b9153cc91e6b817cb5a3",
+      "family_id": "shadow-family-1260",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1261.json.gz",
+      "sha256": "c7c67b283cbd8c304e25f3e54e235af585f99bb6695c7abf735ab1884fc4e44b",
+      "family_id": "shadow-family-1261",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1262.json.gz",
+      "sha256": "37e681d570ebe0e332f11cc07f8b601007920fa5b6e5384e114d4d8280d534ea",
+      "family_id": "shadow-family-1262",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1263.json.gz",
+      "sha256": "1d71cf2d45ed628ec132e63cd94d976bee003e3e2d5587451bb163371ec5b326",
+      "family_id": "shadow-family-1263",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1264.json.gz",
+      "sha256": "75ecea0f329d50abc438cc4612f070e5b95fbc5a4631aa74a859237552702d66",
+      "family_id": "shadow-family-1264",
+      "split": "auxiliary_train",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1265.json.gz",
+      "sha256": "d03f0765d0e8765c27d01e9e84fa6d583917610af310d52500f98349c150a246",
+      "family_id": "shadow-family-1265",
+      "split": "auxiliary_selection",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1266.json.gz",
+      "sha256": "cfd22429f7426f04aa807409ef402df116f6fef4f3846887894cc8b2624e7b2e",
+      "family_id": "shadow-family-1266",
+      "split": "auxiliary_selection",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1267.json.gz",
+      "sha256": "ba81028164737010f11ef0f0bb740c98b5c69a189f2348eaa5d05c03f095cab0",
+      "family_id": "shadow-family-1267",
+      "split": "auxiliary_selection",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1268.json.gz",
+      "sha256": "c692036ac86de900b0c196e62beeae52161460e01ec6af704e3ae57010fc9ec5",
+      "family_id": "shadow-family-1268",
+      "split": "auxiliary_selection",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1269.json.gz",
+      "sha256": "30c4f712ab354b4760678e52bd7c11b4bf9e650fe078f21074c8a7c60c5b4a85",
+      "family_id": "shadow-family-1269",
+      "split": "auxiliary_selection",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1270.json.gz",
+      "sha256": "c870efb62e561aa21f74a56405fa1bfdb09d2f806e65d155da43d189fde07468",
+      "family_id": "shadow-family-1270",
+      "split": "auxiliary_selection",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1271.json.gz",
+      "sha256": "2a85f8d852e8dae8f349403fd42fe6082946063a7be15cea1c05bc30fa1bdc4f",
+      "family_id": "shadow-family-1271",
+      "split": "auxiliary_selection",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1272.json.gz",
+      "sha256": "e55d92469afd69fe80da5ad793a653a259aa123649d158fc446ebab27fd6224a",
+      "family_id": "shadow-family-1272",
+      "split": "auxiliary_selection",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1273.json.gz",
+      "sha256": "1f92a0c926763421957d8bcb402bff42c6a7a5ba92750a67acf7559b6296bbb1",
+      "family_id": "shadow-family-1273",
+      "split": "auxiliary_selection",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1274.json.gz",
+      "sha256": "455e902bfc03c09f09175d694a6b95ac317d77fe9eb80b41243e5b6e6bf1aa1b",
+      "family_id": "shadow-family-1274",
+      "split": "auxiliary_selection",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1275.json.gz",
+      "sha256": "f5552d81bd1c8293c50061b1e00c0bcdda223411013cdbc9cbd6df92af0c77a5",
+      "family_id": "shadow-family-1275",
+      "split": "auxiliary_selection",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1276.json.gz",
+      "sha256": "35fe8bfd64c549b3b9247d072869b19e0ec0855b37208b37d540e261b3392145",
+      "family_id": "shadow-family-1276",
+      "split": "auxiliary_selection",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1277.json.gz",
+      "sha256": "45936adf4c4157b3efcc4859093296abb0e7f3d168b079ca1af38a26595ae234",
+      "family_id": "shadow-family-1277",
+      "split": "auxiliary_selection",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1278.json.gz",
+      "sha256": "632be80b7eae79f5b80bb06d457d5f825e0fbcc2b6f57544a3e56aead6822e0b",
+      "family_id": "shadow-family-1278",
+      "split": "auxiliary_selection",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1279.json.gz",
+      "sha256": "c713ea5df6c02cb3b618df29236babd23c7eea4359fe61fd73b9b52ebab1feae",
+      "family_id": "shadow-family-1279",
+      "split": "auxiliary_selection",
+      "runs": 8
+    },
+    {
+      "file": "shadow-family-1280.json.gz",
+      "sha256": "572910be661ba8248f2e4bd0bb3f177d3fa169086b6cd0efadf6aacd0e2ba686",
+      "family_id": "shadow-family-1280",
+      "split": "auxiliary_selection",
+      "runs": 8
+    }
+  ]
+}

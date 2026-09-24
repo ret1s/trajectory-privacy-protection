@@ -1,0 +1,591 @@
+{
+  "schema": "sequential-shadow-generation-v1",
+  "provenance": {
+    "dataset_sha256": "93625f23195ee72498b48ace4c540f7ea51d1757e4601080e0a0ce2db106a702",
+    "code_sha256": "6b1e993413e9dfb35d612b1ac9b152efbadd2dd3d953f4f0406dd508570e4e3f",
+    "source_sha256": {
+      "benchmark/engines/quotient_cover.py": "93db80c1acce17b50e6dcdf4c711189604b003735b41a087c4d8d9ccaada8ed2",
+      "benchmark/engines/filtered_cover.py": "59633ff32d36de8be5d20e88d62fa579d6c7bc24f9f081904326140ddc00ee7c",
+      "benchmark/engines/progress_cover.py": "9e1121793209e86c825dfc785a6b6859219443fd0ec86557eebdf5035a3cb4d0",
+      "benchmark/engines/matched_filter.py": "147c298c6f128c680ce899465a6dc2f980bb8f8456d38c2cc98726f47cd7e5e8",
+      "benchmark/engines/origin_guard.py": "d311ef1142b641376c9aceea543419254620cf49387feea85fda03c9aea59ccb",
+      "benchmark/engines/paced_guard.py": "740b6b8eabce33a8b50bca55f33b22b868f5f42211f86600924d4d8d43b6ecf0",
+      "benchmark/anchor_belief.py": "9a4d99261ce43c3ebc6d0ce118e974ea3778ca82d0a02ac36b428e669d43dc61",
+      "core/mechanisms.py": "2c950335809507f0551eeeea62089260e74fa94624b3a84eb64b4666ca0cadfa",
+      "benchmark/response_aware_belief.py": "2f75b486472430260fa5a112cf5f49cb2bfd18d67da378d8c62954c72a43f070",
+      "benchmark/engines/fair_cover.py": "c739b71374a6682f6468588720660152bf73ad11c825237d90ed9a213cb8d8a6",
+      "benchmark/engines/service_cover.py": "56894618d61135c016f11609ee379b7f0867de46ddfc0699d7f174fd49ba6e48",
+      "evaluation/lane_travel.py": "111e1bc109dd53e29922d44bfbc16bded8f1409e467e43faba3723026dc45bde",
+      "benchmark/engines/paced_slack.py": "60d96f019496e1b209b84090b787e4b484aa38c85acfda307fc71ee05dc7f2cf",
+      "benchmark/engines/slack_progress.py": "655e2a730323d1e365fef4ac8a14cbd67e7049b27816cf41fcae850651a97963"
+    },
+    "resources_sha256": "3b5afa2bb7a69537b0f60824fbee5b24212f0968436806f69bd4a44e11bd1dd7",
+    "response_belief_sha256": "58be9e83de2e32ed0b1b0666332e31c6fe3502e387a4bbb38d8be458d3f1cc31"
+  },
+  "scope": "attacker training/selection only; never defender confirmation",
+  "methods": [
+    "response_paced_slack03"
+  ],
+  "shards": [
+    {
+      "file": "shadow-family-1201.json.gz",
+      "sha256": "68fbbe561f7bba1556e707dabca8e053a4df7368da8eda8c911dbfbfc2fcb7c2",
+      "family_id": "shadow-family-1201",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1202.json.gz",
+      "sha256": "ff101d19752d68fd2b5425fa93a48fd642fa0d11573bfe6389a6c06d0f7194e2",
+      "family_id": "shadow-family-1202",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1203.json.gz",
+      "sha256": "ef030ee762694c403044430d3054da7ccc182bcef293571aede4ccd0974103db",
+      "family_id": "shadow-family-1203",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1204.json.gz",
+      "sha256": "763db7901ed3dac7737d0138c06e9a540363c691b78819e817d97d6e1fec313f",
+      "family_id": "shadow-family-1204",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1205.json.gz",
+      "sha256": "343131afd88724f3c4cb8cf708dadd310ac9bc3c3902e0a44d98f66ed7c0a300",
+      "family_id": "shadow-family-1205",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1206.json.gz",
+      "sha256": "e1dd767f665321ff96f7788ed96b5f029c4eff1cf9c6e0582496728add06f418",
+      "family_id": "shadow-family-1206",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1207.json.gz",
+      "sha256": "29690e149595a55d615fdbece86d220486dfa7c7b79f19a9fd5991f9a7023768",
+      "family_id": "shadow-family-1207",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1208.json.gz",
+      "sha256": "6669ebbca117ad9a0a4402df33d34eac029a5cb99e7fb8dd8edef95336a3a120",
+      "family_id": "shadow-family-1208",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1209.json.gz",
+      "sha256": "ccd041dab7fc775528cbd9f425b7244e9e8cccd641957fa664f966f236a6ade4",
+      "family_id": "shadow-family-1209",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1210.json.gz",
+      "sha256": "0f1e442056c8e9ebf40fcdefbb53806b338d9e69c6a148aa3bcdc168dbb8730a",
+      "family_id": "shadow-family-1210",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1211.json.gz",
+      "sha256": "ad07f68320d823e7bd68df1fb96c23c1bc9c08371da76ed02dd61b2d0d3919ba",
+      "family_id": "shadow-family-1211",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1212.json.gz",
+      "sha256": "3ff250ac8c83be1166f86a2fdac18de65039d6303cc5fa10d25acc52d382be06",
+      "family_id": "shadow-family-1212",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1213.json.gz",
+      "sha256": "44c1ba4534bc32234b104c22168d5ecb4222b7fd473871adb10731e0ed85d66e",
+      "family_id": "shadow-family-1213",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1214.json.gz",
+      "sha256": "082edd2a0c308cab7085bb83b2532cc541093abfc0d3d92aa49cb64039a6637d",
+      "family_id": "shadow-family-1214",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1215.json.gz",
+      "sha256": "c2e6d331ffa426cd72a2c31d459c14fa0b02042110998239b70cf82d88566686",
+      "family_id": "shadow-family-1215",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1216.json.gz",
+      "sha256": "75c01bb15c893bf667d69954c2731a87ac412dc5e3e28ef94f8d7b9fe5ba1d07",
+      "family_id": "shadow-family-1216",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1217.json.gz",
+      "sha256": "301503b91a71d14191c3c32bb16df97556c3824320a7247d33ae93af33f665f6",
+      "family_id": "shadow-family-1217",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1218.json.gz",
+      "sha256": "dfe7c7ba5d57c191096758b778a9598bb46337545838177ac022816ce05ed150",
+      "family_id": "shadow-family-1218",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1219.json.gz",
+      "sha256": "08bff9dac93d48eb13a85f7f6a6bef873a8b672ee0a81de781ec253f4c9f8c95",
+      "family_id": "shadow-family-1219",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1220.json.gz",
+      "sha256": "d263b2372b6c50e2cfc2a8dde3e6980f3b3008350cf5c4588eeb095e114a1ff6",
+      "family_id": "shadow-family-1220",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1221.json.gz",
+      "sha256": "7d301575e11f357a949715f5f550bbc0be95c6739929e7a62434cfcb1dd07e62",
+      "family_id": "shadow-family-1221",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1222.json.gz",
+      "sha256": "06faf9e0ccc3b98b31f300a9f9a157cf133671255d1c41548b3b2da9759878b8",
+      "family_id": "shadow-family-1222",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1223.json.gz",
+      "sha256": "460d8c02ff35c9f0c470d628af7be2496c3d4a95035b2ff11b8e09eac6179aee",
+      "family_id": "shadow-family-1223",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1224.json.gz",
+      "sha256": "90c5143d95a3dbae6faa7acba59d75e2ea7cf11857d43db7038d4d1558ac213a",
+      "family_id": "shadow-family-1224",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1225.json.gz",
+      "sha256": "cf4aef12fb7dbfd75c71727d09752292d3b1c989c95e0bfff6f414d400cedfe8",
+      "family_id": "shadow-family-1225",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1226.json.gz",
+      "sha256": "17095b349b07d5bf068e383400352d9b593a61b5eb1cd7bebbd88b908ebfabb1",
+      "family_id": "shadow-family-1226",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1227.json.gz",
+      "sha256": "8054d9c8e8697e94d17fdc2255330eaeb2d23e913b6ce9d050f906a66bd8df2b",
+      "family_id": "shadow-family-1227",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1228.json.gz",
+      "sha256": "2d0e36eb8104773ef21a2633b372e8296b3d9853fb5cc1811c4fc59ae439855a",
+      "family_id": "shadow-family-1228",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1229.json.gz",
+      "sha256": "b9e146a3997520f6b0bfc16b27861c68de2eebe3c5f69c9ebf5d5d608891f572",
+      "family_id": "shadow-family-1229",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1230.json.gz",
+      "sha256": "516f75c9a456c2222754443d4ba9c331d2802cd988cdac6321595d6a6fd8f032",
+      "family_id": "shadow-family-1230",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1231.json.gz",
+      "sha256": "e374c96fa40e04695ef74e56b2e50c1886588104571f8e322d0d684accf867d9",
+      "family_id": "shadow-family-1231",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1232.json.gz",
+      "sha256": "eae96562f602fc33605ef01d208c5311bc77b8b2755108cddb1acd1bd9a1adf9",
+      "family_id": "shadow-family-1232",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1233.json.gz",
+      "sha256": "9e974417494c80c8ad20524d147ac25f9f2f96532a71ea31569b363cb19664c0",
+      "family_id": "shadow-family-1233",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1234.json.gz",
+      "sha256": "0c9f99c03f9472b172a6379a1445a2975dc7c4047b3fd939412086d323ba011e",
+      "family_id": "shadow-family-1234",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1235.json.gz",
+      "sha256": "7342918c3ebf239be6bddb2ad2f8a35e0aaff3f1ac79446b57fc21cf1877aa89",
+      "family_id": "shadow-family-1235",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1236.json.gz",
+      "sha256": "96fc6a06cb20a1fddcb281c711aeedf8ed34d891c749f836c06ee2632c958ce6",
+      "family_id": "shadow-family-1236",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1237.json.gz",
+      "sha256": "84da0dc3e0c63b9b8c9516bf11f8d9480bcc1ed78e2b6946e94667212c8afb39",
+      "family_id": "shadow-family-1237",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1238.json.gz",
+      "sha256": "265f047adacadf2776b10b55c804a23aca5086397868c19fe8df2cd366842766",
+      "family_id": "shadow-family-1238",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1239.json.gz",
+      "sha256": "751244b38f9e24f469c9a0e2736678971371ff8e3d59a8905922599921282c26",
+      "family_id": "shadow-family-1239",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1240.json.gz",
+      "sha256": "1c55b20e3da59bbb26703b79e952fc35828c882de49cd188b8e141c8937f4794",
+      "family_id": "shadow-family-1240",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1241.json.gz",
+      "sha256": "00edccb938336f1d8646191e01a58c36f8fe22eedc3e714c6a9d0974a290256c",
+      "family_id": "shadow-family-1241",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1242.json.gz",
+      "sha256": "d2543bc6a473500d516f9a7a531312e6aeb3dc2faf4ebed21e33f85044f73be0",
+      "family_id": "shadow-family-1242",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1243.json.gz",
+      "sha256": "63f90f52ad3261a6aee1070319c6b52a7d434a36186e44bb114079cdc9e85185",
+      "family_id": "shadow-family-1243",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1244.json.gz",
+      "sha256": "64ff6d34055fa4db45c04372eb4eef31fa1d6d4dd14db2cf60297e5b1243e483",
+      "family_id": "shadow-family-1244",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1245.json.gz",
+      "sha256": "7315ca2e38d129f03dfe3aaadad9a5e0b22608f022beaa05ee254f081d7b5b5c",
+      "family_id": "shadow-family-1245",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1246.json.gz",
+      "sha256": "1969ffdfcc34e7d3cff1e1e5518068211976d259ad57dfeaa59aa23931a177ac",
+      "family_id": "shadow-family-1246",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1247.json.gz",
+      "sha256": "12e04e2277f5d3d8c43f33d5d036e06bf4d5760fe49494079d2b166be6ebb471",
+      "family_id": "shadow-family-1247",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1248.json.gz",
+      "sha256": "ebdef56a4dda09acf2fc8c736ba4c9950d2a8e9de67a9da6573a10d1f027f11b",
+      "family_id": "shadow-family-1248",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1249.json.gz",
+      "sha256": "3a10f0c0b8959baef32caa74725d26203a958163e1043f7c234734aca38a54f4",
+      "family_id": "shadow-family-1249",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1250.json.gz",
+      "sha256": "b29b55d08f5df392d7426e074dabbc0669a9f33c02b262173f5ddd192d1d4442",
+      "family_id": "shadow-family-1250",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1251.json.gz",
+      "sha256": "a57b2c42b315f32dfc7602116c4fb6d4981a0e4c661cdeddff3c8ada93120ca7",
+      "family_id": "shadow-family-1251",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1252.json.gz",
+      "sha256": "5687e7897a0ed2ca77b99530e9e89c413397eebae46d1485520fcf1c0663a00a",
+      "family_id": "shadow-family-1252",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1253.json.gz",
+      "sha256": "eed2e18a438e8c15c049fab17221e1e4f23a619e250a8b23480018b1d184e7e0",
+      "family_id": "shadow-family-1253",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1254.json.gz",
+      "sha256": "57f4973b6a04c1a81e53829cda028e242e744af9764e18fc7bfeddd8fccaf0fa",
+      "family_id": "shadow-family-1254",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1255.json.gz",
+      "sha256": "5a91867826eeff762e9d241d0a919201f761d918eebbae3501cce679f72e14c5",
+      "family_id": "shadow-family-1255",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1256.json.gz",
+      "sha256": "1b39cbabc1149f9eadae5e1403517a327299da20556ffd377de65d70b57354a4",
+      "family_id": "shadow-family-1256",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1257.json.gz",
+      "sha256": "74f6e9dd310d1869c8cd4f67e4cb0d2c1e539ee63204295d97aedede06193cfa",
+      "family_id": "shadow-family-1257",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1258.json.gz",
+      "sha256": "d803ae3ecd6a96d33a0c79587aa16e501213b70aa96bbbca55ab3320b28b59f4",
+      "family_id": "shadow-family-1258",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1259.json.gz",
+      "sha256": "16cf6213c08786ca97240f64ca77622de7367a59f04ecc5cbdf4add526ba0f0e",
+      "family_id": "shadow-family-1259",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1260.json.gz",
+      "sha256": "80163e7a868491ebe82c77f3b12e6ec9b6c558a207a4b5a77d39b625cbae7d47",
+      "family_id": "shadow-family-1260",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1261.json.gz",
+      "sha256": "292700ec07da30b292cb3a2f37f0b2ecc053d954c87422e907346d8d4ebc8d2e",
+      "family_id": "shadow-family-1261",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1262.json.gz",
+      "sha256": "c1a4a8855786ec81577646e46ccec51dcabb2c456ab00cba574f9cda1b5a1413",
+      "family_id": "shadow-family-1262",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1263.json.gz",
+      "sha256": "e171a1a24cecff21858a8a983a570bd6042f5d65f40de3d556ce383a91cbf393",
+      "family_id": "shadow-family-1263",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1264.json.gz",
+      "sha256": "1a8900813f466275f8f30a51c363cfae79713809ab0c31d8ecc5acbc0c38a1b2",
+      "family_id": "shadow-family-1264",
+      "split": "auxiliary_train",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1265.json.gz",
+      "sha256": "3eb93f98b14e3426a11d8540d3936896c8a8d4fd1e4914dd73c3c8043a7f0166",
+      "family_id": "shadow-family-1265",
+      "split": "auxiliary_selection",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1266.json.gz",
+      "sha256": "d97a9d18a2cd7cfa9ff269d281c65fb0280a042aed26a24eaad241fd86180acd",
+      "family_id": "shadow-family-1266",
+      "split": "auxiliary_selection",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1267.json.gz",
+      "sha256": "cfae75cacef351087a3d026fd934bb0041847cbb2ec96db3e744e303fc064c5f",
+      "family_id": "shadow-family-1267",
+      "split": "auxiliary_selection",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1268.json.gz",
+      "sha256": "9c7fdf84182c740097630e73b5d767e5a86613a127b6ee524f8af1b3f39bf886",
+      "family_id": "shadow-family-1268",
+      "split": "auxiliary_selection",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1269.json.gz",
+      "sha256": "6dd73f82661c769764ec35b7dedb4b10cd68bca7ee654681d19aebf3367b953f",
+      "family_id": "shadow-family-1269",
+      "split": "auxiliary_selection",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1270.json.gz",
+      "sha256": "a297896aa3682799a865b500c814cc14463d1a383b65728ad5cadc07ca2afde2",
+      "family_id": "shadow-family-1270",
+      "split": "auxiliary_selection",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1271.json.gz",
+      "sha256": "cc7c083d8ebe537599d2546e9ef9f0159c6a471ff8794f2d05d4b52768401fda",
+      "family_id": "shadow-family-1271",
+      "split": "auxiliary_selection",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1272.json.gz",
+      "sha256": "c1dd0f1d3f4dcae9911d21e3966fb40da62758e7ee4a45a1d09775d5cf584e4d",
+      "family_id": "shadow-family-1272",
+      "split": "auxiliary_selection",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1273.json.gz",
+      "sha256": "d8a8b7f106826e8e944097df8a2703bf4240068da0cb1f46874ae21c59b557b6",
+      "family_id": "shadow-family-1273",
+      "split": "auxiliary_selection",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1274.json.gz",
+      "sha256": "cf17bc2f417e86daffe0a90ae1049267a4b995e632de8b51ecd822b57b9fbdec",
+      "family_id": "shadow-family-1274",
+      "split": "auxiliary_selection",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1275.json.gz",
+      "sha256": "29a810d60b45d1dd4f032469043de539406916f29b39610690cf59633f1c3dfc",
+      "family_id": "shadow-family-1275",
+      "split": "auxiliary_selection",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1276.json.gz",
+      "sha256": "94b1dbc0e243b746d60d8ade25436b519703bc626e979c0a3f0c15f709339c29",
+      "family_id": "shadow-family-1276",
+      "split": "auxiliary_selection",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1277.json.gz",
+      "sha256": "e31208d9b1f8f9b95bcc1e8ff7f8af782d731d4d2e66d164167ca63a4e1cfca8",
+      "family_id": "shadow-family-1277",
+      "split": "auxiliary_selection",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1278.json.gz",
+      "sha256": "2b3370d303ccfbef4de94dee4204e4f1a8496129da556e21bf26c9caf3e5d91e",
+      "family_id": "shadow-family-1278",
+      "split": "auxiliary_selection",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1279.json.gz",
+      "sha256": "a179282d6304a9837ade4b66531c4073c5c7e26d08f216bd0c5ce8fdc7aeb1c1",
+      "family_id": "shadow-family-1279",
+      "split": "auxiliary_selection",
+      "runs": 2
+    },
+    {
+      "file": "shadow-family-1280.json.gz",
+      "sha256": "023551d6dd566f78d7cace85645aa64bbe0dc57fc38cb2f995f64f41b4bfdc55",
+      "family_id": "shadow-family-1280",
+      "split": "auxiliary_selection",
+      "runs": 2
+    }
+  ]
+}

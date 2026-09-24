@@ -33,6 +33,8 @@ notes={
 'S9':['Che 60 giây đầu; suy lại điểm xuất phát.','Hai điểm xuất phát khác nhau.','Hai phiên lặp cùng điểm xuất phát.'],
 'S10':['Che đoạn cuối; suy điểm kết thúc.','Cùng tiền tố nhưng hai điểm kết thúc.','Hai phiên lặp cùng điểm kết thúc.']}
 
+explanations=json.loads((OUT/'scenario_explanations.json').read_text())
+case_readings=json.loads((OUT/'case_readings.json').read_text())
 payload={'roads':P['roads'],'cases':[]}
 for case,r in FIRST.items():
  tracks=[]
@@ -43,8 +45,8 @@ for case,r in FIRST.items():
   elif 'target_indices' in lab:
    target=lab['target_indices'] if len(r['session_ids'])==1 else [lab['target_indices'][slot]]
   elif 'target_index' in lab and slot==lab.get('target_slot',0):target=[lab['target_index']]
-  tracks.append({'id':sid,'points':[[p['lon'],p['lat']] for p in t],'observed':r['observed_indices'][slot],'target':target})
- payload['cases'].append({'case':case,'record':r['record_id'],'tracks':tracks,'label':S[case]['label_text'],'note':notes[r['scenario']]['ABC'.index(case[-1])]})
+  tracks.append({'id':sid,'points':[[p['lon'],p['lat']] for p in t],'observed':r['observed_indices'][slot],'target':target,'times':[p['time_s'] for p in t]})
+ payload['cases'].append({'case':case,'record':r['record_id'],'tracks':tracks,'label':S[case]['label_text'],'note':notes[r['scenario']]['ABC'.index(case[-1])],'explanation':{**explanations[r['scenario']],'reading':case_readings[case]}})
 provenance={'background':'archived SUMO road polylines, paper_benchmark seed 81','osm_sha256':D['network']['osm_sha256'],'background_network_sha256':P['manifests'][0]['provenance']['sha256']['network'],'dataset_network_sha256':D['network']['sha256'],'exact_network_identity_verified':False,'limitation':'Same OSM hash and netconvert options; different network file hashes. Original dataset .net.xml unavailable, so exact geometry equivalence is not established.','dataset_sha256':hashlib.sha256((ROOT/'artifacts/datasets/urban_fresh_v2/dataset.json').read_bytes()).hexdigest(),'attribution':'© OpenStreetMap contributors; https://www.openstreetmap.org/copyright','counts':{'roads':len(roads),'cases':len(payload['cases'])}}
 (OUT/'map_provenance.json').write_text(json.dumps(provenance,ensure_ascii=False,indent=2)+'\n')
 payload['provenance']=provenance
@@ -85,3 +87,8 @@ if __name__ == '__main__':
     template=(OUT/'sample_map_template.html').read_text()
     (OUT/'sample_maps.html').write_text(template.replace('__DATA__',json.dumps(payload,ensure_ascii=False,separators=(',',':'))))
     print('Rendered 30 cases, 10 triptychs, atlas PDF and offline map explorer.')
+
+
+def write_explorer():
+    template=(OUT/'sample_map_template.html').read_text()
+    (OUT/'sample_maps.html').write_text(template.replace('__DATA__',json.dumps(payload,ensure_ascii=False,separators=(',',':'))))

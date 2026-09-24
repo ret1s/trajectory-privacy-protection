@@ -1,0 +1,3504 @@
+{
+  "scope": "exposed core development; 2 validation families overall but S9.B and S10.A each have only 1 eligible family; no independent confirmation; new matched learned attacks limited to planar FIRST-query probe; runtime omitted due to overlapping jobs",
+  "source_sha256": {
+    "artifacts/benchmarks/research_loop/iteration25_capped_service_cases.json": "09d3e58ff4cdec38b01977b0f587e11d525fed3769dd3d00c12546abcfceefb2",
+    "artifacts/benchmarks/research_loop/iteration26_planar_anchor_cases.json": "8a56b979cb0462b8ec1ead190082ef41c77adde1e14f0178096915f32201841a",
+    "artifacts/benchmarks/research_loop/iteration16_first_query_attack.json": "1107a3f7939c78224dbad2de8929c93adf86dfbecaf100a8399591de00d3918f",
+    "artifacts/benchmarks/research_loop/iteration26_first_query_attack.json": "2f813c49c85a54c64d17dca240454a604101eba40e4dfe60adb1e950c8869b31",
+    "artifacts/benchmarks/research_loop/iteration15_response_cases.json": "a57ab32537bb18327f3dc6e12420a1670cc24ce2227006b8fc08aab7ce4a95c0",
+    "experiments/research_loop_capped_planar_readout.py": "275696476623debe021215a843939af8de5e02e3422198877014d05024206ea1"
+  },
+  "new_full_session_executions": 264,
+  "unique_replayed_control_executions": 198,
+  "case_validation_eligibility": [
+    {
+      "case_id": "S1.A",
+      "families": [
+        "family-601",
+        "family-602"
+      ],
+      "unique_records": 2,
+      "record_RNG_pairs": 4,
+      "note": "RNG repetitions and multiple targets are not independent route families"
+    },
+    {
+      "case_id": "S1.B",
+      "families": [
+        "family-601",
+        "family-602"
+      ],
+      "unique_records": 2,
+      "record_RNG_pairs": 4,
+      "note": "RNG repetitions and multiple targets are not independent route families"
+    },
+    {
+      "case_id": "S1.C",
+      "families": [
+        "family-601",
+        "family-602"
+      ],
+      "unique_records": 2,
+      "record_RNG_pairs": 4,
+      "note": "RNG repetitions and multiple targets are not independent route families"
+    },
+    {
+      "case_id": "S2.A",
+      "families": [
+        "family-601",
+        "family-602"
+      ],
+      "unique_records": 2,
+      "record_RNG_pairs": 4,
+      "note": "RNG repetitions and multiple targets are not independent route families"
+    },
+    {
+      "case_id": "S2.B",
+      "families": [
+        "family-601",
+        "family-602"
+      ],
+      "unique_records": 2,
+      "record_RNG_pairs": 4,
+      "note": "RNG repetitions and multiple targets are not independent route families"
+    },
+    {
+      "case_id": "S2.C",
+      "families": [
+        "family-601",
+        "family-602"
+      ],
+      "unique_records": 2,
+      "record_RNG_pairs": 4,
+      "note": "RNG repetitions and multiple targets are not independent route families"
+    },
+    {
+      "case_id": "S3.A",
+      "families": [
+        "family-601",
+        "family-602"
+      ],
+      "unique_records": 2,
+      "record_RNG_pairs": 4,
+      "note": "RNG repetitions and multiple targets are not independent route families"
+    },
+    {
+      "case_id": "S3.B",
+      "families": [
+        "family-601",
+        "family-602"
+      ],
+      "unique_records": 2,
+      "record_RNG_pairs": 4,
+      "note": "RNG repetitions and multiple targets are not independent route families"
+    },
+    {
+      "case_id": "S3.C",
+      "families": [
+        "family-601",
+        "family-602"
+      ],
+      "unique_records": 2,
+      "record_RNG_pairs": 4,
+      "note": "RNG repetitions and multiple targets are not independent route families"
+    },
+    {
+      "case_id": "S9.A",
+      "families": [
+        "family-601",
+        "family-602"
+      ],
+      "unique_records": 2,
+      "record_RNG_pairs": 4,
+      "note": "RNG repetitions and multiple targets are not independent route families"
+    },
+    {
+      "case_id": "S9.B",
+      "families": [
+        "family-602"
+      ],
+      "unique_records": 1,
+      "record_RNG_pairs": 2,
+      "note": "RNG repetitions and multiple targets are not independent route families"
+    },
+    {
+      "case_id": "S9.C",
+      "families": [
+        "family-601",
+        "family-602"
+      ],
+      "unique_records": 2,
+      "record_RNG_pairs": 4,
+      "note": "RNG repetitions and multiple targets are not independent route families"
+    },
+    {
+      "case_id": "S10.A",
+      "families": [
+        "family-602"
+      ],
+      "unique_records": 1,
+      "record_RNG_pairs": 2,
+      "note": "RNG repetitions and multiple targets are not independent route families"
+    },
+    {
+      "case_id": "S10.B",
+      "families": [
+        "family-601",
+        "family-602"
+      ],
+      "unique_records": 2,
+      "record_RNG_pairs": 4,
+      "note": "RNG repetitions and multiple targets are not independent route families"
+    },
+    {
+      "case_id": "S10.C",
+      "families": [
+        "family-601",
+        "family-602"
+      ],
+      "unique_records": 2,
+      "record_RNG_pairs": 4,
+      "note": "RNG repetitions and multiple targets are not independent route families"
+    }
+  ],
+  "summaries": [
+    {
+      "method": "raw",
+      "case_gates_passed": 15,
+      "case_gates_total": 15,
+      "validation_families": 2,
+      "validation_source_sessions": 16,
+      "validation_whole_session_L10_mean": 1.0,
+      "validation_whole_session_L10_min": 1.0,
+      "all_case_metrics": [
+        {
+          "method": "raw",
+          "case_id": "S1.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean"
+          },
+          "mae_m": 0.0,
+          "hits": {
+            "50": 1.0,
+            "100": 1.0,
+            "200": 1.0,
+            "500": 1.0
+          },
+          "recall": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "raw",
+          "case_id": "S1.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean"
+          },
+          "mae_m": 0.0,
+          "hits": {
+            "50": 1.0,
+            "100": 1.0,
+            "200": 1.0,
+            "500": 1.0
+          },
+          "recall": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "raw",
+          "case_id": "S1.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean"
+          },
+          "mae_m": 0.0,
+          "hits": {
+            "50": 1.0,
+            "100": 1.0,
+            "200": 1.0,
+            "500": 1.0
+          },
+          "recall": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "raw",
+          "case_id": "S10.A",
+          "validation_families": 1,
+          "selected_attack": {
+            "mae": "mean_ols6_60s",
+            "hit50": "mean_ols6_60s",
+            "hit100": "mean_ols6_60s",
+            "hit200": "mean_ols6_60s",
+            "hit500": "mean_ols6_60s"
+          },
+          "mae_m": 238.66551389794043,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 1.0
+          },
+          "recall": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "raw",
+          "case_id": "S10.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean_ols2_120s",
+            "hit50": "mean_ols2_120s",
+            "hit100": "mean_ols2_120s",
+            "hit200": "window_mean_road",
+            "hit500": "mean_ols2_120s"
+          },
+          "mae_m": 1067.9434251189891,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "raw",
+          "case_id": "S10.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean_ols6_30s_joint_mean",
+            "hit50": "mean_ols2_60s_joint_mean",
+            "hit100": "mean_ols2_60s_joint_mean",
+            "hit200": "mean_ols6_30s_joint_mean",
+            "hit500": "mean_ols6_30s_joint_mean"
+          },
+          "mae_m": 302.0379150827224,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.5,
+            "500": 1.0
+          },
+          "recall": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "raw",
+          "case_id": "S2.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean"
+          },
+          "mae_m": 0.0,
+          "hits": {
+            "50": 1.0,
+            "100": 1.0,
+            "200": 1.0,
+            "500": 1.0
+          },
+          "recall": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "raw",
+          "case_id": "S2.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean"
+          },
+          "mae_m": 0.0,
+          "hits": {
+            "50": 1.0,
+            "100": 1.0,
+            "200": 1.0,
+            "500": 1.0
+          },
+          "recall": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "raw",
+          "case_id": "S2.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean"
+          },
+          "mae_m": 0.02779873274266726,
+          "hits": {
+            "50": 1.0,
+            "100": 1.0,
+            "200": 1.0,
+            "500": 1.0
+          },
+          "recall": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "raw",
+          "case_id": "S3.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean"
+          },
+          "mae_m": 0.0,
+          "hits": {
+            "50": 1.0,
+            "100": 1.0,
+            "200": 1.0,
+            "500": 1.0
+          },
+          "recall": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "raw",
+          "case_id": "S3.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean"
+          },
+          "mae_m": 0.0,
+          "hits": {
+            "50": 1.0,
+            "100": 1.0,
+            "200": 1.0,
+            "500": 1.0
+          },
+          "recall": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "raw",
+          "case_id": "S3.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean"
+          },
+          "mae_m": 0.0,
+          "hits": {
+            "50": 1.0,
+            "100": 1.0,
+            "200": 1.0,
+            "500": 1.0
+          },
+          "recall": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "raw",
+          "case_id": "S9.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean_ols2_60s_road",
+            "hit50": "mean_ols2_60s_road",
+            "hit100": "mean_ols2_60s_road",
+            "hit200": "mean_ols2_60s_road",
+            "hit500": "mean_ols2_60s_road"
+          },
+          "mae_m": 405.99083354801735,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 1.0
+          },
+          "recall": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "raw",
+          "case_id": "S9.B",
+          "validation_families": 1,
+          "selected_attack": {
+            "mae": "mean_boundary_road",
+            "hit50": "mean_boundary_road",
+            "hit100": "mean_boundary_road",
+            "hit200": "mean_boundary_road",
+            "hit500": "mean_boundary_road"
+          },
+          "mae_m": 43.66355663980776,
+          "hits": {
+            "50": 0.5,
+            "100": 1.0,
+            "200": 1.0,
+            "500": 1.0
+          },
+          "recall": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "raw",
+          "case_id": "S9.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean_ols6_60s_road_joint_mean",
+            "hit50": "mean_ols2_60s_road_joint_mean",
+            "hit100": "mean_ols2_60s_road_joint_mean",
+            "hit200": "mean_ols6_60s_road_joint_mean",
+            "hit500": "mean_ols6_60s_road_joint_mean"
+          },
+          "mae_m": 158.5785789139818,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 1.0,
+            "500": 1.0
+          },
+          "recall": {
+            "5": 1.0,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        }
+      ]
+    },
+    {
+      "method": "response_paced",
+      "case_gates_passed": 14,
+      "case_gates_total": 15,
+      "validation_families": 2,
+      "validation_source_sessions": 16,
+      "validation_whole_session_L10_mean": 0.9214839064186434,
+      "validation_whole_session_L10_min": 0.7372549019607844,
+      "all_case_metrics": [
+        {
+          "method": "response_paced",
+          "case_id": "S1.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0",
+            "hit50": "track_0",
+            "hit100": "track_0",
+            "hit200": "track_0",
+            "hit500": "track_1"
+          },
+          "mae_m": 499.2722231666259,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.85,
+            "10": 0.9416666666666667
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced",
+          "case_id": "S1.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean"
+          },
+          "mae_m": 833.2014605254701,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.7916666666666666,
+            "10": 0.9166666666666666
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced",
+          "case_id": "S1.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_4",
+            "hit50": "track_4",
+            "hit100": "track_4",
+            "hit200": "track_4",
+            "hit500": "track_4"
+          },
+          "mae_m": 2318.2783425756907,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.725,
+            "10": 0.7416666666666666
+          },
+          "pass_90pct_case_recall_L10": false,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced",
+          "case_id": "S10.A",
+          "validation_families": 1,
+          "selected_attack": {
+            "mae": "track_4_ols2_120s",
+            "hit50": "track_4_ols2_120s",
+            "hit100": "track_4_ols2_120s",
+            "hit200": "track_4_ols2_120s",
+            "hit500": "track_4_ols2_120s"
+          },
+          "mae_m": 2156.5213823565573,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8859649122807018,
+            "10": 0.9600877192982458
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced",
+          "case_id": "S10.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0_ols6_120s",
+            "hit50": "track_0_ols6_120s",
+            "hit100": "track_2_ols2_120s_road",
+            "hit200": "track_2_ols2_120s_road",
+            "hit500": "track_2_ols2_120s_road"
+          },
+          "mae_m": 1492.1406422523082,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.9024572649572647,
+            "10": 0.9927960927960928
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced",
+          "case_id": "S10.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_4_ols6_120s_road_joint_mean",
+            "hit50": "track_4_ols6_120s_road_joint_mean",
+            "hit100": "track_4_ols6_120s_road_joint_mean",
+            "hit200": "track_4_ols6_120s_road_joint_mean",
+            "hit500": "track_0_ols6_30s_road_joint_mean"
+          },
+          "mae_m": 1904.6541144604234,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.838764189886481,
+            "10": 0.9331656346749225
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced",
+          "case_id": "S2.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean"
+          },
+          "mae_m": 823.2982312168083,
+          "hits": {
+            "50": 0.0,
+            "100": 0.25,
+            "200": 0.25,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.9416666666666667,
+            "10": 0.9833333333333333
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced",
+          "case_id": "S2.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "median",
+            "hit50": "median",
+            "hit100": "median",
+            "hit200": "median",
+            "hit500": "median"
+          },
+          "mae_m": 803.6335279024427,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.25,
+            "500": 0.5
+          },
+          "recall": {
+            "5": 0.9138888888888888,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced",
+          "case_id": "S2.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean_road",
+            "hit100": "mean_road",
+            "hit200": "mean_road",
+            "hit500": "mean"
+          },
+          "mae_m": 879.1628874098353,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.8513888888888889,
+            "10": 0.9333333333333333
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced",
+          "case_id": "S3.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "track_2",
+            "hit100": "track_3",
+            "hit200": "track_3",
+            "hit500": "track_3"
+          },
+          "mae_m": 1272.7052258457356,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8344444444444445,
+            "10": 0.9116666666666666
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced",
+          "case_id": "S3.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_3",
+            "hit50": "track_3",
+            "hit100": "track_3",
+            "hit200": "track_3",
+            "hit500": "track_3"
+          },
+          "mae_m": 2280.87591177884,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8344444444444445,
+            "10": 0.9116666666666666
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced",
+          "case_id": "S3.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "track_2",
+            "hit100": "median",
+            "hit200": "track_3",
+            "hit500": "mean"
+          },
+          "mae_m": 1306.0247821048235,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8375000000000001,
+            "10": 0.91875
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced",
+          "case_id": "S9.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "window_mean_road",
+            "hit50": "window_mean_road",
+            "hit100": "median_ols2_60s_road",
+            "hit200": "median_ols3_60s_road",
+            "hit500": "window_mean_road"
+          },
+          "mae_m": 679.0822097321892,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.5
+          },
+          "recall": {
+            "5": 0.8128968253968255,
+            "10": 0.914318783068783
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced",
+          "case_id": "S9.B",
+          "validation_families": 1,
+          "selected_attack": {
+            "mae": "window_mean",
+            "hit50": "median_boundary_road",
+            "hit100": "median_boundary_road",
+            "hit200": "median_boundary_road",
+            "hit500": "window_mean"
+          },
+          "mae_m": 1171.142534619095,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8346491228070176,
+            "10": 0.9302631578947368
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced",
+          "case_id": "S9.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "window_mean_road_joint_mean",
+            "hit50": "median_ols3_30s_road_joint_mean",
+            "hit100": "median_ols3_30s_road_joint_mean",
+            "hit200": "mean_boundary_joint_mean",
+            "hit500": "window_mean_road_joint_mean"
+          },
+          "mae_m": 648.306290129535,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.25,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.8202592879256967,
+            "10": 0.9149939800481596
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        }
+      ]
+    },
+    {
+      "method": "response_paced_slack03",
+      "case_gates_passed": 13,
+      "case_gates_total": 15,
+      "validation_families": 2,
+      "validation_source_sessions": 16,
+      "validation_whole_session_L10_mean": 0.9311975793846624,
+      "validation_whole_session_L10_min": 0.8490196078431372,
+      "all_case_metrics": [
+        {
+          "method": "response_paced_slack03",
+          "case_id": "S1.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0",
+            "hit50": "track_0",
+            "hit100": "track_0",
+            "hit200": "track_3",
+            "hit500": "track_3"
+          },
+          "mae_m": 631.8720452125926,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.8583333333333333,
+            "10": 0.9416666666666667
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced_slack03",
+          "case_id": "S1.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "track_1",
+            "hit200": "track_3",
+            "hit500": "track_3"
+          },
+          "mae_m": 596.4958770974099,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.8166666666666667,
+            "10": 0.8916666666666667
+          },
+          "pass_90pct_case_recall_L10": false,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced_slack03",
+          "case_id": "S1.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_2",
+            "hit50": "track_2",
+            "hit100": "track_2",
+            "hit200": "track_2",
+            "hit500": "track_2"
+          },
+          "mae_m": 1772.8623753895683,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.7833333333333333,
+            "10": 0.825
+          },
+          "pass_90pct_case_recall_L10": false,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced_slack03",
+          "case_id": "S10.A",
+          "validation_families": 1,
+          "selected_attack": {
+            "mae": "track_2_ols2_120s",
+            "hit50": "track_2_ols2_120s",
+            "hit100": "track_2_ols2_120s",
+            "hit200": "track_2_ols2_120s",
+            "hit500": "track_2_ols2_120s"
+          },
+          "mae_m": 1669.7878821346412,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.918421052631579,
+            "10": 0.9793859649122807
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced_slack03",
+          "case_id": "S10.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0_ols2_120s_road",
+            "hit50": "track_0_ols2_120s_road",
+            "hit100": "track_0_ols2_120s_road",
+            "hit200": "track_0_ols3_60s",
+            "hit500": "track_0_ols2_120s_road"
+          },
+          "mae_m": 1613.1653965483235,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.9152319902319901,
+            "10": 0.989514652014652
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced_slack03",
+          "case_id": "S10.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean_ols3_120s_road_joint_mean",
+            "hit50": "mean_ols3_120s_road_joint_mean",
+            "hit100": "mean_ols3_120s_road_joint_mean",
+            "hit200": "track_0_ols2_120s_road_joint_mean",
+            "hit500": "track_0_ols3_120s_road_joint_mean"
+          },
+          "mae_m": 730.7753878395939,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8520510835913313,
+            "10": 0.935969212246302
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced_slack03",
+          "case_id": "S2.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean"
+          },
+          "mae_m": 818.6587806245344,
+          "hits": {
+            "50": 0.0,
+            "100": 0.25,
+            "200": 0.25,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.9180555555555556,
+            "10": 0.9791666666666666
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced_slack03",
+          "case_id": "S2.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "median",
+            "hit50": "median",
+            "hit100": "median",
+            "hit200": "median",
+            "hit500": "median"
+          },
+          "mae_m": 841.2025672018216,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.25,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.9287037037037038,
+            "10": 0.9925925925925926
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced_slack03",
+          "case_id": "S2.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "median_road",
+            "hit50": "median_road",
+            "hit100": "median_road",
+            "hit200": "median_road",
+            "hit500": "mean_road"
+          },
+          "mae_m": 1103.0678241445362,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.8555555555555556,
+            "10": 0.9157407407407406
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced_slack03",
+          "case_id": "S3.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "median",
+            "hit200": "track_3",
+            "hit500": "track_3"
+          },
+          "mae_m": 958.5480994921602,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8752777777777779,
+            "10": 0.9409722222222223
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced_slack03",
+          "case_id": "S3.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_3",
+            "hit50": "track_3",
+            "hit100": "track_3",
+            "hit200": "track_3",
+            "hit500": "track_3"
+          },
+          "mae_m": 1591.6849593498196,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8752777777777779,
+            "10": 0.9409722222222223
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced_slack03",
+          "case_id": "S3.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean_road",
+            "hit50": "mean_road",
+            "hit100": "median",
+            "hit200": "track_3",
+            "hit500": "track_3"
+          },
+          "mae_m": 935.0567064259035,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8666666666666667,
+            "10": 0.9375
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced_slack03",
+          "case_id": "S9.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "window_mean_road",
+            "hit50": "window_mean_road",
+            "hit100": "window_mean_road",
+            "hit200": "median_ols2_60s",
+            "hit500": "window_mean_road"
+          },
+          "mae_m": 785.1607579726999,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.845568783068783,
+            "10": 0.9250330687830687
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced_slack03",
+          "case_id": "S9.B",
+          "validation_families": 1,
+          "selected_attack": {
+            "mae": "window_mean_road",
+            "hit50": "median_boundary_road",
+            "hit100": "median_boundary_road",
+            "hit200": "median_boundary_road",
+            "hit500": "window_mean_road"
+          },
+          "mae_m": 996.5840618016638,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8776315789473685,
+            "10": 0.942543859649123
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "response_paced_slack03",
+          "case_id": "S9.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean_boundary_road_joint_mean",
+            "hit50": "window_mean_road",
+            "hit100": "track_1_ols6_60s_joint_mean",
+            "hit200": "mean_ols2_120s_road_joint_mean",
+            "hit500": "window_mean_road_joint_mean"
+          },
+          "mae_m": 635.2618310016619,
+          "hits": {
+            "50": 0.0,
+            "100": 0.25,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8354403164774682,
+            "10": 0.9189757481940144
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        }
+      ]
+    },
+    {
+      "method": "capped90_paced",
+      "case_gates_passed": 12,
+      "case_gates_total": 15,
+      "validation_families": 2,
+      "validation_source_sessions": 16,
+      "validation_whole_session_L10_mean": 0.9270406096161932,
+      "validation_whole_session_L10_min": 0.7529411764705882,
+      "all_case_metrics": [
+        {
+          "method": "capped90_paced",
+          "case_id": "S1.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean_road",
+            "hit50": "mean_road",
+            "hit100": "mean_road",
+            "hit200": "mean_road",
+            "hit500": "mean_road"
+          },
+          "mae_m": 905.7756785157117,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.7916666666666667,
+            "10": 0.9249999999999999
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced",
+          "case_id": "S1.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "track_2"
+          },
+          "mae_m": 812.6008400984604,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.7916666666666667,
+            "10": 0.9333333333333332
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced",
+          "case_id": "S1.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_4",
+            "hit50": "track_4",
+            "hit100": "track_4",
+            "hit200": "track_4",
+            "hit500": "track_4"
+          },
+          "mae_m": 3799.5904141491346,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.6666666666666667,
+            "10": 0.7333333333333333
+          },
+          "pass_90pct_case_recall_L10": false,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced",
+          "case_id": "S10.A",
+          "validation_families": 1,
+          "selected_attack": {
+            "mae": "median_ols3_120s_road",
+            "hit50": "median_ols3_120s_road",
+            "hit100": "median_ols3_120s_road",
+            "hit200": "median_ols3_120s_road",
+            "hit500": "median_ols3_120s_road"
+          },
+          "mae_m": 2053.754886159726,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8833333333333332,
+            "10": 0.9631578947368425
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced",
+          "case_id": "S10.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_4_ols2_120s",
+            "hit50": "track_4_ols2_120s",
+            "hit100": "track_4_ols2_120s",
+            "hit200": "track_3_ols3_120s",
+            "hit500": "track_4_ols2_120s"
+          },
+          "mae_m": 1363.7822669754535,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.8949481074481074,
+            "10": 0.9700091575091573
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced",
+          "case_id": "S10.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_4_ols2_120s_road_joint_mean",
+            "hit50": "track_4_ols2_120s_road_joint_mean",
+            "hit100": "track_4_ols2_120s_road_joint_mean",
+            "hit200": "track_4_ols2_120s_road_joint_mean",
+            "hit500": "track_4_ols2_120s_road_joint_mean"
+          },
+          "mae_m": 1163.4797232158762,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.8533862229102167,
+            "10": 0.9524982800137598
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced",
+          "case_id": "S2.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0",
+            "hit50": "track_0",
+            "hit100": "track_0",
+            "hit200": "track_0",
+            "hit500": "track_0"
+          },
+          "mae_m": 530.3358658965727,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.9166666666666667,
+            "10": 0.975
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced",
+          "case_id": "S2.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0",
+            "hit50": "track_0",
+            "hit100": "track_0",
+            "hit200": "track_0",
+            "hit500": "track_0"
+          },
+          "mae_m": 629.1050301751744,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.9083333333333334,
+            "10": 0.950925925925926
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced",
+          "case_id": "S2.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean"
+          },
+          "mae_m": 1098.8287768790076,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.9041666666666668,
+            "10": 0.9666666666666666
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced",
+          "case_id": "S3.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "track_2",
+            "hit500": "track_2"
+          },
+          "mae_m": 1421.0431936058017,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.837777777777778,
+            "10": 0.8995833333333334
+          },
+          "pass_90pct_case_recall_L10": false,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced",
+          "case_id": "S3.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_2",
+            "hit50": "track_2",
+            "hit100": "track_2",
+            "hit200": "track_2",
+            "hit500": "track_2"
+          },
+          "mae_m": 1781.4962469460577,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.837777777777778,
+            "10": 0.8995833333333334
+          },
+          "pass_90pct_case_recall_L10": false,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced",
+          "case_id": "S3.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "track_2"
+          },
+          "mae_m": 1455.468164987797,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8374999999999999,
+            "10": 0.9041666666666667
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced",
+          "case_id": "S9.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "window_mean_road",
+            "hit50": "window_mean_road",
+            "hit100": "window_mean_road",
+            "hit200": "window_mean_road",
+            "hit500": "track_1_ols2_60s_road"
+          },
+          "mae_m": 1033.236594225665,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8231812169312169,
+            "10": 0.9276455026455026
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced",
+          "case_id": "S9.B",
+          "validation_families": 1,
+          "selected_attack": {
+            "mae": "window_mean_road",
+            "hit50": "window_mean_road",
+            "hit100": "track_0_ols2_60s",
+            "hit200": "track_0_ols2_60s",
+            "hit500": "window_mean_road"
+          },
+          "mae_m": 1392.1246339453369,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8853070175438595,
+            "10": 0.9682017543859649
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced",
+          "case_id": "S9.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0_boundary_joint_mean",
+            "hit50": "track_0_boundary_joint_mean",
+            "hit100": "track_0_boundary_joint_mean",
+            "hit200": "track_0_ols6_30s_joint_mean",
+            "hit500": "track_0_boundary_joint_mean"
+          },
+          "mae_m": 464.5377642128402,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.5
+          },
+          "recall": {
+            "5": 0.8376053491572067,
+            "10": 0.935655314757482
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        }
+      ]
+    },
+    {
+      "method": "capped90_paced_slack03",
+      "case_gates_passed": 13,
+      "case_gates_total": 15,
+      "validation_families": 2,
+      "validation_source_sessions": 16,
+      "validation_whole_session_L10_mean": 0.9308406183503423,
+      "validation_whole_session_L10_min": 0.8382352941176471,
+      "all_case_metrics": [
+        {
+          "method": "capped90_paced_slack03",
+          "case_id": "S1.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0",
+            "hit50": "track_0",
+            "hit100": "track_0",
+            "hit200": "track_0",
+            "hit500": "track_4"
+          },
+          "mae_m": 942.4421766333611,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.825,
+            "10": 0.9
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced_slack03",
+          "case_id": "S1.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0",
+            "hit50": "track_0",
+            "hit100": "track_0",
+            "hit200": "track_0",
+            "hit500": "track_2"
+          },
+          "mae_m": 1116.5669152736891,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8333333333333334,
+            "10": 0.9166666666666667
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced_slack03",
+          "case_id": "S1.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_4",
+            "hit50": "track_4",
+            "hit100": "track_4",
+            "hit200": "track_4",
+            "hit500": "track_4"
+          },
+          "mae_m": 2223.9039310740673,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.725,
+            "10": 0.7583333333333333
+          },
+          "pass_90pct_case_recall_L10": false,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced_slack03",
+          "case_id": "S10.A",
+          "validation_families": 1,
+          "selected_attack": {
+            "mae": "track_3_ols3_30s",
+            "hit50": "track_3_ols3_30s",
+            "hit100": "track_3_ols3_30s",
+            "hit200": "track_3_ols3_30s",
+            "hit500": "track_3_ols3_30s"
+          },
+          "mae_m": 426.1954533928441,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.5,
+            "500": 0.5
+          },
+          "recall": {
+            "5": 0.9236842105263159,
+            "10": 0.9679824561403508
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced_slack03",
+          "case_id": "S10.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0_ols2_120s",
+            "hit50": "track_2_ols6_30s",
+            "hit100": "track_0_ols3_60s_road",
+            "hit200": "track_2_ols6_30s",
+            "hit500": "track_0_ols6_120s_road"
+          },
+          "mae_m": 1790.2099630279306,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.125
+          },
+          "recall": {
+            "5": 0.8740079365079364,
+            "10": 0.9526404151404151
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced_slack03",
+          "case_id": "S10.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_4_ols2_60s_road_joint_mean",
+            "hit50": "track_4_ols2_60s_road_joint_mean",
+            "hit100": "track_4_ols2_60s_road_joint_mean",
+            "hit200": "track_4_ols2_60s_road_joint_mean",
+            "hit500": "track_4_ols2_60s_road_joint_mean"
+          },
+          "mae_m": 899.6134581071165,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8677567079463364,
+            "10": 0.9415634674922599
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced_slack03",
+          "case_id": "S2.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0",
+            "hit50": "track_0",
+            "hit100": "track_0",
+            "hit200": "track_0",
+            "hit500": "track_0"
+          },
+          "mae_m": 447.454568567695,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.5
+          },
+          "recall": {
+            "5": 0.9416666666666667,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced_slack03",
+          "case_id": "S2.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0_road",
+            "hit50": "track_0_road",
+            "hit100": "track_0_road",
+            "hit200": "track_0_road",
+            "hit500": "track_0_road"
+          },
+          "mae_m": 501.53245530410015,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.5
+          },
+          "recall": {
+            "5": 0.9194444444444445,
+            "10": 0.9768518518518519
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced_slack03",
+          "case_id": "S2.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_2",
+            "hit50": "track_2",
+            "hit100": "track_2",
+            "hit200": "track_0",
+            "hit500": "track_2"
+          },
+          "mae_m": 1382.3684953811933,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8430555555555556,
+            "10": 0.899537037037037
+          },
+          "pass_90pct_case_recall_L10": false,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced_slack03",
+          "case_id": "S3.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "track_2",
+            "hit500": "mean"
+          },
+          "mae_m": 1254.6543254632916,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.025,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8648611111111112,
+            "10": 0.9245833333333334
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced_slack03",
+          "case_id": "S3.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_2",
+            "hit50": "track_2",
+            "hit100": "track_2",
+            "hit200": "track_2",
+            "hit500": "track_2"
+          },
+          "mae_m": 1256.5613855377762,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.025,
+            "500": 0.125
+          },
+          "recall": {
+            "5": 0.8648611111111112,
+            "10": 0.9245833333333334
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced_slack03",
+          "case_id": "S3.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean_road"
+          },
+          "mae_m": 1292.9579342355541,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8583333333333334,
+            "10": 0.9229166666666667
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced_slack03",
+          "case_id": "S9.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "window_mean",
+            "hit50": "track_1_ols6_60s",
+            "hit100": "track_1_ols6_30s",
+            "hit200": "track_1_boundary_road",
+            "hit500": "median_boundary_road"
+          },
+          "mae_m": 1028.472109705222,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.5
+          },
+          "recall": {
+            "5": 0.8680555555555556,
+            "10": 0.9357473544973545
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced_slack03",
+          "case_id": "S9.B",
+          "validation_families": 1,
+          "selected_attack": {
+            "mae": "window_mean",
+            "hit50": "window_mean",
+            "hit100": "track_0_ols2_60s",
+            "hit200": "track_0_ols2_60s",
+            "hit500": "track_0_boundary_road"
+          },
+          "mae_m": 1555.3659268380252,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.9144736842105262,
+            "10": 0.9721491228070176
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "capped90_paced_slack03",
+          "case_id": "S9.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0_ols6_60s_road_joint_mean",
+            "hit50": "track_0_boundary_joint_mean",
+            "hit100": "track_0_ols6_60s_road_joint_mean",
+            "hit200": "track_0_ols2_30s_joint_mean",
+            "hit500": "track_0_ols6_60s_road_joint_mean"
+          },
+          "mae_m": 446.4772420968391,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.25,
+            "500": 0.5
+          },
+          "recall": {
+            "5": 0.8570067939456484,
+            "10": 0.930718954248366
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        }
+      ]
+    },
+    {
+      "method": "planar_paced",
+      "case_gates_passed": 14,
+      "case_gates_total": 15,
+      "validation_families": 2,
+      "validation_source_sessions": 16,
+      "validation_whole_session_L10_mean": 0.936717418295665,
+      "validation_whole_session_L10_min": 0.8024509803921568,
+      "all_case_metrics": [
+        {
+          "method": "planar_paced",
+          "case_id": "S1.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0",
+            "hit50": "track_0",
+            "hit100": "track_0",
+            "hit200": "track_0",
+            "hit500": "track_0"
+          },
+          "mae_m": 698.0702524896178,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.5
+          },
+          "recall": {
+            "5": 0.8416666666666666,
+            "10": 0.975
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced",
+          "case_id": "S1.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0",
+            "hit50": "track_0",
+            "hit100": "track_0",
+            "hit200": "track_0",
+            "hit500": "track_0"
+          },
+          "mae_m": 856.4431016513297,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.8083333333333332,
+            "10": 0.9083333333333333
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced",
+          "case_id": "S1.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_1",
+            "hit50": "track_1",
+            "hit100": "track_1",
+            "hit200": "track_1",
+            "hit500": "track_1"
+          },
+          "mae_m": 2798.7610166770014,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.6916666666666667,
+            "10": 0.7333333333333333
+          },
+          "pass_90pct_case_recall_L10": false,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced",
+          "case_id": "S10.A",
+          "validation_families": 1,
+          "selected_attack": {
+            "mae": "median_ols6_120s_road",
+            "hit50": "median_ols6_120s_road",
+            "hit100": "median_ols6_120s_road",
+            "hit200": "median_ols6_120s_road",
+            "hit500": "median_ols6_120s_road"
+          },
+          "mae_m": 2110.895415144364,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.9346491228070175,
+            "10": 0.9785087719298247
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced",
+          "case_id": "S10.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0_ols2_120s",
+            "hit50": "track_0_ols2_120s",
+            "hit100": "track_0_ols2_120s",
+            "hit200": "track_0_ols2_120s",
+            "hit500": "track_0_ols2_120s"
+          },
+          "mae_m": 1307.0062782331283,
+          "hits": {
+            "50": 0.125,
+            "100": 0.125,
+            "200": 0.25,
+            "500": 0.375
+          },
+          "recall": {
+            "5": 0.9381715506715506,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced",
+          "case_id": "S10.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_3_ols3_120s_road_joint_mean",
+            "hit50": "track_3_ols3_120s_road_joint_mean",
+            "hit100": "track_3_ols3_120s_road_joint_mean",
+            "hit200": "track_0_ols2_60s",
+            "hit500": "track_3_ols3_120s_road_joint_mean"
+          },
+          "mae_m": 2240.259829046374,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.125,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8518919848641212,
+            "10": 0.9472802717578259
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced",
+          "case_id": "S2.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean"
+          },
+          "mae_m": 797.7349460271541,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.25,
+            "500": 0.5
+          },
+          "recall": {
+            "5": 0.9500000000000001,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced",
+          "case_id": "S2.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean"
+          },
+          "mae_m": 765.0825656401428,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.5
+          },
+          "recall": {
+            "5": 0.9675925925925926,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced",
+          "case_id": "S2.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean_road",
+            "hit50": "mean_road",
+            "hit100": "mean_road",
+            "hit200": "mean_road",
+            "hit500": "mean_road"
+          },
+          "mae_m": 1060.9520811527657,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8828703703703703,
+            "10": 0.9416666666666665
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced",
+          "case_id": "S3.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_0",
+            "hit50": "track_2",
+            "hit100": "track_2",
+            "hit200": "track_0",
+            "hit500": "track_0"
+          },
+          "mae_m": 1000.6167507236231,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.08333333333333333,
+            "500": 0.375
+          },
+          "recall": {
+            "5": 0.8619444444444445,
+            "10": 0.94
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced",
+          "case_id": "S3.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "track_2",
+            "hit100": "track_2",
+            "hit200": "track_0",
+            "hit500": "track_2"
+          },
+          "mae_m": 1208.0118122992583,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.08333333333333333,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8619444444444445,
+            "10": 0.94
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced",
+          "case_id": "S3.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean_road",
+            "hit50": "mean_road",
+            "hit100": "track_0",
+            "hit200": "track_0",
+            "hit500": "track_0"
+          },
+          "mae_m": 1182.4687295647773,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.125,
+            "500": 0.375
+          },
+          "recall": {
+            "5": 0.8687500000000001,
+            "10": 0.94375
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced",
+          "case_id": "S9.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "window_mean_road",
+            "hit50": "window_mean_road",
+            "hit100": "window_mean_road",
+            "hit200": "window_mean_road",
+            "hit500": "window_mean_road"
+          },
+          "mae_m": 832.4201069066401,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.8504960317460317,
+            "10": 0.9396164021164022
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced",
+          "case_id": "S9.B",
+          "validation_families": 1,
+          "selected_attack": {
+            "mae": "window_mean_road",
+            "hit50": "window_mean_road",
+            "hit100": "window_mean_road",
+            "hit200": "window_mean_road",
+            "hit500": "window_mean_road"
+          },
+          "mae_m": 1126.016290404973,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8769736842105262,
+            "10": 0.9502192982456139
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced",
+          "case_id": "S9.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "window_mean_road_joint_mean",
+            "hit50": "window_mean_road",
+            "hit100": "track_2_boundary_joint_mean",
+            "hit200": "window_mean_road_joint_mean",
+            "hit500": "window_mean_road_joint_mean"
+          },
+          "mae_m": 783.292188931213,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.8338536291709667,
+            "10": 0.9295988132094943
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        }
+      ]
+    },
+    {
+      "method": "planar_paced_slack03",
+      "case_gates_passed": 13,
+      "case_gates_total": 15,
+      "validation_families": 2,
+      "validation_source_sessions": 16,
+      "validation_whole_session_L10_mean": 0.9443551244329086,
+      "validation_whole_session_L10_min": 0.8127450980392157,
+      "all_case_metrics": [
+        {
+          "method": "planar_paced_slack03",
+          "case_id": "S1.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean_road",
+            "hit50": "mean_road",
+            "hit100": "mean_road",
+            "hit200": "mean_road",
+            "hit500": "track_3"
+          },
+          "mae_m": 621.2987987494289,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.95,
+            "10": 0.975
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced_slack03",
+          "case_id": "S1.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "track_0"
+          },
+          "mae_m": 576.364263629955,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.5
+          },
+          "recall": {
+            "5": 0.9,
+            "10": 0.9916666666666667
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced_slack03",
+          "case_id": "S1.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_1",
+            "hit50": "track_1",
+            "hit100": "track_1",
+            "hit200": "track_1",
+            "hit500": "track_1"
+          },
+          "mae_m": 1877.6020713175542,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.7333333333333334,
+            "10": 0.775
+          },
+          "pass_90pct_case_recall_L10": false,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced_slack03",
+          "case_id": "S10.A",
+          "validation_families": 1,
+          "selected_attack": {
+            "mae": "track_4_ols6_120s",
+            "hit50": "track_4_ols6_120s",
+            "hit100": "track_4_ols6_120s_road",
+            "hit200": "track_4_ols6_120s",
+            "hit500": "track_4_ols6_120s"
+          },
+          "mae_m": 1301.033539254886,
+          "hits": {
+            "50": 0.5,
+            "100": 0.5,
+            "200": 0.5,
+            "500": 0.5
+          },
+          "recall": {
+            "5": 0.9100877192982457,
+            "10": 0.9583333333333333
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced_slack03",
+          "case_id": "S10.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean_ols3_120s_road",
+            "hit50": "track_3_ols6_60s_road",
+            "hit100": "mean_ols3_120s_road",
+            "hit200": "mean_ols3_120s_road",
+            "hit500": "mean_ols3_120s_road"
+          },
+          "mae_m": 1254.9927789705766,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.125,
+            "500": 0.25
+          },
+          "recall": {
+            "5": 0.9303113553113551,
+            "10": 0.9919871794871795
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced_slack03",
+          "case_id": "S10.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "median_ols6_120s_road_joint_mean",
+            "hit50": "track_4_ols3_60s",
+            "hit100": "track_4_ols2_60s",
+            "hit200": "track_4_ols6_60s",
+            "hit500": "track_3_ols6_120s_road_joint_mean"
+          },
+          "mae_m": 665.4061889976956,
+          "hits": {
+            "50": 0.0,
+            "100": 0.125,
+            "200": 0.25,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.888110595115239,
+            "10": 0.9632266941864465
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced_slack03",
+          "case_id": "S2.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "mean",
+            "hit500": "mean"
+          },
+          "mae_m": 814.693853487561,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.25,
+            "500": 0.5
+          },
+          "recall": {
+            "5": 0.9555555555555556,
+            "10": 1.0
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced_slack03",
+          "case_id": "S2.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_2_road",
+            "hit50": "track_2_road",
+            "hit100": "track_2_road",
+            "hit200": "track_2_road",
+            "hit500": "track_2_road"
+          },
+          "mae_m": 956.1222688203002,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.924074074074074,
+            "10": 0.9833333333333333
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced_slack03",
+          "case_id": "S2.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean_road",
+            "hit50": "mean_road",
+            "hit100": "mean_road",
+            "hit200": "mean_road",
+            "hit500": "mean_road"
+          },
+          "mae_m": 1452.5473275836703,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.7953703703703704,
+            "10": 0.874074074074074
+          },
+          "pass_90pct_case_recall_L10": false,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced_slack03",
+          "case_id": "S3.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "track_2",
+            "hit100": "track_2",
+            "hit200": "track_0",
+            "hit500": "track_2"
+          },
+          "mae_m": 922.1744636157009,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.041666666666666664,
+            "500": 0.2
+          },
+          "recall": {
+            "5": 0.8956944444444445,
+            "10": 0.9491666666666667
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced_slack03",
+          "case_id": "S3.B",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "track_2",
+            "hit50": "track_2",
+            "hit100": "track_2",
+            "hit200": "track_0",
+            "hit500": "track_2"
+          },
+          "mae_m": 946.7073082903439,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.041666666666666664,
+            "500": 0.2
+          },
+          "recall": {
+            "5": 0.8956944444444445,
+            "10": 0.9491666666666667
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced_slack03",
+          "case_id": "S3.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean",
+            "hit50": "mean",
+            "hit100": "mean",
+            "hit200": "track_0",
+            "hit500": "track_2"
+          },
+          "mae_m": 950.9922612886435,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0625,
+            "500": 0.1875
+          },
+          "recall": {
+            "5": 0.9,
+            "10": 0.94375
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced_slack03",
+          "case_id": "S9.A",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "mean_boundary_road",
+            "hit50": "mean_boundary_road",
+            "hit100": "window_mean",
+            "hit200": "window_mean",
+            "hit500": "mean_boundary_road"
+          },
+          "mae_m": 597.3492072230645,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.5
+          },
+          "recall": {
+            "5": 0.8838624338624339,
+            "10": 0.9550925925925926
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced_slack03",
+          "case_id": "S9.B",
+          "validation_families": 1,
+          "selected_attack": {
+            "mae": "window_mean",
+            "hit50": "window_mean",
+            "hit100": "window_mean",
+            "hit200": "window_mean",
+            "hit500": "window_mean"
+          },
+          "mae_m": 1352.3032324953233,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.0,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.9157894736842105,
+            "10": 0.9640350877192982
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        },
+        {
+          "method": "planar_paced_slack03",
+          "case_id": "S9.C",
+          "validation_families": 2,
+          "selected_attack": {
+            "mae": "window_mean_joint_mean",
+            "hit50": "track_2_boundary_joint_mean",
+            "hit100": "track_2_boundary_joint_mean",
+            "hit200": "track_3_ols6_120s_joint_mean",
+            "hit500": "window_mean_joint_mean"
+          },
+          "mae_m": 1008.4546631778874,
+          "hits": {
+            "50": 0.0,
+            "100": 0.0,
+            "200": 0.25,
+            "500": 0.0
+          },
+          "recall": {
+            "5": 0.8793967148262813,
+            "10": 0.9528573271413829
+          },
+          "pass_90pct_case_recall_L10": true,
+          "privacy_scope": "finite geometric bank only; mechanism-matched learned attack not yet run"
+        }
+      ]
+    }
+  ],
+  "paired_utility_comparisons": [
+    {
+      "method": "capped90_paced",
+      "control": "response_paced",
+      "case_id": "S1.A",
+      "mean_family_recall_delta": -0.016666666666666663,
+      "family_deltas": {
+        "family-601": 0.01666666666666672,
+        "family-602": -0.050000000000000044
+      }
+    },
+    {
+      "method": "capped90_paced",
+      "control": "response_paced",
+      "case_id": "S1.B",
+      "mean_family_recall_delta": 0.016666666666666607,
+      "family_deltas": {
+        "family-601": 0.06666666666666665,
+        "family-602": -0.03333333333333344
+      }
+    },
+    {
+      "method": "capped90_paced",
+      "control": "response_paced",
+      "case_id": "S1.C",
+      "mean_family_recall_delta": -0.00833333333333336,
+      "family_deltas": {
+        "family-601": 0.0,
+        "family-602": -0.01666666666666672
+      }
+    },
+    {
+      "method": "capped90_paced",
+      "control": "response_paced",
+      "case_id": "S2.A",
+      "mean_family_recall_delta": -0.008333333333333304,
+      "family_deltas": {
+        "family-601": -0.016666666666666607,
+        "family-602": 0.0
+      }
+    },
+    {
+      "method": "capped90_paced",
+      "control": "response_paced",
+      "case_id": "S2.B",
+      "mean_family_recall_delta": -0.0490740740740741,
+      "family_deltas": {
+        "family-601": -0.0981481481481482,
+        "family-602": 0.0
+      }
+    },
+    {
+      "method": "capped90_paced",
+      "control": "response_paced",
+      "case_id": "S2.C",
+      "mean_family_recall_delta": 0.033333333333333326,
+      "family_deltas": {
+        "family-601": 0.033333333333333326,
+        "family-602": 0.033333333333333326
+      }
+    },
+    {
+      "method": "capped90_paced",
+      "control": "response_paced",
+      "case_id": "S3.A",
+      "mean_family_recall_delta": -0.012083333333333224,
+      "family_deltas": {
+        "family-601": -0.011666666666666492,
+        "family-602": -0.012499999999999956
+      }
+    },
+    {
+      "method": "capped90_paced",
+      "control": "response_paced",
+      "case_id": "S3.B",
+      "mean_family_recall_delta": -0.012083333333333224,
+      "family_deltas": {
+        "family-601": -0.011666666666666492,
+        "family-602": -0.012499999999999956
+      }
+    },
+    {
+      "method": "capped90_paced",
+      "control": "response_paced",
+      "case_id": "S3.C",
+      "mean_family_recall_delta": -0.014583333333333282,
+      "family_deltas": {
+        "family-601": -0.016666666666666607,
+        "family-602": -0.012499999999999956
+      }
+    },
+    {
+      "method": "capped90_paced",
+      "control": "response_paced",
+      "case_id": "S9.A",
+      "mean_family_recall_delta": 0.013326719576719714,
+      "family_deltas": {
+        "family-601": -0.0071428571428568954,
+        "family-602": 0.033796296296296324
+      }
+    },
+    {
+      "method": "capped90_paced",
+      "control": "response_paced",
+      "case_id": "S9.B",
+      "mean_family_recall_delta": 0.037938596491228105,
+      "family_deltas": {
+        "family-602": 0.037938596491228105
+      }
+    },
+    {
+      "method": "capped90_paced",
+      "control": "response_paced",
+      "case_id": "S9.C",
+      "mean_family_recall_delta": 0.020661334709322354,
+      "family_deltas": {
+        "family-601": 0.008479532163742864,
+        "family-602": 0.032843137254901844
+      }
+    },
+    {
+      "method": "capped90_paced",
+      "control": "response_paced",
+      "case_id": "S10.A",
+      "mean_family_recall_delta": 0.0030701754385967783,
+      "family_deltas": {
+        "family-602": 0.0030701754385967783
+      }
+    },
+    {
+      "method": "capped90_paced",
+      "control": "response_paced",
+      "case_id": "S10.B",
+      "mean_family_recall_delta": -0.022786935286935428,
+      "family_deltas": {
+        "family-601": -0.035256410256410464,
+        "family-602": -0.010317460317460392
+      }
+    },
+    {
+      "method": "capped90_paced",
+      "control": "response_paced",
+      "case_id": "S10.C",
+      "mean_family_recall_delta": 0.019332645338837273,
+      "family_deltas": {
+        "family-601": 0.01023391812865504,
+        "family-602": 0.028431372549019507
+      }
+    },
+    {
+      "method": "capped90_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S1.A",
+      "mean_family_recall_delta": -0.04166666666666663,
+      "family_deltas": {
+        "family-601": -0.08333333333333326,
+        "family-602": 0.0
+      }
+    },
+    {
+      "method": "capped90_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S1.B",
+      "mean_family_recall_delta": 0.024999999999999967,
+      "family_deltas": {
+        "family-601": 0.033333333333333326,
+        "family-602": 0.016666666666666607
+      }
+    },
+    {
+      "method": "capped90_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S1.C",
+      "mean_family_recall_delta": -0.06666666666666665,
+      "family_deltas": {
+        "family-601": -0.04999999999999993,
+        "family-602": -0.08333333333333337
+      }
+    },
+    {
+      "method": "capped90_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S2.A",
+      "mean_family_recall_delta": 0.02083333333333337,
+      "family_deltas": {
+        "family-601": 0.04166666666666674,
+        "family-602": 0.0
+      }
+    },
+    {
+      "method": "capped90_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S2.B",
+      "mean_family_recall_delta": -0.015740740740740722,
+      "family_deltas": {
+        "family-601": -0.031481481481481444,
+        "family-602": 0.0
+      }
+    },
+    {
+      "method": "capped90_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S2.C",
+      "mean_family_recall_delta": -0.01620370370370361,
+      "family_deltas": {
+        "family-601": -0.030555555555555447,
+        "family-602": -0.0018518518518517713
+      }
+    },
+    {
+      "method": "capped90_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S3.A",
+      "mean_family_recall_delta": -0.016388888888888897,
+      "family_deltas": {
+        "family-601": -0.030000000000000027,
+        "family-602": -0.002777777777777768
+      }
+    },
+    {
+      "method": "capped90_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S3.B",
+      "mean_family_recall_delta": -0.016388888888888897,
+      "family_deltas": {
+        "family-601": -0.030000000000000027,
+        "family-602": -0.002777777777777768
+      }
+    },
+    {
+      "method": "capped90_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S3.C",
+      "mean_family_recall_delta": -0.014583333333333337,
+      "family_deltas": {
+        "family-601": -0.029166666666666674,
+        "family-602": 0.0
+      }
+    },
+    {
+      "method": "capped90_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S9.A",
+      "mean_family_recall_delta": 0.010714285714285732,
+      "family_deltas": {
+        "family-601": -0.02857142857142858,
+        "family-602": 0.050000000000000044
+      }
+    },
+    {
+      "method": "capped90_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S9.B",
+      "mean_family_recall_delta": 0.02960526315789458,
+      "family_deltas": {
+        "family-602": 0.02960526315789458
+      }
+    },
+    {
+      "method": "capped90_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S9.C",
+      "mean_family_recall_delta": 0.011743206054351474,
+      "family_deltas": {
+        "family-601": -0.009356725146198897,
+        "family-602": 0.032843137254901844
+      }
+    },
+    {
+      "method": "capped90_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S10.A",
+      "mean_family_recall_delta": -0.01140350877192986,
+      "family_deltas": {
+        "family-602": -0.01140350877192986
+      }
+    },
+    {
+      "method": "capped90_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S10.B",
+      "mean_family_recall_delta": -0.036874236874236965,
+      "family_deltas": {
+        "family-601": -0.060256410256410264,
+        "family-602": -0.013492063492063666
+      }
+    },
+    {
+      "method": "capped90_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S10.C",
+      "mean_family_recall_delta": 0.005594255245958024,
+      "family_deltas": {
+        "family-601": -0.01871345029239757,
+        "family-602": 0.02990196078431362
+      }
+    },
+    {
+      "method": "planar_paced",
+      "control": "response_paced",
+      "case_id": "S1.A",
+      "mean_family_recall_delta": 0.033333333333333326,
+      "family_deltas": {
+        "family-601": 0.06666666666666665,
+        "family-602": 0.0
+      }
+    },
+    {
+      "method": "planar_paced",
+      "control": "response_paced",
+      "case_id": "S1.B",
+      "mean_family_recall_delta": -0.008333333333333304,
+      "family_deltas": {
+        "family-601": -0.016666666666666607,
+        "family-602": 0.0
+      }
+    },
+    {
+      "method": "planar_paced",
+      "control": "response_paced",
+      "case_id": "S1.C",
+      "mean_family_recall_delta": -0.00833333333333336,
+      "family_deltas": {
+        "family-601": 0.0,
+        "family-602": -0.01666666666666672
+      }
+    },
+    {
+      "method": "planar_paced",
+      "control": "response_paced",
+      "case_id": "S2.A",
+      "mean_family_recall_delta": 0.01666666666666672,
+      "family_deltas": {
+        "family-601": 0.03333333333333344,
+        "family-602": 0.0
+      }
+    },
+    {
+      "method": "planar_paced",
+      "control": "response_paced",
+      "case_id": "S2.B",
+      "mean_family_recall_delta": 0.0,
+      "family_deltas": {
+        "family-601": 0.0,
+        "family-602": 0.0
+      }
+    },
+    {
+      "method": "planar_paced",
+      "control": "response_paced",
+      "case_id": "S2.C",
+      "mean_family_recall_delta": 0.00833333333333336,
+      "family_deltas": {
+        "family-601": 0.04166666666666674,
+        "family-602": -0.025000000000000022
+      }
+    },
+    {
+      "method": "planar_paced",
+      "control": "response_paced",
+      "case_id": "S3.A",
+      "mean_family_recall_delta": 0.02833333333333332,
+      "family_deltas": {
+        "family-601": 0.05666666666666664,
+        "family-602": 0.0
+      }
+    },
+    {
+      "method": "planar_paced",
+      "control": "response_paced",
+      "case_id": "S3.B",
+      "mean_family_recall_delta": 0.02833333333333332,
+      "family_deltas": {
+        "family-601": 0.05666666666666664,
+        "family-602": 0.0
+      }
+    },
+    {
+      "method": "planar_paced",
+      "control": "response_paced",
+      "case_id": "S3.C",
+      "mean_family_recall_delta": 0.025000000000000022,
+      "family_deltas": {
+        "family-601": 0.050000000000000044,
+        "family-602": 0.0
+      }
+    },
+    {
+      "method": "planar_paced",
+      "control": "response_paced",
+      "case_id": "S9.A",
+      "mean_family_recall_delta": 0.025297619047619124,
+      "family_deltas": {
+        "family-601": 0.03392857142857153,
+        "family-602": 0.01666666666666672
+      }
+    },
+    {
+      "method": "planar_paced",
+      "control": "response_paced",
+      "case_id": "S9.B",
+      "mean_family_recall_delta": 0.019956140350877116,
+      "family_deltas": {
+        "family-602": 0.019956140350877116
+      }
+    },
+    {
+      "method": "planar_paced",
+      "control": "response_paced",
+      "case_id": "S9.C",
+      "mean_family_recall_delta": 0.014604833161334818,
+      "family_deltas": {
+        "family-601": 0.026023391812865615,
+        "family-602": 0.0031862745098040213
+      }
+    },
+    {
+      "method": "planar_paced",
+      "control": "response_paced",
+      "case_id": "S10.A",
+      "mean_family_recall_delta": 0.018421052631578894,
+      "family_deltas": {
+        "family-602": 0.018421052631578894
+      }
+    },
+    {
+      "method": "planar_paced",
+      "control": "response_paced",
+      "case_id": "S10.B",
+      "mean_family_recall_delta": 0.007203907203907234,
+      "family_deltas": {
+        "family-601": 0.012820512820512775,
+        "family-602": 0.0015873015873016927
+      }
+    },
+    {
+      "method": "planar_paced",
+      "control": "response_paced",
+      "case_id": "S10.C",
+      "mean_family_recall_delta": 0.014114637082903392,
+      "family_deltas": {
+        "family-601": 0.026023391812865615,
+        "family-602": 0.0022058823529411686
+      }
+    },
+    {
+      "method": "planar_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S1.A",
+      "mean_family_recall_delta": 0.033333333333333326,
+      "family_deltas": {
+        "family-601": 0.050000000000000044,
+        "family-602": 0.016666666666666607
+      }
+    },
+    {
+      "method": "planar_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S1.B",
+      "mean_family_recall_delta": 0.09999999999999998,
+      "family_deltas": {
+        "family-601": 0.18333333333333335,
+        "family-602": 0.016666666666666607
+      }
+    },
+    {
+      "method": "planar_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S1.C",
+      "mean_family_recall_delta": -0.04999999999999999,
+      "family_deltas": {
+        "family-601": -0.01666666666666672,
+        "family-602": -0.08333333333333326
+      }
+    },
+    {
+      "method": "planar_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S2.A",
+      "mean_family_recall_delta": 0.02083333333333337,
+      "family_deltas": {
+        "family-601": 0.04166666666666674,
+        "family-602": 0.0
+      }
+    },
+    {
+      "method": "planar_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S2.B",
+      "mean_family_recall_delta": -0.0092592592592593,
+      "family_deltas": {
+        "family-601": -0.0185185185185186,
+        "family-602": 0.0
+      }
+    },
+    {
+      "method": "planar_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S2.C",
+      "mean_family_recall_delta": -0.04166666666666663,
+      "family_deltas": {
+        "family-601": -0.02499999999999991,
+        "family-602": -0.05833333333333335
+      }
+    },
+    {
+      "method": "planar_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S3.A",
+      "mean_family_recall_delta": 0.008194444444444449,
+      "family_deltas": {
+        "family-601": 0.00666666666666671,
+        "family-602": 0.009722222222222188
+      }
+    },
+    {
+      "method": "planar_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S3.B",
+      "mean_family_recall_delta": 0.008194444444444449,
+      "family_deltas": {
+        "family-601": 0.00666666666666671,
+        "family-602": 0.009722222222222188
+      }
+    },
+    {
+      "method": "planar_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S3.C",
+      "mean_family_recall_delta": 0.006249999999999978,
+      "family_deltas": {
+        "family-601": 0.0,
+        "family-602": 0.012499999999999956
+      }
+    },
+    {
+      "method": "planar_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S9.A",
+      "mean_family_recall_delta": 0.030059523809523814,
+      "family_deltas": {
+        "family-601": 0.0267857142857143,
+        "family-602": 0.033333333333333326
+      }
+    },
+    {
+      "method": "planar_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S9.B",
+      "mean_family_recall_delta": 0.021491228070175228,
+      "family_deltas": {
+        "family-602": 0.021491228070175228
+      }
+    },
+    {
+      "method": "planar_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S9.C",
+      "mean_family_recall_delta": 0.033881578947368485,
+      "family_deltas": {
+        "family-601": 0.038596491228070184,
+        "family-602": 0.029166666666666785
+      }
+    },
+    {
+      "method": "planar_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S10.A",
+      "mean_family_recall_delta": -0.021052631578947434,
+      "family_deltas": {
+        "family-602": -0.021052631578947434
+      }
+    },
+    {
+      "method": "planar_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S10.B",
+      "mean_family_recall_delta": 0.0024725274725274637,
+      "family_deltas": {
+        "family-601": 0.002564102564102555,
+        "family-602": 0.0023809523809523725
+      }
+    },
+    {
+      "method": "planar_paced_slack03",
+      "control": "response_paced_slack03",
+      "case_id": "S10.C",
+      "mean_family_recall_delta": 0.02725748194014438,
+      "family_deltas": {
+        "family-601": 0.03245614035087707,
+        "family-602": 0.022058823529411686
+      }
+    }
+  ],
+  "first_query_probe_scope": "separate full-session origin challenge, NOT masked S9.A/B/C scores; mechanism-matched fit and auxiliary selection; raw exact first coordinate has zero error",
+  "first_query_comparison": [
+    {
+      "method": "response_paced",
+      "selection": {
+        "mae": "expanded_tree_residual",
+        "hit50": "expanded_knn_15",
+        "hit100": "expanded_shadow_loss_mae_action_45",
+        "hit200": "expanded_shadow_loss_mae_action_45",
+        "hit500": "expanded_tree_residual"
+      },
+      "mae_m": 606.6415645792276,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.03125,
+        "500": 0.375
+      },
+      "validation_families": 2,
+      "validation_source_sessions": 16,
+      "validation_record_RNG_pairs": 32
+    },
+    {
+      "method": "planar_paced_and_slack_same_first_query",
+      "selection": {
+        "mae": "expanded_knn_1",
+        "hit50": "shadow_hit50_15",
+        "hit100": "expanded_knn_1",
+        "hit200": "expanded_knn_1",
+        "hit500": "expanded_knn_5"
+      },
+      "mae_m": 404.5517440056905,
+      "hits": {
+        "50": 0.03125,
+        "100": 0.0625,
+        "200": 0.0625,
+        "500": 0.8125
+      },
+      "validation_families": 2,
+      "validation_source_sessions": 16,
+      "validation_record_RNG_pairs": 32
+    }
+  ]
+}

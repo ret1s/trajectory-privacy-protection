@@ -1,0 +1,4220 @@
+{
+  "scope": "expanded development screening, frozen shortlist; fixed old-train finite decoders; NOT final confirmation or sufficient attack coverage",
+  "provenance": {
+    "dataset_sha256": "e80228fdd2e70b451dadcea23c725556345f5fcf3cc35f1915ad3f526a9a708e",
+    "code_sha256": "e4d82b460d4aff32297db3cc05c27b344d503ec7a7e22ae0f228e2c43e907e94",
+    "source_sha256": {
+      "benchmark/engines/paced_slack.py": "60d96f019496e1b209b84090b787e4b484aa38c85acfda307fc71ee05dc7f2cf",
+      "benchmark/engines/slack_progress.py": "655e2a730323d1e365fef4ac8a14cbd67e7049b27816cf41fcae850651a97963",
+      "benchmark/engines/paced_guard.py": "740b6b8eabce33a8b50bca55f33b22b868f5f42211f86600924d4d8d43b6ecf0",
+      "benchmark/engines/matched_filter.py": "147c298c6f128c680ce899465a6dc2f980bb8f8456d38c2cc98726f47cd7e5e8",
+      "benchmark/engines/filtered_cover.py": "59633ff32d36de8be5d20e88d62fa579d6c7bc24f9f081904326140ddc00ee7c",
+      "benchmark/engines/progress_cover.py": "9e1121793209e86c825dfc785a6b6859219443fd0ec86557eebdf5035a3cb4d0",
+      "benchmark/engines/quotient_cover.py": "93db80c1acce17b50e6dcdf4c711189604b003735b41a087c4d8d9ccaada8ed2",
+      "benchmark/engines/fair_cover.py": "c739b71374a6682f6468588720660152bf73ad11c825237d90ed9a213cb8d8a6",
+      "benchmark/engines/service_cover.py": "56894618d61135c016f11609ee379b7f0867de46ddfc0699d7f174fd49ba6e48",
+      "benchmark/anchor_belief.py": "9a4d99261ce43c3ebc6d0ce118e974ea3778ca82d0a02ac36b428e669d43dc61",
+      "benchmark/response_aware_belief.py": "2f75b486472430260fa5a112cf5f49cb2bfd18d67da378d8c62954c72a43f070",
+      "core/mechanisms.py": "2c950335809507f0551eeeea62089260e74fa94624b3a84eb64b4666ca0cadfa",
+      "experiments/research_loop_cases.py": "ea665df1b695edde9ef1f2cad38847a14e130ce3ac7b71d010871ee6794bf865",
+      "evaluation/lane_travel.py": "111e1bc109dd53e29922d44bfbc16bded8f1409e467e43faba3723026dc45bde"
+    },
+    "method_shortlist": [
+      "raw",
+      "filter_paced",
+      "response_progress",
+      "response_paced",
+      "response_paced_slack03"
+    ],
+    "attack_selection_source_sha256": {
+      "iteration15_response_cases.json": "a57ab32537bb18327f3dc6e12420a1670cc24ce2227006b8fc08aab7ce4a95c0",
+      "iteration17_paced_slack_cases.json": "eb2f6c3e7b4cb1d5ef2eb2c527d1f3211f90bd206f7402598e32575bd67cab41"
+    },
+    "resources_sha256": "3b5afa2bb7a69537b0f60824fbee5b24212f0968436806f69bd4a44e11bd1dd7",
+    "K": 5,
+    "reference_k": 5,
+    "reply_L": 10,
+    "privacy_cap": 0.23,
+    "workers": 2
+  },
+  "shards": [
+    {
+      "family_id": "family-701",
+      "file": "family-701.json.gz",
+      "sha256": "7c9c284aaa3f798258f9f071fe5befb2e0b0663c8c8a7127ddd8963575c0d264",
+      "executions": 90,
+      "case_rows": 150
+    },
+    {
+      "family_id": "family-702",
+      "file": "family-702.json.gz",
+      "sha256": "5527c042c3b335c38aa553a3c3828623d765cbe75c619db6c01108b97606939b",
+      "executions": 80,
+      "case_rows": 130
+    },
+    {
+      "family_id": "family-703",
+      "file": "family-703.json.gz",
+      "sha256": "2c0be302e3d2ffd7086592f6cca9345cf245a15b9285d44a672056ba99124393",
+      "executions": 80,
+      "case_rows": 140
+    },
+    {
+      "family_id": "family-704",
+      "file": "family-704.json.gz",
+      "sha256": "8521c7155425196c366f5234f4e269b30d907c3d13b6d21fe9e04b961c367911",
+      "executions": 90,
+      "case_rows": 150
+    },
+    {
+      "family_id": "family-705",
+      "file": "family-705.json.gz",
+      "sha256": "bae54f90b1ae13ecf74793b8fee6ab22c82f8fbf155714d7ff54a8aba60065a4",
+      "executions": 90,
+      "case_rows": 150
+    },
+    {
+      "family_id": "family-706",
+      "file": "family-706.json.gz",
+      "sha256": "a32e2489562df76d4dffad1c40f94d77a366c098763d280aa254a03861b1c70a",
+      "executions": 80,
+      "case_rows": 140
+    },
+    {
+      "family_id": "family-707",
+      "file": "family-707.json.gz",
+      "sha256": "3f3a0ed53b4df7f4509b3d0f6c683dc59c7b9510930d8fe2936cb86bcb7697ff",
+      "executions": 80,
+      "case_rows": 140
+    },
+    {
+      "family_id": "family-708",
+      "file": "family-708.json.gz",
+      "sha256": "b5c1463882779319eb14be6ddad678c7b0d8a01bb611fa1cc7deff1b0a92eff0",
+      "executions": 90,
+      "case_rows": 150
+    },
+    {
+      "family_id": "family-709",
+      "file": "family-709.json.gz",
+      "sha256": "a243a8ca5eeefaac523444d0173b866f0d08590f52ac196fe5edbdbbe3e163d7",
+      "executions": 80,
+      "case_rows": 140
+    },
+    {
+      "family_id": "family-710",
+      "file": "family-710.json.gz",
+      "sha256": "3476ab06ad704d8083fed673d45c4a330e5926f2b140c262d8d23f76e466a344",
+      "executions": 90,
+      "case_rows": 150
+    },
+    {
+      "family_id": "family-711",
+      "file": "family-711.json.gz",
+      "sha256": "59c64477ae0baf58df6462f9165bfb76e87bc3fd907d3fc2a1451d60bac673a9",
+      "executions": 80,
+      "case_rows": 140
+    },
+    {
+      "family_id": "family-712",
+      "file": "family-712.json.gz",
+      "sha256": "2a75c0a9695e5b28261524fed42d9b173bb07e9f52df605743b16b73b9f7b1fb",
+      "executions": 90,
+      "case_rows": 150
+    }
+  ],
+  "selection": {
+    "filter_paced/S1.A": {
+      "mae": "track_4",
+      "hit50": "track_4",
+      "hit100": "track_4",
+      "hit200": "track_4",
+      "hit500": "track_4"
+    },
+    "filter_paced/S1.B": {
+      "mae": "track_4",
+      "hit50": "track_4",
+      "hit100": "track_4",
+      "hit200": "track_4",
+      "hit500": "track_4"
+    },
+    "filter_paced/S1.C": {
+      "mae": "track_3",
+      "hit50": "track_3",
+      "hit100": "track_3",
+      "hit200": "track_3",
+      "hit500": "track_3"
+    },
+    "filter_paced/S10.A": {
+      "mae": "track_3_ols6_120s",
+      "hit50": "track_3_ols6_120s",
+      "hit100": "track_3_ols6_120s",
+      "hit200": "track_3_ols6_120s",
+      "hit500": "track_3_ols6_120s"
+    },
+    "filter_paced/S10.B": {
+      "mae": "track_0_ols3_120s_road",
+      "hit50": "track_0_ols3_120s_road",
+      "hit100": "track_2_ols3_30s_road",
+      "hit200": "track_2_ols3_30s_road",
+      "hit500": "track_0_ols3_120s_road"
+    },
+    "filter_paced/S10.C": {
+      "mae": "track_4_ols2_120s_joint_mean",
+      "hit50": "track_4_ols2_120s_joint_mean",
+      "hit100": "track_4_ols2_120s_joint_mean",
+      "hit200": "track_4_ols2_120s_joint_mean",
+      "hit500": "track_0_ols2_120s_road"
+    },
+    "filter_paced/S2.A": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "mean",
+      "hit200": "mean",
+      "hit500": "track_0"
+    },
+    "filter_paced/S2.B": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "mean",
+      "hit200": "mean",
+      "hit500": "mean"
+    },
+    "filter_paced/S2.C": {
+      "mae": "mean_road",
+      "hit50": "mean_road",
+      "hit100": "mean_road",
+      "hit200": "mean_road",
+      "hit500": "mean_road"
+    },
+    "filter_paced/S3.A": {
+      "mae": "track_4",
+      "hit50": "track_4",
+      "hit100": "track_1",
+      "hit200": "track_1",
+      "hit500": "track_0"
+    },
+    "filter_paced/S3.B": {
+      "mae": "track_4",
+      "hit50": "track_4",
+      "hit100": "track_4",
+      "hit200": "track_4",
+      "hit500": "track_0"
+    },
+    "filter_paced/S3.C": {
+      "mae": "track_4",
+      "hit50": "track_4",
+      "hit100": "track_4",
+      "hit200": "track_4",
+      "hit500": "median"
+    },
+    "filter_paced/S9.A": {
+      "mae": "window_mean",
+      "hit50": "window_mean",
+      "hit100": "window_mean",
+      "hit200": "window_mean",
+      "hit500": "window_mean"
+    },
+    "filter_paced/S9.B": {
+      "mae": "window_mean",
+      "hit50": "window_mean",
+      "hit100": "track_0_ols6_30s_road",
+      "hit200": "window_mean",
+      "hit500": "track_0_ols2_30s_road"
+    },
+    "filter_paced/S9.C": {
+      "mae": "window_mean_joint_mean",
+      "hit50": "median_ols2_30s_joint_mean",
+      "hit100": "median_ols3_30s_joint_mean",
+      "hit200": "window_mean_joint_mean",
+      "hit500": "window_mean_joint_mean"
+    },
+    "raw/S1.A": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "mean",
+      "hit200": "mean",
+      "hit500": "mean"
+    },
+    "raw/S1.B": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "mean",
+      "hit200": "mean",
+      "hit500": "mean"
+    },
+    "raw/S1.C": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "mean",
+      "hit200": "mean",
+      "hit500": "mean"
+    },
+    "raw/S10.A": {
+      "mae": "mean_ols6_60s",
+      "hit50": "mean_ols6_60s",
+      "hit100": "mean_ols6_60s",
+      "hit200": "mean_ols6_60s",
+      "hit500": "mean_ols6_60s"
+    },
+    "raw/S10.B": {
+      "mae": "mean_ols2_120s",
+      "hit50": "mean_ols2_120s",
+      "hit100": "mean_ols2_120s",
+      "hit200": "window_mean_road",
+      "hit500": "mean_ols2_120s"
+    },
+    "raw/S10.C": {
+      "mae": "mean_ols6_30s_joint_mean",
+      "hit50": "mean_ols2_60s_joint_mean",
+      "hit100": "mean_ols2_60s_joint_mean",
+      "hit200": "mean_ols6_30s_joint_mean",
+      "hit500": "mean_ols6_30s_joint_mean"
+    },
+    "raw/S2.A": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "mean",
+      "hit200": "mean",
+      "hit500": "mean"
+    },
+    "raw/S2.B": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "mean",
+      "hit200": "mean",
+      "hit500": "mean"
+    },
+    "raw/S2.C": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "mean",
+      "hit200": "mean",
+      "hit500": "mean"
+    },
+    "raw/S3.A": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "mean",
+      "hit200": "mean",
+      "hit500": "mean"
+    },
+    "raw/S3.B": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "mean",
+      "hit200": "mean",
+      "hit500": "mean"
+    },
+    "raw/S3.C": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "mean",
+      "hit200": "mean",
+      "hit500": "mean"
+    },
+    "raw/S9.A": {
+      "mae": "mean_ols2_60s_road",
+      "hit50": "mean_ols2_60s_road",
+      "hit100": "mean_ols2_60s_road",
+      "hit200": "mean_ols2_60s_road",
+      "hit500": "mean_ols2_60s_road"
+    },
+    "raw/S9.B": {
+      "mae": "mean_boundary_road",
+      "hit50": "mean_boundary_road",
+      "hit100": "mean_boundary_road",
+      "hit200": "mean_boundary_road",
+      "hit500": "mean_boundary_road"
+    },
+    "raw/S9.C": {
+      "mae": "mean_ols6_60s_road_joint_mean",
+      "hit50": "mean_ols2_60s_road_joint_mean",
+      "hit100": "mean_ols2_60s_road_joint_mean",
+      "hit200": "mean_ols6_60s_road_joint_mean",
+      "hit500": "mean_ols6_60s_road_joint_mean"
+    },
+    "response_paced/S1.A": {
+      "mae": "track_0",
+      "hit50": "track_0",
+      "hit100": "track_0",
+      "hit200": "track_0",
+      "hit500": "track_1"
+    },
+    "response_paced/S1.B": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "mean",
+      "hit200": "mean",
+      "hit500": "mean"
+    },
+    "response_paced/S1.C": {
+      "mae": "track_4",
+      "hit50": "track_4",
+      "hit100": "track_4",
+      "hit200": "track_4",
+      "hit500": "track_4"
+    },
+    "response_paced/S10.A": {
+      "mae": "track_4_ols2_120s",
+      "hit50": "track_4_ols2_120s",
+      "hit100": "track_4_ols2_120s",
+      "hit200": "track_4_ols2_120s",
+      "hit500": "track_4_ols2_120s"
+    },
+    "response_paced/S10.B": {
+      "mae": "track_0_ols6_120s",
+      "hit50": "track_0_ols6_120s",
+      "hit100": "track_2_ols2_120s_road",
+      "hit200": "track_2_ols2_120s_road",
+      "hit500": "track_2_ols2_120s_road"
+    },
+    "response_paced/S10.C": {
+      "mae": "track_4_ols6_120s_road_joint_mean",
+      "hit50": "track_4_ols6_120s_road_joint_mean",
+      "hit100": "track_4_ols6_120s_road_joint_mean",
+      "hit200": "track_4_ols6_120s_road_joint_mean",
+      "hit500": "track_0_ols6_30s_road_joint_mean"
+    },
+    "response_paced/S2.A": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "mean",
+      "hit200": "mean",
+      "hit500": "mean"
+    },
+    "response_paced/S2.B": {
+      "mae": "median",
+      "hit50": "median",
+      "hit100": "median",
+      "hit200": "median",
+      "hit500": "median"
+    },
+    "response_paced/S2.C": {
+      "mae": "mean",
+      "hit50": "mean_road",
+      "hit100": "mean_road",
+      "hit200": "mean_road",
+      "hit500": "mean"
+    },
+    "response_paced/S3.A": {
+      "mae": "mean",
+      "hit50": "track_2",
+      "hit100": "track_3",
+      "hit200": "track_3",
+      "hit500": "track_3"
+    },
+    "response_paced/S3.B": {
+      "mae": "track_3",
+      "hit50": "track_3",
+      "hit100": "track_3",
+      "hit200": "track_3",
+      "hit500": "track_3"
+    },
+    "response_paced/S3.C": {
+      "mae": "mean",
+      "hit50": "track_2",
+      "hit100": "median",
+      "hit200": "track_3",
+      "hit500": "mean"
+    },
+    "response_paced/S9.A": {
+      "mae": "window_mean_road",
+      "hit50": "window_mean_road",
+      "hit100": "median_ols2_60s_road",
+      "hit200": "median_ols3_60s_road",
+      "hit500": "window_mean_road"
+    },
+    "response_paced/S9.B": {
+      "mae": "window_mean",
+      "hit50": "median_boundary_road",
+      "hit100": "median_boundary_road",
+      "hit200": "median_boundary_road",
+      "hit500": "window_mean"
+    },
+    "response_paced/S9.C": {
+      "mae": "window_mean_road_joint_mean",
+      "hit50": "median_ols3_30s_road_joint_mean",
+      "hit100": "median_ols3_30s_road_joint_mean",
+      "hit200": "mean_boundary_joint_mean",
+      "hit500": "window_mean_road_joint_mean"
+    },
+    "response_progress/S1.A": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "mean",
+      "hit200": "mean",
+      "hit500": "track_3"
+    },
+    "response_progress/S1.B": {
+      "mae": "mean_road",
+      "hit50": "mean_road",
+      "hit100": "mean_road",
+      "hit200": "mean_road",
+      "hit500": "mean_road"
+    },
+    "response_progress/S1.C": {
+      "mae": "track_1",
+      "hit50": "track_1",
+      "hit100": "track_1",
+      "hit200": "track_1",
+      "hit500": "track_1"
+    },
+    "response_progress/S10.A": {
+      "mae": "track_4_ols6_120s",
+      "hit50": "track_4_ols6_120s",
+      "hit100": "track_4_ols6_120s",
+      "hit200": "track_4_ols6_120s",
+      "hit500": "track_4_ols6_120s"
+    },
+    "response_progress/S10.B": {
+      "mae": "track_0_ols6_120s_road",
+      "hit50": "track_0_ols6_120s_road",
+      "hit100": "track_0_ols6_120s_road",
+      "hit200": "track_0_ols6_120s_road",
+      "hit500": "track_0_ols6_120s_road"
+    },
+    "response_progress/S10.C": {
+      "mae": "track_0_ols3_60s_joint_mean",
+      "hit50": "track_0_ols3_60s_joint_mean",
+      "hit100": "track_0_ols3_60s_joint_mean",
+      "hit200": "track_0_ols3_60s_joint_mean",
+      "hit500": "track_0_ols3_60s_joint_mean"
+    },
+    "response_progress/S2.A": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "mean",
+      "hit200": "mean",
+      "hit500": "mean"
+    },
+    "response_progress/S2.B": {
+      "mae": "mean_road",
+      "hit50": "mean_road",
+      "hit100": "mean_road",
+      "hit200": "mean_road",
+      "hit500": "mean_road"
+    },
+    "response_progress/S2.C": {
+      "mae": "mean_road",
+      "hit50": "mean_road",
+      "hit100": "mean_road",
+      "hit200": "mean_road",
+      "hit500": "mean_road"
+    },
+    "response_progress/S3.A": {
+      "mae": "mean",
+      "hit50": "median_road",
+      "hit100": "median",
+      "hit200": "track_3",
+      "hit500": "track_3"
+    },
+    "response_progress/S3.B": {
+      "mae": "track_3",
+      "hit50": "track_3",
+      "hit100": "track_3",
+      "hit200": "track_3",
+      "hit500": "track_3"
+    },
+    "response_progress/S3.C": {
+      "mae": "mean_road",
+      "hit50": "mean_road",
+      "hit100": "median",
+      "hit200": "track_3",
+      "hit500": "mean_road"
+    },
+    "response_progress/S9.A": {
+      "mae": "median_ols2_30s_road",
+      "hit50": "median_ols2_30s_road",
+      "hit100": "median_ols2_60s_road",
+      "hit200": "median_ols2_30s_road",
+      "hit500": "window_mean"
+    },
+    "response_progress/S9.B": {
+      "mae": "window_mean",
+      "hit50": "median_boundary_road",
+      "hit100": "median_boundary_road",
+      "hit200": "median_boundary_road",
+      "hit500": "window_mean"
+    },
+    "response_progress/S9.C": {
+      "mae": "mean_ols6_30s_road_joint_mean",
+      "hit50": "mean_ols3_120s_road_joint_mean",
+      "hit100": "mean_ols6_30s_road_joint_mean",
+      "hit200": "mean_boundary",
+      "hit500": "mean_ols6_30s_road_joint_mean"
+    },
+    "response_paced_slack03/S1.A": {
+      "mae": "track_0",
+      "hit50": "track_0",
+      "hit100": "track_0",
+      "hit200": "track_3",
+      "hit500": "track_3"
+    },
+    "response_paced_slack03/S1.B": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "track_1",
+      "hit200": "track_3",
+      "hit500": "track_3"
+    },
+    "response_paced_slack03/S1.C": {
+      "mae": "track_2",
+      "hit50": "track_2",
+      "hit100": "track_2",
+      "hit200": "track_2",
+      "hit500": "track_2"
+    },
+    "response_paced_slack03/S10.A": {
+      "mae": "track_2_ols2_120s",
+      "hit50": "track_2_ols2_120s",
+      "hit100": "track_2_ols2_120s",
+      "hit200": "track_2_ols2_120s",
+      "hit500": "track_2_ols2_120s"
+    },
+    "response_paced_slack03/S10.B": {
+      "mae": "track_0_ols2_120s_road",
+      "hit50": "track_0_ols2_120s_road",
+      "hit100": "track_0_ols2_120s_road",
+      "hit200": "track_0_ols3_60s",
+      "hit500": "track_0_ols2_120s_road"
+    },
+    "response_paced_slack03/S10.C": {
+      "mae": "mean_ols3_120s_road_joint_mean",
+      "hit50": "mean_ols3_120s_road_joint_mean",
+      "hit100": "mean_ols3_120s_road_joint_mean",
+      "hit200": "track_0_ols2_120s_road_joint_mean",
+      "hit500": "track_0_ols3_120s_road_joint_mean"
+    },
+    "response_paced_slack03/S2.A": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "mean",
+      "hit200": "mean",
+      "hit500": "mean"
+    },
+    "response_paced_slack03/S2.B": {
+      "mae": "median",
+      "hit50": "median",
+      "hit100": "median",
+      "hit200": "median",
+      "hit500": "median"
+    },
+    "response_paced_slack03/S2.C": {
+      "mae": "median_road",
+      "hit50": "median_road",
+      "hit100": "median_road",
+      "hit200": "median_road",
+      "hit500": "mean_road"
+    },
+    "response_paced_slack03/S3.A": {
+      "mae": "mean",
+      "hit50": "mean",
+      "hit100": "median",
+      "hit200": "track_3",
+      "hit500": "track_3"
+    },
+    "response_paced_slack03/S3.B": {
+      "mae": "track_3",
+      "hit50": "track_3",
+      "hit100": "track_3",
+      "hit200": "track_3",
+      "hit500": "track_3"
+    },
+    "response_paced_slack03/S3.C": {
+      "mae": "mean_road",
+      "hit50": "mean_road",
+      "hit100": "median",
+      "hit200": "track_3",
+      "hit500": "track_3"
+    },
+    "response_paced_slack03/S9.A": {
+      "mae": "window_mean_road",
+      "hit50": "window_mean_road",
+      "hit100": "window_mean_road",
+      "hit200": "median_ols2_60s",
+      "hit500": "window_mean_road"
+    },
+    "response_paced_slack03/S9.B": {
+      "mae": "window_mean_road",
+      "hit50": "median_boundary_road",
+      "hit100": "median_boundary_road",
+      "hit200": "median_boundary_road",
+      "hit500": "window_mean_road"
+    },
+    "response_paced_slack03/S9.C": {
+      "mae": "mean_boundary_road_joint_mean",
+      "hit50": "window_mean_road",
+      "hit100": "track_1_ols6_60s_joint_mean",
+      "hit200": "mean_ols2_120s_road_joint_mean",
+      "hit500": "window_mean_road_joint_mean"
+    }
+  },
+  "summaries": [
+    {
+      "method": "raw",
+      "case_id": "S1.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 1.0,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "mean",
+        "hit200": "mean",
+        "hit500": "mean"
+      },
+      "mae_m": 0.0,
+      "hits": {
+        "50": 1.0,
+        "100": 1.0,
+        "200": 1.0,
+        "500": 1.0
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "raw",
+      "case_id": "S1.B",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 1.0,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "mean",
+        "hit200": "mean",
+        "hit500": "mean"
+      },
+      "mae_m": 0.0,
+      "hits": {
+        "50": 1.0,
+        "100": 1.0,
+        "200": 1.0,
+        "500": 1.0
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "raw",
+      "case_id": "S1.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 1.0,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "mean",
+        "hit200": "mean",
+        "hit500": "mean"
+      },
+      "mae_m": 0.0,
+      "hits": {
+        "50": 1.0,
+        "100": 1.0,
+        "200": 1.0,
+        "500": 1.0
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "raw",
+      "case_id": "S10.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 1.0,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean_ols6_60s",
+        "hit50": "mean_ols6_60s",
+        "hit100": "mean_ols6_60s",
+        "hit200": "mean_ols6_60s",
+        "hit500": "mean_ols6_60s"
+      },
+      "mae_m": 272.135671477331,
+      "hits": {
+        "50": 0.08333333333333333,
+        "100": 0.08333333333333333,
+        "200": 0.4166666666666667,
+        "500": 0.8333333333333334
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "raw",
+      "case_id": "S10.B",
+      "family_count": 8,
+      "record_count": 8,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 1.0,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean_ols2_120s",
+        "hit50": "mean_ols2_120s",
+        "hit100": "mean_ols2_120s",
+        "hit200": "window_mean_road",
+        "hit500": "mean_ols2_120s"
+      },
+      "mae_m": 1366.0774302550717,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0625,
+        "500": 0.125
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "raw",
+      "case_id": "S10.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 1.0,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean_ols6_30s_joint_mean",
+        "hit50": "mean_ols2_60s_joint_mean",
+        "hit100": "mean_ols2_60s_joint_mean",
+        "hit200": "mean_ols6_30s_joint_mean",
+        "hit500": "mean_ols6_30s_joint_mean"
+      },
+      "mae_m": 255.0340670075948,
+      "hits": {
+        "50": 0.0,
+        "100": 0.25,
+        "200": 0.4166666666666667,
+        "500": 0.9166666666666666
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "raw",
+      "case_id": "S2.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 1.0,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "mean",
+        "hit200": "mean",
+        "hit500": "mean"
+      },
+      "mae_m": 8.127447182777943e-10,
+      "hits": {
+        "50": 1.0,
+        "100": 1.0,
+        "200": 1.0,
+        "500": 1.0
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "raw",
+      "case_id": "S2.B",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 1.0,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "mean",
+        "hit200": "mean",
+        "hit500": "mean"
+      },
+      "mae_m": 7.944234318953466e-10,
+      "hits": {
+        "50": 1.0,
+        "100": 1.0,
+        "200": 1.0,
+        "500": 1.0
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "raw",
+      "case_id": "S2.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 1.0,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "mean",
+        "hit200": "mean",
+        "hit500": "mean"
+      },
+      "mae_m": 0.004633124060728382,
+      "hits": {
+        "50": 1.0,
+        "100": 1.0,
+        "200": 1.0,
+        "500": 1.0
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "raw",
+      "case_id": "S3.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 1.0,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "mean",
+        "hit200": "mean",
+        "hit500": "mean"
+      },
+      "mae_m": 0.0,
+      "hits": {
+        "50": 1.0,
+        "100": 1.0,
+        "200": 1.0,
+        "500": 1.0
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "raw",
+      "case_id": "S3.B",
+      "family_count": 11,
+      "record_count": 11,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 1.0,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "mean",
+        "hit200": "mean",
+        "hit500": "mean"
+      },
+      "mae_m": 0.0,
+      "hits": {
+        "50": 1.0,
+        "100": 1.0,
+        "200": 1.0,
+        "500": 1.0
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "raw",
+      "case_id": "S3.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 1.0,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "mean",
+        "hit200": "mean",
+        "hit500": "mean"
+      },
+      "mae_m": 0.0,
+      "hits": {
+        "50": 1.0,
+        "100": 1.0,
+        "200": 1.0,
+        "500": 1.0
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "raw",
+      "case_id": "S9.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 1.0,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean_ols2_60s_road",
+        "hit50": "mean_ols2_60s_road",
+        "hit100": "mean_ols2_60s_road",
+        "hit200": "mean_ols2_60s_road",
+        "hit500": "mean_ols2_60s_road"
+      },
+      "mae_m": 259.7449789009843,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.4166666666666667,
+        "500": 0.9166666666666666
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "raw",
+      "case_id": "S9.B",
+      "family_count": 10,
+      "record_count": 10,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 1.0,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean_boundary_road",
+        "hit50": "mean_boundary_road",
+        "hit100": "mean_boundary_road",
+        "hit200": "mean_boundary_road",
+        "hit500": "mean_boundary_road"
+      },
+      "mae_m": 76.35554708558254,
+      "hits": {
+        "50": 0.35,
+        "100": 0.75,
+        "200": 0.95,
+        "500": 1.0
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "raw",
+      "case_id": "S9.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 1.0,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean_ols6_60s_road_joint_mean",
+        "hit50": "mean_ols2_60s_road_joint_mean",
+        "hit100": "mean_ols2_60s_road_joint_mean",
+        "hit200": "mean_ols6_60s_road_joint_mean",
+        "hit500": "mean_ols6_60s_road_joint_mean"
+      },
+      "mae_m": 313.0039762823773,
+      "hits": {
+        "50": 0.0,
+        "100": 0.08333333333333333,
+        "200": 0.3333333333333333,
+        "500": 0.8333333333333334
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "filter_paced",
+      "case_id": "S1.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8930555555555556,
+        "10": 0.9291666666666667
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_4",
+        "hit50": "track_4",
+        "hit100": "track_4",
+        "hit200": "track_4",
+        "hit500": "track_4"
+      },
+      "mae_m": 1278.0698093271692,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.16666666666666666
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.8500000000000001,
+        "family-703": 0.95,
+        "family-704": 0.7833333333333334,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 0.7000000000000001,
+        "family-708": 0.9166666666666667,
+        "family-709": 1.0,
+        "family-710": 0.95,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8583333333333334,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.7166666666666667
+      }
+    },
+    {
+      "method": "filter_paced",
+      "case_id": "S1.B",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8777777777777778,
+        "10": 0.9152777777777779
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_4",
+        "hit50": "track_4",
+        "hit100": "track_4",
+        "hit200": "track_4",
+        "hit500": "track_4"
+      },
+      "mae_m": 1343.7830453073232,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.125
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.8333333333333334,
+        "family-703": 1.0,
+        "family-704": 0.7166666666666666,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 0.7000000000000001,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 0.7333333333333334,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8250000000000001,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.6666666666666666
+      }
+    },
+    {
+      "method": "filter_paced",
+      "case_id": "S1.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.6986111111111111,
+        "10": 0.7569444444444445
+      },
+      "pass_90pct_case_recall_L10": false,
+      "selected_attack": {
+        "mae": "track_3",
+        "hit50": "track_3",
+        "hit100": "track_3",
+        "hit200": "track_3",
+        "hit500": "track_3"
+      },
+      "mae_m": 2449.5204679608883,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.0
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.75,
+        "family-703": 0.6833333333333333,
+        "family-704": 0.7333333333333334,
+        "family-705": 0.8,
+        "family-706": 0.7666666666666668,
+        "family-707": 0.8666666666666667,
+        "family-708": 0.7333333333333334,
+        "family-709": 0.6666666666666666,
+        "family-710": 0.7666666666666666,
+        "family-711": 0.6833333333333333,
+        "family-712": 0.6333333333333333
+      },
+      "category_L10": {
+        "cafe": 0.4000000000000001,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 0.9833333333333334,
+        "restaurant": 0.15833333333333335
+      }
+    },
+    {
+      "method": "filter_paced",
+      "case_id": "S10.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9456687912358935,
+        "10": 0.9703115677646449
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_3_ols6_120s",
+        "hit50": "track_3_ols6_120s",
+        "hit100": "track_3_ols6_120s",
+        "hit200": "track_3_ols6_120s",
+        "hit500": "track_3_ols6_120s"
+      },
+      "mae_m": 1459.3900777605377,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.125
+      },
+      "family_L10": {
+        "family-701": 0.9972222222222222,
+        "family-702": 0.9532051282051281,
+        "family-703": 0.9891304347826085,
+        "family-704": 0.902173913043478,
+        "family-705": 1.0,
+        "family-706": 0.9870370370370369,
+        "family-707": 0.9279411764705883,
+        "family-708": 0.9275641025641026,
+        "family-709": 0.9973958333333334,
+        "family-710": 0.9620689655172414,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9520595771825625,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.8690968169275891
+      }
+    },
+    {
+      "method": "filter_paced",
+      "case_id": "S10.B",
+      "family_count": 8,
+      "record_count": 8,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9681215803872054,
+        "10": 0.990745701058201
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_0_ols3_120s_road",
+        "hit50": "track_0_ols3_120s_road",
+        "hit100": "track_2_ols3_30s_road",
+        "hit200": "track_2_ols3_30s_road",
+        "hit500": "track_0_ols3_120s_road"
+      },
+      "mae_m": 1539.526863782214,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.09375
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.9933333333333334,
+        "family-704": 0.9422619047619045,
+        "family-705": 1.0,
+        "family-708": 0.9953703703703705,
+        "family-709": 1.0,
+        "family-710": 0.995,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9901785714285715,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.954295634920635
+      }
+    },
+    {
+      "method": "filter_paced",
+      "case_id": "S10.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9095277180879915,
+        "10": 0.9458498097422731
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_4_ols2_120s_joint_mean",
+        "hit50": "track_4_ols2_120s_joint_mean",
+        "hit100": "track_4_ols2_120s_joint_mean",
+        "hit200": "track_4_ols2_120s_joint_mean",
+        "hit500": "track_0_ols2_120s_road"
+      },
+      "mae_m": 1354.8865423678506,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.020833333333333332
+      },
+      "family_L10": {
+        "family-701": 0.9980392156862745,
+        "family-702": 0.9170940170940169,
+        "family-703": 0.9838541666666667,
+        "family-704": 0.8347826086956521,
+        "family-705": 1.0,
+        "family-706": 0.9358333333333333,
+        "family-707": 0.8855555555555557,
+        "family-708": 0.9575,
+        "family-709": 0.9818840579710144,
+        "family-710": 0.89375,
+        "family-711": 0.9619047619047618,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9007975410760737,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 0.9988095238095238,
+        "restaurant": 0.7730711586474054
+      }
+    },
+    {
+      "method": "filter_paced",
+      "case_id": "S2.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.975,
+        "10": 0.9875000000000002
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "mean",
+        "hit200": "mean",
+        "hit500": "track_0"
+      },
+      "mae_m": 745.1111498168975,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.125,
+        "500": 0.375
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.9833333333333334,
+        "family-703": 1.0,
+        "family-704": 0.9333333333333333,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 0.9333333333333332,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9916666666666667,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.9333333333333335
+      }
+    },
+    {
+      "method": "filter_paced",
+      "case_id": "S2.B",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9824074074074073,
+        "10": 0.9885802469135802
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "mean",
+        "hit200": "mean",
+        "hit500": "mean"
+      },
+      "mae_m": 632.0387146095,
+      "hits": {
+        "50": 0.0,
+        "100": 0.041666666666666664,
+        "200": 0.125,
+        "500": 0.5833333333333334
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 0.9833333333333333,
+        "family-708": 0.9314814814814816,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 0.9481481481481482,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9787037037037036,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.9527777777777778
+      }
+    },
+    {
+      "method": "filter_paced",
+      "case_id": "S2.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9695987654320989,
+        "10": 0.9854166666666666
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean_road",
+        "hit50": "mean_road",
+        "hit100": "mean_road",
+        "hit200": "mean_road",
+        "hit500": "mean_road"
+      },
+      "mae_m": 713.03941102395,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.4166666666666667
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 0.9749999999999999,
+        "family-707": 0.9166666666666666,
+        "family-708": 0.9833333333333333,
+        "family-709": 1.0,
+        "family-710": 0.9749999999999999,
+        "family-711": 0.9749999999999999,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9874999999999999,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.9250000000000002
+      }
+    },
+    {
+      "method": "filter_paced",
+      "case_id": "S3.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8956528515344305,
+        "10": 0.9228886978843119
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_4",
+        "hit50": "track_4",
+        "hit100": "track_1",
+        "hit200": "track_1",
+        "hit500": "track_0"
+      },
+      "mae_m": 1380.8401817740457,
+      "hits": {
+        "50": 0.0016666666666666668,
+        "100": 0.014485514485514486,
+        "200": 0.031093906093906092,
+        "500": 0.14051377350719454
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.8148148148148148,
+        "family-703": 0.9578947368421054,
+        "family-704": 0.8473333333333333,
+        "family-705": 1.0,
+        "family-706": 0.9944444444444445,
+        "family-707": 0.77,
+        "family-708": 0.9611111111111112,
+        "family-709": 0.9988095238095238,
+        "family-710": 0.7533333333333334,
+        "family-711": 0.976923076923077,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8485996401259559,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.6887325471799156
+      }
+    },
+    {
+      "method": "filter_paced",
+      "case_id": "S3.B",
+      "family_count": 11,
+      "record_count": 11,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.903675164636887,
+        "10": 0.9327135963451755
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_4",
+        "hit50": "track_4",
+        "hit100": "track_4",
+        "hit200": "track_4",
+        "hit500": "track_0"
+      },
+      "mae_m": 1370.5004054946514,
+      "hits": {
+        "50": 0.0018181818181818182,
+        "100": 0.0068831168831168825,
+        "200": 0.020245310245310247,
+        "500": 0.1532877529169395
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-703": 0.9578947368421054,
+        "family-704": 0.8473333333333333,
+        "family-705": 1.0,
+        "family-706": 0.9944444444444445,
+        "family-707": 0.77,
+        "family-708": 0.9611111111111112,
+        "family-709": 0.9988095238095238,
+        "family-710": 0.7533333333333334,
+        "family-711": 0.976923076923077,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8469571831677094,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.7493243949033424
+      }
+    },
+    {
+      "method": "filter_paced",
+      "case_id": "S3.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8975440917107583,
+        "10": 0.9231481481481483
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_4",
+        "hit50": "track_4",
+        "hit100": "track_4",
+        "hit200": "track_4",
+        "hit500": "median"
+      },
+      "mae_m": 1387.913942291514,
+      "hits": {
+        "50": 0.004629629629629629,
+        "100": 0.004629629629629629,
+        "200": 0.012962962962962963,
+        "500": 0.20266203703703703
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.8333333333333334,
+        "family-703": 0.9500000000000001,
+        "family-704": 0.8444444444444443,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 0.7333333333333334,
+        "family-708": 0.9375,
+        "family-709": 1.0,
+        "family-710": 0.7791666666666668,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8473214285714286,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.6915674603174603
+      }
+    },
+    {
+      "method": "filter_paced",
+      "case_id": "S9.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8904965953952022,
+        "10": 0.9235458286983055
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "window_mean",
+        "hit50": "window_mean",
+        "hit100": "window_mean",
+        "hit200": "window_mean",
+        "hit500": "window_mean"
+      },
+      "mae_m": 706.7825636971329,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.041666666666666664,
+        "500": 0.4166666666666667
+      },
+      "family_L10": {
+        "family-701": 0.9990196078431373,
+        "family-702": 0.8473684210526317,
+        "family-703": 0.9500000000000001,
+        "family-704": 0.7848039215686273,
+        "family-705": 1.0,
+        "family-706": 0.9233333333333333,
+        "family-707": 0.8413333333333334,
+        "family-708": 0.9271929824561403,
+        "family-709": 0.9785714285714286,
+        "family-710": 0.8348484848484847,
+        "family-711": 0.996078431372549,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8572206753514804,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.6820681857272414
+      }
+    },
+    {
+      "method": "filter_paced",
+      "case_id": "S9.B",
+      "family_count": 10,
+      "record_count": 10,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8967245744777512,
+        "10": 0.9300602147461838
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "window_mean",
+        "hit50": "window_mean",
+        "hit100": "track_0_ols6_30s_road",
+        "hit200": "window_mean",
+        "hit500": "track_0_ols2_30s_road"
+      },
+      "mae_m": 699.8149362837323,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.1,
+        "500": 0.325
+      },
+      "family_L10": {
+        "family-701": 0.9968468468468468,
+        "family-703": 0.9412037037037038,
+        "family-704": 0.8072769953051642,
+        "family-705": 1.0,
+        "family-706": 0.9374999999999998,
+        "family-707": 0.8452380952380953,
+        "family-708": 0.915909090909091,
+        "family-710": 0.914236111111111,
+        "family-711": 0.942391304347826,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8467416317182852,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.7291579590362505
+      }
+    },
+    {
+      "method": "filter_paced",
+      "case_id": "S9.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8864156765613265,
+        "10": 0.9274252370864972
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "window_mean_joint_mean",
+        "hit50": "median_ols2_30s_joint_mean",
+        "hit100": "median_ols3_30s_joint_mean",
+        "hit200": "window_mean_joint_mean",
+        "hit500": "window_mean_joint_mean"
+      },
+      "mae_m": 652.9125235646726,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.08333333333333333,
+        "500": 0.5416666666666666
+      },
+      "family_L10": {
+        "family-701": 0.9965686274509804,
+        "family-702": 0.8982905982905982,
+        "family-703": 0.9453125,
+        "family-704": 0.8108695652173914,
+        "family-705": 1.0,
+        "family-706": 0.9033333333333334,
+        "family-707": 0.8477777777777782,
+        "family-708": 0.9470833333333333,
+        "family-709": 0.9755813953488373,
+        "family-710": 0.8533333333333333,
+        "family-711": 0.9509523809523809,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8606147481499794,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 0.998095238095238,
+        "restaurant": 0.7026271505594798
+      }
+    },
+    {
+      "method": "response_progress",
+      "case_id": "S1.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8624999999999999,
+        "10": 0.936111111111111
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "mean",
+        "hit200": "mean",
+        "hit500": "track_3"
+      },
+      "mae_m": 993.5480227464413,
+      "hits": {
+        "50": 0.0,
+        "100": 0.08333333333333333,
+        "200": 0.08333333333333333,
+        "500": 0.041666666666666664
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.8499999999999999,
+        "family-703": 1.0,
+        "family-704": 0.8666666666666667,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 0.6666666666666666,
+        "family-708": 0.9,
+        "family-709": 0.9666666666666666,
+        "family-710": 1.0,
+        "family-711": 0.9833333333333334,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8666666666666666,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.75
+      }
+    },
+    {
+      "method": "response_progress",
+      "case_id": "S1.B",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8569444444444446,
+        "10": 0.9249999999999999
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean_road",
+        "hit50": "mean_road",
+        "hit100": "mean_road",
+        "hit200": "mean_road",
+        "hit500": "mean_road"
+      },
+      "mae_m": 1036.1347831095222,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.08333333333333333,
+        "500": 0.16666666666666666
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.9166666666666667,
+        "family-703": 1.0,
+        "family-704": 0.75,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 0.6666666666666666,
+        "family-708": 0.9166666666666667,
+        "family-709": 1.0,
+        "family-710": 0.8666666666666667,
+        "family-711": 0.9833333333333334,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8333333333333334,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.7166666666666667
+      }
+    },
+    {
+      "method": "response_progress",
+      "case_id": "S1.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.6527777777777778,
+        "10": 0.7180555555555556
+      },
+      "pass_90pct_case_recall_L10": false,
+      "selected_attack": {
+        "mae": "track_1",
+        "hit50": "track_1",
+        "hit100": "track_1",
+        "hit200": "track_1",
+        "hit500": "track_1"
+      },
+      "mae_m": 3279.1072061446152,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.0
+      },
+      "family_L10": {
+        "family-701": 0.8333333333333334,
+        "family-702": 0.7666666666666666,
+        "family-703": 0.7000000000000001,
+        "family-704": 0.6666666666666666,
+        "family-705": 0.6666666666666666,
+        "family-706": 0.7333333333333334,
+        "family-707": 0.9000000000000001,
+        "family-708": 0.7,
+        "family-709": 0.6666666666666666,
+        "family-710": 0.6833333333333333,
+        "family-711": 0.6666666666666666,
+        "family-712": 0.6333333333333333
+      },
+      "category_L10": {
+        "cafe": 0.225,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 0.975,
+        "restaurant": 0.10833333333333334
+      }
+    },
+    {
+      "method": "response_progress",
+      "case_id": "S10.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8990203324503087,
+        "10": 0.9609390827880847
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_4_ols6_120s",
+        "hit50": "track_4_ols6_120s",
+        "hit100": "track_4_ols6_120s",
+        "hit200": "track_4_ols6_120s",
+        "hit500": "track_4_ols6_120s"
+      },
+      "mae_m": 1965.0230944698608,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.08333333333333333
+      },
+      "family_L10": {
+        "family-701": 0.9972222222222222,
+        "family-702": 0.9807692307692307,
+        "family-703": 1.0,
+        "family-704": 0.8771739130434781,
+        "family-705": 1.0,
+        "family-706": 0.9814814814814814,
+        "family-707": 0.9019607843137255,
+        "family-708": 0.9012820512820514,
+        "family-709": 0.99375,
+        "family-710": 0.924712643678161,
+        "family-711": 0.9729166666666667,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9284295917652035,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 0.9989130434782609,
+        "restaurant": 0.8375491401540879
+      }
+    },
+    {
+      "method": "response_progress",
+      "case_id": "S10.B",
+      "family_count": 8,
+      "record_count": 8,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9360740590428092,
+        "10": 0.9948032407407408
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_0_ols6_120s_road",
+        "hit50": "track_0_ols6_120s_road",
+        "hit100": "track_0_ols6_120s_road",
+        "hit200": "track_0_ols6_120s_road",
+        "hit500": "track_0_ols6_120s_road"
+      },
+      "mae_m": 1521.5956329576038,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.1875
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.9866666666666667,
+        "family-704": 0.9875,
+        "family-705": 1.0,
+        "family-708": 0.9842592592592593,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9965277777777778,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.9722916666666667
+      }
+    },
+    {
+      "method": "response_progress",
+      "case_id": "S10.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8780033790757041,
+        "10": 0.9494069639693175
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_0_ols3_60s_joint_mean",
+        "hit50": "track_0_ols3_60s_joint_mean",
+        "hit100": "track_0_ols3_60s_joint_mean",
+        "hit200": "track_0_ols3_60s_joint_mean",
+        "hit500": "track_0_ols3_60s_joint_mean"
+      },
+      "mae_m": 1735.5492043005027,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.041666666666666664
+      },
+      "family_L10": {
+        "family-701": 0.9941176470588237,
+        "family-702": 0.9517094017094015,
+        "family-703": 0.9911458333333334,
+        "family-704": 0.8444444444444443,
+        "family-705": 1.0,
+        "family-706": 0.9716666666666667,
+        "family-707": 0.8518518518518516,
+        "family-708": 0.9070833333333334,
+        "family-709": 0.977173913043478,
+        "family-710": 0.9508333333333334,
+        "family-711": 0.9528571428571426,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9018400151076781,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 0.9980848861283644,
+        "restaurant": 0.7938713799343594
+      }
+    },
+    {
+      "method": "response_progress",
+      "case_id": "S2.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9532407407407408,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "mean",
+        "hit200": "mean",
+        "hit500": "mean"
+      },
+      "mae_m": 806.7810802069729,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.041666666666666664,
+        "500": 0.4166666666666667
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "response_progress",
+      "case_id": "S2.B",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9481481481481481,
+        "10": 0.9986111111111112
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean_road",
+        "hit50": "mean_road",
+        "hit100": "mean_road",
+        "hit200": "mean_road",
+        "hit500": "mean_road"
+      },
+      "mae_m": 734.6867764514647,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.125,
+        "500": 0.5416666666666666
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 0.9833333333333333,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.9916666666666667
+      }
+    },
+    {
+      "method": "response_progress",
+      "case_id": "S2.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9445987654320986,
+        "10": 1.0
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean_road",
+        "hit50": "mean_road",
+        "hit100": "mean_road",
+        "hit200": "mean_road",
+        "hit500": "mean_road"
+      },
+      "mae_m": 704.1244183871336,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.20833333333333334,
+        "500": 0.5
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 1.0
+      }
+    },
+    {
+      "method": "response_progress",
+      "case_id": "S3.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8645644064350204,
+        "10": 0.9290523691707903
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "median_road",
+        "hit100": "median",
+        "hit200": "track_3",
+        "hit500": "track_3"
+      },
+      "mae_m": 1100.719716906133,
+      "hits": {
+        "50": 0.0,
+        "100": 0.021850834350834347,
+        "200": 0.010964912280701754,
+        "500": 0.03677462887989203
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.8629629629629629,
+        "family-703": 0.9701754385964914,
+        "family-704": 0.8786666666666667,
+        "family-705": 1.0,
+        "family-706": 0.9981481481481482,
+        "family-707": 0.6666666666666667,
+        "family-708": 0.927777777777778,
+        "family-709": 1.0,
+        "family-710": 0.875,
+        "family-711": 0.9692307692307693,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8371152346678663,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.737198980356875
+      }
+    },
+    {
+      "method": "response_progress",
+      "case_id": "S3.B",
+      "family_count": 11,
+      "record_count": 11,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8707705982658137,
+        "10": 0.9350604970078655
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_3",
+        "hit50": "track_3",
+        "hit100": "track_3",
+        "hit200": "track_3",
+        "hit500": "track_3"
+      },
+      "mae_m": 1589.264412022665,
+      "hits": {
+        "50": 0.0,
+        "100": 0.009569377990430622,
+        "200": 0.011961722488038277,
+        "500": 0.04011777695988222
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-703": 0.9701754385964914,
+        "family-704": 0.8786666666666667,
+        "family-705": 1.0,
+        "family-706": 0.9981481481481482,
+        "family-707": 0.6666666666666667,
+        "family-708": 0.927777777777778,
+        "family-709": 1.0,
+        "family-710": 0.875,
+        "family-711": 0.9692307692307693,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8445297509508035,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.765833231096389
+      }
+    },
+    {
+      "method": "response_progress",
+      "case_id": "S3.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8605770502645503,
+        "10": 0.9271880511463845
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean_road",
+        "hit50": "mean_road",
+        "hit100": "median",
+        "hit200": "track_3",
+        "hit500": "mean_road"
+      },
+      "mae_m": 1118.9250389604922,
+      "hits": {
+        "50": 0.0,
+        "100": 0.016666666666666666,
+        "200": 0.005952380952380952,
+        "500": 0.1974041005291005
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.8611111111111112,
+        "family-703": 0.9619047619047619,
+        "family-704": 0.874074074074074,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 0.6666666666666666,
+        "family-708": 0.8999999999999999,
+        "family-709": 1.0,
+        "family-710": 0.8958333333333334,
+        "family-711": 0.9666666666666667,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8329761904761904,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.7301521164021164
+      }
+    },
+    {
+      "method": "response_progress",
+      "case_id": "S9.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8596372027811657,
+        "10": 0.9280775969744623
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "median_ols2_30s_road",
+        "hit50": "median_ols2_30s_road",
+        "hit100": "median_ols2_60s_road",
+        "hit200": "median_ols2_30s_road",
+        "hit500": "window_mean"
+      },
+      "mae_m": 824.436479134813,
+      "hits": {
+        "50": 0.0,
+        "100": 0.041666666666666664,
+        "200": 0.041666666666666664,
+        "500": 0.375
+      },
+      "family_L10": {
+        "family-701": 0.9882352941176471,
+        "family-702": 0.8982456140350875,
+        "family-703": 0.9645833333333333,
+        "family-704": 0.7916666666666667,
+        "family-705": 1.0,
+        "family-706": 0.9366666666666666,
+        "family-707": 0.7906666666666666,
+        "family-708": 0.900877192982456,
+        "family-709": 0.9674603174603175,
+        "family-710": 0.9249999999999998,
+        "family-711": 0.9735294117647058,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8525532475350587,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 0.9977941176470587,
+        "restaurant": 0.7159237722202119
+      }
+    },
+    {
+      "method": "response_progress",
+      "case_id": "S9.B",
+      "family_count": 10,
+      "record_count": 10,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.86003472226197,
+        "10": 0.9277607177392302
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "window_mean",
+        "hit50": "median_boundary_road",
+        "hit100": "median_boundary_road",
+        "hit200": "median_boundary_road",
+        "hit500": "window_mean"
+      },
+      "mae_m": 732.7728551630698,
+      "hits": {
+        "50": 0.0,
+        "100": 0.025,
+        "200": 0.1,
+        "500": 0.475
+      },
+      "family_L10": {
+        "family-701": 0.9954954954954955,
+        "family-703": 0.9671296296296297,
+        "family-704": 0.7920187793427229,
+        "family-705": 1.0,
+        "family-706": 0.9412878787878787,
+        "family-707": 0.810204081632653,
+        "family-708": 0.8897727272727274,
+        "family-710": 0.9118055555555556,
+        "family-711": 0.9702898550724639,
+        "family-712": 0.9996031746031746
+      },
+      "category_L10": {
+        "cafe": 0.8415871745625267,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 0.9973239436619717,
+        "restaurant": 0.7227626232892613
+      }
+    },
+    {
+      "method": "response_progress",
+      "case_id": "S9.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8548614496954253,
+        "10": 0.9293470435769254
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean_ols6_30s_road_joint_mean",
+        "hit50": "mean_ols3_120s_road_joint_mean",
+        "hit100": "mean_ols6_30s_road_joint_mean",
+        "hit200": "mean_boundary",
+        "hit500": "mean_ols6_30s_road_joint_mean"
+      },
+      "mae_m": 732.6251692574875,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0625,
+        "500": 0.5416666666666666
+      },
+      "family_L10": {
+        "family-701": 0.9892156862745098,
+        "family-702": 0.9290598290598291,
+        "family-703": 0.9526041666666667,
+        "family-704": 0.814734299516908,
+        "family-705": 1.0,
+        "family-706": 0.9391666666666667,
+        "family-707": 0.8074074074074071,
+        "family-708": 0.8891666666666667,
+        "family-709": 0.9701550387596899,
+        "family-710": 0.92875,
+        "family-711": 0.931904761904762,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8567340158589211,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 0.9965916149068322,
+        "restaurant": 0.7193174772566463
+      }
+    },
+    {
+      "method": "response_paced",
+      "case_id": "S1.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8583333333333334,
+        "10": 0.9402777777777778
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_0",
+        "hit50": "track_0",
+        "hit100": "track_0",
+        "hit200": "track_0",
+        "hit500": "track_1"
+      },
+      "mae_m": 1227.567817904869,
+      "hits": {
+        "50": 0.0,
+        "100": 0.041666666666666664,
+        "200": 0.08333333333333333,
+        "500": 0.125
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.8499999999999999,
+        "family-703": 1.0,
+        "family-704": 0.8666666666666667,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 0.7000000000000001,
+        "family-708": 0.9,
+        "family-709": 0.9666666666666666,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8833333333333333,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.7583333333333333
+      }
+    },
+    {
+      "method": "response_paced",
+      "case_id": "S1.B",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8569444444444444,
+        "10": 0.9375
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "mean",
+        "hit200": "mean",
+        "hit500": "mean"
+      },
+      "mae_m": 1027.2033330156387,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.041666666666666664,
+        "500": 0.16666666666666666
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.9,
+        "family-703": 1.0,
+        "family-704": 0.7833333333333332,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 0.7000000000000001,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 0.8666666666666667,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.875,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.75
+      }
+    },
+    {
+      "method": "response_paced",
+      "case_id": "S1.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.6944444444444443,
+        "10": 0.7625000000000001
+      },
+      "pass_90pct_case_recall_L10": false,
+      "selected_attack": {
+        "mae": "track_4",
+        "hit50": "track_4",
+        "hit100": "track_4",
+        "hit200": "track_4",
+        "hit500": "track_4"
+      },
+      "mae_m": 2334.5692675377027,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.041666666666666664
+      },
+      "family_L10": {
+        "family-701": 0.8833333333333333,
+        "family-702": 0.75,
+        "family-703": 0.7833333333333334,
+        "family-704": 0.7166666666666668,
+        "family-705": 0.7666666666666666,
+        "family-706": 0.7666666666666668,
+        "family-707": 0.95,
+        "family-708": 0.7833333333333334,
+        "family-709": 0.6666666666666666,
+        "family-710": 0.75,
+        "family-711": 0.6833333333333333,
+        "family-712": 0.6499999999999999
+      },
+      "category_L10": {
+        "cafe": 0.4583333333333333,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 0.9916666666666667,
+        "restaurant": 0.125
+      }
+    },
+    {
+      "method": "response_paced",
+      "case_id": "S10.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9062399145764592,
+        "10": 0.9720428484931114
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_4_ols2_120s",
+        "hit50": "track_4_ols2_120s",
+        "hit100": "track_4_ols2_120s",
+        "hit200": "track_4_ols2_120s",
+        "hit500": "track_4_ols2_120s"
+      },
+      "mae_m": 1866.0510105094247,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.041666666666666664,
+        "500": 0.08333333333333333
+      },
+      "family_L10": {
+        "family-701": 0.9972222222222222,
+        "family-702": 0.982051282051282,
+        "family-703": 1.0,
+        "family-704": 0.8931159420289853,
+        "family-705": 1.0,
+        "family-706": 0.9888888888888887,
+        "family-707": 0.9132352941176471,
+        "family-708": 0.9557692307692307,
+        "family-709": 0.9864583333333333,
+        "family-710": 0.9540229885057472,
+        "family-711": 0.9937499999999999,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9534104836721911,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.8781187403821399
+      }
+    },
+    {
+      "method": "response_paced",
+      "case_id": "S10.B",
+      "family_count": 8,
+      "record_count": 8,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9323416456228957,
+        "10": 0.9949371693121694
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_0_ols6_120s",
+        "hit50": "track_0_ols6_120s",
+        "hit100": "track_2_ols2_120s_road",
+        "hit200": "track_2_ols2_120s_road",
+        "hit500": "track_2_ols2_120s_road"
+      },
+      "mae_m": 1563.0134216907404,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.0625
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.98,
+        "family-704": 0.986904761904762,
+        "family-705": 1.0,
+        "family-708": 0.9925925925925926,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.9696230158730159
+      }
+    },
+    {
+      "method": "response_paced",
+      "case_id": "S10.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8773240715168534,
+        "10": 0.9503440935746589
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_4_ols6_120s_road_joint_mean",
+        "hit50": "track_4_ols6_120s_road_joint_mean",
+        "hit100": "track_4_ols6_120s_road_joint_mean",
+        "hit200": "track_4_ols6_120s_road_joint_mean",
+        "hit500": "track_0_ols6_30s_road_joint_mean"
+      },
+      "mae_m": 1751.0614739050964,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.041666666666666664
+      },
+      "family_L10": {
+        "family-701": 0.9970588235294118,
+        "family-702": 0.9303418803418803,
+        "family-703": 0.9911458333333334,
+        "family-704": 0.8574879227053138,
+        "family-705": 1.0,
+        "family-706": 0.9679166666666668,
+        "family-707": 0.8692592592592595,
+        "family-708": 0.9229166666666666,
+        "family-709": 0.9768115942028985,
+        "family-710": 0.9483333333333334,
+        "family-711": 0.9428571428571428,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9142092717568261,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 0.9988095238095238,
+        "restaurant": 0.7863870357228734
+      }
+    },
+    {
+      "method": "response_paced",
+      "case_id": "S2.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9326388888888889,
+        "10": 0.9986111111111112
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "mean",
+        "hit200": "mean",
+        "hit500": "mean"
+      },
+      "mae_m": 817.0192426527261,
+      "hits": {
+        "50": 0.041666666666666664,
+        "100": 0.041666666666666664,
+        "200": 0.041666666666666664,
+        "500": 0.375
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 0.9833333333333334,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.9916666666666667
+      }
+    },
+    {
+      "method": "response_paced",
+      "case_id": "S2.B",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9429012345679011,
+        "10": 0.9939814814814815
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "median",
+        "hit50": "median",
+        "hit100": "median",
+        "hit200": "median",
+        "hit500": "median"
+      },
+      "mae_m": 785.6727429945462,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.08333333333333333,
+        "500": 0.375
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 0.9648148148148148,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 0.9629629629629629,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9925925925925926,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.9712962962962962
+      }
+    },
+    {
+      "method": "response_paced",
+      "case_id": "S2.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9233024691358026,
+        "10": 0.9729166666666665
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean_road",
+        "hit100": "mean_road",
+        "hit200": "mean_road",
+        "hit500": "mean"
+      },
+      "mae_m": 823.0728216665499,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.125,
+        "500": 0.2916666666666667
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.9499999999999998,
+        "family-703": 1.0,
+        "family-704": 0.9083333333333333,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 0.875,
+        "family-708": 1.0,
+        "family-709": 1.0,
+        "family-710": 0.9833333333333333,
+        "family-711": 0.9583333333333333,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9708333333333333,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.8666666666666666
+      }
+    },
+    {
+      "method": "response_paced",
+      "case_id": "S3.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8542724177625494,
+        "10": 0.931312390663268
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "track_2",
+        "hit100": "track_3",
+        "hit200": "track_3",
+        "hit500": "track_3"
+      },
+      "mae_m": 1096.2382098542869,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0043859649122807015,
+        "200": 0.009784075573549258,
+        "500": 0.04831309041835358
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.8277777777777777,
+        "family-703": 0.9684210526315791,
+        "family-704": 0.8886666666666667,
+        "family-705": 1.0,
+        "family-706": 0.9814814814814814,
+        "family-707": 0.7000000000000001,
+        "family-708": 0.9555555555555557,
+        "family-709": 1.0,
+        "family-710": 0.8833333333333334,
+        "family-711": 0.9705128205128206,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8535158194631878,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.7343585245164194
+      }
+    },
+    {
+      "method": "response_paced",
+      "case_id": "S3.B",
+      "family_count": 11,
+      "record_count": 11,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8620682267847339,
+        "10": 0.9407246281983124
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_3",
+        "hit50": "track_3",
+        "hit100": "track_3",
+        "hit200": "track_3",
+        "hit500": "track_3"
+      },
+      "mae_m": 1591.3765484043806,
+      "hits": {
+        "50": 0.0,
+        "100": 0.004784688995215311,
+        "200": 0.010673536989326464,
+        "500": 0.05270518954729481
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-703": 0.9684210526315791,
+        "family-704": 0.8886666666666667,
+        "family-705": 1.0,
+        "family-706": 0.9814814814814814,
+        "family-707": 0.7000000000000001,
+        "family-708": 0.9555555555555557,
+        "family-709": 1.0,
+        "family-710": 0.8833333333333334,
+        "family-711": 0.9705128205128206,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8684819040608514,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.775865865129023
+      }
+    },
+    {
+      "method": "response_paced",
+      "case_id": "S3.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8521351410934744,
+        "10": 0.9308917548500881
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "track_2",
+        "hit100": "median",
+        "hit200": "track_3",
+        "hit500": "mean"
+      },
+      "mae_m": 1106.0026882785187,
+      "hits": {
+        "50": 0.0,
+        "100": 0.008333333333333333,
+        "200": 0.014285714285714285,
+        "500": 0.21377314814814816
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.8444444444444443,
+        "family-703": 0.9619047619047619,
+        "family-704": 0.8851851851851853,
+        "family-705": 1.0,
+        "family-706": 0.9833333333333334,
+        "family-707": 0.7000000000000001,
+        "family-708": 0.9333333333333333,
+        "family-709": 1.0,
+        "family-710": 0.8958333333333334,
+        "family-711": 0.9666666666666667,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.852420634920635,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.7329298941798941
+      }
+    },
+    {
+      "method": "response_paced",
+      "case_id": "S9.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.854019140524365,
+        "10": 0.9305495988932521
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "window_mean_road",
+        "hit50": "window_mean_road",
+        "hit100": "median_ols2_60s_road",
+        "hit200": "median_ols3_60s_road",
+        "hit500": "window_mean_road"
+      },
+      "mae_m": 740.3059165585769,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.041666666666666664,
+        "500": 0.5
+      },
+      "family_L10": {
+        "family-701": 0.9941176470588236,
+        "family-702": 0.8850877192982456,
+        "family-703": 0.9625,
+        "family-704": 0.8166666666666667,
+        "family-705": 1.0,
+        "family-706": 0.9325,
+        "family-707": 0.8133333333333335,
+        "family-708": 0.8894736842105264,
+        "family-709": 0.9698412698412697,
+        "family-710": 0.9295454545454545,
+        "family-711": 0.9735294117647058,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8687548494676979,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.7123760772251484
+      }
+    },
+    {
+      "method": "response_paced",
+      "case_id": "S9.B",
+      "family_count": 10,
+      "record_count": 10,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8641854390689232,
+        "10": 0.937655066227151
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "window_mean",
+        "hit50": "median_boundary_road",
+        "hit100": "median_boundary_road",
+        "hit200": "median_boundary_road",
+        "hit500": "window_mean"
+      },
+      "mae_m": 743.4690527381085,
+      "hits": {
+        "50": 0.0,
+        "100": 0.025,
+        "200": 0.1,
+        "500": 0.5
+      },
+      "family_L10": {
+        "family-701": 0.9977477477477478,
+        "family-703": 0.9657407407407408,
+        "family-704": 0.8183098591549295,
+        "family-705": 1.0,
+        "family-706": 0.9522727272727272,
+        "family-707": 0.8302721088435374,
+        "family-708": 0.8871212121212122,
+        "family-710": 0.938888888888889,
+        "family-711": 0.9865942028985507,
+        "family-712": 0.9996031746031746
+      },
+      "category_L10": {
+        "cafe": 0.8693641559501941,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.7519627587152848
+      }
+    },
+    {
+      "method": "response_paced",
+      "case_id": "S9.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8588620738417898,
+        "10": 0.9322207168553236
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "window_mean_road_joint_mean",
+        "hit50": "median_ols3_30s_road_joint_mean",
+        "hit100": "median_ols3_30s_road_joint_mean",
+        "hit200": "mean_boundary_joint_mean",
+        "hit500": "window_mean_road_joint_mean"
+      },
+      "mae_m": 694.1082398161876,
+      "hits": {
+        "50": 0.0,
+        "100": 0.041666666666666664,
+        "200": 0.08333333333333333,
+        "500": 0.625
+      },
+      "family_L10": {
+        "family-701": 0.9941176470588236,
+        "family-702": 0.9025641025641025,
+        "family-703": 0.9515625000000001,
+        "family-704": 0.8398550724637681,
+        "family-705": 1.0,
+        "family-706": 0.9366666666666665,
+        "family-707": 0.8300000000000003,
+        "family-708": 0.9004166666666666,
+        "family-709": 0.9709302325581395,
+        "family-710": 0.93625,
+        "family-711": 0.9242857142857144,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8742321799331721,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 0.9988095238095238,
+        "restaurant": 0.7168302164368638
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "case_id": "S1.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9,
+        "10": 0.9736111111111111
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_0",
+        "hit50": "track_0",
+        "hit100": "track_0",
+        "hit200": "track_3",
+        "hit500": "track_3"
+      },
+      "mae_m": 1034.0216276685953,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.041666666666666664,
+        "500": 0.08333333333333333
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.9666666666666666,
+        "family-703": 1.0,
+        "family-704": 0.9833333333333334,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 0.8,
+        "family-708": 0.95,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 0.9833333333333334,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9583333333333334,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.8833333333333333
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "case_id": "S1.B",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8624999999999999,
+        "10": 0.9458333333333334
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "track_1",
+        "hit200": "track_3",
+        "hit500": "track_3"
+      },
+      "mae_m": 865.4484840126529,
+      "hits": {
+        "50": 0.0,
+        "100": 0.08333333333333333,
+        "200": 0.0,
+        "500": 0.041666666666666664
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.9333333333333333,
+        "family-703": 0.9666666666666666,
+        "family-704": 0.8666666666666666,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 0.7666666666666666,
+        "family-708": 1.0,
+        "family-709": 0.9833333333333334,
+        "family-710": 0.8833333333333333,
+        "family-711": 0.95,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8916666666666666,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.7833333333333332
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "case_id": "S1.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.7361111111111112,
+        "10": 0.7875
+      },
+      "pass_90pct_case_recall_L10": false,
+      "selected_attack": {
+        "mae": "track_2",
+        "hit50": "track_2",
+        "hit100": "track_2",
+        "hit200": "track_2",
+        "hit500": "track_2"
+      },
+      "mae_m": 1753.980848940367,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.041666666666666664
+      },
+      "family_L10": {
+        "family-701": 0.7833333333333334,
+        "family-702": 0.7666666666666666,
+        "family-703": 0.7500000000000001,
+        "family-704": 0.7666666666666666,
+        "family-705": 0.8333333333333334,
+        "family-706": 0.8833333333333334,
+        "family-707": 0.9333333333333333,
+        "family-708": 0.7833333333333334,
+        "family-709": 0.7166666666666667,
+        "family-710": 0.8999999999999999,
+        "family-711": 0.6666666666666666,
+        "family-712": 0.6666666666666666
+      },
+      "category_L10": {
+        "cafe": 0.525,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.19999999999999998
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "case_id": "S10.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9178150448427571,
+        "10": 0.9706238754667512
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_2_ols2_120s",
+        "hit50": "track_2_ols2_120s",
+        "hit100": "track_2_ols2_120s",
+        "hit200": "track_2_ols2_120s",
+        "hit500": "track_2_ols2_120s"
+      },
+      "mae_m": 1482.313358402325,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.041666666666666664,
+        "500": 0.08333333333333333
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.9807692307692307,
+        "family-703": 0.998550724637681,
+        "family-704": 0.8916666666666664,
+        "family-705": 0.9988095238095238,
+        "family-706": 0.9598765432098766,
+        "family-707": 0.915686274509804,
+        "family-708": 0.9782051282051282,
+        "family-709": 0.9875,
+        "family-710": 0.957471264367816,
+        "family-711": 0.98125,
+        "family-712": 0.9977011494252874
+      },
+      "category_L10": {
+        "cafe": 0.9474668670267561,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.8754816739496274
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "case_id": "S10.B",
+      "family_count": 8,
+      "record_count": 8,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9394162232443481,
+        "10": 0.9919365906084656
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_0_ols2_120s_road",
+        "hit50": "track_0_ols2_120s_road",
+        "hit100": "track_0_ols2_120s_road",
+        "hit200": "track_0_ols3_60s",
+        "hit500": "track_0_ols2_120s_road"
+      },
+      "mae_m": 1500.5023859346845,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.28125
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.9866666666666667,
+        "family-704": 0.9952380952380953,
+        "family-705": 1.0,
+        "family-708": 0.962962962962963,
+        "family-709": 0.9989583333333334,
+        "family-710": 0.9916666666666666,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9944444444444445,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.9571750992063492
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "case_id": "S10.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8889709936098315,
+        "10": 0.9540663306648277
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean_ols3_120s_road_joint_mean",
+        "hit50": "mean_ols3_120s_road_joint_mean",
+        "hit100": "mean_ols3_120s_road_joint_mean",
+        "hit200": "track_0_ols2_120s_road_joint_mean",
+        "hit500": "track_0_ols3_120s_road_joint_mean"
+      },
+      "mae_m": 1043.152469051051,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.041666666666666664,
+        "500": 0.08333333333333333
+      },
+      "family_L10": {
+        "family-701": 0.9975490196078431,
+        "family-702": 0.9576923076923075,
+        "family-703": 0.9713541666666666,
+        "family-704": 0.8741545893719807,
+        "family-705": 1.0,
+        "family-706": 0.9712500000000001,
+        "family-707": 0.8955555555555557,
+        "family-708": 0.9391666666666667,
+        "family-709": 0.977173913043478,
+        "family-710": 0.9449999999999998,
+        "family-711": 0.9242857142857144,
+        "family-712": 0.9956140350877192
+      },
+      "category_L10": {
+        "cafe": 0.920506181871671,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 0.9997619047619049,
+        "restaurant": 0.8015240772495703
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "case_id": "S2.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9363425925925926,
+        "10": 0.9923611111111111
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "mean",
+        "hit200": "mean",
+        "hit500": "mean"
+      },
+      "mae_m": 805.8533671895863,
+      "hits": {
+        "50": 0.041666666666666664,
+        "100": 0.041666666666666664,
+        "200": 0.041666666666666664,
+        "500": 0.4166666666666667
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 1.0,
+        "family-704": 0.9833333333333334,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 0.925,
+        "family-709": 1.0,
+        "family-710": 1.0,
+        "family-711": 1.0,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9916666666666667,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.9625
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "case_id": "S2.B",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.9459876543209876,
+        "10": 0.9932098765432098
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "median",
+        "hit50": "median",
+        "hit100": "median",
+        "hit200": "median",
+        "hit500": "median"
+      },
+      "mae_m": 714.5689861288383,
+      "hits": {
+        "50": 0.0,
+        "100": 0.041666666666666664,
+        "200": 0.08333333333333333,
+        "500": 0.4583333333333333
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 1.0,
+        "family-703": 0.9851851851851852,
+        "family-704": 1.0,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 1.0,
+        "family-708": 0.9555555555555555,
+        "family-709": 1.0,
+        "family-710": 0.9962962962962962,
+        "family-711": 0.9925925925925927,
+        "family-712": 0.9888888888888889
+      },
+      "category_L10": {
+        "cafe": 0.9916666666666667,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.9675925925925926
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "case_id": "S2.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8972222222222221,
+        "10": 0.945679012345679
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "median_road",
+        "hit50": "median_road",
+        "hit100": "median_road",
+        "hit200": "median_road",
+        "hit500": "mean_road"
+      },
+      "mae_m": 1011.2701877648293,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.041666666666666664
+      },
+      "family_L10": {
+        "family-701": 0.9833333333333333,
+        "family-702": 0.9749999999999999,
+        "family-703": 0.9935185185185185,
+        "family-704": 0.875,
+        "family-705": 1.0,
+        "family-706": 0.8583333333333334,
+        "family-707": 0.8481481481481483,
+        "family-708": 0.9990740740740741,
+        "family-709": 0.8972222222222221,
+        "family-710": 0.9814814814814814,
+        "family-711": 0.9370370370370371,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.8921296296296296,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.7819444444444444
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "case_id": "S3.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8846650578547508,
+        "10": 0.947776137037102
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean",
+        "hit50": "mean",
+        "hit100": "median",
+        "hit200": "track_3",
+        "hit500": "track_3"
+      },
+      "mae_m": 920.6900006563411,
+      "hits": {
+        "50": 0.007605820105820105,
+        "100": 0.030887630887630888,
+        "200": 0.011528822055137845,
+        "500": 0.06617987275882013
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.8944444444444444,
+        "family-703": 0.955263157894737,
+        "family-704": 0.924,
+        "family-705": 1.0,
+        "family-706": 0.9962962962962962,
+        "family-707": 0.775,
+        "family-708": 0.9819444444444445,
+        "family-709": 0.9928571428571429,
+        "family-710": 0.9616666666666667,
+        "family-711": 0.8948717948717948,
+        "family-712": 0.9969696969696971
+      },
+      "category_L10": {
+        "cafe": 0.9036925326135853,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.7829642896090264
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "case_id": "S3.B",
+      "family_count": 11,
+      "record_count": 11,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8893315782657889,
+        "10": 0.9526244727273435
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "track_3",
+        "hit50": "track_3",
+        "hit100": "track_3",
+        "hit200": "track_3",
+        "hit500": "track_3"
+      },
+      "mae_m": 1322.0075310865814,
+      "hits": {
+        "50": 0.004545454545454546,
+        "100": 0.004545454545454546,
+        "200": 0.012576896787423103,
+        "500": 0.07219622482780377
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-703": 0.955263157894737,
+        "family-704": 0.924,
+        "family-705": 1.0,
+        "family-706": 0.9962962962962962,
+        "family-707": 0.775,
+        "family-708": 0.9819444444444445,
+        "family-709": 0.9928571428571429,
+        "family-710": 0.9616666666666667,
+        "family-711": 0.8948717948717948,
+        "family-712": 0.9969696969696971
+      },
+      "category_L10": {
+        "cafe": 0.9070585204269416,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.8086883159371198
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "case_id": "S3.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8834253747795415,
+        "10": 0.9482870370370371
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean_road",
+        "hit50": "mean_road",
+        "hit100": "median",
+        "hit200": "track_3",
+        "hit500": "track_3"
+      },
+      "mae_m": 945.878000905046,
+      "hits": {
+        "50": 0.022222222222222223,
+        "100": 0.021875000000000002,
+        "200": 0.008333333333333333,
+        "500": 0.06547619047619048
+      },
+      "family_L10": {
+        "family-701": 1.0,
+        "family-702": 0.922222222222222,
+        "family-703": 0.9500000000000001,
+        "family-704": 0.9222222222222223,
+        "family-705": 1.0,
+        "family-706": 1.0,
+        "family-707": 0.7625,
+        "family-708": 0.975,
+        "family-709": 0.99,
+        "family-710": 0.9708333333333333,
+        "family-711": 0.8866666666666667,
+        "family-712": 1.0
+      },
+      "category_L10": {
+        "cafe": 0.9094179894179893,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.7803042328042328
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "case_id": "S9.A",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8823614328639483,
+        "10": 0.9475376495959894
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "window_mean_road",
+        "hit50": "window_mean_road",
+        "hit100": "window_mean_road",
+        "hit200": "median_ols2_60s",
+        "hit500": "window_mean_road"
+      },
+      "mae_m": 762.6311359723459,
+      "hits": {
+        "50": 0.0,
+        "100": 0.0,
+        "200": 0.0,
+        "500": 0.25
+      },
+      "family_L10": {
+        "family-701": 0.9950980392156863,
+        "family-702": 0.9263157894736842,
+        "family-703": 0.9489583333333333,
+        "family-704": 0.8725490196078431,
+        "family-705": 1.0,
+        "family-706": 0.9466666666666667,
+        "family-707": 0.8533333333333333,
+        "family-708": 0.9666666666666666,
+        "family-709": 0.9769841269841268,
+        "family-710": 0.9795454545454545,
+        "family-711": 0.907843137254902,
+        "family-712": 0.9964912280701754
+      },
+      "category_L10": {
+        "cafe": 0.9055748771996838,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.7775260203762526
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "case_id": "S9.B",
+      "family_count": 10,
+      "record_count": 10,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.8827935658028313,
+        "10": 0.9437959840805075
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "window_mean_road",
+        "hit50": "median_boundary_road",
+        "hit100": "median_boundary_road",
+        "hit200": "median_boundary_road",
+        "hit500": "window_mean_road"
+      },
+      "mae_m": 767.9868581091985,
+      "hits": {
+        "50": 0.0,
+        "100": 0.025,
+        "200": 0.1,
+        "500": 0.375
+      },
+      "family_L10": {
+        "family-701": 0.996846846846847,
+        "family-703": 0.9578703703703705,
+        "family-704": 0.8727699530516432,
+        "family-705": 0.9982456140350877,
+        "family-706": 0.9507575757575757,
+        "family-707": 0.8408163265306123,
+        "family-708": 0.9401515151515152,
+        "family-710": 0.9552083333333334,
+        "family-711": 0.9260869565217391,
+        "family-712": 0.9992063492063492
+      },
+      "category_L10": {
+        "cafe": 0.8931787524664898,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.7648356169677519
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "case_id": "S9.C",
+      "family_count": 12,
+      "record_count": 12,
+      "RNG_repetitions": 2,
+      "recall": {
+        "5": 0.871009888935275,
+        "10": 0.9383675850018731
+      },
+      "pass_90pct_case_recall_L10": true,
+      "selected_attack": {
+        "mae": "mean_boundary_road_joint_mean",
+        "hit50": "window_mean_road",
+        "hit100": "track_1_ols6_60s_joint_mean",
+        "hit200": "mean_ols2_120s_road_joint_mean",
+        "hit500": "window_mean_road_joint_mean"
+      },
+      "mae_m": 709.7711632491392,
+      "hits": {
+        "50": 0.0,
+        "100": 0.041666666666666664,
+        "200": 0.0,
+        "500": 0.4166666666666667
+      },
+      "family_L10": {
+        "family-701": 0.9975490196078431,
+        "family-702": 0.9367521367521365,
+        "family-703": 0.9307291666666666,
+        "family-704": 0.8644927536231884,
+        "family-705": 1.0,
+        "family-706": 0.9408333333333333,
+        "family-707": 0.8603703703703705,
+        "family-708": 0.9333333333333333,
+        "family-709": 0.9705426356589147,
+        "family-710": 0.9325,
+        "family-711": 0.8985714285714286,
+        "family-712": 0.9947368421052631
+      },
+      "category_L10": {
+        "cafe": 0.8858145248681776,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 0.9997619047619049,
+        "restaurant": 0.7412296094816861
+      }
+    }
+  ]
+}

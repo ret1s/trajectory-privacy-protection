@@ -1,0 +1,1761 @@
+{
+  "scope": "posthoc failure diagnosis, true-reference oracle not a private method; exposed development",
+  "source_sha256": "a57ab32537bb18327f3dc6e12420a1670cc24ce2227006b8fc08aab7ce4a95c0",
+  "dataset_sha256": "6092f46a51d57fd93639f9697627332eb4a5dbbd5cdbb745d20ae1cc91f4f3a9",
+  "code_sha256": "33c036e94ee0e45454733d77c63058ba009d67db2718ee6d94fefd016571c563",
+  "oracle_source_sha256": "611472b0909fb68aa840fbcfd25da065c1f18ac8acd26b5b408ccf236dd13ef0",
+  "rows": [
+    {
+      "method": "filter_paced",
+      "family_id": "family-501",
+      "split": "development_train",
+      "session_id_evaluator_only": "u501_13",
+      "rep": 0,
+      "record_id": "v2-r501-033",
+      "target_time_s": 772.0,
+      "last_query_gap_s": 12.0,
+      "actual_recall_L10": 0.7333333333333333,
+      "actual_category_recall": {
+        "cafe": 0.2,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.2
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          1548,
+          36471,
+          5099,
+          13347,
+          9064
+        ],
+        "feasible_value": 0.7333333333333334,
+        "upper_bound": 0.7333333333333334,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          22,
+          5,
+          32,
+          30,
+          56
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          1,
+          2,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.2,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.2
+      },
+      "global_protected_plan_true_recall": 0.8333333333333333,
+      "predicted_recall_selected": 0.8850560302175114,
+      "predicted_recall_global_plan": 0.9355254607244399,
+      "belief_mass_within_200m": 0.00027154793917462497,
+      "belief_mass_within_500m": 0.006836309763109094,
+      "anchor_error_m": 746.0949249239599,
+      "belief_mean_error_m": 1175.7606809114977,
+      "budget_spent": 0.22,
+      "privacy_reads": 12,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 22,
+        "branch": "postprocess",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "response_progress",
+      "family_id": "family-501",
+      "split": "development_train",
+      "session_id_evaluator_only": "u501_13",
+      "rep": 0,
+      "record_id": "v2-r501-033",
+      "target_time_s": 772.0,
+      "last_query_gap_s": 12.0,
+      "actual_recall_L10": 0.6666666666666666,
+      "actual_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          31567,
+          18601,
+          2237,
+          198,
+          698
+        ],
+        "feasible_value": 0.6666666666666666,
+        "upper_bound": 0.6666666666666666,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          12,
+          32,
+          23,
+          51,
+          29
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 0.7,
+      "predicted_recall_selected": 0.9894791821957949,
+      "predicted_recall_global_plan": 0.9943247669019889,
+      "belief_mass_within_200m": 3.203723876372437e-08,
+      "belief_mass_within_500m": 1.0071853891333278e-06,
+      "anchor_error_m": 2096.1382571273007,
+      "belief_mean_error_m": 2394.939628555678,
+      "budget_spent": 0.22,
+      "privacy_reads": 15,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 22,
+        "branch": "postprocess",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "response_paced",
+      "family_id": "family-501",
+      "split": "development_train",
+      "session_id_evaluator_only": "u501_13",
+      "rep": 0,
+      "record_id": "v2-r501-033",
+      "target_time_s": 772.0,
+      "last_query_gap_s": 12.0,
+      "actual_recall_L10": 0.6666666666666666,
+      "actual_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          15806,
+          6497,
+          5870,
+          198,
+          698
+        ],
+        "feasible_value": 0.6666666666666666,
+        "upper_bound": 0.6666666666666666,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          40,
+          64,
+          40,
+          51,
+          29
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 0.9999999999999999,
+      "predicted_recall_selected": 0.7586097484042515,
+      "predicted_recall_global_plan": 0.943038210773422,
+      "belief_mass_within_200m": 0.00027154793917462497,
+      "belief_mass_within_500m": 0.006836309763109094,
+      "anchor_error_m": 746.0949249239599,
+      "belief_mean_error_m": 1175.7606809114977,
+      "budget_spent": 0.22,
+      "privacy_reads": 12,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 22,
+        "branch": "postprocess",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "filter_paced",
+      "family_id": "family-501",
+      "split": "development_train",
+      "session_id_evaluator_only": "u501_13",
+      "rep": 1,
+      "record_id": "v2-r501-033",
+      "target_time_s": 772.0,
+      "last_query_gap_s": 12.0,
+      "actual_recall_L10": 0.8333333333333333,
+      "actual_category_recall": {
+        "cafe": 0.8,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.2
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          1103,
+          698,
+          18643,
+          48802,
+          7407
+        ],
+        "feasible_value": 0.8333333333333333,
+        "upper_bound": 0.8333333333333333,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          53,
+          29,
+          29,
+          13,
+          30
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.8,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.2
+      },
+      "global_protected_plan_true_recall": 0.8666666666666666,
+      "predicted_recall_selected": 0.9097396335898414,
+      "predicted_recall_global_plan": 0.9355726439144945,
+      "belief_mass_within_200m": 0.00028487062176215993,
+      "belief_mass_within_500m": 0.008075244136302819,
+      "anchor_error_m": 839.3541262276092,
+      "belief_mean_error_m": 1106.1419667543016,
+      "budget_spent": 0.22,
+      "privacy_reads": 12,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 22,
+        "branch": "postprocess",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "response_progress",
+      "family_id": "family-501",
+      "split": "development_train",
+      "session_id_evaluator_only": "u501_13",
+      "rep": 1,
+      "record_id": "v2-r501-033",
+      "target_time_s": 772.0,
+      "last_query_gap_s": 12.0,
+      "actual_recall_L10": 0.6666666666666666,
+      "actual_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          998,
+          9017,
+          990,
+          28934,
+          24765
+        ],
+        "feasible_value": 0.7999999999999999,
+        "upper_bound": 0.7999999999999999,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          39,
+          25,
+          67,
+          96,
+          15
+        ],
+        "compressed_counts": [
+          2,
+          1,
+          1,
+          4,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.6,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.2
+      },
+      "global_protected_plan_true_recall": 0.6666666666666666,
+      "predicted_recall_selected": 0.9942696307512374,
+      "predicted_recall_global_plan": 0.9948898548053843,
+      "belief_mass_within_200m": 4.052895886410505e-09,
+      "belief_mass_within_500m": 1.5016123662352197e-07,
+      "anchor_error_m": 2638.441076389684,
+      "belief_mean_error_m": 2578.423742123615,
+      "budget_spent": 0.23,
+      "privacy_reads": 15,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 23,
+        "branch": "postprocess",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "response_paced",
+      "family_id": "family-501",
+      "split": "development_train",
+      "session_id_evaluator_only": "u501_13",
+      "rep": 1,
+      "record_id": "v2-r501-033",
+      "target_time_s": 772.0,
+      "last_query_gap_s": 12.0,
+      "actual_recall_L10": 0.8333333333333333,
+      "actual_category_recall": {
+        "cafe": 0.8,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.2
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          36514,
+          294,
+          29663,
+          55092,
+          48799
+        ],
+        "feasible_value": 0.8333333333333333,
+        "upper_bound": 0.8333333333333333,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          15,
+          38,
+          8,
+          9,
+          9
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.8,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.2
+      },
+      "global_protected_plan_true_recall": 0.8666666666666666,
+      "predicted_recall_selected": 0.9154018974933791,
+      "predicted_recall_global_plan": 0.9386764471015931,
+      "belief_mass_within_200m": 0.00028487062176215993,
+      "belief_mass_within_500m": 0.008075244136302819,
+      "anchor_error_m": 839.3541262276092,
+      "belief_mean_error_m": 1106.1419667543016,
+      "budget_spent": 0.22,
+      "privacy_reads": 12,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 22,
+        "branch": "postprocess",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "filter_paced",
+      "family_id": "family-502",
+      "split": "development_train",
+      "session_id_evaluator_only": "u502_13",
+      "rep": 0,
+      "record_id": "v2-r502-030",
+      "target_time_s": 941.0,
+      "last_query_gap_s": 1.0,
+      "actual_recall_L10": 0.6666666666666666,
+      "actual_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          7595,
+          30,
+          48948,
+          8752,
+          50491
+        ],
+        "feasible_value": 0.6666666666666666,
+        "upper_bound": 0.6666666666666666,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          1,
+          6,
+          1,
+          8,
+          1
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 0.6666666666666666,
+      "predicted_recall_selected": 0.9482414473338322,
+      "predicted_recall_global_plan": 0.9751229204504098,
+      "belief_mass_within_200m": 5.362920161157194e-10,
+      "belief_mass_within_500m": 7.87759913442171e-08,
+      "anchor_error_m": 2223.9703779538872,
+      "belief_mean_error_m": 2408.859148950419,
+      "budget_spent": 0.22,
+      "privacy_reads": 12,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 22,
+        "branch": "postprocess",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "response_progress",
+      "family_id": "family-502",
+      "split": "development_train",
+      "session_id_evaluator_only": "u502_13",
+      "rep": 0,
+      "record_id": "v2-r502-030",
+      "target_time_s": 941.0,
+      "last_query_gap_s": 1.0,
+      "actual_recall_L10": 0.6333333333333333,
+      "actual_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 0.8,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          23353,
+          38293,
+          50684,
+          22997,
+          1421
+        ],
+        "feasible_value": 0.6666666666666666,
+        "upper_bound": 0.6666666666666666,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          5,
+          1,
+          4,
+          1,
+          6
+        ],
+        "compressed_counts": [
+          2,
+          1,
+          1,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 0.6666666666666666,
+      "predicted_recall_selected": 0.9626091619588973,
+      "predicted_recall_global_plan": 0.9699290982374263,
+      "belief_mass_within_200m": 3.481425827194964e-13,
+      "belief_mass_within_500m": 2.8967012083150006e-11,
+      "anchor_error_m": 3601.4971085726647,
+      "belief_mean_error_m": 3786.043889626784,
+      "budget_spent": 0.22,
+      "privacy_reads": 12,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 22,
+        "branch": "postprocess",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "response_paced",
+      "family_id": "family-502",
+      "split": "development_train",
+      "session_id_evaluator_only": "u502_13",
+      "rep": 0,
+      "record_id": "v2-r502-030",
+      "target_time_s": 941.0,
+      "last_query_gap_s": 1.0,
+      "actual_recall_L10": 0.6666666666666666,
+      "actual_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          28190,
+          47468,
+          50466,
+          8761,
+          2744
+        ],
+        "feasible_value": 0.6666666666666666,
+        "upper_bound": 0.6666666666666666,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          3,
+          4,
+          1,
+          4,
+          1
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 0.7,
+      "predicted_recall_selected": 0.9640344757883009,
+      "predicted_recall_global_plan": 0.9809902198594083,
+      "belief_mass_within_200m": 5.362920161157194e-10,
+      "belief_mass_within_500m": 7.87759913442171e-08,
+      "anchor_error_m": 2223.9703779538872,
+      "belief_mean_error_m": 2408.859148950419,
+      "budget_spent": 0.22,
+      "privacy_reads": 12,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 22,
+        "branch": "postprocess",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "filter_paced",
+      "family_id": "family-502",
+      "split": "development_train",
+      "session_id_evaluator_only": "u502_13",
+      "rep": 1,
+      "record_id": "v2-r502-030",
+      "target_time_s": 941.0,
+      "last_query_gap_s": 1.0,
+      "actual_recall_L10": 0.6666666666666666,
+      "actual_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          7595,
+          28622,
+          45269,
+          8704,
+          17460
+        ],
+        "feasible_value": 0.6666666666666666,
+        "upper_bound": 0.6666666666666666,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          1,
+          1,
+          1,
+          8,
+          1
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 0.7333333333333333,
+      "predicted_recall_selected": 0.8429796008812691,
+      "predicted_recall_global_plan": 0.9880746324511375,
+      "belief_mass_within_200m": 4.196910131617054e-08,
+      "belief_mass_within_500m": 4.391677908006421e-06,
+      "anchor_error_m": 1416.654124281536,
+      "belief_mean_error_m": 2069.5598351387744,
+      "budget_spent": 0.23,
+      "privacy_reads": 13,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 23,
+        "branch": "postprocess",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "response_progress",
+      "family_id": "family-502",
+      "split": "development_train",
+      "session_id_evaluator_only": "u502_13",
+      "rep": 1,
+      "record_id": "v2-r502-030",
+      "target_time_s": 941.0,
+      "last_query_gap_s": 1.0,
+      "actual_recall_L10": 0.6666666666666666,
+      "actual_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          5554,
+          2062,
+          5106,
+          28265,
+          38293
+        ],
+        "feasible_value": 0.6666666666666666,
+        "upper_bound": 0.6666666666666666,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          1,
+          1,
+          6,
+          1,
+          1
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 0.6666666666666666,
+      "predicted_recall_selected": 0.9455676156261539,
+      "predicted_recall_global_plan": 0.9753765318174615,
+      "belief_mass_within_200m": 3.8473856552986716e-12,
+      "belief_mass_within_500m": 3.3127731232158127e-10,
+      "anchor_error_m": 3362.4524823453753,
+      "belief_mean_error_m": 3449.8261432008544,
+      "budget_spent": 0.22,
+      "privacy_reads": 14,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 22,
+        "branch": "postprocess",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "response_paced",
+      "family_id": "family-502",
+      "split": "development_train",
+      "session_id_evaluator_only": "u502_13",
+      "rep": 1,
+      "record_id": "v2-r502-030",
+      "target_time_s": 941.0,
+      "last_query_gap_s": 1.0,
+      "actual_recall_L10": 0.6666666666666666,
+      "actual_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          23402,
+          51015,
+          32226,
+          8378,
+          28189
+        ],
+        "feasible_value": 0.6666666666666666,
+        "upper_bound": 0.6666666666666666,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          6,
+          4,
+          1,
+          6,
+          1
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 0.7333333333333333,
+      "predicted_recall_selected": 0.9191986233711603,
+      "predicted_recall_global_plan": 0.9850618505219737,
+      "belief_mass_within_200m": 4.196910131617054e-08,
+      "belief_mass_within_500m": 4.391677908006421e-06,
+      "anchor_error_m": 1416.654124281536,
+      "belief_mean_error_m": 2069.5598351387744,
+      "budget_spent": 0.23,
+      "privacy_reads": 13,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 23,
+        "branch": "postprocess",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "filter_paced",
+      "family_id": "family-601",
+      "split": "development_validation",
+      "session_id_evaluator_only": "u601_13",
+      "rep": 0,
+      "record_id": "v2-r601-030",
+      "target_time_s": 643.0,
+      "last_query_gap_s": 3.0,
+      "actual_recall_L10": 0.7,
+      "actual_category_recall": {
+        "cafe": 0.2,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          2639,
+          29818,
+          3956,
+          50466,
+          9747
+        ],
+        "feasible_value": 0.7,
+        "upper_bound": 0.7,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          8,
+          2,
+          5,
+          2,
+          2
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.2,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 1.0,
+      "predicted_recall_selected": 0.9139841292434185,
+      "predicted_recall_global_plan": 0.9990656029579735,
+      "belief_mass_within_200m": 0.00021043895010402285,
+      "belief_mass_within_500m": 0.0028104189218573477,
+      "anchor_error_m": 570.7647832029352,
+      "belief_mean_error_m": 1205.2916668636058,
+      "budget_spent": 0.21,
+      "privacy_reads": 11,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 21,
+        "branch": "public_clock_skip",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "response_progress",
+      "family_id": "family-601",
+      "split": "development_validation",
+      "session_id_evaluator_only": "u601_13",
+      "rep": 0,
+      "record_id": "v2-r601-030",
+      "target_time_s": 643.0,
+      "last_query_gap_s": 3.0,
+      "actual_recall_L10": 0.6666666666666666,
+      "actual_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          8674,
+          50466,
+          47663,
+          5575,
+          13953
+        ],
+        "feasible_value": 0.6666666666666666,
+        "upper_bound": 0.6666666666666666,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          2,
+          2,
+          5,
+          20,
+          7
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 0.6666666666666666,
+      "predicted_recall_selected": 0.8037367757571794,
+      "predicted_recall_global_plan": 0.9104821121268639,
+      "belief_mass_within_200m": 7.786670461539806e-10,
+      "belief_mass_within_500m": 1.581780010522629e-08,
+      "anchor_error_m": 2355.9970298520493,
+      "belief_mean_error_m": 2632.7796872546237,
+      "budget_spent": 0.22,
+      "privacy_reads": 14,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 22,
+        "branch": "postprocess",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "response_paced",
+      "family_id": "family-601",
+      "split": "development_validation",
+      "session_id_evaluator_only": "u601_13",
+      "rep": 0,
+      "record_id": "v2-r601-030",
+      "target_time_s": 643.0,
+      "last_query_gap_s": 3.0,
+      "actual_recall_L10": 0.6666666666666666,
+      "actual_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          34987,
+          50466,
+          47663,
+          8370,
+          28938
+        ],
+        "feasible_value": 0.6666666666666666,
+        "upper_bound": 0.6666666666666666,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          2,
+          2,
+          5,
+          30,
+          25
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 0.9999999999999999,
+      "predicted_recall_selected": 0.7506124043424726,
+      "predicted_recall_global_plan": 0.9998267611153725,
+      "belief_mass_within_200m": 0.00021043895010402285,
+      "belief_mass_within_500m": 0.0028104189218573477,
+      "anchor_error_m": 570.7647832029352,
+      "belief_mean_error_m": 1205.2916668636058,
+      "budget_spent": 0.21,
+      "privacy_reads": 11,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 21,
+        "branch": "public_clock_skip",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "filter_paced",
+      "family_id": "family-601",
+      "split": "development_validation",
+      "session_id_evaluator_only": "u601_13",
+      "rep": 1,
+      "record_id": "v2-r601-030",
+      "target_time_s": 643.0,
+      "last_query_gap_s": 3.0,
+      "actual_recall_L10": 0.7,
+      "actual_category_recall": {
+        "cafe": 0.2,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          8697,
+          29826,
+          47661,
+          50466,
+          9735
+        ],
+        "feasible_value": 0.7,
+        "upper_bound": 0.7,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          10,
+          2,
+          2,
+          2,
+          2
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.2,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 0.9999999999999999,
+      "predicted_recall_selected": 0.8974802277201189,
+      "predicted_recall_global_plan": 0.9998680956695394,
+      "belief_mass_within_200m": 0.003400779537779992,
+      "belief_mass_within_500m": 0.03940651455356198,
+      "anchor_error_m": 524.2850856292852,
+      "belief_mean_error_m": 773.8388719303762,
+      "budget_spent": 0.18,
+      "privacy_reads": 11,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 18,
+        "branch": "public_clock_skip",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "response_progress",
+      "family_id": "family-601",
+      "split": "development_validation",
+      "session_id_evaluator_only": "u601_13",
+      "rep": 1,
+      "record_id": "v2-r601-030",
+      "target_time_s": 643.0,
+      "last_query_gap_s": 3.0,
+      "actual_recall_L10": 0.6666666666666666,
+      "actual_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          4829,
+          50466,
+          2864,
+          40079,
+          13953
+        ],
+        "feasible_value": 0.6666666666666666,
+        "upper_bound": 0.6666666666666666,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          11,
+          2,
+          13,
+          2,
+          7
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 0.6666666666666666,
+      "predicted_recall_selected": 0.8005559170778153,
+      "predicted_recall_global_plan": 0.9463631346969905,
+      "belief_mass_within_200m": 3.2745464934640837e-12,
+      "belief_mass_within_500m": 9.321268494252046e-11,
+      "anchor_error_m": 3036.7020474407914,
+      "belief_mean_error_m": 2983.539491282592,
+      "budget_spent": 0.22,
+      "privacy_reads": 14,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 22,
+        "branch": "postprocess",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "response_paced",
+      "family_id": "family-601",
+      "split": "development_validation",
+      "session_id_evaluator_only": "u601_13",
+      "rep": 1,
+      "record_id": "v2-r601-030",
+      "target_time_s": 643.0,
+      "last_query_gap_s": 3.0,
+      "actual_recall_L10": 0.6666666666666666,
+      "actual_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          2639,
+          50466,
+          12417,
+          10494,
+          6134
+        ],
+        "feasible_value": 0.6666666666666666,
+        "upper_bound": 0.6666666666666666,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          8,
+          2,
+          15,
+          12,
+          28
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 1.0,
+      "predicted_recall_selected": 0.6891575545231629,
+      "predicted_recall_global_plan": 0.9999970074334477,
+      "belief_mass_within_200m": 0.003400779537779992,
+      "belief_mass_within_500m": 0.03940651455356198,
+      "anchor_error_m": 524.2850856292852,
+      "belief_mean_error_m": 773.8388719303762,
+      "budget_spent": 0.18,
+      "privacy_reads": 11,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 18,
+        "branch": "public_clock_skip",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "filter_paced",
+      "family_id": "family-602",
+      "split": "development_validation",
+      "session_id_evaluator_only": "u602_13",
+      "rep": 0,
+      "record_id": "v2-r602-033",
+      "target_time_s": 530.0,
+      "last_query_gap_s": 10.0,
+      "actual_recall_L10": 0.7999999999999999,
+      "actual_category_recall": {
+        "cafe": 0.8,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          14879,
+          2299,
+          37159,
+          7257,
+          28624
+        ],
+        "feasible_value": 0.7999999999999999,
+        "upper_bound": 0.7999999999999999,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          35,
+          51,
+          122,
+          15,
+          18
+        ],
+        "compressed_counts": [
+          1,
+          2,
+          2,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.8,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 1.0,
+      "predicted_recall_selected": 0.9091443795768752,
+      "predicted_recall_global_plan": 0.9951329441037918,
+      "belief_mass_within_200m": 0.002697605588225424,
+      "belief_mass_within_500m": 0.045515462584773805,
+      "anchor_error_m": 412.154643727504,
+      "belief_mean_error_m": 877.9420258865515,
+      "budget_spent": 0.16,
+      "privacy_reads": 9,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 16,
+        "branch": "public_clock_skip",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "response_progress",
+      "family_id": "family-602",
+      "split": "development_validation",
+      "session_id_evaluator_only": "u602_13",
+      "rep": 0,
+      "record_id": "v2-r602-033",
+      "target_time_s": 530.0,
+      "last_query_gap_s": 10.0,
+      "actual_recall_L10": 0.8333333333333333,
+      "actual_category_recall": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          52329,
+          1320,
+          954,
+          21239,
+          10507
+        ],
+        "feasible_value": 0.8333333333333333,
+        "upper_bound": 0.8333333333333333,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          53,
+          85,
+          12,
+          7,
+          15
+        ],
+        "compressed_counts": [
+          2,
+          1,
+          1,
+          1,
+          2
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 0.7999999999999999,
+      "predicted_recall_selected": 0.9622009460234846,
+      "predicted_recall_global_plan": 0.9633391485346307,
+      "belief_mass_within_200m": 1.113198214499675e-09,
+      "belief_mass_within_500m": 5.686675078562425e-08,
+      "anchor_error_m": 1906.8541298623513,
+      "belief_mean_error_m": 2293.5546854838585,
+      "budget_spent": 0.23,
+      "privacy_reads": 15,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 23,
+        "branch": "postprocess",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "response_paced",
+      "family_id": "family-602",
+      "split": "development_validation",
+      "session_id_evaluator_only": "u602_13",
+      "rep": 0,
+      "record_id": "v2-r602-033",
+      "target_time_s": 530.0,
+      "last_query_gap_s": 10.0,
+      "actual_recall_L10": 0.8333333333333333,
+      "actual_category_recall": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          12470,
+          1238,
+          961,
+          21171,
+          19337
+        ],
+        "feasible_value": 0.9333333333333333,
+        "upper_bound": 0.9333333333333333,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          9,
+          86,
+          50,
+          16,
+          21
+        ],
+        "compressed_counts": [
+          1,
+          1,
+          3,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.6
+      },
+      "global_protected_plan_true_recall": 1.0,
+      "predicted_recall_selected": 0.9572375632058984,
+      "predicted_recall_global_plan": 0.999170972569017,
+      "belief_mass_within_200m": 0.002697605588225424,
+      "belief_mass_within_500m": 0.045515462584773805,
+      "anchor_error_m": 412.154643727504,
+      "belief_mean_error_m": 877.9420258865515,
+      "budget_spent": 0.16,
+      "privacy_reads": 9,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 16,
+        "branch": "public_clock_skip",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "filter_paced",
+      "family_id": "family-602",
+      "split": "development_validation",
+      "session_id_evaluator_only": "u602_13",
+      "rep": 1,
+      "record_id": "v2-r602-033",
+      "target_time_s": 530.0,
+      "last_query_gap_s": 10.0,
+      "actual_recall_L10": 0.7999999999999999,
+      "actual_category_recall": {
+        "cafe": 0.8,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          33711,
+          14963,
+          11551,
+          18150,
+          11639
+        ],
+        "feasible_value": 0.7999999999999999,
+        "upper_bound": 0.7999999999999999,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          9,
+          20,
+          20,
+          5,
+          29
+        ],
+        "compressed_counts": [
+          1,
+          2,
+          1,
+          1,
+          3
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.8,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 0.7999999999999999,
+      "predicted_recall_selected": 0.9519532836535884,
+      "predicted_recall_global_plan": 0.9742536213605152,
+      "belief_mass_within_200m": 4.8126525818188164e-05,
+      "belief_mass_within_500m": 0.000945049248859406,
+      "anchor_error_m": 579.2186050303048,
+      "belief_mean_error_m": 1408.1820533052219,
+      "budget_spent": 0.15,
+      "privacy_reads": 9,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 15,
+        "branch": "public_clock_skip",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "response_progress",
+      "family_id": "family-602",
+      "split": "development_validation",
+      "session_id_evaluator_only": "u602_13",
+      "rep": 1,
+      "record_id": "v2-r602-033",
+      "target_time_s": 530.0,
+      "last_query_gap_s": 10.0,
+      "actual_recall_L10": 0.8333333333333333,
+      "actual_category_recall": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          12789,
+          2499,
+          11003,
+          21171,
+          19337
+        ],
+        "feasible_value": 0.8333333333333333,
+        "upper_bound": 0.8333333333333333,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          12,
+          36,
+          16,
+          16,
+          34
+        ],
+        "compressed_counts": [
+          2,
+          2,
+          1,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 1.0,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 0.7999999999999999,
+      "predicted_recall_selected": 0.9734832898897892,
+      "predicted_recall_global_plan": 0.9737702331948214,
+      "belief_mass_within_200m": 5.866952212743363e-10,
+      "belief_mass_within_500m": 2.567378878739307e-08,
+      "anchor_error_m": 1990.7989548350254,
+      "belief_mean_error_m": 2437.65679831155,
+      "budget_spent": 0.22,
+      "privacy_reads": 13,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 22,
+        "branch": "postprocess",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    },
+    {
+      "method": "response_paced",
+      "family_id": "family-602",
+      "split": "development_validation",
+      "session_id_evaluator_only": "u602_13",
+      "rep": 1,
+      "record_id": "v2-r602-033",
+      "target_time_s": 530.0,
+      "last_query_gap_s": 10.0,
+      "actual_recall_L10": 0.7999999999999999,
+      "actual_category_recall": {
+        "cafe": 0.8,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "reachable_true_reference_oracle": {
+        "selected_states": [
+          12469,
+          2309,
+          52523,
+          52935,
+          23575
+        ],
+        "feasible_value": 0.7999999999999999,
+        "upper_bound": 0.7999999999999999,
+        "optimal": true,
+        "solver_status": 0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "full_feasible_counts": [
+          40,
+          28,
+          10,
+          5,
+          5
+        ],
+        "compressed_counts": [
+          2,
+          1,
+          1,
+          1,
+          1
+        ],
+        "positive_reference_pois": 24,
+        "evaluator_only_uses_reference_weights": true
+      },
+      "oracle_category_recall": {
+        "cafe": 0.8,
+        "clinic": 1.0,
+        "fuel": 1.0,
+        "hospital": 1.0,
+        "pharmacy": 1.0,
+        "restaurant": 0.0
+      },
+      "global_protected_plan_true_recall": 0.9333333333333332,
+      "predicted_recall_selected": 0.963922633313724,
+      "predicted_recall_global_plan": 0.9788649245416935,
+      "belief_mass_within_200m": 4.8126525818188164e-05,
+      "belief_mass_within_500m": 0.000945049248859406,
+      "anchor_error_m": 579.2186050303048,
+      "belief_mean_error_m": 1408.1820533052219,
+      "budget_spent": 0.15,
+      "privacy_reads": 9,
+      "private_ledger_at_target": {
+        "cost_units": 0,
+        "spent_units": 15,
+        "branch": "public_clock_skip",
+        "private_read": false
+      },
+      "prefix_matches_saved_outputs": true
+    }
+  ]
+}

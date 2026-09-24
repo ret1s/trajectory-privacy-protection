@@ -3,7 +3,7 @@ import json
 REPRESENTATIVES={'S1':'A','S2':'C','S3':'C','S9':'B','S10':'B','S5':'C','S6':'C','S8':'C','S4':'B','S7':'C'}
 NOTES={
 'S1':'u301_00, FCD[333]: một vị trí tại cạnh có 4 hướng đi tiếp. Sao đỏ là chính vị trí cần suy ra; bị trùng với chấm đầu vào.',
-'S2':'u301_07 dừng tại [214,258] và [1153,1197], mỗi lần 44 giây. Hai lần dừng trùng vị trí nên các chấm chồng nhau; giữa chúng xe có di chuyển.',
+'S2':'18 lần lấy mẫu = 9 + 9, cùng một tọa độ. u301_07 dừng tại [214,258] và [1153,1197], mỗi lần 44 giây. Hai lần dừng trùng vị trí nên các chấm chồng nhau; giữa chúng xe có di chuyển.',
 'S3':'u301_00: chỉ 4 điểm [361,421,481,541]. Chấm là quan sát rời rạc; nét đứt cho thấy đường thật bộ đánh giá giữ để chấm tái dựng.',
 'S9':'Hai phiên u301_00/u301_04 xuất phát cách 281,76 m rồi nhập tuyến. Hai sao đỏ là hai điểm đầu bị che. Cửa sổ bắt đầu sau nhập tuyến.',
 'S10':'u304_00/u304_02 chung tiền tố nhưng kết thúc cách 4,47 km. Chấm màu chỉ tiền tố; hai sao đỏ là FCD cuối [693,483], giữ kín để chấm ngoại tuyến.',
@@ -15,13 +15,19 @@ NOTES={
 def add_dataset_content(ns):
     p,sub,page=ns['p'],ns['sub'],ns['page']
     guide=json.loads((ns['OUT']/'scenario_guide.json').read_text())
-    sub('Cách đọc các mẫu trên bản đồ')
-    p('A/B/C là ba điều kiện của cùng nhiệm vụ, không phải mức khó tăng dần. Số sau dấu “/” là số bản ghi. Mỗi scenario có một map đại diện lớn; đủ 30 map và tọa độ chi tiết nằm trong sample_maps.html / sample_maps.pdf và data_samples.json.')
-    p('**Đọc bản đồ:** chấm màu = mẫu được phép trước bảo vệ; nét đứt = toàn chuyến chỉ để đánh giá; sao đỏ = nhãn vị trí. Màu phân biệt phiên, không phải danh tính. Nền SUMO benchmark cùng checksum OSM nhưng chưa xác minh trùng hình học mạng dataset vì thiếu file mạng gốc. © OpenStreetMap contributors.')
+    p('**Cách đọc 30 mẫu:** A/B/C là ba điều kiện của cùng nhiệm vụ, không phải mức khó tăng dần. Số sau “/” là số bản ghi. Mỗi ca có map và trục thời gian; phóng to ở sample_maps.html, tra tọa độ trong data_samples.json.')
+    p('**Đọc bản đồ:** chấm màu = mẫu được phép trước bảo vệ (nhiều mẫu có thể chồng nhau); trục thời gian = các lần lấy mẫu riêng; nét đứt = toàn chuyến chỉ để đánh giá; sao đỏ = nhãn vị trí. Màu phân biệt phiên, không phải danh tính. Nền SUMO benchmark cùng checksum OSM nhưng chưa xác minh trùng hình học mạng dataset vì thiếu file mạng gốc. © OpenStreetMap contributors.')
+    p('**Giới hạn cần giữ khi đánh giá:** S9/S10 là điểm đầu/cuối, chưa phải nhãn nhà/nơi làm việc; truy vấn bị mất vẫn thuộc mẫu số utility. S5/S6 cần đối thủ nền chỉ dùng bản đồ/tần suất. S8 dùng thời gian chung cho cặp. S4 cần bổ sung nhãn xe; S7 dùng ý định tổng hợp, chưa đại diện hành vi người thật.')
     page();ns['sec']('Dataset theo kịch bản: đặc tả đi cùng mẫu trên bản đồ')
+    explain=json.loads((ns['OUT']/'scenario_explanations.json').read_text())
+    readings=json.loads((ns['OUT']/'case_readings.json').read_text())
     order=list(REPRESENTATIVES)
     for i,name in enumerate(order):
-        if i and i%2==0:page()
-        g=guide[name];sub(g['title']);case=name+'.'+REPRESENTATIVES[name]
-        ns['blocks'].append(('scenario_panel',(name,case,g['cases'],NOTES[name])))
-    p('**Giới hạn cần giữ khi đánh giá:** S9/S10 là điểm đầu/cuối, chưa phải nhãn nhà/nơi làm việc; truy vấn bị mất vẫn thuộc mẫu số utility. S5/S6 cần đối thủ nền chỉ dùng bản đồ/tần suất. S8 dùng thời gian chung cho cặp. S4 cần bổ sung nhãn xe; S7 dùng ý định tổng hợp, chưa đại diện hành vi người thật.')
+        if i:page()
+        g=guide[name];sub(g['title'])
+        p('**Rủi ro chung:** '+explain[name]['brief'])
+        for suffix,desc in zip('ABC',g['cases']):
+            case=name+'.'+suffix;r=ns['FIRST'][case]
+            counts='; '.join(sid+': '+str(len(ix))+' mẫu' for sid,ix in zip(r['session_ids'],r['observed_indices']))
+            if len(r['session_ids'])>3:counts='6 phiên lịch sử + phiên hiện tại: '+str(len(r['observed_indices'][-1]))+' mẫu tiền tố.'
+            ns['blocks'].append(('case_panel',(case,desc,readings[case],counts)))

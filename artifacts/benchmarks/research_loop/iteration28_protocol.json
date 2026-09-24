@@ -1,0 +1,50 @@
+{
+  "schema": "live-availability-point-api-v1",
+  "iteration": 28,
+  "chosen_before_scores": true,
+  "reference_k": 5,
+  "response_L": 10,
+  "epoch_seconds": 60,
+  "nominal_availability_probability": 0.8,
+  "sensitivity_probabilities": [
+    0.5,
+    0.8,
+    0.95
+  ],
+  "world_seeds": [
+    24092801,
+    24092802,
+    24092803
+  ],
+  "generator": "NumPy PCG64 SeedSequence([world_seed,epoch]); lexical public POI order; independent uniform draws < p; same draws across probability sensitivity",
+  "server_truth": "Global availability for each POI is constant within each epoch, independent of target mobility; seeds and snapshots are evaluator/server inputs, not supplied to client planner",
+  "public_context": "Original 419 POIs, directed road map, public catalogue and stable ties, common fixed query clocks",
+  "client_context": "Static map and POI coordinates; only responses already received reveal current availability",
+  "dataset": "artifacts/datasets/research_loop_expanded_v1/dataset.json",
+  "source_transcripts": "iteration18_expanded_screening.json",
+  "source_plans": "iteration22_public_cover.json",
+  "parents": [
+    "response_paced",
+    "response_paced_slack03"
+  ],
+  "fixed_query_counts": [
+    5,
+    12
+  ],
+  "controls": [
+    "raw current query",
+    "static catalogue with no availability",
+    "whole catalogue availability cached at epoch zero",
+    "full current availability bitmap every visited epoch (alternative bulk API)"
+  ],
+  "response_memory_modes": [
+    "current response only",
+    "union of responses within current availability epoch"
+  ],
+  "metrics": "Unchanged macro nonempty-category Recall@5 of current available nearest POIs; empty references counted separately; nested event->record->family/case means; report all 15 cases and 90% case-mean gate",
+  "cost": "Coordinates and response ID slots per event; actual compact JSON bytes; bulk bitmap ceil(419/8) bytes plus separately stated epoch/header; availability simulation is not a network latency benchmark",
+  "privacy": "No regenerated coordinates; same source attacks apply conditional on independent server status and fixed public clock. Client cache/rerank never changes requests. Bulk/fixed controls GPS independent conditional on clock/region. No new metadata guarantee.",
+  "independence": "Three availability worlds are sensitivity replicates on reused development trajectories, not new users or independent confirmation",
+  "freeze_policy": "Do not choose seed, probability, epoch or thresholds from observed scores; output every frozen variant; immutable result and input hashes",
+  "availability_clock": "Public session-relative replay clock, starting at 0; the same synthetic snapshot sequence is replayed for each journey and shared across methods. These are separate replays, not one simultaneous city simulation."
+}
