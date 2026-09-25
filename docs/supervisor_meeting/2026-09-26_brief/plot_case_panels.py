@@ -1,4 +1,4 @@
-"""Thirty individual map + time panels, three source-backed cases per report page."""
+"""Active map + time panels: S10 A/C, three cases for each other scenario."""
 import runpy
 from pathlib import Path
 ns=runpy.run_path(str(Path(__file__).with_name('plot_sample_maps.py')))
@@ -30,4 +30,4 @@ for c in ns['payload']['cases']:
     for ext in ['pdf','svg','png']:
         fig.savefig(out/'figures'/('case_'+c['case'].replace('.','_')+'.'+ext),bbox_inches='tight',dpi=160)
     plt.close(fig)
-print('Rendered 30 individual case panels.')
+print('Rendered',len(ns['payload']['cases']),'active individual case panels.')

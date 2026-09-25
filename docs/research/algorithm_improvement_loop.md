@@ -713,3 +713,37 @@ unchanged sequence-attacker bank on the same 64/16 split. This fills the missing
 matched attacker for the frozen shortlist; no expanded-development labels enter
 attacker training or selection. Its first query is identical to response-aware
 pacing and must be checked before sharing that separate first-step challenge.
+
+## Iterations 29–30: category-specific public query plans
+
+The continuation request on 24 September authorizes further implementation and
+experiments. The working Geo-I K5/L10 configuration remains an explicit control;
+new public category plans have a different distinct-coordinate interface and
+must not be presented as the same K5 method. Protocols are stored separately in
+`iteration29_protocol.json` and `iteration30_protocol.json` before their scores.
+
+Fit a deterministic macro-category greedy cover from public static rankings
+only. Freeze a 30 category-coordinate request plan and an unconstrained
+maximum-cover diagnostic; both use L10. The latter stops when no additional
+static POI can be covered, and must not be called a full-catalogue certificate
+if any public targets remain uncovered. Preserve all nine existing service
+worlds and all 15 target cases. Measure actual request/response bodies, category
+requests and distinct coordinates. Mathematical noninterference concerns the
+coordinate channel conditional on region/catalogue/clock/server state; it does
+not imply zero attack success or conceal metadata.
+
+After freezing both plans, generate four new families, seeds 901–904, with no
+replacement based on results. Require 22/22 completed SUMO journeys per family.
+Evaluate all eligible records and preserve null reference cases, three new
+availability seeds 24093001–24093003, and probabilities .5/.8/.95. Keep fixed
+K5/K12 and bulk controls; public-epoch refresh must be offered equally to fixed
+controls. This is a small new-family check on the same city and generator, not
+new-city or final thesis confirmation. The previous adaptive defender is not
+run on this new dataset, so do not compare it across dataset versions.
+
+Completion: plan30 has 19 distinct coordinates; the wider plan has 67 category
+requests and 52 coordinates. Plan30 passes 15/15 nominal cases on both datasets
+but only 11/15 in the new-family .95 stress. Wider67 returns 100% on evaluated
+cases at a higher byte cost, while eight public POIs remain outside its static
+coverage certificate. All outcomes and the complete cost frontier are retained
+in `docs/research/category_cover_results.md` and `iteration29_*`/`iteration30_*`.

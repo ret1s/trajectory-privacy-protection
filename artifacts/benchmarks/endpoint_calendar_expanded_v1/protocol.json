@@ -1,0 +1,152 @@
+{
+  "schema": "endpoint-calendar-expanded-protocol-v1",
+  "created": "2026-09-25",
+  "methods": [
+    "raw",
+    "dls",
+    "rdg",
+    "transprotect_markov",
+    "semantic_poi",
+    "fake_queries",
+    "anotherme_offline",
+    "ours30",
+    "ours67",
+    "calendar30",
+    "calendar67"
+  ],
+  "source_sha256": {
+    "benchmark/scheduled_category_client.py": "c1c636f841a6d650dec42bf3b9db6626580a7c85fb149e2ab94f82ae07ef7729",
+    "evaluation/road_endpoint_attack.py": "d95c3ac7f763658a7f3f1d0d8ef56de614e7d049f792b45d3fbee9b17769b07a",
+    "evaluation/live_comparison_attacks.py": "811e6fad6342e3e5afeb5a3cc73341d6555c607f7d2eecc4ac6fe750a5caa484",
+    "evaluation/live_comparison_endpoint_attacks.py": "0914d6d93a4007ab2c95ad3c56fded62b4963850c5f1d351082b936de275326a",
+    "benchmark/paper_comparators.py": "698d0dd885fd8d17fb45833cf7205cf26dd3e796e1c6a16d1adffb5fb7d3ef89",
+    "experiments/build_endpoint_holdout.py": "153d586b9102acc125b7737ad2774d43a2473ae80d893e18d0e654aa7a901350",
+    "data/scenario_suite/mobility.py": "0b853cb408343ccb7c561264310bc9a684adec54e26b4cb857229aefae4fe46d",
+    "data/scenario_suite/records.py": "2568fd33107061ede7746a24e0d656edd4a9bc306ec4b201b4993b4a285f5b80",
+    "data/scenario_suite_v2/design.py": "7e5293ae5b0d191be8578457d9db2c035c5010757ff6dbcddcb6ef225d0679a1",
+    "data/scenario_suite_v2/records.py": "3122b5e7faa9c5bbe2d0d09801e66ca69842cb614d8c70bec87a27e204e7447a",
+    "artifacts/benchmarks/research_loop/iteration29_plans.json": "402c08e788e882165b5a1a078c70de4b8a971610c23a2d26e0694dfe07026418",
+    "artifacts/benchmarks/live_paper_comparison_v1/protocol.json": "969f3bdcebed339bcb45aeeffda03d0444985af66bd431a596d7d84845b13c50",
+    "experiments/extend_endpoint_cohort.py": "b71b695b11ea1585c8b286fa97d44dc8b744ee2daefac4402b9987c2e9311b83"
+  },
+  "holdout_builder_sha256": "153d586b9102acc125b7737ad2774d43a2473ae80d893e18d0e654aa7a901350",
+  "fit_families": [
+    "family-501",
+    "family-502",
+    "family-701",
+    "family-702",
+    "family-703",
+    "family-704",
+    "family-705",
+    "family-706",
+    "family-707",
+    "family-708"
+  ],
+  "selection_families": [
+    "family-601",
+    "family-602",
+    "family-709",
+    "family-710",
+    "family-711",
+    "family-712",
+    "family-901",
+    "family-902",
+    "family-903",
+    "family-904"
+  ],
+  "holdout_seeds": [
+    1201,
+    1202,
+    1203,
+    1204,
+    1205,
+    1206,
+    1207,
+    1208,
+    1209,
+    1210,
+    1211,
+    1212,
+    1213,
+    1214,
+    1215,
+    1216,
+    1217,
+    1218,
+    1219,
+    1220,
+    1221,
+    1222,
+    1223,
+    1224,
+    1225,
+    1226,
+    1227,
+    1228,
+    1229,
+    1230,
+    1231,
+    1232
+  ],
+  "cases": [
+    "S9.A",
+    "S9.B",
+    "S9.C",
+    "S10.A",
+    "S10.B",
+    "S10.C"
+  ],
+  "world_seeds": [
+    5101,
+    5102,
+    5103
+  ],
+  "probabilities": [
+    0.5,
+    0.8,
+    0.95
+  ],
+  "mechanism_reps": [
+    0,
+    1
+  ],
+  "calendar": {
+    "start_s": 0,
+    "end_s": 3600,
+    "epoch_s": 60,
+    "active_start_range_s": [
+      300,
+      900
+    ],
+    "activation": "public subscription chosen before trips; no on-demand activation or cancellation",
+    "local_queries": "read current epoch cache only; never trigger network traffic"
+  },
+  "attack": "old geometric/learned bank plus road-distance endpoint posterior; same selection rule for all methods",
+  "new_attack_grid": {
+    "cell_m": 100,
+    "A_C_horizon_s": [
+      30,
+      60,
+      90
+    ],
+    "B_horizon_s": [
+      60,
+      180,
+      360,
+      600
+    ],
+    "prior": "90% uniform road cells + 10% uniform bounding grid",
+    "posterior_prior_mix": 0.1,
+    "uncertainty_m": "max(80,0.35*speed*horizon)",
+    "lane_changes": "public adjacent lanes within 25 m"
+  },
+  "selection_rule": "case/family balanced; minimize MAE or maximize hit with MAE tie-break; posterior minimize NLL",
+  "endpoints": "first/last simulated FCD, not inferred real homes",
+  "primary_source": "https://doi.org/10.1145/3548606.3560616",
+  "scope": "new-family same-city check; not six original-paper reproduction or real-world confirmation",
+  "parent_protocol_sha256": "a177726e9a6dfdfc225c068c5ff2ae27ee228e5f930ad7ee8167348f27c853fe",
+  "frozen_selection_sha256": "3ae85cf3a02d84445fc8a93400911fb6b8883bf51572c8853d0e22c637592180",
+  "pilot_readout_sha256": "b319a6174ae86b7551d790b25fa2eb573d085803a917959cbf2bda3ce26e08b7",
+  "reason": "User requested larger samples; seven-family pilot already observed. No attack/defense/metric choices changed; report new cohort separately.",
+  "stopping_rule": "Attempt all 32 seeds; retain all construction failures without replacement; no stopping based on benchmark outcomes"
+}

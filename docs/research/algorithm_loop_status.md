@@ -1,5 +1,35 @@
 # Algorithm improvement loop — checkpoint 24/09/2026
 
+> Kiểm tra mở rộng 25/09: [S9/S10 trên 32 nhóm tuyến mới](endpoint_calendar_results.md), giữ nguyên kế hoạch/attacker đã khóa và thêm lịch gửi công khai trước/sau chuyến. Recall 100% của tập thật + dummy cần đọc cùng privacy và byte; các số lịch sử dưới được giữ riêng.
+
+## Vòng 29–30: thêm nhánh truy vấn công khai theo loại
+
+Đã hoàn tất 30 vòng. [Kết quả và lập luận](category_cover_results.md): plan 30
+truy vấn loại–tọa độ, tại 19 tọa độ công khai, đạt Recall 95,67%, 15/15 ca trên
+tập phát triển. S1.C 95,57% thay 80,18% của bản K5/slack/cache. Không gọi đây
+là cùng K=5 hoặc cùng byte; trung bình utility không tăng có ý nghĩa rõ so với
+bản cũ, còn S2 và một số ca S10 giảm.
+
+Plan đã khóa trước khi sinh bốn nhóm 901–904, 88/88 chuyến SUMO hoàn tất.
+Năm scenario dùng 32 chuyến, 56 record. Kiểm tra mới ở availability 80% đạt
+94,61%, 15/15; ở 95% chỉ qua 11/15. Plan rộng 67 đã khóa từ trước đạt 100% trên
+mọi ca/mức availability đã chấm, với byte truyền cao hơn. Không có chứng nhận
+phủ toàn danh mục; tám POI còn ngoài hợp top-L tĩnh của plan rộng.
+
+Lập luận privacy mới: network policy không nhận GPS; với cùng vùng/danh mục,
+đồng hồ và trạng thái server, thay GPS không đổi transcript. Không suy ra
+Hit=0 hoặc bảo vệ metadata; chưa có bộ attacker timing/identity mới. Giữ cả
+hai plan và phương pháp Geo-I cũ với đúng giao diện/chi phí của từng nhánh.
+
+Có 3.276 lượt đánh giá dịch vụ tất định mới; không tăng số lượt sinh nhiễu
+4.162 đã có. Tổng chuyến SUMO vật lý là 600 sau khi thêm 88 chuyến. Verifier
+dựng lại plan và qua 8.532 đối chiếu Dijkstra, 315 dòng tổng hợp, 14 kiểm tra
+luồng dữ liệu. Xem `iteration29_*`, `iteration30_*` và dataset
+`research_loop_confirmation_v1`; đây là kiểm tra nhóm mới nhỏ trên cùng thành
+phố/generator, chưa phải xác nhận cuối cùng của luận văn.
+
+## Checkpoint vòng 28 (giữ để đối chiếu)
+
 **Cấu hình làm việc cho dịch vụ:** paced + slack 0,03 + cache theo khoảng hiệu
 lực, K5/L10. Trên workload POI khả dụng mới, Recall trung bình theo 15 ca đạt
 **95,60%**, so với **82,07%** của fixed K5. Cache tăng riêng **0,24 điểm phần trăm**

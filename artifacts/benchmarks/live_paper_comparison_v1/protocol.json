@@ -1,0 +1,151 @@
+{
+  "schema": "common-live-paper-comparison-v1",
+  "date": "2026-09-25",
+  "source_sha256": {
+    "benchmark/paper_comparators.py": "698d0dd885fd8d17fb45833cf7205cf26dd3e796e1c6a16d1adffb5fb7d3ef89",
+    "experiments/run_live_paper_comparison.py": "64095696a24826bc0928761c63f82ee254bfb517b806a828980e8e5a27a2758a",
+    "evaluation/live_poi.py": "b6bf32695d1444809c1e5147868a16ee93a1a7b6fe65104a0d57e6cc369dcad2",
+    "benchmark/engines/dls.py": "41cadc9ab2476515235aa13054a76bfaa294ffcbefbf2240c578afe8c1fa492e",
+    "benchmark/engines/transprotect.py": "bc97f2db31cf19fe54444f5efbf124c10e8a2d7607df56617eeab5f8e776a784",
+    "benchmark/engines/anotherme.py": "a3cbcc26110b2f5a53a9e11830ad07f22854589e21b2762e06a7a3c4f2b13041",
+    "benchmark/engines/semantic_correlation.py": "bf5406e3b44ab78d86135cc4cff89f747fc30941ba6c614d4ed5609bbd9f1ea4",
+    "benchmark/methods/transprotect.py": "b5a12d0cdff67a4ef209330846378d0a0bd9cd1fa7fbfe130905ec1a1a447e2d",
+    "benchmark/methods/anotherme.py": "68c73b559c8e4123c374539c5a13d74b050679ac2b294b0dd09d23cba1dbeef3",
+    "benchmark/methods/semantic_correlation.py": "31dc6b9f1dc0f6bdea14c1c346500da6b25a07081bca029f7b4719c18c70d9ae",
+    "evaluation/live_comparison_attacks.py": "811e6fad6342e3e5afeb5a3cc73341d6555c607f7d2eecc4ac6fe750a5caa484",
+    "artifacts/datasets/research_loop_development_v1/dataset.json": "6092f46a51d57fd93639f9697627332eb4a5dbbd5cdbb745d20ae1cc91f4f3a9",
+    "artifacts/datasets/research_loop_expanded_v1/dataset.json": "e80228fdd2e70b451dadcea23c725556345f5fcf3cc35f1915ad3f526a9a708e",
+    "artifacts/datasets/research_loop_confirmation_v1/dataset.json": "357da388023b7eb998c33a80ff794a72b21085290541707941ae80070d18efe7",
+    "artifacts/benchmarks/research_loop/iteration29_plans.json": "402c08e788e882165b5a1a078c70de4b8a971610c23a2d26e0694dfe07026418",
+    "cache/research_loop_20260924/resources.json": "82b03a2dad35c898483437ab63da9437076594e913f5beb6b0d18360ffe9b8b1"
+  },
+  "methods": [
+    "raw",
+    "dls",
+    "rdg",
+    "transprotect_markov",
+    "semantic_poi",
+    "fake_queries",
+    "anotherme_offline",
+    "ours30",
+    "ours67"
+  ],
+  "labels": {
+    "raw": "Vị trí thật",
+    "dls": "DLS · road adaptation",
+    "rdg": "RDG · road adaptation",
+    "transprotect_markov": "TransProtect · Markov adaptation",
+    "semantic_poi": "Semantic correlation · POI adaptation",
+    "fake_queries": "Fake-query insertion · road adaptation",
+    "anotherme_offline": "AnotherMe · VTGA offline adaptation",
+    "ours30": "Đề xuất: 30 query",
+    "ours67": "Đề xuất: 67 query"
+  },
+  "datasets": {
+    "auxiliary": "research_loop_development_v1",
+    "development": "research_loop_expanded_v1",
+    "new_groups": "research_loop_confirmation_v1"
+  },
+  "fit_families": [
+    "family-501",
+    "family-502"
+  ],
+  "attack_selection_families": [
+    "family-601",
+    "family-602"
+  ],
+  "evaluation_families": {
+    "development": [
+      "family-701",
+      "family-702",
+      "family-703",
+      "family-704",
+      "family-705",
+      "family-706",
+      "family-707",
+      "family-708",
+      "family-709",
+      "family-710",
+      "family-711",
+      "family-712"
+    ],
+    "new_groups": [
+      "family-901",
+      "family-902",
+      "family-903",
+      "family-904"
+    ]
+  },
+  "mechanism_repetitions": [
+    0,
+    1
+  ],
+  "world_seeds": [
+    3101,
+    3102,
+    3103
+  ],
+  "probabilities": [
+    0.5,
+    0.8,
+    0.95
+  ],
+  "response_L": 10,
+  "client_k": 5,
+  "epoch_seconds": 60,
+  "categories": "all six for every paper coordinate",
+  "request_policy": "every service event; all methods may union valid responses in the same epoch; all fake traffic counted",
+  "cost_policy": "actual compact UTF-8 JSON request and response bodies; public time/epoch included; no HTTP/TLS",
+  "clock": "union of background 20-second cadence and exact required sample indices; public conditional clock",
+  "input_domain": "all methods receive same nearest-lane-state coordinates; evaluator targets raw FCD",
+  "dls": {
+    "k": 5,
+    "subset_trials": 50,
+    "grid_prior_m": 100,
+    "prior": "background visits, Laplace cell smoothing, per-state area adjustment"
+  },
+  "rdg": {
+    "k": 5,
+    "dummy_pool": 20,
+    "algorithm": "arXiv:1805.06104 Algorithm 6",
+    "transition_smoothing": 0.1
+  },
+  "transprotect": {
+    "predictor": "disjoint SUMO empirical Markov; NOT published Transformer",
+    "candidate_k": 10,
+    "target_count": 8,
+    "alpha": 10000,
+    "epsilon_m_inv": 0.005
+  },
+  "semantic": {
+    "predictor": "empirical previous POI type; NOT published LSTM weights",
+    "labels": "nearest public POI category",
+    "k": 5,
+    "candidate_pool": 128
+  },
+  "fake": {
+    "k": 5,
+    "max_fake": 2,
+    "timer_wait_seconds": [
+      5,
+      15
+    ],
+    "candidate_N": 24,
+    "sigma": 0.75,
+    "history": "disjoint population transitions instead of unavailable personal logs",
+    "geometry": "directed lane travel; length/direction similarity; DLS fallback",
+    "failed_cover_policy": "suppress fake and retain failure count"
+  },
+  "anotherme": {
+    "execution": "offline full-trip VTGA reference, excluded from online ranking",
+    "routing": "SUMO passenger graph for this vehicle dataset",
+    "minimum_raw_samples": 20
+  },
+  "privacy": "finite common geometry/Viterbi/prior/learned attack bank; selection only on 601/602; not formal universal efficacy",
+  "not_independent_confirmation": true,
+  "scope": "Named local adaptations on one common service; no reproduced-paper superiority claim",
+  "primary_sources": {
+    "RDG": "https://arxiv.org/abs/1805.06104",
+    "fake_queries": "https://link.springer.com/article/10.1007/s44443-025-00438-z"
+  }
+}

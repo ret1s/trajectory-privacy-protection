@@ -1,0 +1,114 @@
+{
+  "schema": "s10b-diagnostic-v1",
+  "date": "2026-09-25",
+  "status": "exploratory_after_observing_weak_raw_control_not_independent_confirmation",
+  "fit_families": [
+    "family-501",
+    "family-502",
+    "family-701",
+    "family-702",
+    "family-703",
+    "family-704",
+    "family-705",
+    "family-706",
+    "family-707",
+    "family-708"
+  ],
+  "selection_families": [
+    "family-601",
+    "family-602",
+    "family-709",
+    "family-710",
+    "family-711",
+    "family-712",
+    "family-901",
+    "family-902",
+    "family-903",
+    "family-904"
+  ],
+  "evaluation_families": [
+    "family-1201",
+    "family-1202",
+    "family-1203",
+    "family-1204",
+    "family-1205",
+    "family-1206",
+    "family-1207",
+    "family-1208",
+    "family-1209",
+    "family-1210",
+    "family-1211",
+    "family-1212",
+    "family-1213",
+    "family-1214",
+    "family-1215",
+    "family-1216",
+    "family-1217",
+    "family-1218",
+    "family-1219",
+    "family-1220",
+    "family-1221",
+    "family-1222",
+    "family-1223",
+    "family-1224",
+    "family-1225",
+    "family-1226",
+    "family-1227",
+    "family-1228",
+    "family-1229",
+    "family-1230",
+    "family-1231",
+    "family-1232"
+  ],
+  "input": "raw allowed relative-time prefix only, from unchanged baseline transcripts",
+  "candidate_grid": {
+    "trees": {
+      "n_estimators": 128,
+      "leaf": [
+        1,
+        2,
+        4
+      ],
+      "max_depth": 16,
+      "seed": 20260925
+    },
+    "frames": [
+      "absolute endpoint",
+      "heading-relative displacement"
+    ],
+    "knn_k": [
+      1,
+      3,
+      5,
+      9
+    ],
+    "B_only_priors": [
+      "mean",
+      "median",
+      "mode100",
+      "mode200",
+      "mode500"
+    ],
+    "geometry": "last observed; each candidate also projected to public roads"
+  },
+  "selection": "min family MAE / max family Hit with MAE tie-break, using historical SELECT only",
+  "no_defense_or_dataset_changes": true,
+  "sources": {
+    "experiments/diagnose_s10b.py": "fc85b8283e92df21c0ab74b849640bb10962a1d5802140e8de37a3ed059dfbba",
+    "evaluation/prefix_destination_attack.py": "a9163a08d784dc927631bd8210f94cd8ebaadb912e869a00fbaa6a5d1d7d3ba7",
+    "evaluation/live_comparison_attacks.py": "811e6fad6342e3e5afeb5a3cc73341d6555c607f7d2eecc4ac6fe750a5caa484",
+    "experiments/endpoint_calendar_study.py": "b899ca58a93004bbd9e4b9b58833d873f3cd1cb6290eff56fa763afbb7062f04",
+    "data/scenario_suite/records.py": "2568fd33107061ede7746a24e0d656edd4a9bc306ec4b201b4993b4a285f5b80",
+    "data/scenario_suite_v2/records.py": "3122b5e7faa9c5bbe2d0d09801e66ca69842cb614d8c70bec87a27e204e7447a",
+    "artifacts/benchmarks/endpoint_calendar_expanded_v1/protocol.json": "8523f9023140c4031b5bc1abb26860e4dbacf82129ac05062d1d6a8e31b9d639",
+    "artifacts/benchmarks/endpoint_calendar_expanded_v1/selection.json": "3ae85cf3a02d84445fc8a93400911fb6b8883bf51572c8853d0e22c637592180",
+    "artifacts/benchmarks/endpoint_calendar_expanded_v1/selection_rows.json.gz": "76f928557ca65c6d1aa1398e57efecadf068bc57a3dff327196278a74caeddff",
+    "artifacts/benchmarks/endpoint_calendar_expanded_v1/holdout_privacy.json.gz": "96e2d81d8bdbd6720bec180be79b5b2dac20992376aaae266cbbe1427049a24c",
+    "artifacts/benchmarks/endpoint_calendar_expanded_v1/readout.json": "45bbb1d7466ae777f5a49400597ee367c566cdf36c6273dcd17d588a2f8abc5e",
+    "artifacts/datasets/endpoint_holdout_expanded_v1/dataset.json": "91fd81b8b2d06e111931a06accfd9651c9a1166dacacff619c9abef25b168b71",
+    "cache/research_loop_20260924/resources.json": "82b03a2dad35c898483437ab63da9437076594e913f5beb6b0d18360ffe9b8b1",
+    "artifacts/datasets/research_loop_development_v1/dataset.json": "6092f46a51d57fd93639f9697627332eb4a5dbbd5cdbb745d20ae1cc91f4f3a9",
+    "artifacts/datasets/research_loop_expanded_v1/dataset.json": "e80228fdd2e70b451dadcea23c725556345f5fcf3cc35f1915ad3f526a9a708e",
+    "artifacts/datasets/research_loop_confirmation_v1/dataset.json": "357da388023b7eb998c33a80ff794a72b21085290541707941ae80070d18efe7"
+  }
+}

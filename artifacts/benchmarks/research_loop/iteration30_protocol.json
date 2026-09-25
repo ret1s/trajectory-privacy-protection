@@ -1,0 +1,18 @@
+{
+  "schema": "frozen-category-plan-new-family-check-v1",
+  "iteration": 30,
+  "frozen_before_new_routes": true,
+  "family_seeds": [901, 902, 903, 904],
+  "variants": ["public_category_budget30", "public_category_full_cover", "fixed_K5", "fixed_K12", "bulk_current"],
+  "frozen_plans": "artifacts/benchmarks/research_loop/iteration29_plans.json",
+  "probabilities": [0.5, 0.8, 0.95],
+  "world_seeds": [24093001, 24093002, 24093003],
+  "reference_k": 5,
+  "response_L": 10,
+  "epoch_seconds": 60,
+  "metrics": "Same 15 case-macro Recall@5 and 90% case-mean gate; every generated eligible target record included; publish missing cases and failed arrivals",
+  "confirmation_scope": "Small new-family/new-availability check after freezing plans; same OSM, POI catalogue and scenario generator. Not a new city, user population, strong privacy attack, or final thesis confirmation.",
+  "no_selection": "Do not change plans, seeds, thresholds or reject inconvenient families after observing new scores. Both public category plans and all controls remain in the readout.",
+  "cost_modes": ["query at every existing public event", "fixed public plan refreshed at first event of each epoch; identical optimization for fixed K5/K12"],
+  "private_fields": "GPS/route labels belong only to simulator/evaluator/local ranking, never network query policy"
+}

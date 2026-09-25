@@ -1,0 +1,24 @@
+{
+  "schema": "endpoint-calibrated-common-attack-bank-v2",
+  "initial_bank_sha256": "43e2493f2148a6769924ccd4478e4b0fa70ba0b161266d102b7d6722c50f977f",
+  "reason": "Initial bank omits the repository endpoint extrapolation family; raw S10 positive-control Hit100 was zero on the evaluated new groups. Preserve that diagnostic and extend the bank for all methods.",
+  "post_evaluation_attacker_strengthening": true,
+  "defense_or_service_parameters_changed": false,
+  "windows": [
+    2,
+    3,
+    6
+  ],
+  "horizons_s": [
+    30,
+    60,
+    120
+  ],
+  "selection": "Only families 601/602; fixed public OLS bank inherited from contribution_stress, not chosen to favor a defense",
+  "source_sha256": {
+    "evaluation/live_comparison_endpoint_attacks.py": "0914d6d93a4007ab2c95ad3c56fded62b4963850c5f1d351082b936de275326a",
+    "experiments/contribution_stress.py": "aaa7a3e231edb29048af621a831f94a7f64729eb94ddf54132523eacc2449409",
+    "experiments/read_live_paper_comparison.py": "8f0ac235bd2e77367cb9578ad40979a1e9bb7a936f00d272d24b805ca477999d"
+  },
+  "scope": "Exploratory stronger-attack audit on already inspected data; not preregistered confirmation"
+}

@@ -1,0 +1,82 @@
+{
+  "S1": {
+    "question": "Chỉ từ một lần truy vấn, đối thủ có khoanh được vị trí hiện tại của bạn không?",
+    "sees": "Một sự kiện đã bảo vệ: tọa độ nhiễu hoặc tập điểm công bố; kèm bản đồ và ngữ cảnh công khai được protocol cho phép. Không thấy chấm thật và sao đỏ trên hình này.",
+    "mechanism": "Dù chỉ có một lần gửi, các vị trí ứng viên có thể không hợp lý như nhau. Đường đi hợp lệ hoặc POI lân cận có thể giúp loại bớt khả năng. Có nhiều nhánh không tự có nghĩa an toàn; phải chạy đối thủ để đo.",
+    "risk": "Lộ nơi đang có mặt, chẳng hạn khu vực trước cổng trường. S1 chỉ cần một thời điểm; chưa dùng bằng chứng lặp qua thời gian.",
+    "reading": "S1 thực sự chỉ có 1 mẫu đầu vào. Sao đỏ trùng chấm vì vị trí thật cũng là đáp án; đây không phải hình chứng minh attacker đã đoán đúng.",
+    "brief": "Một lần gửi vẫn có thể lộ vị trí: đối thủ dùng bản đồ/POI để loại các điểm công bố khó hợp lý. Câu hỏi là ‘đang ở đâu?’, chưa cần chuỗi thời gian. Hình chỉ cho đáp án thật, chưa biểu diễn suy luận đã thành công."
+  },
+  "S2": {
+    "question": "Qua nhiều lần truy vấn trong lúc bạn đứng yên, đối thủ có tìm được chỗ bạn dừng không?",
+    "sees": "Nhiều sự kiện đã bảo vệ có thể liên kết theo cùng phiên. Các vị trí thật tại những lần này trùng nhau, nhưng các đầu ra bảo vệ có thể khác hoặc tái dùng, tùy cơ chế.",
+    "mechanism": "Đối thủ kết hợp bằng chứng qua các lần gửi để tìm một vị trí dừng giải thích được cả chuỗi. Với nhiễu mới độc lập, lấy trung bình có thể giảm sai số; với neo tái dùng hoặc nhiễu tương quan, không được mặc nhiên áp dụng kết luận đó.",
+    "risk": "Một điểm dừng vốn bị làm mờ có thể bị khoanh hẹp dần, ví dụ nơi bạn chờ trước trường. Đây là bài toán suy điểm dừng, không chỉ định vị một lần như S1.",
+    "reading": "Mẫu A có 6 lần, B có 9 lần, C có 18 lần. C gồm hai đợt 9 lần tại cùng một tọa độ; xe có rời đi giữa hai đợt. Map chồng tất cả thành một chấm: xem trục thời gian và số mẫu để đếm.",
+    "brief": "Khác S1, đối thủ ghép nhiều lần gửi của cùng phiên để khoanh điểm dừng. Các chấm trùng vị trí không có nghĩa chỉ gửi một lần. Nhiễu độc lập có thể bị trung bình hóa; neo tái dùng cần được đánh giá riêng."
+  },
+  "S3": {
+    "question": "Từ các bản tin rời rạc, đối thủ có nối lại được đoạn đường bạn đã đi không?",
+    "sees": "Chuỗi vị trí đã bảo vệ theo thứ tự thời gian trong cửa sổ được cấp, cùng mạng đường; không nhận tuyến thật nét đứt.",
+    "mechanism": "Một điểm riêng lẻ có nhiều khả năng, nhưng các điểm liên tiếp phải nối được bằng đường hợp lệ trong khoảng thời gian tương ứng. Ràng buộc chuyển động có thể loại những chuỗi giả không nhất quán.",
+    "risk": "Lộ lộ trình, các nơi đi qua hoặc thói quen tuyến đường, dù từng bản tin riêng nhìn có vẻ mơ hồ.",
+    "reading": "A có 12 mẫu, C có 4 mẫu trên cùng đoạn u301_00. Các sao là những vị trí cần tái dựng; nét đứt chỉ là đường thật dùng chấm. Không phải attacker được cấp sẵn đoạn nối này.",
+    "brief": "Đối thủ ghép các bản tin theo đường hợp lệ và thời gian di chuyển để tái dựng đoạn đã đi. Rủi ro nằm ở cả chuỗi: từng điểm mơ hồ vẫn có thể tạo ra một tuyến dễ đoán."
+  },
+  "S4": {
+    "question": "Hai phiên ẩn danh này có thuộc cùng một người, phương tiện hoặc thiết bị không?",
+    "sees": "Hai transcript đã bảo vệ thuộc các phiên không chồng lấn và metadata được cho phép. Không nhận nhãn same_person/same_device hoặc bảng định danh thật.",
+    "mechanism": "Tuyến lặp, nơi xuất phát/kết thúc và lịch hoạt động, nếu được phép quan sát, có thể tạo dấu hiệu nối phiên dù mã định danh thay đổi. Đổi thiết bị không nhất thiết làm biến mất thói quen tuyến.",
+    "risk": "Theo dõi cùng một chủ thể qua nhiều phiên. Nếu một phiên đã gắn được với tên thật từ nguồn phụ trợ, liên kết có thể lan danh tính sang phiên khác; bản thân nối phiên chưa phải biết tên.",
+    "reading": "A: cùng người/cùng thiết bị. B: cùng người/khác thiết bị. C: khác người/cùng thiết bị. Map tương tự không tự phân biệt được ba ca: phải xem nhãn đánh giá. Nhãn phương tiện cần được bổ sung đúng thực thể.",
+    "brief": "Đối thủ tìm dấu hiệu tuyến/lịch lặp để nối hai phiên dù đổi mã hoặc thiết bị. Liên kết làm lộ lịch sử cùng chủ thể; biết tên thật còn cần bằng chứng phụ. Màu session không phải nhãn người."
+  },
+  "S5": {
+    "question": "Ngay sau đoạn đang quan sát, xe sẽ vào cạnh đường nào?",
+    "sees": "Chỉ tiền tố đã bảo vệ trước lượt chuyển và mạng đường; chưa thấy các điểm ở cạnh kế tiếp.",
+    "mechanism": "Hướng đi và cấu trúc ngã rẽ có thể làm một nhánh dễ dự đoán hơn. Ca B chỉ có một lựa chọn là mức đoán nền từ bản đồ; ca C dùng hai chuyến đi khác nhánh để tránh đồng nhất tiền tố với một đáp án duy nhất.",
+    "risk": "Đoán được bước di chuyển sắp tới trước khi bản tin tiếp theo được gửi. Không cần biết danh tính xe để dự đoán hướng.",
+    "reading": "S5.C: mỗi phiên có 7 mẫu tiền tố, kết thúc ở FCD[119]. Sao đỏ tại FCD[122] thuộc hai cạnh khác nhau; chúng là tương lai giữ kín. Hai sao gần nhau về tọa độ vẫn có thể khác nhãn cạnh.",
+    "brief": "Đối thủ dùng tiền tố và ngã rẽ để đoán cạnh kế tiếp chưa được công bố. Không cần biết tên xe. Phải so với mức đoán chỉ từ bản đồ, nhất là ca một lối đi."
+  },
+  "S6": {
+    "question": "Chuyến còn đang diễn ra: xe cuối cùng sẽ tới đâu?",
+    "sees": "Tiền tố đã bảo vệ; riêng C có thêm lịch sử liên quan đã bảo vệ theo quyền phụ trợ. Không thấy phần tương lai hoặc nhãn đích của chuyến hiện tại.",
+    "mechanism": "Tiền tố giới hạn những đích khả dĩ; tần suất các đích lịch sử có thể làm một đích được ưu tiên. Đây là dự đoán xác suất, không chắc chắn; cần đo phần lợi thế tăng thêm từ transcript so với chỉ dùng tần suất.",
+    "risk": "Đoán trước nơi sẽ tới, ví dụ trường hoặc cơ sở y tế, ngay khi xe chưa đến đó.",
+    "reading": "S6.C có 6 chuyến lịch sử: 5 đích thường, 1 đích hiếm; chuyến thứ 7 chỉ lộ tiền tố 7 mẫu. Nét đứt và sao của chuyến mới thuộc bộ đánh giá. Lịch sử này là tổng hợp, không phải lịch sinh hoạt thật.",
+    "brief": "Đối thủ dự đoán đích từ tiền tố và lịch sử được phép. Năm lần tới một đích không đảm bảo chuyến mới cũng vậy; cần so với tần suất nền. Rủi ro là biết nơi sắp đến trước khi chuyến kết thúc."
+  },
+  "S7": {
+    "question": "Dù giấu vị trí, nội dung truy vấn có làm lộ bạn đang muốn làm gì không?",
+    "sees": "A: loại truy vấn nguyên văn. B: bó sáu loại chứa query thật nhưng không có cờ chỉ query thật. C: chuỗi loại truy vấn theo thời gian. Quyền nhìn thấy nội dung phải cố định khi đánh giá.",
+    "mechanism": "Một query có thể mơ hồ; chuỗi pharmacy → clinic → hospital có thể cung cấp dấu hiệu về ý định khám bệnh. Bó phủ sáu loại làm tăng khả năng thay thế nhưng chưa tự chứng minh chống suy luận từ chuỗi.",
+    "risk": "Lộ mục đích hoặc nhu cầu nhạy cảm dù tọa độ được bảo vệ. Không được từ việc tìm bệnh viện suy chắc chắn người đó mắc bệnh.",
+    "reading": "Ba chấm của C là ba lần query tại FCD[0,20,40]. Đọc chuỗi chữ cùng thời gian mới thấy khác biệt; nhìn đường đi đơn thuần không thể hiện rủi ro này. Nhãn medical_visit là nhãn tổng hợp để kiểm thử.",
+    "brief": "Rủi ro nằm ở nội dung: pharmacy → clinic → hospital có thể gợi ý mục đích khám bệnh dù vị trí mờ. Đây là suy ý định, không chẩn đoán bệnh; nhãn hiện tại được gán tổng hợp."
+  },
+  "S8": {
+    "question": "Dữ liệu của xe đi cùng có giúp đối thủ định vị xe mục tiêu tốt hơn không?",
+    "sees": "Transcript đã bảo vệ của xe mục tiêu và dữ liệu xe phụ trợ theo chế độ đã quy định. Phải nói rõ dữ liệu phụ trợ đã bảo vệ hay là vị trí thật bị lộ; không tự mặc định thấy cả hai tuyến thật trên hình.",
+    "mechanism": "Khi hai xe thực sự đi gần nhau, vị trí xe phụ trợ có thể thu hẹp vùng của xe mục tiêu. Nhưng một xe tình cờ ở gần không đảm bảo tiếp tục đi cùng: C là đối chứng âm cho giả định này.",
+    "risk": "Bảo vệ của một xe bị giảm tác dụng bởi thông tin về xe khác. Mục tiêu chính ở đây là sai số định vị khi có/không có phụ trợ, không phải phân loại quan hệ xã hội.",
+    "reading": "A gần nhau 325/466 thời điểm; B 590/590; C vẫn 309/460 dù nhãn không đồng hành. Hai dòng thời gian phải cùng mốc để thấy lúc nào thực sự gần nhau.",
+    "brief": "Vị trí xe phụ trợ có thể thu hẹp vị trí xe mục tiêu khi chúng đi gần nhau. So độ định vị có/không có phụ trợ. Ca C kiểm tra bẫy ‘ở gần tức là đồng hành’; hình chưa chứng minh tấn công thành công."
+  },
+  "S9": {
+    "question": "Giấu đầu chuyến rồi, đối thủ có suy ngược xe xuất phát từ đâu không?",
+    "sees": "Phần sau đầu chuyến đã bảo vệ; tùy ca có tuyến nhập chung hoặc các phiên lặp. Không được cấp điểm đầu, tuyến bị che, giờ khởi hành gốc nếu protocol không cho phép.",
+    "mechanism": "Đường một lối ra có thể giới hạn nguồn xuất phát. Nhiều phiên hoặc vị trí đầu tiên còn nhìn thấy có thể tiếp tục thu hẹp vùng nguồn. Hai điểm đầu cùng nhập tuyến ở B là các đáp án khác nhau cần phân biệt, không phải đã chắc chắn phân biệt được.",
+    "risk": "Lộ nơi bắt đầu dù đoạn đầu không xuất hiện trong transcript. Chỉ có nhãn điểm đầu, chưa đủ gọi đó là nhà.",
+    "reading": "Trong B, hai sao đỏ cách 281,76 m là hai điểm xuất phát bị giấu; chấm màu bắt đầu sau nhập tuyến. Trong A/C, che 60 giây đầu. Nét đứt giúp người đọc hiểu đáp án, attacker không nhận đoạn này.",
+    "brief": "Từ phần sau được công bố, đối thủ suy ngược nơi xuất phát nhờ đường vào/ra và phiên lặp. Hai sao bị che ở B là hai khả năng phải phân biệt; không phải bản đồ đã chứng minh đoán đúng."
+  },
+  "S10": {
+    "question": "Giấu cuối chuyến rồi, đối thủ có suy ra nơi xe đã kết thúc không?",
+    "sees": "Chỉ phần trước đuôi bị che sau khi chuyến hoàn tất; ở ca lặp có nhiều transcript được phép. Không nhận điểm cuối hoặc kế hoạch tuyến.",
+    "mechanism": "Hướng đi cuối còn thấy, đường một lối vào hoặc các phiên kết thúc gần cùng vùng có thể gợi ý nơi đến. Hai đích khác nhau sau cùng tiền tố ở B cho thấy phần nhìn thấy chưa quyết định duy nhất đáp án.",
+    "risk": "Lộ điểm đến đã bị giấu, chẳng hạn nơi diễn ra cuộc hẹn. Khác S6 dự đoán khi đang đi, S10 suy phần kết thúc của chuyến đã hoàn tất.",
+    "reading": "Trong B, hai sao đỏ là điểm cuối của u304_00/u304_02, cách 4,47 km. Chấm màu là cùng kiểu tiền tố được cấp; đuôi nét đứt thuộc bộ đánh giá. A/C che 60 giây cuối; không được dùng tương lai để quyết định bảo vệ trực tuyến.",
+    "brief": "Đối thủ suy nơi đã kết thúc từ phần trước được công bố và ràng buộc đường/phiên lặp. S6 hỏi tương lai khi đang đi; S10 hỏi đuôi đã bị giấu sau chuyến. Hai đích ở B kiểm tra mức mơ hồ còn lại."
+  }
+}

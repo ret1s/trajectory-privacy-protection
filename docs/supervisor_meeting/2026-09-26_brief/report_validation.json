@@ -1,23 +1,31 @@
 {
   "status": "passed",
-  "updated_on": "2026-09-24",
-  "pdf_pages": 28,
-  "prior_pdf_pages": 34,
+  "updated_on": "2026-09-25",
+  "pdf_pages": 27,
+  "prior_pdf_pages": 27,
   "source_tables_verified": {
-    "utility_rows": 9,
-    "case_rows": 15,
-    "bootstrap_contrasts": 4
+    "aggregate_and_cost_rows": 9,
+    "scenario_privacy_rows": 9,
+    "scenario_privacy_cells": 45,
+    "case_utility_rows": 14,
+    "case_utility_cells": 112,
+    "endpoint_aggregate_rows": 9,
+    "endpoint_control_rows": 2,
+    "recomputed_endpoint_bootstrap_contrasts": 40
   },
-  "case_map_panels": 30,
+  "case_map_panels": 29,
   "local_links_and_images_valid": true,
+  "reference_count": 18,
   "method_source_hashes_valid": true,
+  "method_source_count": 66,
   "no_pdf_text_outside_page": true,
+  "all_pdf_fonts_embedded": true,
   "latex_overfull_boxes": 0,
+  "latex_underfull_boxes": 0,
   "latex_missing_glyphs": 0,
-  "minor_latex_warning": "One underfull paragraph in source-file list; visually checked, no clipping.",
-  "visual_review": "All changed pages rendered; opening, architecture, formulas, service/case tables, sensitivity, contribution and provenance pages inspected. Existing scenario layout also checked.",
-  "pdf_renderer": "PyMuPDF 1.28.2 (system Poppler unavailable)",
-  "build_command": "tectonic --only-cached --keep-logs -Z search-path=/tmp/report-20260926-fonts --outdir docs/supervisor_meeting/2026-09-26_brief docs/supervisor_meeting/2026-09-26_brief/report_explained.tex",
+  "visual_review": "All 27 report pages and all 10 atlas pages rendered with Poppler and inspected in overview. Report pages 1,6,18,22,23,24,25 and atlas page 5 inspected at readable scale; no clipping, overflow or missing text.",
+  "pdf_renderer": "Poppler through pdftopng 0.2.4",
+  "build_command": "/Users/pylab/.local/bin/tectonic --only-cached --keep-logs -Z search-path=/tmp/report-20260926-fonts --outdir docs/supervisor_meeting/2026-09-26_brief docs/supervisor_meeting/2026-09-26_brief/report_explained.tex",
   "font_fallback": [
     {
       "file": "cmsy5.pfb",
@@ -31,17 +39,78 @@
     }
   ],
   "outputs": {
-    "report_explained.pdf": "e13f2950ead64885e8d7886c4659ec23616e8532c2356325dccde9547a1d5a70",
-    "report_explained.tex": "814c694c45f12ff19c11e9713e4da08426c1d7850d52e510725a75202440ef03",
-    "report_explained.html": "2aa5bed6c446ff7338ae6486cffc8f8edf3cd49aa653ed5d8ff12107f4ef4067",
-    "method_evidence.json": "39e487466da2568634fcdf7f91b0950a251c6254f910a0c9c23690f358fde813"
+    "report_explained.pdf": "bdf4dbd4af0d92b08a0d06be44f71ff89147693f1b0461bf8b0825d106ed9d4d",
+    "report_explained.tex": "872f9b930ec86f085fa8dadb8a48f71094096314be3eb4d3e8c1b1b3a486eaed",
+    "report_explained.html": "613932c38f43b313c4efa346689ae5b9b2838a24684e3a4388ea344169ff6fd7",
+    "method_evidence.json": "2d5331039adb456e3471542611980fb48bb19a4acda589beee3550b4febd9f02",
+    "score_example.json": "b2d4aff753134b6ccb6f77ea28392a4a418e3a163808ca063e9e4379b35f7150",
+    "sample_maps.pdf": "a635d96fc0a083c23e494b7a1085d71a5b0ece92eb170c68e373117df04e8f38",
+    "sample_maps.html": "a56748bfccc3762218cab258e75a8d9a3436e2e133924ee425b9c2dda3b642dc",
+    "data_samples.json": "71536ec3deb4d5010a850f01d46a9d005f18e47ffd11fba6900328121b9e6497",
+    "printed_samples.json": "7ea9ff3f08d09854cca67b7b35ce01d15341df30fc7ed75eed6a603d7169c207",
+    "scenario_inventory.csv": "3f46398b889ad77bd68ef69286d1d9a2285377535e74b537705ccfa33f86fa28",
+    "map_provenance.json": "94ecf0b6081f386bbf666399d7c1102476f658e8f389bc9d9b607624b530097f"
   },
   "authoring_sources": {
-    "build_report.py": "7058fcf48a99f4f650f1f44767e1409211d7bfd8b6f0a8e31ee8dbab6da70aa2",
-    "dataset_content.py": "efdbc2486acef6f04cb52811ebc9239a5aefe6f22485a287ca6b6c5d471f0d3a",
-    "live_method_content.py": "81f6ffc576534049c7ce1cb1484a2ea7f60d7e1368b9bf329da34dcb0eea2e89",
-    "plot_live_architecture.py": "36c9009bc822b1592f6df191e19c2f62c4a37583f0be323d273011b17ca18d47"
+    "build_report.py": "35ea2805840989c63aa60ed069090f69e000a8b7dc760fb092621eb763d59e23",
+    "dataset_content.py": "6ee7b74dbf6b2f2ccc2d459c7ae41c2cdbeb329a28bd4a0134ca724d0995e312",
+    "current_method_content.py": "812cc5ca3c3995268fe24a727be66b49807f649eb21f2b34cb68eed30392aeff",
+    "paper_comparison_content.py": "835095425a059867db5a94e922bbdf9b0831ba3c7bcc54d8c6b3125010e7347b",
+    "plot_current_architecture.py": "6421a50e75ac382ae28f5b74d69ddf3959a6fd650c0ea511ea5c56e818be8a5d",
+    "README.md": "95a7589a81499aa150516e758f39b44993b19ba8359f7efe9602e654a1c1d03f",
+    "endpoint_calendar_content.py": "d8df4873d3d850c4f39f2122d31c4b91bf5644abb9937b2610c325c0b8acc24b",
+    "plot_sample_maps.py": "39abb6d6c8f5dd6496b3eb0bda47ce9e308798d3e8cc4ec25824e2e20cb71283",
+    "plot_case_panels.py": "f6a4f8af1cf1da1b83dc091680972710003f8426a62b83d43b2fd2ae6b35beb1",
+    "sample_map_template.html": "baba68beca300243a42839f891ce93e8e5a4205cf352a3ad75710dcd54c2ba7a",
+    "scenario_guide.json": "a822b03eea15dc0b78fa94bef0640eeed378837d6c2db1bbe42b4f31ad683528",
+    "scenario_explanations.json": "647ef36326980dc82d8bfb303a6ba4c33c676640f3f7aa95f2f9ed27296b51a1",
+    "case_readings.json": "404612a69c89231f35f6c298d84352dd21bed1bda36bd45521e83754b50de458"
   },
   "experiment_rerun": false,
-  "scope": "Report update and source/format validation; does not establish new model efficacy."
+  "scope": "Current research scope: S10 A/C only, 29 total cases and 14 priority cases. Historical runs unchanged; metrics/CI reaggregated after scope decision. Four-group S1-S3 per-event evidence kept distinct from 32-group scheduled endpoint evidence.",
+  "embedded_font_count": 78,
+  "endpoint_aggregate_rows_verified": 9,
+  "endpoint_control_rows_verified": 2,
+  "links_checked": 36,
+  "new_tests_passed": 4,
+  "historical_tests_passed": 55,
+  "endpoint_benchmark_verification_sha256": "5ef77ca1510f7be1cd3335b08d1bfff3d449cdb9ae4780538964ea120f95a373",
+  "endpoint_calendar_flow_sha256": "3d5d3b29ea96e3600f891af62a259ff21efd7e4d8a1b6d6b31ff6d0b5b5a57ed",
+  "endpoint_ablation_sha256": "9d3a678634d019f2626c161ea41d3f53ce1bcbb0708f9f014c44e9434aaf1c59",
+  "historical_benchmark_verification_sha256": "53b8b98dc76a662a26709d21d7b15eccf38d7a0be7ff087ad6f9c7dc02d16435",
+  "local_links_checked": 36,
+  "link_check_scope": "Local nonfragment href/src paths; external links not re-fetched in this revision.",
+  "prior_endpoint_tests_passed": 5,
+  "s10b_diagnostic_verification_sha256": "2e28bcef29d6b1504c95749fd7efef2042c11c003cfae7fbf151335211c05ff9",
+  "s10b_diagnostic_scope": "Exploratory raw-control improvement; 40 new candidates on 25 groups/50 targets. Same observations and labels as S6.A for all 25 B records. Endpoint conclusions focus on A/C; original ABC aggregates preserved.",
+  "this_revision": {
+    "new_model_training": false,
+    "new_cohort": false,
+    "frozen_benchmark_modified": false,
+    "scope_reaggregation": true,
+    "active_priority_cases": 14,
+    "active_total_cases": 29,
+    "independent_numerical_checks": 981,
+    "new_unit_tests_passed": 4,
+    "raw_records_and_previous_results_archived": true,
+    "scenario_weights_preserved": true
+  },
+  "active_scope_verification_sha256": "f72fad7617f793daf24e117013bd9c170e2284546b1ff77b304ebcbe7b33fbd2",
+  "prior_s10b_tests_passed": 4,
+  "html_data_check": {
+    "active_examples": 29,
+    "S10_cases": [
+      "S10.A",
+      "S10.C"
+    ],
+    "sample_inventory_consistent": true,
+    "local_links_resolve": true
+  },
+  "interactive_browser_check": "Not completed: browser URL policy blocked opening the local file. No workaround attempted. Offline PDF visual review and embedded-data checks completed.",
+  "atlas_validation": {
+    "pages": 10,
+    "fonts_embedded": 3,
+    "text_outside_page": [],
+    "inactive_case_absent": true
+  }
 }

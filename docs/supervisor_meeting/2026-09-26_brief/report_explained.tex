@@ -15,34 +15,40 @@
 \newcommand{\key}[1]{\par\smallskip\noindent\colorbox{pale}{\parbox{\dimexpr\linewidth-2\fboxsep}{\textbf{#1}}}\par\smallskip}
 \hypersetup{pdftitle={Bảo vệ riêng tư quỹ đạo: dữ liệu, phương pháp và kết quả},pdfauthor={}}
 \begin{document}
-\begin{center}{\LARGE\bfseries\color{ink}Bảo vệ riêng tư quỹ đạo}\\[5pt]{\large Dữ liệu, phương pháp và kết quả thực nghiệm}\\[4pt]{\small Bản 26/09/2026 · Cập nhật thực nghiệm 24/09/2026}\end{center}
+\begin{center}{\LARGE\bfseries\color{ink}Bảo vệ riêng tư quỹ đạo}\\[5pt]{\large Dữ liệu, phương pháp và kết quả thực nghiệm}\\[4pt]{\small Bản 26/09/2026 · Cập nhật 25/09/2026}\end{center}
 \section{Khung cập nhật và dữ liệu nền}
-\textbf{Bản ngày 26/09/2026, cập nhật đến 24/09.} Phạm vi S1–S10; kết quả hiện tại tập trung dịch vụ POI khả dụng và năm scenario ưu tiên. Điểm tổng Q vẫn là ví dụ minh họa, chưa phải kết quả xếp hạng model.
+\textbf{Bản 26/09/2026, cập nhật 25/09.} Khung S1–S10, thực nghiệm truy vấn POI khả dụng theo loại. Trình bày cơ chế, kết quả và phạm vi kết luận; điểm Q vẫn là minh họa.
 
 Thứ tự triển khai: \textbf{S1, S2, S3, S9, S10 $\to$ S5, S6, S8 $\to$ S4, S7}.
+
+\textbf{S10 chỉ gồm A/C}; đoán đích từ tiền tố thuộc S6.A. Có 29 ca, trong đó 14 ca thuộc năm scenario ưu tiên. Phạm vi sửa sau chẩn đoán; các bảng được tổng hợp lại từ lần chạy đã khóa, không phải test mới.
 
 \subsection{Ba cấp dữ liệu: nhóm tuyến $\to$ chuyến $\to$ bản ghi}
 \textbf{Nhóm tuyến:} tuyến gốc và các biến thể có quan hệ như rẽ khác, nhập tuyến, dừng hoặc lặp chuyến. Bộ minh họa có 12 nhóm trên cùng mạng đường; đây không phải 12 loại tấn công.
 
-\textbf{Chuyến:} mỗi nhóm có 22 chuyến hoàn tất qua chín ngày mô phỏng, tổng 264. \textbf{Bản ghi:} chọn chuyến/cửa sổ, thông tin phụ trợ và đáp án để tạo phép thử. Bộ minh họa có 393 record, 172.443 điểm FCD và đủ 30 ca A/B/C.
+\textbf{Chuyến:} mỗi nhóm có 22 chuyến hoàn tất qua chín ngày mô phỏng, tổng 264. \textbf{Bản ghi:} chọn chuyến/cửa sổ, thông tin phụ trợ và đáp án để tạo phép thử. Bộ minh họa giữ 389 record trong phạm vi hiện tại, lấy từ kho gốc 393 record và 172.443 điểm FCD.
 
-\key{Một chuyến có thể tạo nhiều phép thử; 393 bản ghi không phải 393 chuyến độc lập.}
+\key{Một chuyến có thể tạo nhiều phép thử; 389 bản ghi không phải 389 chuyến độc lập.}
 
 \begingroup\small
-\begin{longtable}{@{}P{5.206cm}P{11.713cm}@{}}
+\begin{longtable}{@{}P{4.004cm}P{12.914cm}@{}}
 \toprule
-\textbf{Bộ dữ liệu trong báo cáo} & \textbf{Quy mô và vai trò}\\\midrule
+\textbf{Bộ dữ liệu} & \textbf{Quy mô và vai trò}\\\midrule
 \endfirsthead
 \toprule
-\textbf{Bộ dữ liệu trong báo cáo} & \textbf{Quy mô và vai trò}\\\midrule
+\textbf{Bộ dữ liệu} & \textbf{Quy mô và vai trò}\\\midrule
 \endhead
 \bottomrule\endfoot
-Minh họa kịch bản và bản đồ & urban\_\allowbreak{}fresh\_\allowbreak{}v2: 12 nhóm, 264 chuyến, 393 record. Dùng cho 30 sample A/B/C và atlas ở phần đầu.\\
+Minh họa & 12 nhóm, 264 chuyến; 389/393 record gốc được giữ; 29 sample và bản đồ phần đầu.\\
 \addlinespace[3pt]
-Thực nghiệm hiện tại & research\_\allowbreak{}loop\_\allowbreak{}expanded\_\allowbreak{}v1: 12 nhóm mới, 264 chuyến, 415 record. Năm scenario ưu tiên lấy 173 record từ 102 chuyến; mạng OSM khôi phục khác nguồn lịch sử.\\
+Phát triển & 12 nhóm, 264 chuyến; 407/415 record gốc được giữ; năm scenario dùng 165 record từ 94 chuyến.\\
+\addlinespace[3pt]
+Kiểm tra bốn nhóm & 4 nhóm, 88 chuyến; 129/131 record gốc được giữ; năm scenario dùng 54 record từ 30 chuyến.\\
+\addlinespace[3pt]
+Endpoint mở rộng & 32 nhóm, 704 chuyến; 1.093/1.118 record gốc được giữ; utility 435 record từ 246 chuyến, privacy S9/S10 150.\\
 \end{longtable}
 \endgroup
-Hai bộ dùng cùng đặc tả nhưng khác mẫu nguồn/mạng. Số 393 không phải mẫu số của bảng thực nghiệm mới; các chuỗi trạng thái POI chỉ là replay trên cùng chuyến.
+Các bộ thực nghiệm cùng thành phố/bộ sinh, dùng OSM khôi phục 20/09 và tách khỏi bộ minh họa lịch sử. World seed/cửa sổ không phải chuyến mới; hash ở method\_\allowbreak{}evidence.json.
 
 \subsection{Quyền nhìn thấy dữ liệu}
 \begingroup\small
@@ -61,9 +67,9 @@ Bộ đánh giá & Toàn bộ FCD và đáp án để chấm; không truyền c�
 Đối thủ & Transcript đã bảo vệ và phụ trợ được phép; không nhận nhãn, kế hoạch tuyến hay record\_\allowbreak{}id.\\
 \end{longtable}
 \endgroup
-Các sample là dữ liệu đánh giá trước bảo vệ. Tra nguồn ở data\_\allowbreak{}samples.json và số đếm ở scenario\_\allowbreak{}inventory.csv; đồng hồ chuẩn hóa theo cửa sổ, riêng S8 dùng mốc chung cho cặp.
+Sample là dữ liệu trước bảo vệ: tra data\_\allowbreak{}samples.json và scenario\_\allowbreak{}inventory.csv. Đồng hồ tính từ đầu cửa sổ; S8 dùng mốc chung cho cặp.
 
-\textbf{Cách đọc 30 mẫu:} A/B/C là ba điều kiện của cùng nhiệm vụ, không phải mức khó tăng dần. Số sau “/” là số bản ghi. Mỗi ca có map và trục thời gian; phóng to ở sample\_\allowbreak{}maps.html, tra tọa độ trong data\_\allowbreak{}samples.json.
+\textbf{Cách đọc 29 mẫu:} A/B/C là các điều kiện của cùng nhiệm vụ, không phải mức khó tăng dần; riêng S10 giữ A/C. Số sau “/” là số bản ghi. Mỗi ca có map và trục thời gian; phóng to ở sample\_\allowbreak{}maps.html, tra tọa độ trong data\_\allowbreak{}samples.json.
 
 \textbf{Đọc bản đồ:} chấm màu = mẫu được phép trước bảo vệ (nhiều mẫu có thể chồng nhau); trục thời gian = các lần lấy mẫu riêng; nét đứt = toàn chuyến chỉ để đánh giá; sao đỏ = nhãn vị trí. Màu phân biệt phiên, không phải danh tính. Nền SUMO benchmark cùng checksum OSM nhưng chưa xác minh trùng hình học mạng dataset vì thiếu file mạng gốc. © OpenStreetMap contributors.
 
@@ -105,11 +111,12 @@ Các sample là dữ liệu đánh giá trước bảo vệ. Tra nguồn ở dat
 
 \clearpage
 \subsection{S10 — suy ra điểm kết thúc bị che}
-\textbf{Rủi ro chung:} Đối thủ suy nơi đã kết thúc từ phần trước được công bố và ràng buộc đường/phiên lặp. S6 hỏi tương lai khi đang đi; S10 hỏi đuôi đã bị giấu sau chuyến. Hai đích ở B kiểm tra mức mơ hồ còn lại.
+\textbf{Rủi ro chung:} Đối thủ suy nơi đã kết thúc từ phần còn được công bố. A kiểm tra một chuyến với ràng buộc đường vào; C kiểm tra các phiên lặp cùng đích. Cả hai che 60 giây cuối.
 
-\noindent\begin{minipage}[t]{0.55\linewidth}\vspace{0pt}\includegraphics[width=\linewidth]{figures/case_S10_A.pdf}\end{minipage}\hfill\begin{minipage}[t]{0.42\linewidth}\vspace{0pt}\textbf{S10.A / 11 bản ghi.} Cạnh kết thúc chỉ một lối vào. Che 60 giây cuối của chuyến đã hoàn tất.\par\smallskip u302\_\allowbreak{}08: 38 mẫu\par\smallskip\textbf{Đọc sample.} Sao là FCD cuối [817] của u302\_\allowbreak{}08; che 60 giây cuối. Đường chỉ một lối vào có thể giúp suy đoạn kết thúc từ phần trước còn thấy.\end{minipage}\par\vspace{3pt}
-\noindent\begin{minipage}[t]{0.55\linewidth}\vspace{0pt}\includegraphics[width=\linewidth]{figures/case_S10_B.pdf}\end{minipage}\hfill\begin{minipage}[t]{0.42\linewidth}\vspace{0pt}\textbf{S10.B / 4 bản ghi.} Hai chuyến chung tiền tố nhưng tới hai đích khác nhau; giữ đoạn cuối làm đáp án ngoại tuyến.\par\smallskip u304\_\allowbreak{}00: 7 mẫu; u304\_\allowbreak{}02: 7 mẫu\par\smallskip\textbf{Đọc sample.} Cùng cặp và tiền tố như S6.A, nhưng hỏi nơi đã kết thúc sau khi chuyến hoàn tất. Hai sao cách 4,47 km; phần đuôi nét đứt không cấp cho đối thủ.\end{minipage}\par\vspace{3pt}
-\noindent\begin{minipage}[t]{0.55\linewidth}\vspace{0pt}\includegraphics[width=\linewidth]{figures/case_S10_C.pdf}\end{minipage}\hfill\begin{minipage}[t]{0.42\linewidth}\vspace{0pt}\textbf{S10.C / 12 bản ghi.} Nhiều chuyến cùng điểm kết thúc dự kiến; che 60 giây cuối từng chuyến.\par\smallskip u301\_\allowbreak{}00: 27 mẫu; u301\_\allowbreak{}09: 27 mẫu\par\smallskip\textbf{Đọc sample.} u301\_\allowbreak{}00/u301\_\allowbreak{}09 lặp cùng đích dự kiến và cùng che 60 giây cuối. Đối thủ có thể kết hợp nhiều phiên để khoanh đích, chưa đủ gọi đó là nơi làm việc.\end{minipage}\par\vspace{3pt}
+\textbf{Hai ca cần giải quyết:} A suy endpoint từ phần cuối còn nhìn thấy và mạng đường; C còn kết hợp các chuyến lặp cùng đích. Giữ mã A/C để truy nguyên dữ liệu. Bài toán chung tiền tố nhưng khác đích thuộc S6.A.
+
+\noindent\begin{minipage}[t]{0.63\linewidth}\vspace{0pt}\includegraphics[width=\linewidth]{figures/case_S10_A.pdf}\end{minipage}\hfill\begin{minipage}[t]{0.34\linewidth}\vspace{0pt}\textbf{S10.A / 11 bản ghi.} Cạnh kết thúc chỉ một lối vào. Che 60 giây cuối của chuyến đã hoàn tất.\par\smallskip u302\_\allowbreak{}08: 38 mẫu\par\smallskip\textbf{Đọc sample.} Sao là FCD cuối [817] của u302\_\allowbreak{}08; che 60 giây cuối. Đường chỉ một lối vào có thể giúp suy đoạn kết thúc từ phần trước còn thấy.\end{minipage}\par\vspace{3pt}
+\noindent\begin{minipage}[t]{0.63\linewidth}\vspace{0pt}\includegraphics[width=\linewidth]{figures/case_S10_C.pdf}\end{minipage}\hfill\begin{minipage}[t]{0.34\linewidth}\vspace{0pt}\textbf{S10.C / 12 bản ghi.} Nhiều chuyến cùng điểm kết thúc dự kiến; che 60 giây cuối từng chuyến.\par\smallskip u301\_\allowbreak{}00: 27 mẫu; u301\_\allowbreak{}09: 27 mẫu\par\smallskip\textbf{Đọc sample.} u301\_\allowbreak{}00/u301\_\allowbreak{}09 lặp cùng đích dự kiến và cùng che 60 giây cuối. Đối thủ có thể kết hợp nhiều phiên để khoanh đích, chưa đủ gọi đó là nơi làm việc.\end{minipage}\par\vspace{3pt}
 
 \clearpage
 \subsection{S5 — dự đoán cạnh đường kế tiếp}
@@ -242,7 +249,7 @@ AnotherMe [\hyperlink{ref-B3}{B3}] & Hệ thống sinh quỹ đạo ảo trực 
 \end{longtable}
 \endgroup
 \subsection{AnotherMe: sửa đúng vai trò và trạng thái}
-Paper gốc mô tả hệ thống \textbf{online}; không nên gọi bản thân AnotherMe là phương pháp ngoại tuyến. Tuy nhiên adapter đang có trong repo xử lý cả đoạn/chuyến và đã được tách khỏi nhánh trực tuyến. Việc thêm tên vào bảng chưa có nghĩa đã hoàn tất một phép so sánh nhân quả với năm phương pháp còn lại. Mã tác giả: \url{https://github.com/fang-zhiyou/AnotherMe}.
+Paper gốc mô tả hệ thống \textbf{online}; không nên gọi bản thân AnotherMe là phương pháp ngoại tuyến. Tuy nhiên adapter đang có trong repo xử lý cả đoạn/chuyến và đã được tách khỏi nhánh trực tuyến. Mục 9 đã chạy adapter này như tham chiếu offline; lỗi sinh quỹ đạo được giữ trong mẫu số utility, còn privacy chỉ tính khi có đầu ra. Mã tác giả: \url{https://github.com/fang-zhiyou/AnotherMe}.
 
 Cần đóng gói giao diện theo tiền tố, kiểm tra đầu ra trước thời điểm t không đổi khi sửa phần tương lai, và xác định các ca áp dụng. Nếu chỉ chạy được adapter cả đoạn, báo riêng kết quả tham chiếu ngoại tuyến; không xếp chung điểm tổng với cơ chế chỉ thấy tiền tố. Khả năng áp dụng của phương pháp gốc không suy từ việc adapter hiện tại không hỗ trợ một ca.
 
@@ -257,7 +264,7 @@ Cần đóng gói giao diện theo tiền tố, kiểm tra đầu ra trước th
 \end{itemize}
 Sáu đối chứng là danh sách nghiên cứu, chưa mặc định cả sáu đều bảo vệ nội dung S7 hoặc danh tính S4. Nhánh không đổi nội dung có thể được đo như đối chứng lộ nội dung, nhưng phải trình bày đúng khả năng của nó.
 
-Bảng kết quả mới dùng control truy vấn cố định, cache, bulk và ablation nội bộ. Đó không phải sáu phương pháp từ paper trong bảng này. Các adapter hiện có chưa phải tái lập tương đương đầy đủ; không đổi tên control thành paper để diễn giải mức chênh lệch.
+Mục 9 chạy trực tiếp năm adapter trực tuyến và AnotherMe offline trên cùng dịch vụ và tập đánh giá. TransProtect dùng Markov thay Transformer; Semantic dùng bộ dự báo thực nghiệm thay LSTM. Fixed K5/K12, cache và bulk giữ vai trò kiểm tra phụ; không được đổi tên thành model từ paper. Chưa có cơ sở tuyên bố vượt cả sáu bản gốc.
 
 
 \clearpage
@@ -409,7 +416,7 @@ Chi phí chẩn đoán & Số tọa độ/bản tin, số POI phản hồi, th�
 \key{Vòng hiện tại có byte yêu cầu/phản hồi theo schema mô phỏng, nhưng chưa có latency đầu-cuối và lưu lượng HTTP/TLS. Chưa đủ để tính điểm performance tổng hợp hoặc Q thực nghiệm mới.}
 
 \subsection{Mẫu số và độ độc lập}
-Chấm điểm từng mục tiêu rồi gộp theo bản ghi/chuyến, nhóm tuyến, ca A/B/C và scenario với trọng số được khóa. Giữ các phiên/cặp có quan hệ trong cùng split. Không cho S7 nhiều bản ghi hoặc chuyến dài áp đảo phần còn lại. Khoảng tin cậy lấy mẫu lại theo nhóm tuyến, không coi từng điểm FCD hoặc seed nhiễu là người độc lập.
+Chấm từng mục tiêu rồi gộp theo bản ghi/chuyến, nhóm tuyến, ca và scenario. Trong mỗi scenario, các ca có trọng số đều; mỗi scenario có trọng số bằng nhau. S10 dùng A/C, các scenario khác dùng A/B/C. Giữ các phiên/cặp có quan hệ trong cùng split; khoảng tin cậy lấy mẫu lại theo nhóm tuyến, không theo từng điểm FCD hoặc seed nhiễu.
 
 
 \clearpage
@@ -418,8 +425,10 @@ Chấm điểm từng mục tiêu rồi gộp theo bản ghi/chuyến, nhóm tuy
 
 \subsection{Bước 1: đưa ba trục về cùng chiều tốt và thang 0–1}
 \[
-P=1-\frac{1}{|\mathcal S|}\sum_{s\in\mathcal S}\frac13\sum_{c\in\{A,B,C\}}h_{s,c},\qquad U=\operatorname{MacroMean}(\mathrm{Recall@5}).
+P=1-\frac{1}{|\mathcal S|}\sum_{s\in\mathcal S}\frac1{|\mathcal C_s|}\sum_{c\in\mathcal C_s}h_{s,c},\qquad U=\operatorname{MacroMean}(\mathrm{Recall@5}).
 \]
+Tập ca C\_\allowbreak{}s thuộc phạm vi đã chốt: C\_\allowbreak{}10=\{A,C\}; các scenario còn lại có \{A,B,C\}. Như vậy S10 vẫn có trọng số bằng một scenario khác dù chỉ có hai ca; mẫu số không còn mặc định là 3.
+
 h là Hit100 của đối thủ đã chọn trên validation cho từng phương pháp/ca; đóng băng lựa chọn trước test. Báo thêm envelope của các đối thủ đã thử như phân tích độ nhạy. P cao nghĩa tỷ lệ định vị đúng trong 100 m thấp. Không dùng MAE để tự co giãn theo model tốt/xấu nhất của bảng, vì thêm một model sẽ làm điểm các model cũ đổi theo.
 
 \[
@@ -443,12 +452,12 @@ Q=100\,P^{w_P}U^{w_U}F^{w_F},\qquad w_P,w_U,w_F>0,\quad w_P+w_U+w_F=1.
 \textbf{Cấu hình} & \textbf{P / U} & \textbf{Byte; latency p95} & \textbf{F} & \textbf{Q đều}\\\midrule
 \endhead
 \bottomrule\endfoot
-A & 0.95 / 0.95 & 6,800 B; 130 ms & 0.490 & 76.2\\
+M1 & 0.95 / 0.95 & 6,800 B; 130 ms & 0.490 & 76.2\\
 \addlinespace[3pt]
-B & 0.70 / 0.95 & 3,600 B; 90 ms & 0.800 & 81.0\\
+M2 & 0.70 / 0.95 & 3,600 B; 90 ms & 0.800 & 81.0\\
 \end{longtable}
 \endgroup
-A làm đối thủ khó định vị hơn, nhưng B nhẹ hơn. Điểm tổng không nói A “thua về privacy”; nó nói B phù hợp hơn với bộ trọng số đang dùng. Utility trung bình 0,95 chưa đủ chứng minh mọi ca đạt 0,90; ví dụ giả định đã qua kiểm tra từng ca.
+M1/M2 là hai cấu hình giả định, không phải kết quả thực nghiệm. M1 có privacy tốt hơn, M2 có chi phí thấp hơn; Q phản ánh bộ trọng số đang dùng. Utility trung bình 0,95 chưa đủ chứng minh mọi ca đạt 0,90; ví dụ giả định đã qua kiểm tra từng ca.
 
 
 \clearpage
@@ -456,17 +465,17 @@ A làm đối thủ khó định vị hơn, nhưng B nhẹ hơn. Điểm tổng 
 \begingroup\small
 \begin{longtable}{@{}P{7.646cm}P{2.516cm}P{2.516cm}P{3.678cm}@{}}
 \toprule
-\textbf{Ưu tiên (wP, wU, wF)} & \textbf{Q của A} & \textbf{Q của B} & \textbf{Thứ tự}\\\midrule
+\textbf{Ưu tiên (wP, wU, wF)} & \textbf{Q của M1} & \textbf{Q của M2} & \textbf{Thứ tự}\\\midrule
 \endfirsthead
 \toprule
-\textbf{Ưu tiên (wP, wU, wF)} & \textbf{Q của A} & \textbf{Q của B} & \textbf{Thứ tự}\\\midrule
+\textbf{Ưu tiên (wP, wU, wF)} & \textbf{Q của M1} & \textbf{Q của M2} & \textbf{Thứ tự}\\\midrule
 \endhead
 \bottomrule\endfoot
-Cân bằng (1/3, 1/3, 1/3) & 76.2 & 81.0 & B > A\\
+Cân bằng (1/3, 1/3, 1/3) & 76.2 & 81.0 & M2 > M1\\
 \addlinespace[3pt]
-Ưu tiên privacy (0,6; 0,2; 0,2) & 83.2 & 76.4 & A > B\\
+Ưu tiên privacy (0,6; 0,2; 0,2) & 83.2 & 76.4 & M1 > M2\\
 \addlinespace[3pt]
-Ưu tiên performance (0,2; 0,2; 0,6) & 63.8 & 80.6 & B > A\\
+Ưu tiên performance (0,2; 0,2; 0,6) & 63.8 & 80.6 & M2 > M1\\
 \end{longtable}
 \endgroup
 Đây là đổi nhu cầu hợp lệ, không phải thay công thức sau khi thấy model nào thắng. Cần công bố hồ sơ trọng số chính trước test và giữ các hồ sơ còn lại làm phân tích độ nhạy. Thực nghiệm phải báo đủ P, U, F, Q, điều kiện khả thi và kết quả từng ca.
@@ -486,266 +495,312 @@ S8 cần báo cả mức rủi ro tuyệt đối khi có phụ trợ và phần 
 \item Chạy toàn bộ cấu hình đã đăng ký, cùng seed nhiễu ghép cặp; giữ lỗi và ca thiếu, ghi nguyên nhân.
 \item Báo từng ca, từng nhóm, ba trục và điểm Q; khoảng tin cậy theo nhóm tuyến. Test dùng để kết luận, không để tiếp tục tối ưu.
 \end{itemize}
-Trong bộ minh họa 393 record, S5.C/S10.B có 4 bản ghi, S6.A có 4 và S6.B có 5. Bộ thực nghiệm mới có mẫu số riêng được ghi ở từng ca. Cần tăng nhóm độc lập theo điều kiện cố định; thêm cửa sổ từ cùng chuyến không khắc phục được thiếu độc lập.
+Trong bộ minh họa thuộc phạm vi hiện tại, S5.C và S6.A có 4 bản ghi, S6.B có 5. Mỗi bộ thực nghiệm có mẫu số riêng. Cần tăng nhóm độc lập theo điều kiện cố định; thêm cửa sổ từ cùng chuyến không khắc phục được thiếu độc lập.
 
 
 \clearpage
-\section{Phương pháp hiện tại và dịch vụ mục tiêu}
-\textbf{Mục tiêu:} truy hồi các POI đang khả dụng gần người dùng, đồng thời hạn chế suy luận vị trí từ chuỗi truy vấn. Thiết bị biết bản đồ và danh mục POI; máy chủ giữ trạng thái khả dụng mới nhất. Ví dụ, ứng dụng cần tìm điểm dịch vụ còn nhận khách gần vị trí hiện tại. Trạng thái trong thực nghiệm là mô phỏng, chưa phải dữ liệu hoạt động thực tế.
-
-\key{Cấu hình làm việc: paced + slack 0,03 + cache phản hồi; K=5 tọa độ, L=10 POI mỗi loại và mỗi tọa độ; ứng dụng chọn top-5 tại thiết bị.}
+\section{Phương pháp truy vấn công khai theo loại POI}
+\textbf{Mục tiêu:} tìm top-5 POI đang khả dụng gần người dùng theo đường có hướng. Thiết bị có mạng đường và danh mục 419 POI; máy chủ giữ trạng thái khả dụng. Cơ chế chọn trước tập truy vấn từ dữ liệu công khai; GPS thật chỉ dùng để xếp hạng kết quả tại thiết bị.
 
 \begin{center}
-\includegraphics[width=\linewidth]{figures/architecture_live.pdf}
+\includegraphics[width=\linewidth]{figures/architecture_current.pdf}
 \end{center}
-Hình. Luồng của cấu hình đã đánh giá. GPS thật dùng ở khối tạo neo và lọc kết quả cục bộ; máy chủ chỉ nhận tọa độ công bố. Cache không thay đổi lịch hay nội dung truy vấn.
+Hình. Kế hoạch truy vấn dùng chung cho mọi người trong vùng đã xác định. Máy chủ trả các POI khả dụng; thiết bị hợp phản hồi hợp lệ và dùng GPS thật để chọn kết quả, không gửi lựa chọn đó ra ngoài.
 
-Lõi gồm cơ chế nhiễu xác suất, bộ lọc belief và tối ưu tổ hợp trên mạng đường; không phải deep learning đầu-cuối. Bộ chọn dùng lịch sử neo đã bảo vệ, mạng làn và POI công khai. Nó không đọc GPS thật, vận tốc thật, đích tương lai hoặc toàn bộ vector khả dụng của máy chủ.
-
-Bản hiện tại tiếp tục công bố theo lịch cố định và được chấm qua cửa sổ của từng ca S1/S2/S3/S9/S10. Cổng cắt/buffer biên của các vòng trước \textbf{không nằm trong cấu hình tạo ra kết quả mới}. Các phép thử biên cũ được lưu riêng, tránh gán lợi ích của một cơ chế khác cho model đang báo cáo.
-
-
-\clearpage
-\subsection{Neo riêng tư, ngân sách và bộ chọn theo dịch vụ}
-Khi được phép đọc GPS, cơ chế kiểm tra có nhiễu để giữ neo cũ hoặc lấy neo mới. Bộ lọc ngân sách dự trữ chi phí xấu nhất của bước kế tiếp trước khi cho đọc. Giãn đọc theo thời gian giúp giữ ngân sách cho chuyến dài; giữa các lần đọc hoặc khi không đủ ngân sách, đầu ra tiếp tục từ trạng thái đã bảo vệ.
+\subsection{Chọn tập truy vấn theo độ phủ danh mục}
+Với mỗi loại, dựng top-10 tĩnh tại các tọa độ ứng viên trên mạng đường. Mỗi bước chọn truy vấn bổ sung tỷ lệ POI chưa phủ lớn nhất của một loại; tọa độ phải qua đúng quy tắc server ánh xạ lên đường. Đây là tối ưu tham lam từ danh mục công khai, không phải deep learning hay một cơ chế nhiễu epsilon.
 
 \[
-\Pr[z_t=v\mid x_t]\propto\exp\!\left[-\frac{\varepsilon_{\rm release}}{2}d_E(x_t,v)\right],\quad d_E(x_t,z_{t-1})+\operatorname{Lap}(1/\varepsilon_{\rm test})\le\theta\Rightarrow z_t=z_{t-1}.
+(c^*,v^*)=\arg\max_{c,v}\frac{|\mathcal P_{10,c}(v)\setminus U_c|}{|\mathcal P_c|},\qquad U_{c^*}\leftarrow U_{c^*}\cup\mathcal P_{10,c^*}(v^*).
 \]
+Tử số đếm POI mới do truy vấn bổ sung; mẫu số là tổng POI của loại đang xét. U là tập POI đã phủ của từng loại, được cập nhật sau mỗi lựa chọn.
+
 \begingroup\small
-\begin{longtable}{@{}P{4.004cm}P{12.914cm}@{}}
+\begin{longtable}{@{}P{3.347cm}P{6.891cm}P{6.399cm}@{}}
 \toprule
-\textbf{Tham số / khối} & \textbf{Cấu hình và ý nghĩa}\\\midrule
+\textbf{Cấu hình} & \textbf{Quy tắc dừng và phân bổ} & \textbf{Giao diện mỗi lần tải}\\\midrule
 \endfirsthead
 \toprule
-\textbf{Tham số / khối} & \textbf{Cấu hình và ý nghĩa}\\\midrule
+\textbf{Cấu hình} & \textbf{Quy tắc dừng và phân bổ} & \textbf{Giao diện mỗi lần tải}\\\midrule
 \endhead
 \bottomrule\endfoot
-Neo và kiểm tra & $\varepsilon$\_\allowbreak{}release=$\varepsilon$\_\allowbreak{}test=0,01 m$^{-}$$^1$; θ=200 m. Support vị trí là tập công khai, không cắt riêng quanh GPS thật.\\
+30 truy vấn & Dừng ở 30: cà phê 11; phòng khám 1; trạm xăng 1; bệnh viện 1; nhà thuốc 2; nhà hàng 14. & 30 truy vấn loại–tọa độ, tại 19 tọa độ khác nhau.\\
 \addlinespace[3pt]
-Ngân sách phiên & Tối đa 23 đơn vị 0,01: cận phiên 0,23 m$^{-}$$^1$. Lần đầu cần 1 đơn vị; trước bước sau phải dự trữ 2. Nhánh tái dùng chi 1, nhánh tạo mới chi 2 trong phân tích transcript mở rộng.\\
-\addlinespace[3pt]
-Giãn đọc GPS & Ít nhất 60 giây giữa các lần đọc riêng tư. Đồng hồ truy vấn dịch vụ vẫn giữ nguyên.\\
-\addlinespace[3pt]
-Belief và miền khả thi & Belief gần đúng từ neo; mỗi track chỉ đi tới trạng thái làn hợp lệ trong thời gian đã trôi qua.\\
-\addlinespace[3pt]
-Phủ dịch vụ và slack & Tối ưu hợp top-L theo nhu cầu top-5 từ belief. Slack 0,03 cho phép giảm tối đa 0,03 objective hiện tại để tiến về mục tiêu hữu ích; không phải cận giảm Recall thật.\\
+67 truy vấn: phủ rộng & Tiếp tục đến khi không tăng độ phủ tĩnh; tổng 67 truy vấn. & 67 truy vấn loại–tọa độ, tại 52 tọa độ khác nhau.\\
 \end{longtable}
 \endgroup
-\[
-F_t(A)=\sum_{p\in\cup_{v\in A}\mathcal P_L(v)}w_t(p),\quad v_j\in\mathcal R_{j,t};\qquad F_t(A_{\rm move})\ge F_t(A_{\rm base})-0{,}03.
-\]
-w$_t$ được suy từ belief và danh mục tĩnh. Bộ chọn \textbf{chưa dự báo hoặc tối ưu trực tiếp trạng thái khả dụng hiện tại}. Máy chủ mới lọc theo trạng thái khi trả lời; thiết bị dùng phản hồi để phục vụ. Tăng Recall trên workload mới vì vậy không tự là một đóng góp tối ưu động.
-
-Cận tọa độ lý tưởng với đồng hồ cố định chặn tỷ số xác suất bởi exp(0,23$\cdot$D∞), với D∞ là độ lệch lớn nhất giữa hai chuỗi GPS. Hai phiên có thể liên kết cộng thành tối đa 0,46 m$^{-}$$^1$. Ở 50 m, cận một phiên khoảng 98.716: đây không phải xác suất an toàn và không đủ để kết luận che được nhà. Chứng minh dựa trên kernel lý tưởng; bộ sinh dấu phẩy động chưa có chứng nhận pure-DP chính xác.
+Mỗi tọa độ được giữ cố định; các loại không buộc dùng chung một tập vị trí. Thiết bị hỏi theo kế hoạch đã khóa, không chọn query từ GPS, tuyến tương lai hoặc trạng thái khả dụng thật. So sánh phải đếm riêng truy vấn loại, tọa độ và byte.
 
 
 \clearpage
-\subsection{Cache theo hiệu lực: lợi ích và điều kiện bảo toàn riêng tư}
-Máy chủ giữ trạng thái cố định trong từng khoảng 60 giây và gắn epoch cho phản hồi. Thiết bị giữ hợp các POI đã nhận trong epoch hiện tại; sang epoch mới thì xóa. Đây là thời hạn hiệu lực dữ liệu, độc lập về vai trò với khoảng giãn đọc GPS, dù thí nghiệm đang đặt cùng giá trị.
-
-Ví dụ: lần trước trả \{A,B,C\}, lần hiện tại trả \{C,D,E\}. Nếu cùng epoch, thiết bị chọn từ \{A,B,C,D,E\}; chỉ dùng phản hồi mới sẽ bỏ quên A và B. Sang epoch mới, A và B không được coi là còn khả dụng cho đến khi được xác nhận lại.
+\subsection{Lập luận privacy cho S1/S2/S3/S9 và S10.A/C}
+Gọi X là hành trình, A là giờ sử dụng riêng tư; C gồm vùng, danh mục, kế hoạch và khoảng đăng ký công khai; W là trạng thái server; T là transcript yêu cầu/phản hồi. Client gửi mỗi 60 giây trong trọn khoảng [0, 3600), kể cả trước/sau chuyến hoặc không dùng dịch vụ; đọc cache không kích hoạt bản tin. Với C được chốt trước hoạt động:
 
 \[
-U_t=\bigcup_jR_{t,j},\qquad C_t=\bigcup_{s\le t:\,e(s)=e(t)}U_s,\qquad U_t\subseteq C_t.
+T=f(C,W)\quad\Longrightarrow\quad I((X,A);T\mid C,W)=0.
 \]
-\textbf{Utility:} mọi POI trong C$_t$ còn hợp lệ và C$_t$ chứa U$_t$. Với cùng quy tắc khoảng cách và phá hòa, một POI thuộc top-5 chuẩn đã nằm trong U$_t$ không thể bị loại bởi một POI xếp sau nó trong danh sách chuẩn. Vì vậy Recall sau cache không giảm. Lập luận cần trạng thái ổn định trong epoch, cùng bản đồ/loại POI và cùng quy tắc xếp hạng.
-
-\textbf{Privacy:} cache không sửa tọa độ hay thời điểm truy vấn; top-5 cuối cùng chỉ ở thiết bị. Với trạng thái máy chủ độc lập với di chuyển như trong mô phỏng, phản hồi là hàm của truy vấn và dữ liệu máy chủ đã biết. Cache không phát sinh thêm thông tin tọa độ trong transcript này, nhưng cũng không làm tấn công cũ mất hiệu lực. Nếu gửi lượt nhấp, POI đã chọn, cache hit hoặc refresh tùy GPS, cần đánh giá lại kênh đó.
-
 \begingroup\small
-\begin{longtable}{@{}P{4.805cm}P{12.113cm}@{}}
+\begin{longtable}{@{}P{4.505cm}P{12.414cm}@{}}
 \toprule
-\textbf{Điều kiện sử dụng} & \textbf{Cách xử lý}\\\midrule
+\textbf{Mục tiêu cần bảo vệ} & \textbf{Vì sao tọa độ công bố không bổ sung thông tin}\\\midrule
 \endfirsthead
 \toprule
-\textbf{Điều kiện sử dụng} & \textbf{Cách xử lý}\\\midrule
+\textbf{Mục tiêu cần bảo vệ} & \textbf{Vì sao tọa độ công bố không bổ sung thông tin}\\\midrule
 \endhead
 \bottomrule\endfoot
-API trả top-L theo điểm & Áp dụng K tọa độ $\to$ phản hồi $\to$ cache $\to$ xếp hạng cục bộ.\\
+S1: vị trí hiện tại & Ở vị trí nào trong cùng vùng, client cũng gửi cùng kế hoạch.\\
 \addlinespace[3pt]
-Có epoch / thời hạn hiệu lực & Chỉ hợp phản hồi cùng phiên bản; xóa cache hoặc tái xác nhận khi hết hạn.\\
+S2: nơi dừng & Tọa độ không tập trung quanh nơi dừng; lịch vẫn chạy khi không có hoạt động.\\
 \addlinespace[3pt]
-Trạng thái đổi giữa epoch & Không áp dụng bảo đảm Recall đơn điệu nếu thiếu version/expiry bảo đảm tính hợp lệ.\\
+S3: đoạn đường đã đi & Chuỗi tọa độ cố định không bám đường đi thật.\\
 \addlinespace[3pt]
-API tải toàn bộ trạng thái & So với bulk trước khi dùng dummy: với 419 POI, bulk có lợi thế rõ trong thí nghiệm.\\
+S9; S10.A/C: đầu/cuối & Tọa độ không chọn từ endpoint; giờ bắt đầu/kết thúc chuyến không điều khiển lịch gửi trong khoảng đăng ký.\\
+\end{longtable}
+\endgroup
+\key{Bảo vệ payload và giờ gửi trong khoảng công khai; prior vẫn có thể giúp đối thủ đoán. Không gán Hit=0 hoặc MAE vô hạn từ công thức trên.}
+
+Điều kiện: đăng ký khoảng cố định trước chuyến, không hủy sớm hay đổi vùng/kế hoạch theo GPS. Account, IP, click và lỗi mạng nằm ngoài bảo đảm. Sáu kiểm tra trên server mô phỏng đối chiếu lịch đọc sớm/muộn/không đọc cho cùng yêu cầu và phản hồi. Đây là kiểm tra cơ chế, không chứng minh mọi kênh mạng đã an toàn.
+
+\subsection{Lập luận utility và hiệu lực phản hồi}
+Một POI thuộc top-10 tĩnh vẫn thuộc top-10 sống nếu chính nó khả dụng: loại các POI không khả dụng không làm nó tụt hạng. Nếu hợp truy vấn phủ mọi POI có thể tới được, hợp phản hồi chứa đủ POI để phục hồi top-5 thật. Điều kiện gồm cùng khoảng cách đường, quy tắc phá hòa và phản hồi hợp lệ.
+
+Trên mạng đang dùng, cấu hình 30 còn \textbf{160 POI}, cấu hình 67 còn \textbf{8 POI} ngoài hợp phủ tĩnh. Tọa độ ứng viên thuộc thành phần liên thông mạnh lớn nhất, còn tập đích xét toàn danh mục đường. Vì vậy, 100\% trên các ca đã thử chưa phải chứng nhận toàn bản đồ.
+
+Server giữ trạng thái trong epoch 60 giây; client chỉ dùng phản hồi còn hiệu lực. Bảng mục 9 là kiểm tra trên bốn nhóm, gửi mỗi sự kiện. Mục 10 dùng 32 nhóm mới và client theo lịch công khai; tính cả bản tin ngoài thời gian hoạt động. Ablation so với cùng kế hoạch chỉ refresh trong epoch có hoạt động để đo đúng giá của việc che giờ bắt đầu/kết thúc.
+
+
+\clearpage
+\section{Đối chứng trực tiếp trên cùng dịch vụ}
+Bảng chính so phương pháp đề xuất với \textbf{DLS, RDG, TransProtect, Semantic correlation, Fake-query insertion và AnotherMe}. Các số dưới được chạy lại trong cùng bộ đánh giá. Đây là các bản thích nghi có mô tả mã và giả định; không phải số chép từ paper hoặc chứng nhận tái lập đầy đủ.
+
+Cùng OSM/SUMO, 419 POI, sáu loại; server trả top-10 khả dụng, thiết bị chọn top-5 theo đường. Trạng thái đổi theo epoch 60 giây; thử p=0,5/0,8/0,95 và ba world seed. Tất cả được hợp phản hồi còn hiệu lực. Bảng này gửi ở mọi sự kiện, chưa che giờ hoạt động; đếm cả query giả và byte JSON thực. Client theo lịch công khai được đo riêng ở mục 10.
+
+Fit thống kê/attacker trên nhóm 501–502; chọn attacker trên 601–602. Phạm vi 14 ca giữ 165 record từ 94 chuyến của 12 nhóm phát triển và 54 record từ 30 chuyến của bốn nhóm 901–904. Các số được tổng hợp lại từ kết quả cố định; không huấn luyện/chọn attacker mới. Đây là đối chứng phát triển, chưa phải xác nhận độc lập mới.
+
+\subsection{Kết quả chính trên bốn nhóm 901–904, p=0,8}
+\begingroup\small
+\begin{longtable}{@{}P{3.469cm}P{2.282cm}P{1.643cm}P{2.921cm}P{3.104cm}P{2.374cm}@{}}
+\toprule
+\textbf{Phương pháp} & \textbf{Recall@5 $\uparrow$} & \textbf{Ca $\ge$90\%} & \textbf{Byte / yêu cầu thật $\downarrow$} & \textbf{Sinh tọa độ: ms / yêu cầu $\downarrow$} & \textbf{Lượt record hợp lệ}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Phương pháp} & \textbf{Recall@5 $\uparrow$} & \textbf{Ca $\ge$90\%} & \textbf{Byte / yêu cầu thật $\downarrow$} & \textbf{Sinh tọa độ: ms / yêu cầu $\downarrow$} & \textbf{Lượt record hợp lệ}\\\midrule
+\endhead
+\bottomrule\endfoot
+Vị trí thật & 100,00\% & 14/14 & 242,8 & <0,001 & 108/108\\
+\addlinespace[3pt]
+DLS & 100,00\% & 14/14 & 962,7 & 0,423 & 108/108\\
+\addlinespace[3pt]
+RDG & 100,00\% & 14/14 & 950,7 & 1,407 & 108/108\\
+\addlinespace[3pt]
+TransProtect* & 99,69\% & 14/14 & 242,7 & 5,532 & 108/108\\
+\addlinespace[3pt]
+Semantic* & 100,00\% & 14/14 & 967,4 & 1,062 & 108/108\\
+\addlinespace[3pt]
+Fake-query* & 100,00\% & 14/14 & 1313,2 & 0,756 & 108/108\\
+\addlinespace[3pt]
+AnotherMe† & 17,37\% & 0/14 & 241,7 & 1,858 & 30/108\\
+\addlinespace[3pt]
+Đề xuất 30 & 94,75\% & 14/14 & 2389,7 & <0,001 & 108/108\\
+\addlinespace[3pt]
+Đề xuất 67 & 100,00\% & 14/14 & 5353,9 & <0,001 & 108/108\\
+\end{longtable}
+\endgroup
+Lượt record = record $\times$ hai seed; có thể dùng chung chuyến. Chi phí tính trên các chuyến còn thuộc phạm vi, giữ toàn bộ clock và bản tin gốc của mỗi chuyến; chưa gồm HTTP/TLS. Thời gian là tính toán Python, không gồm server/RTT hoặc chuẩn bị model. Chi phí AnotherMe chỉ trên phiên sinh thành công; không xếp hạng với phương pháp trực tuyến.
+
+\textbf{Giữ đúng đầu ra:} DLS/RDG/Semantic gửi tập có vị trí thật; TransProtect/AnotherMe trả vị trí thay thế; Fake-query thêm thời điểm gửi. Đề xuất 30/67 dùng 19/52 tọa độ. Cùng dịch vụ không có nghĩa cùng byte, cùng số tọa độ hoặc cùng bảo đảm privacy.
+
+\key{Fixed K5/K12 và bulk là phép kiểm tra thiết kế phụ. Chúng không thay thế sáu đối chứng nghiên cứu trong bảng chính.}
+
+
+\clearpage
+\subsection{Privacy: suy luận đúng trong bán kính 100 m}
+Mỗi ô là \textbf{Hit100 $\downarrow$ / MAE (m) $\uparrow$}, trung bình đều các ca: S10 dùng A/C, các scenario khác dùng A/B/C. Gộp seed trong record rồi nhóm. MAE và Hit chọn decoder riêng trên tập chọn attacker. Đối thủ chỉ thấy tọa độ, thời gian tương đối và liên kết được phép; không thấy nhãn thật/giả hoặc đáp án.
+
+\begingroup\small
+\begin{longtable}{@{}P{3.469cm}P{2.465cm}P{2.465cm}P{2.465cm}P{2.465cm}P{2.465cm}@{}}
+\toprule
+\textbf{Phương pháp} & \textbf{S1} & \textbf{S2} & \textbf{S3} & \textbf{S9} & \textbf{S10}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Phương pháp} & \textbf{S1} & \textbf{S2} & \textbf{S3} & \textbf{S9} & \textbf{S10}\\\midrule
+\endhead
+\bottomrule\endfoot
+Vị trí thật & 100,00\% / 5 & 100,00\% / 6 & 100,00\% / 4 & 16,67\% / 207 & 12,50\% / 430\\
+\addlinespace[3pt]
+DLS & 50,00\% / 1400 & 41,67\% / 1613 & 95,76\% / 93 & 8,33\% / 1042 & 12,50\% / 413\\
+\addlinespace[3pt]
+RDG & 58,33\% / 1771 & 62,50\% / 755 & 95,83\% / 59 & 4,17\% / 1484 & 12,50\% / 2104\\
+\addlinespace[3pt]
+TransProtect* & 66,67\% / 101 & 79,17\% / 50 & 74,59\% / 83 & 18,75\% / 219 & 12,50\% / 395\\
+\addlinespace[3pt]
+Semantic* & 83,33\% / 59 & 100,00\% / 13 & 84,39\% / 42 & 33,33\% / 312 & 0,00\% / 515\\
+\addlinespace[3pt]
+Fake-query* & 50,00\% / 1536 & 33,33\% / 1489 & 96,91\% / 47 & 12,50\% / 483 & 6,25\% / 393\\
+\addlinespace[3pt]
+AnotherMe† & 0,00\% / 1697 & — / — & 0,00\% / 1877 & 0,00\% / 1565 & 0,00\% / 1914\\
+\addlinespace[3pt]
+Đề xuất 30 & 0,00\% / 2104 & 0,00\% / 2055 & 0,00\% / 2068 & 0,00\% / 2618 & 0,00\% / 2156\\
+\addlinespace[3pt]
+Đề xuất 67 & 0,00\% / 2104 & 0,00\% / 1859 & 0,00\% / 2068 & 0,00\% / 2488 & 0,00\% / 2238\\
+\end{longtable}
+\endgroup
+Bộ đối thủ gồm thống kê tập điểm, prior, Viterbi, ngoại suy 30/60/120 giây, kNN và Extra Trees; chọn bằng nhóm 601–602. AnotherMe chỉ gộp ca có đầu ra: S1 thiếu C; S2 thiếu cả ba; S9 thiếu B; S10 chỉ có C. Không so các ô này như cùng mẫu số. Chi tiết 14 ca: active\_\allowbreak{}scope\_\allowbreak{}ac\_\allowbreak{}v2/readout.json.
+
+\textbf{Phép thử bốn nhóm này:} S10.A/C của vị trí thật đạt Hit100 12,50\%, A là 0\%, C là 25\%. S9 chỉ B có hit. Bằng chứng endpoint ở đây chủ yếu từ S9.B/S10.C. Mục 10 dùng bộ suy luận đường mạnh hơn và 32 nhóm để kiểm tra S9, S10.A/C; không trộn hai bộ số.
+
+Hit bằng 0 chỉ là không trúng trong các mẫu và bộ attacker đã thử. Vùng dịch vụ, lịch mở/đóng ứng dụng, account, IP và click chưa được bảo vệ toàn diện. Lập luận tọa độ độc lập GPS ở mục 8 vẫn có điều kiện; không thay thế bằng chứng tấn công thực nghiệm.
+
+\subsection{Bản triển khai được so sánh là gì?}
+\begingroup\small
+\begin{longtable}{@{}P{3.804cm}P{13.115cm}@{}}
+\toprule
+\textbf{Đối chứng} & \textbf{Thành phần chạy và giới hạn}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Đối chứng} & \textbf{Thành phần chạy và giới hạn}\\\midrule
+\endhead
+\bottomrule\endfoot
+DLS / RDG & DLS chọn theo entropy; RDG dùng pool DLS và entropy của trọng số max-product. Thống kê từ background SUMO; trạng thái đường thay ô lưới paper.\\
+\addlinespace[3pt]
+TransProtect* & Lõi chọn ứng viên + nhiễu của paper; bộ dự báo Markov thay Transformer chưa có checkpoint tác giả. Không diễn giải là đã vượt model deep learning gốc.\\
+\addlinespace[3pt]
+Semantic* & Bộ chọn theo ngữ nghĩa/chuyển tiếp; nhãn POI OSM và dự báo thực nghiệm thay dữ liệu AMap/LSTM chưa có weights.\\
+\addlinespace[3pt]
+Fake-query* & Có chèn thật các bản tin toàn giả, lọc chuyển động theo đường và fallback DLS. Phân bố thời gian, lịch sử và ngưỡng là giả định công khai của adapter.\\
+\addlinespace[3pt]
+AnotherMe† & Chạy VTGA với ánh xạ/lập tuyến nội bộ. Đọc cả chuyến nên chỉ là tham chiếu offline; mẫu quá ngắn không bị kéo giãn để tạo kết quả hợp lệ.\\
 \end{longtable}
 \endgroup
 
 \clearpage
-\section{Kết quả thực nghiệm của cấu hình hiện tại}
-\subsection{Thiết lập, đơn vị quan sát và đối chứng}
-Mạng OSM khôi phục ngày 20/09 có 102.404 trạng thái làn và 419 POI thuộc sáu loại. Bộ mở rộng gồm 12 nhóm, 264 chuyến và 415 record; năm scenario ưu tiên dùng 102 chuyến nguồn và 173 record. Giữ nguyên tọa độ công bố, lịch toàn phiên và seed bảo vệ khi replay dịch vụ khả dụng. Ảnh minh họa ở mục dữ liệu thuộc bộ 393 record lịch sử, không phải nguồn của các số dưới đây.
+\subsection{Đủ 14 ca hiện tại: utility và tỷ lệ chạy thành công}
+Recall@5 ở p=0,8 trên cùng bốn nhóm; \textbf{† là tham chiếu offline}. Trong bảng này, nếu record thiếu đầu ra của một phiên, mọi yêu cầu có đáp án trong record nhận Recall=0; yêu cầu không có POI tham chiếu giữ null. Privacy thiếu đầu ra để trống. Mục 10 báo riêng giao thức tính lỗi theo từng yêu cầu/phiên.
 
-Trạng thái mô phỏng độc lập với GPS, giữ nguyên 60 giây; p=0,8 là mức danh định, thêm p=0,5/0,95. Ba chuỗi trạng thái được chia sẻ giữa mọi phương pháp; mỗi chuyến replay từ thời gian tương đối 0. Seeds và vector trạng thái đầy đủ chỉ thuộc server/evaluator. Các phương án K5/slack được so trên dữ liệu phát triển; chọn cấu hình làm việc theo Recall trung bình dưới cùng cận ngân sách.
-
-Recall gộp theo loại có đáp án $\to$ sự kiện $\to$ record $\to$ nhóm $\to$ ca, rồi trung bình đều 15 ca. Có đáp án nhưng trả rỗng nhận 0; loại không có POI khả dụng được đếm riêng, không gán 1. Bootstrap theo 12 nhóm, không coi điểm FCD, hai seed bảo vệ hoặc ba chuỗi trạng thái là người dùng mới.
-
-\subsection{Utility và chi phí phản hồi ở p=0,8}
 \begingroup\small
-\begin{longtable}{@{}P{4.851cm}P{0.856cm}P{2.568cm}P{2.188cm}P{5.612cm}@{}}
+\begin{longtable}{@{}P{1.269cm}P{1.450cm}P{1.450cm}P{1.722cm}P{1.812cm}P{1.540cm}P{1.722cm}P{1.993cm}P{1.993cm}@{}}
 \toprule
-\textbf{Cấu hình} & \textbf{K} & \textbf{Recall $\uparrow$} & \textbf{Ca $\ge$90\%} & \textbf{Byte phản hồi / sự kiện $\downarrow$}\\\midrule
+\textbf{Ca} & \textbf{DLS} & \textbf{RDG} & \textbf{Trans.*} & \textbf{Semantic*} & \textbf{Fake*} & \textbf{Another†} & \textbf{Đề xuất 30} & \textbf{Đề xuất 67}\\\midrule
 \endfirsthead
 \toprule
-\textbf{Cấu hình} & \textbf{K} & \textbf{Recall $\uparrow$} & \textbf{Ca $\ge$90\%} & \textbf{Byte phản hồi / sự kiện $\downarrow$}\\\midrule
+\textbf{Ca} & \textbf{DLS} & \textbf{RDG} & \textbf{Trans.*} & \textbf{Semantic*} & \textbf{Fake*} & \textbf{Another†} & \textbf{Đề xuất 30} & \textbf{Đề xuất 67}\\\midrule
 \endhead
 \bottomrule\endfoot
-Paced + slack & 5 & 95,36\% & 14/15 & 776,6\\
+S1.A & 100,00\% & 100,00\% & 99,83\% & 100,00\% & 100,00\% & 33,61\% & 95,17\% & 100,00\%\\
 \addlinespace[3pt]
-Paced + slack + cache & 5 & 95,60\% & 14/15 & 776,6\\
+S1.B & 100,00\% & 100,00\% & 100,00\% & 100,00\% & 100,00\% & 33,61\% & 98,28\% & 100,00\%\\
 \addlinespace[3pt]
-Paced + cache & 5 & 94,57\% & 14/15 & 776,2\\
+S1.C & 100,00\% & 100,00\% & 99,86\% & 100,00\% & 100,00\% & 0,00\% & 96,83\% & 100,00\%\\
 \addlinespace[3pt]
-Cố định K5 + cache & 5 & 82,07\% & 0/15 & 767,0\\
+S2.A & 100,00\% & 100,00\% & 100,00\% & 100,00\% & 100,00\% & 0,00\% & 90,15\% & 100,00\%\\
 \addlinespace[3pt]
-Cố định K12 + cache & 12 & 97,61\% & 15/15 & 1832,6\\
+S2.B & 100,00\% & 100,00\% & 100,00\% & 100,00\% & 100,00\% & 0,00\% & 90,78\% & 100,00\%\\
 \addlinespace[3pt]
-Vị trí thật & 1 & 100,00\% & 15/15 & 169,4\\
+S2.C & 100,00\% & 100,00\% & 100,00\% & 100,00\% & 100,00\% & 0,00\% & 91,29\% & 100,00\%\\
 \addlinespace[3pt]
-Danh mục tĩnh & 0 & 87,62\% & 1/15 & 0,0\\
+S3.A & 100,00\% & 100,00\% & 99,76\% & 100,00\% & 100,00\% & 33,02\% & 96,50\% & 100,00\%\\
 \addlinespace[3pt]
-Trạng thái ban đầu & 0 & 77,58\% & 1/15 & 1,3\\
+S3.B & 100,00\% & 100,00\% & 99,80\% & 100,00\% & 100,00\% & 33,02\% & 95,87\% & 100,00\%\\
 \addlinespace[3pt]
-Bulk trạng thái mới & 0 & 100,00\% & 15/15 & 17,1\\
+S3.C & 100,00\% & 100,00\% & 99,29\% & 100,00\% & 100,00\% & 32,94\% & 96,46\% & 100,00\%\\
+\addlinespace[3pt]
+S9.A & 100,00\% & 100,00\% & 99,24\% & 100,00\% & 100,00\% & 33,08\% & 95,78\% & 100,00\%\\
+\addlinespace[3pt]
+S9.B & 100,00\% & 100,00\% & 99,30\% & 100,00\% & 100,00\% & 0,00\% & 95,45\% & 100,00\%\\
+\addlinespace[3pt]
+S9.C & 100,00\% & 100,00\% & 99,53\% & 100,00\% & 100,00\% & 24,65\% & 95,85\% & 100,00\%\\
+\addlinespace[3pt]
+S10.A & 100,00\% & 100,00\% & 99,59\% & 100,00\% & 100,00\% & 0,00\% & 93,68\% & 100,00\%\\
+\addlinespace[3pt]
+S10.C & 100,00\% & 100,00\% & 99,53\% & 100,00\% & 100,00\% & 24,45\% & 94,83\% & 100,00\%\\
 \end{longtable}
 \endgroup
-K đếm tọa độ gửi, không đếm kết nối. K5 với sáu loại là 30 truy vấn loại–tọa độ mỗi sự kiện. Byte là thân phản hồi theo schema mô phỏng; chưa có HTTP/TLS hoặc độ trễ mạng. K=0 của bulk vẫn có yêu cầu tải trạng thái. Bản đồ/danh mục dùng chung, chưa tính chi phí tải lần đầu.
+\subsection{Đóng góp được hỗ trợ tới đâu trên năm scenario?}
+\begingroup\small
+\begin{longtable}{@{}P{2.560cm}P{6.596cm}P{7.482cm}@{}}
+\toprule
+\textbf{Scenario} & \textbf{Hit100: năm adapter $\to$ đề xuất} & \textbf{Mức bằng chứng}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Scenario} & \textbf{Hit100: năm adapter $\to$ đề xuất} & \textbf{Mức bằng chứng}\\\midrule
+\endhead
+\bottomrule\endfoot
+S1 & 50,00\%–83,33\% $\to$ 0\% & 4 nhóm; kế hoạch mỗi sự kiện\\
+\addlinespace[3pt]
+S2 & 33,33\%–100,00\% $\to$ 0\% & 4 nhóm; kế hoạch mỗi sự kiện\\
+\addlinespace[3pt]
+S3 & 74,59\%–96,91\% $\to$ 0\% & 4 nhóm; kế hoạch mỗi sự kiện\\
+\addlinespace[3pt]
+S9 & 19,76\%–40,81\% $\to$ 0\% & 32 nhóm; kế hoạch theo lịch\\
+\addlinespace[3pt]
+S10 (A/C) & 10,75\%–26,11\% $\to$ 0\% & 32 nhóm; kế hoạch theo lịch\\
+\end{longtable}
+\endgroup
+\textbf{Đóng góp hiện có:} phối hợp chọn truy vấn theo độ phủ POI, xếp hạng GPS tại thiết bị và lịch công khai để giảm lộ vị trí/đường/endpoint trong dịch vụ trạng thái động. Đã có lợi thế thực nghiệm ở cả năm scenario; lịch được kiểm tra riêng về giờ hoạt động. S1–S3 cần chạy lại privacy trên cohort lớn; chưa gán số bốn nhóm cho phiên bản theo lịch.
 
-\key{Cùng K5/L10, đạt 95,60\% so với fixed K5 82,07\%: tăng 13,53 điểm phần trăm. Đây là lợi thế utility; fixed K5 không dùng GPS để chọn tọa độ nên không suy ra ưu thế đồng thời về privacy.}
+Đây là đóng góp thiết kế và đánh giá trong phạm vi đã định. Chi phí truyền cao hơn; chưa chứng minh mới so với toàn bộ tài liệu, vượt sáu model gốc hoặc tối ưu ở cùng byte/latency. AnotherMe là tham chiếu offline với mẫu số khác.
 
 
 \clearpage
-\subsection{Đủ 15 ca: dịch vụ mới và tấn công trên cùng transcript}
-\begingroup\small
-\begin{longtable}{@{}P{1.454cm}P{2.133cm}P{2.618cm}P{2.424cm}P{2.424cm}P{2.230cm}P{2.230cm}@{}}
-\toprule
-\textbf{Ca} & \textbf{Nhóm / record} & \textbf{Recall +cache $\uparrow$} & \textbf{Fixed K5 $\uparrow$} & \textbf{MAE m $\uparrow$} & \textbf{Hit100 $\downarrow$} & \textbf{Hit500 $\downarrow$}\\\midrule
-\endfirsthead
-\toprule
-\textbf{Ca} & \textbf{Nhóm / record} & \textbf{Recall +cache $\uparrow$} & \textbf{Fixed K5 $\uparrow$} & \textbf{MAE m $\uparrow$} & \textbf{Hit100 $\downarrow$} & \textbf{Hit500 $\downarrow$}\\\midrule
-\endhead
-\bottomrule\endfoot
-S1.A & 12 / 12 & 97,64\% & 76,65\% & 851,9 & 8,33\% & 12,50\%\\
-\addlinespace[3pt]
-S1.B & 12 / 12 & 95,90\% & 79,44\% & 832,5 & 8,33\% & 20,83\%\\
-\addlinespace[3pt]
-S1.C & 12 / 12 & 80,18\% & 82,88\% & 1674,1 & 0,00\% & 0,00\%\\
-\addlinespace[3pt]
-S2.A & 12 / 12 & 99,86\% & 85,63\% & 910,2 & 0,00\% & 37,50\%\\
-\addlinespace[3pt]
-S2.B & 12 / 12 & 99,49\% & 85,01\% & 714,6 & 4,17\% & 54,17\%\\
-\addlinespace[3pt]
-S2.C & 12 / 12 & 94,59\% & 84,68\% & 997,1 & 0,00\% & 0,00\%\\
-\addlinespace[3pt]
-S3.A & 12 / 12 & 95,63\% & 80,94\% & 905,8 & 3,09\% & 20,52\%\\
-\addlinespace[3pt]
-S3.B & 11 / 11 & 95,97\% & 81,55\% & 872,7 & 3,37\% & 22,38\%\\
-\addlinespace[3pt]
-S3.C & 12 / 12 & 95,26\% & 81,00\% & 934,4 & 2,19\% & 22,36\%\\
-\addlinespace[3pt]
-S9.A & 12 / 12 & 95,69\% & 81,29\% & 607,0 & 0,00\% & 58,33\%\\
-\addlinespace[3pt]
-S9.B & 10 / 10 & 95,30\% & 81,39\% & 701,3 & 2,50\% & 50,00\%\\
-\addlinespace[3pt]
-S9.C & 12 / 12 & 94,95\% & 81,25\% & 514,0 & 0,00\% & 58,33\%\\
-\addlinespace[3pt]
-S10.A & 12 / 12 & 97,63\% & 83,10\% & 1345,3 & 0,00\% & 8,33\%\\
-\addlinespace[3pt]
-S10.B & 8 / 8 & 99,46\% & 84,37\% & 1318,5 & 0,00\% & 9,38\%\\
-\addlinespace[3pt]
-S10.C & 12 / 12 & 96,42\% & 81,93\% & 1199,7 & 0,00\% & 12,50\%\\
-\end{longtable}
-\endgroup
-Recall dùng ba chuỗi availability và hai seed bảo vệ ở phương pháp thích nghi. MAE/Hit lấy từ vòng tấn công trên \textbf{chính tọa độ công bố này}, không nhân thêm ba lần vì đổi availability. Từng metric dùng đối thủ đã chọn trên tập phụ trợ; đối thủ tối thiểu MAE có thể khác đối thủ tối đa Hit. S3 tính lỗi các điểm trong chuỗi; cặp phiên tổng hợp đúng mục tiêu record, không suy số hit nguyên từ cột phần trăm.
+\section{S9 và S10.A/C trên 32 nhóm tuyến}
+\textbf{Cohort dựng sau khi khóa kế hoạch và attacker:} đủ 32 seed, 704 chuyến. Phạm vi hiện tại giữ 1093/1118 record gốc; utility năm scenario dùng 435 record từ 246 chuyến, privacy S9/S10 dùng 150. Không gộp pilot bảy nhóm. Trùng nguyên tuyến với tập phát triển/pilot: 0/0; vẫn cùng thành phố và bộ sinh SUMO. Thu hẹp S10 sau chẩn đoán; đây là tổng hợp lại, không phải đợt test mới.
 
-Bộ học đối thủ dùng 64 nhóm phụ trợ để fit, 16 nhóm khác để chọn; có k-NN, cây và ước lượng hình học/ngoại suy. Các điểm trên chỉ đo kênh tọa độ với thời gian cửa sổ chuẩn hóa; chưa có đối thủ mới dùng epoch để suy tuổi phiên hoặc kết hợp kích thước phản hồi. Bộ đối thủ hữu hạn và bộ mở rộng đã phục vụ phát triển, chưa phải xác nhận trên dữ liệu độc lập.
+Giữ bank cũ; thêm suy luận xuôi/ngược theo \textbf{mạng đường có hướng}, vận tốc quan sát và nhiều horizon; ca C kết hợp chuyến liên kết. Fit/chọn trên 10/10 nhóm khác; giữ nguyên lựa chọn cho 32 nhóm mới. Đối thủ không nhận đoạn bị giấu, endpoint thật hoặc thời gian cắt thật.
 
-\textbf{S1.C chưa đạt:} Recall 80,18\%, thấp hơn fixed K5 82,88\%. Miền còn đi tới được của track và belief gần đúng có thể giới hạn dịch vụ. Cache không tạo ra POI chưa từng nhận, nên chỉ nâng S1.C từ 79,64\% lên 80,18\%. Ngưỡng 90\% áp dụng cho trung bình từng ca, không bảo đảm từng truy vấn.
-
-\textbf{S9 còn rủi ro ở bán kính lớn:} S9.C có Hit100=0 trong bộ đối thủ đã chọn nhưng Hit500=58,33\%, MAE khoảng 514 m. Không diễn giải số 0 là đã giấu được nơi xuất phát. Tấn công cùng site ở biến thể paced không slack còn cho Hit100=3/24; đây là cảnh báo riêng của biến thể ấy, không gán cho slack + cache.
-
-\textbf{S10 phải đọc cùng raw:} S10.A raw có MAE 191 m, Hit500=100\%; bản bảo vệ có MAE 1.345 m, Hit500=8,33\%: có tín hiệu giảm suy luận. Riêng S10.B, raw đã có MAE 1.367 m và Hit500=12,5\%, model là 1.318 m và 9,38\%. Tiền tố vốn khó xác định đích; không lấy ca này làm bằng chứng chính cho defender.
-
-
-\clearpage
-\subsection{Lợi ích đến từ thành phần nào, có ổn định không?}
-\begingroup\small
-\begin{longtable}{@{}P{6.891cm}P{3.938cm}P{5.808cm}@{}}
-\toprule
-\textbf{So sánh} & \textbf{Chênh lệch Recall (đpt)} & \textbf{Khoảng bootstrap 95\% (đpt)}\\\midrule
-\endfirsthead
-\toprule
-\textbf{So sánh} & \textbf{Chênh lệch Recall (đpt)} & \textbf{Khoảng bootstrap 95\% (đpt)}\\\midrule
-\endhead
-\bottomrule\endfoot
-Thêm cache vào paced + slack & 0,24 & 0,13 đến 0,34\\
-\addlinespace[3pt]
-Slack 0,03 so với không slack & 1,03 & -0,10 đến 2,15\\
-\addlinespace[3pt]
-Thích nghi so với fixed K5 & 13,53 & 9,36 đến 17,40\\
-\addlinespace[3pt]
-K5 thích nghi so với fixed K12 & -2,01 & -3,74 đến -0,53\\
-\end{longtable}
-\endgroup
-Khoảng lấy từ 10.000 lần bootstrap ghép cặp theo nhóm, đã trung bình chuỗi trạng thái trong nhóm. Đây là phân tích thăm dò, chưa hiệu chỉnh nhiều phép so sánh. Khoảng của riêng slack chứa 0: chưa đủ nói slack tốt hơn ổn định. Phần cache tăng nhỏ nhưng đúng chiều; không gán toàn bộ chênh lệch 13,53 điểm phần trăm cho cache.
+Mỗi ô privacy là \textbf{Hit100 $\downarrow$ / MAE (m) $\uparrow$}: S9 gộp A/B/C, S10 gộp A/C. Recall gộp 14 ca rồi đều qua năm scenario ở p=0,8. Chi phí chỉ trên chuyến được giữ, gồm toàn clock gốc và cả giờ cover traffic; chưa có HTTP/TLS. Đây không phải so ở cùng byte.
 
 \begingroup\small
-\begin{longtable}{@{}P{2.378cm}P{4.280cm}P{3.139cm}P{3.139cm}P{3.139cm}@{}}
+\begin{longtable}{@{}P{3.900cm}P{3.329cm}P{3.329cm}P{2.663cm}P{2.854cm}@{}}
 \toprule
-\textbf{Khả dụng} & \textbf{Slack, phản hồi hiện tại} & \textbf{Slack + cache} & \textbf{Fixed K5} & \textbf{Fixed K12}\\\midrule
+\textbf{Phương pháp} & \textbf{S9: Hit / MAE} & \textbf{S10.A/C: Hit / MAE} & \textbf{Recall@5 $\uparrow$} & \textbf{Byte $\downarrow$}\\\midrule
 \endfirsthead
 \toprule
-\textbf{Khả dụng} & \textbf{Slack, phản hồi hiện tại} & \textbf{Slack + cache} & \textbf{Fixed K5} & \textbf{Fixed K12}\\\midrule
+\textbf{Phương pháp} & \textbf{S9: Hit / MAE} & \textbf{S10.A/C: Hit / MAE} & \textbf{Recall@5 $\uparrow$} & \textbf{Byte $\downarrow$}\\\midrule
 \endhead
 \bottomrule\endfoot
-50,00\% & 96,20\% & 96,36\% & 86,76\% & 98,72\%\\
+Vị trí thật & 42,5\% / 165 & 17,4\% / 212 & 100,0\% & 250\\
 \addlinespace[3pt]
-80,00\% & 95,36\% & 95,60\% & 82,07\% & 97,61\%\\
+DLS & 34,3\% / 462 & 11,2\% / 222 & 100,0\% & 952\\
 \addlinespace[3pt]
-95,00\% & 94,99\% & 95,28\% & 81,01\% & 96,84\%\\
+RDG & 19,8\% / 793 & 10,7\% / 224 & 100,0\% & 944\\
+\addlinespace[3pt]
+TransProtect* & 33,6\% / 243 & 13,3\% / 259 & 99,7\% & 250\\
+\addlinespace[3pt]
+Semantic* & 40,8\% / 184 & 11,8\% / 292 & 100,0\% & 976\\
+\addlinespace[3pt]
+Fake-query* & 31,4\% / 522 & 26,1\% / 213 & 100,0\% & 1296\\
+\addlinespace[3pt]
+AnotherMe† & 0,0\% / 1687 & 0,0\% / 1232 & 16,8\% & 239\\
+\addlinespace[3pt]
+Đề xuất 30 + lịch & 0,0\% / 2232 & 0,0\% / 1916 & 95,0\% & 3071\\
+\addlinespace[3pt]
+Đề xuất 67 + lịch & 0,0\% / 2311 & 0,0\% / 1916 & 100,0\% & 6879\\
 \end{longtable}
 \endgroup
-Giảm tỷ lệ khả dụng có thể làm một số loại POI thưa và dễ phủ hơn; Recall thay đổi không đơn thuần đo sức mạnh thuật toán. So sánh phải ở cùng p, cùng world và cùng tham chiếu. Cả ba mức đều được giữ, không chọn riêng mức thuận lợi để đại diện triển khai thực.
+* Giữ giới hạn adapter ở mục 9. † AnotherMe offline: privacy chỉ trên tập con thành công; utility giữ yêu cầu lỗi bằng 0. Stress p=0,95: đề xuất 30 đạt 93,0\%, 13/14 ca $\ge$90\%; bản 67 đạt 100,0\%.
 
-\begin{itemize}
-\item \textbf{So với bản chưa cache:} cùng tọa độ, thời điểm, byte yêu cầu/phản hồi và cận riêng tư; chỉ đổi hậu xử lý cục bộ. Tăng 0,24 điểm phần trăm ở p=0,8.
-\item \textbf{So với fixed K5:} cùng K và L, nhưng số POI trả khác; thân phản hồi tăng khoảng 1,26\% (776,6 so với 767,0 byte/sự kiện). Không gọi là cùng byte tuyệt đối.
-\item \textbf{So với fixed K12:} utility thấp hơn 2,01 điểm phần trăm, dùng 5 thay vì 12 tọa độ. Cần chọn theo chi phí và yêu cầu riêng tư, không mặc định K5 thắng.
-\item \textbf{Performance và Q:} đã đo payload mô phỏng; chưa có latency đầu-cuối/điện thoại và các mốc chuẩn hóa được xác nhận. Chưa tính Q thực nghiệm mới. Nếu yêu cầu mọi ca đạt 90\%, cấu hình còn thiếu S1.C.
-\end{itemize}
-
-\clearpage
-\section{Lập luận đóng góp và điều kiện sử dụng}
-Đóng góp hiện có nằm ở thiết kế hệ thống và bằng chứng định lượng: phối hợp ngân sách tọa độ, chuyển động hợp lệ, mục tiêu phủ dịch vụ và lọc cục bộ. Geo-I kết hợp dummy đã có tiền lệ như [\hyperlink{ref-R12}{R12}]; cache và tối ưu tham lam cũng không phải nguyên lý mới. Giá trị cần chứng minh là tác dụng của cách tích hợp trên cùng dịch vụ, nguồn lực và quyền quan sát.
-
+\subsection{Control theo ca: không phải mọi Hit=0 đều có sức phân biệt}
 \begingroup\small
-\begin{longtable}{@{}P{4.135cm}P{6.399cm}P{6.104cm}@{}}
+\begin{longtable}{@{}P{2.420cm}P{4.065cm}P{4.549cm}P{5.323cm}@{}}
 \toprule
-\textbf{Luận điểm} & \textbf{Bằng chứng} & \textbf{Giới hạn}\\\midrule
+\textbf{Ca / nhóm} & \textbf{Raw: Hit100 / Hit200} & \textbf{67 + lịch: Hit100 / Hit200} & \textbf{MAE raw $\to$ đề xuất (m)}\\\midrule
 \endfirsthead
 \toprule
-\textbf{Luận điểm} & \textbf{Bằng chứng} & \textbf{Giới hạn}\\\midrule
+\textbf{Ca / nhóm} & \textbf{Raw: Hit100 / Hit200} & \textbf{67 + lịch: Hit100 / Hit200} & \textbf{MAE raw $\to$ đề xuất (m)}\\\midrule
 \endhead
 \bottomrule\endfoot
-Bộ chọn nhận biết dịch vụ giữ utility ở K nhỏ & 95,60\% so với fixed K5 82,07\%; cùng K5/L10, đủ 15 ca và ba mức availability. & So với control cố định, chưa phải vượt sáu paper. S1.C thấp hơn control; privacy không đồng thời vượt fixed K5.\\
+S10.A / 31 & 12,9\% / 35,5\% & 0,0\% / 0,0\% & 204 $\to$ 1914\\
 \addlinespace[3pt]
-Cache tăng dịch vụ, không đổi transcript & Tăng 0,24 điểm phần trăm; cùng chi phí truyền; Recall không giảm trong cùng epoch. & Cần hiệu lực phản hồi được đảm bảo; không có lợi ích privacy mới hay tuyên bố cache là thuật toán mới.\\
-\addlinespace[3pt]
-Giảm suy luận endpoint trong một số ca & S10.A có MAE/Hit500 tốt hơn raw; đã chấm cửa sổ S9/S10 với đối thủ phụ trợ. & S9 còn Hit500 cao; S10.B raw yếu; thời gian, danh tính và click chưa được bảo vệ bởi cận tọa độ.\\
+S10.C / 32 & 21,9\% / 46,9\% & 0,0\% / 0,0\% & 219 $\to$ 1919\\
 \end{longtable}
 \endgroup
-\subsection{Khi nào nên dùng?}
-Phạm vi phù hợp là dịch vụ \textbf{chỉ cung cấp truy vấn theo điểm}, thiết bị có thể gửi nhiều tọa độ và tự xếp hạng, phản hồi có phiên bản hoặc thời hạn hiệu lực rõ ràng. Bản đồ, loại POI, phá hòa và thời điểm truy vấn phải giống giữa đối chứng; không cho model của ta thêm trạng thái thật mà đối chứng không có.
+\textbf{Lợi thế trong phạm vi hiện tại:} Hit100 S10.A/C của năm adapter là 10,75–26,11\%, lịch công khai 0\%. Raw control có hit ở cả A/C nên các ca có khả năng phân biệt. Hit=0 không đồng nghĩa an toàn trước mọi đối thủ; đây là kết quả trong bank đã thử.
 
-Nếu có API tải toàn bộ trạng thái, cần so với phương án đó trước. Với 419 POI, bitmap chỉ cần 53 byte cộng 8 byte epoch mỗi refresh; bulk đạt Recall 100\% mà không gửi tọa độ. Thân phản hồi trung bình 17,1 byte/sự kiện vì chỉ refresh khi đổi epoch. Đây là API khác top-L theo điểm, có lợi hơn trong phạm vi nhỏ này; không dùng giả định “bulk quá tốn” để loại nó.
+CI 95\% của $\Delta$Hit100 \textbf{được tính lại đúng phạm vi} nằm dưới 0 ở 5/5 đối chứng S9 và 5/5 đối chứng S10.A/C. Bootstrap 3.000 lần theo nhóm, chưa hiệu chỉnh nhiều so sánh; không dùng CI A/B/C cũ. Số chi tiết và điều kiện: active\_\allowbreak{}scope\_\allowbreak{}results.md.
 
-\subsection{Phát biểu kết quả và bước kiểm chứng tiếp theo}
-\key{Trên workload POI khả dụng mô phỏng với API theo điểm, K5/slack/cache cải thiện utility so với control cố định cùng K; thêm cache giữ nguyên transcript. Chưa xác nhận ưu thế tổng thể so với sáu paper hoặc bảo vệ đầy đủ S9/S10.}
+\textbf{Giá của việc che giờ hoạt động:} so cùng kế hoạch chỉ refresh khi có hoạt động, lịch công khai dùng 4,48 lần byte trung bình theo nhóm; giữ 86712 lượt có utility bằng nhau. Lịch che quan hệ giữa giờ gửi và giờ đi lại trong khoảng đăng ký trước; không tạo thêm độ phủ POI.
 
-Để mở rộng kết luận, cần chạy adapter paper cùng workload và học đối thủ theo từng đầu ra; tách bản dùng tương lai hoặc khác giao diện. Sau khi chốt cấu hình, đánh giá nhóm/địa điểm độc lập. Availability tương quan với người dùng, trạng thái đổi liên tục và metadata cần kiểm tra riêng trước khi diễn giải như kết quả triển khai.
-
-Nguồn và hash ở method\_\allowbreak{}evidence.json. Đã chấm 14.688 lượt replay dịch vụ, 24.912 hàng record trên chín cấu hình trạng thái; không phải chuyến hay lần sinh nhiễu mới. Kiểm tra gồm 648 đối chiếu với Dijkstra xuôi, tính lại bảng và kiểm tra cache/cost. Nội dung và kết quả lịch sử được giữ ở archive/ cùng artifact nguồn, không cộng gộp với benchmark mới.
+\key{Recall 100\% của tập thật + dummy là hệ quả chứa truy vấn tại vị trí thật; tăng mẫu không tự làm chỉ số này giảm. Đọc cùng privacy và chi phí. Kết luận giữ điều kiện vùng/lịch công khai, không suy thành bảo vệ IP, account hay mọi thành phố.}
 
 
 \clearpage
@@ -762,7 +817,7 @@ Nguồn và hash ở method\_\allowbreak{}evidence.json. Đã chấm 14.688 lư�
 \bottomrule\endfoot
 report\_\allowbreak{}explained.tex / .pdf / .html & Cùng nội dung; PDF là bản đọc, LaTeX để chỉnh sửa, HTML để tra nhanh.\\
 \addlinespace[3pt]
-data\_\allowbreak{}samples.json & 30 bản ghi nguồn cùng một số điểm FCD thật; giữ chính sách quan sát và nhãn đánh giá.\\
+data\_\allowbreak{}samples.json & 29 mẫu trong phạm vi hiện tại; giữ điểm FCD thật, chính sách quan sát và nhãn đánh giá.\\
 \addlinespace[3pt]
 scenario\_\allowbreak{}inventory.csv & Đếm từng A/B/C và mã mẫu; số đếm tạo tự động từ dataset.\\
 \addlinespace[3pt]
@@ -770,11 +825,11 @@ sources.json & Danh mục 18 nguồn, URL, phạm vi thời gian và mức xác 
 \addlinespace[3pt]
 score\_\allowbreak{}example.json & Ví dụ số minh họa tính lại được; không chứa kết quả thực nghiệm.\\
 \addlinespace[3pt]
-method\_\allowbreak{}evidence.json / printed\_\allowbreak{}samples.json & Hash nguồn thực nghiệm mới; dữ liệu của 30 mẫu minh họa được giữ tách biệt.\\
+method\_\allowbreak{}evidence.json / printed\_\allowbreak{}samples.json & Hash nguồn và phạm vi tổng hợp; dữ liệu 29 mẫu minh họa được giữ tách biệt.\\
 \addlinespace[3pt]
-live\_\allowbreak{}method\_\allowbreak{}content.py & Nội dung phương pháp/kết quả hiện tại; đọc và kiểm tra trực tiếp các artifact vòng 18/28.\\
+Module phương pháp và đối chứng & Phương pháp, đối chứng và cohort 32 nhóm; đọc artifact và đối chiếu hash trước khi dựng bảng.\\
 \addlinespace[3pt]
-archive/ & Nội dung phương pháp và provenance trước bản cập nhật dịch vụ khả dụng.\\
+archive/ & Nội dung các phiên bản trước; scope\_\allowbreak{}before\_\allowbreak{}ac\_\allowbreak{}v2 giữ bản trước khi thu hẹp S10.\\
 \addlinespace[3pt]
 build\_\allowbreak{}report.py & Sinh lại LaTeX/HTML và các tệp trên từ dữ liệu gốc; biên dịch PDF bằng Tectonic hoặc XeLaTeX.\\
 \end{longtable}
@@ -785,15 +840,15 @@ SHA-256: \texttt{b15d79f5\allowbreak{}1ffc8ae5\allowbreak{}7d348032\allowbreak{}
 
 Dùng số liệu của tệp này; một số bảng lịch sử trong thesis/scenario\_\allowbreak{}dataset\_\allowbreak{}spec.tex nói về bộ sáu nhóm cũ, không được chép số mẫu sang bản này.
 
-Nguồn thực nghiệm hiện tại: artifacts/benchmarks/research\_\allowbreak{}loop, gồm iteration28\_\allowbreak{}protocol.json, iteration28\_\allowbreak{}live\_\allowbreak{}service.json, iteration28\_\allowbreak{}readout.json và iteration28\_\allowbreak{}verification.json. Tọa độ và tấn công nguồn ở iteration18\_\allowbreak{}expanded\_\allowbreak{}screening.json / iteration18\_\allowbreak{}expanded\_\allowbreak{}attacks.json. Phạm vi tái lập paper tra docs/reproduction/. Các bảng lịch sử được giữ riêng.
+Nguồn đối chứng: artifacts/benchmarks/live\_\allowbreak{}paper\_\allowbreak{}comparison\_\allowbreak{}v1 và endpoint\_\allowbreak{}calendar\_\allowbreak{}expanded\_\allowbreak{}v1; kế hoạch: artifacts/benchmarks/research\_\allowbreak{}loop. method\_\allowbreak{}evidence.json ghi hash nguồn; docs/reproduction/ ghi phạm vi adapter. Dataset lớn lưu gzip lossless: phục hồi bằng python -m experiments.endpoint\_\allowbreak{}dataset\_\allowbreak{}archive unpack.
 
 \subsection{Điểm còn mở được ghi rõ}
 \begin{itemize}
-\item Giữ ngưỡng Recall từng ca 0,90 và báo S1.C chưa đạt. Chốt mốc byte/latency và hồ sơ trọng số Q trước vòng xác nhận; các số chuẩn hóa trong ví dụ không phải kết quả model.
+\item Giữ ngưỡng Recall từng ca 0,90 và báo cả stress 50\%/95\%. Cấu hình 67 đạt các ca đã thử nhưng tám POI ngoài độ phủ tĩnh khiến nó chưa có chứng nhận toàn bản đồ.
 \item R7/R9 và một phần AnotherMe chưa truy cập đủ định nghĩa thực nghiệm; bảng để CX, không bù bằng suy đoán. DLS/RDG giữ metadata/metrics từ hồ sơ khảo sát hiện có.
 \item Nguồn R10 có bất nhất giữa số đếm và tỷ lệ ở §6.4; chỉ sử dụng ý nghĩa chỉ số adoption, không sao lại tỷ lệ đó làm bằng chứng định lượng.
-\item Kiểm thử online AnotherMe là điều kiện trước bảng so sánh chung; không dùng thông tin tương lai để làm đối chứng mạnh giả tạo.
-\item Kiểm tra API theo điểm, hiệu lực cache, bulk download và kênh metadata trước khi áp dụng. Dữ liệu đã dùng để chọn thiết kế tiếp tục thuộc phần phát triển; tập xác nhận mới phải độc lập.
+\item AnotherMe được báo riêng là offline; cần adapter theo tiền tố trước khi xếp hạng trực tuyến. Các bản thay bộ học của TransProtect/Semantic chưa đại diện đầy đủ kết quả paper gốc.
+\item Chốt ngân sách tọa độ/byte, latency và trọng số Q; chưa xếp hạng tổng mới. Lịch công khai chỉ che timing trong khoảng đăng ký cố định. Cohort 32 nhóm tăng số mẫu nhưng vẫn cùng thành phố/bộ sinh; chưa xác nhận tổng quát hóa rộng.
 \end{itemize}
 
 \clearpage

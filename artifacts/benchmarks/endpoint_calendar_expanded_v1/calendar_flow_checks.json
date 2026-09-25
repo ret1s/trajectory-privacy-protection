@@ -1,0 +1,53 @@
+{
+  "status": "passed",
+  "protocol_sha256": "8523f9023140c4031b5bc1abb26860e4dbacf82129ac05062d1d6a8e31b9d639",
+  "source_sha256": {
+    "benchmark/scheduled_category_client.py": "c1c636f841a6d650dec42bf3b9db6626580a7c85fb149e2ab94f82ae07ef7729",
+    "experiments/check_calendar_information_flow.py": "980309237ae9f34e7d4da215682bdffc878740dfdd8c574808d8eec0872be530"
+  },
+  "checks": [
+    {
+      "method": "calendar30",
+      "world_seed": 5101,
+      "private_activity_variants": 3,
+      "all_request_response_bytes_equal": true,
+      "sha256": "5647d804521114ebc27f4bcb5c308da5f81779c7e3392a0e3dc32794fc3eccf8"
+    },
+    {
+      "method": "calendar30",
+      "world_seed": 5102,
+      "private_activity_variants": 3,
+      "all_request_response_bytes_equal": true,
+      "sha256": "b495134344582937accc962292d8bc701bde61f3548f020bc73da62425de030e"
+    },
+    {
+      "method": "calendar30",
+      "world_seed": 5103,
+      "private_activity_variants": 3,
+      "all_request_response_bytes_equal": true,
+      "sha256": "eff0f63cd491471712d103ca2557bfa4eefbfc92b25c4622bd58cdbcd5df27b2"
+    },
+    {
+      "method": "calendar67",
+      "world_seed": 5101,
+      "private_activity_variants": 3,
+      "all_request_response_bytes_equal": true,
+      "sha256": "64330e381275c6882c80f3f71ff151d230a064cbfb71c9fb8adc9318c5aa3fee"
+    },
+    {
+      "method": "calendar67",
+      "world_seed": 5102,
+      "private_activity_variants": 3,
+      "all_request_response_bytes_equal": true,
+      "sha256": "bfd41584c72e183f8b386387f88b7674a5002ec64ed4ec82d307851af85b2c74"
+    },
+    {
+      "method": "calendar67",
+      "world_seed": 5103,
+      "private_activity_variants": 3,
+      "all_request_response_bytes_equal": true,
+      "sha256": "118d9d93e558d62580189740f8a72ac84c5796ba03d3a32101fb4504241c416a"
+    }
+  ],
+  "scope": "Application payloads within a pre-subscribed public hour, same exogenous server state; not IP, account, activation or packet timing under faults"
+}

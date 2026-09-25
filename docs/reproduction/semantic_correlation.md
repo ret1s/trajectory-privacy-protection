@@ -95,3 +95,12 @@ until the authors' processed data/model details are obtained or every ambiguity
 above is resolved transparently, and the implementation reproduces the paper's
 model accuracy, ASR, DER and delay trends on the stated setup. Until then, its
 numbers belong only to the local integration benchmark.
+
+## Common live-service run, 25 September 2026
+
+For the lane-state graph used in the common live benchmark, highway-class
+attributes are unavailable. `PoiSemanticLabeller` explicitly overrides the
+default highway surrogate with the nearest public OSM POI category. The
+predictor remains empirical, not the published LSTM. K=5 and candidate pool=128;
+training uses disjoint families 501/502. See
+[common-service results](../research/live_paper_comparison_results.md).

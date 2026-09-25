@@ -1,6 +1,6 @@
 """Render exact FCD samples over archived SUMO geometry; no new simulation."""
 from pathlib import Path
-import json, math, hashlib, html
+import json, math, hashlib, html, sys
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
@@ -8,11 +8,14 @@ import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
 from matplotlib.backends.backend_pdf import PdfPages
 ROOT=Path(__file__).resolve().parents[3]; OUT=Path(__file__).resolve().parent
+sys.path.insert(0,str(ROOT))
+from evaluation.report_scope import ALL_CASES, suffixes
 D=json.loads((ROOT/'artifacts/datasets/urban_fresh_v2/dataset.json').read_text())
 P=json.loads((ROOT/'artifacts/benchmarks/paper_benchmark/results.json').read_text())
 S={x['case_id']:x for x in json.loads((OUT/'printed_samples.json').read_text())}
 FIRST={}
-for r in D['records']:FIRST.setdefault(r['case_id'],r)
+for r in D['records']:
+ if r['case_id'] in ALL_CASES:FIRST.setdefault(r['case_id'],r)
 assert D['network']['osm_sha256']==P['manifests'][0]['provenance']['sha256']['osm']
 plt.rcParams.update({'font.family':'DejaVu Sans','font.size':9,'pdf.fonttype':42,'svg.fonttype':'none'})
 colors=['#087f7a','#c17422','#72559b','#326aa2','#a94c64','#667933','#2f4149']
@@ -75,18 +78,22 @@ def plot(ax,c):
 if __name__ == '__main__':
     with PdfPages(OUT/'sample_maps.pdf') as pdf:
      for scenario in ['S1','S2','S3','S9','S10','S5','S6','S8','S4','S7']:
-      cases=[next(c for c in payload['cases'] if c['case']==scenario+'.'+s) for s in 'ABC']
-      fig,axs=plt.subplots(1,3,figsize=(12,4.6))
+      cases=[next(c for c in payload['cases'] if c['case']==scenario+'.'+s) for s in suffixes(scenario)]
+      fig,axs=plt.subplots(1,len(cases),figsize=(12,5.5 if scenario=='S10' else 4.6))
       for ax,c in zip(axs,cases):plot(ax,c);ax.set_xlabel(c['note'],fontsize=9,wrap=True)
       fig.subplots_adjust(left=.015,right=.99,top=.91,bottom=.22,wspace=.08)
       fig.text(.02,.10,'Chấm màu: mẫu được phép trước bảo vệ · Nét đứt: toàn chuyến (chỉ để đánh giá) · Sao đỏ: nhãn vị trí cần suy luận',fontsize=9)
       fig.text(.02,.045,'Nền SUMO lưu từ benchmark, cùng nguồn OSM; chưa xác minh trùng hình học mạng dataset. © OpenStreetMap contributors',fontsize=8,color='#626b70')
-      for ext in ['pdf','svg','png']:fig.savefig(OUT/'figures'/f'map_{scenario}.{ext}',dpi=170,bbox_inches='tight')
+      for ext in ['pdf','svg','png']:
+       destination=OUT/'figures'/f'map_{scenario}.{ext}'
+       if scenario=='S10' or not destination.exists():
+        fig.savefig(destination,dpi=170,bbox_inches='tight')
+        if ext=='svg':destination.write_text('\n'.join(line.rstrip() for line in destination.read_text().splitlines())+'\n')
       pdf.savefig(fig,bbox_inches='tight');plt.close(fig)
     # Offline explorer embeds all geometry, so opening from file:// works.
     template=(OUT/'sample_map_template.html').read_text()
     (OUT/'sample_maps.html').write_text(template.replace('__DATA__',json.dumps(payload,ensure_ascii=False,separators=(',',':'))))
-    print('Rendered 30 cases, 10 triptychs, atlas PDF and offline map explorer.')
+    print('Rendered 29 active cases, 10 scenario figures, atlas PDF and offline map explorer; S10 A/C only.')
 
 
 def write_explorer():

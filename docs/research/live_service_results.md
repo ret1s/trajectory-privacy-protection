@@ -1,4 +1,17 @@
+> **Phạm vi hiện tại:** S10 chỉ gồm A/C; xem [kết quả và lập luận đã cập nhật](active_scope_results.md). Nội dung dưới lưu kết quả/chẩn đoán của phiên bản trước; không dùng số tổng hợp A/B/C cũ thay cho phạm vi hiện tại.
+
 # Truy vấn POI khả dụng: cấu hình và kết quả
+
+> Kiểm tra mở rộng 25/09: [S9/S10 trên 32 nhóm tuyến mới](endpoint_calendar_results.md), giữ nguyên kế hoạch/attacker đã khóa và thêm lịch gửi công khai trước/sau chuyến. Recall 100% của tập thật + dummy cần đọc cùng privacy và byte; các số lịch sử dưới được giữ riêng.
+
+> Cập nhật 25/09: bảng so trực tiếp các bản triển khai DLS, RDG, TransProtect, Semantic, Fake-query và AnotherMe nằm tại [live_paper_comparison_results.md](live_paper_comparison_results.md). Nội dung dưới giữ giao thức và kết quả lịch sử; không trộn chi phí/seed của hai bộ đánh giá.
+
+**Cập nhật vòng 29–30:** đã có [nhánh truy vấn công khai theo loại POI](category_cover_results.md).
+Plan 30 đạt 15/15 ca ở availability 80% trên tập phát triển và bốn nhóm mới;
+S1.C tập cũ tăng lên 95,57%. Nhánh này dùng 19 tọa độ, không dùng GPS để chọn
+query và có chi phí khác bản K5 dưới đây. Stress 95% trên nhóm mới chỉ qua
+11/15 ca; plan rộng 67 qua tất cả với chi phí cao hơn. Phần còn lại của tệp
+giữ nguyên kết quả vòng 28 để không trộn hai giao diện/phương pháp.
 
 **Cấu hình ưu tiên dịch vụ:** năm truy vấn thích nghi, slack 0,03 và bộ nhớ đệm
 phản hồi còn hiệu lực. Recall trung bình theo 15 ca đạt **95,60%**, so với

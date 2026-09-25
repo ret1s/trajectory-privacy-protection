@@ -162,3 +162,14 @@ fixed-seed output, benchmark alignment, source revision, and truth separation.
 
 Until these are obtained, the source-mapped VTGA is suitable as a transparent
 local comparator but must not be reported as a reproduced SOTA result.
+
+## Common live-service run, 25 September 2026
+
+The common comparison executes this full-trip adapter in a separate **offline**
+stratum. For this vehicle-only dataset, `PassengerRouteProvider` uses the
+passenger graph for every speed-class label; this is not AMap mode parity.
+The minimum 20 raw generated samples is retained. Utility assigns zero on
+failure when a reference exists; privacy is unavailable for failed executions.
+The high short-output failure rate is reported as an adapter limitation, not
+paper-level evidence of inferiority. See
+[common-service results](../research/live_paper_comparison_results.md).

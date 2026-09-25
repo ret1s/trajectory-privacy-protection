@@ -162,3 +162,11 @@ following are archived and verified:
 4. Laplace+TransProtect and LP+TransProtect results within a predeclared
    tolerance of Tables 1–5;
 5. VehiTrack/VehiTrack-I parity under the same obfuscation outputs.
+
+## Common live-service run, 25 September 2026
+
+`benchmark/paper_comparators.py` runs the Markov adaptation with candidate
+K=10, eight public proxy targets, alpha=10000 and epsilon=0.005 per metre.
+The predictor is fit on SUMO families 501/502 only. The live comparison does
+not execute or claim superiority over the original trained Transformer.
+See [common-service results](../research/live_paper_comparison_results.md).

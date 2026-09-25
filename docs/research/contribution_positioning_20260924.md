@@ -1,5 +1,14 @@
 # Định vị contribution của vòng cải tiến
 
+**Vòng 29–30:** [nhánh công khai theo loại POI](category_cover_results.md) bổ
+sung một hướng khác Geo-I: phân bổ truy vấn loại–tọa độ từ danh mục công khai,
+không đưa GPS vào network policy. Bằng chứng gồm S1.C tăng, 15/15 ca ở mức
+availability danh định trên hai tập, kiểm tra nhóm mới sau khóa plan và chi
+phí đầy đủ. Plan 30 vẫn thiếu bốn ca khi stress 95% trên nhóm mới; plan 67 có
+độ phủ cao hơn nhưng đắt hơn. Đây là đóng góp hệ thống ứng viên, không nhận
+greedy set cover/cache là mới và chưa thay thế phép so sáu paper. Nội dung
+Geo-I dưới đây mô tả nhánh cũ, không được gộp số liệu hay bảo đảm của hai nhánh.
+
 Trạng thái 24/09/2026: ứng viên nghiên cứu, chưa xác nhận vượt sáu paper hoặc
 bảo vệ đủ năm scenario. Số đo mới nằm trong
 [checkpoint](algorithm_loop_status.md); điều kiện chấp nhận được ghi trước ở

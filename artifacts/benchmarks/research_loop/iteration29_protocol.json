@@ -1,0 +1,22 @@
+{
+  "schema": "category-specific-public-point-cover-v1",
+  "iteration": 29,
+  "question": "Can category-specific public requests improve all five target scenarios without new GPS information at a measured service cost?",
+  "frozen_before_new_scores": true,
+  "variants": ["public_category_budget30", "public_category_full_cover"],
+  "category_query_budget": 30,
+  "reference_k": 5,
+  "response_L": 10,
+  "planner": "Greedy uncovered fraction per category, public catalogue only, deterministic tie order; also run until no gain for a full-cover diagnostic",
+  "candidate_locations": "Largest strongly connected public road component, mapped through coordinate-to-road server snapping",
+  "coverage_target": "Every publicly reachable POI across all road states, not only evaluation journey top-k",
+  "service_protocol": "artifacts/benchmarks/research_loop/iteration28_protocol.json",
+  "probabilities": [0.5, 0.8, 0.95],
+  "world_seeds": [24092801, 24092802, 24092803],
+  "controls": ["response_paced_slack03/epoch_cache", "fixed_K5/epoch_cache", "fixed_K12/epoch_cache", "bulk_current/fresh"],
+  "cost_accounting": "Category-coordinate requests, distinct coordinates, reply POI slots and canonical JSON request/response bodies; 30 category requests are NOT 5 distinct coordinates. Equal response_L. All six category types requested independently of user interest.",
+  "privacy_scope": "Conditional on public region/catalogue/request clock, fixed public requests are independent of private GPS; no guarantee for timing, session endpoints, identity, category selection or clicks. Prior-only attackers need not have zero Hit.",
+  "certificate": "If every reachable POI belongs to at least one requested static top-L list, every currently available reachable POI appears in the union of live responses. Static road distance and stable tie order are required.",
+  "evaluation_scope": "Existing expanded development, 15 A/B/C cases, no independent confirmation. No new SUMO trips. No claim of novelty for greedy set cover or superiority to bulk.",
+  "freeze_policy": "Save plans before reading private evaluation traces or scoring availability; retain both variants and all probability/seed results. Do not replace the current method without a complete readout."
+}

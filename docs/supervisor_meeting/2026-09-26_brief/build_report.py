@@ -4,16 +4,19 @@ Run from any directory; PDF compilation is a separate XeLaTeX/Tectonic step.
 """
 from pathlib import Path
 from collections import Counter
-import csv, hashlib, html, json, math, re
+import csv, hashlib, html, json, math, re, sys
 ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT))
+from evaluation.report_scope import ALL_CASES, PRIORITY_CASES, suffixes
 OUT = Path(__file__).resolve().parent
+SCOPE = json.loads((ROOT/'artifacts/benchmarks/active_scope_ac_v2/readout.json').read_text())
 SRC = ROOT / 'artifacts/datasets/urban_fresh_v2/dataset.json'
 D = json.loads(SRC.read_text())
 SHA = hashlib.sha256(SRC.read_bytes()).hexdigest()
-COUNTS = Counter(r['case_id'] for r in D['records'])
-FIRST = {c['case_id']: next(r for r in D['records'] if r['case_id'] == c['case_id']) for c in D['catalogue']}
+COUNTS = Counter(r['case_id'] for r in D['records'] if r['case_id'] in ALL_CASES)
+FIRST = {c['case_id']: next(r for r in D['records'] if r['case_id'] == c['case_id']) for c in D['catalogue'] if c['case_id'] in ALL_CASES}
 assert len(D['families']) == 12 and len(D['traces']) == 264 and len(D['records']) == 393
-assert len(FIRST) == 30 and sum(len(t) for t in D['traces'].values()) == 172443
+assert len(FIRST) == 29 and sum(COUNTS.values()) == 389 and sum(len(t) for t in D['traces'].values()) == 172443
 sessions = {s['session_id']: s for f in D['families'] for s in f['sessions']}
 samples=[]
 for case, r in FIRST.items():
@@ -28,7 +31,8 @@ for case, r in FIRST.items():
       'sampled_device_evaluator_views':views,
       'attacker_view':'Not generated here. Pass only the protected transcript through the scenario access policy; never send this record or its labels to the attacker.'})
 (OUT/'data_samples.json').write_text(json.dumps({'source':str(SRC.relative_to(ROOT)), 'source_sha256':SHA,
-  'purpose':'30 source-backed examples; raw coordinates and labels are evaluator/device data, not attacker inputs.',
+  'purpose':'29 active-scope examples; S10 uses A/C. Raw coordinates and labels are evaluator/device data, not attacker inputs.',
+  'scope_readout_sha256':hashlib.sha256((ROOT/'artifacts/benchmarks/active_scope_ac_v2/readout.json').read_bytes()).hexdigest(),
   'examples':samples},ensure_ascii=False,indent=2)+'\n')
 with (OUT/'scenario_inventory.csv').open('w',newline='') as f:
     w=csv.writer(f);w.writerow(['case_id','records','example_record_id','family_id','session_ids','allowed_point_counts'])
@@ -82,22 +86,25 @@ def sample_point(sid,i):
     return [sid,str(i),f"{x['lon']:.6f}; {x['lat']:.6f}",x['edge_id']]
 
 sec('Khung cập nhật và dữ liệu nền')
-p('**Bản ngày 26/09/2026, cập nhật đến 24/09.** Phạm vi S1–S10; kết quả hiện tại tập trung dịch vụ POI khả dụng và năm scenario ưu tiên. Điểm tổng Q vẫn là ví dụ minh họa, chưa phải kết quả xếp hạng model.')
+p('**Bản 26/09/2026, cập nhật 25/09.** Khung S1–S10, thực nghiệm truy vấn POI khả dụng theo loại. Trình bày cơ chế, kết quả và phạm vi kết luận; điểm Q vẫn là minh họa.')
 p('Thứ tự triển khai: **S1, S2, S3, S9, S10 → S5, S6, S8 → S4, S7**.')
+p('**S10 chỉ gồm A/C**; đoán đích từ tiền tố thuộc S6.A. Có 29 ca, trong đó 14 ca thuộc năm scenario ưu tiên. Phạm vi sửa sau chẩn đoán; các bảng được tổng hợp lại từ lần chạy đã khóa, không phải test mới.')
 sub('Ba cấp dữ liệu: nhóm tuyến → chuyến → bản ghi')
 p('**Nhóm tuyến:** tuyến gốc và các biến thể có quan hệ như rẽ khác, nhập tuyến, dừng hoặc lặp chuyến. Bộ minh họa có 12 nhóm trên cùng mạng đường; đây không phải 12 loại tấn công.')
-p('**Chuyến:** mỗi nhóm có 22 chuyến hoàn tất qua chín ngày mô phỏng, tổng 264. **Bản ghi:** chọn chuyến/cửa sổ, thông tin phụ trợ và đáp án để tạo phép thử. Bộ minh họa có 393 record, 172.443 điểm FCD và đủ 30 ca A/B/C.')
-key('Một chuyến có thể tạo nhiều phép thử; 393 bản ghi không phải 393 chuyến độc lập.')
-table(['Bộ dữ liệu trong báo cáo','Quy mô và vai trò'],[
-['Minh họa kịch bản và bản đồ','urban_fresh_v2: 12 nhóm, 264 chuyến, 393 record. Dùng cho 30 sample A/B/C và atlas ở phần đầu.'],
-['Thực nghiệm hiện tại','research_loop_expanded_v1: 12 nhóm mới, 264 chuyến, 415 record. Năm scenario ưu tiên lấy 173 record từ 102 chuyến; mạng OSM khôi phục khác nguồn lịch sử.']],[5.2,11.7])
-p('Hai bộ dùng cùng đặc tả nhưng khác mẫu nguồn/mạng. Số 393 không phải mẫu số của bảng thực nghiệm mới; các chuỗi trạng thái POI chỉ là replay trên cùng chuyến.')
+p('**Chuyến:** mỗi nhóm có 22 chuyến hoàn tất qua chín ngày mô phỏng, tổng 264. **Bản ghi:** chọn chuyến/cửa sổ, thông tin phụ trợ và đáp án để tạo phép thử. Bộ minh họa giữ 389 record trong phạm vi hiện tại, lấy từ kho gốc 393 record và 172.443 điểm FCD.')
+key('Một chuyến có thể tạo nhiều phép thử; 389 bản ghi không phải 389 chuyến độc lập.')
+table(['Bộ dữ liệu','Quy mô và vai trò'],[
+['Minh họa','12 nhóm, 264 chuyến; 389/393 record gốc được giữ; 29 sample và bản đồ phần đầu.'],
+['Phát triển','12 nhóm, 264 chuyến; 407/415 record gốc được giữ; năm scenario dùng 165 record từ 94 chuyến.'],
+['Kiểm tra bốn nhóm','4 nhóm, 88 chuyến; 129/131 record gốc được giữ; năm scenario dùng 54 record từ 30 chuyến.'],
+['Endpoint mở rộng','32 nhóm, 704 chuyến; 1.093/1.118 record gốc được giữ; utility 435 record từ 246 chuyến, privacy S9/S10 150.']],[4.0,12.9])
+p('Các bộ thực nghiệm cùng thành phố/bộ sinh, dùng OSM khôi phục 20/09 và tách khỏi bộ minh họa lịch sử. World seed/cửa sổ không phải chuyến mới; hash ở method_evidence.json.')
 sub('Quyền nhìn thấy dữ liệu')
 table(['Phía giữ dữ liệu','Nội dung được sử dụng'],[
 ['Thiết bị','GPS hiện tại và lịch sử đã có; cơ chế không nhận đích/tương lai hoặc nhãn đánh giá.'],
 ['Bộ đánh giá','Toàn bộ FCD và đáp án để chấm; không truyền các nhãn này cho cơ chế hoặc đối thủ.'],
 ['Đối thủ','Transcript đã bảo vệ và phụ trợ được phép; không nhận nhãn, kế hoạch tuyến hay record_id.']],[3.9,13.0])
-p('Các sample là dữ liệu đánh giá trước bảo vệ. Tra nguồn ở data_samples.json và số đếm ở scenario_inventory.csv; đồng hồ chuẩn hóa theo cửa sổ, riêng S8 dùng mốc chung cho cặp.')
+p('Sample là dữ liệu trước bảo vệ: tra data_samples.json và scenario_inventory.csv. Đồng hồ tính từ đầu cửa sổ; S8 dùng mốc chung cho cặp.')
 
 from dataset_content import add_dataset_content
 add_dataset_content(globals())
@@ -130,7 +137,7 @@ table(['Phương pháp','Backbone và đầu vào/đầu ra','Vai trò trong ben
 ['Fake-query insertion [R3]','Quy tắc tạo/chèn truy vấn toàn giả dựa trên tính nối tiếp; transcript có thêm thời điểm/bản tin.','Giữ đúng lịch chèn; không cho đối thủ biết nhãn thật/giả nội bộ.'],
 ['AnotherMe [B3]','Hệ thống sinh quỹ đạo ảo trực tuyến, ánh xạ POI và lập tuyến; phục vụ qua vị trí/quỹ đạo thay thế.','**Đối chứng thứ sáu.** Tái lập nhánh trực tuyến hoặc gắn nhãn adapter ngoại tuyến hiện có.']],[3.7,7.0,6.2])
 sub('AnotherMe: sửa đúng vai trò và trạng thái')
-p('Paper gốc mô tả hệ thống **online**; không nên gọi bản thân AnotherMe là phương pháp ngoại tuyến. Tuy nhiên adapter đang có trong repo xử lý cả đoạn/chuyến và đã được tách khỏi nhánh trực tuyến. Việc thêm tên vào bảng chưa có nghĩa đã hoàn tất một phép so sánh nhân quả với năm phương pháp còn lại. Mã tác giả: https://github.com/fang-zhiyou/AnotherMe.')
+p('Paper gốc mô tả hệ thống **online**; không nên gọi bản thân AnotherMe là phương pháp ngoại tuyến. Tuy nhiên adapter đang có trong repo xử lý cả đoạn/chuyến và đã được tách khỏi nhánh trực tuyến. Mục 9 đã chạy adapter này như tham chiếu offline; lỗi sinh quỹ đạo được giữ trong mẫu số utility, còn privacy chỉ tính khi có đầu ra. Mã tác giả: https://github.com/fang-zhiyou/AnotherMe.')
 p('Cần đóng gói giao diện theo tiền tố, kiểm tra đầu ra trước thời điểm t không đổi khi sửa phần tương lai, và xác định các ca áp dụng. Nếu chỉ chạy được adapter cả đoạn, báo riêng kết quả tham chiếu ngoại tuyến; không xếp chung điểm tổng với cơ chế chỉ thấy tiền tố. Khả năng áp dụng của phương pháp gốc không suy từ việc adapter hiện tại không hỗ trợ một ca.')
 sub('Sáu điều phải đồng nhất trước khi so điểm')
 bullets([
@@ -141,7 +148,7 @@ bullets([
 '**Nguồn lực:** cùng phần cứng, ranh giới đo và ngân sách; không đồng nhất K dummy, K ứng viên nội bộ và k=5 POI.',
 '**Mức tái lập:** phân biệt mã gốc, tái hiện và adaptation; báo lỗi/không áp dụng, không bỏ khỏi mẫu số để tăng điểm.'])
 p('Sáu đối chứng là danh sách nghiên cứu, chưa mặc định cả sáu đều bảo vệ nội dung S7 hoặc danh tính S4. Nhánh không đổi nội dung có thể được đo như đối chứng lộ nội dung, nhưng phải trình bày đúng khả năng của nó.')
-p('Bảng kết quả mới dùng control truy vấn cố định, cache, bulk và ablation nội bộ. Đó không phải sáu phương pháp từ paper trong bảng này. Các adapter hiện có chưa phải tái lập tương đương đầy đủ; không đổi tên control thành paper để diễn giải mức chênh lệch.')
+p('Mục 9 chạy trực tiếp năm adapter trực tuyến và AnotherMe offline trên cùng dịch vụ và tập đánh giá. TransProtect dùng Markov thay Transformer; Semantic dùng bộ dự báo thực nghiệm thay LSTM. Fixed K5/K12, cache và bulk giữ vai trò kiểm tra phụ; không được đổi tên thành model từ paper. Chưa có cơ sở tuyên bố vượt cả sáu bản gốc.')
 
 page();sec('Bảng metrics gốc của toàn bộ nguồn được chọn')
 p('Mũi tên mô tả hướng mong muốn **theo nghĩa metric gốc**. “CX” = chưa xác minh đủ trong nguồn đã truy cập, không có nghĩa paper chắc chắn không đo. Một số nguồn có vai trò khảo sát/hành vi nên không có ba cột tương đương thuật toán. Không lấy số đo trên dataset khác nhau để xếp hạng trực tiếp.')
@@ -203,12 +210,13 @@ table(['Đại lượng','Ranh giới phải ghi rõ'],[
 ['Chi phí chẩn đoán','Số tọa độ/bản tin, số POI phản hồi, thời gian sinh, RAM; tách học và tiền xử lý khỏi trực tuyến. Pin chỉ báo nếu đo trên thiết bị.']],[4.3,12.6])
 key('Vòng hiện tại có byte yêu cầu/phản hồi theo schema mô phỏng, nhưng chưa có latency đầu-cuối và lưu lượng HTTP/TLS. Chưa đủ để tính điểm performance tổng hợp hoặc Q thực nghiệm mới.')
 sub('Mẫu số và độ độc lập')
-p('Chấm điểm từng mục tiêu rồi gộp theo bản ghi/chuyến, nhóm tuyến, ca A/B/C và scenario với trọng số được khóa. Giữ các phiên/cặp có quan hệ trong cùng split. Không cho S7 nhiều bản ghi hoặc chuyến dài áp đảo phần còn lại. Khoảng tin cậy lấy mẫu lại theo nhóm tuyến, không coi từng điểm FCD hoặc seed nhiễu là người độc lập.')
+p('Chấm từng mục tiêu rồi gộp theo bản ghi/chuyến, nhóm tuyến, ca và scenario. Trong mỗi scenario, các ca có trọng số đều; mỗi scenario có trọng số bằng nhau. S10 dùng A/C, các scenario khác dùng A/B/C. Giữ các phiên/cặp có quan hệ trong cùng split; khoảng tin cậy lấy mẫu lại theo nhóm tuyến, không theo từng điểm FCD hoặc seed nhiễu.')
 
 page();sec('Điểm tổng hợp privacy–utility–performance')
 p('Điểm tổng hợp phục vụ lựa chọn cấu hình trong **cùng phiên bản benchmark và cùng phạm vi**. Đây là điểm ra quyết định theo nhu cầu, không phải bảo đảm riêng tư mới hoặc xác suất an toàn. Vòng đầu chỉ xếp hạng chung S1, S2, S3, S9, S10; các giai đoạn sau mở phiên bản điểm khác.')
 sub('Bước 1: đưa ba trục về cùng chiều tốt và thang 0–1')
-eq(r'P=1-\frac{1}{|\mathcal S|}\sum_{s\in\mathcal S}\frac13\sum_{c\in\{A,B,C\}}h_{s,c},\qquad U=\operatorname{MacroMean}(\mathrm{Recall@5}).','P = 1 − Hit100 trung bình đều qua ca rồi qua scenario;  U = Recall@5 gộp theo cùng phân tầng.')
+eq(r'P=1-\frac{1}{|\mathcal S|}\sum_{s\in\mathcal S}\frac1{|\mathcal C_s|}\sum_{c\in\mathcal C_s}h_{s,c},\qquad U=\operatorname{MacroMean}(\mathrm{Recall@5}).','P = 1 − Hit100 trung bình đều qua các ca thuộc Cₛ rồi qua scenario; U = Recall@5 gộp theo cùng phân tầng.')
+p('Tập ca C_s thuộc phạm vi đã chốt: C_10={A,C}; các scenario còn lại có {A,B,C}. Như vậy S10 vẫn có trọng số bằng một scenario khác dù chỉ có hai ca; mẫu số không còn mặc định là 3.')
 p('h là Hit100 của đối thủ đã chọn trên validation cho từng phương pháp/ca; đóng băng lựa chọn trước test. Báo thêm envelope của các đối thủ đã thử như phân tích độ nhạy. P cao nghĩa tỷ lệ định vị đúng trong 100 m thấp. Không dùng MAE để tự co giãn theo model tốt/xấu nhất của bảng, vì thêm một model sẽ làm điểm các model cũ đổi theo.')
 eq(r'f(v;g,b)=\operatorname{clip}\!\left(\frac{b-v}{b-g},0,1\right),\quad F=\sqrt{f(b_{\rm payload};b_g,b_b)\,f(T_{95};t_g,t_b)}.','f = 1 ở mức tốt g, giảm tuyến tính về 0 ở mức giới hạn b;  F = căn bậc hai của điểm byte × điểm latency.')
 p('Trong f, g và b là mốc tốt và mốc xấu đã chốt trước, b>g. b_payload là byte/truy vấn thật, trung bình đều qua ca rồi scenario; T95 là giá trị lớn nhất trong các latency p95 từng ca. Như vậy một ca rất chậm không bị trung bình che lấp. Các mốc lấy từ yêu cầu dịch vụ/hardware hoặc pilot phát triển, không lấy từ test. Ở ví dụ dưới: byte tốt 2 kB, giới hạn 10 kB; latency tốt 50 ms, giới hạn 250 ms; 1 kB=1.000 byte. Đây chỉ là mốc minh họa.')
@@ -216,9 +224,9 @@ sub('Bước 2: kiểm tra điều kiện tối thiểu rồi xếp điểm')
 eq(r'Q=100\,P^{w_P}U^{w_U}F^{w_F},\qquad w_P,w_U,w_F>0,\quad w_P+w_U+w_F=1.','Q = 100 × P^wP × U^wU × F^wF;  trọng số dương, tổng bằng 1.')
 p('Đề xuất khởi đầu wP=wU=wF=1/3. Trung bình nhân khiến một trục rất yếu kéo điểm xuống; một trục bằng 0 cho Q=0. Trước khi chọn, kiểm tra Recall@5 từng ca ≥0,90 và giới hạn byte/latency đã định. Cấu hình không đạt được ghi “không khả thi”, dù vẫn có thể hiển thị điểm chẩn đoán. Còn thiếu một ca bắt buộc hoặc thiếu phép đo thì Q=NA; không tự bỏ ca rồi chia lại trọng số.')
 sub('Ví dụ số — dữ liệu minh họa, không phải kết quả model')
-# B has stronger efficiency, A stronger privacy. All examples are generated, not measured.
-demos=[{'configuration':'A','P':.95,'U':.95,'bytes':6800,'latency_p95_ms':130},
-       {'configuration':'B','P':.70,'U':.95,'bytes':3600,'latency_p95_ms':90}]
+# Illustrative M1/M2 are distinct from the real method branches A/B.
+demos=[{'configuration':'M1','P':.95,'U':.95,'bytes':6800,'latency_p95_ms':130},
+       {'configuration':'M2','P':.70,'U':.95,'bytes':3600,'latency_p95_ms':90}]
 for d in demos:
     d['f_bytes']=(10000-d['bytes'])/8000
     d['f_latency']=(250-d['latency_p95_ms'])/200
@@ -227,13 +235,13 @@ for d in demos:
         d['Q_'+label]=100*math.prod(v**a for v,a in zip([d['P'],d['U'],d['F']],w))
 (OUT/'score_example.json').write_text(json.dumps({'status':'illustrative_only_not_experimental_results','normalization':{'bytes_good':2000,'bytes_bad':10000,'latency_good_ms':50,'latency_bad_ms':250},'rows':demos},ensure_ascii=False,indent=2)+'\n')
 table(['Cấu hình','P / U','Byte; latency p95','F','Q đều'],[[d['configuration'],f"{d['P']:.2f} / {d['U']:.2f}",f"{d['bytes']:,} B; {d['latency_p95_ms']} ms",f"{d['F']:.3f}",f"{d['Q_equal']:.1f}"] for d in demos],[2.3,3.0,5.2,2.9,3.5])
-p('A làm đối thủ khó định vị hơn, nhưng B nhẹ hơn. Điểm tổng không nói A “thua về privacy”; nó nói B phù hợp hơn với bộ trọng số đang dùng. Utility trung bình 0,95 chưa đủ chứng minh mọi ca đạt 0,90; ví dụ giả định đã qua kiểm tra từng ca.')
+p('M1/M2 là hai cấu hình giả định, không phải kết quả thực nghiệm. M1 có privacy tốt hơn, M2 có chi phí thấp hơn; Q phản ánh bộ trọng số đang dùng. Utility trung bình 0,95 chưa đủ chứng minh mọi ca đạt 0,90; ví dụ giả định đã qua kiểm tra từng ca.')
 
 page();sub('Trọng số thay đổi thì quyết định có đổi không?')
-table(['Ưu tiên (wP, wU, wF)','Q của A','Q của B','Thứ tự'],[
-['Cân bằng (1/3, 1/3, 1/3)',f"{demos[0]['Q_equal']:.1f}",f"{demos[1]['Q_equal']:.1f}",'B > A'],
-['Ưu tiên privacy (0,6; 0,2; 0,2)',f"{demos[0]['Q_privacy']:.1f}",f"{demos[1]['Q_privacy']:.1f}",'A > B'],
-['Ưu tiên performance (0,2; 0,2; 0,6)',f"{demos[0]['Q_performance']:.1f}",f"{demos[1]['Q_performance']:.1f}",'B > A']],[7.9,2.6,2.6,3.8])
+table(['Ưu tiên (wP, wU, wF)','Q của M1','Q của M2','Thứ tự'],[
+['Cân bằng (1/3, 1/3, 1/3)',f"{demos[0]['Q_equal']:.1f}",f"{demos[1]['Q_equal']:.1f}",'M2 > M1'],
+['Ưu tiên privacy (0,6; 0,2; 0,2)',f"{demos[0]['Q_privacy']:.1f}",f"{demos[1]['Q_privacy']:.1f}",'M1 > M2'],
+['Ưu tiên performance (0,2; 0,2; 0,6)',f"{demos[0]['Q_performance']:.1f}",f"{demos[1]['Q_performance']:.1f}",'M2 > M1']],[7.9,2.6,2.6,3.8])
 p('Đây là đổi nhu cầu hợp lệ, không phải thay công thức sau khi thấy model nào thắng. Cần công bố hồ sơ trọng số chính trước test và giữ các hồ sơ còn lại làm phân tích độ nhạy. Thực nghiệm phải báo đủ P, U, F, Q, điều kiện khả thi và kết quả từng ca.')
 sub('Mở rộng điểm sang S5/S6/S8 rồi S4/S7')
 p('Giai đoạn II bổ sung độ đúng cạnh/đích và chế độ có phụ trợ; giai đoạn III bổ sung liên kết và ý định. Khi đó có thể chọn một đại lượng thành công của đối thủ cho từng đầu để tính 1−S, nhưng **không được coi 1−accuracy, 1−F1 và 1−Hit là cùng mức riêng tư tự nhiên**. Số lớp, tỷ lệ cặp dương, tập ứng viên và mức đoán nền phải được cố định. Chỉ tạo Q đa nhiệm khi đã chốt trọng số tác vụ và phép chuẩn hóa tương ứng; hiện chưa có Q chung S1–S10.')
@@ -246,34 +254,34 @@ bullets([
 'Học/chọn đối thủ trên phần được phép; chọn cấu hình bảo vệ và trọng số trên phát triển/validation, rồi đóng băng.',
 'Chạy toàn bộ cấu hình đã đăng ký, cùng seed nhiễu ghép cặp; giữ lỗi và ca thiếu, ghi nguyên nhân.',
 'Báo từng ca, từng nhóm, ba trục và điểm Q; khoảng tin cậy theo nhóm tuyến. Test dùng để kết luận, không để tiếp tục tối ưu.'])
-p('Trong bộ minh họa 393 record, S5.C/S10.B có 4 bản ghi, S6.A có 4 và S6.B có 5. Bộ thực nghiệm mới có mẫu số riêng được ghi ở từng ca. Cần tăng nhóm độc lập theo điều kiện cố định; thêm cửa sổ từ cùng chuyến không khắc phục được thiếu độc lập.')
+p('Trong bộ minh họa thuộc phạm vi hiện tại, S5.C và S6.A có 4 bản ghi, S6.B có 5. Mỗi bộ thực nghiệm có mẫu số riêng. Cần tăng nhóm độc lập theo điều kiện cố định; thêm cửa sổ từ cùng chuyến không khắc phục được thiếu độc lập.')
 
-from live_method_content import add_method_content
+from current_method_content import add_method_content
 add_method_content(globals())
 
 page();sec('Nguồn, khả năng tái lập và các điểm cần chốt')
 sub('Tệp kèm báo cáo')
 table(['Tệp','Vai trò'],[
 ['report_explained.tex / .pdf / .html','Cùng nội dung; PDF là bản đọc, LaTeX để chỉnh sửa, HTML để tra nhanh.'],
-['data_samples.json','30 bản ghi nguồn cùng một số điểm FCD thật; giữ chính sách quan sát và nhãn đánh giá.'],
+['data_samples.json','29 mẫu trong phạm vi hiện tại; giữ điểm FCD thật, chính sách quan sát và nhãn đánh giá.'],
 ['scenario_inventory.csv','Đếm từng A/B/C và mã mẫu; số đếm tạo tự động từ dataset.'],
 ['sources.json',f'Danh mục {len(refs)} nguồn, URL, phạm vi thời gian và mức xác minh.'],
 ['score_example.json','Ví dụ số minh họa tính lại được; không chứa kết quả thực nghiệm.'],
-['method_evidence.json / printed_samples.json','Hash nguồn thực nghiệm mới; dữ liệu của 30 mẫu minh họa được giữ tách biệt.'],
-['live_method_content.py','Nội dung phương pháp/kết quả hiện tại; đọc và kiểm tra trực tiếp các artifact vòng 18/28.'],
-['archive/','Nội dung phương pháp và provenance trước bản cập nhật dịch vụ khả dụng.'],
+['method_evidence.json / printed_samples.json','Hash nguồn và phạm vi tổng hợp; dữ liệu 29 mẫu minh họa được giữ tách biệt.'],
+['Module phương pháp và đối chứng','Phương pháp, đối chứng và cohort 32 nhóm; đọc artifact và đối chiếu hash trước khi dựng bảng.'],
+['archive/','Nội dung các phiên bản trước; scope_before_ac_v2 giữ bản trước khi thu hẹp S10.'],
 ['build_report.py','Sinh lại LaTeX/HTML và các tệp trên từ dữ liệu gốc; biên dịch PDF bằng Tectonic hoặc XeLaTeX.']],[5.3,11.6])
 p('Nguồn dataset minh họa: artifacts/datasets/urban_fresh_v2/dataset.json.')
 p('SHA-256: '+SHA+'.')
 p('Dùng số liệu của tệp này; một số bảng lịch sử trong thesis/scenario_dataset_spec.tex nói về bộ sáu nhóm cũ, không được chép số mẫu sang bản này.')
-p('Nguồn thực nghiệm hiện tại: artifacts/benchmarks/research_loop, gồm iteration28_protocol.json, iteration28_live_service.json, iteration28_readout.json và iteration28_verification.json. Tọa độ và tấn công nguồn ở iteration18_expanded_screening.json / iteration18_expanded_attacks.json. Phạm vi tái lập paper tra docs/reproduction/. Các bảng lịch sử được giữ riêng.')
+p('Nguồn đối chứng: artifacts/benchmarks/live_paper_comparison_v1 và endpoint_calendar_expanded_v1; kế hoạch: artifacts/benchmarks/research_loop. method_evidence.json ghi hash nguồn; docs/reproduction/ ghi phạm vi adapter. Dataset lớn lưu gzip lossless: phục hồi bằng python -m experiments.endpoint_dataset_archive unpack.')
 sub('Điểm còn mở được ghi rõ')
 bullets([
-'Giữ ngưỡng Recall từng ca 0,90 và báo S1.C chưa đạt. Chốt mốc byte/latency và hồ sơ trọng số Q trước vòng xác nhận; các số chuẩn hóa trong ví dụ không phải kết quả model.',
+'Giữ ngưỡng Recall từng ca 0,90 và báo cả stress 50%/95%. Cấu hình 67 đạt các ca đã thử nhưng tám POI ngoài độ phủ tĩnh khiến nó chưa có chứng nhận toàn bản đồ.',
 'R7/R9 và một phần AnotherMe chưa truy cập đủ định nghĩa thực nghiệm; bảng để CX, không bù bằng suy đoán. DLS/RDG giữ metadata/metrics từ hồ sơ khảo sát hiện có.',
 'Nguồn R10 có bất nhất giữa số đếm và tỷ lệ ở §6.4; chỉ sử dụng ý nghĩa chỉ số adoption, không sao lại tỷ lệ đó làm bằng chứng định lượng.',
-'Kiểm thử online AnotherMe là điều kiện trước bảng so sánh chung; không dùng thông tin tương lai để làm đối chứng mạnh giả tạo.',
-'Kiểm tra API theo điểm, hiệu lực cache, bulk download và kênh metadata trước khi áp dụng. Dữ liệu đã dùng để chọn thiết kế tiếp tục thuộc phần phát triển; tập xác nhận mới phải độc lập.'])
+'AnotherMe được báo riêng là offline; cần adapter theo tiền tố trước khi xếp hạng trực tuyến. Các bản thay bộ học của TransProtect/Semantic chưa đại diện đầy đủ kết quả paper gốc.',
+'Chốt ngân sách tọa độ/byte, latency và trọng số Q; chưa xếp hạng tổng mới. Lịch công khai chỉ che timing trong khoảng đăng ký cố định. Cohort 32 nhóm tăng số mẫu nhưng vẫn cùng thành phố/bộ sinh; chưa xác nhận tổng quát hóa rộng.'])
 page();sub('Tài liệu tham khảo')
 for rid,citation,url,doi,verify,role in refs:
     blocks.append(('ref',(rid,citation,url,verify)))
@@ -316,9 +324,9 @@ header=r'''% Generated by build_report.py. Edit the shared content there, then r
 \newcommand{\key}[1]{\par\smallskip\noindent\colorbox{pale}{\parbox{\dimexpr\linewidth-2\fboxsep}{\textbf{#1}}}\par\smallskip}
 \hypersetup{pdftitle={Bảo vệ riêng tư quỹ đạo: dữ liệu, phương pháp và kết quả},pdfauthor={}}
 \begin{document}
-\begin{center}{\LARGE\bfseries\color{ink}Bảo vệ riêng tư quỹ đạo}\\[5pt]{\large Dữ liệu, phương pháp và kết quả thực nghiệm}\\[4pt]{\small Bản 26/09/2026 · Cập nhật thực nghiệm 24/09/2026}\end{center}
+\begin{center}{\LARGE\bfseries\color{ink}Bảo vệ riêng tư quỹ đạo}\\[5pt]{\large Dữ liệu, phương pháp và kết quả thực nghiệm}\\[4pt]{\small Bản 26/09/2026 · Cập nhật 25/09/2026}\end{center}
 '''
-tex=[header];ht=['<header><h1>Bảo vệ riêng tư quỹ đạo</h1><p>Dữ liệu, phương pháp và kết quả thực nghiệm</p><p class="muted">Bản 26/09/2026 · Cập nhật thực nghiệm 24/09/2026</p><p><a href="report_explained.pdf">PDF</a> · <a href="report_explained.tex">LaTeX</a> · <a href="data_samples.json">30 mẫu dữ liệu</a> · <a href="sources.json">Nguồn</a></p></header>']
+tex=[header];ht=['<header><h1>Bảo vệ riêng tư quỹ đạo</h1><p>Dữ liệu, phương pháp và kết quả thực nghiệm</p><p class="muted">Bản 26/09/2026 · Cập nhật 25/09/2026</p><p><a href="report_explained.pdf">PDF</a> · <a href="report_explained.tex">LaTeX</a> · <a href="data_samples.json">29 mẫu dữ liệu</a> · <a href="sources.json">Nguồn</a></p></header>']
 section_no=0
 for kind,data in blocks:
     if kind in ('p','key'):
@@ -350,8 +358,10 @@ for kind,data in blocks:
         case,desc,note,counts=data
         path='figures/case_'+case.replace('.','_')
         body=r'\textbf{'+case+' / '+str(COUNTS[case])+r' bản ghi.} '+inline(desc,True)+r'\par\smallskip '+inline(counts,True)+r'\par\smallskip\textbf{Đọc sample.} '+inline(note,True)
-        tex.append(r'\noindent\begin{minipage}[t]{0.55\linewidth}\vspace{0pt}\includegraphics[width=\linewidth]{'+path+r'.pdf}\end{minipage}\hfill\begin{minipage}[t]{0.42\linewidth}\vspace{0pt}'+body+r'\end{minipage}\par\vspace{3pt}'+'\n')
-        ht.append('<div class="scenario-panel"><img src="'+path+'.svg" alt="Bản đồ và thời gian '+case+'"><div><p><strong>'+case+' / '+str(COUNTS[case])+' bản ghi.</strong> '+inline(desc)+'</p><p>'+inline(counts)+'</p><p><strong>Đọc sample.</strong> '+inline(note)+'</p></div></div>')
+        left,right=('0.63','0.34') if case.startswith('S10.') else ('0.55','0.42')
+        tex.append(r'\noindent\begin{minipage}[t]{'+left+r'\linewidth}\vspace{0pt}\includegraphics[width=\linewidth]{'+path+r'.pdf}\end{minipage}\hfill\begin{minipage}[t]{'+right+r'\linewidth}\vspace{0pt}'+body+r'\end{minipage}\par\vspace{3pt}'+'\n')
+        style=' style="grid-template-columns:63% 34%"' if case.startswith('S10.') else ''
+        ht.append('<div class="scenario-panel"'+style+'><img src="'+path+'.svg" alt="Bản đồ và thời gian '+case+'"><div><p><strong>'+case+' / '+str(COUNTS[case])+' bản ghi.</strong> '+inline(desc)+'</p><p>'+inline(counts)+'</p><p><strong>Đọc sample.</strong> '+inline(note)+'</p></div></div>')
     elif kind=='graphic':
         tex.append('\\begin{center}\n'+data[0]+'\n\\end{center}\n'+inline(data[2],True)+'\n\n')
         ht.append('<figure>'+data[1]+'<figcaption>'+inline(data[2])+'</figcaption></figure>')
@@ -363,6 +373,6 @@ tex.append('\\end{document}\n')
 (OUT/'report_explained.tex').write_text(''.join(tex))
 css='''.scenario-panel{display:grid;grid-template-columns:55% 42%;gap:3%;align-items:start;margin:16px 0}.scenario-panel img{width:100%}.scenario-panel p:first-child{margin-top:0}@media(max-width:700px){.scenario-panel{display:block}}body{margin:0;background:#f4f4f1;color:#172329;font:17px/1.55 Georgia,"Times New Roman",serif}main{max-width:1000px;margin:24px auto;background:white;padding:42px 54px}header{text-align:center;border-bottom:1px solid #b6c4c7;padding-bottom:18px}h1{font-size:31px;margin:0}h2{font-size:25px;margin-top:32px;color:#183a45}h3{font-size:20px;margin-top:24px}p{margin:12px 0}a{color:#176364;text-decoration:underline;text-underline-offset:3px}.muted{color:#56656b;font-size:15px}.key{padding:13px 16px;background:#eaf4f2;border-left:3px solid #087f7a;font-weight:bold}.table-wrap{overflow-x:auto;margin:16px 0}table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.45}th,td{text-align:left;vertical-align:top;padding:10px 9px;border-bottom:1px solid #d4dddd;overflow-wrap:anywhere}th{border-top:2px solid #183a45;border-bottom:1px solid #183a45;background:#fafbfb}tr:last-child td{border-bottom:2px solid #183a45}th:first-child{min-width:105px}.equation{padding:15px;background:#f8f9f8;text-align:center;font-size:18px;overflow-wrap:anywhere}li{margin:7px 0}hr{border:0;border-top:1px solid #ccd6d7;margin:38px 0}svg{width:100%;height:auto}figure{margin:24px 0}figcaption,.reference{font-size:15px}.reference{overflow-wrap:anywhere}@media(max-width:650px){body{font-size:16px}main{margin:0;padding:24px 16px}h1{font-size:27px}h2{font-size:23px}table{min-width:620px}}@media print{body{background:white}main{margin:0;max-width:none;padding:0}.pagebreak{break-before:page;border:0;margin:0}.table-wrap{overflow:visible}tr{break-inside:avoid}a{color:inherit}header a{display:none}}'''
 (OUT/'report_explained.html').write_text('<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bảo vệ riêng tư quỹ đạo — 26/09/2026</title><style>'+css+'</style></head><body><main>'+''.join(ht).replace('sample_maps.html', '<a href="sample_maps.html">sample_maps.html</a>').replace('sample_maps.pdf', '<a href="sample_maps.pdf">sample_maps.pdf</a>')+'</main></body></html>\n')
-print('Generated LaTeX/HTML, 30 sample records, source registry and numerical example.')
+print('Generated LaTeX/HTML, 29 active sample records, source registry and numerical example.')
 print('Source SHA-256:',SHA)
 print('Illustrative scores:',[(d['configuration'],round(d['Q_equal'],2),round(d['Q_privacy'],2)) for d in demos])

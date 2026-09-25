@@ -1,76 +1,72 @@
 # Báo cáo ngày 26/09/2026
 
-Bản hiện tại **28 trang**, cập nhật thực nghiệm đến 24/09. LaTeX và HTML dùng
-chung nội dung; PDF đã biên dịch và kiểm tra hình thức.
+**Phạm vi hiện tại: S10 chỉ gồm A/C.** Bài toán đoán đích từ tiền tố được xử lý
+ở S6.A. Có 29 ca trong khung S1–S10 và 14 ca trong năm scenario ưu tiên.
+Quyết định này được đưa ra sau chẩn đoán; giữ mã A/C để truy nguyên dữ liệu.
 
-- [PDF](report_explained.pdf), [LaTeX](report_explained.tex), [HTML](report_explained.html).
-- Mục 1–2, trang 1–11: ba cấp dữ liệu và đủ 30 mẫu A/B/C, map đặt cạnh đặc tả.
-- Mục 3–7, trang 12–19: related works, sáu đối chứng, metrics và ví dụ điểm Q.
-- Mục 8, trang 20–22: kiến trúc hiện tại, neo/ngân sách, mục tiêu phủ và cache theo epoch.
-- Mục 9, trang 23–25: kết quả POI khả dụng, đủ 15 ca, privacy nguồn, ablation và độ nhạy.
-- Mục 10, trang 26: đóng góp có bằng chứng và điều kiện sử dụng.
-- Mục 11, trang 27–28: provenance, phạm vi tái lập và tài liệu tham khảo.
+- [Report PDF](report_explained.pdf), [LaTeX](report_explained.tex), [HTML](report_explained.html).
+- [Bản đồ tương tác: 29 ca](sample_maps.html), [atlas PDF](sample_maps.pdf).
+- [Kết quả và lập luận hiện tại](../../research/active_scope_results.md).
 
-## Cấu hình và cách đọc kết quả
+Báo cáo 27 trang: 1–11 dữ liệu và mẫu; 12–19 khảo sát/metrics; 20–21 kiến trúc;
+22–24 đối chứng và mức bằng chứng cho năm scenario; 25 kết quả S9/S10.A/C;
+26–27 nguồn và tài liệu tham khảo.
 
-Cấu hình làm việc là `response_paced_slack03` với cache phản hồi trong epoch,
-K5/L10 và cận tọa độ phiên 0,23 m⁻¹. Recall trung bình theo ca ở p=0,8 là 95,60%,
-fixed K5 là 82,07%; riêng cache tăng 0,24 điểm phần trăm với cùng transcript và
-chi phí truyền. Bảng ghi cả S1.C chưa đạt, đối chứng bulk và rủi ro S9/S10.
+## Phạm vi số liệu
 
-Bộ sample minh họa là `urban_fresh_v2` (393 record). Thực nghiệm mới dùng
-`research_loop_expanded_v1` (415 record, lấy 173 record từ 102 chuyến cho năm
-scenario). Không ghép số hoặc mẫu số giữa hai bộ. Đối chứng cố định/cache/bulk
-trong bảng mới không phải sáu phương pháp từ paper. Privacy được lấy từ đúng
-các tọa độ đã bảo vệ; đây chưa phải đo lại một đối thủ đầy đủ sử dụng epoch,
-metadata và phản hồi của dịch vụ mới.
+| Bộ | Record trong phạm vi / kho gốc | Năm scenario ưu tiên |
+|---|---:|---|
+| Minh họa, 12 nhóm/264 chuyến | 389 / 393 | 29 mẫu cho toàn bộ khung |
+| Phát triển, 12 nhóm/264 chuyến | 407 / 415 | 165 record từ 94 chuyến |
+| Bốn nhóm, 88 chuyến | 129 / 131 | 54 record từ 30 chuyến |
+| Endpoint, 32 nhóm/704 chuyến | 1.093 / 1.118 | Utility 435 record từ 246 chuyến; endpoint privacy 150 record |
 
-Chi tiết thí nghiệm: [kết quả dịch vụ](../../research/live_service_results.md),
-[checkpoint](../../research/algorithm_loop_status.md),
-[định vị contribution](../../research/contribution_positioning_20260924.md).
+Dataset, model, attacker selection và transcript gốc không bị sửa. Readout mới
+ở `artifacts/benchmarks/active_scope_ac_v2/`. Gộp đều ca trong scenario rồi đều
+scenario: S10 chia hai, các scenario khác chia ba. Chi phí chỉ giữ các chuyến
+thuộc phạm vi, nhưng tính toàn bộ clock và traffic gốc của từng chuyến.
 
-## Nguồn nội dung và dữ liệu kèm theo
+## Kết luận hiện tại
 
-- `build_report.py`: cấu trúc chung, khảo sát, metrics và bộ dựng LaTeX/HTML.
-- `live_method_content.py`: nội dung phương pháp/kết quả hiện tại; đọc trực tiếp
-  artifact và kiểm tra hash trước khi đưa số vào bảng.
-- `dataset_content.py`, `scenario_guide.json`, `scenario_explanations.json`,
-  `case_readings.json`: đặc tả và diễn giải các sample.
-- `plot_live_architecture.py`: sơ đồ hiện tại trong `figures/architecture_live.*`.
-- `data_samples.json`, `printed_samples.json`, `scenario_inventory.csv`: 30
-  mẫu, tọa độ trích, mẫu số và nhãn phía đánh giá.
-- `sample_maps.html` / `sample_maps.pdf`: atlas riêng; giữ đủ 30 map A/B/C.
-- `method_evidence.json`: hash nguồn phương pháp, kết quả và sơ đồ hiện tại.
-- `report_validation.json`: kiểm tra số liệu, liên kết, PDF và phạm vi QA.
-- `sources.json`: 18 nguồn, URL và mức xác minh.
-- `score_example.json`: chỉ là ví dụ Q, không phải kết quả model.
-- `archive/`: nội dung/phạm vi bằng chứng trước khi cập nhật dịch vụ khả dụng.
-  Các artifact paper-v2, fresh-switching và boundary audit vẫn giữ ở nguồn gốc;
-  không trình bày như kết quả của cấu hình hiện tại.
+- Đã có lợi thế privacy thực nghiệm ở S1/S2/S3/S9 và S10.A/C so với năm adapter
+  trực tuyến. S1–S3 dùng bốn nhóm và kế hoạch mỗi sự kiện; S9/S10 dùng 32 nhóm
+  và kế hoạch theo lịch. Không gán số bốn nhóm cho client theo lịch trên 32 nhóm.
+- Hit100 S9 của đối chứng: 19,76–40,81%; S10.A/C: 10,75–26,11%; bản theo lịch
+  đạt 0% trong bank đã thử. CI 95% của chênh lệch được tính lại đúng phạm vi,
+  dưới 0 cho từng đối chứng; chưa hiệu chỉnh nhiều so sánh.
+- Bản 30 theo lịch: Recall 95,00% ở p=0,8, 14/14 ca ≥90%; stress p=0,95:
+  93,01%, 13/14 ca. Bản 67 đạt 100%, 14/14 ca ở các mức đã thử.
+- Byte/sự kiện khoảng 3.071 (30) và 6.879 (67), chưa gồm HTTP/TLS. Lịch công
+  khai dùng khoảng 4,48 lần byte so với cùng kế hoạch chỉ refresh khi hoạt động.
+- Đóng góp được hỗ trợ là thiết kế phối hợp phủ POI, xếp hạng GPS tại thiết bị
+  và lịch công khai, cùng kiểm chứng privacy–utility–chi phí. Chưa xác lập độ
+  mới toàn diện, vượt sáu paper nguyên bản hoặc ưu thế ở cùng ngân sách.
 
-## Sinh lại
+TransProtect dùng Markov thay Transformer; Semantic dùng predictor thực nghiệm
+thay LSTM. AnotherMe là tham chiếu VTGA offline, có lỗi/thiếu ca và mẫu số khác.
+Bảo đảm phụ thuộc vùng/lịch đăng ký trước; không bao gồm IP/account/click, lỗi
+mạng, đổi vùng theo GPS hoặc bật/tắt dịch vụ theo chuyến. Recall 100% trên mẫu
+không là chứng nhận toàn bản đồ: bản 67 còn tám POI ngoài độ phủ tĩnh.
 
-Từ gốc repository, với Python có matplotlib và Tectonic:
+## Dựng lại
 
 ```sh
-python docs/supervisor_meeting/2026-09-26_brief/plot_live_architecture.py
+python -m experiments.endpoint_dataset_archive unpack
+python -m experiments.reaggregate_active_scope
+python -m experiments.verify_active_scope
+python -m experiments.summarize_active_scope
+python docs/supervisor_meeting/2026-09-26_brief/plot_sample_maps.py
 python docs/supervisor_meeting/2026-09-26_brief/build_report.py
-tectonic --untrusted --keep-logs --outdir docs/supervisor_meeting/2026-09-26_brief docs/supervisor_meeting/2026-09-26_brief/report_explained.tex
+tectonic --keep-logs --outdir docs/supervisor_meeting/2026-09-26_brief docs/supervisor_meeting/2026-09-26_brief/report_explained.tex
 ```
 
-Không chỉnh trực tiếp `.tex`/`.html`: lần build sau sẽ ghi lại từ nguồn chung.
-Không cần chạy lại SUMO hay thí nghiệm để dựng báo cáo. Nếu thay hình sample,
-dùng `plot_case_panels.py` / `plot_sample_maps.py` rồi kiểm tra nguồn bản đồ.
+`evaluation/report_scope.py` là danh mục phạm vi dùng chung. `scenario_guide.json`,
+`case_readings.json`, `printed_samples.json`, `data_samples.json` và
+`scenario_inventory.csv` chỉ chứa mẫu hiện tại. Giữ bản trước thu hẹp trong
+`archive/scope_before_ac_v2/`; số gốc và chẩn đoán còn trong các artifact cũ.
+Không sửa trực tiếp LaTeX/HTML được sinh tự động.
 
-Lần xuất này dùng Tectonic với cache có sẵn và hai font Computer Modern `cmsy5`
-/ `cmsy6` lấy từ CTAN do máy chủ bundle bị timeout; font đã được nhúng trong PDF.
-Phụ thuộc và lệnh build thực tế được ghi trong `report_validation.json`.
-
-## Kiểm tra của bản cập nhật
-
-- Đối chiếu bảng utility, đủ 15 ca, privacy và bootstrap với artifact nguồn.
-- Giữ 30 panel A/B/C, các tham chiếu và liên kết tệp/hình hợp lệ.
-- Xác nhận LaTeX/HTML cùng nội dung và các hash trong `method_evidence.json`.
-- Biên dịch PDF, kiểm tra không có tràn hộp hoặc thiếu glyph; render và rà
-  trang mở đầu, sơ đồ, bảng kết quả và lập luận. Giữ mẫu số và điều kiện sử dụng
-  cạnh kết quả, không nối thêm các chương lịch sử lặp lại.
+Đã đối chiếu 981 phép tính/mẫu số với dữ liệu đo gốc; bốn tests cho trọng số,
+thiếu dữ liệu, chi phí và bootstrap đã qua. `report_validation.json` ghi QA bản
+PDF hiện tại; `method_evidence.json` ghi hash nguồn. Chưa chạy lại toàn bộ model
+hoặc tạo cohort mới trong lần cập nhật phạm vi này.

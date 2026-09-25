@@ -106,3 +106,48 @@ The Flask dashboard is read-only and localhost-oriented. Evaluator routes
 contain ground truth and are off by default in the WSGI factory; the local
 `python -m web.benchmark_app` command explicitly enables them. Keep them
 disabled or add authentication before any deployment.
+
+## Public category-query service branch
+
+`evaluation/category_cover.py` fits a plan from the public road/POI catalogue;
+`benchmark/category_client.py` executes it without a GPS argument. GPS is used
+only by local top-k ranking. An optional fixed public epoch schedule reuses
+responses while the server guarantees their validity. This is a point-query
+service branch, not a new adapter for one of the six reference papers.
+
+Its budget counts category-coordinate queries: the budget30 plan uses 19
+distinct coordinates, unlike the Geo-I branch's five shared coordinates for
+six categories. Preserve that distinction and measure actual bytes. Fixed
+public plans do not conceal timing, identity, region choice or local clicks.
+The [results and reproduction commands](../docs/research/category_cover_results.md)
+include 15 cases, cost accounting, a four-family check after plan freezing and
+the failed high-availability cases of the cheaper configuration.
+
+
+## Common live-service comparison (25 September 2026)
+
+The frozen runner `python -m experiments.run_live_paper_comparison` compares
+five causal paper adaptations, AnotherMe VTGA as an offline reference, and
+two public category plans on the same S1/S2/S3/S9/S10 records and service.
+See [results and reproduction scope](../docs/research/live_paper_comparison_results.md).
+Fixed K5/K12 remain internal design controls, not paper-model substitutes.
+
+## Endpoint protection and larger cohort
+
+`ScheduledCategoryClient` refreshes the same frozen plan every public epoch
+through a subscription fixed before private activity. Local reads never emit
+or reschedule traffic. This extends the payload argument to activity boundaries
+within that subscription; it does not cover early cancellation, private region
+selection, network faults, IP/account or clicks.
+
+The [endpoint study](../docs/research/endpoint_calendar_results.md) retains the
+seven-family pilot and evaluates 32 separately declared new families with the
+same frozen selection. It includes directed-road endpoint attacks, full-hour
+traffic accounting, and an active-epoch ablation. Utility Recall of true-plus-
+dummy controls reaches its structural ceiling: compare privacy and bytes too.
+Restore the larger source dataset with
+`python -m experiments.endpoint_dataset_archive unpack`; then use
+`experiments.extend_endpoint_cohort` for the frozen study stages.
+The exact selected attacker checkpoint is retained with the pilot artifacts;
+restore it with `python -m experiments.restore_endpoint_attackers` before
+rerunning attacks or the verifier. This copies verified bytes without refitting.

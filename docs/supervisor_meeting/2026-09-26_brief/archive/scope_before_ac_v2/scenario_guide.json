@@ -1,0 +1,82 @@
+{
+  "S1": {
+    "title": "S1 — suy ra vị trí tại một lần gửi",
+    "cases": [
+      "Một bản tin tại cạnh có ≥2 hướng đi tiếp hợp lệ: kiểm tra khi mạng đường còn nhiều khả năng.",
+      "Một bản tin tại cạnh chỉ có 1 hướng đi tiếp: bản đồ tự loại bớt khả năng.",
+      "Cách POI ≤150 m; loại POI chiếm ≤5% danh mục công khai. Hiếm theo loại địa điểm, không phải theo tần suất ghé thăm."
+    ]
+  },
+  "S2": {
+    "title": "S2 — suy ra nơi dừng qua nhiều lần gửi",
+    "cases": [
+      "Dừng có chủ đích ≥20 giây; lấy truy vấn mỗi 5 giây.",
+      "Dừng ≥120 giây; lấy truy vấn mỗi 20 giây.",
+      "Hai lần dừng trên cùng làn, mỗi lần ≥20 giây; ở giữa thực sự di chuyển."
+    ]
+  },
+  "S3": {
+    "title": "S3 — tái dựng đoạn đường đã đi",
+    "cases": [
+      "Đoạn di chuyển ≥60 giây qua ≥3 cạnh; gửi mỗi 20 giây.",
+      "Ít nhất một nửa số cạnh được lấy mẫu chỉ có một hướng đi tiếp: hành lang ít lựa chọn.",
+      "Lấy mẫu đoạn di chuyển thưa hơn, mỗi 60 giây."
+    ]
+  },
+  "S9": {
+    "title": "S9 — suy ra điểm xuất phát bị che",
+    "cases": [
+      "Cạnh xuất phát chỉ một lối ra. Che 60 giây đầu, lấy phần còn lại mỗi 20 giây.",
+      "Hai chuyến khác điểm đầu nhưng nhập một đoạn chung; chỉ cấp từ chỗ nhập tuyến.",
+      "Nhiều chuyến có cùng điểm xuất phát dự kiến; che 60 giây đầu từng chuyến."
+    ]
+  },
+  "S10": {
+    "title": "S10 — suy ra điểm kết thúc bị che",
+    "cases": [
+      "Cạnh kết thúc chỉ một lối vào. Che 60 giây cuối của chuyến đã hoàn tất.",
+      "Hai chuyến chung tiền tố nhưng tới hai đích khác nhau; giữ đoạn cuối làm đáp án ngoại tuyến.",
+      "Nhiều chuyến cùng điểm kết thúc dự kiến; che 60 giây cuối từng chuyến."
+    ]
+  },
+  "S5": {
+    "title": "S5 — dự đoán cạnh đường kế tiếp",
+    "cases": [
+      "Chỉ tiền tố trước một lượt rẽ có ≥2 lựa chọn; nhãn là cạnh kế tiếp thực sự đi vào.",
+      "Lượt chuyển chỉ có 1 lựa chọn; kiểm tra mức suy luận vốn đã có từ bản đồ.",
+      "Hai chuyến chung tiền tố tuyến kế hoạch nhưng đi vào hai cạnh khác nhau. Tốc độ và thời điểm không bắt buộc giống hệt."
+    ]
+  },
+  "S6": {
+    "title": "S6 — dự đoán đích chưa tới",
+    "cases": [
+      "Hai chuyến chung tiền tố nhưng có đích khác nhau; phần sau không được cấp.",
+      "Hai đích cách nhau ≤500 m: phân biệt đúng đích có thể khó dù sai số tọa độ nhỏ.",
+      "Sáu chuyến lịch sử: 5 tới đích thường, 1 tới đích hiếm; chỉ tiền tố của chuyến hiện tại. Lịch sử phải được bảo vệ trước khi cấp."
+    ]
+  },
+  "S8": {
+    "title": "S8 — định vị khi có dữ liệu người đi cùng",
+    "cases": [
+      "Đi cùng một phần rồi tách; ở gần ≤100 m trong ≥10 giây liên tục.",
+      "Chung tuyến; ≥80% thời điểm đồng xuất hiện cách ≤100 m, có ≥10 giây liên tục ở gần.",
+      "Không gán quan hệ đồng hành nhưng tình cờ ở gần; đối chứng âm."
+    ]
+  },
+  "S4": {
+    "title": "S4 — liên kết danh tính giữa các phiên",
+    "cases": [
+      "Hai phiên không chồng lấn, cùng người và cùng thiết bị.",
+      "Cùng người nhưng đổi thiết bị: liên kết người đúng, liên kết thiết bị sai.",
+      "Khác người nhưng dùng chung thiết bị: liên kết người sai, liên kết thiết bị đúng."
+    ]
+  },
+  "S7": {
+    "title": "S7 — suy ra nội dung hoặc ý định truy vấn",
+    "cases": [
+      "Gửi nguyên văn; nhãn tổng hợp gồm khám bệnh, mua sắm, đi đường dài.",
+      "Trộn truy vấn thật trong bó cố định 6 loại; chính sách tham chiếu, chưa phải đầu ra BR-Dummy.",
+      "Cùng truy vấn đầu nhưng chuỗi sau khác nhau; kiểm tra suy luận từ chuỗi."
+    ]
+  }
+}
