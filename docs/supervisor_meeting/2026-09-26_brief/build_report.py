@@ -8,6 +8,7 @@ import csv, hashlib, html, json, math, re, sys
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 from evaluation.report_scope import ALL_CASES, PRIORITY_CASES, suffixes
+from report_case_labels import display_case, report_label_manifest
 OUT = Path(__file__).resolve().parent
 SCOPE = json.loads((ROOT/'artifacts/benchmarks/active_scope_ac_v2/readout.json').read_text())
 SRC = ROOT / 'artifacts/datasets/urban_fresh_v2/dataset.json'
@@ -27,11 +28,12 @@ for case, r in FIRST.items():
         views.append({'session_id':sid,'allowed_point_count':len(indices),
           'first_allowed_index':indices[0],'last_allowed_index':indices[-1],
           'device_evaluator_samples':[{'fcd_index':i,**D['traces'][sid][i]} for i in selected]})
-    samples.append({'case_id':case,'case_record_count':COUNTS[case], 'record':r,
+    samples.append({'case_id':display_case(case),'source_case_id':case,'case_record_count':COUNTS[case], 'record':r,
       'sampled_device_evaluator_views':views,
       'attacker_view':'Not generated here. Pass only the protected transcript through the scenario access policy; never send this record or its labels to the attacker.'})
 (OUT/'data_samples.json').write_text(json.dumps({'source':str(SRC.relative_to(ROOT)), 'source_sha256':SHA,
-  'purpose':'29 active-scope examples; S10 uses A/C. Raw coordinates and labels are evaluator/device data, not attacker inputs.',
+  'purpose':'29 active-scope examples; S10 uses A/B. Raw coordinates and labels are evaluator/device data, not attacker inputs.',
+  'case_labels':report_label_manifest(),
   'scope_readout_sha256':hashlib.sha256((ROOT/'artifacts/benchmarks/active_scope_ac_v2/readout.json').read_bytes()).hexdigest(),
   'examples':samples},ensure_ascii=False,indent=2)+'\n')
 with (OUT/'scenario_inventory.csv').open('w',newline='') as f:
@@ -86,9 +88,9 @@ def sample_point(sid,i):
     return [sid,str(i),f"{x['lon']:.6f}; {x['lat']:.6f}",x['edge_id']]
 
 sec('Khung cập nhật và dữ liệu nền')
-p('**Bản 26/09/2026, cập nhật 25/09.** Khung S1–S10, thực nghiệm truy vấn POI khả dụng theo loại. Trình bày cơ chế, kết quả và phạm vi kết luận; điểm Q vẫn là minh họa.')
+p('**Bản 26/09/2026, cập nhật 30/09.** Khung S1–S10, thực nghiệm truy vấn POI khả dụng theo loại. Trình bày cơ chế, kết quả và phạm vi kết luận; điểm Q vẫn là minh họa.')
 p('Thứ tự triển khai: **S1, S2, S3, S9, S10 → S5, S6, S8 → S4, S7**.')
-p('**S10 chỉ gồm A/C**; đoán đích từ tiền tố thuộc S6.A. Có 29 ca, trong đó 14 ca thuộc năm scenario ưu tiên. Phạm vi sửa sau chẩn đoán; các bảng được tổng hợp lại từ lần chạy đã khóa, không phải test mới.')
+p('Khung có **29 ca**, trong đó **14 ca** thuộc năm scenario ưu tiên. S10 gồm hai ca: **A — một chuyến; B — nhiều chuyến lặp cùng đích**. Các bảng sử dụng kết quả thực nghiệm đã có, không phải đợt test mới.')
 sub('Ba cấp dữ liệu: nhóm tuyến → chuyến → bản ghi')
 p('**Nhóm tuyến:** tuyến gốc và các biến thể có quan hệ như rẽ khác, nhập tuyến, dừng hoặc lặp chuyến. Bộ minh họa có 12 nhóm trên cùng mạng đường; đây không phải 12 loại tấn công.')
 p('**Chuyến:** mỗi nhóm có 22 chuyến hoàn tất qua chín ngày mô phỏng, tổng 264. **Bản ghi:** chọn chuyến/cửa sổ, thông tin phụ trợ và đáp án để tạo phép thử. Bộ minh họa giữ 389 record trong phạm vi hiện tại, lấy từ kho gốc 393 record và 172.443 điểm FCD.')
@@ -210,13 +212,13 @@ table(['Đại lượng','Ranh giới phải ghi rõ'],[
 ['Chi phí chẩn đoán','Số tọa độ/bản tin, số POI phản hồi, thời gian sinh, RAM; tách học và tiền xử lý khỏi trực tuyến. Pin chỉ báo nếu đo trên thiết bị.']],[4.3,12.6])
 key('Vòng hiện tại có byte yêu cầu/phản hồi theo schema mô phỏng, nhưng chưa có latency đầu-cuối và lưu lượng HTTP/TLS. Chưa đủ để tính điểm performance tổng hợp hoặc Q thực nghiệm mới.')
 sub('Mẫu số và độ độc lập')
-p('Chấm từng mục tiêu rồi gộp theo bản ghi/chuyến, nhóm tuyến, ca và scenario. Trong mỗi scenario, các ca có trọng số đều; mỗi scenario có trọng số bằng nhau. S10 dùng A/C, các scenario khác dùng A/B/C. Giữ các phiên/cặp có quan hệ trong cùng split; khoảng tin cậy lấy mẫu lại theo nhóm tuyến, không theo từng điểm FCD hoặc seed nhiễu.')
+p('Chấm từng mục tiêu rồi gộp theo bản ghi/chuyến, nhóm tuyến, ca và scenario. Trong mỗi scenario, các ca có trọng số đều; mỗi scenario có trọng số bằng nhau. S10 dùng A/B, các scenario khác dùng A/B/C. Giữ các phiên/cặp có quan hệ trong cùng split; khoảng tin cậy lấy mẫu lại theo nhóm tuyến, không theo từng điểm FCD hoặc seed nhiễu.')
 
 page();sec('Điểm tổng hợp privacy–utility–performance')
 p('Điểm tổng hợp phục vụ lựa chọn cấu hình trong **cùng phiên bản benchmark và cùng phạm vi**. Đây là điểm ra quyết định theo nhu cầu, không phải bảo đảm riêng tư mới hoặc xác suất an toàn. Vòng đầu chỉ xếp hạng chung S1, S2, S3, S9, S10; các giai đoạn sau mở phiên bản điểm khác.')
 sub('Bước 1: đưa ba trục về cùng chiều tốt và thang 0–1')
 eq(r'P=1-\frac{1}{|\mathcal S|}\sum_{s\in\mathcal S}\frac1{|\mathcal C_s|}\sum_{c\in\mathcal C_s}h_{s,c},\qquad U=\operatorname{MacroMean}(\mathrm{Recall@5}).','P = 1 − Hit100 trung bình đều qua các ca thuộc Cₛ rồi qua scenario; U = Recall@5 gộp theo cùng phân tầng.')
-p('Tập ca C_s thuộc phạm vi đã chốt: C_10={A,C}; các scenario còn lại có {A,B,C}. Như vậy S10 vẫn có trọng số bằng một scenario khác dù chỉ có hai ca; mẫu số không còn mặc định là 3.')
+p('Tập ca C_s thuộc phạm vi đã chốt: C_10={A,B}; các scenario còn lại có {A,B,C}. Như vậy S10 vẫn có trọng số bằng một scenario khác dù chỉ có hai ca; mẫu số là số ca của từng scenario.')
 p('h là Hit100 của đối thủ đã chọn trên validation cho từng phương pháp/ca; đóng băng lựa chọn trước test. Báo thêm envelope của các đối thủ đã thử như phân tích độ nhạy. P cao nghĩa tỷ lệ định vị đúng trong 100 m thấp. Không dùng MAE để tự co giãn theo model tốt/xấu nhất của bảng, vì thêm một model sẽ làm điểm các model cũ đổi theo.')
 eq(r'f(v;g,b)=\operatorname{clip}\!\left(\frac{b-v}{b-g},0,1\right),\quad F=\sqrt{f(b_{\rm payload};b_g,b_b)\,f(T_{95};t_g,t_b)}.','f = 1 ở mức tốt g, giảm tuyến tính về 0 ở mức giới hạn b;  F = căn bậc hai của điểm byte × điểm latency.')
 p('Trong f, g và b là mốc tốt và mốc xấu đã chốt trước, b>g. b_payload là byte/truy vấn thật, trung bình đều qua ca rồi scenario; T95 là giá trị lớn nhất trong các latency p95 từng ca. Như vậy một ca rất chậm không bị trung bình che lấp. Các mốc lấy từ yêu cầu dịch vụ/hardware hoặc pilot phát triển, không lấy từ test. Ở ví dụ dưới: byte tốt 2 kB, giới hạn 10 kB; latency tốt 50 ms, giới hạn 250 ms; 1 kB=1.000 byte. Đây chỉ là mốc minh họa.')
@@ -269,7 +271,7 @@ table(['Tệp','Vai trò'],[
 ['score_example.json','Ví dụ số minh họa tính lại được; không chứa kết quả thực nghiệm.'],
 ['method_evidence.json / printed_samples.json','Hash nguồn và phạm vi tổng hợp; dữ liệu 29 mẫu minh họa được giữ tách biệt.'],
 ['Module phương pháp và đối chứng','Phương pháp, đối chứng và cohort 32 nhóm; đọc artifact và đối chiếu hash trước khi dựng bảng.'],
-['archive/','Nội dung các phiên bản trước; scope_before_ac_v2 giữ bản trước khi thu hẹp S10.'],
+['archive/','Lưu các phiên bản tài liệu trước để truy nguyên.'],
 ['build_report.py','Sinh lại LaTeX/HTML và các tệp trên từ dữ liệu gốc; biên dịch PDF bằng Tectonic hoặc XeLaTeX.']],[5.3,11.6])
 p('Nguồn dataset minh họa: artifacts/datasets/urban_fresh_v2/dataset.json.')
 p('SHA-256: '+SHA+'.')
@@ -324,9 +326,9 @@ header=r'''% Generated by build_report.py. Edit the shared content there, then r
 \newcommand{\key}[1]{\par\smallskip\noindent\colorbox{pale}{\parbox{\dimexpr\linewidth-2\fboxsep}{\textbf{#1}}}\par\smallskip}
 \hypersetup{pdftitle={Bảo vệ riêng tư quỹ đạo: dữ liệu, phương pháp và kết quả},pdfauthor={}}
 \begin{document}
-\begin{center}{\LARGE\bfseries\color{ink}Bảo vệ riêng tư quỹ đạo}\\[5pt]{\large Dữ liệu, phương pháp và kết quả thực nghiệm}\\[4pt]{\small Bản 26/09/2026 · Cập nhật 25/09/2026}\end{center}
+\begin{center}{\LARGE\bfseries\color{ink}Bảo vệ riêng tư quỹ đạo}\\[5pt]{\large Dữ liệu, phương pháp và kết quả thực nghiệm}\\[4pt]{\small Bản 26/09/2026 · Cập nhật 30/09/2026}\end{center}
 '''
-tex=[header];ht=['<header><h1>Bảo vệ riêng tư quỹ đạo</h1><p>Dữ liệu, phương pháp và kết quả thực nghiệm</p><p class="muted">Bản 26/09/2026 · Cập nhật 25/09/2026</p><p><a href="report_explained.pdf">PDF</a> · <a href="report_explained.tex">LaTeX</a> · <a href="data_samples.json">29 mẫu dữ liệu</a> · <a href="sources.json">Nguồn</a></p></header>']
+tex=[header];ht=['<header><h1>Bảo vệ riêng tư quỹ đạo</h1><p>Dữ liệu, phương pháp và kết quả thực nghiệm</p><p class="muted">Bản 26/09/2026 · Cập nhật 30/09/2026</p><p><a href="report_explained.pdf">PDF</a> · <a href="report_explained.tex">LaTeX</a> · <a href="data_samples.json">29 mẫu dữ liệu</a> · <a href="sources.json">Nguồn</a></p></header>']
 section_no=0
 for kind,data in blocks:
     if kind in ('p','key'):
@@ -356,12 +358,13 @@ for kind,data in blocks:
         ht.append('<div class="table-wrap"><table><thead><tr>'+''.join('<th>'+inline(h)+'</th>' for h in headers)+'</tr></thead><tbody>'+''.join('<tr>'+''.join('<td>'+inline(str(x))+'</td>' for x in row)+'</tr>' for row in rows)+'</tbody></table></div>')
     elif kind=='case_panel':
         case,desc,note,counts=data
-        path='figures/case_'+case.replace('.','_')
-        body=r'\textbf{'+case+' / '+str(COUNTS[case])+r' bản ghi.} '+inline(desc,True)+r'\par\smallskip '+inline(counts,True)+r'\par\smallskip\textbf{Đọc sample.} '+inline(note,True)
+        label=display_case(case)
+        path='figures/case_'+label.replace('.','_')
+        body=r'\textbf{'+label+' / '+str(COUNTS[case])+r' bản ghi.} '+inline(desc,True)+r'\par\smallskip '+inline(counts,True)+r'\par\smallskip\textbf{Đọc sample.} '+inline(note,True)
         left,right=('0.63','0.34') if case.startswith('S10.') else ('0.55','0.42')
         tex.append(r'\noindent\begin{minipage}[t]{'+left+r'\linewidth}\vspace{0pt}\includegraphics[width=\linewidth]{'+path+r'.pdf}\end{minipage}\hfill\begin{minipage}[t]{'+right+r'\linewidth}\vspace{0pt}'+body+r'\end{minipage}\par\vspace{3pt}'+'\n')
         style=' style="grid-template-columns:63% 34%"' if case.startswith('S10.') else ''
-        ht.append('<div class="scenario-panel"'+style+'><img src="'+path+'.svg" alt="Bản đồ và thời gian '+case+'"><div><p><strong>'+case+' / '+str(COUNTS[case])+' bản ghi.</strong> '+inline(desc)+'</p><p>'+inline(counts)+'</p><p><strong>Đọc sample.</strong> '+inline(note)+'</p></div></div>')
+        ht.append('<div class="scenario-panel"'+style+'><img src="'+path+'.svg" alt="Bản đồ và thời gian '+label+'"><div><p><strong>'+label+' / '+str(COUNTS[case])+' bản ghi.</strong> '+inline(desc)+'</p><p>'+inline(counts)+'</p><p><strong>Đọc sample.</strong> '+inline(note)+'</p></div></div>')
     elif kind=='graphic':
         tex.append('\\begin{center}\n'+data[0]+'\n\\end{center}\n'+inline(data[2],True)+'\n\n')
         ht.append('<figure>'+data[1]+'<figcaption>'+inline(data[2])+'</figcaption></figure>')

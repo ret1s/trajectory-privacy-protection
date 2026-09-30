@@ -1,11 +1,19 @@
 {
   "source": "artifacts/datasets/urban_fresh_v2/dataset.json",
   "source_sha256": "b15d79f51ffc8ae57d348032495c0d8170e6b12642b7d144c2de833ef9808a79",
-  "purpose": "29 active-scope examples; S10 uses A/C. Raw coordinates and labels are evaluator/device data, not attacker inputs.",
+  "purpose": "29 active-scope examples; S10 uses A/B. Raw coordinates and labels are evaluator/device data, not attacker inputs.",
+  "case_labels": {
+    "report_to_source": {
+      "S10.B": "S10.C"
+    },
+    "unchanged_case_labels": "identity mapping",
+    "policy": "Presentation labels only; retain source records, metrics and experiment identifiers."
+  },
   "scope_readout_sha256": "a15fd6516ff880430efe404ffe2d60e9841e8e3bf514c6d9544b878628131a4c",
   "examples": [
     {
       "case_id": "S1.A",
+      "source_case_id": "S1.A",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-000",
@@ -59,6 +67,7 @@
     },
     {
       "case_id": "S1.B",
+      "source_case_id": "S1.B",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-001",
@@ -112,6 +121,7 @@
     },
     {
       "case_id": "S1.C",
+      "source_case_id": "S1.C",
       "case_record_count": 12,
       "record": {
         "case_id": "S1.C",
@@ -169,6 +179,7 @@
     },
     {
       "case_id": "S2.A",
+      "source_case_id": "S2.A",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-002",
@@ -271,6 +282,7 @@
     },
     {
       "case_id": "S2.B",
+      "source_case_id": "S2.B",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-003",
@@ -376,6 +388,7 @@
     },
     {
       "case_id": "S2.C",
+      "source_case_id": "S2.C",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-004",
@@ -495,6 +508,7 @@
     },
     {
       "case_id": "S3.A",
+      "source_case_id": "S3.A",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-005",
@@ -606,6 +620,7 @@
     },
     {
       "case_id": "S3.B",
+      "source_case_id": "S3.B",
       "case_record_count": 11,
       "record": {
         "record_id": "v2-r301-007",
@@ -710,6 +725,7 @@
     },
     {
       "case_id": "S3.C",
+      "source_case_id": "S3.C",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-006",
@@ -805,6 +821,7 @@
     },
     {
       "case_id": "S4.A",
+      "source_case_id": "S4.A",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-008",
@@ -1007,6 +1024,7 @@
     },
     {
       "case_id": "S4.B",
+      "source_case_id": "S4.B",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-009",
@@ -1210,6 +1228,7 @@
     },
     {
       "case_id": "S4.C",
+      "source_case_id": "S4.C",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-010",
@@ -1409,6 +1428,7 @@
     },
     {
       "case_id": "S5.A",
+      "source_case_id": "S5.A",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-011",
@@ -1503,6 +1523,7 @@
     },
     {
       "case_id": "S5.B",
+      "source_case_id": "S5.B",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-012",
@@ -1582,6 +1603,7 @@
     },
     {
       "case_id": "S5.C",
+      "source_case_id": "S5.C",
       "case_record_count": 4,
       "record": {
         "record_id": "v2-r304-013",
@@ -1745,6 +1767,7 @@
     },
     {
       "case_id": "S6.A",
+      "source_case_id": "S6.A",
       "case_record_count": 4,
       "record": {
         "record_id": "v2-r304-014",
@@ -1904,6 +1927,7 @@
     },
     {
       "case_id": "S6.B",
+      "source_case_id": "S6.B",
       "case_record_count": 5,
       "record": {
         "case_id": "S6.B",
@@ -2065,6 +2089,7 @@
     },
     {
       "case_id": "S6.C",
+      "source_case_id": "S6.C",
       "case_record_count": 10,
       "record": {
         "case_id": "S6.C",
@@ -2690,6 +2715,7 @@
     },
     {
       "case_id": "S7.A",
+      "source_case_id": "S7.A",
       "case_record_count": 36,
       "record": {
         "record_id": "v2-r301-013",
@@ -2747,6 +2773,7 @@
     },
     {
       "case_id": "S7.B",
+      "source_case_id": "S7.B",
       "case_record_count": 36,
       "record": {
         "record_id": "v2-r301-016",
@@ -2804,6 +2831,7 @@
     },
     {
       "case_id": "S7.C",
+      "source_case_id": "S7.C",
       "case_record_count": 36,
       "record": {
         "record_id": "v2-r301-019",
@@ -2889,6 +2917,7 @@
     },
     {
       "case_id": "S8.A",
+      "source_case_id": "S8.A",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-022",
@@ -4390,6 +4419,7 @@
     },
     {
       "case_id": "S8.B",
+      "source_case_id": "S8.B",
       "case_record_count": 9,
       "record": {
         "record_id": "v2-r301-023",
@@ -6957,6 +6987,7 @@
     },
     {
       "case_id": "S8.C",
+      "source_case_id": "S8.C",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-024",
@@ -8393,6 +8424,7 @@
     },
     {
       "case_id": "S9.A",
+      "source_case_id": "S9.A",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-025",
@@ -8507,6 +8539,7 @@
     },
     {
       "case_id": "S9.B",
+      "source_case_id": "S9.B",
       "case_record_count": 11,
       "record": {
         "record_id": "v2-r301-026",
@@ -8707,6 +8740,7 @@
     },
     {
       "case_id": "S9.C",
+      "source_case_id": "S9.C",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-027",
@@ -8906,6 +8940,7 @@
     },
     {
       "case_id": "S10.A",
+      "source_case_id": "S10.A",
       "case_record_count": 11,
       "record": {
         "record_id": "v2-r302-025",
@@ -9030,7 +9065,8 @@
       "attacker_view": "Not generated here. Pass only the protected transcript through the scenario access policy; never send this record or its labels to the attacker."
     },
     {
-      "case_id": "S10.C",
+      "case_id": "S10.B",
+      "source_case_id": "S10.C",
       "case_record_count": 12,
       "record": {
         "record_id": "v2-r301-028",

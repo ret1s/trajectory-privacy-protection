@@ -1,4 +1,4 @@
-"""Active map + time panels: S10 A/C, three cases for each other scenario."""
+"""Active map + time panels: S10 A/B, three cases for each other scenario."""
 import runpy
 from pathlib import Path
 ns=runpy.run_path(str(Path(__file__).with_name('plot_sample_maps.py')))
@@ -6,6 +6,9 @@ plt=ns['plt'];out=ns['OUT'];colors=ns['colors']
 plt.rcParams['svg.hashsalt']='all-abc-v1'
 for c in ns['payload']['cases']:
     name=c['case'].split('.')[0]
+    # Existing panels for other scenarios are unchanged by this relabelling.
+    if name!='S10' and all((out/'figures'/('case_'+c['case'].replace('.','_')+'.'+ext)).exists() for ext in ('pdf','svg','png')):
+        continue
     fig=plt.figure(figsize=(6.1,4.25))
     ax=fig.add_axes([.01,.04,.72,.9]);ns['plot'](ax,c)
     tx=fig.add_axes([.81,.14,.17,.73])
@@ -28,6 +31,8 @@ for c in ns['payload']['cases']:
         caption=f'{n} mẫu / {unique} tọa độ'
     ax.text(.02,.98,caption,transform=ax.transAxes,va='top',fontsize=8,bbox={'facecolor':'white','edgecolor':'#ccc','alpha':.95,'pad':2})
     for ext in ['pdf','svg','png']:
-        fig.savefig(out/'figures'/('case_'+c['case'].replace('.','_')+'.'+ext),bbox_inches='tight',dpi=160)
+        destination=out/'figures'/('case_'+c['case'].replace('.','_')+'.'+ext)
+        fig.savefig(destination,bbox_inches='tight',dpi=160)
+        if ext=='svg':destination.write_text('\n'.join(line.rstrip() for line in destination.read_text().splitlines())+'\n')
     plt.close(fig)
 print('Rendered',len(ns['payload']['cases']),'active individual case panels.')

@@ -3,6 +3,7 @@ from pathlib import Path
 import hashlib
 import json
 import numpy as np
+from report_case_labels import display_case
 
 
 def add_comparison_content(ns):
@@ -59,13 +60,13 @@ def add_comparison_content(ns):
     key('Fixed K5/K12 và bulk là phép kiểm tra thiết kế phụ. Chúng không thay thế sáu đối chứng nghiên cứu trong bảng chính.')
 
     page();sub('Privacy: suy luận đúng trong bán kính 100 m')
-    p('Mỗi ô là **Hit100 ↓ / MAE (m) ↑**, trung bình đều các ca: S10 dùng A/C, các scenario khác dùng A/B/C. Gộp seed trong record rồi nhóm. MAE và Hit chọn decoder riêng trên tập chọn attacker. Đối thủ chỉ thấy tọa độ, thời gian tương đối và liên kết được phép; không thấy nhãn thật/giả hoặc đáp án.')
+    p('Mỗi ô là **Hit100 ↓ / MAE (m) ↑**, trung bình đều các ca: S10 dùng A/B, các scenario khác dùng A/B/C. Gộp seed trong record rồi nhóm. MAE và Hit chọn decoder riêng trên tập chọn attacker. Đối thủ chỉ thấy tọa độ, thời gian tương đối và liên kết được phép; không thấy nhãn thật/giả hoặc đáp án.')
     table(['Phương pháp','S1','S2','S3','S9','S10'],[
         [labels[m]]+[pct(scenario_metric(m,f'S{s}','hit100'))+' / '+num(scenario_metric(m,f'S{s}','mae_m'),0) for s in (1,2,3,9,10)]
         for m in methods],[3.8,2.7,2.7,2.7,2.7,2.7])
-    p('Bộ đối thủ gồm thống kê tập điểm, prior, Viterbi, ngoại suy 30/60/120 giây, kNN và Extra Trees; chọn bằng nhóm 601–602. AnotherMe chỉ gộp ca có đầu ra: S1 thiếu C; S2 thiếu cả ba; S9 thiếu B; S10 chỉ có C. Không so các ô này như cùng mẫu số. Chi tiết 14 ca: active_scope_ac_v2/readout.json.')
+    p('Bộ đối thủ gồm thống kê tập điểm, prior, Viterbi, ngoại suy 30/60/120 giây, kNN và Extra Trees; chọn bằng nhóm 601–602. AnotherMe chỉ gộp ca có đầu ra: S1 thiếu C; S2 thiếu cả ba; S9 thiếu B; S10 chỉ có B. Không so các ô này như cùng mẫu số. Chi tiết 14 ca và nguồn số liệu được lưu cùng bộ bằng chứng.')
     raw10=scenario_metric('raw','S10','hit100')
-    p('**Phép thử bốn nhóm này:** S10.A/C của vị trí thật đạt Hit100 '+pct(raw10)+', A là 0%, C là 25%. S9 chỉ B có hit. Bằng chứng endpoint ở đây chủ yếu từ S9.B/S10.C. Mục 10 dùng bộ suy luận đường mạnh hơn và 32 nhóm để kiểm tra S9, S10.A/C; không trộn hai bộ số.')
+    p('**Phép thử bốn nhóm này:** S10.A/B của vị trí thật đạt Hit100 '+pct(raw10)+', A là 0%, B là 25%. S9 chỉ B có hit. Bằng chứng endpoint ở đây chủ yếu từ S9.B/S10.B. Mục 10 dùng bộ suy luận đường mạnh hơn và 32 nhóm để kiểm tra S9, S10.A/B; không trộn hai bộ số.')
     p('Hit bằng 0 chỉ là không trúng trong các mẫu và bộ attacker đã thử. Vùng dịch vụ, lịch mở/đóng ứng dụng, account, IP và click chưa được bảo vệ toàn diện. Lập luận tọa độ độc lập GPS ở mục 8 vẫn có điều kiện; không thay thế bằng chứng tấn công thực nghiệm.')
     sub('Bản triển khai được so sánh là gì?')
     table(['Đối chứng','Thành phần chạy và giới hạn'],[
@@ -78,7 +79,7 @@ def add_comparison_content(ns):
     page();sub('Đủ 14 ca hiện tại: utility và tỷ lệ chạy thành công')
     p('Recall@5 ở p=0,8 trên cùng bốn nhóm; **† là tham chiếu offline**. Trong bảng này, nếu record thiếu đầu ra của một phiên, mọi yêu cầu có đáp án trong record nhận Recall=0; yêu cầu không có POI tham chiếu giữ null. Privacy thiếu đầu ra để trống. Mục 10 báo riêng giao thức tính lỗi theo từng yêu cầu/phiên.')
     table(['Ca','DLS','RDG','Trans.*','Semantic*','Fake*','Another†','Đề xuất 30','Đề xuất 67'],[
-        [c]+[pct(summaries['new_groups',m,c]['recall_0.8']) for m in methods if m!='raw'] for c in cases],
+        [display_case(c)]+[pct(summaries['new_groups',m,c]['recall_0.8']) for m in methods if m!='raw'] for c in cases],
         [1.4,1.6,1.6,1.9,2.0,1.7,1.9,2.2,2.2])
     sub('Đóng góp được hỗ trợ tới đâu trên năm scenario?')
     online=['dls','rdg','transprotect_markov','semantic_poi','fake_queries']
@@ -87,7 +88,7 @@ def add_comparison_content(ns):
     for s in (1,2,3,9,10):
         sc=f'S{s}'
         vals=[scenario_metric(m,sc,'hit100') if s<9 else endpoints[m][sc]['hit100'] for m in online]
-        coverage.append([sc+(' (A/C)' if s==10 else ''),pct(min(vals))+'–'+pct(max(vals))+' → 0%',
+        coverage.append([sc+(' (A/B)' if s==10 else ''),pct(min(vals))+'–'+pct(max(vals))+' → 0%',
                          '4 nhóm; kế hoạch mỗi sự kiện' if s<9 else '32 nhóm; kế hoạch theo lịch'])
     table(['Scenario','Hit100: năm adapter → đề xuất','Mức bằng chứng'],coverage,[2.6,6.7,7.6])
     p('**Đóng góp hiện có:** phối hợp chọn truy vấn theo độ phủ POI, xếp hạng GPS tại thiết bị và lịch công khai để giảm lộ vị trí/đường/endpoint trong dịch vụ trạng thái động. Đã có lợi thế thực nghiệm ở cả năm scenario; lịch được kiểm tra riêng về giờ hoạt động. S1–S3 cần chạy lại privacy trên cohort lớn; chưa gán số bốn nhóm cho phiên bản theo lịch.')

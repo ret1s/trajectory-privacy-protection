@@ -90,7 +90,7 @@ def add_method_content(ns):
         ['67 truy vấn: phủ rộng','Tiếp tục đến khi không tăng độ phủ tĩnh; tổng 67 truy vấn.','67 truy vấn loại–tọa độ, tại 52 tọa độ khác nhau.']],[3.4,7.0,6.5])
     p('Mỗi tọa độ được giữ cố định; các loại không buộc dùng chung một tập vị trí. Thiết bị hỏi theo kế hoạch đã khóa, không chọn query từ GPS, tuyến tương lai hoặc trạng thái khả dụng thật. So sánh phải đếm riêng truy vấn loại, tọa độ và byte.')
 
-    page(); sub('Lập luận privacy cho S1/S2/S3/S9 và S10.A/C')
+    page(); sub('Lập luận privacy cho S1/S2/S3/S9 và S10.A/B')
     p('Gọi X là hành trình, A là giờ sử dụng riêng tư; C gồm vùng, danh mục, kế hoạch và khoảng đăng ký công khai; W là trạng thái server; T là transcript yêu cầu/phản hồi. Client gửi mỗi 60 giây trong trọn khoảng [0, 3600), kể cả trước/sau chuyến hoặc không dùng dịch vụ; đọc cache không kích hoạt bản tin. Với C được chốt trước hoạt động:')
     eq(r'T=f(C,W)\quad\Longrightarrow\quad I((X,A);T\mid C,W)=0.',
        'Với vùng, kế hoạch, khoảng đăng ký và trạng thái server cố định, thay hành trình hoặc giờ đọc cache không đổi transcript.')
@@ -98,7 +98,7 @@ def add_method_content(ns):
         ['S1: vị trí hiện tại','Ở vị trí nào trong cùng vùng, client cũng gửi cùng kế hoạch.'],
         ['S2: nơi dừng','Tọa độ không tập trung quanh nơi dừng; lịch vẫn chạy khi không có hoạt động.'],
         ['S3: đoạn đường đã đi','Chuỗi tọa độ cố định không bám đường đi thật.'],
-        ['S9; S10.A/C: đầu/cuối','Tọa độ không chọn từ endpoint; giờ bắt đầu/kết thúc chuyến không điều khiển lịch gửi trong khoảng đăng ký.']],[4.5,12.4])
+        ['S9; S10.A/B: đầu/cuối','Tọa độ không chọn từ endpoint; giờ bắt đầu/kết thúc chuyến không điều khiển lịch gửi trong khoảng đăng ký.']],[4.5,12.4])
     key('Bảo vệ payload và giờ gửi trong khoảng công khai; prior vẫn có thể giúp đối thủ đoán. Không gán Hit=0 hoặc MAE vô hạn từ công thức trên.')
     p('Điều kiện: đăng ký khoảng cố định trước chuyến, không hủy sớm hay đổi vùng/kế hoạch theo GPS. Account, IP, click và lỗi mạng nằm ngoài bảo đảm. Sáu kiểm tra trên server mô phỏng đối chiếu lịch đọc sớm/muộn/không đọc cho cùng yêu cầu và phản hồi. Đây là kiểm tra cơ chế, không chứng minh mọi kênh mạng đã an toàn.')
     sub('Lập luận utility và hiệu lực phản hồi')

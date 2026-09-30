@@ -1,0 +1,177 @@
+{
+  "prepared_on": "2026-09-30",
+  "meeting_date": "2026-10-03",
+  "new_experiments": false,
+  "purpose": "Private preparation companion to the existing September 26 report.",
+  "sources": {
+    "artifacts/benchmarks/active_scope_ac_v2/readout.json": "a15fd6516ff880430efe404ffe2d60e9841e8e3bf514c6d9544b878628131a4c",
+    "artifacts/benchmarks/active_scope_ac_v2/verification.json": "f72fad7617f793daf24e117013bd9c170e2284546b1ff77b304ebcbe7b33fbd2",
+    "docs/supervisor_meeting/2026-09-26_brief/report_explained.pdf": "91302acbb74ad888525faebf1ab7227a6b6b156a5e767b1111dc583d216c627f",
+    "docs/supervisor_meeting/2026-09-26_brief/report_explained.tex": "0b58d745db10502c0fea1c1f04de99723102204c9f4f924a69cd9e04ff735c84",
+    "docs/supervisor_meeting/2026-09-26_brief/scenario_guide.json": "71016acc5b55553ded6d826d4228e875fbbbbe5bffe3d873edeacbf9355aeb3e",
+    "docs/supervisor_meeting/2026-09-26_brief/data_samples.json": "1abb9f8667dbe76a2151611c9544aeb4135e8a43c7b8d0efc045b2c954c15785",
+    "docs/supervisor_meeting/2026-09-26_brief/report_case_labels.py": "1970ed69010205af092115ea7eae15a599e945905d092136b37e5cc1aae693c8",
+    "docs/supervisor_meeting/2026-09-26_brief/method_evidence.json": "07b355909d3fc59d77c5b71c8e047f2320e8413569b534f0f598ac11aa0a49d5",
+    "docs/supervisor_meeting/2026-09-26_brief/score_example.json": "b2d4aff753134b6ccb6f77ea28392a4a418e3a163808ca063e9e4379b35f7150",
+    "evaluation/category_cover.py": "d7a1708ad61d9054da1b8ba73f625e054b1d8fd6d7ed5d8f6062d0f40291b6c4",
+    "benchmark/scheduled_category_client.py": "c1c636f841a6d650dec42bf3b9db6626580a7c85fb149e2ab94f82ae07ef7729",
+    "evaluation/live_poi.py": "b6bf32695d1444809c1e5147868a16ee93a1a7b6fe65104a0d57e6cc369dcad2",
+    "docs/supervisor_meeting/2026-09-26_brief/prepare_guide_evidence.py": "722e680b5dfec28be9f700039081b5cc16452a0bc85e243b180853a972706a73",
+    "docs/supervisor_meeting/2026-09-26_brief/figures/case_S2_C.pdf": "c393cebc2666f595347f833fc30ba6a18fed2ded013c75eb947ced9d30375fe0",
+    "docs/supervisor_meeting/2026-09-26_brief/figures/case_S9_B.pdf": "d5c454e16301d1ca3e055749dc645aeee321394fee09cbe76bf599ea6aec0065",
+    "docs/supervisor_meeting/2026-09-26_brief/figures/case_S10_B.pdf": "2d23a632a45985d1ccf4a580bd748fae3d612be134a5e83665e695f7793e9336",
+    "docs/supervisor_meeting/2026-09-26_brief/figures/architecture_current.pdf": "75b34903d9b721e17493816787d56f3b78ac80f151f37b124813c34769aff9a9"
+  },
+  "source_numerical_checks": 981,
+  "priority_cases": [
+    "S1.A",
+    "S1.B",
+    "S1.C",
+    "S2.A",
+    "S2.B",
+    "S2.C",
+    "S3.A",
+    "S3.B",
+    "S3.C",
+    "S9.A",
+    "S9.B",
+    "S9.C",
+    "S10.A",
+    "S10.B"
+  ],
+  "privacy_coverage_rows": [
+    [
+      "S1",
+      "50,00\\% - 83,33\\%",
+      "0\\%",
+      "4 nhóm; theo sự kiện"
+    ],
+    [
+      "S2",
+      "33,33\\% - 100,00\\%",
+      "0\\%",
+      "4 nhóm; theo sự kiện"
+    ],
+    [
+      "S3",
+      "74,59\\% - 96,91\\%",
+      "0\\%",
+      "4 nhóm; theo sự kiện"
+    ],
+    [
+      "S9",
+      "19,76\\% - 40,81\\%",
+      "0\\%",
+      "32 nhóm; theo lịch"
+    ],
+    [
+      "S10 (A/B)",
+      "10,75\\% - 26,11\\%",
+      "0\\%",
+      "32 nhóm; theo lịch"
+    ]
+  ],
+  "endpoint_rows": [
+    [
+      "Vị trí thật",
+      "42,48\\% / 164,6",
+      "17,39\\% / 211,6",
+      "100,00\\%",
+      "249,9"
+    ],
+    [
+      "DLS",
+      "34,33\\% / 462,3",
+      "11,16\\% / 221,6",
+      "100,00\\%",
+      "952,2"
+    ],
+    [
+      "RDG",
+      "19,76\\% / 792,9",
+      "10,75\\% / 224,5",
+      "100,00\\%",
+      "944,4"
+    ],
+    [
+      "TransProtect*",
+      "33,61\\% / 243,4",
+      "13,31\\% / 259,3",
+      "99,70\\%",
+      "249,9"
+    ],
+    [
+      "Semantic*",
+      "40,81\\% / 183,6",
+      "11,82\\% / 292,3",
+      "100,00\\%",
+      "975,8"
+    ],
+    [
+      "Fake-query*",
+      "31,36\\% / 522,4",
+      "26,11\\% / 213,1",
+      "100,00\\%",
+      "1295,6"
+    ],
+    [
+      "AnotherMe offline",
+      "0,00\\% / 1687,2",
+      "0,00\\% / 1231,8",
+      "16,85\\%",
+      "239,1"
+    ],
+    [
+      "Đề xuất 30 + lịch",
+      "0,00\\% / 2232,5",
+      "0,00\\% / 1916,3",
+      "95,00\\%",
+      "3071,0"
+    ],
+    [
+      "Đề xuất 67 + lịch",
+      "0,00\\% / 2311,1",
+      "0,00\\% / 1916,3",
+      "100,00\\%",
+      "6878,6"
+    ]
+  ],
+  "contrast_rows": [
+    [
+      "DLS",
+      "-11,16",
+      "[-18,02; -4,81]"
+    ],
+    [
+      "RDG",
+      "-10,75",
+      "[-18,27; -4,30]"
+    ],
+    [
+      "TransProtect*",
+      "-13,31",
+      "[-19,58; -7,08]"
+    ],
+    [
+      "Semantic*",
+      "-11,82",
+      "[-19,53; -4,91]"
+    ],
+    [
+      "Fake-query*",
+      "-26,11",
+      "[-37,31; -15,62]"
+    ]
+  ],
+  "aggregation": "equal cases within each scenario, equal weight per scenario; missing offline heads marked partial",
+  "cost_policy": "only source sessions used by retained cases; keep complete original session clocks, service-event denominator and all emitted traffic including full calendar hour; no transcript regenerated",
+  "illustrative_examples": [
+    "meeting story",
+    "entropy probabilities",
+    "five inference errors",
+    "POI sets and distances",
+    "greedy-cover candidates",
+    "public refresh timeline",
+    "M1/M2 score example from score_example.json"
+  ]
+}

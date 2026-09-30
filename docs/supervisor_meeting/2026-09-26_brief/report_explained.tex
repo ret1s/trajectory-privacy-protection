@@ -15,13 +15,13 @@
 \newcommand{\key}[1]{\par\smallskip\noindent\colorbox{pale}{\parbox{\dimexpr\linewidth-2\fboxsep}{\textbf{#1}}}\par\smallskip}
 \hypersetup{pdftitle={Bảo vệ riêng tư quỹ đạo: dữ liệu, phương pháp và kết quả},pdfauthor={}}
 \begin{document}
-\begin{center}{\LARGE\bfseries\color{ink}Bảo vệ riêng tư quỹ đạo}\\[5pt]{\large Dữ liệu, phương pháp và kết quả thực nghiệm}\\[4pt]{\small Bản 26/09/2026 · Cập nhật 25/09/2026}\end{center}
+\begin{center}{\LARGE\bfseries\color{ink}Bảo vệ riêng tư quỹ đạo}\\[5pt]{\large Dữ liệu, phương pháp và kết quả thực nghiệm}\\[4pt]{\small Bản 26/09/2026 · Cập nhật 30/09/2026}\end{center}
 \section{Khung cập nhật và dữ liệu nền}
-\textbf{Bản 26/09/2026, cập nhật 25/09.} Khung S1–S10, thực nghiệm truy vấn POI khả dụng theo loại. Trình bày cơ chế, kết quả và phạm vi kết luận; điểm Q vẫn là minh họa.
+\textbf{Bản 26/09/2026, cập nhật 30/09.} Khung S1–S10, thực nghiệm truy vấn POI khả dụng theo loại. Trình bày cơ chế, kết quả và phạm vi kết luận; điểm Q vẫn là minh họa.
 
 Thứ tự triển khai: \textbf{S1, S2, S3, S9, S10 $\to$ S5, S6, S8 $\to$ S4, S7}.
 
-\textbf{S10 chỉ gồm A/C}; đoán đích từ tiền tố thuộc S6.A. Có 29 ca, trong đó 14 ca thuộc năm scenario ưu tiên. Phạm vi sửa sau chẩn đoán; các bảng được tổng hợp lại từ lần chạy đã khóa, không phải test mới.
+Khung có \textbf{29 ca}, trong đó \textbf{14 ca} thuộc năm scenario ưu tiên. S10 gồm hai ca: \textbf{A — một chuyến; B — nhiều chuyến lặp cùng đích}. Các bảng sử dụng kết quả thực nghiệm đã có, không phải đợt test mới.
 
 \subsection{Ba cấp dữ liệu: nhóm tuyến $\to$ chuyến $\to$ bản ghi}
 \textbf{Nhóm tuyến:} tuyến gốc và các biến thể có quan hệ như rẽ khác, nhập tuyến, dừng hoặc lặp chuyến. Bộ minh họa có 12 nhóm trên cùng mạng đường; đây không phải 12 loại tấn công.
@@ -69,7 +69,7 @@ Bộ đánh giá & Toàn bộ FCD và đáp án để chấm; không truyền c�
 \endgroup
 Sample là dữ liệu trước bảo vệ: tra data\_\allowbreak{}samples.json và scenario\_\allowbreak{}inventory.csv. Đồng hồ tính từ đầu cửa sổ; S8 dùng mốc chung cho cặp.
 
-\textbf{Cách đọc 29 mẫu:} A/B/C là các điều kiện của cùng nhiệm vụ, không phải mức khó tăng dần; riêng S10 giữ A/C. Số sau “/” là số bản ghi. Mỗi ca có map và trục thời gian; phóng to ở sample\_\allowbreak{}maps.html, tra tọa độ trong data\_\allowbreak{}samples.json.
+\textbf{Cách đọc 29 mẫu:} A/B/C là các điều kiện của cùng nhiệm vụ, không phải mức khó tăng dần; riêng S10 có hai ca A/B. Số sau “/” là số bản ghi. Mỗi ca có map và trục thời gian; phóng to ở sample\_\allowbreak{}maps.html, tra tọa độ trong data\_\allowbreak{}samples.json.
 
 \textbf{Đọc bản đồ:} chấm màu = mẫu được phép trước bảo vệ (nhiều mẫu có thể chồng nhau); trục thời gian = các lần lấy mẫu riêng; nét đứt = toàn chuyến chỉ để đánh giá; sao đỏ = nhãn vị trí. Màu phân biệt phiên, không phải danh tính. Nền SUMO benchmark cùng checksum OSM nhưng chưa xác minh trùng hình học mạng dataset vì thiếu file mạng gốc. © OpenStreetMap contributors.
 
@@ -111,12 +111,12 @@ Sample là dữ liệu trước bảo vệ: tra data\_\allowbreak{}samples.json 
 
 \clearpage
 \subsection{S10 — suy ra điểm kết thúc bị che}
-\textbf{Rủi ro chung:} Đối thủ suy nơi đã kết thúc từ phần còn được công bố. A kiểm tra một chuyến với ràng buộc đường vào; C kiểm tra các phiên lặp cùng đích. Cả hai che 60 giây cuối.
+\textbf{Rủi ro chung:} Đối thủ suy nơi đã kết thúc từ phần còn được công bố. A kiểm tra một chuyến với ràng buộc đường vào; B kiểm tra các phiên lặp cùng đích. Cả hai che 60 giây cuối.
 
-\textbf{Hai ca cần giải quyết:} A suy endpoint từ phần cuối còn nhìn thấy và mạng đường; C còn kết hợp các chuyến lặp cùng đích. Giữ mã A/C để truy nguyên dữ liệu. Bài toán chung tiền tố nhưng khác đích thuộc S6.A.
+\textbf{Hai ca cần giải quyết:} A suy điểm kết thúc từ phần cuối còn nhìn thấy của một chuyến và mạng đường; B kết hợp nhiều chuyến lặp cùng đích để thu hẹp vùng kết thúc.
 
 \noindent\begin{minipage}[t]{0.63\linewidth}\vspace{0pt}\includegraphics[width=\linewidth]{figures/case_S10_A.pdf}\end{minipage}\hfill\begin{minipage}[t]{0.34\linewidth}\vspace{0pt}\textbf{S10.A / 11 bản ghi.} Cạnh kết thúc chỉ một lối vào. Che 60 giây cuối của chuyến đã hoàn tất.\par\smallskip u302\_\allowbreak{}08: 38 mẫu\par\smallskip\textbf{Đọc sample.} Sao là FCD cuối [817] của u302\_\allowbreak{}08; che 60 giây cuối. Đường chỉ một lối vào có thể giúp suy đoạn kết thúc từ phần trước còn thấy.\end{minipage}\par\vspace{3pt}
-\noindent\begin{minipage}[t]{0.63\linewidth}\vspace{0pt}\includegraphics[width=\linewidth]{figures/case_S10_C.pdf}\end{minipage}\hfill\begin{minipage}[t]{0.34\linewidth}\vspace{0pt}\textbf{S10.C / 12 bản ghi.} Nhiều chuyến cùng điểm kết thúc dự kiến; che 60 giây cuối từng chuyến.\par\smallskip u301\_\allowbreak{}00: 27 mẫu; u301\_\allowbreak{}09: 27 mẫu\par\smallskip\textbf{Đọc sample.} u301\_\allowbreak{}00/u301\_\allowbreak{}09 lặp cùng đích dự kiến và cùng che 60 giây cuối. Đối thủ có thể kết hợp nhiều phiên để khoanh đích, chưa đủ gọi đó là nơi làm việc.\end{minipage}\par\vspace{3pt}
+\noindent\begin{minipage}[t]{0.63\linewidth}\vspace{0pt}\includegraphics[width=\linewidth]{figures/case_S10_B.pdf}\end{minipage}\hfill\begin{minipage}[t]{0.34\linewidth}\vspace{0pt}\textbf{S10.B / 12 bản ghi.} Nhiều chuyến cùng điểm kết thúc dự kiến; che 60 giây cuối từng chuyến.\par\smallskip u301\_\allowbreak{}00: 27 mẫu; u301\_\allowbreak{}09: 27 mẫu\par\smallskip\textbf{Đọc sample.} u301\_\allowbreak{}00/u301\_\allowbreak{}09 lặp cùng đích dự kiến và cùng che 60 giây cuối. Đối thủ có thể kết hợp nhiều phiên để khoanh đích, chưa đủ gọi đó là nơi làm việc.\end{minipage}\par\vspace{3pt}
 
 \clearpage
 \subsection{S5 — dự đoán cạnh đường kế tiếp}
@@ -416,7 +416,7 @@ Chi phí chẩn đoán & Số tọa độ/bản tin, số POI phản hồi, th�
 \key{Vòng hiện tại có byte yêu cầu/phản hồi theo schema mô phỏng, nhưng chưa có latency đầu-cuối và lưu lượng HTTP/TLS. Chưa đủ để tính điểm performance tổng hợp hoặc Q thực nghiệm mới.}
 
 \subsection{Mẫu số và độ độc lập}
-Chấm từng mục tiêu rồi gộp theo bản ghi/chuyến, nhóm tuyến, ca và scenario. Trong mỗi scenario, các ca có trọng số đều; mỗi scenario có trọng số bằng nhau. S10 dùng A/C, các scenario khác dùng A/B/C. Giữ các phiên/cặp có quan hệ trong cùng split; khoảng tin cậy lấy mẫu lại theo nhóm tuyến, không theo từng điểm FCD hoặc seed nhiễu.
+Chấm từng mục tiêu rồi gộp theo bản ghi/chuyến, nhóm tuyến, ca và scenario. Trong mỗi scenario, các ca có trọng số đều; mỗi scenario có trọng số bằng nhau. S10 dùng A/B, các scenario khác dùng A/B/C. Giữ các phiên/cặp có quan hệ trong cùng split; khoảng tin cậy lấy mẫu lại theo nhóm tuyến, không theo từng điểm FCD hoặc seed nhiễu.
 
 
 \clearpage
@@ -427,7 +427,7 @@ Chấm từng mục tiêu rồi gộp theo bản ghi/chuyến, nhóm tuyến, ca
 \[
 P=1-\frac{1}{|\mathcal S|}\sum_{s\in\mathcal S}\frac1{|\mathcal C_s|}\sum_{c\in\mathcal C_s}h_{s,c},\qquad U=\operatorname{MacroMean}(\mathrm{Recall@5}).
 \]
-Tập ca C\_\allowbreak{}s thuộc phạm vi đã chốt: C\_\allowbreak{}10=\{A,C\}; các scenario còn lại có \{A,B,C\}. Như vậy S10 vẫn có trọng số bằng một scenario khác dù chỉ có hai ca; mẫu số không còn mặc định là 3.
+Tập ca C\_\allowbreak{}s thuộc phạm vi đã chốt: C\_\allowbreak{}10=\{A,B\}; các scenario còn lại có \{A,B,C\}. Như vậy S10 vẫn có trọng số bằng một scenario khác dù chỉ có hai ca; mẫu số là số ca của từng scenario.
 
 h là Hit100 của đối thủ đã chọn trên validation cho từng phương pháp/ca; đóng băng lựa chọn trước test. Báo thêm envelope của các đối thủ đã thử như phân tích độ nhạy. P cao nghĩa tỷ lệ định vị đúng trong 100 m thấp. Không dùng MAE để tự co giãn theo model tốt/xấu nhất của bảng, vì thêm một model sẽ làm điểm các model cũ đổi theo.
 
@@ -533,7 +533,7 @@ Mỗi tọa độ được giữ cố định; các loại không buộc dùng c
 
 
 \clearpage
-\subsection{Lập luận privacy cho S1/S2/S3/S9 và S10.A/C}
+\subsection{Lập luận privacy cho S1/S2/S3/S9 và S10.A/B}
 Gọi X là hành trình, A là giờ sử dụng riêng tư; C gồm vùng, danh mục, kế hoạch và khoảng đăng ký công khai; W là trạng thái server; T là transcript yêu cầu/phản hồi. Client gửi mỗi 60 giây trong trọn khoảng [0, 3600), kể cả trước/sau chuyến hoặc không dùng dịch vụ; đọc cache không kích hoạt bản tin. Với C được chốt trước hoạt động:
 
 \[
@@ -554,7 +554,7 @@ S2: nơi dừng & Tọa độ không tập trung quanh nơi dừng; lịch vẫn
 \addlinespace[3pt]
 S3: đoạn đường đã đi & Chuỗi tọa độ cố định không bám đường đi thật.\\
 \addlinespace[3pt]
-S9; S10.A/C: đầu/cuối & Tọa độ không chọn từ endpoint; giờ bắt đầu/kết thúc chuyến không điều khiển lịch gửi trong khoảng đăng ký.\\
+S9; S10.A/B: đầu/cuối & Tọa độ không chọn từ endpoint; giờ bắt đầu/kết thúc chuyến không điều khiển lịch gửi trong khoảng đăng ký.\\
 \end{longtable}
 \endgroup
 \key{Bảo vệ payload và giờ gửi trong khoảng công khai; prior vẫn có thể giúp đối thủ đoán. Không gán Hit=0 hoặc MAE vô hạn từ công thức trên.}
@@ -615,7 +615,7 @@ Lượt record = record $\times$ hai seed; có thể dùng chung chuyến. Chi p
 
 \clearpage
 \subsection{Privacy: suy luận đúng trong bán kính 100 m}
-Mỗi ô là \textbf{Hit100 $\downarrow$ / MAE (m) $\uparrow$}, trung bình đều các ca: S10 dùng A/C, các scenario khác dùng A/B/C. Gộp seed trong record rồi nhóm. MAE và Hit chọn decoder riêng trên tập chọn attacker. Đối thủ chỉ thấy tọa độ, thời gian tương đối và liên kết được phép; không thấy nhãn thật/giả hoặc đáp án.
+Mỗi ô là \textbf{Hit100 $\downarrow$ / MAE (m) $\uparrow$}, trung bình đều các ca: S10 dùng A/B, các scenario khác dùng A/B/C. Gộp seed trong record rồi nhóm. MAE và Hit chọn decoder riêng trên tập chọn attacker. Đối thủ chỉ thấy tọa độ, thời gian tương đối và liên kết được phép; không thấy nhãn thật/giả hoặc đáp án.
 
 \begingroup\small
 \begin{longtable}{@{}P{3.469cm}P{2.465cm}P{2.465cm}P{2.465cm}P{2.465cm}P{2.465cm}@{}}
@@ -645,9 +645,9 @@ AnotherMe† & 0,00\% / 1697 & — / — & 0,00\% / 1877 & 0,00\% / 1565 & 0,00\
 Đề xuất 67 & 0,00\% / 2104 & 0,00\% / 1859 & 0,00\% / 2068 & 0,00\% / 2488 & 0,00\% / 2238\\
 \end{longtable}
 \endgroup
-Bộ đối thủ gồm thống kê tập điểm, prior, Viterbi, ngoại suy 30/60/120 giây, kNN và Extra Trees; chọn bằng nhóm 601–602. AnotherMe chỉ gộp ca có đầu ra: S1 thiếu C; S2 thiếu cả ba; S9 thiếu B; S10 chỉ có C. Không so các ô này như cùng mẫu số. Chi tiết 14 ca: active\_\allowbreak{}scope\_\allowbreak{}ac\_\allowbreak{}v2/readout.json.
+Bộ đối thủ gồm thống kê tập điểm, prior, Viterbi, ngoại suy 30/60/120 giây, kNN và Extra Trees; chọn bằng nhóm 601–602. AnotherMe chỉ gộp ca có đầu ra: S1 thiếu C; S2 thiếu cả ba; S9 thiếu B; S10 chỉ có B. Không so các ô này như cùng mẫu số. Chi tiết 14 ca và nguồn số liệu được lưu cùng bộ bằng chứng.
 
-\textbf{Phép thử bốn nhóm này:} S10.A/C của vị trí thật đạt Hit100 12,50\%, A là 0\%, C là 25\%. S9 chỉ B có hit. Bằng chứng endpoint ở đây chủ yếu từ S9.B/S10.C. Mục 10 dùng bộ suy luận đường mạnh hơn và 32 nhóm để kiểm tra S9, S10.A/C; không trộn hai bộ số.
+\textbf{Phép thử bốn nhóm này:} S10.A/B của vị trí thật đạt Hit100 12,50\%, A là 0\%, B là 25\%. S9 chỉ B có hit. Bằng chứng endpoint ở đây chủ yếu từ S9.B/S10.B. Mục 10 dùng bộ suy luận đường mạnh hơn và 32 nhóm để kiểm tra S9, S10.A/B; không trộn hai bộ số.
 
 Hit bằng 0 chỉ là không trúng trong các mẫu và bộ attacker đã thử. Vùng dịch vụ, lịch mở/đóng ứng dụng, account, IP và click chưa được bảo vệ toàn diện. Lập luận tọa độ độc lập GPS ở mục 8 vẫn có điều kiện; không thay thế bằng chứng tấn công thực nghiệm.
 
@@ -712,7 +712,7 @@ S9.C & 100,00\% & 100,00\% & 99,53\% & 100,00\% & 100,00\% & 24,65\% & 95,85\% &
 \addlinespace[3pt]
 S10.A & 100,00\% & 100,00\% & 99,59\% & 100,00\% & 100,00\% & 0,00\% & 93,68\% & 100,00\%\\
 \addlinespace[3pt]
-S10.C & 100,00\% & 100,00\% & 99,53\% & 100,00\% & 100,00\% & 24,45\% & 94,83\% & 100,00\%\\
+S10.B & 100,00\% & 100,00\% & 99,53\% & 100,00\% & 100,00\% & 24,45\% & 94,83\% & 100,00\%\\
 \end{longtable}
 \endgroup
 \subsection{Đóng góp được hỗ trợ tới đâu trên năm scenario?}
@@ -733,7 +733,7 @@ S3 & 74,59\%–96,91\% $\to$ 0\% & 4 nhóm; kế hoạch mỗi sự kiện\\
 \addlinespace[3pt]
 S9 & 19,76\%–40,81\% $\to$ 0\% & 32 nhóm; kế hoạch theo lịch\\
 \addlinespace[3pt]
-S10 (A/C) & 10,75\%–26,11\% $\to$ 0\% & 32 nhóm; kế hoạch theo lịch\\
+S10 (A/B) & 10,75\%–26,11\% $\to$ 0\% & 32 nhóm; kế hoạch theo lịch\\
 \end{longtable}
 \endgroup
 \textbf{Đóng góp hiện có:} phối hợp chọn truy vấn theo độ phủ POI, xếp hạng GPS tại thiết bị và lịch công khai để giảm lộ vị trí/đường/endpoint trong dịch vụ trạng thái động. Đã có lợi thế thực nghiệm ở cả năm scenario; lịch được kiểm tra riêng về giờ hoạt động. S1–S3 cần chạy lại privacy trên cohort lớn; chưa gán số bốn nhóm cho phiên bản theo lịch.
@@ -742,20 +742,20 @@ S10 (A/C) & 10,75\%–26,11\% $\to$ 0\% & 32 nhóm; kế hoạch theo lịch\\
 
 
 \clearpage
-\section{S9 và S10.A/C trên 32 nhóm tuyến}
-\textbf{Cohort dựng sau khi khóa kế hoạch và attacker:} đủ 32 seed, 704 chuyến. Phạm vi hiện tại giữ 1093/1118 record gốc; utility năm scenario dùng 435 record từ 246 chuyến, privacy S9/S10 dùng 150. Không gộp pilot bảy nhóm. Trùng nguyên tuyến với tập phát triển/pilot: 0/0; vẫn cùng thành phố và bộ sinh SUMO. Thu hẹp S10 sau chẩn đoán; đây là tổng hợp lại, không phải đợt test mới.
+\section{S9 và S10.A/B trên 32 nhóm tuyến}
+\textbf{Cohort dựng sau khi khóa kế hoạch và attacker:} đủ 32 seed, 704 chuyến. Phạm vi hiện tại giữ 1093/1118 record gốc; utility năm scenario dùng 435 record từ 246 chuyến, privacy S9/S10 dùng 150. Không gộp pilot bảy nhóm. Trùng nguyên tuyến với tập phát triển/pilot: 0/0; vẫn cùng thành phố và bộ sinh SUMO. Các số được tổng hợp từ kết quả đã có, không phải đợt xác nhận độc lập mới.
 
-Giữ bank cũ; thêm suy luận xuôi/ngược theo \textbf{mạng đường có hướng}, vận tốc quan sát và nhiều horizon; ca C kết hợp chuyến liên kết. Fit/chọn trên 10/10 nhóm khác; giữ nguyên lựa chọn cho 32 nhóm mới. Đối thủ không nhận đoạn bị giấu, endpoint thật hoặc thời gian cắt thật.
+Giữ bank cũ; thêm suy luận xuôi/ngược theo \textbf{mạng đường có hướng}, vận tốc quan sát và nhiều horizon; S9.C và S10.B kết hợp chuyến liên kết. Fit/chọn trên 10/10 nhóm khác; giữ nguyên lựa chọn cho 32 nhóm mới. Đối thủ không nhận đoạn bị giấu, endpoint thật hoặc thời gian cắt thật.
 
-Mỗi ô privacy là \textbf{Hit100 $\downarrow$ / MAE (m) $\uparrow$}: S9 gộp A/B/C, S10 gộp A/C. Recall gộp 14 ca rồi đều qua năm scenario ở p=0,8. Chi phí chỉ trên chuyến được giữ, gồm toàn clock gốc và cả giờ cover traffic; chưa có HTTP/TLS. Đây không phải so ở cùng byte.
+Mỗi ô privacy là \textbf{Hit100 $\downarrow$ / MAE (m) $\uparrow$}: S9 gộp A/B/C, S10 gộp A/B. Recall gộp 14 ca rồi đều qua năm scenario ở p=0,8. Chi phí chỉ trên chuyến được giữ, gồm toàn clock gốc và cả giờ cover traffic; chưa có HTTP/TLS. Đây không phải so ở cùng byte.
 
 \begingroup\small
 \begin{longtable}{@{}P{3.900cm}P{3.329cm}P{3.329cm}P{2.663cm}P{2.854cm}@{}}
 \toprule
-\textbf{Phương pháp} & \textbf{S9: Hit / MAE} & \textbf{S10.A/C: Hit / MAE} & \textbf{Recall@5 $\uparrow$} & \textbf{Byte $\downarrow$}\\\midrule
+\textbf{Phương pháp} & \textbf{S9: Hit / MAE} & \textbf{S10.A/B: Hit / MAE} & \textbf{Recall@5 $\uparrow$} & \textbf{Byte $\downarrow$}\\\midrule
 \endfirsthead
 \toprule
-\textbf{Phương pháp} & \textbf{S9: Hit / MAE} & \textbf{S10.A/C: Hit / MAE} & \textbf{Recall@5 $\uparrow$} & \textbf{Byte $\downarrow$}\\\midrule
+\textbf{Phương pháp} & \textbf{S9: Hit / MAE} & \textbf{S10.A/B: Hit / MAE} & \textbf{Recall@5 $\uparrow$} & \textbf{Byte $\downarrow$}\\\midrule
 \endhead
 \bottomrule\endfoot
 Vị trí thật & 42,5\% / 165 & 17,4\% / 212 & 100,0\% & 250\\
@@ -791,12 +791,12 @@ AnotherMe† & 0,0\% / 1687 & 0,0\% / 1232 & 16,8\% & 239\\
 \bottomrule\endfoot
 S10.A / 31 & 12,9\% / 35,5\% & 0,0\% / 0,0\% & 204 $\to$ 1914\\
 \addlinespace[3pt]
-S10.C / 32 & 21,9\% / 46,9\% & 0,0\% / 0,0\% & 219 $\to$ 1919\\
+S10.B / 32 & 21,9\% / 46,9\% & 0,0\% / 0,0\% & 219 $\to$ 1919\\
 \end{longtable}
 \endgroup
-\textbf{Lợi thế trong phạm vi hiện tại:} Hit100 S10.A/C của năm adapter là 10,75–26,11\%, lịch công khai 0\%. Raw control có hit ở cả A/C nên các ca có khả năng phân biệt. Hit=0 không đồng nghĩa an toàn trước mọi đối thủ; đây là kết quả trong bank đã thử.
+\textbf{Lợi thế trong phạm vi hiện tại:} Hit100 S10.A/B của năm adapter là 10,75–26,11\%, lịch công khai 0\%. Raw control có hit ở cả A/B nên các ca có khả năng phân biệt. Hit=0 không đồng nghĩa an toàn trước mọi đối thủ; đây là kết quả trong bank đã thử.
 
-CI 95\% của $\Delta$Hit100 \textbf{được tính lại đúng phạm vi} nằm dưới 0 ở 5/5 đối chứng S9 và 5/5 đối chứng S10.A/C. Bootstrap 3.000 lần theo nhóm, chưa hiệu chỉnh nhiều so sánh; không dùng CI A/B/C cũ. Số chi tiết và điều kiện: active\_\allowbreak{}scope\_\allowbreak{}results.md.
+CI 95\% của $\Delta$Hit100 \textbf{tính theo từng nhóm tuyến} nằm dưới 0 ở 5/5 đối chứng S9 và 5/5 đối chứng S10.A/B. Bootstrap 3.000 lần theo nhóm, chưa hiệu chỉnh nhiều so sánh. Nguồn số liệu và điều kiện được lưu trong bộ bằng chứng.
 
 \textbf{Giá của việc che giờ hoạt động:} so cùng kế hoạch chỉ refresh khi có hoạt động, lịch công khai dùng 4,48 lần byte trung bình theo nhóm; giữ 86712 lượt có utility bằng nhau. Lịch che quan hệ giữa giờ gửi và giờ đi lại trong khoảng đăng ký trước; không tạo thêm độ phủ POI.
 
@@ -829,7 +829,7 @@ method\_\allowbreak{}evidence.json / printed\_\allowbreak{}samples.json & Hash n
 \addlinespace[3pt]
 Module phương pháp và đối chứng & Phương pháp, đối chứng và cohort 32 nhóm; đọc artifact và đối chiếu hash trước khi dựng bảng.\\
 \addlinespace[3pt]
-archive/ & Nội dung các phiên bản trước; scope\_\allowbreak{}before\_\allowbreak{}ac\_\allowbreak{}v2 giữ bản trước khi thu hẹp S10.\\
+archive/ & Lưu các phiên bản tài liệu trước để truy nguyên.\\
 \addlinespace[3pt]
 build\_\allowbreak{}report.py & Sinh lại LaTeX/HTML và các tệp trên từ dữ liệu gốc; biên dịch PDF bằng Tectonic hoặc XeLaTeX.\\
 \end{longtable}

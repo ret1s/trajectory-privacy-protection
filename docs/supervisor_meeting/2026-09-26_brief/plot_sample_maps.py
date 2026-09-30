@@ -10,6 +10,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 ROOT=Path(__file__).resolve().parents[3]; OUT=Path(__file__).resolve().parent
 sys.path.insert(0,str(ROOT))
 from evaluation.report_scope import ALL_CASES, suffixes
+from report_case_labels import display_case, report_label_manifest
 D=json.loads((ROOT/'artifacts/datasets/urban_fresh_v2/dataset.json').read_text())
 P=json.loads((ROOT/'artifacts/benchmarks/paper_benchmark/results.json').read_text())
 S={x['case_id']:x for x in json.loads((OUT/'printed_samples.json').read_text())}
@@ -34,7 +35,7 @@ notes={
 'S7':['Query thật: clinic.','Clinic ẩn trong bó 6 loại query.','Chuỗi pharmacy → clinic → hospital.'],
 'S8':['Đồng hành; gần nhau một phần.','Đồng hành; gần nhau toàn cửa sổ.','Gần nhau nhưng nhãn không đồng hành.'],
 'S9':['Che 60 giây đầu; suy lại điểm xuất phát.','Hai điểm xuất phát khác nhau.','Hai phiên lặp cùng điểm xuất phát.'],
-'S10':['Che đoạn cuối; suy điểm kết thúc.','Cùng tiền tố nhưng hai điểm kết thúc.','Hai phiên lặp cùng điểm kết thúc.']}
+'S10':['Che đoạn cuối; suy điểm kết thúc.','Hai phiên lặp cùng điểm kết thúc.']}
 
 explanations=json.loads((OUT/'scenario_explanations.json').read_text())
 case_readings=json.loads((OUT/'case_readings.json').read_text())
@@ -49,8 +50,10 @@ for case,r in FIRST.items():
    target=lab['target_indices'] if len(r['session_ids'])==1 else [lab['target_indices'][slot]]
   elif 'target_index' in lab and slot==lab.get('target_slot',0):target=[lab['target_index']]
   tracks.append({'id':sid,'points':[[p['lon'],p['lat']] for p in t],'observed':r['observed_indices'][slot],'target':target,'times':[p['time_s'] for p in t]})
- payload['cases'].append({'case':case,'record':r['record_id'],'tracks':tracks,'label':S[case]['label_text'],'note':notes[r['scenario']]['ABC'.index(case[-1])],'explanation':{**explanations[r['scenario']],'reading':case_readings[case]}})
+ label=display_case(case)
+ payload['cases'].append({'case':label,'source_case_id':case,'record':r['record_id'],'tracks':tracks,'label':S[label]['label_text'],'note':notes[r['scenario']]['ABC'.index(label[-1])],'explanation':{**explanations[r['scenario']],'reading':case_readings[label]}})
 provenance={'background':'archived SUMO road polylines, paper_benchmark seed 81','osm_sha256':D['network']['osm_sha256'],'background_network_sha256':P['manifests'][0]['provenance']['sha256']['network'],'dataset_network_sha256':D['network']['sha256'],'exact_network_identity_verified':False,'limitation':'Same OSM hash and netconvert options; different network file hashes. Original dataset .net.xml unavailable, so exact geometry equivalence is not established.','dataset_sha256':hashlib.sha256((ROOT/'artifacts/datasets/urban_fresh_v2/dataset.json').read_bytes()).hexdigest(),'attribution':'© OpenStreetMap contributors; https://www.openstreetmap.org/copyright','counts':{'roads':len(roads),'cases':len(payload['cases'])}}
+provenance['case_labels']=report_label_manifest()
 (OUT/'map_provenance.json').write_text(json.dumps(provenance,ensure_ascii=False,indent=2)+'\n')
 payload['provenance']=provenance
 
@@ -78,7 +81,7 @@ def plot(ax,c):
 if __name__ == '__main__':
     with PdfPages(OUT/'sample_maps.pdf') as pdf:
      for scenario in ['S1','S2','S3','S9','S10','S5','S6','S8','S4','S7']:
-      cases=[next(c for c in payload['cases'] if c['case']==scenario+'.'+s) for s in suffixes(scenario)]
+      cases=[next(c for c in payload['cases'] if c['case']==display_case(scenario+'.'+s)) for s in suffixes(scenario)]
       fig,axs=plt.subplots(1,len(cases),figsize=(12,5.5 if scenario=='S10' else 4.6))
       for ax,c in zip(axs,cases):plot(ax,c);ax.set_xlabel(c['note'],fontsize=9,wrap=True)
       fig.subplots_adjust(left=.015,right=.99,top=.91,bottom=.22,wspace=.08)
@@ -93,7 +96,7 @@ if __name__ == '__main__':
     # Offline explorer embeds all geometry, so opening from file:// works.
     template=(OUT/'sample_map_template.html').read_text()
     (OUT/'sample_maps.html').write_text(template.replace('__DATA__',json.dumps(payload,ensure_ascii=False,separators=(',',':'))))
-    print('Rendered 29 active cases, 10 scenario figures, atlas PDF and offline map explorer; S10 A/C only.')
+    print('Rendered 29 active cases, 10 scenario figures, atlas PDF and offline map explorer; S10 A/B.')
 
 
 def write_explorer():
