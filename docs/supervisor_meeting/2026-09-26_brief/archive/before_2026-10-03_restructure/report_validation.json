@@ -1,7 +1,7 @@
 {
   "status": "passed",
-  "updated_on": "2026-10-02",
-  "pdf_pages": 31,
+  "updated_on": "2026-09-30",
+  "pdf_pages": 27,
   "case_map_panels": 29,
   "case_labels": {
     "report_to_source": {
@@ -24,11 +24,14 @@
   },
   "tables_unchanged_except_presentation_labels": 21,
   "sample_geometry_and_record_ids_unchanged": 29,
+  "no_pdf_text_outside_page": true,
+  "all_pdf_fonts_embedded": true,
+  "embedded_font_count": 16,
   "latex_overfull_boxes": 0,
   "latex_underfull_boxes": 0,
   "latex_missing_glyphs": 0,
-  "pdf_renderer": "PyMuPDF 1.26 (MuPDF) page rasterization",
-  "build_command": "tectonic --keep-logs -Z search-path=<dir with cmsy5.pfb, cmsy6.pfb> --outdir <build dir> docs/supervisor_meeting/2026-09-26_brief/report_explained.tex (Tectonic 0.17.0; PDF copied back)",
+  "pdf_renderer": "Poppler through pdftopng 0.2.4",
+  "build_command": "tectonic --only-cached --keep-logs -Z search-path=/tmp/trajectory-report-fonts --outdir docs/supervisor_meeting/2026-09-26_brief docs/supervisor_meeting/2026-09-26_brief/report_explained.tex",
   "font_fallback": [
     {
       "file": "cmsy5.pfb",
@@ -42,10 +45,17 @@
     }
   ],
   "outputs": {
-    "report_explained.pdf": "a9098b15a9a0c0c8a2224f7a2221aae9ff96af1d33b098b38b9c661e9d128a2b",
-    "report_explained.tex": "fac2c5ea5ed06ce5c5f08abbf3e4a2b6bdc36652558d557ae25258befa5d4707",
-    "report_explained.html": "d11f56a4b8bca7833074be92455ed317bac6ebe29518b76d1693b49badaa3f3e",
-    "build_report.py": "b983df4021d1cdd257195b1d0d57962b1b560ebbf1020c1ef514f946965cb6f5"
+    "report_explained.pdf": "91302acbb74ad888525faebf1ab7227a6b6b156a5e767b1111dc583d216c627f",
+    "report_explained.tex": "0b58d745db10502c0fea1c1f04de99723102204c9f4f924a69cd9e04ff735c84",
+    "report_explained.html": "7d725d3f4dc98d566ad9852934e74640d1e2bbd9cab6175e189335c997b8fe13",
+    "method_evidence.json": "07b355909d3fc59d77c5b71c8e047f2320e8413569b534f0f598ac11aa0a49d5",
+    "score_example.json": "b2d4aff753134b6ccb6f77ea28392a4a418e3a163808ca063e9e4379b35f7150",
+    "sample_maps.pdf": "9fce9c25e9e8d4e592d9706c8aa87a324af6ae689792bcfd31ab147ed67d09b3",
+    "sample_maps.html": "ebee6d9ce398053d520c3d8608d2dcf7dbc94330f9ce616f977aa47ce9bdb769",
+    "data_samples.json": "1abb9f8667dbe76a2151611c9544aeb4135e8a43c7b8d0efc045b2c954c15785",
+    "printed_samples.json": "13f29dbe10b2565df763737b309d9b7ed29fce0ce332d225a8dbeaa387be45f3",
+    "scenario_inventory.csv": "a07fc683eeccc5caee831a065a2efb25389d0c71e974e0cff9999ff54f9ad2fb",
+    "map_provenance.json": "264819f3beab67a7809e52723a97fa6e6d67a7cf92badfc07aa2c7517a8fedf5"
   },
   "authoring_sources": {
     "build_report.py": "1c8f889bfb70e39bb7272a2726df4e379290415119d20a87e1a99e1f7fb5f879",
@@ -94,31 +104,5 @@
       "S10.B"
     ]
   },
-  "visual_review": "All 31 pages rendered with PyMuPDF and reviewed in overview; pages 1, 2, 3, 9, 10, 15 and 26 inspected at readable scale. New part dividers, overview tables and the evidence section render without clipping or overlap; scenario panels unchanged.",
-  "restructure": {
-    "date": "2026-10-02",
-    "purpose": "Presentation order for the 03/10/2026 meeting",
-    "parts": [
-      "1 Tổng quan",
-      "Phần I: mục 2–4 kiến trúc và kết quả",
-      "Phần II: mục 5–7 lập luận và bộ đo",
-      "Phần III: mục 8–9 dataset",
-      "Phụ lục: mục 10–13"
-    ],
-    "new_sections": [
-      "1 Tổng quan: bài toán, đối thủ và điều cần chốt",
-      "5 Vì sao kết quả này đáng tin và vì sao dùng bộ đo chung"
-    ],
-    "measured_results_changed": false,
-    "section_cross_references_renumbered": {
-      "mục 8": "mục 2",
-      "mục 9": "mục 3",
-      "mục 10": "mục 4"
-    },
-    "previous_version": "archive/before_2026-10-03_restructure/"
-  },
-  "not_rechecked_this_update": [
-    "pdf text outside page",
-    "embedded font count"
-  ]
+  "visual_review": "All 27 report pages and 10 atlas pages rendered individually with Poppler and reviewed in overview; report pages 6 and 25 and atlas page 5 reviewed at readable size. S10 A/B labels agree with maps, explanations and numeric tables; no clipping or overflow."
 }

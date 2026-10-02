@@ -66,8 +66,8 @@ def main():
              OUT/'score_example.json', ROOT/'evaluation/category_cover.py', ROOT/'benchmark/scheduled_category_client.py',
              ROOT/'evaluation/live_poi.py', Path(__file__)]
     paths += [OUT/'figures'/name for name in ('case_S2_C.pdf', 'case_S9_B.pdf', 'case_S10_B.pdf', 'architecture_current.pdf')]
-    evidence = {'prepared_on': '2026-09-30', 'meeting_date': '2026-10-03', 'new_experiments': False,
-                'purpose': 'Private preparation companion to the existing September 26 report.',
+    evidence = {'prepared_on': '2026-10-02', 'meeting_date': '2026-10-03', 'new_experiments': False,
+                'purpose': 'Private preparation companion to the September 26 report as reordered on 2026-10-02 for the 03/10 meeting; same measured results.',
                 'sources': {str(f.relative_to(ROOT)): sha(f) for f in paths},
                 'source_numerical_checks': check['numerical_checks'],
                 'priority_cases': [display_case(c) for c in d['active_priority_cases']],

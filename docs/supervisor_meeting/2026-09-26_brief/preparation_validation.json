@@ -1,10 +1,10 @@
 {
   "status": "passed",
-  "checked_on": "2026-09-30",
+  "checked_on": "2026-10-02",
   "meeting_date": "2026-10-03",
-  "pages": 27,
-  "main_report_preserved": true,
-  "main_report_sha256": "91302acbb74ad888525faebf1ab7227a6b6b156a5e767b1111dc583d216c627f",
+  "pages": 30,
+  "main_report_preserved": false,
+  "main_report_sha256": "a9098b15a9a0c0c8a2224f7a2221aae9ff96af1d33b098b38b9c661e9d128a2b",
   "new_experiments": false,
   "source_hashes_verified": 17,
   "numerical_tables": {
@@ -16,15 +16,12 @@
   "scope_labels": "S10 A/B; 29 framework cases and 14 priority cases",
   "illustrative_examples_separated_from_measured_results": true,
   "local_images_and_source_links_resolve": true,
-  "no_text_outside_page": true,
-  "all_fonts_embedded": true,
-  "font_count": 12,
   "latex_overfull_boxes": 0,
   "latex_underfull_boxes": 0,
   "missing_glyphs": 0,
-  "visual_review": "All 27 pages rendered individually using Poppler and reviewed in overview. Pages 14, 18, 22 and 25 inspected at readable scale. After adding the map-background limitation, page 5 re-rendered and inspected. No clipping, overlap or orphan pages.",
-  "renderer": "pdftopng 0.2.4 (Poppler)",
-  "build_command": "tectonic --only-cached --keep-logs -Z search-path=/tmp/trajectory-report-fonts --outdir docs/supervisor_meeting/2026-09-26_brief docs/supervisor_meeting/2026-09-26_brief/preparation_guide.tex",
+  "visual_review": "All 30 pages rendered with PyMuPDF and reviewed in overview; pages 1, 3, 8, 11 and 25 inspected at readable scale. One near-empty spill page removed before the final build.",
+  "renderer": "PyMuPDF 1.26 (MuPDF) page rasterization",
+  "build_command": "python docs/supervisor_meeting/2026-09-26_brief/prepare_guide_evidence.py; tectonic --keep-logs -Z search-path=<dir with cmsy5.pfb, cmsy6.pfb> --outdir <build dir> docs/supervisor_meeting/2026-09-26_brief/preparation_guide.tex (Tectonic 0.17.0)",
   "font_fallback": [
     {
       "file": "cmsy5.pfb",
@@ -38,11 +35,23 @@
     }
   ],
   "outputs": {
-    "preparation_guide.pdf": "766a1db3f2ba7315d1a5c437ab4e446c73088660b8847965446946e1f13b01ea",
-    "preparation_guide.tex": "3ee193fda24f4a308e4be66784a7d47a1b0b775dd847b226233329b0ae3ed8f9",
+    "preparation_guide.pdf": "3f85c08cabf1df03fa25def62b9c5ca2dc15a40daff50a027c58115b447d1f51",
+    "preparation_guide.tex": "848e377722781f44535c76526f9f44785918bee7d332c55cbc0f2e1521220a6d",
     "preparation_evidence.tex": "bc06b682a96b25efd930e17d5633319cc8a5c2297301a902885f6fdad7fcfc2a",
-    "preparation_evidence.json": "01447a40364f971504d8927eb4fb34551547ef51713fd07157873193c14875bf",
-    "prepare_guide_evidence.py": "722e680b5dfec28be9f700039081b5cc16452a0bc85e243b180853a972706a73",
-    "PREPARATION.md": "837f548629021868d6778751e7b0cdda6a84a9db3afb43839f5745978b8ac238"
-  }
+    "preparation_evidence.json": "bae4f44159231feca73c606b2c1f1023b9ceb096539f22567b358471725c5ac3",
+    "prepare_guide_evidence.py": "134d15aeed191bdcc4274e0b7c9412bd6d93012039a98a053e64e014b8ec97c5"
+  },
+  "main_report_note": "Main report reordered on 2026-10-02 (31 pages); page references in the guide follow the reordered report.",
+  "structure": {
+    "1-2": "mục tiêu buổi họp, phân bổ 15 phút",
+    "3-10": "Trọng tâm 1: kiến trúc và kết quả",
+    "11-18": "Trọng tâm 2: bốn lớp bằng chứng, giao thức, metrics, đóng góp",
+    "19-24": "Trọng tâm 3: dataset và A/B/C",
+    "25-27": "Lớp bổ sung: đối chứng cập nhật, metrics gốc, related works",
+    "28-30": "câu hỏi khó, kịch bản 15 phút, tự kiểm tra"
+  },
+  "not_rechecked_this_update": [
+    "pdf text outside page",
+    "embedded font count"
+  ]
 }

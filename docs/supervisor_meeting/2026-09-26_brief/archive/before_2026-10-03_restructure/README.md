@@ -6,15 +6,11 @@ Nhãn được dùng thống nhất trong report, bảng số liệu và bản �
 
 - [Report PDF](report_explained.pdf), [LaTeX](report_explained.tex), [HTML](report_explained.html).
 - [Bản đồ tương tác: 29 ca](sample_maps.html), [atlas PDF](sample_maps.pdf).
-- [Bản chuẩn bị trình bày](preparation_guide.pdf) và [hướng dẫn hai tài liệu](PREPARATION.md).
 - [Kết quả và lập luận hiện tại](../../research/active_scope_results.md).
 
-**Sắp xếp lại ngày 02/10/2026 cho buổi 03/10.** Số liệu, dataset, model, attacker và transcript giữ
-nguyên bản 30/09; chỉ thay thứ tự và phần dẫn nhập. Báo cáo 31 trang: 1–2 tổng quan; 3–8 Phần I
-kiến trúc và kết quả (mục 2–4); 9–14 Phần II lập luận và bộ đo chung (mục 5–7); 15–25 Phần III
-dataset và 29 ca (mục 8–9); 26–31 phụ lục khảo sát, đối chứng, metrics gốc, nguồn (mục 10–13).
-Hai mục mới là tổng quan (mục 1) và bốn lớp bằng chứng (mục 5); các mục còn lại giữ nguyên nội dung,
-chỉ đánh số lại tham chiếu chéo. Bản 30/09 lưu ở `archive/before_2026-10-03_restructure/`.
+Báo cáo 27 trang: 1–11 dữ liệu và mẫu; 12–19 khảo sát/metrics; 20–21 kiến trúc;
+22–24 đối chứng và mức bằng chứng cho năm scenario; 25 kết quả S9/S10.A/B;
+26–27 nguồn và tài liệu tham khảo.
 
 ## Phạm vi số liệu
 
@@ -65,8 +61,7 @@ python docs/supervisor_meeting/2026-09-26_brief/build_report.py
 tectonic --keep-logs --outdir docs/supervisor_meeting/2026-09-26_brief docs/supervisor_meeting/2026-09-26_brief/report_explained.tex
 ```
 
-`build_report.py` dựng các mục rồi sắp xếp lại theo thứ tự trình bày và đánh số lại tham chiếu "mục N";
-phần nội dung nằm trong các module `*_content.py`. `report_case_labels.py` ánh xạ nhãn trình bày sang mã nguồn thực nghiệm;
+`report_case_labels.py` ánh xạ nhãn trình bày sang mã nguồn thực nghiệm;
 `evaluation/report_scope.py` giữ phạm vi tính toán đã khóa. `scenario_guide.json`,
 `case_readings.json`, `printed_samples.json`, `data_samples.json` và
 `scenario_inventory.csv` chỉ chứa mẫu hiện tại. Mã bản ghi và số liệu gốc được bảo toàn;
@@ -76,4 +71,4 @@ Không sửa trực tiếp LaTeX/HTML được sinh tự động.
 Đã đối chiếu 981 phép tính/mẫu số với dữ liệu đo gốc; bốn tests cho trọng số,
 thiếu dữ liệu, chi phí và bootstrap đã qua. `report_validation.json` ghi QA bản
 PDF hiện tại; `method_evidence.json` ghi hash nguồn. Chưa chạy lại toàn bộ model
-hoặc tạo cohort mới trong lần cập nhật nhãn này và lần sắp xếp lại ngày 02/10.
+hoặc tạo cohort mới trong lần cập nhật nhãn này.
