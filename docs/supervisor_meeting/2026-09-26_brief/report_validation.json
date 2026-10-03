@@ -1,34 +1,51 @@
 {
   "status": "passed",
-  "updated_on": "2026-10-02",
-  "pdf_pages": 31,
-  "case_map_panels": 29,
-  "case_labels": {
-    "report_to_source": {
-      "S10.B": "S10.C"
-    },
-    "unchanged_case_labels": "identity mapping",
-    "policy": "Presentation labels only; retain source records, metrics and experiment identifiers."
+  "updated_on": "2026-10-03",
+  "revision": "Plain-language architecture and configuration explanation; step-by-step supervisor speaking script; scenario-only benchmarks retained",
+  "source_hashes_valid": true,
+  "numerical_checks": 237,
+  "quantitative_rows_checked_in_html": 25,
+  "coverage_rows": 12,
+  "sample_appendix_included": false,
+  "scenario_aggregate_rows": 5,
+  "shared_content_identical": true,
+  "obsolete_branch_absent_from_presentation": true,
+  "local_links_resolve": true,
+  "new_model_runs": false,
+  "immutable_benchmarks_modified": false,
+  "visual_review": "Architecture and changed main pages of both PDFs inspected; page geometry and font embedding checked.",
+  "model_architecture": {
+    "name": "BR-Dummy: Geo-I anchor + protected-history belief + directed-road/POI-aware dummy selection",
+    "working_name": "GeoI-Slack",
+    "internal_control_name": "GeoI-Paced",
+    "boundary_wrapper": "BR-Boundary v1; integration evidence, not full service benchmark",
+    "figure": "figures/architecture_report_flow.pdf",
+    "execution_order": "budget/pacing -> anchor if permitted -> belief + reachable road domain -> POI selector -> server response -> cache/local ranking; optional S9 before core and S10 after selector"
   },
-  "method_source_hashes_valid": true,
-  "method_source_count": 67,
-  "source_tables_verified": {
-    "aggregate_and_cost_rows": 9,
-    "scenario_privacy_rows": 9,
-    "scenario_privacy_cells": 45,
-    "case_utility_rows": 14,
-    "case_utility_cells": 112,
-    "endpoint_aggregate_rows": 9,
-    "endpoint_control_rows": 2,
-    "recomputed_endpoint_bootstrap_contrasts": 40
+  "archive": "archive/before_plain_architecture_explanation/",
+  "authoring_sources": {
+    "build_report.py": "d88a05c952156226c949d54bcf251fc6045bde6fb3689353a0e6be16ea728b3e",
+    "concise_presentation_content.py": "f536ee1dc87ba805b060fd5aaccec6898c949c46b4ca1219af4fcd3279e56e1b",
+    "geoi_evidence.py": "95a695fb200938d3d66f617bc4b54aaecb7b88289f8e593b6e74258405d52d87",
+    "geoi_content.py": "06b1b74a6758ae37157d91f15c57544f6b8c7554ef1881be742d6e2d01252b68",
+    "plot_report_architecture.py": "a30a2dd7577e40bcefe5ae732bde420e99cc3989ff25c9483d56f91e23db9159",
+    "prepare_guide_evidence.py": "53c001253f76c6ddaafd92e18922f77df2b1c8e9a62d27aee44c1070cc7f1437",
+    "related_work_coverage.py": "2892a75653ff75c2294d911f2e7ca35b7623bb4dc23f3cc57c624de1185eab04",
+    "validate_documents.py": "bd858d829f4adea43806badddbcd20ab199c4a96016012481fea2a69b32e08ce",
+    "README.md": "5688582f348bcf90927060dd62ab5ece3cec3942704ec6ce54a59732075a47dd",
+    "PREPARATION.md": "e7c0ededb46972bc3fcfc70443a75192901cdf4645fe23930eb203c03bd8559b"
   },
-  "tables_unchanged_except_presentation_labels": 21,
-  "sample_geometry_and_record_ids_unchanged": 29,
-  "latex_overfull_boxes": 0,
-  "latex_underfull_boxes": 0,
-  "latex_missing_glyphs": 0,
-  "pdf_renderer": "PyMuPDF 1.26 (MuPDF) page rasterization",
-  "build_command": "tectonic --keep-logs -Z search-path=<dir with cmsy5.pfb, cmsy6.pfb> --outdir <build dir> docs/supervisor_meeting/2026-09-26_brief/report_explained.tex (Tectonic 0.17.0; PDF copied back)",
+  "outputs": {
+    "report_explained.pdf": "176d77b7f5d2edaa96180673fe38fe89b91087d6ac74ab5bbf5f0a09255b0b4c",
+    "report_explained.html": "1316fab42e0e4ce5106f234d6d4768470906ac0312ed772b97ff12335b2396e7",
+    "report_explained.tex": "85b2475bf6df1b72172664475fe97ba5a6cf9fb886fbf91a80a9a6770eac115d",
+    "preparation_guide.pdf": "be592200b5ac5fa0ea3b523ce92b196b7eb48e6dcf24e25ace1ff9d94634b6a4",
+    "preparation_guide.tex": "4e8ecbde28274fd4ef54a097d0bb902311f77f1b708f9b463110a804e98875a9",
+    "geoi_configuration.tex": "11c18eacb56c37ac36bb8623482868d0989255a100c2fdbec8b09157a762394c",
+    "geoi_benchmark.tex": "fef6063a9392baf02b8af8f4df5e3997f76a710928d9a86666b56df7e98a16c2",
+    "metrics_explained.tex": "e3b58ba4a31dcb232f1f66c84e448cf1992463555882d2d074c43da78ce28810",
+    "model_architecture.tex": "63930eeb033d9150020f30f7f928ac57b3d332d321b92bd0bf46b41e856d0535"
+  },
   "font_fallback": [
     {
       "file": "cmsy5.pfb",
@@ -41,84 +58,10 @@
       "sha256": "ecc3c95ef6f687c6c6eb557c5b11f2c6883af1dc3593e8adbd9f828c44cf3cb1"
     }
   ],
-  "outputs": {
-    "report_explained.pdf": "a9098b15a9a0c0c8a2224f7a2221aae9ff96af1d33b098b38b9c661e9d128a2b",
-    "report_explained.tex": "fac2c5ea5ed06ce5c5f08abbf3e4a2b6bdc36652558d557ae25258befa5d4707",
-    "report_explained.html": "d11f56a4b8bca7833074be92455ed317bac6ebe29518b76d1693b49badaa3f3e",
-    "build_report.py": "b983df4021d1cdd257195b1d0d57962b1b560ebbf1020c1ef514f946965cb6f5"
-  },
-  "authoring_sources": {
-    "build_report.py": "1c8f889bfb70e39bb7272a2726df4e379290415119d20a87e1a99e1f7fb5f879",
-    "dataset_content.py": "f5d179432f739d416f9aadb205fa36a10dd065db7f5b8fe126a613660f83efed",
-    "current_method_content.py": "8c9df25b7a319a1732c866e3989b1266bfcb9d4e9b9e899f5e42e488184f4ec8",
-    "paper_comparison_content.py": "80bf5a2f1bcadb3fa9f1aaafdbc61a2d9e5fc91091d37201cb7c1a86e7657f69",
-    "plot_current_architecture.py": "6421a50e75ac382ae28f5b74d69ddf3959a6fd650c0ea511ea5c56e818be8a5d",
-    "README.md": "30da57b8daa13f90ba4f1730e585f0eba770c98816cd268854ed37fc224b83a0",
-    "endpoint_calendar_content.py": "a96494db854f5f78ff48e5202a6848660c6de94523c4d7c2d54f76c64b9594c2",
-    "plot_sample_maps.py": "335d850c0664a585355502ca14306fc865ee997c95374aa19b943c4d3bc5ba00",
-    "plot_case_panels.py": "211a1667bc8084a578f6697e19c1f94d96ea8f5ad7ff362ef91071871a322458",
-    "sample_map_template.html": "5c170ba7fd4f95d7f638c9b1878c83b125b41f55a436183aded6d89445a57cd8",
-    "scenario_guide.json": "71016acc5b55553ded6d826d4228e875fbbbbe5bffe3d873edeacbf9355aeb3e",
-    "scenario_explanations.json": "4f44849f199591a7d6747f5f3ea09dae01991632b6bd641858217066f7a4dc0d",
-    "case_readings.json": "a0cf46dce569865612901c1f577d245520efd6537b6c64953d9fc5142c464e5a",
-    "report_case_labels.py": "1970ed69010205af092115ea7eae15a599e945905d092136b37e5cc1aae693c8"
-  },
-  "this_revision": {
-    "presentation_labels_only": true,
-    "new_model_training": false,
-    "new_cohort": false,
-    "frozen_benchmark_modified": false,
-    "scope_reaggregation": false,
-    "active_priority_cases": 14,
-    "active_total_cases": 29
-  },
-  "active_scope_verification_sha256": "f72fad7617f793daf24e117013bd9c170e2284546b1ff77b304ebcbe7b33fbd2",
-  "html_data_check": {
-    "active_examples": 29,
-    "S10_cases": [
-      "S10.A",
-      "S10.B"
-    ],
-    "sample_inventory_consistent": true,
-    "local_links_resolve": true
-  },
-  "local_links_checked": 35,
-  "link_check_scope": "Local nonfragment href/src paths; external sources unchanged.",
-  "interactive_browser_check": "No new interactive browser check; this revision changes labels and embedded data only. JavaScript interaction handlers unchanged.",
-  "atlas_validation": {
-    "pages": 10,
-    "fonts_embedded": 3,
-    "text_outside_page": [],
-    "S10_cases": [
-      "S10.A",
-      "S10.B"
-    ]
-  },
-  "visual_review": "All 31 pages rendered with PyMuPDF and reviewed in overview; pages 1, 2, 3, 9, 10, 15 and 26 inspected at readable scale. New part dividers, overview tables and the evidence section render without clipping or overlap; scenario panels unchanged.",
-  "restructure": {
-    "date": "2026-10-02",
-    "purpose": "Presentation order for the 03/10/2026 meeting",
-    "parts": [
-      "1 Tổng quan",
-      "Phần I: mục 2–4 kiến trúc và kết quả",
-      "Phần II: mục 5–7 lập luận và bộ đo",
-      "Phần III: mục 8–9 dataset",
-      "Phụ lục: mục 10–13"
-    ],
-    "new_sections": [
-      "1 Tổng quan: bài toán, đối thủ và điều cần chốt",
-      "5 Vì sao kết quả này đáng tin và vì sao dùng bộ đo chung"
-    ],
-    "measured_results_changed": false,
-    "section_cross_references_renumbered": {
-      "mục 8": "mục 2",
-      "mục 9": "mục 3",
-      "mục 10": "mục 4"
-    },
-    "previous_version": "archive/before_2026-10-03_restructure/"
-  },
-  "not_rechecked_this_update": [
-    "pdf text outside page",
-    "embedded font count"
-  ]
+  "pages": 6,
+  "fonts_embedded": 8,
+  "text_outside_page": [],
+  "compiler_log_checked": true,
+  "pdf_sha256": "176d77b7f5d2edaa96180673fe38fe89b91087d6ac74ab5bbf5f0a09255b0b4c",
+  "document": "report_explained"
 }

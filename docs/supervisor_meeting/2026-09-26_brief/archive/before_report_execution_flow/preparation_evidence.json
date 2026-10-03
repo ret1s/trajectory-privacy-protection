@@ -1,0 +1,313 @@
+{
+  "updated_on": "2026-10-03",
+  "new_model_runs": false,
+  "purpose": "Geo-I as main method; identical shared configuration, benchmark and 14-case appendix",
+  "sources": {
+    "docs/supervisor_meeting/2026-09-26_brief/report_explained.pdf": "85cabe6f0a21256193e54c7cce6c2a21a6dee95682fed71788b5173ba173c5b5",
+    "docs/supervisor_meeting/2026-09-26_brief/report_explained.tex": "2331b84254ff6bcb6dca094e2d5b1ee4ffda29871a5d7ab9675da7329700034b",
+    "docs/supervisor_meeting/2026-09-26_brief/method_evidence.json": "047faf3838764e39dd89a5c837310be2e0ca52cf2559add61cfd36b710b2cd9d",
+    "docs/supervisor_meeting/2026-09-26_brief/geoi_configuration.tex": "04a6e9804ed41b5510e2e16689683dabce7c289b6537f8b49a8fea718fceeb37",
+    "docs/supervisor_meeting/2026-09-26_brief/geoi_benchmark.tex": "e3724d932a2a715af0c6a3966d2359722714ee110221c256eac31982b2cd0eac",
+    "docs/supervisor_meeting/2026-09-26_brief/scenario_appendix.tex": "14f629aeb29fbb8b633f65afd15af0cdc516f1d1c41ea78ab9e7adb127fbee00",
+    "docs/supervisor_meeting/2026-09-26_brief/metrics_explained.tex": "e3b58ba4a31dcb232f1f66c84e448cf1992463555882d2d074c43da78ce28810",
+    "docs/supervisor_meeting/2026-09-26_brief/model_architecture.tex": "09c2be51043f97e3044bc9105ae36a880dad5eba413de081d337019788079041",
+    "docs/supervisor_meeting/2026-09-26_brief/related_work_coverage.tex": "6f58049d0db3687761f179cf2f6aaea8bb26745a4b4e739456f4edee13b244e5",
+    "docs/supervisor_meeting/2026-09-26_brief/related_work_coverage.json": "ae038d709a599ba52915b02764b585bf406976988ef1a702f837c121abb76c5b",
+    "docs/supervisor_meeting/2026-09-26_brief/geoi_content.py": "b46c3b602ad09895da76b668cf83bf755b896afa09e3561b0b3e0c6d997a6f13",
+    "docs/supervisor_meeting/2026-09-26_brief/geoi_evidence.py": "221b285744cace0e94b3942b0befc231704a7eb5ef8ea3d7b9d6727b74218f41",
+    "docs/supervisor_meeting/2026-09-26_brief/concise_presentation_content.py": "78cb366798d37e47c1a517aacad5f9317ff80a43d48dddafc2f9cbaa11fdd224",
+    "docs/supervisor_meeting/2026-09-26_brief/preparation_guide.tex": "883a7e73e60da2fb1f5156320f95b6e007436a9408f87b3b5a3e22543e2b696c",
+    "docs/supervisor_meeting/2026-09-26_brief/data_samples.json": "ebeeb57c9fad9cfa940b8f9f79ef58add0541680af9b73c5a4aca5645ba7f000",
+    "docs/supervisor_meeting/2026-09-26_brief/report_case_labels.py": "1970ed69010205af092115ea7eae15a599e945905d092136b37e5cc1aae693c8",
+    "docs/supervisor_meeting/2026-09-26_brief/figures/architecture_model.pdf": "f69bff1c44de1562136bf63435e73397b9db0a07f23002f1e3aaa0253f29896e",
+    "docs/supervisor_meeting/2026-09-26_brief/prepare_guide_evidence.py": "7d375baa503f35ed560c8b9c445d523d73ee4cbf0b4cc2f8ba5c0f71e703dc8a"
+  },
+  "shared_benchmark_tables": [
+    {
+      "headers": [
+        "Tham số / component",
+        "GeoI-Paced",
+        "GeoI-Slack"
+      ],
+      "rows": [
+        [
+          "Neo / ngân sách",
+          "ε_test = ε_release = 0,01 /m; θ = 200 m; cận phiên 0,23 /m",
+          "Giống GeoI-Paced"
+        ],
+        [
+          "Đọc GPS / cache",
+          "Đọc cách ≥60 giây; cache cùng epoch 60 giây",
+          "Giống GeoI-Paced"
+        ],
+        [
+          "Dịch vụ",
+          "K=5 điểm; L=10 POI/loại/điểm; chọn top-5 tại thiết bị",
+          "Giống GeoI-Paced"
+        ],
+        [
+          "Slack",
+          "Không nới điểm mục tiêu của bộ chọn",
+          "Cho phép giảm tối đa 0,03 điểm mục tiêu để di chuyển hữu ích hơn; không phải giảm Recall 3%"
+        ]
+      ]
+    },
+    {
+      "headers": [
+        "Scenario / đáp án cần suy",
+        "Tên các bộ suy luận chính và cách dùng"
+      ],
+      "rows": [
+        [
+          "S1 — tọa độ hiện tại",
+          "**Centroid**: tâm tập điểm; **Prior**: phân bố vị trí; **Road filter**: lọc đường; **Shadow kNN**: học từ chuyến phụ trợ."
+        ],
+        [
+          "S2 — tọa độ nơi dừng",
+          "**Running mean / Full mean**: gộp nhiều lần nhìn; **Stationary intersection**: tìm điểm chung khi output có điểm thật + dummy; thêm các bộ đường/chuỗi."
+        ],
+        [
+          "S3 — các điểm của đoạn đã đi",
+          "**Continuity**: nối theo chuyển động; **Road filter**; **Full path (Viterbi)**: truy ngược toàn cửa sổ; **Shadow kNN**."
+        ],
+        [
+          "S9 — điểm đầu bị che",
+          "**Road filter / Full path** dùng phần tuyến còn thấy; **Shadow kNN** học quan hệ giữa cửa sổ và điểm đầu."
+        ],
+        [
+          "S10 — điểm cuối bị che",
+          "**Road filter / Full path** dùng tuyến trước đoạn bị che; **Shadow kNN** học quan hệ với điểm cuối; không đọc suffix ẩn."
+        ]
+      ]
+    },
+    {
+      "headers": [
+        "Phương pháp",
+        "S1",
+        "S2",
+        "S3",
+        "S9",
+        "S10"
+      ],
+      "rows": [
+        [
+          "GPS thật",
+          "100,00% / 13 / 100,00%",
+          "100,00% / 39 / 100,00%",
+          "96,43% / 23 / 100,00%",
+          "41,67% / 120 / 100,00%",
+          "8,33% / 630 / 100,00%"
+        ],
+        [
+          "DLS*",
+          "58,33% / 1.318 / 100,00%",
+          "100,00% / 39 / 100,00%",
+          "31,21% / 1.688 / 100,00%",
+          "8,33% / 1.582 / 100,00%",
+          "0,00% / 2.029 / 100,00%"
+        ],
+        [
+          "TransProtect*",
+          "83,33% / 84 / 97,78%",
+          "66,67% / 88 / 97,19%",
+          "69,28% / 99 / 97,93%",
+          "25,00% / 184 / 97,27%",
+          "8,33% / 680 / 98,52%"
+        ],
+        [
+          "Semantic*",
+          "100,00% / 11 / 100,00%",
+          "100,00% / 42 / 100,00%",
+          "40,58% / 257 / 100,00%",
+          "33,33% / 132 / 100,00%",
+          "16,67% / 731 / 100,00%"
+        ],
+        [
+          "Geo-I + dummy",
+          "58,33% / 94 / 99,17%",
+          "36,11% / 105 / 98,52%",
+          "52,65% / 144 / 97,73%",
+          "8,33% / 307 / 96,85%",
+          "0,00% / 636 / 97,06%"
+        ],
+        [
+          "Geo-I + dummy đường",
+          "16,67% / 237 / 98,06%",
+          "53,70% / 121 / 97,44%",
+          "3,57% / 1.909 / 81,96%",
+          "41,67% / 217 / 96,99%",
+          "0,00% / 2.682 / 79,75%"
+        ],
+        [
+          "**BR tái dùng (Geo-I, v2)**",
+          "33,33% / 299 / 95,83%",
+          "22,22% / 247 / 97,01%",
+          "7,44% / 776 / 87,67%",
+          "0,00% / 316 / 96,60%",
+          "0,00% / 2.315 / 88,33%"
+        ]
+      ]
+    },
+    {
+      "headers": [
+        "Ca",
+        "GPS thật: Hit100 (%)",
+        "Geo-I: Hit100 (%) ↓",
+        "Sai số TB (m) ↑",
+        "POI đúng (%) ↑"
+      ],
+      "rows": [
+        [
+          "S1.A",
+          "100,00%",
+          "8,33%",
+          "852",
+          "97,64%"
+        ],
+        [
+          "S1.B",
+          "100,00%",
+          "8,33%",
+          "832",
+          "95,90%"
+        ],
+        [
+          "S1.C",
+          "100,00%",
+          "0,00%",
+          "1.674",
+          "80,18%"
+        ],
+        [
+          "S2.A",
+          "100,00%",
+          "0,00%",
+          "910",
+          "99,86%"
+        ],
+        [
+          "S2.B",
+          "100,00%",
+          "4,17%",
+          "715",
+          "99,49%"
+        ],
+        [
+          "S2.C",
+          "100,00%",
+          "0,00%",
+          "997",
+          "94,59%"
+        ],
+        [
+          "S3.A",
+          "100,00%",
+          "3,09%",
+          "906",
+          "95,63%"
+        ],
+        [
+          "S3.B",
+          "100,00%",
+          "3,37%",
+          "873",
+          "95,97%"
+        ],
+        [
+          "S3.C",
+          "100,00%",
+          "2,19%",
+          "934",
+          "95,26%"
+        ],
+        [
+          "S9.A",
+          "16,67%",
+          "0,00%",
+          "607",
+          "95,69%"
+        ],
+        [
+          "S9.B",
+          "75,00%",
+          "2,50%",
+          "701",
+          "95,30%"
+        ],
+        [
+          "S9.C",
+          "0,00%",
+          "0,00%",
+          "514",
+          "94,95%"
+        ],
+        [
+          "S10.A",
+          "33,33%",
+          "0,00%",
+          "1.345",
+          "97,63%"
+        ],
+        [
+          "S10.B",
+          "16,67%",
+          "0,00%",
+          "1.200",
+          "96,42%"
+        ]
+      ]
+    },
+    {
+      "headers": [
+        "Cấu hình",
+        "POI đúng: Recall@5 ↑",
+        "Ca đạt ≥90%",
+        "Byte gửi + nhận / sự kiện ↓"
+      ],
+      "rows": [
+        [
+          "GeoI-Paced",
+          "94,38%",
+          "13/14",
+          "993,7"
+        ],
+        [
+          "**GeoI-Slack**",
+          "95,44%",
+          "13/14",
+          "994,1"
+        ],
+        [
+          "GeoI-Slack, bỏ cache",
+          "95,19%",
+          "13/14",
+          "994,1"
+        ],
+        [
+          "GPS thật",
+          "100,00%",
+          "14/14",
+          "214,5"
+        ]
+      ]
+    }
+  ],
+  "source_cases": [
+    "S1.A",
+    "S1.B",
+    "S1.C",
+    "S2.A",
+    "S2.B",
+    "S2.C",
+    "S3.A",
+    "S3.B",
+    "S3.C",
+    "S9.A",
+    "S9.B",
+    "S9.C",
+    "S10.A",
+    "S10.C"
+  ],
+  "aggregation": "record -> family -> case; equal cases within scenario, equal five scenarios; availability worlds and RNG replicates averaged within family",
+  "cost_policy": "all original traffic of the 94 included full sessions, pooled event-weighted compact request + response JSON; no HTTP/TLS"
+}

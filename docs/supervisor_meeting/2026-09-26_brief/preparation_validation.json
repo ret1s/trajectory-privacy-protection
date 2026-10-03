@@ -1,27 +1,51 @@
 {
   "status": "passed",
-  "checked_on": "2026-10-02",
-  "meeting_date": "2026-10-03",
-  "pages": 30,
-  "main_report_preserved": false,
-  "main_report_sha256": "a9098b15a9a0c0c8a2224f7a2221aae9ff96af1d33b098b38b9c661e9d128a2b",
-  "new_experiments": false,
-  "source_hashes_verified": 17,
-  "numerical_tables": {
-    "scenario_rows": 5,
-    "endpoint_rows": 9,
-    "paired_contrast_rows": 5
+  "updated_on": "2026-10-03",
+  "revision": "Plain-language architecture and configuration explanation; step-by-step supervisor speaking script; scenario-only benchmarks retained",
+  "source_hashes_valid": true,
+  "numerical_checks": 237,
+  "quantitative_rows_checked_in_html": 25,
+  "coverage_rows": 12,
+  "sample_appendix_included": false,
+  "scenario_aggregate_rows": 5,
+  "shared_content_identical": true,
+  "obsolete_branch_absent_from_presentation": true,
+  "local_links_resolve": true,
+  "new_model_runs": false,
+  "immutable_benchmarks_modified": false,
+  "visual_review": "Architecture and changed main pages of both PDFs inspected; page geometry and font embedding checked.",
+  "model_architecture": {
+    "name": "BR-Dummy: Geo-I anchor + protected-history belief + directed-road/POI-aware dummy selection",
+    "working_name": "GeoI-Slack",
+    "internal_control_name": "GeoI-Paced",
+    "boundary_wrapper": "BR-Boundary v1; integration evidence, not full service benchmark",
+    "figure": "figures/architecture_report_flow.pdf",
+    "execution_order": "budget/pacing -> anchor if permitted -> belief + reachable road domain -> POI selector -> server response -> cache/local ranking; optional S9 before core and S10 after selector"
   },
-  "main_protocol_verification_checks": 981,
-  "scope_labels": "S10 A/B; 29 framework cases and 14 priority cases",
-  "illustrative_examples_separated_from_measured_results": true,
-  "local_images_and_source_links_resolve": true,
-  "latex_overfull_boxes": 0,
-  "latex_underfull_boxes": 0,
-  "missing_glyphs": 0,
-  "visual_review": "All 30 pages rendered with PyMuPDF and reviewed in overview; pages 1, 3, 8, 11 and 25 inspected at readable scale. One near-empty spill page removed before the final build.",
-  "renderer": "PyMuPDF 1.26 (MuPDF) page rasterization",
-  "build_command": "python docs/supervisor_meeting/2026-09-26_brief/prepare_guide_evidence.py; tectonic --keep-logs -Z search-path=<dir with cmsy5.pfb, cmsy6.pfb> --outdir <build dir> docs/supervisor_meeting/2026-09-26_brief/preparation_guide.tex (Tectonic 0.17.0)",
+  "archive": "archive/before_plain_architecture_explanation/",
+  "authoring_sources": {
+    "build_report.py": "d88a05c952156226c949d54bcf251fc6045bde6fb3689353a0e6be16ea728b3e",
+    "concise_presentation_content.py": "f536ee1dc87ba805b060fd5aaccec6898c949c46b4ca1219af4fcd3279e56e1b",
+    "geoi_evidence.py": "95a695fb200938d3d66f617bc4b54aaecb7b88289f8e593b6e74258405d52d87",
+    "geoi_content.py": "06b1b74a6758ae37157d91f15c57544f6b8c7554ef1881be742d6e2d01252b68",
+    "plot_report_architecture.py": "a30a2dd7577e40bcefe5ae732bde420e99cc3989ff25c9483d56f91e23db9159",
+    "prepare_guide_evidence.py": "53c001253f76c6ddaafd92e18922f77df2b1c8e9a62d27aee44c1070cc7f1437",
+    "related_work_coverage.py": "2892a75653ff75c2294d911f2e7ca35b7623bb4dc23f3cc57c624de1185eab04",
+    "validate_documents.py": "bd858d829f4adea43806badddbcd20ab199c4a96016012481fea2a69b32e08ce",
+    "README.md": "5688582f348bcf90927060dd62ab5ece3cec3942704ec6ce54a59732075a47dd",
+    "PREPARATION.md": "e7c0ededb46972bc3fcfc70443a75192901cdf4645fe23930eb203c03bd8559b"
+  },
+  "outputs": {
+    "report_explained.pdf": "176d77b7f5d2edaa96180673fe38fe89b91087d6ac74ab5bbf5f0a09255b0b4c",
+    "report_explained.html": "1316fab42e0e4ce5106f234d6d4768470906ac0312ed772b97ff12335b2396e7",
+    "report_explained.tex": "85b2475bf6df1b72172664475fe97ba5a6cf9fb886fbf91a80a9a6770eac115d",
+    "preparation_guide.pdf": "be592200b5ac5fa0ea3b523ce92b196b7eb48e6dcf24e25ace1ff9d94634b6a4",
+    "preparation_guide.tex": "4e8ecbde28274fd4ef54a097d0bb902311f77f1b708f9b463110a804e98875a9",
+    "geoi_configuration.tex": "11c18eacb56c37ac36bb8623482868d0989255a100c2fdbec8b09157a762394c",
+    "geoi_benchmark.tex": "fef6063a9392baf02b8af8f4df5e3997f76a710928d9a86666b56df7e98a16c2",
+    "metrics_explained.tex": "e3b58ba4a31dcb232f1f66c84e448cf1992463555882d2d074c43da78ce28810",
+    "model_architecture.tex": "63930eeb033d9150020f30f7f928ac57b3d332d321b92bd0bf46b41e856d0535"
+  },
   "font_fallback": [
     {
       "file": "cmsy5.pfb",
@@ -34,24 +58,10 @@
       "sha256": "ecc3c95ef6f687c6c6eb557c5b11f2c6883af1dc3593e8adbd9f828c44cf3cb1"
     }
   ],
-  "outputs": {
-    "preparation_guide.pdf": "3f85c08cabf1df03fa25def62b9c5ca2dc15a40daff50a027c58115b447d1f51",
-    "preparation_guide.tex": "848e377722781f44535c76526f9f44785918bee7d332c55cbc0f2e1521220a6d",
-    "preparation_evidence.tex": "bc06b682a96b25efd930e17d5633319cc8a5c2297301a902885f6fdad7fcfc2a",
-    "preparation_evidence.json": "bae4f44159231feca73c606b2c1f1023b9ceb096539f22567b358471725c5ac3",
-    "prepare_guide_evidence.py": "134d15aeed191bdcc4274e0b7c9412bd6d93012039a98a053e64e014b8ec97c5"
-  },
-  "main_report_note": "Main report reordered on 2026-10-02 (31 pages); page references in the guide follow the reordered report.",
-  "structure": {
-    "1-2": "mục tiêu buổi họp, phân bổ 15 phút",
-    "3-10": "Trọng tâm 1: kiến trúc và kết quả",
-    "11-18": "Trọng tâm 2: bốn lớp bằng chứng, giao thức, metrics, đóng góp",
-    "19-24": "Trọng tâm 3: dataset và A/B/C",
-    "25-27": "Lớp bổ sung: đối chứng cập nhật, metrics gốc, related works",
-    "28-30": "câu hỏi khó, kịch bản 15 phút, tự kiểm tra"
-  },
-  "not_rechecked_this_update": [
-    "pdf text outside page",
-    "embedded font count"
-  ]
+  "pages": 5,
+  "fonts_embedded": 8,
+  "text_outside_page": [],
+  "compiler_log_checked": true,
+  "pdf_sha256": "be592200b5ac5fa0ea3b523ce92b196b7eb48e6dcf24e25ace1ff9d94634b6a4",
+  "document": "preparation_guide"
 }

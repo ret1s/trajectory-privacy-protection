@@ -1,0 +1,67 @@
+{
+  "status": "passed",
+  "updated_on": "2026-10-03",
+  "revision": "Scenario-only presentation; sample appendix omitted; current benchmark aggregated by scenario with explicit means and retained minimum utility",
+  "source_hashes_valid": true,
+  "numerical_checks": 237,
+  "quantitative_rows_checked_in_html": 25,
+  "coverage_rows": 12,
+  "sample_appendix_included": false,
+  "scenario_aggregate_rows": 5,
+  "shared_content_identical": true,
+  "obsolete_branch_absent_from_presentation": true,
+  "local_links_resolve": true,
+  "new_model_runs": false,
+  "immutable_benchmarks_modified": false,
+  "visual_review": "Architecture and changed main pages of both PDFs inspected; page geometry and font embedding checked.",
+  "model_architecture": {
+    "name": "BR-Dummy: Geo-I anchor + protected-history belief + directed-road/POI-aware dummy selection",
+    "working_name": "GeoI-Slack",
+    "internal_control_name": "GeoI-Paced",
+    "boundary_wrapper": "BR-Boundary v1; integration evidence, not full service benchmark",
+    "figure": "figures/architecture_report_flow.pdf",
+    "execution_order": "budget/pacing -> anchor if permitted -> belief + reachable road domain -> POI selector -> server response -> cache/local ranking; optional S9 before core and S10 after selector"
+  },
+  "archive": "archive/before_scenario_only_presentation/",
+  "authoring_sources": {
+    "build_report.py": "d88a05c952156226c949d54bcf251fc6045bde6fb3689353a0e6be16ea728b3e",
+    "concise_presentation_content.py": "a1641c3229a327ee46c440db17a6b6e969ce53a17f16734a3040bb2078b44f98",
+    "geoi_evidence.py": "95a695fb200938d3d66f617bc4b54aaecb7b88289f8e593b6e74258405d52d87",
+    "geoi_content.py": "2619148b6fc0ec793751d52a866243435bbd6e0773a2257e57ca7c8bc0e69c56",
+    "plot_report_architecture.py": "9d2f8f1287c84e1b8964b54698a65c154d4d579363ae8012e2373609dd518be6",
+    "prepare_guide_evidence.py": "53c001253f76c6ddaafd92e18922f77df2b1c8e9a62d27aee44c1070cc7f1437",
+    "related_work_coverage.py": "2892a75653ff75c2294d911f2e7ca35b7623bb4dc23f3cc57c624de1185eab04",
+    "validate_documents.py": "af499bb437df5f3ae0e63e0c0f0a05f335cfc1a7e393f06a00c8f290a497ab38",
+    "README.md": "6a75a6c9206bf5eb014d99064ba1901c9443b391daaeb6ce61e61ce39523bcce",
+    "PREPARATION.md": "8cc03b5d9eb163da535df8dbfac0cdf76a2b05f398940daaf0bad6de228c951f"
+  },
+  "outputs": {
+    "report_explained.pdf": "ab0db7ea2da99827ee6ddfe5ff8d33b845aee75ef69b4577013a894e771389dc",
+    "report_explained.html": "74a637a867b2e320d4592c58de4d29491189493588cfbb3ff70ce585d0fab7ce",
+    "report_explained.tex": "2b37830af117c7e39a7c1a4d0605ea2d660015754841581b89aca153e306d029",
+    "preparation_guide.pdf": "d1a6bce90aeddba89ebcd903e1f02bc2f24e3e872852a6d570a7246637ae4ece",
+    "preparation_guide.tex": "4e8ecbde28274fd4ef54a097d0bb902311f77f1b708f9b463110a804e98875a9",
+    "geoi_configuration.tex": "04a6e9804ed41b5510e2e16689683dabce7c289b6537f8b49a8fea718fceeb37",
+    "geoi_benchmark.tex": "fef6063a9392baf02b8af8f4df5e3997f76a710928d9a86666b56df7e98a16c2",
+    "metrics_explained.tex": "e3b58ba4a31dcb232f1f66c84e448cf1992463555882d2d074c43da78ce28810",
+    "model_architecture.tex": "ac2c64394a7440460b0e0fb72688e2f6852e6e1d7074944da49679591dc27fae"
+  },
+  "font_fallback": [
+    {
+      "file": "cmsy5.pfb",
+      "source": "https://mirrors.ctan.org/fonts/cm/ps-type1/bakoma/pfb/cmsy5.pfb",
+      "sha256": "6f56c7a1a306e147e53834cde4d1b3995b00431404be051ca4ada1511457d400"
+    },
+    {
+      "file": "cmsy6.pfb",
+      "source": "https://mirrors.ctan.org/fonts/cm/ps-type1/bakoma/pfb/cmsy6.pfb",
+      "sha256": "ecc3c95ef6f687c6c6eb557c5b11f2c6883af1dc3593e8adbd9f828c44cf3cb1"
+    }
+  ],
+  "pages": 6,
+  "fonts_embedded": 8,
+  "text_outside_page": [],
+  "compiler_log_checked": true,
+  "pdf_sha256": "ab0db7ea2da99827ee6ddfe5ff8d33b845aee75ef69b4577013a894e771389dc",
+  "document": "report_explained"
+}

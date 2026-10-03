@@ -1,0 +1,104 @@
+{
+  "family": "PublicCover",
+  "names_are_presentation_aliases": true,
+  "labels": {
+    "ours30": "CoverLite-30",
+    "ours67": "CoverPlus-67",
+    "calendar30": "CoverLite-30 + lịch",
+    "calendar67": "CoverPlus-67 + lịch"
+  },
+  "rows": [
+    [
+      "Cách chọn kế hoạch",
+      "Greedy, dừng ở ngân sách 30",
+      "Greedy đến khi không tăng độ phủ; được 67"
+    ],
+    [
+      "Truy vấn logic / lần gửi",
+      "30 cặp loại POI–tọa độ",
+      "67 cặp loại POI–tọa độ"
+    ],
+    [
+      "Tọa độ khác nhau",
+      "19",
+      "52"
+    ],
+    [
+      "POI tĩnh nằm trong hợp phản hồi",
+      "259/419; thiếu 160",
+      "411/419; thiếu 8"
+    ],
+    [
+      "Lượt POI trả về tối đa / lần",
+      "≤300 (30 × L=10)",
+      "≤670 (67 × L=10)"
+    ],
+    [
+      "Lịch endpoint: 60 lần gửi / giờ",
+      "1.800 truy vấn logic / giờ",
+      "4.020 truy vấn logic / giờ"
+    ],
+    [
+      "Recall@5 tại p=0,8; ca đạt ≥90%",
+      "95,00%; 14/14",
+      "100,00%; 14/14"
+    ],
+    [
+      "Recall@5 tại p=0,95; ca đạt ≥90%",
+      "93,01%; 13/14",
+      "100,00%; 14/14"
+    ],
+    [
+      "Hit100 S9 / S10; lịch, 32 nhóm",
+      "0,00% / 0,00%",
+      "0,00% / 0,00%"
+    ],
+    [
+      "Byte gửi + nhận / sự kiện dịch vụ",
+      "3.071,0",
+      "6.878,6"
+    ]
+  ],
+  "calendar": {
+    "start_s": 0,
+    "end_s": 3600,
+    "epoch_s": 60,
+    "active_start_range_s": [
+      300,
+      900
+    ],
+    "activation": "public subscription chosen before trips; no on-demand activation or cancellation",
+    "local_queries": "read current epoch cache only; never trigger network traffic"
+  },
+  "static_target_count": 419,
+  "covered_counts": [
+    259,
+    411
+  ],
+  "queries_by_category": [
+    {
+      "clinic": 1,
+      "fuel": 1,
+      "hospital": 1,
+      "pharmacy": 2,
+      "cafe": 11,
+      "restaurant": 14
+    },
+    {
+      "clinic": 1,
+      "fuel": 1,
+      "hospital": 1,
+      "pharmacy": 2,
+      "cafe": 19,
+      "restaurant": 43
+    }
+  ],
+  "benchmark_scope": "32 groups, calendar; frozen active_scope_ac_v2 readout",
+  "not_GeoI_or_dummy_K": true,
+  "new_experiment": false,
+  "sources": {
+    "artifacts/benchmarks/research_loop/iteration29_plans.json": "402c08e788e882165b5a1a078c70de4b8a971610c23a2d26e0694dfe07026418",
+    "artifacts/benchmarks/endpoint_calendar_v1/protocol.json": "a177726e9a6dfdfc225c068c5ff2ae27ee228e5f930ad7ee8167348f27c853fe",
+    "artifacts/benchmarks/active_scope_ac_v2/readout.json": "a15fd6516ff880430efe404ffe2d60e9841e8e3bf514c6d9544b878628131a4c"
+  }
+}

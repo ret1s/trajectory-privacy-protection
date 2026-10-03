@@ -1,46 +1,51 @@
-# Hai bản dùng cho buổi 03/10/2026
+# Hai tài liệu cho buổi trình bày
 
-- **Bản trình bày:** [report_explained.pdf](report_explained.pdf), 31 trang. Sắp xếp lại ngày 02/10 theo thứ tự nói; số liệu, dataset, attacker và transcript giữ nguyên bản 30/09.
-- **Bản chuẩn bị cá nhân:** [preparation_guide.pdf](preparation_guide.pdf), 30 trang; [nguồn LaTeX](preparation_guide.tex).
-- **Bản đồ dùng khi giải thích:** [sample_maps.html](sample_maps.html).
+- [Report](report_explained.pdf): **6 trang**, gồm **5 trang chính** và 1 trang nguồn.
+- [Preparation guide](preparation_guide.pdf): **5 trang**. Tạm bỏ phụ lục mẫu; trình bày ở mức scenario.
 
-Buổi họp nói ba trọng tâm theo thứ tự: kiến trúc giải pháp và kết quả benchmark trên năm scenario;
-lập luận vì sao kết quả đứng vững và vì sao dùng bộ đo đề xuất; nếu còn thời gian, vì sao dataset
-chia thành các ca A/B/C. Chi tiết đối chứng đã cập nhật và bảng metrics gốc là lớp bổ sung, mở khi GVHD hỏi.
-
-## Thứ tự trong report chính
-
-| Phần | Mục | Trang |
+| Nội dung | Report | Guide |
 |---|---|---|
-| Tổng quan: bài toán, đối thủ, kết quả rút gọn, ba điểm xin chốt | 1 | 1–2 |
-| Phần I: kiến trúc, đối chứng bốn nhóm, S9/S10 trên 32 nhóm | 2–4 | 3–8 |
-| Phần II: bốn lớp bằng chứng, bộ đo chung, điểm tổng hợp | 5–7 | 9–14 |
-| Phần III: ba cấp dữ liệu và 29 ca A/B/C | 8–9 | 15–25 |
-| Phụ lục: khảo sát, sáu đối chứng, metrics gốc, nguồn | 10–13 | 26–31 |
+| Related works: bảng chung scenario–metrics; lý do dùng bộ đo chung | 1 | 1 |
+| Sơ đồ luồng kiến trúc theo số thứ tự và layer | 2 | 2 |
+| Vai trò component, cấu hình GeoI-Paced/GeoI-Slack và đóng góp | 3 | 3 |
+| Attacker theo scenario; Geo-I v2 so với adapter | 4 | 4 |
+| Geo-I hiện tại: kết quả gộp theo scenario | 5 | 5 |
+| Nguồn và truy nguyên | 6 | Đọc cùng report |
 
-## Đọc bản chuẩn bị theo nhu cầu
+**Cách đọc ví dụ S1:** Hit100 = 33,33% là tỷ lệ attacker đoán cách vị trí thật không quá 100 m; MAE = 299 m là sai số suy luận trung bình. Thấp hơn tốt hơn với Hit100; cao hơn tốt hơn với MAE. Bảng 3.1 ghi Hit100 (%) / MAE (m) / Recall@5 (%); ví dụ 33,33% / 299 / 95,83%. Dấu / tách ba chỉ số, không phải phép chia. Bảng bản hiện tại gộp theo scenario và giữ cột riêng.
 
-| Trang | Nội dung |
-|---|---|
-| 1–2 | Mục tiêu buổi họp, hai tài liệu, phân bổ 15 phút |
-| 3–10 | Trọng tâm 1: dịch vụ, kiến trúc, thuật toán phủ, lịch tải, utility, bảng năm scenario, bảng endpoint, trade-off |
-| 11–18 | Trọng tâm 2: bốn lớp bằng chứng, giao thức thực nghiệm, sáu điều kiện so công bằng, metrics, điểm Q, vì sao không dùng metrics gốc, đóng góp |
-| 19–24 | Trọng tâm 3: ba đơn vị dữ liệu, scenario và từng ca A/B/C |
-| 25–27 | Lớp bổ sung: đối chứng đã thay đổi so với 19/09, metrics gốc, related works |
-| 28–30 | Câu hỏi khó, kịch bản 15 phút, tự kiểm tra và nguồn |
+Mạch nói: **paper nào bao phủ nhiệm vụ nào → vì sao cần bộ đo chung → mô hình Geo-I hoạt động thế nào → attacker được thấy gì và suy gì → kết quả benchmark**.
 
-Bản chuẩn bị là tài liệu tự học trước buổi họp; không phải kết luận đã được GVHD chấp nhận và không có thực nghiệm mới.
-Các bảng thực nghiệm sinh từ readout đã kiểm tra, trong [preparation_evidence.tex](preparation_evidence.tex);
-[preparation_evidence.json](preparation_evidence.json) ghi hash nguồn và phân biệt ví dụ minh họa với số đo.
-Bản 30/09 của cả hai tài liệu được lưu trong `archive/before_2026-10-03_restructure/`.
+**“v2” là phiên bản benchmark, không phải tên attacker.** Cùng tập loại attacker đánh giá các phương pháp; **Shadow kNN** được học riêng từ output từng phương pháp. Chọn bộ suy luận trên tập chọn, giữ cố định khi test. Tên các bộ suy luận đã in đậm ở trang 4–5; phép thử bản hiện tại dùng thêm **kNN**, **ExtraTrees** và các bộ hình học/đường.
 
-## Dựng lại
+Có thể trình bày phần kết quả như sau: “Khung nghiên cứu có S1–S10; hiện đo S1, S2, S3, S9, S10. Ở benchmark v2, BR trên nền Geo-I giảm Hit100 S2/S3 so với ba adapter, nhưng utility còn đánh đổi. Bản hiện tại đạt Recall 95,44%, cả năm scenario đạt 90% ở mức trung bình. S1 vẫn có mức thấp nhất 80,18%. Cache có lợi ích đo được; slack còn cần xác nhận. Hai phiên bản khác protocol nên báo riêng.”
 
-```sh
-python docs/supervisor_meeting/2026-09-26_brief/prepare_guide_evidence.py
-tectonic --keep-logs --outdir docs/supervisor_meeting/2026-09-26_brief docs/supervisor_meeting/2026-09-26_brief/preparation_guide.tex
-```
+Hai cấu hình hiện tại cùng ε/ngân sách: GeoI-Paced là bản so sánh nội bộ; GeoI-Slack cho phép nới điểm đánh giá độ phủ POI tối đa 0,03 để chọn điểm giúp tiếp tục di chuyển. Đây không phải mức giảm Recall 3%. Geo-I tạo vị trí tham chiếu đã làm nhiễu, chỉ dùng trong thiết bị. Ước lượng vùng vị trí, kiểm tra đường đi và chọn điểm truy vấn dùng lịch sử đã bảo vệ cùng dữ liệu công khai. GPS thật còn dùng để xếp hạng kết quả cuối tại thiết bị. Việc hợp phản hồi không sửa truy vấn. Che đầu/cuối chuyến là mở rộng S9/S10: đã kiểm tra tích hợp, chưa benchmark kết hợp với dịch vụ hiện tại.
 
-Chỉ sửa nội dung trong `preparation_guide.tex`; không cần chạy `build_report.py`. Số trang report trong các dòng
-"Đọc cùng report chính" được chép từ bản 31 trang hiện tại; nếu report đổi phân trang, cập nhật lại các dòng này.
-Nguồn/hash hai font bổ sung và lệnh biên dịch đã kiểm tra được ghi trong `preparation_validation.json`.
+**Cách nói theo sơ đồ:** bước 1 kiểm tra lịch/ngân sách; bước 2 giữ hoặc tạo vị trí đã bảo vệ; 3a ước lượng vùng vị trí và 3b kiểm tra điểm xe có thể tới; bước 4 chọn 5 điểm truy vấn; máy chủ trả POI; bước 5 hợp phản hồi và xếp hạng trên thiết bị. Không đọc GPS mới thì bỏ bước 2, dựa vào lịch sử đã bảo vệ. S9 nằm trước các bước tạo truy vấn; S10 nằm trước lúc gửi máy chủ.
+
+Phần 1 gộp coverage và metrics vào một bảng. Bốn lý do cần bộ đo chung: khác đầu ra; khác nhiệm vụ/quyền quan sát; utility khác tác vụ; chi phí khác phạm vi. Ta chấm cùng đáp án từ toàn bộ output attacker được phép thấy bằng Hit100/MAE, cùng dịch vụ POI bằng Recall@5 và request + response bằng byte/sự kiện.
+
+Mỗi dòng của benchmark hiện tại là trung bình đều các điều kiện trong scenario. Recall tổng trung bình đều năm scenario. Không coi đạt ngưỡng trung bình là mọi điều kiện đều đạt; số đo chi tiết vẫn giữ trong nguồn để truy nguyên.
+
+Bảng coverage, định lượng và benchmark được dùng chung để hai bản không lệch số. Sửa lời dẫn guide trong `preparation_guide.tex`; sửa nội dung chung trong `geoi_content.py`; dựng report trước guide. Lệnh và provenance ở [README](README.md).
+
+## Kịch bản giải thích thuật toán với GVHD
+
+Khoảng 4 phút; chỉ từng ô trên sơ đồ trang 2. Khi nói “vị trí đã bảo vệ”, chỉ ô 2; khi nói “điểm truy vấn”, chỉ ô 4 và đầu ra công khai.
+
+“Mục tiêu của mô hình là giúp người dùng tìm địa điểm quan tâm, chẳng hạn trạm sạc, nhưng không gửi GPS thật lên máy chủ. Đầu vào gồm GPS trên thiết bị, bản đồ đường và danh sách địa điểm công khai. Đầu ra gửi máy chủ là năm điểm truy vấn giả; kết quả cuối cho người dùng là năm địa điểm mỗi loại, được chọn ngay trên thiết bị.
+
+Ở bước 1, mô hình kiểm tra đã đến lịch đọc GPS và còn ngân sách riêng tư hay chưa. Hai lần đọc để tạo truy vấn cách nhau ít nhất 60 giây. Nếu chưa được đọc, mô hình tiếp tục dùng lịch sử đã bảo vệ. Bước này giúp hạn chế thông tin tích lũy khi người dùng bị quan sát nhiều lần.
+
+Ở bước 2, Geo-I làm nhiễu GPS để tạo một vị trí tham chiếu đã bảo vệ. Một phép kiểm tra có nhiễu quyết định giữ vị trí tham chiếu cũ hay tạo vị trí mới. Việc tái dùng giúp giảm số mẫu nhiễu mới khi người dùng ít di chuyển. Tuy nhiên, phép kiểm tra vẫn tiêu ngân sách. Vị trí tham chiếu này chỉ dùng trong thiết bị, chưa phải điểm gửi lên máy chủ.
+
+Tiếp theo là hai phần cùng hỗ trợ bước chọn truy vấn. Bước 3a dùng lịch sử đã bảo vệ để ước lượng vùng người dùng có thể đang ở, vì một tọa độ đã làm nhiễu có thể lệch khỏi vị trí thật. Bước 3b dùng điểm giả trước đó, thời gian đã trôi qua, hướng làn và luật rẽ để kiểm tra xe có thể tới đâu. Như vậy, điểm truy vấn được chọn vừa xét sự không chắc chắn về vị trí, vừa xét tính hợp lý của đường đi.
+
+Ở bước 4, mô hình chọn năm điểm giả sao cho các điểm có thể mang về những địa điểm bổ sung nhau. Nếu nhiều điểm cùng trả về một danh sách giống nhau thì lợi ích tìm kiếm sẽ thấp. GeoI-Paced ưu tiên độ phủ hiện tại. GeoI-Slack cho phép nới điểm đánh giá độ phủ tối đa 0,03 để chọn điểm giúp tiếp tục di chuyển tới vùng hữu ích hơn. Hai bản dùng cùng ngân sách; 0,03 không có nghĩa là giảm Recall 3%.
+
+Máy chủ trả tối đa mười địa điểm mỗi loại cho từng điểm truy vấn. Bước 5 hợp các phản hồi còn hiệu lực trong khoảng 60 giây, rồi dùng GPS thật ngay trên thiết bị để chọn năm địa điểm mỗi loại. GPS thật không được gửi trong các truy vấn này.
+
+Với S1, Geo-I là nền bảo vệ vị trí. Với S2, tái dùng, lịch đọc và ngân sách xử lý quan sát lặp. Với S3, kiểm tra đường đi giúp chuỗi điểm giả phù hợp chuyển động; tác động riêng tư vẫn phải đo bằng attacker. Nếu bật S9, GPS của đoạn đầu không đi vào các bước tạo truy vấn. Nếu bật S10, kết quả được giữ tạm trước khi gửi và phần chưa gửi bị hủy khi chuyến kết thúc. Hai phần mở rộng này chưa được benchmark kết hợp với dịch vụ hiện tại.
+
+Vì vậy, đóng góp của mô hình nằm ở cách phối hợp Geo-I với quan sát lặp, đường đi và chất lượng tìm địa điểm. Em dùng benchmark để kiểm tra sự phối hợp đó có cải thiện cân bằng riêng tư và tiện ích hay không.”

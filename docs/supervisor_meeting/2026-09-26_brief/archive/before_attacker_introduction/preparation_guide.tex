@@ -1,0 +1,46 @@
+% Personal preparation companion. Main report reordered on 02/10/2026; numbers unchanged.
+\documentclass[10pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\usepackage[margin=1.9cm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,booktabs,longtable,array,ragged2e,enumitem,microtype,xcolor,graphicx,fancyhdr,tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage[hidelinks,unicode]{hyperref}
+\definecolor{ink}{HTML}{183A45}\definecolor{teal}{HTML}{087F7A}\definecolor{pale}{HTML}{EAF4F2}\definecolor{gray}{HTML}{56656B}
+\newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\setlength{\parindent}{0pt}\setlength{\parskip}{6pt}\setlength{\emergencystretch}{2em}
+\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.15}
+\setlist{nosep,leftmargin=1.4em,topsep=4pt,itemsep=3pt}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small\color{gray}GHI CHÚ CHUẨN BỊ TRÌNH BÀY}\fancyhead[R]{\small\color{gray}03/10/2026}\fancyfoot[C]{\small\thepage}\renewcommand{\headrulewidth}{0.3pt}
+\newcommand{\key}[1]{\par\smallskip\noindent\colorbox{pale}{\parbox{\dimexpr\linewidth-2\fboxsep}{#1}}\par\smallskip}
+\newcommand{\say}[1]{\par\textbf{Có thể trình bày:}\ \textit{#1}\par}
+\newcommand{\ask}[2]{\par\textbf{Nếu được hỏi: #1}\par #2\par}
+\newcommand{\where}[1]{\par{\small\color{gray}Đọc cùng report chính: #1.}\par}
+\newcommand{\transition}[1]{\par\textbf{Chuyển ý:}\ #1\par}
+\newcommand{\example}{\textbf{Ví dụ minh họa, không phải kết quả benchmark.} }
+\newcommand{\guidepage}[1]{\clearpage\section{#1}}
+\newcommand{\layer}[2]{\clearpage\noindent{\color{teal}\small\bfseries #1}\par\vspace{2pt}{\Large\bfseries\color{ink}#2}\par\vspace{6pt}\hrule\vspace{8pt}}
+\hypersetup{pdftitle={Chuẩn bị trình bày nghiên cứu: related works, kiến trúc và benchmark},pdfauthor={}}
+\input{preparation_evidence.tex}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries\color{ink}Chuẩn bị thuyết trình}\\[5pt]
+{\large Related works → kiến trúc → benchmark}\\[3pt]
+{\small Buổi 03/10/2026 · Đọc cùng report rút gọn · Geo-I là phương pháp chính}
+\end{center}
+\key{Mạch nói: papers/scenario/metrics → các lớp mô hình → kết quả đối chứng. Mở phụ lục khi cần giải thích A/B/C.}
+
+\input{related_work_coverage.tex}
+\clearpage
+\input{metrics_explained.tex}
+\say{Em dùng ba nhóm chỉ số: attacker đoán gần tới đâu, người dùng tìm đúng POI tới đâu và dịch vụ tốn bao nhiêu byte. 33,33 phần trăm và 299 mét là hai số khác nhau, nên em tách thành cột riêng.}
+
+\clearpage
+\input{model_architecture.tex}
+
+\clearpage
+\input{geoi_benchmark.tex}
+
+\clearpage
+\input{scenario_appendix.tex}
+\end{document}

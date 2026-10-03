@@ -1,0 +1,237 @@
+{
+  "checked_on": "2026-10-03",
+  "mapping_is_our_inference": true,
+  "granularity": "scenario task within paper assumptions; not all A/B/C cases",
+  "legend": "**Fully (F):** paper trực tiếp xử lý mục tiêu suy luận của scenario, trong giả định của paper. **Partially (P):** chỉ xử lý một phần hoặc bối cảnh hẹp hơn. **CX:** chưa đủ nguồn để phân loại. **—:** chưa tìm thấy bằng chứng xử lý trực tiếp; không kết luận cơ chế chắc chắn thất bại. F/P là đối chiếu của ta, không phải nhãn do tác giả công bố, không có nghĩa bảo vệ 100% hoặc đã vượt các ca A/B/C của ta.",
+  "scenario_key": "S1: vị trí hiện tại; S2: nơi dừng; S3: đoạn đường đã đi; S4: liên kết danh tính giữa phiên; S5: cạnh đường kế tiếp; S6: đích chưa tới; S7: nội dung/ý định truy vấn; S8: định vị nhờ dữ liệu người đi cùng; S9: điểm đầu bị che; S10: điểm cuối bị che của chuyến đã hoàn tất.",
+  "rows": [
+    [
+      "TransProtect 2024 [R1]",
+      "S1, S3",
+      "S2",
+      "§3–5: suy vị trí từ chuỗi đã làm nhiễu, biết đường/traffic; chưa đánh giá riêng nơi dừng."
+    ],
+    [
+      "Semantic correlation 2026 [R2]",
+      "S1, S3",
+      "S2",
+      "§3–6: giữ dummy hợp lý theo thời gian/ngữ nghĩa; chưa chấm riêng nơi dừng hay ý định S7."
+    ],
+    [
+      "Fake queries 2026 [R3]",
+      "S1, S3",
+      "S2",
+      "§3–6: chèn truy vấn giả để khó nối tuyến; chưa đánh giá riêng tọa độ nơi dừng."
+    ],
+    [
+      "Road-aware PTPPM 2025 [R4]",
+      "S1, S3",
+      "S2",
+      "§III, VI: chống suy vị trí/quỹ đạo có tương quan; bước dự báo chưa là phép thử S5/S6."
+    ],
+    [
+      "CPCROK 2025 [R5]",
+      "—",
+      "S4",
+      "§3–5: chống nối bí danh xe trong VANET; chưa tách danh tính người/thiết bị như S4.A/B/C."
+    ],
+    [
+      "DP-FETC 2025 [R6]",
+      "—",
+      "S3, S8, S9, S10",
+      "SynFE/PreOD: sinh dữ liệu offline, đổi đầu/cuối của tuyến tương quan; không chấm định vị từ người đi cùng."
+    ],
+    [
+      "Improved PIR 2025 [R7]",
+      "CX",
+      "CX: S1, S7",
+      "Tóm tắt nêu bảo vệ vị trí/nội dung bằng mã hóa; thiếu toàn văn để đối chiếu quyền quan sát và suy ý định."
+    ],
+    [
+      "SoK 2024 [R8]",
+      "Không áp dụng",
+      "Không áp dụng",
+      "Khảo sát cách đánh giá/tấn công; không phải cơ chế bảo vệ để gán F/P."
+    ],
+    [
+      "PRISM 2025 [R9]",
+      "CX",
+      "CX: S1, S3",
+      "Tóm tắt: bảo vệ chia sẻ quỹ đạo; chưa đủ mô hình attacker. Dùng LSTM không xác nhận xử lý S5/S6."
+    ],
+    [
+      "Options to Action 2026 [R10]",
+      "Không áp dụng",
+      "Không áp dụng",
+      "Khảo sát sử dụng tính năng, có che đầu/cuối (S9/S10); không đo khả năng chống suy luận."
+    ],
+    [
+      "Forsch et al. 2023 [R11]",
+      "S9, S10",
+      "—",
+      "§3.2: S-TT cắt cả hai đầu, xét nhiều tuyến cùng đích; bảo đảm theo tập tấn công/địa điểm cho trước, offline."
+    ],
+    [
+      "EV querying 2024 [R12]",
+      "S1, S3",
+      "S2",
+      "Proposed Query Model: AGeoI + dummy chống định vị/nối tuyến online; chưa chấm riêng nơi dừng hoặc S4–S10."
+    ]
+  ],
+  "note": "Scenario không được liệt kê ở một hàng được hiểu là —; với R7/R9 là chưa xác minh, với R8/R10 là không áp dụng. Bảng cho thấy các cơ chế chuỗi chủ yếu xét S1/S3; S2 cần phép thử nơi dừng riêng, còn S9/S10 cần kiểm tra suy ngược từ phần tuyến vẫn công bố.",
+  "sources": [
+    {
+      "id": "R1",
+      "url": "https://arxiv.org/html/2409.09495v1",
+      "access_note": "Toàn văn tác giả; §5.1.4, Eq. 13."
+    },
+    {
+      "id": "R2",
+      "url": "https://link.springer.com/article/10.1007/s44443-026-00899-w",
+      "access_note": "Toàn văn NXB; §6.3–6.5."
+    },
+    {
+      "id": "R3",
+      "url": "https://link.springer.com/article/10.1007/s44443-025-00438-z",
+      "access_note": "Toàn văn NXB; §6.3–6.6."
+    },
+    {
+      "id": "R4",
+      "url": "https://arxiv.org/html/2511.21020v1",
+      "access_note": "Bản tiền công bố; §VI, Eq. 26–27."
+    },
+    {
+      "id": "R5",
+      "url": "https://uhra.herts.ac.uk/id/eprint/25705/1/futureinternet-17-00165.pdf",
+      "access_note": "Toàn văn lưu tại trường tác giả; §5.4."
+    },
+    {
+      "id": "R6",
+      "url": "https://www.aimspress.com/aimspress-data/era/2025/11/PDF/era-33-11-293.pdf",
+      "access_note": "Toàn văn NXB; §4.4, §5.2, Eq. 19–21."
+    },
+    {
+      "id": "R7",
+      "url": "https://onlinelibrary.wiley.com/doi/abs/10.1002/cpe.70447",
+      "access_note": "Chỉ xác minh tóm tắt NXB; chưa đủ định nghĩa các metric."
+    },
+    {
+      "id": "R8",
+      "url": "https://petsymposium.org/popets/2024/popets-2024-0068.pdf",
+      "access_note": "Toàn văn; khảo sát và hướng dẫn đánh giá, không phải một cơ chế đối chứng."
+    },
+    {
+      "id": "R9",
+      "url": "https://www.sciencedirect.com/science/article/pii/S1084804525001687",
+      "access_note": "Tóm tắt/đoạn công khai của NXB; chưa xác minh công thức LPI/TDD/DC."
+    },
+    {
+      "id": "R10",
+      "url": "https://elathan.github.io/papers/chi26.pdf",
+      "access_note": "Toàn văn tác giả; bảng 3, §6.4. Đo sử dụng tính năng, không đo sức chống tấn công."
+    },
+    {
+      "id": "R11",
+      "url": "https://link.springer.com/chapter/10.1007/978-3-031-35374-1_3",
+      "access_note": "Toàn văn tác giả, online 09/12/2023. Trình bày lại S-TT 2022, không phải một phương pháp mới độc lập."
+    },
+    {
+      "id": "R12",
+      "url": "https://wrap.warwick.ac.uk/id/eprint/183198/1/WRAP-privacy-preserving-querying-mechanism-high-utility-electric-vehicles-2024.pdf",
+      "access_note": "Bản tác giả: AGeoI + dummy cho truy vấn trạm sạc; không xác minh benchmark điểm đầu/cuối."
+    }
+  ],
+  "presentation_headers": [
+    "Paper",
+    "Fully",
+    "Partially / CX",
+    "Privacy / chẩn đoán",
+    "Utility / chi phí"
+  ],
+  "presentation_rows": [
+    [
+      "TransProtect 2024 [R1]",
+      "S1, S3",
+      "S2",
+      "EIE ↑: sai số suy luận",
+      "Δc ↓: chênh chi phí hành trình; byte/độ trễ dịch vụ: CX"
+    ],
+    [
+      "Semantic correlation 2026 [R2]",
+      "S1, S3",
+      "S2",
+      "ASR ↑: đạt ẩn danh; DER ↑: dummy/ngữ nghĩa",
+      "DER chưa đo top-5 POI; thời gian sinh ↓"
+    ],
+    [
+      "Fake queries 2026 [R3]",
+      "S1, S3",
+      "S2",
+      "Số đường khó phân biệt ↑; ASR ↑",
+      "POI: CX; thời gian sinh, RSS ↓"
+    ],
+    [
+      "Road-aware PTPPM 2025 [R4]",
+      "S1, S3",
+      "S2",
+      "Sai số ↑; tấn công đúng ↓",
+      "Dịch chuyển đầu ra ↓; chi phí LBS: CX (preprint)"
+    ],
+    [
+      "CPCROK 2025 [R5]",
+      "—",
+      "S4",
+      "Tỷ lệ khớp quỹ đạo ρ ↓",
+      "VANET; số quỹ đạo giả ψ ↓ (chi phí gián tiếp)"
+    ],
+    [
+      "DP-FETC 2025 [R6]",
+      "—",
+      "S3, S8, S9, S10",
+      "MI ↓; bảo đảm ε-DP",
+      "JSD phân bố ↓; độ phức tạp (offline)"
+    ],
+    [
+      "Improved PIR 2025 [R7]",
+      "CX",
+      "CX: S1, S7",
+      "Phân tích an toàn; metric tấn công: CX",
+      "Truy hồi: CX; tính toán (mới đủ tóm tắt)"
+    ],
+    [
+      "SoK 2024 [R8]",
+      "Không áp dụng",
+      "Không áp dụng",
+      "Tái dựng/liên kết: nhóm phép đo",
+      "Phân bố, hình học, tác vụ (khảo sát)"
+    ],
+    [
+      "PRISM 2025 [R9]",
+      "CX",
+      "CX: S1, S3",
+      "LPI: công thức CX",
+      "TDD, DC: định nghĩa CX; thời gian xử lý/phản hồi"
+    ],
+    [
+      "Options to Action 2026 [R10]",
+      "Không áp dụng",
+      "Không áp dụng",
+      "Tỷ lệ dùng tính năng",
+      "Nhận thức/sử dụng (nghiên cứu hành vi)"
+    ],
+    [
+      "Forsch et al. 2023 [R11]",
+      "S9, S10",
+      "—",
+      "S-TT / k-site-unidentifiability",
+      "Che điểm nhạy cảm (tổng quan S-TT 2022)"
+    ],
+    [
+      "EV querying 2024 [R12]",
+      "S1, S3",
+      "S2",
+      "AGeoI + dummy",
+      "Truy vấn trạm sạc; phép thử điểm đầu/cuối: CX"
+    ]
+  ]
+}

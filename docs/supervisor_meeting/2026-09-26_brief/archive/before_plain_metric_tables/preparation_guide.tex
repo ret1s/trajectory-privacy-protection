@@ -1,0 +1,80 @@
+% Personal preparation companion. Main report reordered on 02/10/2026; numbers unchanged.
+\documentclass[10pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\usepackage[margin=1.9cm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,booktabs,longtable,array,ragged2e,enumitem,microtype,xcolor,graphicx,fancyhdr,tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage[hidelinks,unicode]{hyperref}
+\definecolor{ink}{HTML}{183A45}\definecolor{teal}{HTML}{087F7A}\definecolor{pale}{HTML}{EAF4F2}\definecolor{gray}{HTML}{56656B}
+\newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\setlength{\parindent}{0pt}\setlength{\parskip}{6pt}\setlength{\emergencystretch}{2em}
+\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.15}
+\setlist{nosep,leftmargin=1.4em,topsep=4pt,itemsep=3pt}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small\color{gray}GHI CHÚ CHUẨN BỊ TRÌNH BÀY}\fancyhead[R]{\small\color{gray}03/10/2026}\fancyfoot[C]{\small\thepage}\renewcommand{\headrulewidth}{0.3pt}
+\newcommand{\key}[1]{\par\smallskip\noindent\colorbox{pale}{\parbox{\dimexpr\linewidth-2\fboxsep}{#1}}\par\smallskip}
+\newcommand{\say}[1]{\par\textbf{Có thể trình bày:}\ \textit{#1}\par}
+\newcommand{\ask}[2]{\par\textbf{Nếu được hỏi: #1}\par #2\par}
+\newcommand{\where}[1]{\par{\small\color{gray}Đọc cùng report chính: #1.}\par}
+\newcommand{\transition}[1]{\par\textbf{Chuyển ý:}\ #1\par}
+\newcommand{\example}{\textbf{Ví dụ minh họa, không phải kết quả benchmark.} }
+\newcommand{\guidepage}[1]{\clearpage\section{#1}}
+\newcommand{\layer}[2]{\clearpage\noindent{\color{teal}\small\bfseries #1}\par\vspace{2pt}{\Large\bfseries\color{ink}#2}\par\vspace{6pt}\hrule\vspace{8pt}}
+\hypersetup{pdftitle={Chuẩn bị trình bày nghiên cứu: related works, kiến trúc và benchmark},pdfauthor={}}
+\input{preparation_evidence.tex}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries\color{ink}Chuẩn bị thuyết trình}\\[5pt]
+{\large Related works → kiến trúc → benchmark}\\[3pt]
+{\small Buổi 03/10/2026 · Đọc cùng report rút gọn · Geo-I là phương pháp chính}
+\end{center}
+\key{Mạch nói: papers/scenario/metrics → các lớp mô hình → kết quả đối chứng. Mở phụ lục khi cần giải thích A/B/C.}
+
+\input{related_work_coverage.tex}
+\clearpage\subsection{Từ related works đến bộ đo đề xuất}
+\say{Em đã cập nhật related works trong cửa sổ ba năm. Bảng cho thấy paper nào trực tiếp xét nhiệm vụ của mình, paper nào chỉ xử lý một phần. Các cơ chế chuỗi chủ yếu xét S1/S3; nơi dừng và suy điểm đầu/cuối vẫn cần phép thử riêng. Fully ở đây là bao phủ nhiệm vụ trong giả định paper, chưa có nghĩa vượt mọi ca A/B/C của dataset.}
+
+\begin{longtable}{@{}P{4.1cm}P{5.4cm}P{6.1cm}@{}}
+\toprule Paper tiêu biểu & Metrics gốc & Điều rút ra\\\midrule
+TransProtect 2024 & EIE: sai số suy luận; chênh chi phí hành trình & Gần mục tiêu riêng tư; chi phí hành trình chưa cho biết có tìm đúng POI.\\
+Semantic / Fake queries 2026 & ASR, DER hoặc số đường khó phân biệt; thời gian sinh & ASR là mức đạt ẩn danh theo paper, không tự đổi thành tỷ lệ đối thủ đoán đúng.\\
+DP-FETC 2025 & MI: lượng thông tin; JSD: độ khác phân bố; bảo đảm DP & Giữ phân bố dữ liệu chưa có nghĩa giữ chất lượng dịch vụ hay che tốt điểm đầu/cuối.\\
+CPCROK / PRISM 2025 & Khớp quỹ đạo, số giả; LPI, TDD, DC & Tác vụ khác hoặc thiếu định nghĩa đã xác minh; không so điểm chỉ vì tên chỉ số gần nhau.\\
+SoK 2024 & Kiểm tra tấn công và chất lượng theo tác vụ & Cơ sở để chấm trên cùng nhiệm vụ; không phải model đối chứng.\\
+\bottomrule
+\end{longtable}
+Đầu ra khác nhau (một điểm thay thế, một quỹ đạo giả, tập dummy hay query chèn) khiến metric dựa vào từng dummy không dùng chung được. Khác threat model, nhiệm vụ và dataset cũng ảnh hưởng. Ta chấm toàn bộ dữ liệu được phép thấy để suy cùng đáp án. Bảng metrics đủ 12 nguồn ở report. DLS/RDG là mốc nền cũ; AnotherMe online 11/09/2023, ngoài cửa sổ dù số tạp chí ghi 2024.
+
+\textbf{Ba câu hỏi dẫn tới bộ đo đề xuất:}
+\begin{itemize}
+\item \textbf{Đối thủ đoán đúng tới đâu?} Hit50/100/200 là tỷ lệ đoán cách đáp án không quá 50/100/200 m; thấp hơn tốt hơn. MAE là sai số trung bình; median là trung vị; p90 là ngưỡng chứa 90\% sai số mẫu. Đọc cả Hit và sai số để thấy những lần vẫn lộ rất gần.
+\item \textbf{Người dùng nhận được gì?} Recall@5 đo phần địa điểm chuẩn tìm lại được. Ví dụ, đúng 4/5 là 80\%. So với 5 POI chuẩn theo GPS thật, cùng trạng thái máy chủ; mỗi ca cần ≥90\%. “Trả đủ” đo số lượng, $\Delta D$ đo khoảng cách đường tăng thêm.
+\item \textbf{Chi phí là bao nhiêu?} Đếm byte gửi + nhận trên mỗi lần dùng dịch vụ thật, gồm truy vấn chèn và tải ngoài chuyến. Độ trễ p50/p95 là trung vị/mức 95\%; hiện chưa đo toàn dịch vụ, chưa có điểm tổng Q thực nghiệm.
+\end{itemize}
+\say{Đóng góp không phải tạo ra MAE hay Recall mới. Em chọn và áp dụng chung các chỉ số đã có: đối thủ đoán cùng đáp án, người dùng dùng cùng dịch vụ và chi phí được tính đầy đủ.}
+\transition{Từ các mục tiêu đó, em trình bày các lớp của mô hình bảo vệ.}
+
+\clearpage\section{Kiến trúc mô hình: Geo-I và các lớp cơ chế}
+\begin{center}\includegraphics[width=\linewidth]{figures/architecture_model.pdf}\end{center}
+\textbf{Đọc hình:} input ở bên trái; ba layer bên trong khung xanh lần lượt bảo vệ Geo-I, xây dựng ngữ cảnh và sinh dummy. Output công khai là tập dummy và thời điểm phát; output riêng là top-5 POI tại thiết bị. GPS thật tạo neo và xếp hạng cuối tại thiết bị, không đi vào bộ chọn dummy. Khung xanh là mô hình của ta, gồm cả layer 4 boundary ở hàng dưới (S9 trước lõi, S10 sau lõi).
+\say{Nền tảng của mô hình là Geo-I. Từ GPS thật, em lấy ngẫu nhiên một vị trí đại diện đã được bảo vệ, gọi là neo. Các bước sau dùng lịch sử neo, mạng đường và POI công khai để sinh tập điểm giả. Em bổ sung xử lý biên cho điểm đầu/cuối, thay vì coi nhiễu từng vị trí là đủ.}
+\begin{enumerate}
+\item \textbf{Geo-I / REM — S1:} lấy neo bằng cơ chế mũ REM: vị trí càng xa GPS thì xác suất chọn càng thấp. Tập ứng viên đường là công khai, khoảng cách dùng Euclid. Đây là nền bảo vệ từng vị trí.
+\item \textbf{Tái dùng neo, ngân sách và pacing — S2/S3:} kiểm tra khoảng cách có nhiễu để giữ neo cũ hoặc tạo neo mới; cả hai bước tiêu ngân sách riêng tư. Tái dùng giúp giảm nhiều mẫu độc lập khi dừng. Ngân sách giới hạn rò rỉ tích lũy theo phiên (composition). Hết ngân sách thì chỉ xử lý neo cũ. Pacing giãn đọc GPS, chưa che giờ chuyến.
+\item \textbf{Belief + road-aware + POI-aware — S2/S3 và chất lượng dịch vụ:} belief là phân bố ước lượng xe có thể ở đâu từ neo đã bảo vệ. Road-aware giữ dummy đi được theo hướng làn, luật rẽ và thời gian; POI-aware chọn K điểm phủ địa điểm bổ sung nhau. Exchange đổi ứng viên; bản GeoI-Slack cho phép độ lệch nhỏ trong objective khi chọn. Switching dừng/đi là biến thể trước, không phải cấu hình đang báo số. Bộ chọn không đọc tốc độ thật hay đích tương lai.
+\item \textbf{BR-Boundary — S9/S10:} bỏ GPS của h giây đầu \emph{trước lõi}, tránh lưu dấu điểm đầu trong neo. Giữ bản tin đã bảo vệ trong bộ đệm Δ giây \emph{sau lõi} rồi mới phát; chuyến kết thúc thì hủy phần còn lại. Cách này không cần biết trước đích nhưng tăng độ trễ.
+\end{enumerate}
+\key{Lõi S1–S3: Geo-I + xử lý thời gian + mạng đường/POI. Mở rộng S9/S10: bỏ đầu trước lõi và buffer đuôi sau lõi. Các lớp boundary đã có kiểm tra code/tích hợp, chưa có benchmark toàn bộ mô hình với dịch vụ.}
+\ask{Road-aware có tự tăng bảo đảm Geo-I không?}{Không. Nó làm dummy khả thi trên đường và hỗ trợ dịch vụ. Bảo đảm riêng tư đến từ cơ chế neo và cách cộng ngân sách. Các bước chỉ dùng dữ liệu đã bảo vệ giữ bảo đảm đó theo tính chất hậu xử lý. Sức chống đối thủ biết đường vẫn phải đo. K điểm giả không tự tạo k-anonymity.}
+\transition{Tiếp theo, em nêu tham số của hai cấu hình Geo-I và dùng số liệu để đánh giá từng đóng góp.}
+
+\clearpage
+\input{geoi_configuration.tex}
+\say{Geo-I là nền tảng của phương pháp. Em không nhận Geo-I hay dummy là phát minh mới. Đóng góp em kiểm tra là cách phối hợp lịch sử đã bảo vệ, ngân sách, mạng làn và mục tiêu phủ POI để giữ chất lượng dịch vụ. Hai cấu hình cùng ngân sách; bản Slack thêm cơ chế di chuyển trong bộ chọn.}
+
+\clearpage
+\input{geoi_benchmark.tex}
+
+\clearpage
+\input{scenario_appendix.tex}
+\end{document}

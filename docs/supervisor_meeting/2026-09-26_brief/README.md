@@ -1,79 +1,49 @@
-# Báo cáo ngày 26/09/2026
+# Báo cáo trình bày: Geo-I là phương pháp chính
 
-**S10 gồm A: một chuyến; B: nhiều chuyến lặp cùng đích.**
-Có 29 ca trong khung S1–S10 và 14 ca trong năm scenario ưu tiên.
-Nhãn được dùng thống nhất trong report, bảng số liệu và bản đồ.
+Hai tài liệu đi theo mạch: related works trong ba năm và bộ metrics → kiến trúc BR-Dummy trên nền Geo-I → attacker, benchmark và lập luận đóng góp. Tạm bỏ phụ lục mẫu khỏi bản trình bày.
 
-- [Report PDF](report_explained.pdf), [LaTeX](report_explained.tex), [HTML](report_explained.html).
-- [Bản đồ tương tác: 29 ca](sample_maps.html), [atlas PDF](sample_maps.pdf).
-- [Bản chuẩn bị trình bày](preparation_guide.pdf) và [hướng dẫn hai tài liệu](PREPARATION.md).
-- [Kết quả và lập luận hiện tại](../../research/active_scope_results.md).
+**Bản rút gọn:** report 6 trang (5 trang chính + 1 trang nguồn), guide 5 trang. Chỉ trình bày mức scenario S1–S10. Benchmark hiện có S1, S2, S3, S9, S10; S4–S8 chưa được đánh giá. Bảng hiện tại gộp đều các điều kiện trong từng scenario; trung bình tổng vẫn gộp đều năm scenario. Trang 2 là sơ đồ luồng, trang 3 là component/cấu hình, trang 4–5 là benchmark. Số đo gốc, model và dataset giữ nguyên. Bản đầy đủ trước khi rút gọn được lưu ở archive/before_scenario_only_presentation/.
 
-**Sắp xếp lại ngày 02/10/2026 cho buổi 03/10.** Số liệu, dataset, model, attacker và transcript giữ
-nguyên bản 30/09; chỉ thay thứ tự và phần dẫn nhập. Báo cáo 31 trang: 1–2 tổng quan; 3–8 Phần I
-kiến trúc và kết quả (mục 2–4); 9–14 Phần II lập luận và bộ đo chung (mục 5–7); 15–25 Phần III
-dataset và 29 ca (mục 8–9); 26–31 phụ lục khảo sát, đối chứng, metrics gốc, nguồn (mục 10–13).
-Hai mục mới là tổng quan (mục 1) và bốn lớp bằng chứng (mục 5); các mục còn lại giữ nguyên nội dung,
-chỉ đánh số lại tham chiếu chéo. Bản 30/09 lưu ở `archive/before_2026-10-03_restructure/`.
 
-## Phạm vi số liệu
+- [Report PDF](report_explained.pdf), [HTML](report_explained.html), [LaTeX](report_explained.tex).
+- [Preparation guide PDF](preparation_guide.pdf), [LaTeX](preparation_guide.tex).
+- [Cách dùng hai tài liệu](PREPARATION.md).
 
-| Bộ | Record trong phạm vi / kho gốc | Năm scenario ưu tiên |
-|---|---:|---|
-| Minh họa, 12 nhóm/264 chuyến | 389 / 393 | 29 mẫu cho toàn bộ khung |
-| Phát triển, 12 nhóm/264 chuyến | 407 / 415 | 165 record từ 94 chuyến |
-| Bốn nhóm, 88 chuyến | 129 / 131 | 54 record từ 30 chuyến |
-| Endpoint, 32 nhóm/704 chuyến | 1.093 / 1.118 | Utility 435 record từ 246 chuyến; endpoint privacy 150 record |
+Sơ đồ chia dữ liệu đầu vào, ba lớp xử lý và đầu ra công khai/riêng; khung xanh bao quanh mô hình. Geo-I tạo vị trí tham chiếu đã làm nhiễu; các bước sau dùng lịch sử đã bảo vệ để ước lượng vùng vị trí, kiểm tra đường xe có thể đi và chọn điểm truy vấn. Hợp phản hồi và xếp hạng GPS trên thiết bị phục vụ 5 POI mỗi loại. Che đầu/cuối chuyến là mở rộng S9/S10 đã kiểm tra tích hợp, chưa benchmark kết hợp toàn bộ dịch vụ. [PREPARATION.md](PREPARATION.md) có kịch bản nói với GVHD theo từng bước, khoảng 4 phút.
 
-Dataset, model, attacker selection và transcript gốc không bị sửa. Readout mới
-ở `artifacts/benchmarks/active_scope_ac_v2/`. Gộp đều ca trong scenario rồi đều
-scenario: S10 chia hai, các scenario khác chia ba. Chi phí chỉ giữ các chuyến
-thuộc phạm vi, nhưng tính toàn bộ clock và traffic gốc của từng chuyến.
+Đọc sơ đồ theo **1 → 2 → 3a/3b → 4 → máy chủ → 5**: kiểm tra lịch/ngân sách trước khi dùng GPS tạo truy vấn; không đọc mới thì bỏ bước 2; ước lượng vùng vị trí và kiểm tra đường đi cùng hỗ trợ bước chọn. Phản hồi máy chủ được hợp và xếp hạng trên thiết bị. S9 nằm trước các bước tạo truy vấn, S10 nằm trước lúc gửi máy chủ. Bản dùng trong report: [PDF](figures/architecture_report_flow.pdf), [SVG](figures/architecture_report_flow.svg).
 
-## Kết luận hiện tại
+**GeoI-Paced** và **GeoI-Slack** là tên trình bày cho hai cấu hình Geo-I hiện tại. Cả hai K=5, L=10, cận phiên 0,23 /m, dùng GPS mới để tạo truy vấn cách ít nhất 60 giây và giữ phản hồi còn hiệu lực trong khoảng 60 giây. Bản Slack cho phép nới điểm đánh giá độ phủ POI tối đa 0,03 để chọn điểm giúp tiếp tục di chuyển; không đổi ε và không đặt cận giảm Recall 3%.
 
-- Đã có lợi thế privacy thực nghiệm ở S1/S2/S3/S9 và S10.A/B so với năm adapter
-  trực tuyến. S1–S3 dùng bốn nhóm và kế hoạch mỗi sự kiện; S9/S10 dùng 32 nhóm
-  và kế hoạch theo lịch. Không gán số bốn nhóm cho client theo lịch trên 32 nhóm.
-- Hit100 S9 của đối chứng: 19,76–40,81%; S10.A/B: 10,75–26,11%; bản theo lịch
-  đạt 0% trong bank đã thử. CI 95% của chênh lệch được tính lại đúng phạm vi,
-  dưới 0 cho từng đối chứng; chưa hiệu chỉnh nhiều so sánh.
-- Bản 30 theo lịch: Recall 95,00% ở p=0,8, 14/14 ca ≥90%; stress p=0,95:
-  93,01%, 13/14 ca. Bản 67 đạt 100%, 14/14 ca ở các mức đã thử.
-- Byte/sự kiện khoảng 3.071 (30) và 6.879 (67), chưa gồm HTTP/TLS. Lịch công
-  khai dùng khoảng 4,48 lần byte so với cùng kế hoạch chỉ refresh khi hoạt động.
-- Đóng góp được hỗ trợ là thiết kế phối hợp phủ POI, xếp hạng GPS tại thiết bị
-  và lịch công khai, cùng kiểm chứng privacy–utility–chi phí. Chưa xác lập độ
-  mới toàn diện, vượt sáu paper nguyên bản hoặc ưu thế ở cùng ngân sách.
+## Phạm vi bằng chứng
 
-TransProtect dùng Markov thay Transformer; Semantic dùng predictor thực nghiệm
-thay LSTM. AnotherMe là tham chiếu VTGA offline, có lỗi/thiếu ca và mẫu số khác.
-Bảo đảm phụ thuộc vùng/lịch đăng ký trước; không bao gồm IP/account/click, lỗi
-mạng, đổi vùng theo GPS hoặc bật/tắt dịch vụ theo chuyến. Recall 100% trên mẫu
-không là chứng nhận toàn bản đồ: bản 67 còn tám POI ngoài độ phủ tĩnh.
+| Phép thử | Phạm vi | Kết luận được hỗ trợ |
+|---|---|---|
+| Geo-I / BR v2 so trực tiếp với adapter | 12 chuyến test, 3 seed, K=5; 60 cửa sổ có tương quan | BR có Hit100 S2 22,22%, S3 7,44%, thấp hơn DLS/TransProtect/Semantic thích nghi; có đánh đổi utility |
+| Geo-I hiện tại | 12 nhóm phát triển, 165 record từ 94 chuyến; gộp theo năm scenario | GeoI-Slack có Recall@5 95,44%, 5/5 scenario có Recall trung bình ≥90%, khoảng 994,1 byte/sự kiện ở p=0,8 |
+| Bỏ/thêm component | Bootstrap ghép cặp 12 nhóm, 10.000 lần | Cache tăng 0,24 điểm % với CI không chứa 0; slack tăng 1,06 điểm % nhưng CI chứa 0 |
 
-## Dựng lại
+Hai phiên bản không được gộp thành một bảng xếp hạng. Adapter v2 không phải tái lập paper nguyên bản. Chưa có so trực tiếp Geo-I với RDG/Fake-query cùng protocol; AnotherMe v2 chỉ hoàn thành 11/12 chuyến S3. BR v2 chưa đạt Recall 90% ở S3/S10. Bản hiện tại có Recall S1 trung bình 91,24%, nhưng mức thấp nhất vẫn là 80,18%; đạt ngưỡng trung bình không bảo đảm mọi điều kiện đều đạt. S9 có Hit100 trung bình 0,83%, nhưng Hit500 còn 55,56%.
+
+Geo-I, tái dùng neo và dummy là nền kế thừa. Lập luận đóng góp tập trung vào phối hợp lịch sử đã bảo vệ, ngân sách hữu hạn, miền đi được trên mạng làn và mục tiêu phủ POI, kèm kiểm tra privacy–utility–chi phí. Chưa chứng minh vượt sáu paper nguyên bản hoặc tốt hơn ở cùng ngân sách.
+
+Bảng related works dùng Fully/Partially theo nhiệm vụ trong giả định paper; CX khi thiếu bằng chứng nguồn. Đây không phải chứng nhận bảo vệ hoàn toàn. Cửa sổ khảo sát giữ 21/09/2023–21/09/2026. Phụ lục và dữ liệu mẫu được giữ trong bản lưu để có thể khôi phục sau.
+
+## Nguồn và dựng lại
+
+Không sửa dataset/model/transcript/benchmark gốc. Số tổng và CI bản mới được gộp lại từ kết quả gốc: đều ca trong scenario, đều năm scenario. Chi phí tính toàn bộ traffic của 94 chuyến được giữ, theo sự kiện, request + response JSON; chưa gồm HTTP/TLS/latency.
+
+`geoi_evidence.py` kiểm tra hash nguồn, gộp theo scenario và tính tổng/CI; `geoi_content.py` viết cấu hình, benchmark và đóng góp; `concise_presentation_content.py` viết mạch report. Metrics và kiến trúc dùng chung qua `metrics_explained.tex` và `model_architecture.tex`. Bảng/số dùng chung qua `geoi_configuration.tex`, `geoi_benchmark.tex` và `related_work_coverage.tex`. Không chỉnh các tệp sinh tự động.
 
 ```sh
-python -m experiments.endpoint_dataset_archive unpack
-python -m experiments.reaggregate_active_scope
-python -m experiments.verify_active_scope
-python -m experiments.summarize_active_scope
-python docs/supervisor_meeting/2026-09-26_brief/plot_sample_maps.py
-python docs/supervisor_meeting/2026-09-26_brief/plot_case_panels.py
+python docs/supervisor_meeting/2026-09-26_brief/plot_report_architecture.py
 python docs/supervisor_meeting/2026-09-26_brief/build_report.py
 tectonic --keep-logs --outdir docs/supervisor_meeting/2026-09-26_brief docs/supervisor_meeting/2026-09-26_brief/report_explained.tex
+python docs/supervisor_meeting/2026-09-26_brief/prepare_guide_evidence.py
+tectonic --keep-logs --outdir docs/supervisor_meeting/2026-09-26_brief docs/supervisor_meeting/2026-09-26_brief/preparation_guide.tex
+python docs/supervisor_meeting/2026-09-26_brief/validate_documents.py
 ```
 
-`build_report.py` dựng các mục rồi sắp xếp lại theo thứ tự trình bày và đánh số lại tham chiếu "mục N";
-phần nội dung nằm trong các module `*_content.py`. `report_case_labels.py` ánh xạ nhãn trình bày sang mã nguồn thực nghiệm;
-`evaluation/report_scope.py` giữ phạm vi tính toán đã khóa. `scenario_guide.json`,
-`case_readings.json`, `printed_samples.json`, `data_samples.json` và
-`scenario_inventory.csv` chỉ chứa mẫu hiện tại. Mã bản ghi và số liệu gốc được bảo toàn;
-`method_evidence.json` lưu ánh xạ nhãn để truy nguyên.
-Không sửa trực tiếp LaTeX/HTML được sinh tự động.
+Python cần NumPy, matplotlib và PyMuPDF cho tổng hợp, hình và kiểm tra PDF. Thông tin kiểm tra nằm ở `method_evidence.json`, `preparation_evidence.json`, `report_validation.json` và `preparation_validation.json`. Có thể truyền `--log-dir` cho validator nếu build PDF ở thư mục khác. Font fallback của môi trường được lưu trong validation.
 
-Đã đối chiếu 981 phép tính/mẫu số với dữ liệu đo gốc; bốn tests cho trọng số,
-thiếu dữ liệu, chi phí và bootstrap đã qua. `report_validation.json` ghi QA bản
-PDF hiện tại; `method_evidence.json` ghi hash nguồn. Chưa chạy lại toàn bộ model
-hoặc tạo cohort mới trong lần cập nhật nhãn này và lần sắp xếp lại ngày 02/10.
+Bản trình bày trước khi sửa trọng tâm và các bộ dựng cũ được lưu ở `archive/before_geoi_main_restore/` để truy nguyên; chúng không được dùng trong hai tài liệu hiện tại.

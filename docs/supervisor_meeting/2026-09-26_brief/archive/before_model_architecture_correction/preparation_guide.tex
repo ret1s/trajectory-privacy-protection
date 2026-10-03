@@ -1,0 +1,88 @@
+% Personal preparation companion. Main report reordered on 02/10/2026; numbers unchanged.
+\documentclass[10pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\usepackage[margin=1.9cm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,booktabs,longtable,array,ragged2e,enumitem,microtype,xcolor,graphicx,fancyhdr,tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage[hidelinks,unicode]{hyperref}
+\definecolor{ink}{HTML}{183A45}\definecolor{teal}{HTML}{087F7A}\definecolor{pale}{HTML}{EAF4F2}\definecolor{gray}{HTML}{56656B}
+\newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\setlength{\parindent}{0pt}\setlength{\parskip}{6pt}\setlength{\emergencystretch}{2em}
+\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.15}
+\setlist{nosep,leftmargin=1.4em,topsep=4pt,itemsep=3pt}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small\color{gray}GHI CHÚ CHUẨN BỊ TRÌNH BÀY}\fancyhead[R]{\small\color{gray}03/10/2026}\fancyfoot[C]{\small\thepage}\renewcommand{\headrulewidth}{0.3pt}
+\newcommand{\key}[1]{\par\smallskip\noindent\colorbox{pale}{\parbox{\dimexpr\linewidth-2\fboxsep}{#1}}\par\smallskip}
+\newcommand{\say}[1]{\par\textbf{Có thể trình bày:}\ \textit{#1}\par}
+\newcommand{\ask}[2]{\par\textbf{Nếu được hỏi: #1}\par #2\par}
+\newcommand{\where}[1]{\par{\small\color{gray}Đọc cùng report chính: #1.}\par}
+\newcommand{\transition}[1]{\par\textbf{Chuyển ý:}\ #1\par}
+\newcommand{\example}{\textbf{Ví dụ minh họa, không phải kết quả benchmark.} }
+\newcommand{\guidepage}[1]{\clearpage\section{#1}}
+\newcommand{\layer}[2]{\clearpage\noindent{\color{teal}\small\bfseries #1}\par\vspace{2pt}{\Large\bfseries\color{ink}#2}\par\vspace{6pt}\hrule\vspace{8pt}}
+\hypersetup{pdftitle={Chuẩn bị trình bày nghiên cứu: related works, kiến trúc và benchmark},pdfauthor={}}
+\input{preparation_evidence.tex}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries\color{ink}Chuẩn bị thuyết trình}\\[5pt]
+{\large Related works → kiến trúc → benchmark}\\[3pt]
+{\small Buổi 03/10/2026 · Đọc cùng report rút gọn · Không có thực nghiệm mới}
+\end{center}
+\key{Mạch nói 12–15 phút: 4 phút về papers/metrics; 4 phút về kiến trúc; 4–6 phút về kết quả. Phụ lục để mở khi cần giải thích A/B/C.}
+
+\section{Related works và lý do chọn metrics}
+\say{Em đã cập nhật related works sang các công trình trong ba năm gần đây, khóa khảo sát ở 21/09/2023–21/09/2026. DLS và RDG giữ làm mốc nền; AnotherMe có số tạp chí 2024 nhưng online năm 2023 ngoài cửa sổ nên ghi là ngoại lệ. Từ bảng metrics, em thấy các paper đang chấm những mục tiêu khác nhau, vì vậy cần bộ đo chung cho dịch vụ của mình.}
+
+\begin{longtable}{@{}P{4.1cm}P{5.4cm}P{6.1cm}@{}}
+\toprule Paper tiêu biểu & Metrics gốc & Điều cần rút ra\\\midrule
+TransProtect 2024 & EIE; chênh chi phí hành trình & Sai số suy luận gần nhiệm vụ privacy; chi phí hành trình chưa đo đúng top-5 POI.\\
+Semantic / Fake queries 2026 & ASR, DER hoặc số đường khó phân biệt; thời gian sinh & ASR là thành công ẩn danh theo định nghĩa paper; không tự đổi thành tỷ lệ attacker đoán đúng.\\
+DP-FETC 2025 & MI, JSD; bảo đảm DP & Bảo toàn phân bố quỹ đạo chưa bảo đảm dịch vụ POI tốt hoặc endpoint khó suy.\\
+CPCROK / PRISM 2025 & Khớp quỹ đạo, số giả; LPI, TDD, DC & Khác tác vụ hoặc thiếu định nghĩa được xác minh; không dùng tên metric để so ngang.\\
+SoK 2024 & Kiểm tra tấn công và utility theo tác vụ & Hỗ trợ cách đánh giá trên cùng nhiệm vụ, không phải một model đối chứng.\\
+\bottomrule
+\end{longtable}
+Bảng đầy đủ 12 nguồn gần đây nằm ở mục 1 của report; phần chưa đủ nguồn được ghi CX.
+
+\textbf{Ba câu hỏi dẫn tới bộ đo đề xuất:}
+\begin{itemize}
+\item \textbf{Attacker suy đúng tới đâu?} Hit50/100/200, MAE, median, p90. Hit100 là tỷ lệ suy ra vị trí cách đáp án ≤100 m; thấp hơn tốt hơn cho privacy. Đọc Hit cùng sai số để tránh MAE lớn che một số lần lộ chính xác.
+\item \textbf{Người dùng nhận được gì?} Recall@5, trả đủ và tăng khoảng cách đường $\Delta D$. So với top-5 chuẩn dùng GPS thật, cùng trạng thái khả dụng. Recall từng ca cần ≥90\%.
+\item \textbf{Trả giá bao nhiêu?} Byte yêu cầu + phản hồi mỗi sự kiện thật, cả query chèn và tải ngoài chuyến; latency p50/p95 khi có. Hiện chưa đo latency đầu-cuối, chưa tính Q thực nghiệm.
+\end{itemize}
+\say{Em không đề xuất phát minh MAE hay Recall. Em đề xuất cách chọn và vận hành hóa các chỉ số để một tập dummy và một vị trí thay thế đều được chấm trên cùng đáp án, cùng dịch vụ và chi phí đầy đủ.}
+\transition{Sau khi xác định thế nào là bảo vệ tốt mà vẫn phục vụ được, em thiết kế luồng truy vấn như sau.}
+
+\clearpage\section{Kiến trúc: chỉ vào bốn component trên hình}
+\begin{center}\includegraphics[width=\linewidth]{figures/architecture_current.pdf}\end{center}
+\say{Server giữ trạng thái khả dụng của 419 POI thuộc sáu loại. Thay vì gửi query theo GPS, thiết bị dùng một kế hoạch truy vấn công khai đã khóa, tải theo lịch rồi xếp hạng kết quả bằng GPS trên máy.}
+\begin{enumerate}
+\item \textbf{Tập truy vấn công khai:} chọn tham lam query bổ sung nhiều POI chưa phủ. Cấu hình 30/67 query tại 19/52 tọa độ. Kế hoạch không phụ thuộc GPS, nên tọa độ gửi không bám \textbf{vị trí S1, nơi dừng S2, đoạn đường S3} và endpoint.
+\item \textbf{Lịch cố định:} mỗi 60 giây trong trọn một giờ đã đăng ký trước, kể cả trước/sau chuyến và không dùng. Giờ gửi không đánh dấu lúc đi/dừng; đây là phần bổ sung quan trọng cho \textbf{S9 điểm đầu và S10 điểm cuối}, cũng giúp S2.
+\item \textbf{Cache hợp lệ:} hợp phản hồi cùng epoch; đọc cache không gửi thêm bản tin. Nó giữ dữ liệu phục vụ và tránh lộ giờ sử dụng qua query mới.
+\item \textbf{Xếp hạng cục bộ:} dùng GPS thật để chọn top-5 theo đường có hướng; không gửi GPS hoặc lựa chọn cuối lên server. Nó giữ utility mà không thêm dấu hiệu vị trí vào transcript.
+\end{enumerate}
+\key{S1–S3 dựa vào payload độc lập GPS; S9–S10 cần cả payload đó và lịch độc lập giờ đi lại. Cache/xếp hạng cục bộ giúp thiết kế này vẫn phục vụ được.}
+\ask{Nếu đang đi nơi khác hoặc tắt ứng dụng thì sao?}{Lập luận hiện tại chỉ cho vùng, kế hoạch và khoảng đăng ký cố định. Đổi vùng theo GPS, bật/tắt lịch theo chuyến, IP/account/click và lỗi mạng chưa được bao phủ. Không trình bày thành bảo vệ mọi kênh.}
+\ask{Đã có POI trên máy, sao cần server?}{Danh mục tĩnh không chứa trạng thái khả dụng mới. Server trả top-10 theo loại–tọa độ; máy chọn top-5 theo vị trí thật. Nếu có API tải toàn bộ trạng thái, cần so riêng với bulk: đây là giao diện khác.}
+\transition{Tiếp theo em chấm thiết kế này bằng bộ metrics đã nêu, trên cùng dịch vụ với các đối chứng.}
+
+\clearpage\section{Benchmark: đọc lợi ích và chi phí cùng nhau}
+\textbf{Giới thiệu đối chứng một lần:} DLS, RDG, TransProtect*, Semantic*, Fake-query* là năm adapter online. TransProtect dùng Markov thay Transformer; Semantic dùng predictor thực nghiệm thay LSTM. AnotherMe gốc là online, adapter VTGA hiện có đọc cả chuyến nên chỉ làm tham chiếu offline.
+\PrivacyEvidence
+\say{Hit100 của đề xuất bằng 0 trong bộ attacker đã thử, trong khi các đối chứng vẫn bị suy đúng gần. Nhưng S1–S3 là bốn nhóm và client theo sự kiện; S9–S10 là 32 nhóm và client theo lịch. Em không gộp hai phạm vi này thành một phép thử duy nhất.}
+
+\textbf{Bảng endpoint trên 32 nhóm.} Privacy là Hit100 / MAE mét; utility tại 80\% khả dụng; byte mỗi sự kiện thật.
+\EndpointEvidence
+\begin{itemize}
+\item \textbf{Vì sao có sức thuyết phục?} Raw có hit ở cả S10.A/B; CI 95\% của chênh lệch Hit100 so với từng adapter nằm dưới 0 ở S9 và S10. Bootstrap theo nhóm; chưa hiệu chỉnh nhiều so sánh.
+\item \textbf{Đánh đổi 30/67:} bản 30 đạt Recall 95,00\%, 14/14 ca ≥90\% ở p=0,8; stress p=0,95 còn 93,01\%, 13/14 ca. Bản 67 đạt 100\%, 14/14 ca ở các mức đã thử, nhưng tốn khoảng 6.879 thay vì 3.071 byte/sự kiện.
+\item \textbf{Giá của lịch:} 4,48 lần byte so cùng kế hoạch chỉ refresh khi hoạt động. Đổi lại giờ bắt đầu/kết thúc không điều khiển lịch tải. Byte chưa gồm HTTP/TLS.
+\item \textbf{AnotherMe:} số privacy chỉ trên tập con sinh thành công; utility giữ lỗi bằng 0. Không xếp như cùng mẫu số với năm adapter online.
+\end{itemize}
+\say{Kết quả hỗ trợ đóng góp thiết kế và thực nghiệm trên năm scenario hiện tại. Privacy được cải thiện với chi phí truyền tăng; em chưa kết luận vượt các paper nguyên bản hoặc tốt hơn ở cùng ngân sách.}
+\ask{Hit100=0 có nghĩa bảo vệ 100\% không?}{Không. Đây là không trúng trong các mẫu và attacker đã thử. Còn prior, kênh mạng ngoài phạm vi, thành phố khác và S1–S3 trên client theo lịch cần được kiểm chứng. Bản 67 vẫn có tám POI ngoài độ phủ tĩnh.}
+
+\clearpage
+\input{scenario_appendix.tex}
+\end{document}

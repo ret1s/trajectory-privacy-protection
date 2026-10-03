@@ -1,0 +1,784 @@
+% Personal preparation companion. Main report reordered on 02/10/2026; numbers unchanged.
+\documentclass[10pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\usepackage[margin=1.9cm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,booktabs,longtable,array,ragged2e,enumitem,microtype,xcolor,graphicx,fancyhdr,tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage[hidelinks,unicode]{hyperref}
+\definecolor{ink}{HTML}{183A45}\definecolor{teal}{HTML}{087F7A}\definecolor{pale}{HTML}{EAF4F2}\definecolor{gray}{HTML}{56656B}
+\newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\setlength{\parindent}{0pt}\setlength{\parskip}{6pt}\setlength{\emergencystretch}{2em}
+\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.15}
+\setlist{nosep,leftmargin=1.4em,topsep=4pt,itemsep=3pt}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small\color{gray}GHI CHÚ CHUẨN BỊ TRÌNH BÀY}\fancyhead[R]{\small\color{gray}03/10/2026}\fancyfoot[C]{\small\thepage}\renewcommand{\headrulewidth}{0.3pt}
+\newcommand{\key}[1]{\par\smallskip\noindent\colorbox{pale}{\parbox{\dimexpr\linewidth-2\fboxsep}{#1}}\par\smallskip}
+\newcommand{\say}[1]{\par\textbf{Có thể trình bày:}\ \textit{#1}\par}
+\newcommand{\ask}[2]{\par\textbf{Nếu được hỏi: #1}\par #2\par}
+\newcommand{\where}[1]{\par{\small\color{gray}Đọc cùng report chính: #1.}\par}
+\newcommand{\transition}[1]{\par\textbf{Chuyển ý:}\ #1\par}
+\newcommand{\example}{\textbf{Ví dụ minh họa, không phải kết quả benchmark.} }
+\newcommand{\guidepage}[1]{\clearpage\section{#1}}
+\newcommand{\layer}[2]{\clearpage\noindent{\color{teal}\small\bfseries #1}\par\vspace{2pt}{\Large\bfseries\color{ink}#2}\par\vspace{6pt}\hrule\vspace{8pt}}
+\hypersetup{pdftitle={Chuẩn bị trình bày nghiên cứu: ba trọng tâm và lớp bổ sung},pdfauthor={}}
+\input{preparation_evidence.tex}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries\color{ink}Chuẩn bị trình bày nghiên cứu}\\[5pt]
+{\large Ba trọng tâm, lớp bổ sung và cách trả lời câu hỏi}\\[4pt]
+{\small Đọc cùng báo cáo 26/09/2026 đã sắp xếp lại ngày 02/10; chuẩn bị buổi 03/10/2026}\\
+{\small Cập nhật 02/10/2026}
+\end{center}
+
+\section{Cần truyền đạt điều gì trong buổi này?}
+Nghiên cứu đã có khung kịch bản, bộ đo chung, một phương pháp chạy được và kết quả đối chứng cho năm scenario ưu tiên. Buổi này nói \textbf{ba trọng tâm theo thứ tự}: kiến trúc giải pháp và kết quả benchmark; lập luận vì sao kết quả đứng vững và vì sao dùng bộ đo đề xuất; nếu còn thời gian, giải thích vì sao dataset chia thành các ca A/B/C. Chi tiết đối chứng và bảng metrics gốc là \textbf{lớp bổ sung}, chỉ mở khi GVHD hỏi.
+
+\say{Em đã cụ thể hóa bài toán thành các kịch bản có quyền quan sát và đáp án rõ ràng. Trên dịch vụ tìm POI đang khả dụng, em thử một thiết kế phối hợp truy vấn công khai, xếp hạng tại thiết bị và lịch tải cố định. Kết quả hiện tại cho thấy lợi thế riêng tư ở S1, S2, S3, S9 và S10 so với năm adapter trực tuyến, với chi phí truyền tăng. Em muốn chốt tính hợp lý của phạm vi, phép so sánh và phần đóng góp trước vòng kiểm chứng tiếp theo.}
+
+\subsection*{Hai tài liệu có hai vai trò}
+\begin{itemize}
+\item \textbf{Report chính, 31 trang:} đã sắp xếp lại theo đúng thứ tự nói. Mục 1 là tổng quan; Phần I (mục 2--4) kiến trúc và kết quả; Phần II (mục 5--7) lập luận và bộ đo; Phần III (mục 8--9) dataset; phụ lục (mục 10--13) khảo sát, đối chứng, metrics gốc và nguồn. Số liệu, dataset, attacker và transcript giữ nguyên bản 30/09.
+\item \textbf{Tài liệu này:} giải thích để tự chuẩn bị. Các câu ``Có thể trình bày'' là lời gợi ý, không phải phát biểu đã được GVHD đồng ý.
+\item \textbf{Sample maps:} dùng khi cần chỉ trực tiếp dữ liệu. Bản đồ mẫu mô tả bài kiểm tra, không phải ảnh chụp một cuộc tấn công đã thành công.
+\end{itemize}
+
+\begin{longtable}{@{}P{3.4cm}P{7.3cm}P{2.2cm}P{3.3cm}@{}}
+\toprule Lớp trình bày & Câu hỏi cần trả lời & Thời lượng & Report chính\\\midrule
+Trọng tâm 1: kiến trúc và kết quả & Dữ liệu nào đi lên server, GPS dùng ở đâu, lịch tải bảo vệ điều gì; kết quả nào đã đo trên năm scenario? & 6 phút & Mục 2--4; tr. 3--8\\[3pt]
+Trọng tâm 2: vì sao đáng tin & Bằng chứng nào đỡ cho bảng kết quả; vì sao không chấm bằng metrics gốc; điều gì chưa chứng minh? & 6 phút & Mục 5--7; tr. 9--14\\[3pt]
+Trọng tâm 3: dataset A/B/C & Ba cấp dữ liệu là gì; mỗi ca kiểm tra dấu hiệu suy luận nào? & 3 phút nếu còn & Mục 8--9; tr. 15--25\\[3pt]
+Lớp bổ sung khi được hỏi & Đối chứng đã cập nhật gì so với 19/09; bảng metrics gốc nói gì? & Khi hỏi & Mục 10--13; tr. 26--31\\
+\bottomrule
+\end{longtable}
+\key{\textbf{Câu chốt nên giữ:} đã có bằng chứng về một thiết kế và đánh đổi cụ thể trong phạm vi đã thử. ``Có đóng góp để trình bày'' và ``đã chứng minh ưu thế toàn diện'' là hai mức kết luận khác nhau.}
+
+\guidepage{Nối các phần thành một lập luận}
+\where{mục 1, 2, 5 và 8; tr. 1--4, 9, 15}
+Thứ tự nói đi từ giải pháp tới bằng chứng rồi tới dữ liệu. Nhưng mạch logic của nghiên cứu lại đi ngược: dataset quy định phép thử, metrics quy định thế nào là tốt, rồi mới tới thiết kế và kết quả. Khi trình bày kết quả trước, cần một phút mở đầu nói đối thủ được nhìn gì; nếu không, Hit100 bằng 0 chưa có nghĩa với người nghe.
+
+\begin{center}
+\begin{tikzpicture}[node distance=4mm,box/.style={draw=ink,rounded corners=1pt,text width=12.6cm,align=center,inner sep=6pt},>=Latex]
+\node[box] (a) {Nhu cầu dịch vụ: cần POI đang khả dụng gần vị trí thật};
+\node[box,below=of a] (b) {Rủi ro: yêu cầu gửi lên có thể làm lộ vị trí, nơi dừng, đường đi, đầu/cuối};
+\node[box,below=of b] (c) {Dataset: quy định dữ liệu đối thủ thấy và đáp án của từng ca};
+\node[box,below=of c] (d) {Metrics: đo suy luận, chất lượng POI và chi phí trên cùng bài toán};
+\node[box,below=of d] (e) {Thiết kế và đối chứng: tạo transcript, chạy đối thủ, chấm kết quả};
+\node[box,below=of e] (f) {Kết luận: lợi ích quan sát được, điều kiện áp dụng và phép thử còn thiếu};
+\foreach \x/\y in {a/b,b/c,c/d,d/e,e/f}\draw[->] (\x)--(\y);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Một phút mở đầu trước khi mở bảng}
+Trang 1 của report có đủ ba thứ cần nói: ai giữ dữ liệu gì; năm scenario với câu hỏi của đối thủ và loại đáp án; bảng kết quả rút gọn. Nói ba câu: dịch vụ cần trạng thái động từ server; đối thủ chỉ thấy transcript và phụ trợ theo ca, không thấy nhãn; năm nhiệm vụ là vị trí, nơi dừng, đường đi, điểm đầu và điểm cuối.
+
+\subsection*{Tại sao cần chốt dataset và metrics trước?}
+Dataset xác định điều gì được coi là một phép thử hợp lệ. Metrics xác định thế nào là tốt. Khi thay cửa sổ quan sát, quyền phụ trợ, tập đáp án hoặc trọng số sau khi đã nhìn kết quả, ý nghĩa của phép so sánh cũng thay đổi. Chỉnh đặc tả trong giai đoạn phát triển là bình thường. Vấn đề là tiếp tục dùng tập đã xem như một phép xác nhận độc lập.
+
+\say{Em muốn thống nhất nhiệm vụ và tiêu chí trước. Khi đó cải tiến model sẽ trả lời cùng một câu hỏi, và một kết quả tốt không đến từ việc đổi cách chấm theo model. Các bảng hiện tại là bằng chứng phát triển và mở rộng trong phạm vi đã ghi, chưa thay cho một xác nhận tổng quát.}
+
+\subsection*{Phân bổ 15 phút}
+\begin{enumerate}
+\item 1 phút: dịch vụ, đối thủ thấy gì, năm mục tiêu ưu tiên (report tr. 1).
+\item 5 phút: kiến trúc bốn bước, vai trò lịch tải, bảng năm scenario, bảng endpoint, chi phí (tr. 3--8).
+\item 6 phút: bốn lớp bằng chứng, sáu điều kiện so công bằng, vì sao bộ đo chung, điều chưa chứng minh, ba điểm xin chốt (tr. 9--10).
+\item 3 phút nếu còn: ba cấp dữ liệu và A/B/C qua hai sample S2.C và S10.B (tr. 15--20).
+\end{enumerate}
+Không cần đọc cả 29 ca. Khi giải thích sâu một ca, giữ cùng thứ tự: \textbf{đối thủ thấy gì; muốn suy gì; dùng dấu hiệu nào; đo đúng/sai ra sao}.
+
+\layer{TRỌNG TÂM 1}{Kiến trúc giải pháp và kết quả benchmark trên năm scenario}
+\section{Dịch vụ thực sự cần máy chủ để làm gì?}
+\where{mục 1 và 2; tr. 1 và 3}
+Thiết bị có mạng đường và danh mục 419 POI thuộc sáu loại. Máy chủ nắm \textbf{trạng thái khả dụng theo thời điểm}. Người dùng cần tối đa năm POI khả dụng gần mình theo khoảng cách đường có hướng, đúng loại đang cần.
+
+\example Bạn đi tới trường để gặp GVHD lúc 15 giờ thứ Bảy và muốn tìm quán cà phê đang phục vụ gần mình. Danh mục trên máy biết có quán A, B, C; nhưng để biết quán nào đang khả dụng ở thời điểm hiện tại, máy cần thông tin từ dịch vụ. Đây là câu chuyện minh họa; dữ liệu benchmark là các chuyến SUMO và trạng thái khả dụng tổng hợp.
+
+\begin{longtable}{@{}P{3.5cm}P{6.0cm}P{6.7cm}@{}}
+\toprule Bên tham gia & Thông tin được giữ & Vai trò\\\midrule
+Thiết bị & GPS thật; mạng đường; danh mục; phản hồi đã tải & Chọn top-5 cuối cùng cho người dùng.\\[3pt]
+Máy chủ dịch vụ & Trạng thái POI; truy vấn công khai và thời điểm gửi & Trả tối đa top-10 POI khả dụng cho mỗi truy vấn loại--tọa độ.\\[3pt]
+Bộ đánh giá & Quỹ đạo và nhãn thật; trạng thái chuẩn & Tạo đáp án để chấm. Không cấp đáp án cho cơ chế hay đối thủ.\\[3pt]
+Đối thủ trong benchmark & Transcript và phụ trợ theo ca & Suy vị trí hoặc nhãn; không nhận cờ truy vấn thật/giả nội bộ.\\
+\bottomrule
+\end{longtable}
+
+\ask{Có sẵn POI trên máy rồi, sao không xử lý hoàn toàn cục bộ?}{Nếu chỉ hỏi danh mục tĩnh thì đây là phản biện đúng: cache cục bộ có thể đủ. Workload hiện tại thêm trạng thái động mà thiết bị chưa biết. Giá trị của truy vấn là cập nhật trạng thái, còn lựa chọn dựa trên GPS vẫn làm tại máy.}
+
+\ask{Sao không tải toàn bộ trạng thái của 419 POI?}{Nếu API cho tải toàn bộ với chi phí hợp lý, đây là một phương án rất đáng so sánh. Thiết kế hiện tại xét API bị giới hạn top-10 theo loại và tọa độ. Chưa được lập luận rằng kế hoạch 30/67 tốt hơn mọi giao diện bulk hoặc broadcast. Giới hạn API là một phần của bài toán cần được GVHD chấp nhận; đây cũng là điểm chốt thứ nhất.}
+
+\say{Em xét một dịch vụ trạng thái động với phản hồi giới hạn. Em muốn người dùng nhận đủ thông tin để chọn POI tốt tại thiết bị, trong khi yêu cầu gửi lên không bám theo vị trí và giờ sử dụng riêng tư.}
+\transition{Cơ chế có hai lớp: nội dung gửi không phụ thuộc GPS, và lịch gửi không phụ thuộc giờ đi.}
+
+\guidepage{Phương pháp hiện tại: server biết kế hoạch, thiết bị giữ GPS}
+\where{mục 2; tr. 3}
+Thiết kế hiện tại dùng \textbf{kế hoạch truy vấn công khai theo loại POI}. Kế hoạch được dựng từ mạng đường và danh mục, dùng chung trong vùng dịch vụ đã chọn. GPS thật chỉ tham gia bước xếp hạng cục bộ.
+
+\begin{center}\includegraphics[width=\linewidth]{figures/architecture_current.pdf}\end{center}
+
+\subsection*{Đọc sơ đồ theo bốn bước}
+\begin{enumerate}
+\item Từ danh mục công khai, chọn các cặp loại--tọa độ giúp phủ nhiều POI. Đóng băng kế hoạch trước khi mở hành trình đánh giá.
+\item Tới nhịp tải, hỏi server theo đúng kế hoạch; server trả tối đa top-10 khả dụng cho mỗi cặp.
+\item Thiết bị hợp các POI nhận được trong epoch còn hiệu lực, loại trùng và giữ cache.
+\item Khi người dùng cần dịch vụ, dùng GPS thật để lấy top-5 theo đường từ cache. Lựa chọn cuối không được gửi ngược trong mô hình đang xét.
+\end{enumerate}
+
+\begin{longtable}{@{}P{3.4cm}P{4.0cm}P{8.8cm}@{}}
+\toprule Cấu hình & Số tọa độ khác nhau & Ý nghĩa\\\midrule
+30 truy vấn & 19 & 30 cặp loại--tọa độ mỗi lần tải; ưu tiên tiết kiệm truy vấn.\\[3pt]
+67 truy vấn & 52 & Phủ rộng hơn; dừng khi các ứng viên không tăng thêm độ phủ tĩnh.\\
+\bottomrule
+\end{longtable}
+30/67 không phải số POI trả cho người dùng, không phải số dummy và cũng không mặc định bằng số gói HTTP. Ứng dụng vẫn cần tối đa năm POI; mỗi truy vấn tới server nhận tối đa mười.
+
+\ask{Phương pháp vẫn là Geo-I hay hai lớp mã hóa?}{Bản đang đối chứng lấy truy vấn công khai và xử lý cục bộ làm cơ chế chính. Nó không phải hai lớp mã hóa, cũng không dựa vào điều chỉnh epsilon để sinh tọa độ ở mỗi lần gửi. Các hướng Geo-I trước đó là bối cảnh phát triển; kết luận hiện tại phải gắn đúng cơ chế đang chạy.}
+\say{Thay vì hỏi server quanh GPS thật rồi cố làm mờ điểm đó, thiết bị tải thông tin theo kế hoạch độc lập với GPS. Chính GPS được giữ lại để chọn câu trả lời hữu ích tại máy.}
+
+\guidepage{Chọn kế hoạch truy vấn theo độ phủ: hiểu thuật toán tham lam}
+\where{mục 2.1; tr. 3; mã evaluation/category\_cover.py}
+Với mỗi loại $c$, ta biết danh mục POI công khai $\mathcal P_c$. Mỗi tọa độ ứng viên $v$ có tập top-10 tĩnh $\mathcal P_{10,c}(v)$. $U_c$ là những POI loại đó đã được phủ bởi truy vấn đã chọn.
+\[
+(c^*,v^*)=\arg\max_{c,v}\frac{|\mathcal P_{10,c}(v)\setminus U_c|}{|\mathcal P_c|}.
+\]
+Tại mỗi bước, đếm POI \textbf{mới} một query bổ sung, chia cho tổng POI của loại, chọn giá trị lớn nhất rồi cập nhật $U_c$. Lợi ích được tính theo tỷ lệ của từng loại, nên loại có nhiều POI không luôn chi phối bởi số lượng tuyệt đối.
+
+\example Giả sử loại ``cà phê'' có 100 POI, ``phòng khám'' có 10 POI. Ở một bước:
+\begin{longtable}{@{}P{4.4cm}P{4.2cm}P{3.7cm}P{3.8cm}@{}}
+\toprule Query ứng viên & POI mới được phủ & Tỷ lệ bổ sung & Quyết định\\\midrule
+Q1: cà phê tại v1 & 8 & 8/100 = 0,08 & Chưa chọn\\[3pt]
+Q2: phòng khám tại v2 & 3 & 3/10 = 0,30 & Chọn Q2\\[3pt]
+Q3: cà phê tại v3 & 6 & 6/100 = 0,06 & Chưa chọn\\
+\bottomrule
+\end{longtable}
+Sau khi chọn Q2, các POI trùng với Q2 không còn được tính là mới. Vì vậy phải tính lại lợi ích ứng viên ở vòng sau; không chỉ lấy cố định những query có top-10 lớn nhất ban đầu.
+
+\subsection*{Phần nào là công khai, phần nào không được dùng?}
+Được dùng: mạng đường, danh mục, loại POI, thứ tự khoảng cách tĩnh và quy tắc server ánh xạ tọa độ lên đường. Không được dùng: GPS thật, tuyến tương lai, đáp án endpoint hoặc mask khả dụng thật của world đang đánh giá để chọn kế hoạch.
+
+\subsection*{Hai quy tắc dừng}
+30 là ngân sách số cặp truy vấn. 67 là kết quả tiếp tục chọn tới khi không còn tăng độ phủ trong tập ứng viên đang xét. 67 không đồng nghĩa đã tìm được số query nhỏ nhất hoặc phủ mọi POI. Trên mạng hiện tại còn 160 POI chưa phủ với bản 30 và tám POI chưa phủ với bản 67.
+
+\ask{Đây có phải thuật toán mới hoàn toàn không?}{Đây là lựa chọn tham lam theo độ phủ, một nguyên lý quen thuộc. Phần có thể đóng góp là cách tổ chức nó cho API POI có giới hạn, phối hợp với xử lý tại máy và lịch tải, rồi kiểm chứng đúng privacy--utility--chi phí. Chưa có bằng chứng tối ưu toàn cục hay ưu thế so với mọi thuật toán set cover.}
+\say{Em không chọn điểm truy vấn vì nó gần người dùng. Em chọn vì nó bổ sung được thông tin POI cho vùng phục vụ. Đây là lý do kế hoạch có thể độc lập với hành trình nhưng vẫn giúp phục vụ người dùng.}
+
+\guidepage{Lịch tải công khai: lớp thứ hai của cơ chế}
+\where{mục 2.2; tr. 4; mã benchmark/scheduled\_category\_client.py}
+Kế hoạch truy vấn độc lập GPS xử lý phần \textbf{nội dung gửi}. Nhưng nếu chỉ tải khi người dùng hoạt động thì \textbf{lịch gửi} vẫn mang thông tin: bắt đầu gửi lúc khởi hành và dừng gửi lúc tới nơi tiết lộ giờ hoạt động. Bản theo lịch gửi mỗi 60 giây trong trọn khoảng đăng ký [0,3600), gồm 60 nhịp; đọc cache tại máy không kích hoạt gửi thêm.
+
+\example Giả sử đã đăng ký dịch vụ cho một giờ cố định. Trong cùng giờ đó, xét ba cách dùng:
+\begin{longtable}{@{}P{4.1cm}P{5.2cm}P{6.9cm}@{}}
+\toprule Cách sử dụng riêng tư & Hành động tại thiết bị & Server quan sát\\\midrule
+Đi sớm, đọc lúc phút 5 & Xếp hạng từ cache bằng GPS & Cùng kế hoạch tại các phút 0,1,2,...,59\\[3pt]
+Đi muộn, đọc lúc phút 35 & Xếp hạng từ cache bằng GPS khác & Cùng kế hoạch tại các phút 0,1,2,...,59\\[3pt]
+Không đi, không đọc & Vẫn giữ lịch đã đăng ký & Cùng kế hoạch tại các phút 0,1,2,...,59\\
+\bottomrule
+\end{longtable}
+Ba dòng có cùng transcript khi vùng, kế hoạch và trạng thái server giữ như nhau. Đây là trực giác của kiểm tra luồng thông tin; nó không dựa vào việc server không biết thuật toán. Công thức và điều kiện đầy đủ được nói ở Trọng tâm 2.
+
+\ask{Tốn 60 nhịp mỗi giờ kể cả khi không đi thì có đáng không?}{Đó chính là giá của việc che giờ hoạt động, đo được bằng ablation: 4,48 lần byte so với cùng kế hoạch chỉ tải khi hoạt động. Đáng hay không phụ thuộc ngân sách dịch vụ, chưa được chốt. Em trình bày nó như một đánh đổi có số, không giấu.}
+\say{Lịch tải là phần cần thiết để lập luận bảo vệ bao gồm cả giờ sử dụng trong khoảng đã đăng ký. Với S9/S10, chỉ chọn tọa độ công khai theo mỗi sự kiện chưa xử lý được phần timing này.}
+
+\guidepage{Vì sao vẫn có thể giữ utility tốt?}
+\where{mục 2.3; tr. 4}
+Thiết kế không hỏi quanh GPS thật, nhưng cố thu thập một tập POI đủ rộng để thiết bị tự chọn. Mấu chốt là quan hệ giữa top-10 tĩnh, top-10 đang khả dụng và top-5 cuối cùng.
+
+\subsection*{Một tính chất giúp giải thích độ phủ}
+Xét một POI vốn thuộc top-10 tĩnh của một query. Khi một số POI khác không khả dụng và bị loại, POI đang xét không tụt hạng nếu bản thân nó vẫn khả dụng. Vì vậy nó vẫn được trả về trong top-10 sống của query ấy, với cùng quy tắc khoảng cách và phá hòa.
+
+\example Ở một query, P xếp thứ 7 trong danh sách tĩnh. Nếu ba POI đứng trước đóng, P có thể lên thứ 4. Việc loại các POI khác không tự đẩy P xuống thứ 11. Đây là lý do dùng top-10 tĩnh để xây độ phủ có ích cho dịch vụ trạng thái động.
+
+\subsection*{Điều kiện để phục hồi top-5 thật}
+Nếu hợp các phản hồi chứa đủ mọi POI thuộc top-5 chuẩn của người dùng, thiết bị biết GPS và mạng đường nên chọn lại được đúng top-5. Phải đồng nhất epoch, loại POI, đường có hướng, cách ánh xạ tọa độ, quy tắc phá hòa và tính hợp lệ của phản hồi. Cache cũ không được coi là câu trả lời đúng cho trạng thái server mới.
+
+\begin{longtable}{@{}P{3.4cm}P{5.4cm}P{7.4cm}@{}}
+\toprule Cấu hình & Độ phủ tĩnh hiện tại & Kết luận hợp lệ\\\midrule
+30 query & Còn 160 POI chưa phủ & Tiết kiệm hơn nhưng có khả năng thiếu POI chuẩn.\\[4pt]
+67 query & Còn 8 POI chưa phủ & Recall 100\% trên mẫu không phải chứng nhận đúng ở mọi vị trí.\\
+\bottomrule
+\end{longtable}
+
+\ask{p=0,8 là 80\% người dùng được phục vụ sao?}{Không. Đây là xác suất POI khả dụng trong bộ sinh trạng thái. Recall mới đo chất lượng tập kết quả. p=0,5/0,8/0,95 là ba môi trường khả dụng được thử; không phải ngưỡng privacy hay tỷ lệ người dùng.}
+\ask{p cao hơn luôn làm Recall thấp hơn sao?}{Không có kết luận đơn điệu như vậy. Khi nhiều POI khả dụng, các POI chưa phủ có thể xuất hiện trong top-5 chuẩn; mặt khác server cũng trả được nhiều ứng viên hữu ích hơn. Cần nhìn kết quả stress đã đo.}
+\say{Utility đến từ độ phủ thông tin và xếp hạng cục bộ, không phải do gửi vị trí thật. Bản 67 đạt đủ top-5 trên các mẫu đã thử; em vẫn ghi rõ phần danh mục chưa được phủ.}
+\transition{Đó là cơ chế. Bây giờ là kết quả, đọc từng bảng cùng dòng phạm vi của nó.}
+
+\guidepage{Đọc kết quả năm scenario mà không trộn mức bằng chứng}
+\where{mục 3.5; tr. 7; rút gọn ở mục 1.3, tr. 1}
+\PrivacyEvidence
+Các khoảng ở cột đối chứng là min--max của năm adapter trực tuyến, không phải khoảng tin cậy. Hit100 thấp tốt hơn cho privacy. Hai cấu hình đề xuất có Hit100 bằng 0 trong những phép thử được tóm tắt tại đây.
+
+\subsection*{Nên đọc bảng thành ba câu}
+\begin{enumerate}
+\item Trên dữ liệu và bộ đối thủ đã thử, kế hoạch công khai cho tỷ lệ suy đúng trong 100 m thấp hơn năm adapter trực tuyến.
+\item Bằng chứng S1--S3 là bốn nhóm và client theo sự kiện. Bằng chứng S9/S10 là 32 nhóm và client theo lịch. Hai dòng phạm vi này phải đi cùng kết quả.
+\item Do đó có cơ sở báo tiến độ cả năm scenario, nhưng chưa có một benchmark đồng nhất của phiên bản cuối trên cùng 32 nhóm cho cả năm.
+\end{enumerate}
+
+\say{Bảng này cho thấy phương pháp đã có lợi thế thực nghiệm trên cả năm hướng ưu tiên. Phần endpoint được kiểm tra sâu hơn với 32 nhóm và lịch công khai. S1--S3 còn cần chạy lại với phiên bản theo lịch trên cohort lớn trước khi em coi năm hướng có cùng mức xác nhận.}
+
+\ask{Chẳng phải phương pháp không dùng GPS thì S1--S3 chắc chắn tốt rồi sao?}{Lập luận cấu trúc hỗ trợ giả thuyết rằng payload không phụ thuộc GPS. Nhưng kết quả benchmark còn phụ thuộc prior, quyền phụ trợ, lỗi triển khai và giao thức. Vì vậy vẫn cần kiểm tra phiên bản cuối, nhất là khi muốn đưa số của nó vào cùng một bảng xác nhận.}
+
+\ask{Tại sao không gộp các bộ số để có nhiều mẫu hơn?}{Khác phiên bản client, khác bộ đối thủ và vai trò dữ liệu. Gộp sẽ làm người đọc tưởng mọi mẫu được đo cùng một điều kiện. Có thể báo song song như bảng này; chỉ gộp khi có giao thức và mục tiêu thống kê phù hợp.}
+
+\subsection*{Cụm từ nên dùng}
+``Đã có lợi thế trong các phép thử hiện tại''; ``trên năm adapter trực tuyến''; ``cần xác nhận thêm ở phiên bản cuối''. Tránh nói ``đã giải quyết hoàn toàn'', ``bảo vệ 100\%'' hoặc ``vượt tất cả mô hình'' chỉ từ bảng Hit này.
+\transition{Lợi thế riêng tư chỉ có ý nghĩa thực tiễn khi đọc cùng utility và chi phí. Bảng endpoint cho phép nhìn cả ba phần.}
+
+\guidepage{Đọc bảng endpoint và khoảng tin cậy}
+\where{mục 4; tr. 8}
+\textbf{Số đo thực nghiệm.} S9 gộp A/B/C, S10 gộp A/B. Ô privacy là Hit100 (\%) $\downarrow$ / MAE (m) $\uparrow$. Recall ở p=0,8; byte là tổng payload yêu cầu/phản hồi mỗi sự kiện dịch vụ. Đều là tổng hợp theo phạm vi hiện tại.
+\EndpointEvidence
+* TransProtect dùng Markov; Semantic dùng predictor thực nghiệm. AnotherMe là nhánh offline; privacy chỉ trên tập con có đầu ra, utility giữ lỗi. Không dùng dòng này để xếp hạng ngang hàng với năm adapter online.
+
+\subsection*{Hai quan sát đáng nói}
+S9: năm adapter online có Hit100 từ 19,76\% tới 40,81\%; bản theo lịch đạt 0\%. S10: khoảng tương ứng là 10,75\% tới 26,11\%; bản theo lịch đạt 0\%. MAE của đề xuất ở mức khoảng 1,9--2,3 km, nhưng đó là sai số của attacker, không phải quãng đường người dùng bị buộc đi xa thêm.
+
+\subsection*{Control theo ca}
+Vị trí thật có Hit100 12,9\% ở S10.A và 21,9\% ở S10.B; Hit200 là 35,5\% và 46,9\%. Vì raw control có hit ở cả hai ca, một Hit bằng 0 của đề xuất không phải vì bài toán vốn không giải được. Đây là câu trả lời đầu tiên cho câu hỏi ``attacker có quá yếu không''.
+
+\subsection*{Ví dụ đọc khoảng tin cậy của chênh lệch S10}
+\EndpointContrasts
+Chênh lệch là Hit của ``67 + lịch'' trừ Hit của đối chứng, đơn vị \textbf{điểm phần trăm}. Ví dụ so DLS: giảm 11,16 điểm, khoảng bootstrap 95\% từ giảm 18,02 tới giảm 4,81 điểm. Cả khoảng dưới 0 hỗ trợ hướng giảm trong phép so này.
+
+Bootstrap lấy lại mẫu theo nhóm tuyến, ghép cùng nhóm giữa hai phương pháp, 3.000 lần. Không cộng S10.A có 31 nhóm và S10.B có 32 nhóm thành 63 nhóm độc lập. Các khoảng chưa hiệu chỉnh nhiều so sánh và chỉ mô tả mức bất định của giao thức/cohort đang dùng; không chứng minh mọi thành phố hoặc mọi attacker đều có cùng hiệu ứng.
+
+\guidepage{Đọc trade-off: số tốt đến từ đâu, trả giá bao nhiêu?}
+\where{mục 3.1 và 4; tr. 5 và 8}
+\subsection*{So hai cấu hình của mình}
+Ở p=0,8, bản 30 + lịch có Recall khoảng 95,00\%, cả 14 ca đạt ít nhất 90\%; bản 67 + lịch đạt 100\% và 14/14 ca. Khi p=0,95, bản 30 còn 93,01\% và 13/14 ca đạt ngưỡng; bản 67 vẫn đạt 100\% trong các ca đã thử.
+
+Byte/sự kiện khoảng 3.071 cho bản 30 và 6.879 cho bản 67. Vì vậy 67 là cấu hình ưu tiên utility trong phép thử hiện tại; 30 là cấu hình ít byte hơn với khả năng bỏ sót kết quả. Chưa đủ latency, ngân sách triển khai và Q thực nghiệm để gọi một bản là tối ưu cho mọi nhu cầu.
+
+\subsection*{Vì sao đối chứng cũng đạt Recall 100\%?}
+DLS/RDG/Semantic có truy vấn thật trong tập gửi; Fake-query giữ truy vấn thật và chèn thêm. Với server trả top-10 và thiết bị chọn top-5, truy vấn thật có thể cung cấp đủ đáp án chuẩn. Trần Recall khi đó xuất phát từ giao diện dịch vụ và cách hợp phản hồi; không phải thêm nhiều mẫu là chắc chắn làm nó giảm.
+
+\say{Utility 100\% của các phương pháp chứa truy vấn thật không xóa sự khác biệt về privacy. Điểm em muốn kiểm tra là có thể giữ chất lượng POI tốt trong khi tọa độ và lịch truy vấn không bám hành trình hay không. Nhưng em cũng phải tính chi phí thêm của cách làm đó.}
+
+\subsection*{Ablation của lịch tải nói chính xác điều gì?}
+Khi giữ cùng kế hoạch và chỉ thay lịch tải, bản công khai tốn khoảng 4,48 lần byte trung bình theo nhóm so với chỉ refresh trong các epoch có hoạt động. Có 86.712 phép so utility bằng nhau trong phạm vi này. Điều đó tách được \textbf{giá của việc che giờ hoạt động} khỏi \textbf{ích lợi do tăng độ phủ POI}.
+
+4,48 lần không phải là tỷ lệ so với DLS/RDG hay với gửi GPS thật; mẫu so là cùng kế hoạch nhưng chỉ tải khi hoạt động. Cũng không đồng nghĩa tốn pin hoặc chậm hơn đúng 4,48 lần vì chưa đo các đại lượng ấy.
+
+\ask{Nếu tốn nhiều byte hơn thì có thật sự hơn đối chứng không?}{Có lợi thế ở privacy dưới cấu hình đang chạy, nhưng chưa chứng minh thống trị cả ba trục. Cần so thêm dưới cùng ngân sách byte/latency để kết luận hiệu quả sử dụng nguồn lực. Trong báo cáo tiến độ, nên đặt kết quả là một đánh đổi có đo, không giấu phần chi phí.}
+\key{Ba điều cùng đúng: riêng tư tốt hơn trong phép thử; utility có thể giữ cao; chi phí truyền tăng. Chỉ nói một trong ba sẽ làm lập luận thiếu phần còn lại.}
+\transition{Bảng số đã có. Câu hỏi tiếp theo của người nghe sẽ là: vì sao tin được bảng này?}
+
+\layer{TRỌNG TÂM 2}{Vì sao kết quả này đáng tin và vì sao dùng bộ đo chung}
+\section{Bốn lớp bằng chứng đọc cùng nhau}
+\where{mục 5.1; tr. 9; công thức ở mục 2.2, tr. 4}
+Một bảng Hit100 bằng 0 tự nó chưa nói điều gì. Nó chỉ có nghĩa khi biết đối thủ được nhìn gì, phép thử có sức phân biệt không, độ bất định ra sao và utility/chi phí đo trên cùng API. Trang 9 của report gom bốn lớp này thành một bảng; dưới đây là cách nói từng lớp.
+
+\subsection*{Lớp 1: lập luận cấu trúc}
+\[
+T=f(C,W)\quad\Longrightarrow\quad I((X,A);T\mid C,W)=0.
+\]
+$X$ là hành trình; $A$ là giờ sử dụng; $C$ gồm vùng, kế hoạch và khoảng đăng ký công khai; $W$ là trạng thái server; $T$ là yêu cầu/phản hồi được xét. Khi cố định $C,W$, thay $X,A$ không đổi $T$. Công thức nói transcript này không \textbf{bổ sung} thông tin về hành trình và giờ đọc, sau khi đã điều kiện trên thông tin công khai đó.
+
+Bốn điều cần nêu ngay bên cạnh công thức:
+\begin{enumerate}
+\item Vùng và khoảng đăng ký phải chốt trước; không chọn vùng theo GPS mỗi lần di chuyển rồi coi lựa chọn ấy là vô hại.
+\item Không bật/tắt lịch đúng lúc khởi hành/tới nơi, không hủy sớm theo hoạt động.
+\item Lựa chọn top-5, click và hành động người dùng không được đưa vào transcript đã chứng minh.
+\item Bảo đảm chưa bao gồm account, IP, lỗi mạng hoặc mọi tương quan giữa thế giới bên ngoài và người dùng.
+\end{enumerate}
+
+\ask{Không thêm thông tin thì sao attacker vẫn có thể đoán?}{Attacker còn prior: biết vùng, đường, phân bố xuất phát/đích hoặc lịch sử hợp lệ. Một người thường tới cùng nơi có thể bị đoán đúng dù transcript mới không nói thêm. Vì vậy không suy Hit100 bằng 0 từ công thức; cần đo mức thành công tuyệt đối và khi có thể, so với prior-only.}
+
+\subsection*{Lớp 2: phép thử có sức phân biệt}
+Raw control có Hit100 12,9\% ở S10.A và 21,9\% ở S10.B. Attacker được fit và chọn trên 10/10 nhóm khác rồi khóa trước khi chạy 32 nhóm. Bank gồm thống kê tập điểm, prior, Viterbi, kNN, Extra Trees, ngoại suy nhiều horizon và suy luận xuôi/ngược trên mạng đường có hướng. Kết luận hợp lệ: Hit bằng 0 của đề xuất không phải do bài toán vốn không giải được. Kết luận không hợp lệ: đã an toàn trước mọi đối thủ.
+
+\subsection*{Lớp 3: độ bất định}
+CI 95\% bootstrap theo nhóm tuyến, ghép cặp cùng nhóm, 3.000 lần; cả khoảng dưới 0 ở 5/5 đối chứng S9 và 5/5 đối chứng S10.A/B. Chưa hiệu chỉnh nhiều so sánh; không suy sang thành phố hoặc bộ sinh khác.
+
+\subsection*{Lớp 4: utility và chi phí trên cùng API}
+Recall@5 từng ca với ngưỡng 0,90 ở ba mức khả dụng; byte tính cả yêu cầu, phản hồi và bản tin ngoài giờ hoạt động; ablation tách giá của lịch khỏi lợi ích độ phủ. Kết luận hợp lệ: lợi thế privacy không đến từ việc bỏ phục vụ. Còn thiếu: latency đầu-cuối, HTTP/TLS và so ở cùng ngân sách.
+
+\ask{Tại sao phải chạy attacker nếu đã có công thức độc lập?}{Công thức mô tả cơ chế lý tưởng và tập kênh đã chọn. Thực nghiệm kiểm tra triển khai, prior và phép suy luận trên dataset, đồng thời đo utility/chi phí. Hai loại bằng chứng hỗ trợ nhau; không dùng loại này để thay mọi câu hỏi của loại kia.}
+
+\guidepage{Thực nghiệm diễn ra theo những bước nào?}
+\where{mục 3 và 4; tr. 5--8}
+\begin{enumerate}
+\item \textbf{Tạo dữ liệu và đặc tả ca.} Bộ đánh giá biết chuyến thật, xác định cửa sổ được phép và đáp án.
+\item \textbf{Chạy cơ chế bảo vệ.} Cơ chế đọc đúng thông tin thiết bị được biết, tạo transcript truy vấn/phản hồi.
+\item \textbf{Áp dụng quyền quan sát.} Attacker chỉ nhận transcript và phụ trợ hợp lệ của ca; không nhận nhãn evaluator.
+\item \textbf{Fit và chọn attacker.} Học thống kê trên tập fit; chọn decoder/cấu hình theo tập chọn; không lấy decoder tốt nhất theo nhãn của mỗi mẫu test.
+\item \textbf{Chấm và tổng hợp.} So dự đoán với đáp án; đo utility, lỗi và byte; gộp đúng nhóm thay vì coi mọi seed là mẫu độc lập.
+\end{enumerate}
+
+\begin{longtable}{@{}P{4.0cm}P{6.0cm}P{6.2cm}@{}}
+\toprule Thành phần & Đối chứng bốn nhóm (mục 3) & Endpoint mở rộng (mục 4)\\\midrule
+Phiên bản client đề xuất & Gửi theo sự kiện & Kế hoạch theo lịch công khai\\[4pt]
+Tập báo cáo chính & 4 nhóm; 54 record năm scenario & 32 nhóm; 150 record privacy S9/S10\\[4pt]
+Fit/chọn attacker & Nhóm 501--502 / 601--602 & Fit/chọn trên 10/10 nhóm khác; khóa trước cohort mở rộng\\[4pt]
+Bằng chứng dùng ở đâu & S1/S2/S3 và kiểm tra phát triển endpoint & Kiểm tra endpoint bằng đối thủ mạnh hơn, nhiều nhóm hơn\\
+\bottomrule
+\end{longtable}
+32 nhóm mới củng cố kiểm tra trong cùng thành phố/bộ sinh; các bảng hiện tại không được gọi là một lần xác nhận độc lập hoàn toàn mới sau mọi quyết định nghiên cứu. Không chuyển nhãn ``32 nhóm'' sang kết quả S1/S2/S3 vốn đo trên bốn nhóm.
+
+\subsection*{Attacker đang có gồm những hướng nào?}
+Các decoder dùng thống kê tập điểm, prior, nối chuỗi Viterbi, kNN, Extra Trees và ngoại suy nhiều horizon. Phần endpoint thêm suy luận xuôi/ngược trên mạng đường có hướng, vận tốc quan sát và các phiên liên kết. MAE và Hit có thể chọn decoder khác nhau theo mục tiêu trên tập chọn.
+
+\textbf{Viterbi dễ hiểu:} thay vì chọn điểm có xác suất cao nhất độc lập ở mỗi thời điểm, tìm một chuỗi vừa hợp quan sát vừa hợp khả năng chuyển giữa các điểm. Một điểm riêng lẻ trông rất hợp lý có thể bị loại nếu không nối được với các thời điểm lân cận. Đây là thuật toán giải mã chuỗi, không mặc định là deep learning.
+
+\ask{Tại sao cần raw control?}{Nếu đưa dữ liệu chưa bảo vệ mà attacker vẫn đoán sai gần như mọi lần, một Hit bằng 0 sau bảo vệ chưa chứng minh cơ chế tạo ra khác biệt. Raw control giúp kiểm tra bộ tấn công có khai thác được bài toán trước khi bảo vệ không.}
+\say{Em đánh giá cơ chế thông qua một bộ đối thủ có quy tắc fit/chọn rõ ràng. Đây là bằng chứng chống những đối thủ đã thử; chưa là cực đại trên mọi thuật toán tấn công có thể tồn tại.}
+
+\guidepage{Sáu điều kiện để phép so công bằng}
+\where{mục 5.2; tr. 9; chi tiết ở mục 11.2, tr. 28}
+Cùng dataset chỉ là một phần. Để so điểm giữa các phương pháp có đầu ra khác nhau, cần cùng lúc sáu điều:
+\begin{longtable}{@{}P{3.6cm}P{6.4cm}P{6.2cm}@{}}
+\toprule Điều kiện & Nghĩa là gì & Trong benchmark hiện tại\\\midrule
+Cùng đáp án & Cùng vị trí, đoạn đường hoặc nhãn cần suy ra & Mọi phương pháp chấm trên cùng vị trí thật của ca.\\[3pt]
+Cùng đầu vào và thời điểm & Cùng tiền tố, lịch sử, phụ trợ; nhánh online không dùng tương lai & AnotherMe đọc cả chuyến nên báo riêng như tham chiếu offline.\\[3pt]
+Đối thủ hợp đầu ra & Decoder đọc đúng kiểu transcript nhưng chấm cùng mục tiêu & Tập dummy và vị trí thay thế có decoder khác nhau; cùng quy tắc chọn trên tập chọn.\\[3pt]
+Cùng dịch vụ & Cùng tập POI, top-10 server, top-5 thiết bị; đếm mọi truy vấn phát sinh & Cùng OSM/SUMO, 419 POI, epoch 60 giây, ba mức khả dụng.\\[3pt]
+Nguồn lực được ghi & Cùng phần cứng, ranh giới đo, ngân sách & Byte và thời gian sinh được ghi; chưa so ở cùng byte.\\[3pt]
+Mức tái lập & Phân biệt mã gốc, tái hiện, adaptation; không bỏ lỗi khỏi mẫu số & Năm adapter online + một tham chiếu offline; giới hạn từng adapter ghi ở mục 3.3.\\
+\bottomrule
+\end{longtable}
+
+Hệ quả trực tiếp: một tập dummy có thể chứa tọa độ thật, một cơ chế thay thế thì không, nên không thể dùng chung phép ``chọn phần tử thật trong tập'' cho mọi phương pháp. Có thể dùng các decoder phù hợp với đầu ra, nhưng chấm trên cùng vị trí thật và áp dụng cùng quy tắc chọn attacker.
+
+\ask{Có cần bỏ các adapter vì chưa giống paper hoàn toàn?}{Không nhất thiết. Chúng vẫn là đối chứng cơ chế có ích nếu mô tả chính xác. Nhưng mức kết luận phải tương ứng; nếu muốn tuyên bố vượt model gốc thì cần tái lập sát hơn hoặc mã/checkpoint tác giả.}
+\say{Em đã chạy sáu bản thích nghi trong cùng hạ tầng. Năm bản trực tuyến được so trực tiếp; AnotherMe được báo riêng vì nhánh hiện có dùng cả chuyến. Với TransProtect và Semantic, em ghi rõ thành phần dự báo đã thay. Kết quả chứng minh lợi thế so với các adapter này, chưa phải kết luận vượt sáu paper nguyên bản.}
+
+\guidepage{Privacy tọa độ: hiểu từng số trước khi đọc bảng}
+\where{mục 6.1; tr. 11}
+\[
+e_i=d_E(x_i,\widehat x_i),\qquad
+\mathrm{MAE}=\frac1n\sum_i e_i,\qquad
+\mathrm{Hit}_r=\frac1n\sum_i\mathbf 1[e_i\le r].
+\]
+$x_i$ là vị trí thật; $\widehat x_i$ là \textbf{vị trí attacker suy ra}, không phải tọa độ giả cơ chế gửi lên. $d_E$ là khoảng cách hình học bằng mét sau chuyển tọa độ phù hợp. Riêng utility $\Delta D$ dùng khoảng cách theo mạng đường. Hai loại khoảng cách phục vụ hai câu hỏi khác nhau.
+
+\example Với năm sai số [20, 50, 80, 150, 700] m:
+\begin{longtable}{@{}P{4.0cm}P{3.5cm}P{8.7cm}@{}}
+\toprule Chỉ số & Giá trị & Điều nó nói\\\midrule
+MAE & 200 m & Mức sai trung bình; bị điểm 700 m kéo lên.\\[3pt]
+Median & 80 m & Sai số ở giữa sau khi sắp thứ tự.\\[3pt]
+p90, nearest rank & 700 m & Chọn vị trí $\lceil0,9\times5\rceil=5$.\\[3pt]
+Hit50 & 40\% & Hai trong năm mục tiêu bị đoán trong 50 m.\\[3pt]
+Hit100 & 60\% & Ba trong năm mục tiêu bị đoán trong 100 m.\\[3pt]
+Hit200 & 80\% & Bốn trong năm mục tiêu bị đoán trong 200 m.\\
+\bottomrule
+\end{longtable}
+
+\textbf{Cách đọc:} MAE 200 m và p90 700 m có vẻ lớn, nhưng vẫn có 60\% mục tiêu bị đoán trong 100 m. Median và Hit giúp nhìn phần dễ bị suy luận, thay vì để vài sai số lớn che đi. Nearest rank là quy ước report đã chọn; một phần mềm dùng nội suy có thể cho p90 khác.
+
+\subsection*{Vì sao ``càng lớn càng tốt'' cần nói có điều kiện?}
+MAE lớn thường thuận lợi cho bảo vệ tọa độ đối với decoder đang chấm. Nhưng có thể do attacker yếu hoặc chọn sai mục tiêu, không chỉ do cơ chế tốt. Cần raw control, prior control và các decoder phù hợp để xác nhận phép thử có sức phân biệt.
+
+\ask{Hit100 bằng 0 có nghĩa xác suất bị suy ra bằng 0 không?}{Không. Nó nghĩa bộ decoder đã chọn không trúng trong bán kính 100 m trên những mẫu đã đo. Chưa đo được mọi đối thủ và mọi dữ liệu phụ trợ. Công thức độc lập thông tin của thiết kế cũng có điều kiện riêng, không biến một tỷ lệ thực nghiệm thành bảo đảm tuyệt đối.}
+
+\subsection*{Với đầu ra là nhãn}
+S4/S5/S6/S7 dùng accuracy, balanced accuracy hoặc F1 vì đáp án là liên kết, cạnh, đích hay ý định. Giá trị thấp có lợi cho bảo vệ chỉ khi so với mức đoán nền phù hợp. Một attacker nhị phân luôn đảo nhãn có accuracy 0\% vẫn có thể sửa bằng đảo kết quả; ``thấp'' phải được hiểu trong giao thức chọn đối thủ đủ hợp lý.
+\say{Em chấm điều attacker suy ra, không chấm độ xa của vị trí giả. Em báo cả mức sai điển hình, phần đuôi và tỷ lệ đoán rất gần để tránh diễn giải từ một số trung bình.}
+
+\guidepage{Utility: đúng tập, đủ số lượng và có gần không?}
+\where{mục 6.3; tr. 12}
+Tại cùng thời điểm và cùng loại POI, $R_i^\star$ là tối đa năm POI khả dụng gần nhất từ vị trí thật theo đường có hướng. $\widehat R_i$ là tập sau nhận phản hồi, hợp, loại trùng và xếp hạng tại thiết bị.
+\[
+\mathrm{Recall@5}_i=\frac{|R_i^\star\cap\widehat R_i|}{|R_i^\star|},\qquad
+C_i=\mathbf1[|\widehat R_i|=|R_i^\star|].
+\]
+\example Với tập chuẩn \{A,B,C,D,E\}:
+\begin{longtable}{@{}P{6.1cm}P{3.0cm}P{2.2cm}P{4.7cm}@{}}
+\toprule Tập trả về & Recall@5 & $C_i$ & Diễn giải\\\midrule
+\{A,B,C,D,E\} & 1 & 1 & Đúng và đủ\\[3pt]
+\{A,B,C,F,G\} & 0,6 & 1 & Đủ năm nhưng chỉ ba đúng\\[3pt]
+\{A,B,C,D\} & 0,8 & 0 & Thiếu một kết quả\\[3pt]
+Rỗng & 0 & 0 & Có đáp án nhưng không phục vụ\\
+\bottomrule
+\end{longtable}
+$C_i$ là cờ đúng/sai về \textbf{số lượng của một truy vấn}, không phải số query có Recall bằng 1. Nếu danh mục hợp lệ chỉ có ba POI thì mẫu số Recall là 3 và điều kiện đủ số lượng cũng là 3, không ép đủ năm.
+Khi không có đáp án chuẩn, không đưa truy vấn đó vào mẫu số Recall và phải báo số truy vấn như vậy. Khi có đáp án mà hệ thống trả rỗng, ghi Recall bằng 0; không bỏ lỗi khỏi thống kê.
+
+\[
+\Delta D_i=\frac{\sum_{p\in\widehat R_i}d_G(Q(x_i),Q(p))}{|\widehat R_i|}
+-\frac{\sum_{p\in R_i^\star}d_G(Q(x_i),Q(p))}{|R_i^\star|}.
+\]
+\textbf{Cả hai vế xuất phát từ vị trí thật.} Ta hỏi các POI mà người dùng nhận phải đi xa hơn đáp án chuẩn bao nhiêu. Không so khoảng cách từ vị trí giả với khoảng cách từ vị trí thật tới cùng POI.
+
+\example Khoảng cách trung bình tới năm POI chuẩn là 600 m; tới năm POI sau bảo vệ là 850 m. Khi hai tập đều đủ và hợp lệ, $\Delta D=250$ m. Nếu chỉ trả bốn điểm, không ghi $\Delta D=0$ để làm như không suy giảm; cần báo thiếu kết quả và số ca đủ điều kiện chấm.
+
+\subsection*{Đọc trạng thái triển khai cho đúng}
+Bộ metrics đề xuất có Recall, $C_i$, $\Delta D$ và latency. \textbf{Bảng đối chứng hiện tại chủ yếu đưa ra Recall, privacy và byte}. Không được trình bày rằng toàn bộ bộ đo đã có kết quả đầy đủ chỉ vì công thức đã có trong report.
+\say{Recall đo đúng tập; tỷ lệ trả đủ đo việc dịch vụ còn trả được đủ kết quả; delta D đo mức bất tiện về khoảng cách. Chúng bổ sung nhau. Em chỉ dùng những chỉ số đã thực sự đo để kết luận kết quả hiện tại.}
+
+\guidepage{Performance và điểm tổng hợp: vai trò, chưa phải thành tích}
+\where{mục 6.4 và 7; tr. 12--14}
+\[
+b=\frac{B_{\rm request}+B_{\rm response}}{N_{\rm real\ queries}}.
+\]
+Tử số gồm yêu cầu và phản hồi, kể cả truy vấn phụ. Mẫu số là sự kiện dịch vụ thật trong giao thức đang đo. Với lịch công khai, phải tính cả traffic trước/sau chuyến trong khoảng đăng ký; không chỉ đếm lúc ứng dụng có truy vấn thật.
+
+\subsection*{Đưa ba trục về một điểm để chọn cấu hình}
+\[
+P=1-\frac1{|\mathcal S|}\sum_{s\in\mathcal S}\frac1{|\mathcal C_s|}\sum_{c\in\mathcal C_s}h_{s,c},
+\qquad U=\operatorname{MacroMean}(\mathrm{Recall@5}).
+\]
+$h$ là Hit100. Mỗi scenario nhận cùng trọng số. S10 có hai ca A/B, nên mỗi ca có 10\% trọng số trong năm scenario. Mỗi ca của một scenario có ba ca nhận khoảng 6,67\%. Lấy trung bình phẳng 14 ca sẽ vô tình giảm trọng số S10.
+\[
+f(v;g,b)=\operatorname{clip}\!\left(\frac{b-v}{b-g},0,1\right),\quad
+F=\sqrt{f(b_{\rm payload};b_g,b_b)f(T_{95};t_g,t_b)},\qquad
+Q=100P^{w_P}U^{w_U}F^{w_F}.
+\]
+$f$ đổi byte hoặc latency thành điểm: 1 ở mức tốt, 0 ở giới hạn xấu. Trung bình nhân làm một trục yếu kéo điểm xuống. Trọng số và mốc tốt/xấu là lựa chọn theo nhu cầu dịch vụ, cần chốt trước phép xác nhận.
+
+\textbf{Ví dụ minh họa đã có trong report:} M1 có $P=0,95$, $U=0,95$, $F\approx0,490$; M2 có $P=0,70$, $U=0,95$, $F=0,800$. Với trọng số đều, Q khoảng 76,2 và 81,0: M2 được ưu tiên vì chi phí tốt hơn. Khi tăng trọng số privacy lên 0,6, thứ tự đảo lại: 83,2 so với 76,4. Đây không phải số của model đang benchmark.
+
+\subsection*{Điều kiện tối thiểu quan trọng hơn một điểm đẹp}
+Kiểm tra Recall từng ca ít nhất 0,90 và giới hạn nguồn lực đã chốt trước khi xếp hạng. Recall trung bình 0,95 không đảm bảo mọi ca đều vượt 0,90. Thiếu latency hoặc một ca bắt buộc thì Q thực nghiệm là \textbf{chưa đủ dữ liệu}, không tự thay bằng điểm hoàn hảo.
+
+\ask{Có bắt buộc dùng đúng công thức này không?}{Không. Đây là một quy tắc chọn có thể biện luận. Có thể dùng Pareto hoặc ưu tiên privacy dưới ràng buộc utility/byte. Điều quan trọng là lựa chọn trước, báo riêng ba trục và không đổi trọng số chỉ để model mình đứng đầu.}
+\key{Bảng hiện tại đo byte payload JSON; chưa có latency mạng đầu-cuối và HTTP/TLS. Vì vậy chưa có Q thực nghiệm mới để tuyên bố thắng tổng thể.}
+
+\guidepage{Vì sao không chấm bằng metrics gốc của các paper?}
+\where{mục 5.3; tr. 9--10; bảng đầy đủ ở mục 12, tr. 29}
+Đây là câu lập luận nối lớp bổ sung với trọng tâm 2. Trong phần trình bày chỉ cần nói \textbf{ba câu kết luận}; bảng 13 nguồn ở trang 29 là bằng chứng mở ra khi được hỏi.
+
+\begin{enumerate}
+\item Các chỉ số privacy gốc như entropy, DER, ASR hay nhận dạng thật/ảo chấm \textbf{biểu diễn nội bộ} của cơ chế, không chấm điều đối thủ suy ra trên cùng đáp án. ASR còn mang nghĩa khác nhau giữa paper.
+\item Giữ phân bố quỹ đạo (JSD) hoặc chi phí hành trình tới cùng đích ($\Delta c$) chưa trả lời câu hỏi người dùng có nhận đúng top-5 POI khả dụng hay không.
+\item Số dummy hay thời gian sinh chưa phải chi phí thật khi phản hồi và truy vấn chèn cũng tốn byte.
+\end{enumerate}
+
+\begin{longtable}{@{}P{4.4cm}P{5.9cm}P{5.9cm}@{}}
+\toprule Câu hỏi của dịch vụ & Metric gốc trả lời tới đâu & Bộ đo chung\\\midrule
+Đối thủ suy đúng hoặc gần đến mức nào? & Entropy, DER, ASR, MI phụ thuộc biểu diễn và định nghĩa riêng của từng paper. & Hit50/100/200 và MAE/median/p90 của vị trí attacker suy ra; đầu phân loại riêng cho nhãn.\\[4pt]
+Người dùng còn nhận đúng và đủ POI không? & JSD, $\Delta c$, DER đo phân bố hoặc chi phí hành trình, không đo tập POI trả về. & Recall@5, tỷ lệ trả đủ, $\Delta D$ theo mạng đường từ vị trí thật.\\[4pt]
+Phải trả giá bao nhiêu? & Số dummy, thời gian sinh, RSS; thường thiếu phản hồi và bản tin phụ. & Byte yêu cầu + phản hồi mỗi sự kiện thật; latency p50/p95 khi có; số bản tin phụ.\\
+\bottomrule
+\end{longtable}
+
+\ask{Vậy các anh chị không dùng metric nào của paper gốc sao?}{Không phải. Em đọc từng metric gốc để hiểu paper đã tối ưu điều gì, và ghi đủ trong bảng 13 nguồn. Nhưng để xếp các cơ chế có đầu ra khác nhau lên cùng một bảng cho dịch vụ POI, cần chấm cùng đáp án, cùng tác vụ dịch vụ và cùng ranh giới chi phí. Đó là lý do có bộ đo chung.}
+\say{Em đề xuất một cách chọn và vận hành hóa bộ đo cho bài toán, không tuyên bố phát minh các chỉ số MAE, F1 hay Recall. Đóng góp là giao thức cho phép thấy được đánh đổi mà một chỉ số riêng lẻ bỏ qua.}
+
+\guidepage{Lập luận đóng góp: điều gì đã có, điều gì còn phải chứng minh?}
+\where{mục 5.4 và 3.5; tr. 10 và 7}
+\begin{longtable}{@{}P{3.8cm}P{6.0cm}P{6.4cm}@{}}
+\toprule Phần đóng góp & Bằng chứng hiện có & Mức kết luận phù hợp\\\midrule
+Khung bài toán & Scenario, quyền quan sát, cửa sổ, nhãn, 29 ca và sample & Đặc tả vận hành được cho phạm vi nghiên cứu; chưa khẳng định là taxonomy đầy đủ mọi rủi ro.\\[5pt]
+Giao thức đánh giá & Đầu tấn công, top-5 POI, mẫu số lỗi, chi phí, phân tầng nhóm & Cách đo chung giúp đọc trade-off; không tuyên bố sáng tạo ra MAE hay Recall.\\[5pt]
+Thiết kế phương pháp & Phủ POI công khai, GPS tại máy, lịch đăng ký; kiểm tra luồng thông tin & Một cơ chế phối hợp có lập luận dưới điều kiện rõ ràng.\\[5pt]
+Thực nghiệm & Lợi thế Hit trên các adapter; utility và byte; ablation lịch & Bằng chứng có giới hạn theo dữ liệu, client và attacker đã chạy.\\
+\bottomrule
+\end{longtable}
+
+\subsection*{Điều chưa được chứng minh, nói trước khi bị hỏi}
+\begin{itemize}
+\item Chưa vượt sáu paper nguyên bản: TransProtect dùng Markov thay Transformer, Semantic dùng predictor thực nghiệm thay LSTM; AnotherMe là tham chiếu offline với mẫu số khác.
+\item Chưa so ở cùng ngân sách byte/latency; chi phí truyền cao hơn nên chưa thể nói thống trị cả ba trục.
+\item S1--S3 mới đo trên bốn nhóm với client theo sự kiện; chưa chạy lại với client theo lịch trên 32 nhóm.
+\item Cùng thành phố và bộ sinh SUMO; bản 67 còn tám POI ngoài độ phủ tĩnh nên Recall 100\% trên mẫu chưa là chứng nhận toàn bản đồ.
+\item Chưa có Q thực nghiệm vì thiếu latency đầu-cuối.
+\end{itemize}
+
+\subsection*{Đặt ``edge'' ở đâu?}
+Điểm mạnh đang được hỗ trợ là giảm sự phụ thuộc của transcript vào GPS và giờ hoạt động, đồng thời còn phục vụ POI động tốt trong thử nghiệm. Đối với S9/S10, lịch công khai bổ sung phần bảo vệ timing mà chỉ chọn tọa độ công khai theo mỗi sự kiện chưa giải quyết. Tuy nhiên truy vấn công khai, tải trước và cover traffic đều có tiền lệ; chưa nên gọi ý tưởng kết hợp là mới hoàn toàn nếu chưa đối chiếu đủ các thiết kế tương đương và ràng buộc API.
+
+\say{Em đặt đóng góp ở một thiết kế và giao thức đánh giá cụ thể: kế hoạch loại--tọa độ dựa trên danh mục công khai, lựa chọn bằng GPS tại máy và lịch tải không theo chuyến. Em có kết quả cho năm scenario ưu tiên và đo được giá của phần lịch. Điều em chưa khẳng định là vượt sáu bản paper gốc, tối ưu ở cùng tài nguyên hoặc có độ mới toàn diện.}
+
+\ask{Như vậy đã đủ mức luận văn chưa?}{Có những phần đủ cụ thể để thảo luận nghiêm túc: đặc tả, triển khai, đối chứng và phân tích. Việc đủ mức đóng góp cần GVHD đánh giá theo yêu cầu luận văn, mức độ mới và chất lượng xác nhận. Buổi này nên chốt yêu cầu còn thiếu thay vì tự coi đóng góp đã được công nhận.}
+
+\subsection*{Ba điểm nên xin chốt}
+\begin{enumerate}
+\item Dịch vụ động và API top-10 là phạm vi có ý nghĩa để theo đuổi không?
+\item Đặt trọng tâm đóng góp vào thiết kế phối hợp và giao thức đánh giá có phù hợp không?
+\item Vòng xác nhận tiếp theo ưu tiên gì: so ở cùng ngân sách, S1--S3 trên client cuối với 32 nhóm, hay tái lập đối chứng sát hơn?
+\end{enumerate}
+
+\layer{TRỌNG TÂM 3, NẾU CÒN THỜI GIAN}{Dataset: vì sao chia thành các ca A/B/C}
+\section{Nhóm tuyến, chuyến và bản ghi: ba đơn vị khác nhau}
+\where{mục 8; tr. 15}
+\textbf{Nhóm tuyến} là một tập tuyến gốc và các biến thể có quan hệ. \textbf{Chuyến} là một lần mô phỏng hoàn tất. \textbf{Bản ghi} là một phép thử: chọn một hoặc nhiều chuyến, lấy cửa sổ được phép, gắn phụ trợ và đáp án.
+
+\example Một nhóm có thể xoay quanh việc đi tới trường: tuyến thường, tuyến rẽ khác, một chuyến dừng giữa đường, các chuyến lặp và các chuyến nhập tuyến. Một lần chạy mỗi biến thể tạo chuyến. Từ một chuyến, ta có thể lấy một thời điểm để kiểm tra S1, một đoạn để kiểm tra S3, hoặc che phần đầu để kiểm tra S9. Đây là diễn giải cách tổ chức, không phải mô tả mọi nhóm thực tế đều là hành trình tới trường.
+
+\begin{center}
+\begin{tikzpicture}[node distance=5mm,>=Latex]
+\node[draw,text width=13.2cm,align=center,inner sep=6pt] (g) {12 nhóm tuyến: 12 bộ tuyến và biến thể có quan hệ};
+\node[draw,below=of g,text width=13.2cm,align=center,inner sep=6pt] (t) {Mỗi nhóm 22 chuyến hoàn tất: tổng 264 chuyến};
+\node[draw,below=of t,text width=13.2cm,align=center,inner sep=6pt] (r) {389 bản ghi trong phạm vi report: mỗi bản ghi quy định một phép suy luận};
+\draw[->](g)--(t);\draw[->](t)--(r);
+\end{tikzpicture}
+\end{center}
+22 chuyến không có nghĩa là 22 tuyến hình học hoàn toàn khác nhau. Một số chuyến cố ý lặp hoặc chia sẻ đường để kiểm tra tương quan, liên kết và khả năng phân biệt.
+
+\begin{longtable}{@{}P{4.0cm}P{4.1cm}P{8.1cm}@{}}
+\toprule Bộ dữ liệu & Quy mô & Cách dùng trong report\\\midrule
+Minh họa & 12 nhóm; 264 chuyến & 389 bản ghi thuộc phạm vi; chọn 29 sample.\\[3pt]
+Phát triển & 12 nhóm; 264 chuyến & 407 bản ghi thuộc phạm vi; năm scenario dùng 165 bản ghi từ 94 chuyến.\\[3pt]
+Bốn nhóm đánh giá & 4 nhóm; 88 chuyến & Năm scenario dùng 54 bản ghi từ 30 chuyến.\\[3pt]
+Endpoint mở rộng & 32 nhóm; 704 chuyến & Utility: 435 bản ghi từ 246 chuyến. Privacy S9/S10: 150 bản ghi.\\
+\bottomrule
+\end{longtable}
+
+\ask{Có thể tạo thêm nhiều record từ cùng 264 chuyến không?}{Có, bằng cách đổi cửa sổ hoặc quyền phụ trợ hợp lệ. Nhưng thêm record cùng chuyến không tạo thêm cùng lượng bằng chứng độc lập. Vì vậy tách tập và lấy khoảng tin cậy phải xét quan hệ nhóm tuyến.}
+\say{Ba cấp giúp em vừa tạo phép thử có kiểm soát, vừa tránh nhầm số bản ghi với số hành trình độc lập. Khi cần củng cố khả năng tổng quát, thêm nhóm tuyến mới quan trọng hơn chỉ cắt thêm cửa sổ.}
+
+\guidepage{Đọc scenario theo mục tiêu suy luận và thời gian}
+\where{mục 1.2 và 9; tr. 1 và 16}
+Mã S là các nhiệm vụ mà nghiên cứu chọn để tổ chức bài toán. A/B/C là các điều kiện bên trong cùng nhiệm vụ, không phải ba cấp độ khó bắt buộc. S10 có hai ca A/B. Tổng cộng 29 ca, trong đó 14 ca thuộc năm scenario ưu tiên.
+
+\begin{longtable}{@{}P{1.3cm}P{4.7cm}P{6.0cm}P{4.0cm}@{}}
+\toprule Mã & Đối thủ muốn biết & Dấu hiệu chủ yếu & Loại đáp án\\\midrule
+S1 & Đang ở đâu? & Một lần công bố và bản đồ & Tọa độ\\[3pt]
+S2 & Dừng ở đâu? & Nhiều quan sát quanh lúc dừng & Điểm dừng\\[3pt]
+S3 & Đã đi đoạn đường nào? & Liên kết chuỗi quan sát & Tọa độ theo thời gian\\[3pt]
+S9 & Đã xuất phát từ đâu? & Phần sau còn thấy; suy ngược & Điểm đầu\\[3pt]
+S10 & Đã kết thúc ở đâu? & Phần trước còn thấy; suy đoạn cuối & Điểm cuối\\[3pt]
+S5 & Sắp vào cạnh đường nào? & Tiền tố và lựa chọn tại nút đường & Nhãn cạnh\\[3pt]
+S6 & Sẽ tới đích nào? & Tiền tố và lịch sử được phép & Nhãn đích; tọa độ\\[3pt]
+S8 & Mục tiêu ở đâu khi biết xe khác? & Quan sát phụ trợ đồng bộ & Tọa độ\\[3pt]
+S4 & Hai phiên có cùng chủ thể? & Mẫu di chuyển xuyên phiên & Nhãn liên kết\\[3pt]
+S7 & Người dùng muốn làm gì? & Loại truy vấn và chuỗi nội dung & Nhãn ý định\\
+\bottomrule
+\end{longtable}
+
+\subsection*{``Theo thời gian'' nói về thông tin được cấp, không phải lịch xuất hiện cố định}
+S1, S2 và S3 khác nhau về số quan sát và mục tiêu. S5/S6 dự đoán điều chưa xảy ra tại điểm cắt. S9/S10 phục hồi đoạn bị che của một chuyến đã hoàn tất. Cùng một chuyến có thể tạo nhiều nhiệm vụ này, nhưng mỗi bản ghi phải khóa cửa sổ riêng.
+
+\ask{S6 và S10 đều hỏi đích, sao tách?}{S6 đứng tại thời điểm đang đi và hỏi đích tương lai. S10 xét chuyến đã kết thúc nhưng không được nhìn phần đuôi. Quyền thông tin và ý nghĩa của nhãn khác nhau; không thể cho S6 thấy dữ liệu sau điểm cắt để làm số đẹp hơn.}
+
+\subsection*{Cách đọc mọi sample}
+Chỉ ra trước các chấm nào thuộc cửa sổ được phép. Sau đó chỉ sao đỏ là đáp án giữ kín, nét đứt là phần quỹ đạo bộ đánh giá có. Cuối cùng nói attacker có thể suy từ đâu. Các chấm là mẫu dữ liệu trước bảo vệ; số chấm không tự bằng số gói tin mà cơ chế cuối cùng gửi lên server.
+\key{Bản đồ mô tả \textbf{cơ hội suy luận}. Kết quả tấn công phải đến từ bảng đo đối thủ, không suy ra chỉ bằng việc nhìn thấy sao đỏ trên map.}
+Nền bản đồ là mạng SUMO lưu từ benchmark, cùng nguồn OSM với dataset. Do thiếu file mạng gốc của dataset, chưa xác minh hai mạng trùng hình học. Dùng hình để đọc sample; không dùng hình để khẳng định kết nối làn hoặc tính lại metric.
+
+\guidepage{S1 và S2: một bản tin khác một nơi dừng như thế nào?}
+\where{mục 9.1--9.2; tr. 16--17}
+\textbf{S1} hỏi tọa độ ở một thời điểm. Một lần công bố vẫn có rủi ro vì bản đồ, POI và phân bố nền có thể loại các ứng viên không hợp lý. \textbf{S2} hỏi nơi dừng từ nhiều quan sát có quan hệ; đổi vị trí giả qua từng lần chưa chắc che được điểm tụ thật.
+
+\begin{longtable}{@{}P{1.7cm}P{7.7cm}P{6.8cm}@{}}
+\toprule Ca & Đặc tả dễ hiểu & Điều muốn kiểm tra\\\midrule
+S1.A & Một bản tin ở cạnh có ít nhất hai hướng đi tiếp & Còn nhiều khả năng theo cấu trúc đường.\\[3pt]
+S1.B & Một bản tin ở cạnh chỉ có một hướng đi tiếp & Bản đồ vốn đã làm không gian lựa chọn hẹp hơn.\\[3pt]
+S1.C & Gần POI hiếm theo loại: trong 150 m; loại chiếm không quá 5\% danh mục & Ngữ nghĩa địa điểm có làm lộ thêm vị trí không?\\[3pt]
+S2.A & Dừng ít nhất 20 giây; lấy mẫu mỗi 5 giây & Nơi dừng có lộ ngay trong một khoảng ngắn?\\[3pt]
+S2.B & Dừng ít nhất 120 giây; lấy mẫu mỗi 20 giây & Tích lũy quan sát lâu hơn có giúp suy luận?\\[3pt]
+S2.C & Hai lần dừng cùng làn; giữa hai lần có di chuyển & Đối thủ có thể kết hợp lần quay lại không?\\
+\bottomrule
+\end{longtable}
+
+\textbf{Sample thật S2.C:} u301\_07 có hai khoảng dừng [214,258] và [1153,1197], mỗi khoảng 44 giây. Hai cửa sổ có 9 + 9 mẫu cùng tọa độ. Map có thể trông như một chấm, nhưng trục thời gian có 18 lần lấy mẫu.
+\begin{center}\includegraphics[width=.58\linewidth]{figures/case_S2_C.pdf}\end{center}
+
+\say{Ở S2, rủi ro nằm ở việc các quan sát cùng trỏ về một nơi dừng, không phải số chấm phân biệt trên hình. Cùng một tọa độ được quan sát nhiều lần vẫn là nhiều bằng chứng có thể kết hợp.}
+\ask{S1.B chỉ có một hướng đi tiếp thì vị trí chắc chắn lộ sao?}{Không. Một hướng đi tiếp là điều kiện cấu trúc của cạnh, không tự xác định cạnh nào trong toàn thành phố. Phải chạy đối thủ và so với thông tin nền mới biết mức rủi ro thực tế.}
+
+\guidepage{S3 và S9: suy đường đã đi, rồi suy ngược nơi xuất phát}
+\where{mục 9.3--9.4; tr. 18--19}
+S3 khai thác tính liên tục: các điểm riêng lẻ có thể mơ hồ nhưng một chuỗi phải nối được trên đường và phù hợp thời gian. S9 tiếp tục dùng dấu hiệu đó để đoán phần đầu bị giấu.
+
+\begin{longtable}{@{}P{1.7cm}P{8.3cm}P{6.2cm}@{}}
+\toprule Ca & Điều kiện & Vì sao cần ca này?\\\midrule
+S3.A & Đoạn đi ít nhất 60 giây, qua ít nhất ba cạnh; mẫu mỗi 20 giây & Chuỗi thông thường.\\[3pt]
+S3.B & Ít nhất nửa số cạnh lấy mẫu chỉ có một hướng tiếp & Ràng buộc đường mạnh.\\[3pt]
+S3.C & Mẫu thưa, mỗi 60 giây & Ít quan sát nhưng vẫn có thể nối tuyến.\\[3pt]
+S9.A & Che 60 giây đầu, cạnh xuất phát chỉ một lối ra & Suy ngược từ cấu trúc lối ra.\\[3pt]
+S9.B & Hai điểm đầu khác nhau, hai chuyến nhập đoạn chung; cấp từ chỗ nhập & Quan sát gần giống có thể hợp với nhiều nguồn.\\[3pt]
+S9.C & Nhiều chuyến cùng điểm đầu dự kiến; che đầu mỗi chuyến & Kết hợp nhiều phiên có thu hẹp nguồn không?\\
+\bottomrule
+\end{longtable}
+
+\textbf{Sample thật S9.B:} u301\_00 và u301\_04 xuất phát cách nhau 281,76 m rồi nhập tuyến. Hai sao đỏ là hai đáp án kín. Đối thủ chỉ được cấp cửa sổ từ đoạn chung, không được nhận hai điểm đầu.
+\begin{center}\includegraphics[width=.58\linewidth]{figures/case_S9_B.pdf}\end{center}
+
+\say{Che điểm đầu không tự xóa dấu vết về điểm đầu. Đường còn thấy có thể cho biết xe đã đến từ vùng nào. Nhưng nếu nhiều điểm đầu đều hợp lý, attacker phải biểu diễn hoặc lựa chọn giữa các khả năng đó; không được biết đáp án từ map minh họa.}
+\ask{Điểm xuất phát có phải nhà của người dùng không?}{Hiện tại nhãn chỉ là điểm xuất phát. Gán thành nhà cần thêm bằng chứng hoặc nhãn ngữ nghĩa phù hợp; benchmark chưa xác nhận điều đó.}
+
+\guidepage{S10: hai cách suy điểm kết thúc bị che}
+\where{mục 9.5 và 4; tr. 20 và 8}
+\textbf{S10.A:} một chuyến đã hoàn tất, che 60 giây cuối, cạnh kết thúc chỉ một lối vào. Đối thủ kết hợp hướng đi cuối còn thấy với mạng đường để suy endpoint. \textbf{S10.B:} nhiều chuyến lặp cùng đích dự kiến; che 60 giây cuối từng chuyến. Đối thủ có thêm các phiên để kết hợp.
+
+\example Bạn thường tới cùng một tòa nhà để gặp GVHD lúc 15 giờ thứ Bảy. Ứng dụng không công bố đoạn sát tòa nhà. Nếu các đoạn cuối còn thấy đều tiến vào cùng khu vực và mạng đường chỉ còn ít khả năng, người quan sát có thể khoanh nơi kết thúc. Không cần biết tên bạn để thực hiện phép suy tọa độ này; biết danh tính là một bước khác.
+
+\begin{center}\includegraphics[width=.71\linewidth]{figures/case_S10_B.pdf}\end{center}
+\textbf{Sample thật S10.B:} u301\_00/u301\_09, mỗi chuyến 27 mẫu được phép. Sao đỏ là điểm cuối dùng để chấm; đoạn đứt sau mẫu cuối không được cấp cho attacker. Hai phiên là hai nguồn quan sát có quan hệ, không phải hai người độc lập.
+
+\subsection*{Vì sao S9/S10 cần chú ý cả lịch gửi?}
+Ngay cả khi tọa độ công bố không bám GPS, việc bắt đầu gửi lúc khởi hành và dừng gửi lúc tới nơi vẫn tiết lộ giờ hoạt động. Bản theo lịch giữ các lần tải trong một khoảng đăng ký cố định, kể cả khi người dùng chưa đi hoặc đã tới. Đây là vai trò của lớp lịch tải, ngoài việc làm payload không phụ thuộc GPS.
+
+\say{S10 của em có hai mức thông tin: một chuyến và các chuyến lặp. Mục tiêu là suy điểm kết thúc đã bị che. Phương pháp hiện tại xử lý cả tọa độ truy vấn lẫn giờ gửi trong khoảng đăng ký công khai; phần đánh giá trên 32 nhóm cho thấy lợi ích đối với các attacker đã thử.}
+
+\guidepage{Các bước sau: S5/S6/S8, rồi S4/S7}
+\where{mục 9.6--9.10; tr. 21--25}
+Các scenario này đã có trong khung dataset nhưng chưa có mức bằng chứng phương pháp ngang với năm scenario ưu tiên. Dùng phần này để cho thấy lộ trình có chủ đích, không nói đã giải quyết đủ mười nhiệm vụ.
+
+\begin{longtable}{@{}P{1.4cm}P{5.0cm}P{5.0cm}P{4.4cm}@{}}
+\toprule Mã & A & B & C\\\midrule
+S5 & Tiền tố trước lượt rẽ có nhiều lựa chọn & Lượt chuyển chỉ một lựa chọn & Hai chuyến chung tiền tố nhưng rẽ sang hai cạnh khác\\[4pt]
+S6 & Chung tiền tố, khác đích & Hai đích cách không quá 500 m & Lịch sử sáu chuyến: năm đích thường, một đích hiếm; dự đoán chuyến mới\\[4pt]
+S8 & Đi gần nhau một phần rồi tách & Đi gần nhau phần lớn cửa sổ & Tình cờ gần nhưng không gán đồng hành\\[4pt]
+S4 & Cùng người, cùng thiết bị & Cùng người, khác thiết bị & Khác người, cùng thiết bị\\[4pt]
+S7 & Nội dung nguyên văn & Query thật trong bó sáu loại & Chuỗi truy vấn để suy ý định\\
+\bottomrule
+\end{longtable}
+
+\subsection*{Không có identity vẫn suy luận được}
+Đối thủ có thể dự đoán ``xe đang ở cạnh này sẽ rẽ đâu'' mà không biết tên chủ xe. Khi dùng lịch sử cá nhân, cần có cơ sở liên kết các phiên; không được tự gán lịch sử của một người cho phiên bất kỳ. Phải phân biệt prior giao thông toàn khu vực, lịch sử có liên kết và dữ liệu phụ trợ.
+
+\textbf{S5/S6 cần mức đoán nền.} Nếu đường chỉ có một lối tiếp thì attacker không cần dữ liệu mới cũng đoán được. Đo cả độ đúng chỉ từ phụ trợ và độ đúng khi thêm transcript để biết phần rủi ro cơ chế thực sự làm tăng.
+
+\textbf{S8 cần đồng bộ thời gian.} Hai xe đi qua cùng đường vào hai giờ khác nhau không đủ làm dữ liệu đồng hành. Ca C kiểm tra nhầm lẫn ``ở gần tức là cùng đi''.
+
+\textbf{S4 cần chấm người, xe và thiết bị riêng.} Đổi điện thoại không làm đổi người; một xe có thể được nhiều người dùng. Nhãn người/máy hiện có chưa tự hoàn thiện đầu đánh giá danh tính phương tiện. Cặp dương và âm phải đủ để tránh accuracy đẹp do mất cân bằng.
+
+\textbf{S7 dùng ý định tổng hợp.} Chuỗi pharmacy--clinic--hospital là mẫu để kiểm thử suy nội dung. Nó không xác nhận một người thật mắc bệnh. Kế hoạch truy vấn công khai có thể gợi ý khả năng giảm lộ loại quan tâm, nhưng chưa được chuyển suy đoán thiết kế đó thành kết quả S7 đã đo.
+\say{Giai đoạn tiếp theo em muốn mở rộng theo loại đáp án và quyền phụ trợ. Một phương pháp có lập luận tốt cho tọa độ chưa tự có bằng chứng cho liên kết danh tính hoặc ý định.}
+
+\layer{LỚP BỔ SUNG, KHI GVHD HỎI}{Đối chứng đã cập nhật và bảng metrics gốc}
+\section{Đối chứng đã thay đổi gì so với bản 19/09?}
+\where{mục 11 và 3.3; tr. 28 và 6}
+Bản 19/09 liệt kê năm đối chứng trực tuyến cho S1--S3, ghi ``chưa chấm trên tập mới'' và chưa có kết quả đối chứng ngoài nào; AnotherMe ở nhánh bổ sung; bảng metrics gốc chỉ có năm dòng, nhiều ô trống. Bản hiện tại khác ở năm điểm:
+
+\begin{enumerate}
+\item \textbf{Cả sáu đối chứng đã chạy} trên cùng dịch vụ và tập đánh giá, có số cho năm scenario (mục 3) và cho S9/S10 trên 32 nhóm (mục 4).
+\item \textbf{AnotherMe được ghi đúng vai trò:} paper gốc là hệ thống online; adapter trong repo đọc cả chuyến nên báo riêng như tham chiếu offline. Lỗi sinh quỹ đạo giữ trong mẫu số utility; privacy chỉ tính khi có đầu ra.
+\item \textbf{Giới hạn adapter được nêu rõ:} TransProtect dùng Markov thay Transformer; Semantic dùng predictor thực nghiệm và POI OSM thay LSTM/AMap. Lần trước chỉ ghi ``Markov proxy'' và ``cần hoàn thiện''.
+\item \textbf{Rà soát 24/09 cho S9/S10:} S-TT, Endpoint Privacy Zones, Data Stream Obfuscator, PRISM, AGeoI. Chúng là nguồn học tiêu chí rủi ro tại biên và bộ attacker, chưa thành đối chứng thứ 7--11.
+\item \textbf{Bảng metrics gốc} mở rộng lên 13 nguồn R1--R10 và B1--B3, có ký hiệu CX cho phần chưa xác minh từ nguồn đã truy cập.
+\end{enumerate}
+
+\subsection*{Sáu đối chứng: backbone và mức tái lập}
+Khi hỏi ``model dùng gì'', trả lời bằng cơ chế lõi trước: thống kê, quy tắc, mô hình học hay lập tuyến. Sau đó mới nói đầu vào/đầu ra và bản triển khai hiện có.
+\begin{longtable}{@{}P{2.7cm}P{6.4cm}P{7.1cm}@{}}
+\toprule Phương pháp & Cách hiểu backbone & Bản chạy và giới hạn\\\midrule
+DLS & Dùng phân bố xác suất nền để chọn dummy sao cho khó xác định phần tử thật; tiêu chí entropy & Tập tọa độ chứa vị trí thật và dummy; thống kê nền từ SUMO, biểu diễn theo mạng đường.\\[5pt]
+RDG & Dùng thống kê chuyển tiếp giữa các tập vị trí qua thời gian & Pool DLS và trọng số max-product; nhắm tới liên kết chuỗi. Viterbi là cách giải mã phía attacker.\\[5pt]
+TransProtect & Paper dùng học sâu để tạo/chọn ứng viên theo ngữ cảnh, kết hợp cơ chế bảo vệ & Adapter thay predictor Transformer bằng Markov. Đầu ra là vị trí thay thế; chưa đại diện đầy đủ model học sâu gốc.\\[5pt]
+Semantic correlation & Paper dùng LSTM/attention, ngữ nghĩa POI và tính hợp lệ đường đi & Adapter dùng predictor thực nghiệm và POI OSM; không có đầy đủ weights/dữ liệu gốc.\\[5pt]
+Fake-query insertion & Quy tắc chèn truy vấn toàn giả, xét tính nối tiếp và khả năng di chuyển & Thực sự thêm bản tin và thời điểm; lịch sử, ngưỡng và fallback là giả định được ghi của adapter.\\[5pt]
+AnotherMe & Sinh quỹ đạo ảo, ánh xạ địa điểm và lập tuyến; paper mô tả hệ thống online & Nhánh VTGA đang chạy đọc cả chuyến: tham chiếu offline, có ca lỗi và mẫu số khác.\\
+\bottomrule
+\end{longtable}
+
+\ask{Model đối chứng bị thay predictor thì kết quả còn ý nghĩa gì?}{Nó có ý nghĩa ở mức so cơ chế thích nghi đã mô tả. Em không gán kết quả ấy cho đầy đủ Transformer/LSTM trong paper gốc. Muốn kết luận mạnh hơn thì tái lập sát hơn là một hạng mục cần làm.}
+
+\guidepage{Từ metrics gốc tới ba trục đánh giá chung}
+\where{mục 12 và 6; tr. 29 và 11--12}
+Metrics gốc phản ánh mục tiêu và cách biểu diễn của từng paper. Không phải metric cũ sai; vấn đề là chúng chưa luôn trả lời cùng câu hỏi của dịch vụ đang xét. Ba điểm dễ đọc nhầm trong bảng 13 nguồn:
+
+\subsection*{Entropy: mức phân tán của xác suất}
+\[
+H(p)=-\sum_j p_j\log_2 p_j.
+\]
+\example Bốn ứng viên có xác suất [0,25; 0,25; 0,25; 0,25] cho H=2 bit. Nếu xác suất là [0,7; 0,1; 0,1; 0,1], H xấp xỉ 1,357 bit: đối thủ tập trung hơn vào một lựa chọn.
+
+Entropy không chứa sẵn khoảng cách không gian. Bốn ứng viên quanh một tòa nhà và bốn ứng viên cách xa nhau có thể có cùng entropy. Xác suất còn phụ thuộc mô hình đối thủ; entropy cao không tự xác nhận mọi attacker đều khó suy luận.
+
+\subsection*{ASR: phải đọc sự kiện nào được gọi là thành công}
+Trong các nguồn Semantic/Fake queries được report khảo sát, ASR gắn với thành công ẩn danh theo điều kiện của paper; hướng tốt là tăng. Ở bài khác, cùng viết tắt có thể dùng cho thành công tấn công. Vì vậy cần nói đầy đủ tử số và mẫu số, không thay ASR bằng Hit100 chỉ vì cùng là tỷ lệ.
+
+\example Nếu định nghĩa thành công tấn công là ``đoán cách đáp án không quá 100 m'', 20 lần trúng trong 100 mục tiêu cho Hit100=20\%. Ngưỡng 100 m được chốt trước; tỷ lệ 20\% là kết quả đo, không phải tỷ lệ đặt trước rồi bắt model phải đạt bằng cách đổi phép thử.
+
+\subsection*{Sai lệch chi phí hành trình và utility POI}
+$\Delta c$ của TransProtect so chi phí hành trình khi dùng vị trí thay thế với khi dùng vị trí thật, tới \textbf{cùng đích}. Nó đánh giá ảnh hưởng tới dịch vụ hành trình. Recall@5 của ta hỏi khác: sau bảo vệ, có còn trả được các POI khả dụng gần người dùng mà dịch vụ chuẩn sẽ trả không? Giữ phân bố quỹ đạo tốt hoặc nhiễu nhỏ chưa đảm bảo câu trả lời này.
+
+\begin{longtable}{@{}P{4.0cm}P{6.1cm}P{6.1cm}@{}}
+\toprule Trục & Câu hỏi & Lựa chọn cho benchmark\\\midrule
+Privacy & Đối thủ suy đúng hoặc gần đến mức nào? & Hit và sai số; đầu phân loại phù hợp cho nhãn.\\[3pt]
+Utility & Người dùng nhận kết quả đúng và đủ không? & Recall@5, tỷ lệ trả đủ, $\Delta D$.\\[3pt]
+Performance & Phải trả giá bao nhiêu? & Byte yêu cầu/phản hồi, latency, bản tin phụ.\\
+\bottomrule
+\end{longtable}
+
+\ask{Tại sao nói khảo sát ba năm gần đây mà vẫn có DLS và RDG?}{Cửa sổ gần đây áp dụng cho phần cập nhật related works. DLS/RDG giữ vai trò đối chứng nền lịch sử, được ghi rõ ngoại lệ. AnotherMe được giữ theo yêu cầu đối chứng và có ngày online/issue khác nhau. Không nên nói mọi tài liệu trong bibliography đều nằm trong cùng cửa sổ ba năm.}
+
+\guidepage{Related works: từ bản đồ nghiên cứu tới đối chứng}
+\where{mục 10; tr. 26--27}
+Hai tập tài liệu có vai trò khác nhau. \textbf{Related works theo scenario} cho biết từng rủi ro đã được nghiên cứu bằng hướng nào. \textbf{Phương pháp đối chứng} là các cơ chế được đưa vào cùng bộ đánh giá để so sánh. Một paper liên quan S9 không tự trở thành đối chứng trực tuyến hợp lệ cho dịch vụ POI.
+
+\begin{longtable}{@{}P{3.5cm}P{6.1cm}P{6.6cm}@{}}
+\toprule Nhóm bằng chứng & Điều rút ra từ khảo sát trong report & Cách dùng khi lập luận\\\midrule
+Dummy và chuỗi & DLS/RDG là nền thống kê; TransProtect, Semantic và Fake-query xét thêm bối cảnh hoặc tính nối tiếp & Số dummy chưa đủ; phải kiểm tra đối thủ nối quan sát qua thời gian.\\[4pt]
+Che đầu/cuối & S-TT và EPZ liên quan trực tiếp hơn tới rủi ro biên; mức phù hợp được phân tích ở mục 10.1 & Học tiêu chí rủi ro và cách tấn công; phân biệt cắt quỹ đạo ngoại tuyến với phục vụ online.\\[4pt]
+Công bố quỹ đạo & DP-FETC và các hướng bảo toàn phân bố có mục tiêu utility khác & Bảo toàn thống kê không tự bảo đảm top-5 POI đúng.\\[4pt]
+Khảo sát đánh giá & SoK giúp phân biệt bảo đảm, tấn công và utility downstream & Dùng để giải thích vì sao cần nhiều lớp bằng chứng.\\[4pt]
+Nguồn còn thiếu chi tiết & Một số công thức/định nghĩa chỉ có thông tin công khai một phần & Giữ ký hiệu CX trong report; không tự suy ra metric chính xác.\\
+\bottomrule
+\end{longtable}
+
+\ask{Các paper reference có phải đã giải quyết đúng các ca A/B/C của mình?}{Không thể suy như vậy. A/B/C là đặc tả của nghiên cứu này. Liên hệ paper với scenario là phân tích về cơ chế và threat model; phép đánh giá đúng A/B/C chỉ có khi chạy trên giao thức của mình.}
+\say{Phần khảo sát cho thấy các hướng xử lý và cách đánh giá đang phân tán theo mục tiêu. Em không ép mỗi scenario phải có đúng một paper giải quyết trọn vẹn. Em chọn các cơ chế đại diện để đối chứng, rồi dùng cùng tác vụ và phép đo để làm rõ đánh đổi.}
+
+\guidepage{Những câu hỏi khó và cách trả lời ngắn}
+\ask{Các câu chuyện đi gặp GVHD có phải dữ liệu thật của em không?}{Không. Đây là ví dụ giải thích rủi ro. Dataset thực nghiệm dùng SUMO, danh mục POI và trạng thái khả dụng tổng hợp. Em giữ sample có mã chuyến/FCD để chỉ rõ đâu là dữ liệu thực sự được dùng.}
+
+\ask{Nếu attacker biết toàn bộ kế hoạch thì còn riêng tư không?}{Trong mô hình này kế hoạch vốn công khai. Điểm cần giữ là cùng kế hoạch cho những hành trình khác nhau trong cùng vùng/khoảng đăng ký. Attacker biết kế hoạch không làm nó trở thành hàm của GPS; nhưng vẫn có thể đoán từ prior hoặc kênh ngoài phạm vi.}
+
+\ask{Vùng đăng ký có làm lộ vị trí không?}{Có thể lộ mức vùng. Lập luận điều kiện trên vùng đã công khai, không nói đã che cả vùng. Nếu đổi vùng theo GPS hoặc đăng ký đúng lúc đi, cần phân tích rò rỉ ấy riêng.}
+
+\ask{Hit100=0 có phải do attacker quá yếu hoặc bài toán quá khó?}{Đó là giả thuyết cần xét. Em báo raw control, nhiều hướng giải mã và việc chọn attacker trên tập riêng. Raw endpoint có hit ở cả hai ca S10 hiện tại. Dù vậy bank chưa là mọi attacker; kiểm tra mạnh hơn vẫn có thể đổi mức rủi ro.}
+
+\ask{Số 704 chuyến đã đủ đại diện thực tế chưa?}{Nó tăng bằng chứng trong cùng thành phố và bộ sinh. Các chuyến có quan hệ theo nhóm, không phải 704 người dùng độc lập. Chưa đủ để kết luận mọi thành phố hoặc thói quen thật; cần một môi trường khác nếu muốn mở rộng tuyên bố.}
+
+\ask{Bản 67 đã đúng 100\%, có cần bản 30 nữa không?}{Có để thấy trade-off. Bản 30 ít byte hơn nhưng mất utility ở một số điều kiện. Chưa có ngân sách thực tế hoặc latency thì chưa có cơ sở bỏ một phương án chỉ vì một chỉ số riêng lẻ.}
+
+\ask{Đã dùng dữ liệu đánh giá để điều chỉnh thiết kế chưa?}{Cần trả lời đúng vai trò trong report: có bảng phát triển và các dữ liệu đã được xem trong quá trình nghiên cứu; các kế hoạch/attacker cho cohort mở rộng được khóa theo giao thức đã ghi. Không gọi toàn bộ bằng chứng hiện tại là một test độc lập mới sau mọi quyết định. Một xác nhận mới cần khóa cấu hình và dùng tập chưa tham gia quyết định tiếp theo.}
+
+\ask{Vì sao tuần này không tiếp tục tối ưu cho số tốt hơn?}{Điều đang cần chốt là bài toán, giao thức và mức đóng góp. Nếu ba thứ đó đổi, thêm tối ưu có thể không còn trả lời câu hỏi luận văn. Em ưu tiên giải thích chắc và thống nhất yêu cầu cho vòng thử kế tiếp.}
+
+\ask{Vì sao đổi thứ tự report so với tuần trước?}{Nội dung và số liệu không đổi; chỉ sắp xếp lại để nói giải pháp và kết quả trước, rồi tới bằng chứng, rồi tới dữ liệu. Phụ lục giữ nguyên khảo sát và bảng metrics gốc để tra khi cần. Bản trước được lưu trong thư mục archive.}
+
+\guidepage{Luyện phần trình bày chính trong 15 phút}
+Không học thuộc từng đoạn. Dùng các lời gợi ý sau để luyện cách chuyển ý, mở đúng trang và dừng đúng lúc. Khi được hỏi, trả lời câu hỏi trước rồi mới dẫn sang giới hạn hoặc kế hoạch.
+
+\subsection*{Mở đầu, 1 phút: mở report trang 1}
+\say{Em xét việc bảo vệ thông tin di chuyển khi dùng dịch vụ tìm POI đang khả dụng. Thiết bị biết bản đồ và danh mục, còn server giữ trạng thái động. Đối thủ chỉ thấy transcript truy vấn và phụ trợ theo ca, không thấy nhãn. Em chia rủi ro thành các nhiệm vụ suy luận; trước mắt tập trung S1, S2, S3, S9 và S10.}
+
+\subsection*{Trọng tâm 1, 5 phút: trang 3--4 rồi 7--8}
+\say{Cơ chế hiện tại chọn trước truy vấn từ danh mục công khai theo độ phủ POI. Server thấy kế hoạch đó, còn GPS dùng để xếp hạng tại máy. Với endpoint, em thêm lịch tải cố định trong khoảng đăng ký, để giờ đọc hoặc ranh giới chuyến không điều khiển lịch gửi. S1--S3 có lợi thế Hit trong phép thử bốn nhóm theo sự kiện. S9/S10 có kiểm tra 32 nhóm theo lịch; Hit100 của đề xuất bằng 0 trong bank đã thử. Bản 30 đạt Recall khoảng 95\%, bản 67 đạt 100\% ở p=0,8. Đổi lại chi phí truyền cao hơn; riêng lịch tải làm byte tăng khoảng 4,48 lần so với cùng kế hoạch chỉ tải khi hoạt động.}
+
+\subsection*{Trọng tâm 2, 6 phút: trang 9--10}
+\say{Em đọc bảng này bằng bốn lớp bằng chứng. Một, lập luận cấu trúc: khi vùng, kế hoạch, khoảng đăng ký và trạng thái server cố định, transcript không bổ sung thông tin về hành trình và giờ đọc; bảo đảm này có điều kiện và không bao gồm IP hay click. Hai, phép thử có sức phân biệt: vị trí thật bị suy đúng ở cả S10.A và S10.B, attacker được chọn trên nhóm khác rồi khóa. Ba, khoảng tin cậy bootstrap theo nhóm dưới 0 ở cả mười phép so. Bốn, utility và chi phí đo trên cùng API. Các paper không cùng đầu vào, đầu ra và utility, nên em chấm chung điều attacker suy ra, chất lượng POI người dùng nhận và byte cả hai chiều. Em chưa chứng minh vượt sáu paper gốc, chưa so cùng ngân sách và chưa chạy S1--S3 trên client theo lịch với 32 nhóm.}
+
+\subsection*{Trọng tâm 3 nếu còn, 3 phút: trang 15, 17 và 20}
+\say{Nhóm tuyến chứa các biến thể có quan hệ; chuyến là một lần chạy hoàn tất; record là một phép thử lấy từ một hoặc nhiều chuyến. Vì vậy 389 record minh họa không phải 389 chuyến độc lập. A/B/C là điều kiện trong cùng nhiệm vụ: ở S2.C nhiều lần lấy mẫu chồng thành một chấm nhưng là 18 quan sát; ở S10.B ta che đoạn cuối của nhiều chuyến lặp và kiểm tra đối thủ kết hợp các phiên.}
+
+\subsection*{Kết thúc: xin chốt câu hỏi nghiên cứu tiếp theo}
+\say{Em nghĩ phần đã có thể trình bày là đặc tả kịch bản, cách đánh giá và thiết kế phối hợp với trade-off đo được. Em muốn chốt tính hợp lý của dịch vụ/API, trọng tâm đóng góp và phép xác nhận cần ưu tiên tiếp theo.}
+
+\key{Nếu chỉ còn hai phút: nói \textbf{bài toán dịch vụ}, \textbf{GPS ở thiết bị và lịch công khai}, \textbf{kết quả có điều kiện}, \textbf{chi phí tăng}, rồi \textbf{điểm cần chốt}. Không mở thêm một bảng mà không còn thời gian giải thích mẫu số.}
+
+\guidepage{Tự kiểm tra trước buổi họp và nơi tra cứu}
+\subsection*{Có thể trả lời các câu này bằng lời của mình chưa?}
+\begin{enumerate}
+\item Server có thông tin động gì mà thiết bị chưa biết?
+\item 30/67, 19/52, top-10 và top-5 là bốn loại số gì?
+\item Khi chỉ đổi hành trình, dữ liệu server thấy có đổi không, dưới điều kiện nào?
+\item Kết quả nào là bốn nhóm; kết quả nào là 32 nhóm?
+\item Vì sao raw control có Hit ở S10 lại quan trọng cho việc đọc Hit=0 của đề xuất?
+\item Chênh lệch $-11{,}16$ điểm với khoảng $[-18{,}02;-4{,}81]$ nghĩa là gì?
+\item Tọa độ attacker suy ra khác tọa độ giả gửi lên như thế nào?
+\item Recall=0,6 nhưng $C_i=1$ có thể xảy ra khi nào? Vì sao hai vế $\Delta D$ đều đo từ vị trí thật?
+\item Vì sao không chấm bằng entropy, ASR hay $\Delta c$ của paper gốc?
+\item Vì sao AnotherMe không xếp chung như cùng mẫu số và quyền thời gian?
+\item Phân biệt một nhóm tuyến, một chuyến và một record bằng ví dụ nào? S6 khác S10 ở đâu?
+\item Lợi thế privacy đang phải trả bằng chi phí nào; còn thiếu gì để tính Q?
+\end{enumerate}
+
+\subsection*{Các số cần nhớ, không cần học thuộc cả bảng}
+\begin{itemize}
+\item Khung: 10 scenario, 29 ca; phạm vi ưu tiên: năm scenario, 14 ca.
+\item Minh họa: 12 nhóm, 264 chuyến; 389 record thuộc phạm vi report.
+\item Mở rộng: 32 nhóm, 704 chuyến; 150 record privacy endpoint.
+\item Bản theo lịch: Recall khoảng 95\%/100\% tại p=0,8 cho 30/67 query; chi phí khoảng 3,1/6,9 kB payload mỗi sự kiện.
+\item Hit100 bằng 0 trong những phép thử đã nêu; raw control 12,9\% và 21,9\% ở S10.A/B; chưa là bảo vệ tuyệt đối.
+\item Lịch tải: 4,48 lần byte so cùng kế hoạch chỉ refresh khi hoạt động.
+\end{itemize}
+
+\subsection*{Nguồn của tài liệu này}
+\begin{longtable}{@{}P{5.0cm}P{11.2cm}@{}}
+\toprule Nguồn & Vai trò\\\midrule
+\href{report_explained.pdf}{Report chính} & Nội dung và vị trí trang được chỉ xuyên suốt tài liệu. Bản PDF 31 trang, sắp xếp lại 02/10/2026.\\[4pt]
+\href{sample_maps.html}{Bản đồ tương tác} & Phóng to 29 ca, đọc mẫu và trục thời gian. S10 dùng A/B.\\[4pt]
+\href{preparation_evidence.json}{Hồ sơ bằng chứng cho bản chuẩn bị} & Hash nguồn, các hàng số liệu và phân loại ví dụ minh họa.\\[4pt]
+\href{method_evidence.json}{Hồ sơ phương pháp} & Truy nguyên model, dữ liệu, đối chứng và điều kiện nguồn.\\[4pt]
+\href{sources.json}{Danh mục nguồn khảo sát} & Các paper theo ID trong report chính, phạm vi đọc và phần chưa xác minh đầy đủ.\\
+\bottomrule
+\end{longtable}
+Tài liệu này diễn giải dữ liệu và report đã có; không chạy thêm thực nghiệm, không bổ sung một đợt khảo sát literature mới. Các bảng số được đọc từ kết quả đã đối chiếu. Ví dụ cuộc hẹn, xác suất entropy, khoảng cách và tập POI được đánh dấu là minh họa.
+
+\textbf{Từ ngắn nên nói rõ khi dùng:} transcript = chuỗi yêu cầu/phản hồi được đối thủ thấy; prior = thông tin nền; oracle = bộ trả đáp án chuẩn; epoch = khoảng trạng thái có hiệu lực; adapter = bản triển khai thích nghi; ablation = giữ các phần khác rồi thay một thành phần để đo tác động.
+\end{document}

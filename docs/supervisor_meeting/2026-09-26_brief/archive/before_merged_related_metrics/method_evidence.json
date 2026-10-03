@@ -1,0 +1,897 @@
+{
+  "status": "source_verified_scope_derived",
+  "updated_on": "2026-10-03",
+  "new_model_runs": false,
+  "sources": {
+    "artifacts/benchmarks/research_loop/iteration28_live_service.json": "a975232a8f0e3170f082e9ff813f52ecb2604f6fa2053cdf8d5a78f7fab10202",
+    "artifacts/benchmarks/research_loop/iteration28_verification.json": "2dda1d5e58fb185dcfc2f4b0e690d514d8d9e75e5b5ab7bbf27c43358508e198",
+    "artifacts/benchmarks/research_loop/iteration18_expanded_attacks.json": "95d7615a118f6f8986f2a4c253aa0d4a6e84dc3e1157c09f96fbf25517fb7b29",
+    "artifacts/benchmarks/research_loop/iteration18_expanded_screening.json": "24743a8cc5015876a697abdd387ef565f1079e03b680edf89daa96ecead23717",
+    "artifacts/datasets/research_loop_expanded_v1/dataset.json": "e80228fdd2e70b451dadcea23c725556345f5fcf3cc35f1915ad3f526a9a708e",
+    "experiments/research_loop_live_service.py": "391fba15dc651fbc8c9f498b052b364b4dde719576c2fa5c04a76f39e4df6faa",
+    "evaluation/live_poi.py": "b6bf32695d1444809c1e5147868a16ee93a1a7b6fe65104a0d57e6cc369dcad2",
+    "benchmark/engines/paced_slack.py": "60d96f019496e1b209b84090b787e4b484aa38c85acfda307fc71ee05dc7f2cf",
+    "benchmark/engines/slack_progress.py": "655e2a730323d1e365fef4ac8a14cbd67e7049b27816cf41fcae850651a97963",
+    "benchmark/engines/paced_guard.py": "740b6b8eabce33a8b50bca55f33b22b868f5f42211f86600924d4d8d43b6ecf0",
+    "benchmark/engines/matched_filter.py": "147c298c6f128c680ce899465a6dc2f980bb8f8456d38c2cc98726f47cd7e5e8",
+    "benchmark/engines/filtered_cover.py": "59633ff32d36de8be5d20e88d62fa579d6c7bc24f9f081904326140ddc00ee7c",
+    "benchmark/engines/progress_cover.py": "9e1121793209e86c825dfc785a6b6859219443fd0ec86557eebdf5035a3cb4d0",
+    "benchmark/engines/quotient_cover.py": "93db80c1acce17b50e6dcdf4c711189604b003735b41a087c4d8d9ccaada8ed2",
+    "benchmark/engines/fair_cover.py": "c739b71374a6682f6468588720660152bf73ad11c825237d90ed9a213cb8d8a6",
+    "benchmark/engines/service_cover.py": "56894618d61135c016f11609ee379b7f0867de46ddfc0699d7f174fd49ba6e48",
+    "benchmark/anchor_belief.py": "9a4d99261ce43c3ebc6d0ce118e974ea3778ca82d0a02ac36b428e669d43dc61",
+    "benchmark/response_aware_belief.py": "2f75b486472430260fa5a112cf5f49cb2bfd18d67da378d8c62954c72a43f070",
+    "core/mechanisms.py": "2c950335809507f0551eeeea62089260e74fa94624b3a84eb64b4666ca0cadfa",
+    "experiments/research_loop_cases.py": "ea665df1b695edde9ef1f2cad38847a14e130ce3ac7b71d010871ee6794bf865",
+    "evaluation/lane_travel.py": "111e1bc109dd53e29922d44bfbc16bded8f1409e467e43faba3723026dc45bde",
+    "artifacts/benchmarks/research_loop/live_service/p50-seed24092801.json": "5930e21ad3ddf0c780adbe1530cbc4e8845a4f9d6fd80bd2e8fa41bee803d2ad",
+    "artifacts/benchmarks/research_loop/live_service/p50-seed24092802.json": "2185ecf026bed09f13ffc0b845d8101b7893a629367d3364038655be261968a6",
+    "artifacts/benchmarks/research_loop/live_service/p50-seed24092803.json": "19a2e4864d8e8dae0e85693ffc88f6b9849cc85b5b3dcf10062ef9523f12941d",
+    "artifacts/benchmarks/research_loop/live_service/p80-seed24092801.json": "ea8e88522b34273fc87c6806fd08fda89ad2fb856edae45850957330efae2d81",
+    "artifacts/benchmarks/research_loop/live_service/p80-seed24092802.json": "7cc6e4eac10d0a85b4b0b1a75ffb64273d095118415d440416833672fcdd5b58",
+    "artifacts/benchmarks/research_loop/live_service/p80-seed24092803.json": "9ddb2f53f6931537c616e1be7efe9be91274d1730d35f0be4f00adf520464c63",
+    "artifacts/benchmarks/research_loop/live_service/p95-seed24092801.json": "d9da9cd9a61e2fe1e899be77568c4a89adf67802652240b7e195d5f0898757a2",
+    "artifacts/benchmarks/research_loop/live_service/p95-seed24092802.json": "23dc3aa73e978b958f22c03a335ece7924ef27e81030342165a3f656c2c43981",
+    "artifacts/benchmarks/research_loop/live_service/p95-seed24092803.json": "6a1e9fad33b2d1e466793e033c7f0738f0f2343f97093b70f70308e4b2e0452f",
+    "artifacts/benchmarks/paper_benchmark/results.json": "2df043bfb73c3b2f630046381daf5b4bc9f6941fb5be925b0967d6de98f27538",
+    "evaluation/research_protocol.py": "3c47d2eaa0dfd7bd9f1001b71d67eaa4b998d37b40f1c9e11a113f49edd2a850",
+    "evaluation/scenario_metrics.py": "b212d35ccb4d633e23f24c5d3d80a48a775361117952e2cee820d7b28fdb8e02",
+    "experiments/run_paper_benchmark.py": "4d53666639c601ca59c2cba8cf38c6ca834aa985f02a5337e1cb5a6fec1f3848",
+    "evaluation/sequence_shadow.py": "5d1d05d25176b2fe4546c93419b9652637ca0cdebe72dccc1599ab1bd7fc56c7",
+    "experiments/research_loop_sequence_attack.py": "4f1e98a88a3f9a2901197d13c14ca80b133d8b2e6b96356140841167a5b066e6",
+    "experiments/research_loop_raw_sequence.py": "0af1546bbe5aad2e1735636082c7db62696f343df99bfe6072ff0f762905bd3f",
+    "docs/reviews/verification_paper_benchmark_v2.md": "d7815b472c139ea085f70c5d2e9c64184fb5bffd2515dc63fffe1d52f37f2d4c",
+    "docs/research/contribution_positioning_20260924.md": "d5e5909330ce1e5e00907edd4669b4c99bbb64d8e9a97c6c76fbd913abbd8418",
+    "core/boundary_release.py": "f3f3c19963404fa4dc57b1c18b15fdc8f106f879e4f3b2752c67dd270508bb68",
+    "benchmark/engines/budgeted.py": "c1c6b6b1dda88105ac15d36a7e32eb9fcc3af2afd070c99c11e10fbb11d903a1",
+    "benchmark/engines/contextual_lane.py": "9220e7615cf8cf323a261fcf6ddae7da2017b98787fb76bfd1c14e52b92054b1",
+    "docs/supervisor_meeting/2026-09-26_brief/geoi_evidence.py": "221b285744cace0e94b3942b0befc231704a7eb5ef8ea3d7b9d6727b74218f41",
+    "benchmark/engines/switching_cover.py": "d82f7914f40d4d1817f22bd677818c553e965e5ad44fa5c7f7c5c287512f2ce1",
+    "benchmark/switching_belief.py": "6505f18e53dfff80331250022becf9ab4c5a99ecd5619ee61e4a1a8891e99b4c",
+    "docs/supervisor_meeting/2026-09-26_brief/geoi_content.py": "b46c3b602ad09895da76b668cf83bf755b896afa09e3561b0b3e0c6d997a6f13",
+    "docs/supervisor_meeting/2026-09-26_brief/related_work_coverage.py": "2892a75653ff75c2294d911f2e7ca35b7623bb4dc23f3cc57c624de1185eab04",
+    "docs/supervisor_meeting/2026-09-26_brief/related_work_coverage.json": "f924368e97ae23d4282638908e4925096fd756aa87a73a4a132620b7c32db50a",
+    "docs/supervisor_meeting/2026-09-26_brief/plot_model_architecture.py": "348cac60bdc6704d9b667c99c877648c2f3d821e0e61fdba65ac30b3ef0c1bec",
+    "docs/supervisor_meeting/2026-09-26_brief/figures/architecture_model.pdf": "f69bff1c44de1562136bf63435e73397b9db0a07f23002f1e3aaa0253f29896e",
+    "docs/supervisor_meeting/2026-09-26_brief/figures/architecture_model.svg": "727620abd74ee4aa52cc98d0f14d4648e14a4765d0995167b2b6f8c3b976b191"
+  },
+  "source_cases": [
+    "S1.A",
+    "S1.B",
+    "S1.C",
+    "S2.A",
+    "S2.B",
+    "S2.C",
+    "S3.A",
+    "S3.B",
+    "S3.C",
+    "S9.A",
+    "S9.B",
+    "S9.C",
+    "S10.A",
+    "S10.C"
+  ],
+  "aggregation": "record -> family -> case; equal cases within scenario, equal five scenarios; availability worlds and RNG replicates averaged within family",
+  "cost_policy": "all original traffic of the 94 included full sessions, pooled event-weighted compact request + response JSON; no HTTP/TLS",
+  "development_groups": 12,
+  "source_sessions": 94,
+  "records": 165,
+  "configuration": {
+    "K": 5,
+    "L": 10,
+    "reference_k": 5,
+    "epsilon_test_per_m": 0.01,
+    "epsilon_release_per_m": 0.01,
+    "threshold_m": 200,
+    "session_bound_per_m": 0.23,
+    "private_read_interval_s": 60,
+    "slack": 0.03,
+    "availability_epoch_s": 60
+  },
+  "service_rows": [
+    {
+      "method": "response_paced",
+      "mode": "epoch_cache",
+      "label": "GeoI-Paced",
+      "recall": 0.9437778331605063,
+      "gates": 13,
+      "request_bytes": 217.4973544973545,
+      "response_bytes": 776.2475837742504,
+      "queries": 5.0,
+      "event_denominator": 28350,
+      "case_recall": {
+        "S1.A": 0.9476851851851852,
+        "S1.B": 0.9424074074074075,
+        "S1.C": 0.7644444444444445,
+        "S2.A": 0.998611111111111,
+        "S2.B": 0.9936111111111111,
+        "S2.C": 0.9741486625514404,
+        "S3.A": 0.9383098403058928,
+        "S3.B": 0.9465063577747788,
+        "S3.C": 0.93673177542622,
+        "S9.A": 0.9368141584961117,
+        "S9.B": 0.9423275799290037,
+        "S9.C": 0.9388228887684673,
+        "S10.A": 0.9750705979967731,
+        "S10.C": 0.9557607186008409
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "mode": "epoch_cache",
+      "label": "GeoI-Slack",
+      "recall": 0.9543618767506178,
+      "gates": 13,
+      "request_bytes": 217.48539682539683,
+      "response_bytes": 776.6073368606702,
+      "queries": 5.0,
+      "event_denominator": 28350,
+      "case_recall": {
+        "S1.A": 0.9763888888888889,
+        "S1.B": 0.9589814814814815,
+        "S1.C": 0.8017592592592592,
+        "S2.A": 0.998611111111111,
+        "S2.B": 0.9948971193415638,
+        "S2.C": 0.9459259259259257,
+        "S3.A": 0.9562693891066699,
+        "S3.B": 0.9596788397437521,
+        "S3.C": 0.9525941358024691,
+        "S9.A": 0.9569324620256573,
+        "S9.B": 0.9530366905029058,
+        "S9.C": 0.949511276278499,
+        "S10.A": 0.9763384059911401,
+        "S10.C": 0.9642226418695814
+      }
+    },
+    {
+      "method": "response_paced_slack03",
+      "mode": "fresh",
+      "label": "GeoI-Slack, bỏ cache",
+      "recall": 0.9519414013674398,
+      "gates": 13,
+      "request_bytes": 217.48539682539683,
+      "response_bytes": 776.6073368606702,
+      "queries": 5.0,
+      "event_denominator": 28350,
+      "case_recall": {
+        "S1.A": 0.9759259259259259,
+        "S1.B": 0.9548148148148147,
+        "S1.C": 0.7963888888888887,
+        "S2.A": 0.9941203703703704,
+        "S2.B": 0.9926646090534982,
+        "S2.C": 0.9453549382716048,
+        "S3.A": 0.9536506990464594,
+        "S3.B": 0.9576750611371027,
+        "S3.C": 0.9521388888888888,
+        "S9.A": 0.9545076073682175,
+        "S9.B": 0.9506724196088786,
+        "S9.C": 0.946764585365785,
+        "S10.A": 0.9746770268341435,
+        "S10.C": 0.9616177810132983
+      }
+    },
+    {
+      "method": "raw_current",
+      "mode": "fresh",
+      "label": "GPS thật",
+      "recall": 1.0,
+      "gates": 14,
+      "request_bytes": 45.066243386243386,
+      "response_bytes": 169.40564373897706,
+      "queries": 1.0,
+      "event_denominator": 14175,
+      "case_recall": {
+        "S1.A": 1.0,
+        "S1.B": 1.0,
+        "S1.C": 1.0,
+        "S2.A": 1.0,
+        "S2.B": 1.0,
+        "S2.C": 1.0,
+        "S3.A": 1.0,
+        "S3.B": 1.0,
+        "S3.C": 1.0,
+        "S9.A": 1.0,
+        "S9.B": 1.0,
+        "S9.C": 1.0,
+        "S10.A": 1.0,
+        "S10.C": 1.0
+      }
+    }
+  ],
+  "case_rows": [
+    {
+      "source_case": "S1.A",
+      "case": "S1.A",
+      "families": 12,
+      "records": 12,
+      "hit100": 0.08333333333333333,
+      "mae_m": 851.8653698757058,
+      "hit500": 0.125,
+      "recall": 0.9763888888888889,
+      "raw_hit100": 1.0
+    },
+    {
+      "source_case": "S1.B",
+      "case": "S1.B",
+      "families": 12,
+      "records": 12,
+      "hit100": 0.08333333333333333,
+      "mae_m": 832.459973236893,
+      "hit500": 0.20833333333333334,
+      "recall": 0.9589814814814815,
+      "raw_hit100": 1.0
+    },
+    {
+      "source_case": "S1.C",
+      "case": "S1.C",
+      "families": 12,
+      "records": 12,
+      "hit100": 0.0,
+      "mae_m": 1674.1190139244839,
+      "hit500": 0.0,
+      "recall": 0.8017592592592592,
+      "raw_hit100": 1.0
+    },
+    {
+      "source_case": "S2.A",
+      "case": "S2.A",
+      "families": 12,
+      "records": 12,
+      "hit100": 0.0,
+      "mae_m": 910.1574298960176,
+      "hit500": 0.375,
+      "recall": 0.998611111111111,
+      "raw_hit100": 1.0
+    },
+    {
+      "source_case": "S2.B",
+      "case": "S2.B",
+      "families": 12,
+      "records": 12,
+      "hit100": 0.041666666666666664,
+      "mae_m": 714.5689861288383,
+      "hit500": 0.5416666666666666,
+      "recall": 0.9948971193415638,
+      "raw_hit100": 1.0
+    },
+    {
+      "source_case": "S2.C",
+      "case": "S2.C",
+      "families": 12,
+      "records": 12,
+      "hit100": 0.0,
+      "mae_m": 997.0747284080575,
+      "hit500": 0.0,
+      "recall": 0.9459259259259257,
+      "raw_hit100": 1.0
+    },
+    {
+      "source_case": "S3.A",
+      "case": "S3.A",
+      "families": 12,
+      "records": 12,
+      "hit100": 0.030887630887630888,
+      "mae_m": 905.8389135444271,
+      "hit500": 0.2051640732561785,
+      "recall": 0.9562693891066699,
+      "raw_hit100": 1.0
+    },
+    {
+      "source_case": "S3.B",
+      "case": "S3.B",
+      "families": 11,
+      "records": 11,
+      "hit100": 0.033695597331960966,
+      "mae_m": 872.6569528392018,
+      "hit500": 0.22381535264310382,
+      "recall": 0.9596788397437521,
+      "raw_hit100": 1.0
+    },
+    {
+      "source_case": "S3.C",
+      "case": "S3.C",
+      "families": 12,
+      "records": 12,
+      "hit100": 0.021875000000000002,
+      "mae_m": 934.364547584842,
+      "hit500": 0.22364417989417987,
+      "recall": 0.9525941358024691,
+      "raw_hit100": 1.0
+    },
+    {
+      "source_case": "S9.A",
+      "case": "S9.A",
+      "families": 12,
+      "records": 12,
+      "hit100": 0.0,
+      "mae_m": 607.0494412111643,
+      "hit500": 0.5833333333333334,
+      "recall": 0.9569324620256573,
+      "raw_hit100": 0.16666666666666666
+    },
+    {
+      "source_case": "S9.B",
+      "case": "S9.B",
+      "families": 10,
+      "records": 10,
+      "hit100": 0.025,
+      "mae_m": 701.2542427463603,
+      "hit500": 0.5,
+      "recall": 0.9530366905029058,
+      "raw_hit100": 0.75
+    },
+    {
+      "source_case": "S9.C",
+      "case": "S9.C",
+      "families": 12,
+      "records": 12,
+      "hit100": 0.0,
+      "mae_m": 513.9781954582157,
+      "hit500": 0.5833333333333334,
+      "recall": 0.949511276278499,
+      "raw_hit100": 0.0
+    },
+    {
+      "source_case": "S10.A",
+      "case": "S10.A",
+      "families": 12,
+      "records": 12,
+      "hit100": 0.0,
+      "mae_m": 1345.2864861296002,
+      "hit500": 0.08333333333333333,
+      "recall": 0.9763384059911401,
+      "raw_hit100": 0.3333333333333333
+    },
+    {
+      "source_case": "S10.C",
+      "case": "S10.B",
+      "families": 12,
+      "records": 12,
+      "hit100": 0.0,
+      "mae_m": 1199.7163314417555,
+      "hit500": 0.125,
+      "recall": 0.9642226418695814,
+      "raw_hit100": 0.16666666666666666
+    }
+  ],
+  "contrasts": [
+    {
+      "control": "GeoI-Slack, bỏ cache",
+      "delta": 0.0024204753831779035,
+      "ci95": [
+        0.0014367150599246985,
+        0.003442185883311345
+      ],
+      "draws": 10000,
+      "seed": 20261003,
+      "multiplicity_adjusted": false
+    },
+    {
+      "control": "GeoI-Paced",
+      "delta": 0.010584043590111404,
+      "ci95": [
+        -0.0012751011351789068,
+        0.022271598839766853
+      ],
+      "draws": 10000,
+      "seed": 20261003,
+      "multiplicity_adjusted": false
+    }
+  ],
+  "legacy_rows": [
+    {
+      "method": "unprotected",
+      "label": "GPS thật",
+      "scenarios": {
+        "S1": {
+          "hit100": 1.0,
+          "mae_m": 13.370105148243688,
+          "recall": 1.0
+        },
+        "S2": {
+          "hit100": 1.0,
+          "mae_m": 38.719092422301394,
+          "recall": 1.0
+        },
+        "S3": {
+          "hit100": 0.9642857142857143,
+          "mae_m": 23.485290757558158,
+          "recall": 1.0
+        },
+        "S9": {
+          "hit100": 0.4166666666666667,
+          "mae_m": 120.17438701599833,
+          "recall": 1.0
+        },
+        "S10": {
+          "hit100": 0.08333333333333333,
+          "mae_m": 629.6182081231215,
+          "recall": 1.0
+        }
+      }
+    },
+    {
+      "method": "dls_graph_adaptation",
+      "label": "DLS*",
+      "scenarios": {
+        "S1": {
+          "hit100": 0.5833333333333334,
+          "mae_m": 1317.5299228873691,
+          "recall": 1.0
+        },
+        "S2": {
+          "hit100": 1.0,
+          "mae_m": 38.719092422301394,
+          "recall": 1.0
+        },
+        "S3": {
+          "hit100": 0.3121392496392496,
+          "mae_m": 1687.6741403032784,
+          "recall": 1.0
+        },
+        "S9": {
+          "hit100": 0.08333333333333333,
+          "mae_m": 1581.942921880912,
+          "recall": 1.0
+        },
+        "S10": {
+          "hit100": 0.0,
+          "mae_m": 2028.96368654113,
+          "recall": 1.0
+        }
+      }
+    },
+    {
+      "method": "transprotect_adaptation",
+      "label": "TransProtect*",
+      "scenarios": {
+        "S1": {
+          "hit100": 0.8333333333333334,
+          "mae_m": 84.37405489811852,
+          "recall": 0.9777777777777779
+        },
+        "S2": {
+          "hit100": 0.6666666666666666,
+          "mae_m": 88.22411948021026,
+          "recall": 0.9719135802469135
+        },
+        "S3": {
+          "hit100": 0.6928180615680617,
+          "mae_m": 99.02892666199953,
+          "recall": 0.9793121693121694
+        },
+        "S9": {
+          "hit100": 0.25,
+          "mae_m": 184.0817486264966,
+          "recall": 0.9726851851851851
+        },
+        "S10": {
+          "hit100": 0.08333333333333333,
+          "mae_m": 679.7587811732056,
+          "recall": 0.985185185185185
+        }
+      }
+    },
+    {
+      "method": "semantic_correlation_local_adaptation",
+      "label": "Semantic*",
+      "scenarios": {
+        "S1": {
+          "hit100": 1.0,
+          "mae_m": 11.479628636787858,
+          "recall": 1.0
+        },
+        "S2": {
+          "hit100": 1.0,
+          "mae_m": 41.614312138092664,
+          "recall": 1.0
+        },
+        "S3": {
+          "hit100": 0.4058261183261184,
+          "mae_m": 257.0380857144107,
+          "recall": 1.0
+        },
+        "S9": {
+          "hit100": 0.3333333333333333,
+          "mae_m": 131.85848039310625,
+          "recall": 1.0
+        },
+        "S10": {
+          "hit100": 0.16666666666666666,
+          "mae_m": 730.5307651335906,
+          "recall": 1.0
+        }
+      }
+    },
+    {
+      "method": "geo_i_anchored_dummy",
+      "label": "Geo-I + dummy",
+      "scenarios": {
+        "S1": {
+          "hit100": 0.5833333333333334,
+          "mae_m": 93.64357664814662,
+          "recall": 0.9916666666666667
+        },
+        "S2": {
+          "hit100": 0.3611111111111111,
+          "mae_m": 105.19787740704363,
+          "recall": 0.9851851851851853
+        },
+        "S3": {
+          "hit100": 0.526509139009139,
+          "mae_m": 144.49240910826862,
+          "recall": 0.9772641093474429
+        },
+        "S9": {
+          "hit100": 0.08333333333333333,
+          "mae_m": 307.1453145605419,
+          "recall": 0.9685185185185187
+        },
+        "S10": {
+          "hit100": 0.0,
+          "mae_m": 636.3556527038485,
+          "recall": 0.9706018518518519
+        }
+      }
+    },
+    {
+      "method": "geo_i_anchored_dummy_road",
+      "label": "Geo-I + dummy đường",
+      "scenarios": {
+        "S1": {
+          "hit100": 0.16666666666666666,
+          "mae_m": 237.0090289728828,
+          "recall": 0.9805555555555555
+        },
+        "S2": {
+          "hit100": 0.5370370370370371,
+          "mae_m": 121.2398064397749,
+          "recall": 0.9743827160493826
+        },
+        "S3": {
+          "hit100": 0.035684223184223186,
+          "mae_m": 1908.6474605599958,
+          "recall": 0.8196384479717813
+        },
+        "S9": {
+          "hit100": 0.4166666666666667,
+          "mae_m": 216.87887875069256,
+          "recall": 0.9699074074074074
+        },
+        "S10": {
+          "hit100": 0.0,
+          "mae_m": 2682.369821799641,
+          "recall": 0.7974537037037037
+        }
+      }
+    },
+    {
+      "method": "br_private",
+      "label": "BR tái dùng (Geo-I, v2)",
+      "scenarios": {
+        "S1": {
+          "hit100": 0.3333333333333333,
+          "mae_m": 298.8999900778395,
+          "recall": 0.9583333333333335
+        },
+        "S2": {
+          "hit100": 0.2222222222222222,
+          "mae_m": 247.33934047546347,
+          "recall": 0.9700617283950618
+        },
+        "S3": {
+          "hit100": 0.0744047619047619,
+          "mae_m": 776.3218444429011,
+          "recall": 0.8767350088183421
+        },
+        "S9": {
+          "hit100": 0.0,
+          "mae_m": 315.9685831027637,
+          "recall": 0.9659722222222222
+        },
+        "S10": {
+          "hit100": 0.0,
+          "mae_m": 2314.5933707320423,
+          "recall": 0.8833333333333333
+        }
+      }
+    }
+  ],
+  "legacy_protocol": {
+    "k": 5,
+    "seeds": [
+      81,
+      82,
+      83
+    ],
+    "test_trips": 12,
+    "scenario_windows": 60,
+    "formal_budget_per_m": 0.24
+  },
+  "full_boundary_service_benchmark": false,
+  "six_original_papers_superiority_established": false,
+  "independent_confirmation": false,
+  "presentation_tables": [
+    {
+      "headers": [
+        "Tham số / component",
+        "GeoI-Paced",
+        "GeoI-Slack"
+      ],
+      "rows": [
+        [
+          "Neo / ngân sách",
+          "ε_test = ε_release = 0,01 /m; θ = 200 m; cận phiên 0,23 /m",
+          "Giống GeoI-Paced"
+        ],
+        [
+          "Đọc GPS / cache",
+          "Đọc cách ≥60 giây; cache cùng epoch 60 giây",
+          "Giống GeoI-Paced"
+        ],
+        [
+          "Dịch vụ",
+          "K=5 điểm; L=10 POI/loại/điểm; chọn top-5 tại thiết bị",
+          "Giống GeoI-Paced"
+        ],
+        [
+          "Slack",
+          "Không nới điểm mục tiêu của bộ chọn",
+          "Cho phép giảm tối đa 0,03 điểm mục tiêu để di chuyển hữu ích hơn; không phải giảm Recall 3%"
+        ]
+      ]
+    },
+    {
+      "headers": [
+        "Scenario / đáp án cần suy",
+        "Tên các bộ suy luận chính và cách dùng"
+      ],
+      "rows": [
+        [
+          "S1 — tọa độ hiện tại",
+          "**Centroid**: tâm tập điểm; **Prior**: phân bố vị trí; **Road filter**: lọc đường; **Shadow kNN**: học từ chuyến phụ trợ."
+        ],
+        [
+          "S2 — tọa độ nơi dừng",
+          "**Running mean / Full mean**: gộp nhiều lần nhìn; **Stationary intersection**: tìm điểm chung khi output có điểm thật + dummy; thêm các bộ đường/chuỗi."
+        ],
+        [
+          "S3 — các điểm của đoạn đã đi",
+          "**Continuity**: nối theo chuyển động; **Road filter**; **Full path (Viterbi)**: truy ngược toàn cửa sổ; **Shadow kNN**."
+        ],
+        [
+          "S9 — điểm đầu bị che",
+          "**Road filter / Full path** dùng phần tuyến còn thấy; **Shadow kNN** học quan hệ giữa cửa sổ và điểm đầu."
+        ],
+        [
+          "S10 — điểm cuối bị che",
+          "**Road filter / Full path** dùng tuyến trước đoạn bị che; **Shadow kNN** học quan hệ với điểm cuối; không đọc suffix ẩn."
+        ]
+      ]
+    },
+    {
+      "headers": [
+        "Phương pháp",
+        "S1",
+        "S2",
+        "S3",
+        "S9",
+        "S10"
+      ],
+      "rows": [
+        [
+          "GPS thật",
+          "100,00% / 13 / 100,00%",
+          "100,00% / 39 / 100,00%",
+          "96,43% / 23 / 100,00%",
+          "41,67% / 120 / 100,00%",
+          "8,33% / 630 / 100,00%"
+        ],
+        [
+          "DLS*",
+          "58,33% / 1.318 / 100,00%",
+          "100,00% / 39 / 100,00%",
+          "31,21% / 1.688 / 100,00%",
+          "8,33% / 1.582 / 100,00%",
+          "0,00% / 2.029 / 100,00%"
+        ],
+        [
+          "TransProtect*",
+          "83,33% / 84 / 97,78%",
+          "66,67% / 88 / 97,19%",
+          "69,28% / 99 / 97,93%",
+          "25,00% / 184 / 97,27%",
+          "8,33% / 680 / 98,52%"
+        ],
+        [
+          "Semantic*",
+          "100,00% / 11 / 100,00%",
+          "100,00% / 42 / 100,00%",
+          "40,58% / 257 / 100,00%",
+          "33,33% / 132 / 100,00%",
+          "16,67% / 731 / 100,00%"
+        ],
+        [
+          "Geo-I + dummy",
+          "58,33% / 94 / 99,17%",
+          "36,11% / 105 / 98,52%",
+          "52,65% / 144 / 97,73%",
+          "8,33% / 307 / 96,85%",
+          "0,00% / 636 / 97,06%"
+        ],
+        [
+          "Geo-I + dummy đường",
+          "16,67% / 237 / 98,06%",
+          "53,70% / 121 / 97,44%",
+          "3,57% / 1.909 / 81,96%",
+          "41,67% / 217 / 96,99%",
+          "0,00% / 2.682 / 79,75%"
+        ],
+        [
+          "**BR tái dùng (Geo-I, v2)**",
+          "33,33% / 299 / 95,83%",
+          "22,22% / 247 / 97,01%",
+          "7,44% / 776 / 87,67%",
+          "0,00% / 316 / 96,60%",
+          "0,00% / 2.315 / 88,33%"
+        ]
+      ]
+    },
+    {
+      "headers": [
+        "Ca",
+        "GPS thật: Hit100 (%)",
+        "Geo-I: Hit100 (%) ↓",
+        "Sai số TB (m) ↑",
+        "POI đúng (%) ↑"
+      ],
+      "rows": [
+        [
+          "S1.A",
+          "100,00%",
+          "8,33%",
+          "852",
+          "97,64%"
+        ],
+        [
+          "S1.B",
+          "100,00%",
+          "8,33%",
+          "832",
+          "95,90%"
+        ],
+        [
+          "S1.C",
+          "100,00%",
+          "0,00%",
+          "1.674",
+          "80,18%"
+        ],
+        [
+          "S2.A",
+          "100,00%",
+          "0,00%",
+          "910",
+          "99,86%"
+        ],
+        [
+          "S2.B",
+          "100,00%",
+          "4,17%",
+          "715",
+          "99,49%"
+        ],
+        [
+          "S2.C",
+          "100,00%",
+          "0,00%",
+          "997",
+          "94,59%"
+        ],
+        [
+          "S3.A",
+          "100,00%",
+          "3,09%",
+          "906",
+          "95,63%"
+        ],
+        [
+          "S3.B",
+          "100,00%",
+          "3,37%",
+          "873",
+          "95,97%"
+        ],
+        [
+          "S3.C",
+          "100,00%",
+          "2,19%",
+          "934",
+          "95,26%"
+        ],
+        [
+          "S9.A",
+          "16,67%",
+          "0,00%",
+          "607",
+          "95,69%"
+        ],
+        [
+          "S9.B",
+          "75,00%",
+          "2,50%",
+          "701",
+          "95,30%"
+        ],
+        [
+          "S9.C",
+          "0,00%",
+          "0,00%",
+          "514",
+          "94,95%"
+        ],
+        [
+          "S10.A",
+          "33,33%",
+          "0,00%",
+          "1.345",
+          "97,63%"
+        ],
+        [
+          "S10.B",
+          "16,67%",
+          "0,00%",
+          "1.200",
+          "96,42%"
+        ]
+      ]
+    },
+    {
+      "headers": [
+        "Cấu hình",
+        "POI đúng: Recall@5 ↑",
+        "Ca đạt ≥90%",
+        "Byte gửi + nhận / sự kiện ↓"
+      ],
+      "rows": [
+        [
+          "GeoI-Paced",
+          "94,38%",
+          "13/14",
+          "993,7"
+        ],
+        [
+          "**GeoI-Slack**",
+          "95,44%",
+          "13/14",
+          "994,1"
+        ],
+        [
+          "GeoI-Slack, bỏ cache",
+          "95,19%",
+          "13/14",
+          "994,1"
+        ],
+        [
+          "GPS thật",
+          "100,00%",
+          "14/14",
+          "214,5"
+        ]
+      ]
+    }
+  ],
+  "model_architecture": {
+    "name": "BR-Dummy: Geo-I anchor + protected-history belief + directed-road/POI-aware dummy selection",
+    "working_name": "GeoI-Slack",
+    "internal_control_name": "GeoI-Paced",
+    "boundary_wrapper": "BR-Boundary v1; integration evidence, not full service benchmark"
+  },
+  "report_case_labels": {
+    "report_to_source": {
+      "S10.B": "S10.C"
+    },
+    "unchanged_case_labels": "identity mapping",
+    "policy": "Presentation labels only; retain source records, metrics and experiment identifiers."
+  }
+}
