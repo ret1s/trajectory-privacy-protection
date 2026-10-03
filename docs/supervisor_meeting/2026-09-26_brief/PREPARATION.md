@@ -49,3 +49,18 @@ Máy chủ trả tối đa mười địa điểm mỗi loại cho từng điể
 Với S1, Geo-I là nền bảo vệ vị trí. Với S2, tái dùng, lịch đọc và ngân sách xử lý quan sát lặp. Với S3, kiểm tra đường đi giúp chuỗi điểm giả phù hợp chuyển động; tác động riêng tư vẫn phải đo bằng attacker. Nếu bật S9, GPS của đoạn đầu không đi vào các bước tạo truy vấn. Nếu bật S10, kết quả được giữ tạm trước khi gửi và phần chưa gửi bị hủy khi chuyến kết thúc. Hai phần mở rộng này chưa được benchmark kết hợp với dịch vụ hiện tại.
 
 Vì vậy, đóng góp của mô hình nằm ở cách phối hợp Geo-I với quan sát lặp, đường đi và chất lượng tìm địa điểm. Em dùng benchmark để kiểm tra sự phối hợp đó có cải thiện cân bằng riêng tư và tiện ích hay không.”
+
+## Ví dụ để chiếu và phân tích thuật toán
+
+[Bốn slide PDF](walkthrough/walkthrough.pdf) hoặc [bản tương tác theo thời gian](walkthrough/walkthrough.html). Đây là lần chạy minh họa riêng: giữ nguyên GPS chuyến SUMO `u701_00`, nhưng dùng mạng công khai tái dựng vì không còn cache mạng benchmark. Không dùng các số này thay benchmark hoặc kết luận về privacy. Bật/tắt S9/S10 cùng seed không cô lập riêng tác động truyền tin: S9 còn làm thời điểm GPS đầu tiên được bảo vệ thay đổi.
+
+| Slide | Lời dẫn khi chiếu |
+|---|---|
+| 1 · Toàn chuyến | “Chuyến dài 384 giây. S9 bỏ các mốc 0/20/40. Từ giây 60 mới tạo truy vấn; S10 giữ thêm ít nhất 60 giây nên lần gửi đầu ở giây 120.” |
+| 2 · Bảo vệ và chọn truy vấn | “Giây 60, GPS là 39,992052 / 116,293807. Geo-I tạo Z là 39,983384 / 116,294048, lệch khoảng 964 m; chi phí 0,01/m. Ước lượng 177 ô chỉ dùng thông tin đã bảo vệ; chọn 5 điểm truy vấn trên đường. Giây 80 không đọc GPS mới; slack giảm điểm độ phủ 0,000557, trong giới hạn 0,03.” |
+| 3 · Nhận POI | “Giây 120 gửi bộ tạo từ giây 60. Riêng nhà hàng, 5 điểm nhận 50 lượt POI, còn 28 ID sau bỏ trùng. GPS hiện tại chỉ dùng trên thiết bị để chọn 5 nhà hàng. Cả 5 đều nằm trong top-5 chuẩn ở mốc này.” |
+| 4 · Ngân sách và đoạn biên | “Giây 360, khoảng cách 361,5 m cộng nhiễu −468,2 thành giá trị kiểm tra −106,7, nhỏ hơn 200: giữ Z, vẫn tốn 0,01/m. Số âm là giá trị kiểm tra có nhiễu, không phải khoảng cách vật lý. Khi đóng phiên, 4 bộ đang chờ bị hủy. Tổng đã dùng 0,10/m; hủy không hoàn lại ngân sách.” |
+
+Điểm để thảo luận: tham chiếu Z khác 5 điểm gửi máy chủ; θ = 200 m là ngưỡng tái dùng, không phải bán kính nhiễu. Recall tại các mốc có gửi là 100%, nhưng tính cả 21 mốc đầu vào là 71,43% do giai đoạn chờ. Đây là một mẫu trên mạng nhỏ, chưa chạy attacker. Mạng demo kiểm tra được đường đi theo chính các nối tái dựng, chưa xác minh luật rẽ gốc.
+
+Bản HTML có nút nhảy đến 0/60/80/120/360/384 giây, chọn loại POI, đổi trạng thái S9/S10 và xem bảng ngân sách. GPS thật, Z và trọng số ước lượng trên hình chỉ là góc nhìn phân tích. [Transcript công khai riêng](walkthrough/public_transcript.json) chỉ chứa điểm truy vấn và thời điểm công bố.

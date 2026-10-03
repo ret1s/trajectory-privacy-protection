@@ -8,6 +8,7 @@ Hai tài liệu đi theo mạch: related works trong ba năm và bộ metrics �
 - [Report PDF](report_explained.pdf), [HTML](report_explained.html), [LaTeX](report_explained.tex).
 - [Preparation guide PDF](preparation_guide.pdf), [LaTeX](preparation_guide.tex).
 - [Cách dùng hai tài liệu](PREPARATION.md).
+- [Ví dụ thuật toán: 4 slide](walkthrough/walkthrough.pdf), [bản tương tác offline](walkthrough/walkthrough.html), [nguồn và dựng lại mẫu](walkthrough/README.md). Tài liệu bổ sung riêng, không đưa phụ lục trở lại report.
 
 Sơ đồ chia dữ liệu đầu vào, ba lớp xử lý và đầu ra công khai/riêng; khung xanh bao quanh mô hình. Geo-I tạo vị trí tham chiếu đã làm nhiễu; các bước sau dùng lịch sử đã bảo vệ để ước lượng vùng vị trí, kiểm tra đường xe có thể đi và chọn điểm truy vấn. Hợp phản hồi và xếp hạng GPS trên thiết bị phục vụ 5 POI mỗi loại. Che đầu/cuối chuyến là mở rộng S9/S10 đã kiểm tra tích hợp, chưa benchmark kết hợp toàn bộ dịch vụ. [PREPARATION.md](PREPARATION.md) có kịch bản nói với GVHD theo từng bước, khoảng 4 phút.
 
