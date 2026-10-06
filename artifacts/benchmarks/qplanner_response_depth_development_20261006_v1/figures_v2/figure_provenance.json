@@ -1,0 +1,51 @@
+{
+  "schema": "qplanner-response-depth-scientific-figure-v1",
+  "inputs": {
+    "development_readout": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_development_20261006_v1/readout.json",
+      "sha256": "86abbddcddda35c5d25aafeb5f0b0a9fbf7d352c25b6c193d6f2fb0ca7fac07e"
+    },
+    "development_paired_readout": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_development_20261006_v1/paired_readout.json",
+      "sha256": "88f37ed410958f19a4ec71cb51bda288010e2aa8dbb18129206bd5fb033bd355"
+    },
+    "development_selection": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_development_20261006_v1/depth_selection.json",
+      "sha256": "2af059d107df5adb7e9f7afeae49b817ac478add6394852cda3f4ae9c7af5076"
+    },
+    "development_protocol": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_development_20261006_v1/protocol.json",
+      "sha256": "95d1479332a1b296a7f8a10d6e3aa5cda8fab0f4f08d774e4e6d40e0d34b4da8"
+    },
+    "development_paired_protocol": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_development_20261006_v1/paired_protocol.json",
+      "sha256": "88a779db80e7c8cf85958dc1fbd8df3b67c8898cab9abef3a7a12c4e0eaeadcf"
+    },
+    "development_validation": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_development_20261006_v1/validation.json",
+      "sha256": "de3f93d25f573fb4d47dd2719b2ded00ef367d88fa7c252f571ed98c3d518967"
+    }
+  },
+  "figure_source_sha256": "9ee366aa2518aa9048a3dd06d61b13880ca0880c0eb4d7458403f5e72dafd717",
+  "figure_source_snapshot": "figure_source_snapshot.py",
+  "figure_source_snapshot_sha256": "9ee366aa2518aa9048a3dd06d61b13880ca0880c0eb4d7458403f5e72dafd717",
+  "selected_depth": 30,
+  "development_depths": [
+    20,
+    30,
+    40,
+    60
+  ],
+  "fresh_included": false,
+  "units": {
+    "utility": "percentage points =100 times saved0..1 rate differences",
+    "reply_cost": "MiB = JSON bytes /2^20"
+  },
+  "statistical_unit": "whole family; nested draws/sessions retained",
+  "intervals": "saved paired-family95% intervals; no new bootstrap, fit, scoring or selection",
+  "raw_coordinates_or_rng_keys_read": false,
+  "output_sha256": {
+    "response_depth_utility_cost.pdf": "da32d2e227cb869eaba719b512c776ff497f4f67eb9d5d1334fac2efc49a09b6",
+    "response_depth_utility_cost.png": "769bc353b850dd96d7c2224f596029e19377c4f2188a0906e94d4ef9668376f2"
+  }
+}

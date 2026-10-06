@@ -1,0 +1,71 @@
+{
+  "schema": "qplanner-response-depth-scientific-figure-v1",
+  "inputs": {
+    "development_readout": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_development_20261006_v1/readout.json",
+      "sha256": "86abbddcddda35c5d25aafeb5f0b0a9fbf7d352c25b6c193d6f2fb0ca7fac07e"
+    },
+    "development_paired_readout": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_development_20261006_v1/paired_readout.json",
+      "sha256": "88f37ed410958f19a4ec71cb51bda288010e2aa8dbb18129206bd5fb033bd355"
+    },
+    "development_selection": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_development_20261006_v1/depth_selection.json",
+      "sha256": "2af059d107df5adb7e9f7afeae49b817ac478add6394852cda3f4ae9c7af5076"
+    },
+    "development_protocol": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_development_20261006_v1/protocol.json",
+      "sha256": "95d1479332a1b296a7f8a10d6e3aa5cda8fab0f4f08d774e4e6d40e0d34b4da8"
+    },
+    "development_paired_protocol": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_development_20261006_v1/paired_protocol.json",
+      "sha256": "88a779db80e7c8cf85958dc1fbd8df3b67c8898cab9abef3a7a12c4e0eaeadcf"
+    },
+    "development_validation": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_development_20261006_v1/validation.json",
+      "sha256": "de3f93d25f573fb4d47dd2719b2ded00ef367d88fa7c252f571ed98c3d518967"
+    },
+    "fresh_readout": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/readout.json",
+      "sha256": "f4e08d7e8388be05e4faa36be8b04da84d0618b47d698ede1134a0ddd03a8504"
+    },
+    "fresh_paired_readout": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/paired_readout.json",
+      "sha256": "f1985f122e40a304afedadbbebf9fe73951e74c4241b6ec6fe00c513f9dcdd2f"
+    },
+    "fresh_protocol": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/protocol.json",
+      "sha256": "13c97390d8503e876bf7bb38ef8adbe6421568b20ad716b2f57537dd89bb7853"
+    },
+    "fresh_paired_protocol": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/paired_protocol.json",
+      "sha256": "d3385024006a8e48399ac4e7ac3947db23c320fb7585c65893266f651b13da6f"
+    },
+    "fresh_depth_freeze": {
+      "path": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/depth_freeze.json",
+      "sha256": "7d3c393fad780d3c8522ff4159cb9bf959066182ae5b8451e6a9d6b409e47ee4"
+    }
+  },
+  "figure_source_sha256": "9ee366aa2518aa9048a3dd06d61b13880ca0880c0eb4d7458403f5e72dafd717",
+  "figure_source_snapshot": "figure_source_snapshot.py",
+  "figure_source_snapshot_sha256": "9ee366aa2518aa9048a3dd06d61b13880ca0880c0eb4d7458403f5e72dafd717",
+  "selected_depth": 30,
+  "development_depths": [
+    20,
+    30,
+    40,
+    60
+  ],
+  "fresh_included": true,
+  "units": {
+    "utility": "percentage points =100 times saved0..1 rate differences",
+    "reply_cost": "MiB = JSON bytes /2^20"
+  },
+  "statistical_unit": "whole family; nested draws/sessions retained",
+  "intervals": "saved paired-family95% intervals; no new bootstrap, fit, scoring or selection",
+  "raw_coordinates_or_rng_keys_read": false,
+  "output_sha256": {
+    "response_depth_utility_cost.pdf": "56b63c38a18f2091106056b6a1d5239ef4afb3045e5e27ab70a1bac7a273dcf3",
+    "response_depth_utility_cost.png": "a48f6b2b4cc8dcd285894443feab9ccab6fa158d0e45be1aa1bafffe2dab9358"
+  }
+}

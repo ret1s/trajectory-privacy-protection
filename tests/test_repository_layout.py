@@ -51,11 +51,18 @@ def test_dashboard_import_does_not_load_experiment_or_sumo_runner():
 
 
 def test_active_python_does_not_import_archive():
+    import ast
     offenders = []
     for directory in ACTIVE_PYTHON_DIRS:
         for path in (PROJECT_ROOT / directory).rglob("*.py"):
             source = path.read_text(encoding="utf-8")
-            if "from archive" in source or "import archive" in source:
+            imports = [node for node in ast.walk(ast.parse(source))
+                       if isinstance(node, (ast.Import, ast.ImportFrom))]
+            if any((isinstance(node, ast.ImportFrom) and node.module and
+                    node.module.split('.')[0] == 'archive') or
+                   (isinstance(node, ast.Import) and any(alias.name.split('.')[0] == 'archive'
+                                                        for alias in node.names))
+                   for node in imports):
                 offenders.append(str(path.relative_to(PROJECT_ROOT)))
     assert not offenders, f"active modules import historical code: {offenders}"
 

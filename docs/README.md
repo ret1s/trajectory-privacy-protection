@@ -12,6 +12,17 @@ Use this page instead of searching the repository by filename.
 - [`research/2026-10-06_method_refinement.md`](research/2026-10-06_method_refinement.md)
   — versioned static POI cache and cross-family endpoint attacker selection,
   with unchanged Geo-I backbone and development limits.
+- [`research/2026-10-06_geo_i_public_service_planner.md`](research/2026-10-06_geo_i_public_service_planner.md)
+  — service-aligned public Q selection, purpose normalization and matched controls.
+- [`research/2026-10-06_geo_i_response_depth.md`](research/2026-10-06_geo_i_response_depth.md)
+  — fixed Geo-I / REM Q, response-depth utility/cost confirmation on24 fresh
+  synthetic families and its application limits.
+- [`research/2026-10-06_qplanner_proxy_diagnostic.md`](research/2026-10-06_qplanner_proxy_diagnostic.md)
+  — development-only explanation of planner objective and service mismatch.
+- [`reviews/2026-10-06_qplanner_iteration_log.md`](reviews/2026-10-06_qplanner_iteration_log.md)
+  — preserved failed trials and separation of development from fresh evaluation.
+- [`research/2026-10-06_jisa_static_catalogue_gate.md`](research/2026-10-06_jisa_static_catalogue_gate.md)
+  — full-catalogue local retrieval control and the remote-service assumption.
 - [`research/2026-10-05_method_refinement.md`](research/2026-10-05_method_refinement.md)
   — preceding Geo-I architecture, persistent linked-trip accounting, purpose
   refinement and endpoint generalization/attacker limits.

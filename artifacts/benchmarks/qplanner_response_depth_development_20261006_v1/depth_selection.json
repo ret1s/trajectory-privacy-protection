@@ -1,0 +1,68 @@
+{
+  "schema": "qplanner-response-depth-selection-v1",
+  "selected_depth": 30,
+  "criterion": {
+    "split": "selection",
+    "cache": "current",
+    "phase": "all",
+    "candidate_depths_in_order": [
+      30,
+      40,
+      60
+    ],
+    "baseline_depth": 20,
+    "minimum_equal_family_equal_purpose_recall_gain": 0.02,
+    "minimum_nearest_distance_recall_gain": 0.0,
+    "maximum_total_reply_json_byte_ratio": 2.5,
+    "choice": "smallest eligible depth; NONE if no candidate passes all gates",
+    "undefined": "N/A is never zero; require identical complete family pairs and reference coverage",
+    "status": "exploratory development selection; fresh confirmation requires a separate freeze"
+  },
+  "candidates": [
+    {
+      "depth": 30,
+      "differences": {
+        "equal_purpose_macro": 0.02573116711722125,
+        "nearest_distance": 0.019760435038212787
+      },
+      "reply_json_byte_ratio": 1.3109394397980545,
+      "gates": {
+        "macro_gain_at_least_2pp": true,
+        "nearest_no_loss": true,
+        "reply_byte_ratio_at_most_2_5": true
+      },
+      "eligible": true
+    },
+    {
+      "depth": 40,
+      "differences": {
+        "equal_purpose_macro": 0.04270366400911707,
+        "nearest_distance": 0.03263521457965901
+      },
+      "reply_json_byte_ratio": 1.6216835719305662,
+      "gates": {
+        "macro_gain_at_least_2pp": true,
+        "nearest_no_loss": true,
+        "reply_byte_ratio_at_most_2_5": true
+      },
+      "eligible": true
+    },
+    {
+      "depth": 60,
+      "differences": {
+        "equal_purpose_macro": 0.056102117486338775,
+        "nearest_distance": 0.04285714285714287
+      },
+      "reply_json_byte_ratio": 2.243166017318447,
+      "gates": {
+        "macro_gain_at_least_2pp": true,
+        "nearest_no_loss": true,
+        "reply_byte_ratio_at_most_2_5": true
+      },
+      "eligible": true
+    }
+  ],
+  "fresh_confirmation": "PENDING; not scored by this development replay",
+  "protocol_sha256": "95d1479332a1b296a7f8a10d6e3aa5cda8fab0f4f08d774e4e6d40e0d34b4da8",
+  "readout_sha256": "86abbddcddda35c5d25aafeb5f0b0a9fbf7d352c25b6c193d6f2fb0ca7fac07e"
+}

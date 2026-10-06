@@ -1,0 +1,63 @@
+{
+  "schema": "fresh-qplanner-native-manifest-v1",
+  "dataset_sha256": "105083bc592ca63d5cf18951465a274cc74bab96edc07b060fab57e3a7f55ed8",
+  "protocol_sha256": "bd9389137f131554584007b60bcc7472789a3477157ac0d0140197ed1a160166",
+  "source_sha256": {
+    "experiments/build_qplanner_fresh_native_20261006_v2.py": "61c2c17f0e1c7eaae0559a2ae17d7655db93e63bf244648c6c5955e571bce64e",
+    "experiments/build_future_sumo_cohort.py": "4248a0be23ef4c2f36c49791b8d4d154b9f7aeb70e06abdee9069824f35fff54",
+    "data/scenario_suite/mobility.py": "0b853cb408343ccb7c561264310bc9a684adec54e26b4cb857229aefae4fe46d",
+    "requirements-sumo.txt": "31a546839e3151841fd0600f303398441f32d63c5beec511e9aa158f534708a1",
+    "tests/test_qplanner_fresh_native_cohort_v2.py": "e8d82d05f8cb0e9b4d98a808b4ce0cd4a76aeb77b1e28c3b4fc06af641958431"
+  },
+  "network": {
+    "compressed_path": "artifacts/datasets/qplanner_fresh_native_20261006_v2/public_native.net.xml.gz",
+    "compressed_sha256": "243924810d6c26e1df068f1e2e85198097370f39cf96d8ed759a3bd72a64f395",
+    "native_sha256": "1ff9cb510a1a41be05721362b66f54491b4cfd9bb3ee9b1052d9411f0809fab1",
+    "compile_command": [
+      "/private/tmp/trajectory-research-20261005-venv/bin/netconvert",
+      "--sumo-net-file",
+      "/private/tmp/trajectory-research-20261005-public-map/public_reconstructed.net.xml",
+      "--output-file",
+      "/private/tmp/trajectory-future-native-v1/native_cohort.net.xml",
+      "--no-internal-links",
+      "false",
+      "--junctions.limit-turn-speed",
+      "8",
+      "--no-warnings",
+      "true"
+    ],
+    "compile_stdout": "Success.\n",
+    "external_edges": 4849,
+    "internal_edges": 21179,
+    "source_reconstructed_network_sha256": "94fbd44522fd70ff74448b8045a9e4e2be318070c2399ec0d687b37c8926b114",
+    "turns_authoritative_for_this_new_network": true,
+    "original_lane_turn_parity": false,
+    "same_archived_native_map": true
+  },
+  "family_count": 60,
+  "session_count": 480,
+  "split_counts": {
+    "train": 24,
+    "selection": 12,
+    "test": 24
+  },
+  "public_speed_counts_by_split": {
+    "train": {
+      "6": 12,
+      "8": 12
+    },
+    "selection": {
+      "6": 6,
+      "8": 6
+    },
+    "test": {
+      "6": 12,
+      "8": 12
+    }
+  },
+  "native_source_files_archived": true,
+  "private_choice_key_exported": false,
+  "protection_or_attacker_scores_inspected": false,
+  "sumo_version": "Eclipse SUMO sumo 1.27.1\n Build features: Darwin-23.6.0 arm64 AppleClang 15.0.0.15000309 Release FMI Proj GUI FMT Intl SWIG Parquet Eigen GDAL GL2PS JuPedSim\n Copyright (C) 2001-2026 German Aerospace Center (DLR) and others; https://sumo.dlr.de\n\nEclipse SUMO sumo 1.27.1 is part of SUMO.\nThis program and the accompanying materials\nare made available under the terms of the Eclipse Public License v2.0\nwhich accompanies this distribution, and is available at\nhttp://www.eclipse.org/legal/epl-v20.html\nThis program may also be made available under the following Secondary\nLicenses when the conditions for such availability set forth in the Eclipse\nPublic License 2.0 are satisfied: GNU General Public License, version 2\nor later which is available at\nhttps://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html\nSPDX-License-Identifier: EPL-2.0 OR GPL-2.0-or-later\n",
+  "generation_elapsed_s": 85.72171566700126
+}

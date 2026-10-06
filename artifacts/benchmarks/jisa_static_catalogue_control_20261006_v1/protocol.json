@@ -1,0 +1,70 @@
+{
+  "schema": "jisa-static-catalogue-application-control-v1",
+  "date": "2026-10-06",
+  "status": "DEVELOPMENT on all 24 previously inspected native pilot families; no confirmation or defense selection",
+  "pilot": "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1",
+  "pilot_sha256": {
+    "protocol.json": "2fa6a67159f0fb9462e3cebc2ffc05c1c45d8289cd74bac4db9df0e0d5c88dd2",
+    "protocol.sha256": "b13625cf13e30b7c14169f90f57c2ef7b64616d668042eeac7136385fa93b62f",
+    "results.json": "8c1a9965b4c9e865e230e56a55feb9e32de21d69396ef58b451bd49e5c3aec63",
+    "public_transcripts.json.gz": "5bbe7731468ee26188870ac3f1540cf8507527cbd8719061edcfe95370f46a5d",
+    "wire_rows.json.gz": "81de01d4791f4d5ff0a6d8b126873be0dcdfafe376d0743da00dbe66cbe9d794"
+  },
+  "source_sha256": {
+    "benchmark/public_poi_context.py": "98aa1301ce921630dbb77ef1bb7a19c6b70241e1689cccaa132192019b88ae86",
+    "benchmark/query_purpose.py": "110ce445bb1a89283728b263c1994eda2cf601b3c6ae1eab49e31b2b6bad4443",
+    "core/road_network.py": "7e69c17f17eee24104bd9efc0b3b74b4b502a9c131a90cc99736da390c91108d",
+    "data/lane_states.py": "72ec66d395686a3d5596fdd4a59c757da1bc8e13f3899903f6a427b2bde14664",
+    "data/sumo_demo.py": "28dbca9b080687ac443e658e78e9aecce45404b788c035b0435cb89196b0cb4e",
+    "evaluation/lane_travel.py": "111e1bc109dd53e29922d44bfbc16bded8f1409e467e43faba3723026dc45bde",
+    "evaluation/live_poi.py": "b6bf32695d1444809c1e5147868a16ee93a1a7b6fe65104a0d57e6cc369dcad2",
+    "evaluation/scenario_metrics.py": "b212d35ccb4d633e23f24c5d3d80a48a775361117952e2cee820d7b28fdb8e02",
+    "evaluation/static_catalogue_control.py": "120186770637c919898bdd1b60c8dc9d05ed7cfac0dc53cd4bbce385ba4b124b",
+    "experiments/jisa_static_catalogue_control_20261006.py": "273ea868f07c293d044ac4e75ca78d7cbd3f73cab2f1b05dc0a1bf803de7b76b"
+  },
+  "dataset_sha256": "6977f267538231a70cb1bf1f3f0bf2d1cc4cd50df128ea9d54a1967e25ed4b9c",
+  "reply40_file_sha256": "fa56a1af115a72fd8d21c38df22978f6d04f1564de936cfdc90d6acf686d496b",
+  "poi_source_sha256": "82b03a2dad35c898483437ab63da9437076594e913f5beb6b0d18360ffe9b8b1",
+  "public_epoch": {
+    "epoch_id": "jisa-native-matched-eight-trip-epoch",
+    "start_s": 0.0,
+    "end_s": 12000.0
+  },
+  "methods": [
+    "raw",
+    "rem_epoch8",
+    "planar_epoch8"
+  ],
+  "answers": [
+    "full_catalogue",
+    "raw_current_only",
+    "raw_epoch_cache",
+    "rem_epoch8_current_only",
+    "rem_epoch8_epoch_cache",
+    "planar_epoch8_current_only",
+    "planar_epoch8_epoch_cache"
+  ],
+  "session_rule": "all eight frozen publicly scheduled sessions of all24 pilot families, no private draw regeneration",
+  "purposes": [
+    "nearest_distance",
+    "fastest_travel",
+    "within_radius",
+    "minimum_detour"
+  ],
+  "reference_k": 5,
+  "private_radius_m": 1000.0,
+  "private_destination": "nearest road state of actual final session GPS; evaluator/local utility only, never Q/planner/request",
+  "reference": "full fixed static catalogue under exact existing directed-road QuerySpec definitions and lexical ties",
+  "service_control": "received topL20-by-distance category IDs from frozen pilot wire rows; current-only or union from same epoch",
+  "full_catalogue_control": "bulk fetch all id/category/lat/lon records at public epoch start0 before local input; no position/purpose/category/route in request; no later local-query requests",
+  "cost": "actual compact UTF8 JSON byte lengths; full catalogue once per independent family epoch vs frozen pilot all per-Q request/full record reply estimates; no HTTP/TLS/map downloads/CPU/GNSS/latency",
+  "assumptions": [
+    "provider permits bulk access to full418-POI catalogue",
+    "fixed public region and map known independently of private GPS",
+    "catalogue version remains unchanged during declared epoch",
+    "all POIs static, no availability/price/live travel-time data",
+    "same local exact GPS/query/destination oracle for all utility controls"
+  ],
+  "weighting": "conditional nonempty query recall: query average within session, equal defined sessions within family, equal defined families within split; counts retained",
+  "failure_policy": "retain all completed or failed evidence; no replacing families or outputs"
+}

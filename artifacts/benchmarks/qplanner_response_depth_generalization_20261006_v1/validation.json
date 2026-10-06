@@ -1,0 +1,48 @@
+{
+  "schema": "qplanner-independent-response-depth-generalization-verification-v1",
+  "status": "pass",
+  "protocol_sha256": "13c97390d8503e876bf7bb38ef8adbe6421568b20ad716b2f57537dd89bb7853",
+  "readout_sha256": "f4e08d7e8388be05e4faa36be8b04da84d0618b47d698ede1134a0ddd03a8504",
+  "paired_readout_sha256": "f1985f122e40a304afedadbbebf9fe73951e74c4241b6ec6fe00c513f9dcdd2f",
+  "verifier_sha256": "917a541ee374a94f11616508065be1d7c3ca4a3e9d6a63291a2fce4812029caf",
+  "depth_oracle_sha256": "f735c264e1dc922fdc859d5df6a3daf413dc382b7716b981ab66a86fdfca84b0",
+  "independent_verification_contract": {
+    "verification_protocol_sha256": "35c0ee3bff4679ccfe12fbc6caeec71e7a3162e25751986ed08a7ea1304c92b6",
+    "verification_sources": 73,
+    "synthetic_fixture_test_count": 20
+  },
+  "verification_protocol_sha256": "35c0ee3bff4679ccfe12fbc6caeec71e7a3162e25751986ed08a7ea1304c92b6",
+  "base_Q_validation_sha256": "7438d73eabd74447f6f53d2d06dea27420790dbf3202a3194ebe7c95ea83b6f3",
+  "frozen_adoption_contract": {
+    "status": "pass",
+    "depth_protocol_sha256": "13c97390d8503e876bf7bb38ef8adbe6421568b20ad716b2f57537dd89bb7853",
+    "depth_freeze_sha256": "7d3c393fad780d3c8522ff4159cb9bf959066182ae5b8451e6a9d6b409e47ee4",
+    "base_q_protocol_sha256": "1dc35d7b53f670564c03d3f91c997cf0af99187b77dce215b35cd0abbb976fbc",
+    "selected_depth": 30,
+    "fresh_dataset_opened_for_contract": false,
+    "fresh_metrics_opened_for_contract": false
+  },
+  "bundles": 108,
+  "utility_windows": 108688,
+  "wire_rows": 54344,
+  "selected_depth": 30,
+  "exact_L20_scores_replies_cost_reproduced": true,
+  "current_and_causal_cache_monotonicity_verified": true,
+  "independent_whole_family_nested_draw_bootstrap_and_NA_arithmetic": true,
+  "primary_criterion_result": {
+    "status": "defined",
+    "passes": true,
+    "gates": {
+      "mean_gain": true,
+      "paired95_lower_bound": true,
+      "every_private_draw_gain": true
+    },
+    "primary_key": "service_l30--minus--service_l20--test--current--all--equal_purpose_macro",
+    "independent_family_clusters": 24,
+    "scope": "predeclared conditional static-utility criterion only; not a privacy equivalence or real-data confirmation claim"
+  },
+  "no_private_rng_key_required": true,
+  "no_new_Q_GPS_anchors_or_ledger_reads": true,
+  "privacy_theorem_certified": false,
+  "scope": "Frozen same-map synthetic fixed-Q static depth utility/cost; paid bandwidth; no timing, new location method, real-data or privacy-superiority certificate"
+}

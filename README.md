@@ -16,7 +16,8 @@ it against explicit attacker, utility, and output-contract assumptions.
 - Documentation index: [`docs/README.md`](docs/README.md)
 - JISA publication direction (06/10): [`assessment and improvement programme`](docs/publication/jisa_20261006/README.md)
   — venue fit, proposed Q-planner improvement, matched controls and fresh-confirmation gates;
-  current evidence remains development, with the Geo-I backbone preserved.
+  Q-planner trials remain development; fixed-Q response depth has new same-map
+  synthetic utility confirmation, with the Geo-I backbone preserved.
 - Latest supervisor brief (prepared 06/10): [`report PDF`](docs/supervisor_meeting/2026-10-06_brief/report_explained.pdf),
   [`HTML`](docs/supervisor_meeting/2026-10-06_brief/report_explained.html), and
   [`speaking script`](docs/supervisor_meeting/2026-10-06_brief/preparation_guide.pdf).
@@ -24,6 +25,13 @@ it against explicit attacker, utility, and output-contract assumptions.
   benchmark protocols, static POI cache and robust endpoint-selection results.
 - Latest method development (06/10): [`refinement and limits`](docs/research/2026-10-06_method_refinement.md).
   The Geo-I backbone stays unchanged; new runs are development evidence.
+- Follow-up experiments (06/10): [`public POI Q planner`](docs/research/2026-10-06_geo_i_public_service_planner.md),
+  [`Geo-I / REM response depth`](docs/research/2026-10-06_geo_i_response_depth.md),
+  [`planner proxy diagnostic`](docs/research/2026-10-06_qplanner_proxy_diagnostic.md),
+  [`retained trial chronology`](docs/reviews/2026-10-06_qplanner_iteration_log.md), and
+  [`static catalogue control`](docs/research/2026-10-06_jisa_static_catalogue_gate.md).
+  Retained planner failures, matched Geo-I realizations, response-depth utility/cost
+  confirmation on24 fresh families and application limits.
 - Previous method development (05/10): [`Geo-I method refinement`](docs/research/2026-10-05_method_refinement.md)
   — persistent budget across linked trips, local POI purposes, native S5/S6,
   28-family endpoint checks and the query-order attack diagnostic. The Geo-I backbone

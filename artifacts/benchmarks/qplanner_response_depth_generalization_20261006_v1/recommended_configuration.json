@@ -1,0 +1,76 @@
+{
+  "schema": "geo-i-static-service-recommended-configuration-v1",
+  "created_utc": "2026-10-06T07:32:54.462413+00:00",
+  "display_name": "Geo-I / REM, L=30",
+  "status": "selected on development and confirmed by frozen same-map synthetic TEST",
+  "configuration": {
+    "Geo_I_anchor": "unchanged REM + private reuse + protected belief pipeline",
+    "Q_planner": "legacy_l10",
+    "planner_signature_L": 10,
+    "K_queries_per_event": 5,
+    "server_max_POIs_per_category_per_Q_L": 30,
+    "local_top_k": 5,
+    "request_categories": "all public categories",
+    "purpose_ranking": "local nearest distance, fastest travel, within public radius, minimum detour"
+  },
+  "unchanged_public_privacy_parameters": {
+    "epoch_id": "jisa-native-matched-eight-trip-epoch",
+    "start_s": 0.0,
+    "end_s": 12000.0,
+    "total_effective_epsilon_per_m": 0.23,
+    "session_slots": 8,
+    "horizon": 12,
+    "read_interval_s": 60.0,
+    "max_units_per_session": 23,
+    "unit_epsilon_per_m": 0.00125,
+    "effective_session_cap_per_m": 0.02875,
+    "nominal_session_budget_per_m": 0.03,
+    "nominal_epoch_budget_per_m": 0.24,
+    "allocation": "equal_caps_at_public_session_start_no_recycling",
+    "excess_session": "no_GPS_read_no_query",
+    "scope": "fixed_public_clock_coordinate_GeoI_only",
+    "epoch_reset": "explicit_public_policy_new_epoch_composes_with_previous_epochs"
+  },
+  "certified_primary": {
+    "unit": "24 test-family clusters; three private draws nested in each",
+    "cache": "current replies only",
+    "metric": "equal-family, equal-purpose conditional category Recall@5",
+    "L20_mean": 0.8971435972875352,
+    "L30_mean": 0.9268804092621682,
+    "absolute_gain": 0.029736811974632935,
+    "paired95_family_bootstrap": [
+      0.023078530151675904,
+      0.03646377214822845
+    ],
+    "within_draw_gains": {
+      "1": 0.028669067038760238,
+      "2": 0.029286195696602835,
+      "3": 0.03125517318853577
+    },
+    "frozen_criterion_passes": true
+  },
+  "actual_TEST_cost": {
+    "L20": {
+      "requests": 90570,
+      "request_bytes": 13678985,
+      "reply_bytes": 494713236
+    },
+    "L30": {
+      "requests": 90570,
+      "request_bytes": 13678985,
+      "reply_bytes": 648578577
+    },
+    "reply_byte_ratio": 1.311019252777785,
+    "scope": "compact application JSON estimates; HTTP/TLS, latency and battery not measured"
+  },
+  "provenance_sha256": {
+    "protocol.json": "13c97390d8503e876bf7bb38ef8adbe6421568b20ad716b2f57537dd89bb7853",
+    "depth_freeze.json": "7d3c393fad780d3c8522ff4159cb9bf959066182ae5b8451e6a9d6b409e47ee4",
+    "readout.json": "f4e08d7e8388be05e4faa36be8b04da84d0618b47d698ede1134a0ddd03a8504",
+    "paired_protocol.json": "d3385024006a8e48399ac4e7ac3947db23c320fb7585c65893266f651b13da6f",
+    "paired_readout.json": "f1985f122e40a304afedadbbebf9fe73951e74c4241b6ec6fe00c513f9dcdd2f",
+    "verification_protocol.json": "35c0ee3bff4679ccfe12fbc6caeec71e7a3162e25751986ed08a7ea1304c92b6",
+    "validation.json": "8e2f0eb8b245f94edc383f9d5ef7920a40bf6ba797101e51a7925ec3d2ee19d0"
+  },
+  "scope": "Static simulator service configuration, paid response bandwidth. Same Q/clock/anchors/ledger and protected supplier reads; local utility uses synthetic ground-truth GPS/destination per event. Not a new Q algorithm, privacy theorem, real GPS/cross-city confirmation or superiority over competitors at equal cost."
+}

@@ -1,0 +1,94 @@
+{
+  "status": "pass",
+  "gates": {
+    "no_actual_key_or_database_files": true,
+    "no_actual_private_state_paths": true,
+    "no_private_key_bytes_raw_hex_or_base64": true,
+    "all_selected_files_regular_and_decodable": true,
+    "selected_files_stable_during_scan": true,
+    "git_each_file_within_100MiB": true,
+    "private32byte_reference_set_complete": true
+  },
+  "selected_inventory_file_count": 1361,
+  "scanned_regular_file_count": 1361,
+  "selected_file_bytes": 171722873,
+  "gzip_file_count": 476,
+  "gzip_uncompressed_bytes": 989262799,
+  "actual_private_key_database_filename_count": 0,
+  "actual_private_storage_path_count": 0,
+  "sqlite_magic_header_count": 0,
+  "private_key_matching_file_count": 0,
+  "private_key_matching_gzip_expanded_file_count": 0,
+  "non_secret_private_storage_path_reference_file_count": 5,
+  "path_reference_scope": "allowed non-secret reproduction/provenance text; not actual key/state files",
+  "decoding_or_nonregular_errors": 0,
+  "files_changed_during_scan": 0,
+  "files_over_git_100MiB_limit": 0,
+  "largest_new_files": [
+    {
+      "path": "artifacts/benchmarks/qplanner_development_20261006_v3/attack_selection.json",
+      "bytes": 7399203,
+      "MiB": 7.056429862976074
+    },
+    {
+      "path": "artifacts/benchmarks/qplanner_development_20261006_v2/attack_selection.json",
+      "bytes": 7387894,
+      "MiB": 7.045644760131836
+    },
+    {
+      "path": "artifacts/benchmarks/jisa_static_catalogue_control_20261006_v1/utility_rows.json.gz",
+      "bytes": 3046667,
+      "MiB": 2.9055280685424805
+    },
+    {
+      "path": "artifacts/benchmarks/qplanner_development_20261006_v2/attack_models/tail50--S10.pickle",
+      "bytes": 3031662,
+      "MiB": 2.8912181854248047
+    },
+    {
+      "path": "artifacts/benchmarks/qplanner_development_20261006_v2/attack_models/tail25--S10.pickle",
+      "bytes": 3026862,
+      "MiB": 2.8866405487060547
+    },
+    {
+      "path": "artifacts/benchmarks/qplanner_development_20261006_v3/attack_models/normalized_tight--S10.pickle",
+      "bytes": 3023342,
+      "MiB": 2.8832836151123047
+    },
+    {
+      "path": "artifacts/benchmarks/qplanner_development_20261006_v3/attack_models/normalized_tail--S10.pickle",
+      "bytes": 3014542,
+      "MiB": 2.8748912811279297
+    },
+    {
+      "path": "artifacts/benchmarks/qplanner_development_20261006_v2/attack_models/multi_mean--S10.pickle",
+      "bytes": 2991982,
+      "MiB": 2.8533763885498047
+    },
+    {
+      "path": "artifacts/benchmarks/qplanner_development_20261006_v2/attack_models/aligned_nearest--S10.pickle",
+      "bytes": 2984302,
+      "MiB": 2.8460521697998047
+    },
+    {
+      "path": "artifacts/benchmarks/qplanner_development_20261006_v3/attack_models/aligned_nearest--S10.pickle",
+      "bytes": 2984302,
+      "MiB": 2.8460521697998047
+    }
+  ],
+  "schema": "qplanner-sanitized-public-boundary-audit-v1",
+  "completed_utc": "2026-10-06T07:13:25.125456+00:00",
+  "private_reference_counts": {
+    "private_workdir_count": 9,
+    "private_key_file_count": 124,
+    "distinct_32byte_private_key_count": 48,
+    "private_non32byte_key_file_count": 0,
+    "private_symlink_key_files_not_read": 0,
+    "encoding_variant_count": 300
+  },
+  "new_visible_files_created_during_scan": 16,
+  "inventory_scope": "Git NEW staged additions and untracked files excluding ignored; existing tracked modifications excluded",
+  "temporary_private_key_bytes_or_digests_exported": false,
+  "scanner_source_sha256": "d36f4fd1edd2827ecb576b8dcacb25c7486e7ae6d0359505d94d841e44d9d31b",
+  "limitations": "exact32byte/raw/hex/base64 matching plus gzip expansion; not proof against encrypted, fragmented, arbitrary encodings or unrelated secrets; rerun after final generation"
+}

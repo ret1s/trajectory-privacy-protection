@@ -1,0 +1,155 @@
+{
+  "schema": "qplanner-development-selection-v1",
+  "rule": {
+    "development_status": "second exploratory round after failed first objective; original thresholds unchanged; fresh scores unopened",
+    "utility_min_gain": 0.01,
+    "nearest_max_loss": 0.005,
+    "endpoint_min_mae_ratio": 0.9,
+    "endpoint_max_hit_increase": 0.1,
+    "future_max_accuracy_increase": 0.1,
+    "ranking": "descending equal-purpose current family lower25%CVaR, descending mean, ascending risk weight, lexical name",
+    "fresh_primary": "selected candidate minus legacy_l10; current/all/equal-purpose/equal-family Recall@5",
+    "fresh_criterion": {
+      "minimum_absolute_mean_gain": 0.02,
+      "paired95_lower_bound_gt": 0.0,
+      "every_private_draw_gain_gt": 0.0,
+      "family_bootstrap_replicates": 10000,
+      "public_analysis_seed": 2026100617
+    },
+    "fresh_draws_by_split": {
+      "train": 1,
+      "selection": 1,
+      "test": 3
+    },
+    "secondary": "alignment control, individual purposes, cold, early, temporal tail, N/A coverage, finite attacker bank and costs",
+    "no_equivalence_claim": "privacy development guard is heuristic; no noninferiority power/equivalence test; same ideal cap does not imply same inference risk",
+    "failure": "if no candidate passes, retain none and do not freeze a purported winner"
+  },
+  "source_sha256": "560b7b824da49ac1a1f0411d294b5e24145549eac224615b44aa04766ff831ec",
+  "development_inputs_sha256": {
+    "protocol.json": "cdfce6bc9bb044fefec8a57f40a038742918577bc5fa9e2a8287094a51906741",
+    "utility_readout.json": "202b70a962321f3ce0901a9d2508907d992905135aaf206dd15358fa902ed536",
+    "attack_selection.json": "ac07968a6a49402e7e8c7f7fb512ba63fcb84964322174b46a6c4469391ea846",
+    "attack_readout.json": "ef14ae74c975bd7e8d24b782bb1e293c73825b092cb5964bd67408c75adcb89a"
+  },
+  "records": {
+    "aligned_nearest": {
+      "eligible": false,
+      "reasons": [
+        "insufficient utility gain"
+      ],
+      "macro_gain": -0.0006089691092993066,
+      "nearest_loss": -0.0006246325690769661,
+      "family_lower25_cvar": 0.8736019253380364,
+      "family_mean": 0.9212759177942579,
+      "risk_weight": 0.0,
+      "privacy_guard": {
+        "S9": {
+          "mae_ratio": 0.9770633857200934,
+          "hit100_delta": 0.0,
+          "hit500_delta": -0.027777777777777776
+        },
+        "S10": {
+          "mae_ratio": 1.0398176601272002,
+          "hit100_delta": 0.0,
+          "hit500_delta": 0.0069444444444444475
+        },
+        "S5": {
+          "accuracy_delta": 0.02777777777777779
+        },
+        "S6": {
+          "accuracy_delta": 0.02777777777777779
+        }
+      }
+    },
+    "normalized_mean": {
+      "eligible": false,
+      "reasons": [
+        "insufficient utility gain"
+      ],
+      "macro_gain": 0.0011750773411974835,
+      "nearest_loss": -0.0004629629629629983,
+      "family_lower25_cvar": 0.8731904027042917,
+      "family_mean": 0.9230599642447547,
+      "risk_weight": 0.0,
+      "privacy_guard": {
+        "S9": {
+          "mae_ratio": 0.9898917744911124,
+          "hit100_delta": 0.013888888888888888,
+          "hit500_delta": 0.0069444444444444475
+        },
+        "S10": {
+          "mae_ratio": 1.0245528175456793,
+          "hit100_delta": 0.013888888888888888,
+          "hit500_delta": 0.020833333333333343
+        },
+        "S5": {
+          "accuracy_delta": 0.05555555555555558
+        },
+        "S6": {
+          "accuracy_delta": 0.05555555555555558
+        }
+      }
+    },
+    "normalized_tight": {
+      "eligible": false,
+      "reasons": [
+        "insufficient utility gain"
+      ],
+      "macro_gain": -0.003453914584959583,
+      "nearest_loss": 0.0023589065255733566,
+      "family_lower25_cvar": 0.8527373603762493,
+      "family_mean": 0.9184309723185976,
+      "risk_weight": 0.0,
+      "privacy_guard": {
+        "S9": {
+          "mae_ratio": 1.0950326443421075,
+          "hit100_delta": 0.013888888888888888,
+          "hit500_delta": -0.04861111111111112
+        },
+        "S10": {
+          "mae_ratio": 1.2951269273616233,
+          "hit100_delta": 0.0,
+          "hit500_delta": -0.013888888888888881
+        },
+        "S5": {
+          "accuracy_delta": -0.02777777777777779
+        },
+        "S6": {
+          "accuracy_delta": -0.02777777777777779
+        }
+      }
+    },
+    "normalized_tail": {
+      "eligible": false,
+      "reasons": [
+        "insufficient utility gain"
+      ],
+      "macro_gain": -0.0034432884826669508,
+      "nearest_loss": 0.0025132275132274673,
+      "family_lower25_cvar": 0.8558752204585538,
+      "family_mean": 0.9184415984208902,
+      "risk_weight": 0.25,
+      "privacy_guard": {
+        "S9": {
+          "mae_ratio": 1.0949538540089938,
+          "hit100_delta": 0.013888888888888888,
+          "hit500_delta": -0.04861111111111112
+        },
+        "S10": {
+          "mae_ratio": 1.2956632709368734,
+          "hit100_delta": 0.0,
+          "hit500_delta": 0.034722222222222224
+        },
+        "S5": {
+          "accuracy_delta": 0.0
+        },
+        "S6": {
+          "accuracy_delta": 0.0
+        }
+      }
+    }
+  },
+  "selected": null,
+  "fresh_test_scores_viewed": false
+}

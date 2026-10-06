@@ -1,0 +1,58 @@
+{
+  "schema": "qplanner-base-Q-for-selected-depth-freeze-v1",
+  "fresh_protocol_sha256": "1dc35d7b53f670564c03d3f91c997cf0af99187b77dce215b35cd0abbb976fbc",
+  "configuration": {
+    "methods": {
+      "legacy_l10": {
+        "mode": "legacy_l10",
+        "utility_slack": 0.03
+      }
+    },
+    "budget": {
+      "epoch_id": "jisa-native-matched-eight-trip-epoch",
+      "start_s": 0.0,
+      "end_s": 12000.0,
+      "total_effective_epsilon_per_m": 0.23,
+      "session_slots": 8,
+      "horizon": 12,
+      "read_interval_s": 60.0,
+      "max_units_per_session": 23,
+      "unit_epsilon_per_m": 0.00125,
+      "effective_session_cap_per_m": 0.02875,
+      "nominal_session_budget_per_m": 0.03,
+      "nominal_epoch_budget_per_m": 0.24,
+      "allocation": "equal_caps_at_public_session_start_no_recycling",
+      "excess_session": "no_GPS_read_no_query",
+      "scope": "fixed_public_clock_coordinate_GeoI_only",
+      "epoch_reset": "explicit_public_policy_new_epoch_composes_with_previous_epochs"
+    },
+    "K": 5,
+    "server_L": 20,
+    "reference_k": 5,
+    "public_radius_m": 1000.0,
+    "public_destination_rule": "one latent public road state nearest each of nine fixed map-bounding-box grid points; no private endpoint",
+    "public_destination_grid_quantiles": [
+      0.15,
+      0.5,
+      0.85
+    ],
+    "theta_m": 200.0,
+    "utility_slack": "per_method_declared_above",
+    "tail_mass": 0.25,
+    "profile_weighting": "equal public purposes; within-purpose conditional prototype mass; per-valid-category mean; no private query intent",
+    "mean_slack": 0.01,
+    "max_risk_exchanges": 3,
+    "utility_purposes": [
+      "nearest_distance",
+      "fastest_travel",
+      "within_radius",
+      "minimum_detour"
+    ],
+    "private_utility_destination": "actual session endpoint; local evaluator only",
+    "cache": "current replies plus separate same-version cumulative static epoch cache for every method"
+  },
+  "fresh_test_evaluated": false,
+  "depth_output": "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1",
+  "depth_protocol_sha256": "13c97390d8503e876bf7bb38ef8adbe6421568b20ad716b2f57537dd89bb7853",
+  "depth_freeze_sha256": "7d3c393fad780d3c8522ff4159cb9bf959066182ae5b8451e6a9d6b409e47ee4"
+}

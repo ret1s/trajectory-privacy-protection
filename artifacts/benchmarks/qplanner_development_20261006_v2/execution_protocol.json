@@ -1,0 +1,304 @@
+{
+  "schema": "qplanner-parallel-execution-v1",
+  "created_utc": "2026-10-06T03:33:50.812678+00:00",
+  "common_protocol_sha256": "77c1f28cdff2c05daec1f8c156d1203cbb6fbd0ee25f8e503fc0e12808f822d5",
+  "source_sha256": {
+    "benchmark/anchor_belief.py": "9a4d99261ce43c3ebc6d0ce118e974ea3778ca82d0a02ac36b428e669d43dc61",
+    "benchmark/contracts.py": "57934c4ddfcec78429d213ec65793593ec58ed0e79ef06241f587b07fe854fc9",
+    "benchmark/engines/anotherme.py": "a3cbcc26110b2f5a53a9e11830ad07f22854589e21b2762e06a7a3c4f2b13041",
+    "benchmark/engines/belief_lane.py": "adf589497a91860f5a77c7461553bfe66f62fbaebb887cf9c4c959a9906165ec",
+    "benchmark/engines/budgeted.py": "c1c6b6b1dda88105ac15d36a7e32eb9fcc3af2afd070c99c11e10fbb11d903a1",
+    "benchmark/engines/contextual_lane.py": "9220e7615cf8cf323a261fcf6ddae7da2017b98787fb76bfd1c14e52b92054b1",
+    "benchmark/engines/dls.py": "41cadc9ab2476515235aa13054a76bfaa294ffcbefbf2240c578afe8c1fa492e",
+    "benchmark/engines/fair_cover.py": "c739b71374a6682f6468588720660152bf73ad11c825237d90ed9a213cb8d8a6",
+    "benchmark/engines/filtered_cover.py": "59633ff32d36de8be5d20e88d62fa579d6c7bc24f9f081904326140ddc00ee7c",
+    "benchmark/engines/lane_budgeted.py": "b4c9ec1b42163e6a0504089acfad15970f236821327813b90be682967ae55695",
+    "benchmark/engines/matched_filter.py": "147c298c6f128c680ce899465a6dc2f980bb8f8456d38c2cc98726f47cd7e5e8",
+    "benchmark/engines/origin_guard.py": "d311ef1142b641376c9aceea543419254620cf49387feea85fda03c9aea59ccb",
+    "benchmark/engines/paced_guard.py": "740b6b8eabce33a8b50bca55f33b22b868f5f42211f86600924d4d8d43b6ecf0",
+    "benchmark/engines/paced_slack.py": "60d96f019496e1b209b84090b787e4b484aa38c85acfda307fc71ee05dc7f2cf",
+    "benchmark/engines/planar_paced.py": "3df0f93752f085d2ac58ec8324c4f0d977b0793c2c45db76950bd83ac5a780e7",
+    "benchmark/engines/progress_cover.py": "9e1121793209e86c825dfc785a6b6859219443fd0ec86557eebdf5035a3cb4d0",
+    "benchmark/engines/proposed.py": "8e64feb42b03017526992394f310f9efc9a9132324f873fb4d38ee1b6c9e2a74",
+    "benchmark/engines/public_service_planner.py": "02d69ce8e75f70dff94426e6c303c5617b22c232a2bd89c4fca1afcfc61b375c",
+    "benchmark/engines/quotient_cover.py": "93db80c1acce17b50e6dcdf4c711189604b003735b41a087c4d8d9ccaada8ed2",
+    "benchmark/engines/semantic_correlation.py": "bf5406e3b44ab78d86135cc4cff89f747fc30941ba6c614d4ed5609bbd9f1ea4",
+    "benchmark/engines/service_cover.py": "56894618d61135c016f11609ee379b7f0867de46ddfc0699d7f174fd49ba6e48",
+    "benchmark/engines/slack_progress.py": "655e2a730323d1e365fef4ac8a14cbd67e7049b27816cf41fcae850651a97963",
+    "benchmark/engines/transprotect.py": "bc97f2db31cf19fe54444f5efbf124c10e8a2d7607df56617eeab5f8e776a784",
+    "benchmark/methods/__init__.py": "35f69327c37579a7fd774f1043f1b998039fe5af4f3e210bbb9b357d77e86986",
+    "benchmark/methods/anotherme.py": "68c73b559c8e4123c374539c5a13d74b050679ac2b294b0dd09d23cba1dbeef3",
+    "benchmark/methods/proposed.py": "ae4fe4c823dab3a5397cc73f4be3f17f498aa50d644fd094a54c7b8b3b96d692",
+    "benchmark/methods/semantic_correlation.py": "31dc6b9f1dc0f6bdea14c1c346500da6b25a07081bca029f7b4719c18c70d9ae",
+    "benchmark/methods/transprotect.py": "b5a12d0cdff67a4ef209330846378d0a0bd9cd1fa7fbfe130905ec1a1a447e2d",
+    "benchmark/paper_comparators.py": "698d0dd885fd8d17fb45833cf7205cf26dd3e796e1c6a16d1adffb5fb7d3ef89",
+    "benchmark/planar_anchor.py": "65e2fd524ad2bae0af364c4246301e2aeb9a3611d28e5e637a5b1e71b6e1f8a8",
+    "benchmark/public_poi_context.py": "98aa1301ce921630dbb77ef1bb7a19c6b70241e1689cccaa132192019b88ae86",
+    "benchmark/public_service_profiles.py": "2bdc6aff79317230fe3c2d1baa530c7beb9242f35fb756e635736c35f705b8b9",
+    "benchmark/query_purpose.py": "110ce445bb1a89283728b263c1994eda2cf601b3c6ae1eab49e31b2b6bad4443",
+    "benchmark/response_aware_belief.py": "2f75b486472430260fa5a112cf5f49cb2bfd18d67da378d8c62954c72a43f070",
+    "benchmark/static_poi_cache.py": "1ea7f97bbc11590ad548fc30192767f27a8605489a77b60bfeecbc709daadfa0",
+    "benchmark/versioned_static_poi_cache.py": "18ca007471ed827f46c9f8942c6e15b6933e45f3d73f53e56121e0deb891417a",
+    "core/demo_protocol.py": "7f702875178f94388298bfd02d4d073e6a8b13120508713dd728606c211e51ae",
+    "core/mechanisms.py": "2c950335809507f0551eeeea62089260e74fa94624b3a84eb64b4666ca0cadfa",
+    "core/road_network.py": "7e69c17f17eee24104bd9efc0b3b74b4b502a9c131a90cc99736da390c91108d",
+    "core/session_budget.py": "7bbb7ed8fd16252d0ed6280375c212e67c9216128d65e2a67f9e87e2e0039171",
+    "data/lane_states.py": "72ec66d395686a3d5596fdd4a59c757da1bc8e13f3899903f6a427b2bde14664",
+    "data/scenario_suite/mobility.py": "0b853cb408343ccb7c561264310bc9a684adec54e26b4cb857229aefae4fe46d",
+    "data/sumo_demo.py": "28dbca9b080687ac443e658e78e9aecce45404b788c035b0435cb89196b0cb4e",
+    "evaluation/candidate_future_attack.py": "e0c322b98a39bb98ad65332c384a90a52554dff2b459749be6cd3a7721a1e339",
+    "evaluation/endpoint_noise_attacks.py": "b7cc3de94a3b8d163024fbd3b9d6ca91e131e7f3d2d7fd470fa55769345f23d1",
+    "evaluation/identity_future.py": "bb5f3db42a84c8bec563f8deb80f352ce63f6b364568c9553961c494aaf930f0",
+    "evaluation/lane_travel.py": "111e1bc109dd53e29922d44bfbc16bded8f1409e467e43faba3723026dc45bde",
+    "evaluation/live_comparison_attacks.py": "811e6fad6342e3e5afeb5a3cc73341d6555c607f7d2eecc4ac6fe750a5caa484",
+    "evaluation/live_comparison_endpoint_attacks.py": "0914d6d93a4007ab2c95ad3c56fded62b4963850c5f1d351082b936de275326a",
+    "evaluation/live_poi.py": "b6bf32695d1444809c1e5147868a16ee93a1a7b6fe65104a0d57e6cc369dcad2",
+    "evaluation/ordered_endpoint_attacks.py": "d5dd9e2a742d98d4eff25d87e389dca284a4bd75c6a69476f170a0b36afdf54b",
+    "evaluation/robust_endpoint_selection.py": "065272ca40a98822093acb978ebb7e43c095eb248284286a089b1ba37b2608cd",
+    "evaluation/scenario_metrics.py": "b212d35ccb4d633e23f24c5d3d80a48a775361117952e2cee820d7b28fdb8e02",
+    "experiments/build_future_sumo_cohort.py": "4248a0be23ef4c2f36c49791b8d4d154b9f7aeb70e06abdee9069824f35fff54",
+    "experiments/future_sumo_eval.py": "8705492563025bb6c4207c3b644d7db9f5366f466b7963bee4e824b2c6395e7c",
+    "experiments/jisa_native_anchor_ablation_20261006.py": "a4e87fc09c39037ba0f2496f604f4be8628f75ff56780ae386ad01f667706e68",
+    "experiments/native_future_retrieval_depth.py": "241a9cc508cbb2f31b3069808049270619690005f0f3dc1c5187c921e765d33b",
+    "experiments/native_static_cache_20261006.py": "d536c93d40c6e515547fa3ca0063575fd01fa5b7c90b4ae10bc121f036889a6d",
+    "experiments/qplanner_parallel_generation_20261006.py": "8e464e510c800ad717a0e51af53dbeab2c046f07fd763064e07b5f9eb236e7da",
+    "experiments/qplanner_study_20261006.py": "e7596928cdb757d8c7593a563319cbc081a2d792dbe06fb7e659aca6a0902e8d",
+    "requirements-sumo.txt": "31a546839e3151841fd0600f303398441f32d63c5beec511e9aa158f534708a1",
+    "requirements.txt": "6129a4e83491a088fb44b319039133577d438479a6151cb8f682818d61875654"
+  },
+  "predeclared_files_sha256": {},
+  "processes": 3,
+  "start_method": "spawn",
+  "native_threads_per_worker": 1,
+  "workdir": "/private/tmp/qplanner-parallel-development-20261006-v2",
+  "public_cache_source": "/private/tmp/trajectory-native-future-evaluation-v1/qplanner-development/public_resources",
+  "public_cache_files_sha256": {
+    "native.net.xml": "1ff9cb510a1a41be05721362b66f54491b4cfd9bb3ee9b1052d9411f0809fab1",
+    "reference5.npz": "047421df99be0acfd7d89905ae47f49ff0859192944009f428416f0825bfa5c2",
+    "reply10.npz": "4255006d93f468dec91130173d82eee10b31d194ce0794ce1bcbc1ef563bc81a",
+    "reply20.npz": "209c8331ff022d61d6acd7f55c1bea356987d771b78f22f75afd4a448093d626",
+    "belief-0.01.npz": "e35166c403c818eae853052b3b2a1c6e7e490b9a7d1e7020e753433410d2cf3b",
+    "belief-0.00125.npz": "52d25ea5023ee0363f03c48b7f0fcfd189f43ee958505b55981a6faa8c0b20cc"
+  },
+  "jobs": [
+    {
+      "name": "native-13--draw1.json.gz",
+      "family_id": "native-13",
+      "split": "selection",
+      "draw": 1
+    },
+    {
+      "name": "native-13--draw2.json.gz",
+      "family_id": "native-13",
+      "split": "selection",
+      "draw": 2
+    },
+    {
+      "name": "native-13--draw3.json.gz",
+      "family_id": "native-13",
+      "split": "selection",
+      "draw": 3
+    },
+    {
+      "name": "native-14--draw1.json.gz",
+      "family_id": "native-14",
+      "split": "selection",
+      "draw": 1
+    },
+    {
+      "name": "native-14--draw2.json.gz",
+      "family_id": "native-14",
+      "split": "selection",
+      "draw": 2
+    },
+    {
+      "name": "native-14--draw3.json.gz",
+      "family_id": "native-14",
+      "split": "selection",
+      "draw": 3
+    },
+    {
+      "name": "native-15--draw1.json.gz",
+      "family_id": "native-15",
+      "split": "selection",
+      "draw": 1
+    },
+    {
+      "name": "native-15--draw2.json.gz",
+      "family_id": "native-15",
+      "split": "selection",
+      "draw": 2
+    },
+    {
+      "name": "native-15--draw3.json.gz",
+      "family_id": "native-15",
+      "split": "selection",
+      "draw": 3
+    },
+    {
+      "name": "native-16--draw1.json.gz",
+      "family_id": "native-16",
+      "split": "selection",
+      "draw": 1
+    },
+    {
+      "name": "native-16--draw2.json.gz",
+      "family_id": "native-16",
+      "split": "selection",
+      "draw": 2
+    },
+    {
+      "name": "native-16--draw3.json.gz",
+      "family_id": "native-16",
+      "split": "selection",
+      "draw": 3
+    },
+    {
+      "name": "native-17--draw1.json.gz",
+      "family_id": "native-17",
+      "split": "selection",
+      "draw": 1
+    },
+    {
+      "name": "native-17--draw2.json.gz",
+      "family_id": "native-17",
+      "split": "selection",
+      "draw": 2
+    },
+    {
+      "name": "native-17--draw3.json.gz",
+      "family_id": "native-17",
+      "split": "selection",
+      "draw": 3
+    },
+    {
+      "name": "native-18--draw1.json.gz",
+      "family_id": "native-18",
+      "split": "selection",
+      "draw": 1
+    },
+    {
+      "name": "native-18--draw2.json.gz",
+      "family_id": "native-18",
+      "split": "selection",
+      "draw": 2
+    },
+    {
+      "name": "native-18--draw3.json.gz",
+      "family_id": "native-18",
+      "split": "selection",
+      "draw": 3
+    },
+    {
+      "name": "native-01--draw1.json.gz",
+      "family_id": "native-01",
+      "split": "train",
+      "draw": 1
+    },
+    {
+      "name": "native-02--draw1.json.gz",
+      "family_id": "native-02",
+      "split": "train",
+      "draw": 1
+    },
+    {
+      "name": "native-03--draw1.json.gz",
+      "family_id": "native-03",
+      "split": "train",
+      "draw": 1
+    },
+    {
+      "name": "native-04--draw1.json.gz",
+      "family_id": "native-04",
+      "split": "train",
+      "draw": 1
+    },
+    {
+      "name": "native-05--draw1.json.gz",
+      "family_id": "native-05",
+      "split": "train",
+      "draw": 1
+    },
+    {
+      "name": "native-06--draw1.json.gz",
+      "family_id": "native-06",
+      "split": "train",
+      "draw": 1
+    },
+    {
+      "name": "native-07--draw1.json.gz",
+      "family_id": "native-07",
+      "split": "train",
+      "draw": 1
+    },
+    {
+      "name": "native-08--draw1.json.gz",
+      "family_id": "native-08",
+      "split": "train",
+      "draw": 1
+    },
+    {
+      "name": "native-09--draw1.json.gz",
+      "family_id": "native-09",
+      "split": "train",
+      "draw": 1
+    },
+    {
+      "name": "native-10--draw1.json.gz",
+      "family_id": "native-10",
+      "split": "train",
+      "draw": 1
+    },
+    {
+      "name": "native-11--draw1.json.gz",
+      "family_id": "native-11",
+      "split": "train",
+      "draw": 1
+    },
+    {
+      "name": "native-12--draw1.json.gz",
+      "family_id": "native-12",
+      "split": "train",
+      "draw": 1
+    }
+  ],
+  "transfer": {
+    "source_output": "/Users/geohanz/Project/trajectory-privacy-protection/artifacts/benchmarks/qplanner_development_20261006_v1",
+    "source_files_sha256": {
+      "protocol.json": "44b1d610398c5c3bbb521ae9a8901457155accecc82c96b52ffed61efa7f81bd",
+      "protocol.sha256": "fe3194205b555012bd3c7e5ee7eb876ce8e1030d1888c81d56f079f6f80e7089",
+      "generation_started.json": "b25423562bda4dfc0573035b3cb56e4f24cfd17b355850017c0bd2c219db094a",
+      "execution_environment.json": "ad1c3728024b9660ec23e0699a8221251e08ef1cde5748694d59039e64bd7b39",
+      "resources.json": "0c89bfd80f1aba5df4530f8bf3795ef3e97ae1694c2d21a1a4ea7a05d81f107b",
+      "interruption.json": "9541d41ee94b5fef7f15db6422fb96fbc00b0b3f0332dc9a92fd0fd75513cb7f"
+    },
+    "family_files_sha256": {
+      "native-13--draw1.json.gz": "26dca9491a57f38d4b2df4f91482c68998d64cb1bf302f7aa1b13470a33b2fd0",
+      "native-13--draw2.json.gz": "236dfb4115a6171be1c4b7c3e77327522ac7761f57c80d823b94c46dc63b914d",
+      "native-13--draw3.json.gz": "9293d4dece59bad5ff9f4a351782bdb56bc664c6b5dcb527a0d8205a35cda19a",
+      "native-14--draw1.json.gz": "7fc7cbf550516fa259af94321e0863371e4624e84b44bb6086c77cdff48e2cc2",
+      "native-14--draw2.json.gz": "54442e1d472f3df2e87e629f50eec80651ea99b9a6fec1886a702d25e37e564b",
+      "native-14--draw3.json.gz": "7da409101c79c3c60f1afabc46bf75e3a56a9de51f5d36c231dd4c1d852b4c34",
+      "native-15--draw1.json.gz": "09014bec90ff29b7d1d52444ed50aa7757c6f5ee87cda6e2aa0752784b4b129e"
+    },
+    "import_rule": "byte-identical complete prefix, all methods and all scores retained"
+  },
+  "private_transfer": {
+    "source_directory": "/private/tmp/trajectory-native-future-evaluation-v1/qplanner-development/private_state",
+    "retained_key_blocks": [
+      "native-13--draw1.json.gz",
+      "native-13--draw2.json.gz",
+      "native-13--draw3.json.gz",
+      "native-14--draw1.json.gz",
+      "native-14--draw2.json.gz",
+      "native-14--draw3.json.gz",
+      "native-15--draw1.json.gz",
+      "native-15--draw2.json.gz"
+    ],
+    "policy": "copy matching32byte keys to private isolated block directories, mode0600; do not copy ledgers, bytes or key hashes"
+  },
+  "cache_policy": "directed-cost memoization limit256, cleared between blocks; exact recomputation only",
+  "completion_order": "may differ; final manifest and job receipts indexed by original submission order",
+  "timing_scope": "parallel execution diagnostic; imported serial and new parallel timings are not pooled into an unbiased benchmark",
+  "failure_policy": "retain completed blocks and failure receipts; no retry, seed replacement, or resume of this execution"
+}
