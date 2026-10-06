@@ -1,0 +1,69 @@
+{
+  "schema": "identity-future-protocol-v2",
+  "seed": 20261005,
+  "splits": {
+    "train": [
+      "family-701",
+      "family-702",
+      "family-703",
+      "family-704",
+      "family-705",
+      "family-706"
+    ],
+    "selection": [
+      "family-707",
+      "family-708",
+      "family-709"
+    ],
+    "test": [
+      "family-710",
+      "family-711",
+      "family-712"
+    ]
+  },
+  "split_unit": "SUMO route family; contains every person/vehicle/session/seed of a linked family",
+  "S4": {
+    "target": "pairwise same synthetic person and same physical vehicle, separately",
+    "roles": [
+      "base",
+      "repeat",
+      "new_device",
+      "shared_device",
+      "companion",
+      "partial"
+    ],
+    "pairs": "all unordered pairs among the six selected roles, including hard negatives",
+    "observation": "60-second public relative-time clock; no network/account identity fields",
+    "models": [
+      "raw",
+      "geoi_slack_reconstructed"
+    ],
+    "K": 5,
+    "B": 0.24,
+    "H": 12,
+    "theta_m": 200.0,
+    "read_interval_s": 60.0,
+    "utility_slack": 0.03,
+    "attacker_selection": "maximum balanced accuracy, then ROC-AUC, stable name on selection only"
+  },
+  "S5": {
+    "source": "unmodified archived S3.A public prefix",
+    "target": "next external edge after prefix; first distinct non-internal SUMO edge within 60 seconds",
+    "secondary_target": "GPS at prefix end +20 seconds, for next-position error",
+    "no_lookahead": "only prefix events enter feature extraction"
+  },
+  "S6": {
+    "source": "same unmodified archived S3.A prefix",
+    "target": "last GPS of completed SUMO trace, not route plan or future timestamp as input"
+  },
+  "frozen_prefix_scope": "new residual-future diagnostic, not rerun of original S5/S6 eligibility records",
+  "eligibility": "Independently for each target: S6 completed trace; S5 position requires +20s; S5 exact edge additionally requires a next external edge within60s. Unseen exact-edge classes and failed raw controls block a protection conclusion.",
+  "controls": [
+    "raw observations",
+    "train-majority/train-prior",
+    "training-label permutation"
+  ],
+  "attacker_bank": "ExtraTrees (96 trees, depth16, leaf2), standardized distance-weighted kNN1/5/15",
+  "permutation": "training labels permuted at family/session block; every RNG repetition kept together",
+  "limits": "small grouped development diagnostic; reconstructed graph is not original lane/turn graph; no human identity, no faithful external-paper reproduction, no universal dominance claim"
+}

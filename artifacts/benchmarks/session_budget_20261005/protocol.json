@@ -1,0 +1,156 @@
+{
+  "schema": "fixed-epoch-linked-coordinate-protocol-v1",
+  "splits": {
+    "train": [
+      "family-701",
+      "family-702",
+      "family-703",
+      "family-704",
+      "family-705",
+      "family-706"
+    ],
+    "selection": [
+      "family-707",
+      "family-708",
+      "family-709"
+    ],
+    "test": [
+      "family-710",
+      "family-711",
+      "family-712"
+    ]
+  },
+  "split_unit": "Entire route family, all linked sessions and RNG repetitions",
+  "policies": [
+    {
+      "id": "global_cap_H12",
+      "cap": 0.23,
+      "horizon": 12,
+      "public_parameters": {
+        "epoch_id": "public-research-day",
+        "start_s": 0.0,
+        "end_s": 86400.0,
+        "total_effective_epsilon_per_m": 0.23,
+        "session_slots": 6,
+        "horizon": 12,
+        "read_interval_s": 60.0,
+        "max_units_per_session": 23,
+        "unit_epsilon_per_m": 0.0016666666666666668,
+        "effective_session_cap_per_m": 0.03833333333333334,
+        "nominal_session_budget_per_m": 0.04,
+        "nominal_epoch_budget_per_m": 0.24,
+        "allocation": "equal_caps_at_public_session_start_no_recycling",
+        "excess_session": "no_GPS_read_no_query",
+        "scope": "fixed_public_clock_coordinate_GeoI_only",
+        "epoch_reset": "explicit_public_policy_new_epoch_composes_with_previous_epochs"
+      }
+    },
+    {
+      "id": "global_cap_H8",
+      "cap": 0.23,
+      "horizon": 8,
+      "public_parameters": {
+        "epoch_id": "public-research-day",
+        "start_s": 0.0,
+        "end_s": 86400.0,
+        "total_effective_epsilon_per_m": 0.23,
+        "session_slots": 6,
+        "horizon": 8,
+        "read_interval_s": 60.0,
+        "max_units_per_session": 15,
+        "unit_epsilon_per_m": 0.0025555555555555557,
+        "effective_session_cap_per_m": 0.03833333333333334,
+        "nominal_session_budget_per_m": 0.04088888888888889,
+        "nominal_epoch_budget_per_m": 0.24533333333333335,
+        "allocation": "equal_caps_at_public_session_start_no_recycling",
+        "excess_session": "no_GPS_read_no_query",
+        "scope": "fixed_public_clock_coordinate_GeoI_only",
+        "epoch_reset": "explicit_public_policy_new_epoch_composes_with_previous_epochs"
+      }
+    },
+    {
+      "id": "equal_total_reset_control_H12",
+      "cap": 0.345,
+      "horizon": 12,
+      "public_parameters": {
+        "epoch_id": "public-research-day",
+        "start_s": 0.0,
+        "end_s": 86400.0,
+        "total_effective_epsilon_per_m": 0.345,
+        "session_slots": 6,
+        "horizon": 12,
+        "read_interval_s": 60.0,
+        "max_units_per_session": 23,
+        "unit_epsilon_per_m": 0.0024999999999999996,
+        "effective_session_cap_per_m": 0.057499999999999996,
+        "nominal_session_budget_per_m": 0.05999999999999999,
+        "nominal_epoch_budget_per_m": 0.35999999999999993,
+        "allocation": "equal_caps_at_public_session_start_no_recycling",
+        "excess_session": "no_GPS_read_no_query",
+        "scope": "fixed_public_clock_coordinate_GeoI_only",
+        "epoch_reset": "explicit_public_policy_new_epoch_composes_with_previous_epochs"
+      }
+    }
+  ],
+  "per_session_reference": {
+    "nominal_B": 0.06,
+    "effective_cap": 0.0575,
+    "horizon": 12,
+    "unit_epsilon_per_m": 0.0025,
+    "total_six_session_effective_cap": 0.345
+  },
+  "allocation": "Six public starts, equal fixed shares; consume full cap at start, no recycling; all six family sessions conservatively share one local accounting scope",
+  "no_private_schedule": "Public role order base/repeat/new_device/shared_device/companion/partial; slots start i*3600 seconds, one fixed day, relative observations every60s; neither GPS, actual travel duration nor private branch chooses H or slot budget",
+  "clock": "Range(0, len(trace),60), all ticks; true duration remains PUBLIC and observable",
+  "roles": [
+    "base",
+    "repeat",
+    "new_device",
+    "shared_device",
+    "companion",
+    "partial"
+  ],
+  "repetitions": [
+    0,
+    1
+  ],
+  "K": 5,
+  "L": 20,
+  "theta_m": 200.0,
+  "utility_slack": 0.03,
+  "public_world": {
+    "seed": 20262708,
+    "available_probability": 0.8,
+    "refresh_s": 60
+  },
+  "private_rng": "32-byte OS secret key outside repository; HMAC family/rep domain, then epoch/slot/anchor|dummy|initialization domains; no public seed/session-id-only sampler",
+  "paired_control": "Same secret streams and primitive \u03b5=.0025 for reset and equal-total .345 epoch cap; assert event coordinates, private branch ledger and states exactly equal",
+  "comparable_budget": "Global H8 versus H12 both effective .23/day; reset reference .345/day is explicitly unmatched. Equal-total control tests whether accounting alone changes output.",
+  "attacker": "Public summary and Hungarian matched K-track shape x ExtraTrees96/leaf2/depth16 and standardized weighted kNN1/5/15. Threshold grid0:.05:1 on selection only. Separate selection-best balanced accuracy and selection-best ROC-AUC; retain full test bank/family AUC.",
+  "negative_control": "Independently shuffle training pair labels within each family and repetition, never shuffle rows across train/selection/test",
+  "utility": "Available top5 per POI category at true local GPS after union of top20/category/Q replies; nearest road-distance purpose only, not S7 multipurpose evidence; macro categories then events/sessions/rep/family",
+  "time_windows": "Public first8 sampled ticks and t>=480s long tail, same windows for every configuration; also retain every actual post-budget-exhaustion tick separately as evaluator-only diagnostic",
+  "bytes": "Compact JSON candidate coordinates plus L; POI-ID category lists only; no HTTP/TLS; per public input tick including denied events",
+  "claims": "Geo-I REM plus noisy reuse are unchanged; composition under ideal kernels and fixed public clock/length only. Coordinate protection cannot hide account/IP or deterministic identity metadata. Finite float samplers are numerical approximations, not secure pure-DP implementations.",
+  "scope": "Previously inspected synthetic SUMO family cohorts on reconstructed public graph; development only, no independent confirmation and no comparison to faithful external models",
+  "source_sha256": {
+    "core/mechanisms.py": "2c950335809507f0551eeeea62089260e74fa94624b3a84eb64b4666ca0cadfa",
+    "benchmark/engines/filtered_cover.py": "59633ff32d36de8be5d20e88d62fa579d6c7bc24f9f081904326140ddc00ee7c",
+    "benchmark/engines/matched_filter.py": "147c298c6f128c680ce899465a6dc2f980bb8f8456d38c2cc98726f47cd7e5e8",
+    "benchmark/engines/paced_guard.py": "740b6b8eabce33a8b50bca55f33b22b868f5f42211f86600924d4d8d43b6ecf0",
+    "benchmark/engines/paced_slack.py": "60d96f019496e1b209b84090b787e4b484aa38c85acfda307fc71ee05dc7f2cf",
+    "benchmark/engines/budgeted.py": "c1c6b6b1dda88105ac15d36a7e32eb9fcc3af2afd070c99c11e10fbb11d903a1",
+    "core/session_budget.py": "7bbb7ed8fd16252d0ed6280375c212e67c9216128d65e2a67f9e87e2e0039171",
+    "benchmark/engines/endpoint_noise.py": "ce7143bc640d9528ed2d82a1e091764208ad509b9347b1a55ac377950564152c",
+    "benchmark/anchor_belief.py": "9a4d99261ce43c3ebc6d0ce118e974ea3778ca82d0a02ac36b428e669d43dc61",
+    "benchmark/response_aware_belief.py": "2f75b486472430260fa5a112cf5f49cb2bfd18d67da378d8c62954c72a43f070",
+    "evaluation/live_poi.py": "b6bf32695d1444809c1e5147868a16ee93a1a7b6fe65104a0d57e6cc369dcad2",
+    "evaluation/identity_future.py": "bb5f3db42a84c8bec563f8deb80f352ce63f6b364568c9553961c494aaf930f0",
+    "experiments/identity_future_refine.py": "f2f8001d4f2e1b3454adf170262b0fc20f35ec085de1393b55ecd903d3f1a491",
+    "experiments/session_budget_linkage.py": "a726e3de76dde98b966f41d9fa206bffeda4b2a75dd8164499040de2d2ac523f",
+    "experiments/public_research_resources.py": "36127eb11f4e53b13793413783392afddd2cc7a4e62f697308149db8f7267b25",
+    "artifacts/datasets/research_loop_expanded_v1/dataset.json": "e80228fdd2e70b451dadcea23c725556345f5fcf3cc35f1915ad3f526a9a708e",
+    "artifacts/benchmarks/identity_future_20261005/linkage_results.json": "d7ed2bb0b14ec934d5adb1f1353ebe9d50fe73922a8e212e399a050bc2940bd9",
+    "artifacts/benchmarks/identity_future_20261005/linkage_public_transcripts.json": "29cb9bbd3219e490308517ce050a4fe69b5d008d38d272dc489e8d14fa48a080"
+  }
+}

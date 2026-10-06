@@ -1,0 +1,88 @@
+{
+  "schema": "native-versioned-static-protocol-v1",
+  "source_sha256": {
+    "artifacts/datasets/future_controlled_20261005_v2/dataset.json.gz": "6977f267538231a70cb1bf1f3f0bf2d1cc4cd50df128ea9d54a1967e25ed4b9c",
+    "artifacts/benchmarks/future_native_20261005_v1/public_transcripts.json.gz": "563c39529babf29bfa83c9898e6b285bc0170fd1f61ed8e6019f0e989ff308ee",
+    "artifacts/benchmarks/future_native_20261005_v1/private_accounting.json.gz": "53bcc69535dba6b55240ca0861cb073e0929d501eb5362676b1fcf42a12c6e45",
+    "artifacts/benchmarks/future_native_20261005_v1/results.json": "fbc7ed56db460559a852a86f017bf8c4d67e5b0825ac81ec0c4550c4f87e0fbb",
+    "artifacts/benchmarks/future_native_depth_20261005_v1/results.json": "2655204cbfaad7bc126d98c7af1650a8d0013b96b082ff0b65f82c7cdfcd3f3b",
+    "artifacts/benchmarks/future_native_depth_20261005_v1/public_reply40.npz": "fa56a1af115a72fd8d21c38df22978f6d04f1564de936cfdc90d6acf686d496b",
+    "artifacts/benchmarks/native_static_cache_20261006_v1/protocol.json": "6257c3a7e7d5700aa2c12080f6391b2140a5db7fb2355859d39a47f2f2d73539",
+    "artifacts/benchmarks/native_static_cache_20261006_v1/results.json": "c415e5296bf65b34af31e89d1b2da0c84b8b76fba2cf858c63f3db562cfa11f7",
+    "artifacts/benchmarks/native_static_cache_20261006_v1/weakest_tail_diagnostic.json": "883e8fdc0936de5ad495251a5afae53e80e3950a27b5a53de0d7a2c2ef35d980",
+    "benchmark/static_poi_cache.py": "1ea7f97bbc11590ad548fc30192767f27a8605489a77b60bfeecbc709daadfa0",
+    "benchmark/versioned_static_poi_cache.py": "18ca007471ed827f46c9f8942c6e15b6933e45f3d73f53e56121e0deb891417a",
+    "experiments/native_versioned_static_20261006.py": "412b4777a0b0b0930e467510cf711865105e0e19949550fc926f5616716776b7"
+  },
+  "method_depth": {
+    "geoi_session_reset": 10,
+    "geoi_epoch8": 20
+  },
+  "public_epoch": {
+    "id": "native-eight-trip-public-epoch",
+    "start_s": 0.0,
+    "end_s": 12000.0,
+    "session_starts_s": [
+      0,
+      1500,
+      3000,
+      4500,
+      6000,
+      7500,
+      9000,
+      10500
+    ]
+  },
+  "cache": "one public catalogue version per declared linked-subject eight-session epoch; causal latest static records persist across sessions; invalidate on version/epoch mismatch or expiry",
+  "storage_limit": "exact current public POI catalogue size418; unknown IDs rejected",
+  "preacceptance": "selection family-macro Recall>=.90, minimum family tail400..600 Recall>=.90, cachedIDs<=418 and exactly unchanged requests/reply bytes",
+  "failure": "retain failed candidate and do not recommend it if selection gates fail",
+  "splits": {
+    "selection": [
+      "native-13",
+      "native-14",
+      "native-15",
+      "native-16",
+      "native-17",
+      "native-18"
+    ],
+    "test": [
+      "native-19",
+      "native-20",
+      "native-21",
+      "native-22",
+      "native-23",
+      "native-24"
+    ]
+  },
+  "phases_s": {
+    "all_0_600": [
+      0,
+      600
+    ],
+    "early_0_180": [
+      0,
+      180
+    ],
+    "middle_200_380": [
+      200,
+      380
+    ],
+    "tail_400_600": [
+      400,
+      600
+    ]
+  },
+  "causality": "public absolute time=1500*slot+relativetime; only replies already received at that time; no metadata from future sessions",
+  "static_records": [
+    "id",
+    "category",
+    "lat",
+    "lon"
+  ],
+  "availability": "not evaluated; current fixed60s public-status known/available mask required or unknown/error; static metadata never implies available",
+  "wire": "unchanged Q/order/timestamps/K/selectedL/allcategory schema/current replies; no extra requests, GPS reads or reply bytes; no request suppression",
+  "cost": "same compactJSON full POI metadata reply-only serialization estimate as prior depth run; not HTTP/request/latency measurements",
+  "privacy": "local metadata postprocessing; no sampler, belief, anchor, Q or primary attacker change; no privacy score gain asserted",
+  "status": "posthoc development after weak-test inspection; not fresh confirmation; prior TTL run immutable"
+}

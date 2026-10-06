@@ -1,0 +1,154 @@
+{
+  "schema": "jisa-native-anchor-development-protocol-v1",
+  "configuration": {
+    "budget": {
+      "epoch_id": "jisa-native-matched-eight-trip-epoch",
+      "start_s": 0.0,
+      "end_s": 12000.0,
+      "total_effective_epsilon_per_m": 0.23,
+      "session_slots": 8,
+      "horizon": 12,
+      "read_interval_s": 60.0,
+      "max_units_per_session": 23,
+      "unit_epsilon_per_m": 0.00125,
+      "effective_session_cap_per_m": 0.02875,
+      "nominal_session_budget_per_m": 0.03,
+      "nominal_epoch_budget_per_m": 0.24,
+      "allocation": "equal_caps_at_public_session_start_no_recycling",
+      "excess_session": "no_GPS_read_no_query",
+      "scope": "fixed_public_clock_coordinate_GeoI_only",
+      "epoch_reset": "explicit_public_policy_new_epoch_composes_with_previous_epochs"
+    },
+    "K": 5,
+    "reply_depth_L": 20,
+    "planner_reply_depth_L": 10,
+    "reference_top_k": 5,
+    "theta_m": 200.0,
+    "utility_slack": 0.03,
+    "state_spacing_m": 40.0,
+    "policies": [
+      "current_only",
+      "versioned_epoch8"
+    ],
+    "methods": [
+      "raw",
+      "rem_epoch8",
+      "planar_epoch8"
+    ]
+  },
+  "splits": {
+    "train": [
+      "native-01",
+      "native-02",
+      "native-03",
+      "native-04",
+      "native-05",
+      "native-06",
+      "native-07",
+      "native-08",
+      "native-09",
+      "native-10",
+      "native-11",
+      "native-12"
+    ],
+    "selection": [
+      "native-13",
+      "native-14",
+      "native-15",
+      "native-16",
+      "native-17",
+      "native-18"
+    ],
+    "test": [
+      "native-19",
+      "native-20",
+      "native-21",
+      "native-22",
+      "native-23",
+      "native-24"
+    ]
+  },
+  "phases_s": {
+    "all_0_600": [
+      0,
+      600
+    ],
+    "early_0_180": [
+      0,
+      180
+    ],
+    "middle_200_380": [
+      200,
+      380
+    ],
+    "tail_400_600": [
+      400,
+      600
+    ]
+  },
+  "source_sha256": {
+    "artifacts/benchmarks/future_native_depth_20261005_v1/public_reply40.npz": "fa56a1af115a72fd8d21c38df22978f6d04f1564de936cfdc90d6acf686d496b",
+    "artifacts/benchmarks/future_native_depth_20261005_v1/results.json": "2655204cbfaad7bc126d98c7af1650a8d0013b96b082ff0b65f82c7cdfcd3f3b",
+    "artifacts/benchmarks/research_loop/resources.json": "82b03a2dad35c898483437ab63da9437076594e913f5beb6b0d18360ffe9b8b1",
+    "artifacts/datasets/future_controlled_20261005_v1/public_native.net.xml.gz": "243924810d6c26e1df068f1e2e85198097370f39cf96d8ed759a3bd72a64f395",
+    "artifacts/datasets/future_controlled_20261005_v2/dataset.json.gz": "6977f267538231a70cb1bf1f3f0bf2d1cc4cd50df128ea9d54a1967e25ed4b9c",
+    "artifacts/datasets/future_controlled_20261005_v2/manifest.json": "5502ef4cc28a321a02a6ad96b75fdb32c27834c564b54eda889014c65f10386d",
+    "benchmark/anchor_belief.py": "9a4d99261ce43c3ebc6d0ce118e974ea3778ca82d0a02ac36b428e669d43dc61",
+    "benchmark/engines/belief_lane.py": "adf589497a91860f5a77c7461553bfe66f62fbaebb887cf9c4c959a9906165ec",
+    "benchmark/engines/budgeted.py": "c1c6b6b1dda88105ac15d36a7e32eb9fcc3af2afd070c99c11e10fbb11d903a1",
+    "benchmark/engines/contextual_lane.py": "9220e7615cf8cf323a261fcf6ddae7da2017b98787fb76bfd1c14e52b92054b1",
+    "benchmark/engines/fair_cover.py": "c739b71374a6682f6468588720660152bf73ad11c825237d90ed9a213cb8d8a6",
+    "benchmark/engines/filtered_cover.py": "59633ff32d36de8be5d20e88d62fa579d6c7bc24f9f081904326140ddc00ee7c",
+    "benchmark/engines/lane_budgeted.py": "b4c9ec1b42163e6a0504089acfad15970f236821327813b90be682967ae55695",
+    "benchmark/engines/matched_filter.py": "147c298c6f128c680ce899465a6dc2f980bb8f8456d38c2cc98726f47cd7e5e8",
+    "benchmark/engines/origin_guard.py": "d311ef1142b641376c9aceea543419254620cf49387feea85fda03c9aea59ccb",
+    "benchmark/engines/paced_guard.py": "740b6b8eabce33a8b50bca55f33b22b868f5f42211f86600924d4d8d43b6ecf0",
+    "benchmark/engines/paced_slack.py": "60d96f019496e1b209b84090b787e4b484aa38c85acfda307fc71ee05dc7f2cf",
+    "benchmark/engines/planar_paced.py": "3df0f93752f085d2ac58ec8324c4f0d977b0793c2c45db76950bd83ac5a780e7",
+    "benchmark/engines/progress_cover.py": "9e1121793209e86c825dfc785a6b6859219443fd0ec86557eebdf5035a3cb4d0",
+    "benchmark/engines/quotient_cover.py": "93db80c1acce17b50e6dcdf4c711189604b003735b41a087c4d8d9ccaada8ed2",
+    "benchmark/engines/service_cover.py": "56894618d61135c016f11609ee379b7f0867de46ddfc0699d7f174fd49ba6e48",
+    "benchmark/engines/slack_progress.py": "655e2a730323d1e365fef4ac8a14cbd67e7049b27816cf41fcae850651a97963",
+    "benchmark/planar_anchor.py": "65e2fd524ad2bae0af364c4246301e2aeb9a3611d28e5e637a5b1e71b6e1f8a8",
+    "benchmark/public_poi_context.py": "98aa1301ce921630dbb77ef1bb7a19c6b70241e1689cccaa132192019b88ae86",
+    "benchmark/response_aware_belief.py": "2f75b486472430260fa5a112cf5f49cb2bfd18d67da378d8c62954c72a43f070",
+    "benchmark/static_poi_cache.py": "1ea7f97bbc11590ad548fc30192767f27a8605489a77b60bfeecbc709daadfa0",
+    "benchmark/versioned_static_poi_cache.py": "18ca007471ed827f46c9f8942c6e15b6933e45f3d73f53e56121e0deb891417a",
+    "core/demo_protocol.py": "7f702875178f94388298bfd02d4d073e6a8b13120508713dd728606c211e51ae",
+    "core/mechanisms.py": "2c950335809507f0551eeeea62089260e74fa94624b3a84eb64b4666ca0cadfa",
+    "core/road_network.py": "7e69c17f17eee24104bd9efc0b3b74b4b502a9c131a90cc99736da390c91108d",
+    "core/session_budget.py": "7bbb7ed8fd16252d0ed6280375c212e67c9216128d65e2a67f9e87e2e0039171",
+    "data/lane_states.py": "72ec66d395686a3d5596fdd4a59c757da1bc8e13f3899903f6a427b2bde14664",
+    "data/scenario_suite/mobility.py": "0b853cb408343ccb7c561264310bc9a684adec54e26b4cb857229aefae4fe46d",
+    "data/sumo_demo.py": "28dbca9b080687ac443e658e78e9aecce45404b788c035b0435cb89196b0cb4e",
+    "evaluation/candidate_future_attack.py": "e0c322b98a39bb98ad65332c384a90a52554dff2b459749be6cd3a7721a1e339",
+    "evaluation/identity_future.py": "bb5f3db42a84c8bec563f8deb80f352ce63f6b364568c9553961c494aaf930f0",
+    "evaluation/lane_travel.py": "111e1bc109dd53e29922d44bfbc16bded8f1409e467e43faba3723026dc45bde",
+    "evaluation/live_poi.py": "b6bf32695d1444809c1e5147868a16ee93a1a7b6fe65104a0d57e6cc369dcad2",
+    "evaluation/scenario_metrics.py": "b212d35ccb4d633e23f24c5d3d80a48a775361117952e2cee820d7b28fdb8e02",
+    "experiments/build_future_sumo_cohort.py": "4248a0be23ef4c2f36c49791b8d4d154b9f7aeb70e06abdee9069824f35fff54",
+    "experiments/future_sumo_eval.py": "8705492563025bb6c4207c3b644d7db9f5366f466b7963bee4e824b2c6395e7c",
+    "experiments/jisa_native_anchor_ablation_20261006.py": "a4e87fc09c39037ba0f2496f604f4be8628f75ff56780ae386ad01f667706e68",
+    "experiments/native_future_retrieval_depth.py": "241a9cc508cbb2f31b3069808049270619690005f0f3dc1c5187c921e765d33b",
+    "experiments/native_static_cache_20261006.py": "d536c93d40c6e515547fa3ca0063575fd01fa5b7c90b4ae10bc121f036889a6d",
+    "requirements-sumo.txt": "31a546839e3151841fd0600f303398441f32d63c5beec511e9aa158f534708a1",
+    "requirements.txt": "6129a4e83491a088fb44b319039133577d438479a6151cb8f682818d61875654"
+  },
+  "preserve_old_evidence_sha256": {
+    "artifacts/benchmarks/future_native_20261005_v1/protocol.json": "d535804dbbb2fad5595d556db2042347ea1fd6affc76c17439d70cf9e13e5220",
+    "artifacts/benchmarks/future_native_20261005_v1/public_transcripts.json.gz": "563c39529babf29bfa83c9898e6b285bc0170fd1f61ed8e6019f0e989ff308ee",
+    "artifacts/benchmarks/future_native_20261005_v1/results.json": "fbc7ed56db460559a852a86f017bf8c4d67e5b0825ac81ec0c4550c4f87e0fbb",
+    "artifacts/benchmarks/native_versioned_static_20261006_v1/results.json": "88f564cd4c0aa3d3f5e348f778f483d9e3a5bc74acb58595c987a27918606435"
+  },
+  "comparison": "REM vs full-plane planar Laplace with private reuse and respective matched emissions; same public planner/reference10,cap,clock,K5,L20,map,static service",
+  "draws": "NEW secret32-byte OS key per family retained privately0700/0600; same family key and public epoch ID pair methods; independent HMAC initialization/anchor/dummy streams per session slot; no key or seed exported",
+  "cache": "same current-only and same causal versioned static ID cache per family across eight publicly timed sessions; reset/version invalidation; no future replies",
+  "attacker": "same CandidateFutureAttack geometry/ExtraTrees finite bank trained per mechanism,task,stage; fit12 families,select6,report6; six histories plus one query causal prefix, TWO known public candidates",
+  "selection": "maximum selection balancedaccuracy,then minimum logloss,then lexicalname; write every selection before any test score; no defense/model candidate selected by this ablation",
+  "controls": "raw positive control; within-family TRAIN-label permutation; shared-fork ambiguity retained",
+  "utility": "static all-POI distance category-top5 union coverage; no liveavailability/traffic measurement; conditional recall and N/A/coverage retained",
+  "cost": "per-Q UTF8 compactJSON request and full id/category/lat/lon reply estimate including repeated records; not HTTP,TLS,latency or measured server traffic",
+  "privacy": "coordinate-only declared epoch; ideal kernel/float approximation caveat; no account/IP concealment; same .23 composed cap,not actual-spend matching",
+  "status": "DEVELOPMENT on previously inspected native families; new draws are not fresh dataset confirmation; primitive ablation,not faithful CCS2013/PETS2014 reproduction",
+  "failure_policy": "write failure.json with traceback if any stage fails; preserve partial outputs and do not replace family/seed; new run requires new artifact/version"
+}

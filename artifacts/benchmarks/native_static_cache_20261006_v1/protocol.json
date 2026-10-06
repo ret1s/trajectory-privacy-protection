@@ -1,0 +1,80 @@
+{
+  "schema": "native-static-cache-protocol-v1",
+  "source_sha256": {
+    "artifacts/datasets/future_controlled_20261005_v2/dataset.json.gz": "6977f267538231a70cb1bf1f3f0bf2d1cc4cd50df128ea9d54a1967e25ed4b9c",
+    "artifacts/benchmarks/future_native_20261005_v1/public_transcripts.json.gz": "563c39529babf29bfa83c9898e6b285bc0170fd1f61ed8e6019f0e989ff308ee",
+    "artifacts/benchmarks/future_native_20261005_v1/private_accounting.json.gz": "53bcc69535dba6b55240ca0861cb073e0929d501eb5362676b1fcf42a12c6e45",
+    "artifacts/benchmarks/future_native_20261005_v1/results.json": "fbc7ed56db460559a852a86f017bf8c4d67e5b0825ac81ec0c4550c4f87e0fbb",
+    "artifacts/benchmarks/future_native_depth_20261005_v1/results.json": "2655204cbfaad7bc126d98c7af1650a8d0013b96b082ff0b65f82c7cdfcd3f3b",
+    "artifacts/benchmarks/future_native_depth_20261005_v1/public_reply40.npz": "fa56a1af115a72fd8d21c38df22978f6d04f1564de936cfdc90d6acf686d496b",
+    "artifacts/benchmarks/future_native_depth_20261005_v1/public_resource_archive.json": "f8a6223b05a8f5bdcca8cf810c19abe7619c0195e75457c927ee5fb21abde286",
+    "benchmark/static_poi_cache.py": "1ea7f97bbc11590ad548fc30192767f27a8605489a77b60bfeecbc709daadfa0",
+    "evaluation/live_poi.py": "b6bf32695d1444809c1e5147868a16ee93a1a7b6fe65104a0d57e6cc369dcad2",
+    "benchmark/query_purpose.py": "110ce445bb1a89283728b263c1994eda2cf601b3c6ae1eab49e31b2b6bad4443",
+    "experiments/native_static_cache_20261006.py": "d536c93d40c6e515547fa3ca0063575fd01fa5b7c90b4ae10bc121f036889a6d"
+  },
+  "method_depth": {
+    "geoi_session_reset": 10,
+    "geoi_epoch8": 20
+  },
+  "policies": [
+    "current_only",
+    "public_epoch60",
+    "rolling60",
+    "rolling120",
+    "rolling180"
+  ],
+  "rolling_TTL_s": [
+    60,
+    120,
+    180
+  ],
+  "public_epoch60": "existing EpochResponseCache; retain replies within floor(relative public time/60); reset at boundary",
+  "rolling": "retain latest static POI records if 0<=public age<TTL; generally rolling60 includes three20s events; extra predeclared clocks also count",
+  "preselection": "minimum rolling TTL with selection family-macro Recall>=.90 and minimum family tail400..600 Recall>=.90 and exactly unchanged requests/reply bytes",
+  "failure": "no selected TTL if none passes; preserve all failed policies",
+  "splits": {
+    "selection": [
+      "native-13",
+      "native-14",
+      "native-15",
+      "native-16",
+      "native-17",
+      "native-18"
+    ],
+    "test": [
+      "native-19",
+      "native-20",
+      "native-21",
+      "native-22",
+      "native-23",
+      "native-24"
+    ]
+  },
+  "phases_s": {
+    "all_0_600": [
+      0,
+      600
+    ],
+    "early_0_180": [
+      0,
+      180
+    ],
+    "middle_200_380": [
+      200,
+      380
+    ],
+    "tail_400_600": [
+      400,
+      600
+    ]
+  },
+  "ranking": "same reference5 category distance/tie ordering; cached IDs are ranked locally using current GPS",
+  "public_requests": "frozen Q and timestamps; all categories, previously selected L; every cache policy has identical service requests/replies",
+  "static_scope": "cache id/category/lat/lon only; native all-POIs static; no liveavailability or dynamictraffic claim",
+  "dynamic_guard": "live answer requires current fixed-public-epoch known/available IDs from public replies; missing/stale =>unknown; absent from cover=>unknown, not unavailable",
+  "utility": "conditional on nonempty reachable reference; report coverage and unavailable reference windows without imputation",
+  "cost": "same per-Q compactJSON full id/category/lat/lon reply-only serialization estimate; no new requests and no request suppression",
+  "privacy": "local postprocessing only; unchanged Q/order/epsilon/budget/attacker; no new privacy score improvement asserted",
+  "status": "development on already-inspected native test; new cache scores sealed before selection/test readout"
+}

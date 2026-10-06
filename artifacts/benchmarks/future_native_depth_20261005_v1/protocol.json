@@ -1,0 +1,59 @@
+{
+  "schema": "fixed-Q-native-retrieval-depth-protocol-v1",
+  "depths": [
+    10,
+    20,
+    40
+  ],
+  "source_sha256": {
+    "artifacts/datasets/future_controlled_20261005_v2/dataset.json.gz": "6977f267538231a70cb1bf1f3f0bf2d1cc4cd50df128ea9d54a1967e25ed4b9c",
+    "artifacts/benchmarks/future_native_20261005_v1/public_transcripts.json.gz": "563c39529babf29bfa83c9898e6b285bc0170fd1f61ed8e6019f0e989ff308ee",
+    "artifacts/benchmarks/future_native_20261005_v1/private_accounting.json.gz": "53bcc69535dba6b55240ca0861cb073e0929d501eb5362676b1fcf42a12c6e45",
+    "artifacts/benchmarks/future_native_20261005_v1/results.json": "fbc7ed56db460559a852a86f017bf8c4d67e5b0825ac81ec0c4550c4f87e0fbb"
+  },
+  "preselection": "minimum L with selection family-macro Recall>=.90, median session Recall>=.90 and mean reply bytes<=2x L10, separately per protected method",
+  "failure": "no selected depth if no depth passes all three gates",
+  "splits": {
+    "selection": [
+      "native-13",
+      "native-14",
+      "native-15",
+      "native-16",
+      "native-17",
+      "native-18"
+    ],
+    "test": [
+      "native-19",
+      "native-20",
+      "native-21",
+      "native-22",
+      "native-23",
+      "native-24"
+    ]
+  },
+  "phases_s": {
+    "all_0_600": [
+      0,
+      600
+    ],
+    "early_0_180": [
+      0,
+      180
+    ],
+    "middle_200_380": [
+      200,
+      380
+    ],
+    "tail_400_600": [
+      400,
+      600
+    ]
+  },
+  "mechanism": "frozen public Q, unchanged L10-calibrated belief/planner, reference5,K5",
+  "public_catalogue": "L40 public reverse shortest paths on exact native network; L20 and L10 are exact ordered prefixes; assert originalL10 parity",
+  "reply_cost": "UTF8 compact JSON per Q: results records(id,category,lat,lon); sum all Q replies including duplicate POIs; reply-only estimate, not measured HTTP or request bytes",
+  "ranking": "same category travel-distance order and lexical POI tie rule; all POIs available",
+  "utility": "conditional on nonempty reachable reference; count undefined windows, no zero imputation",
+  "status": "posthoc development extension; primary test already inspected, no fresh confirmation claim",
+  "attacker": "primary attacks/selection/predictions frozen, no new attacker fitting or emissions"
+}

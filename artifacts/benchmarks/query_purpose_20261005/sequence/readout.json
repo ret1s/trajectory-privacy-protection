@@ -1,0 +1,714 @@
+{
+  "schema": "s7-sequence-readout-v1",
+  "resources": {
+    "schema": "public-research-reconstruction-v1",
+    "source_sha256": {
+      "artifacts/benchmarks/paper_benchmark/results.json": "2df043bfb73c3b2f630046381daf5b4bc9f6941fb5be925b0967d6de98f27538",
+      "artifacts/benchmarks/research_loop/resources.json": "82b03a2dad35c898483437ab63da9437076594e913f5beb6b0d18360ffe9b8b1",
+      "experiments/public_research_resources.py": "36127eb11f4e53b13793413783392afddd2cc7a4e62f697308149db8f7267b25"
+    },
+    "net_sha256": "94fbd44522fd70ff74448b8045a9e4e2be318070c2399ec0d687b37c8926b114",
+    "archived_polylines": 9138,
+    "retained_non_self_loop_polylines": 4849,
+    "endpoint_cluster_m": 35.0,
+    "speed_m_s": 8.0,
+    "original_turns_verified": false,
+    "scope": "Full archived public polylines, reconstructed junctions/turns; development only; not an exact rerun of original SUMO network or frozen benchmark",
+    "catalogue": {
+      "schema": "sumo-lane-progress-v1",
+      "states": 22106,
+      "arcs": 34356,
+      "lanes": 4849,
+      "spacing_m": 40.0,
+      "max_speed_m_s": 8.0,
+      "sha256": "a15cf22b56a878f0de7f6d3e8476a50d83be7ce0115ae02db9e008c560eba2f4",
+      "lane_changes": false,
+      "traffic_lights_and_congestion": false
+    },
+    "poi_count": 418,
+    "latent_cells": 907,
+    "belief_sha256": "a90bfa371ad6de296681de08b453a42dbbc74a4e55c2a1379e291ff7f07ddf76",
+    "reference_sha256": "bbe61e6449c56db55c0575fe7bb706c64e81c9bda671ad0c6a87d28e793673aa",
+    "reply_sha256": "4cb4ce2ae543ef85db3e3ccf8d72f868a8571928b8bef81bcde1d0fa7ced06ba"
+  },
+  "scope": "Synthetic S7.C query templates, internal development; not human-intent evidence",
+  "selected_L": 20,
+  "selection_depths": [
+    {
+      "L": 10,
+      "value": 0.8988095238095237,
+      "families": 3,
+      "eligible_rows": 22,
+      "family_values": {
+        "family-707": 0.9142857142857144,
+        "family-708": 0.8571428571428571,
+        "family-709": 0.925
+      }
+    },
+    {
+      "L": 20,
+      "value": 0.9249999999999999,
+      "families": 3,
+      "eligible_rows": 22,
+      "family_values": {
+        "family-707": 0.9428571428571428,
+        "family-708": 0.8571428571428571,
+        "family-709": 0.975
+      }
+    },
+    {
+      "L": 40,
+      "value": 0.9523809523809524,
+      "families": 3,
+      "eligible_rows": 22,
+      "family_values": {
+        "family-707": 1.0,
+        "family-708": 0.8571428571428571,
+        "family-709": 1.0
+      }
+    },
+    {
+      "L": 80,
+      "value": 0.9904761904761905,
+      "families": 3,
+      "eligible_rows": 22,
+      "family_values": {
+        "family-707": 1.0,
+        "family-708": 0.9714285714285714,
+        "family-709": 1.0
+      }
+    }
+  ],
+  "test_recall": {
+    "value": 0.9904761904761905,
+    "families": 3,
+    "eligible_rows": 22,
+    "family_values": {
+      "family-710": 0.9714285714285714,
+      "family-711": 1.0,
+      "family-712": 1.0
+    }
+  },
+  "intent_attacks_by_public_prefix": [
+    {
+      "prefix_time_s": 0.0,
+      "method": "explicit_metadata_control",
+      "L": 20,
+      "chance_balanced": 0.3333333333333333,
+      "selected_attack": "extra_trees_leaf1",
+      "selection_scores": {
+        "knn1": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn5": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn15": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf1": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf3": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "logistic": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        }
+      },
+      "test": {
+        "balanced_accuracy": 0.3333333333333333,
+        "macro_f1": 0.16666666666666666,
+        "accuracy": 0.3333333333333333,
+        "records": 9,
+        "classes_present": 3
+      },
+      "all_test_descriptive": {
+        "knn1": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn5": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn15": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf1": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf3": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "logistic": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        }
+      }
+    },
+    {
+      "prefix_time_s": 0.0,
+      "method": "full_cover",
+      "L": 20,
+      "chance_balanced": 0.3333333333333333,
+      "selected_attack": "extra_trees_leaf1",
+      "selection_scores": {
+        "knn1": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn5": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn15": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf1": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf3": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "logistic": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        }
+      },
+      "test": {
+        "balanced_accuracy": 0.3333333333333333,
+        "macro_f1": 0.16666666666666666,
+        "accuracy": 0.3333333333333333,
+        "records": 9,
+        "classes_present": 3
+      },
+      "all_test_descriptive": {
+        "knn1": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn5": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn15": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf1": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf3": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "logistic": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        }
+      }
+    },
+    {
+      "prefix_time_s": 20.0,
+      "method": "explicit_metadata_control",
+      "L": 20,
+      "chance_balanced": 0.3333333333333333,
+      "selected_attack": "extra_trees_leaf1",
+      "selection_scores": {
+        "knn1": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn5": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn15": {
+          "balanced_accuracy": 0.8888888888888888,
+          "macro_f1": 0.8857142857142858,
+          "accuracy": 0.8888888888888888,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf1": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf3": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "logistic": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        }
+      },
+      "test": {
+        "balanced_accuracy": 1.0,
+        "macro_f1": 1.0,
+        "accuracy": 1.0,
+        "records": 9,
+        "classes_present": 3
+      },
+      "all_test_descriptive": {
+        "knn1": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn5": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn15": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf1": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf3": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "logistic": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        }
+      }
+    },
+    {
+      "prefix_time_s": 20.0,
+      "method": "full_cover",
+      "L": 20,
+      "chance_balanced": 0.3333333333333333,
+      "selected_attack": "extra_trees_leaf1",
+      "selection_scores": {
+        "knn1": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn5": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn15": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf1": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf3": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "logistic": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        }
+      },
+      "test": {
+        "balanced_accuracy": 0.3333333333333333,
+        "macro_f1": 0.16666666666666666,
+        "accuracy": 0.3333333333333333,
+        "records": 9,
+        "classes_present": 3
+      },
+      "all_test_descriptive": {
+        "knn1": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn5": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn15": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf1": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf3": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "logistic": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        }
+      }
+    },
+    {
+      "prefix_time_s": 40.0,
+      "method": "explicit_metadata_control",
+      "L": 20,
+      "chance_balanced": 0.3333333333333333,
+      "selected_attack": "extra_trees_leaf1",
+      "selection_scores": {
+        "knn1": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn5": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn15": {
+          "balanced_accuracy": 0.8888888888888888,
+          "macro_f1": 0.8857142857142858,
+          "accuracy": 0.8888888888888888,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf1": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf3": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "logistic": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        }
+      },
+      "test": {
+        "balanced_accuracy": 1.0,
+        "macro_f1": 1.0,
+        "accuracy": 1.0,
+        "records": 9,
+        "classes_present": 3
+      },
+      "all_test_descriptive": {
+        "knn1": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn5": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn15": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf1": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf3": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        },
+        "logistic": {
+          "balanced_accuracy": 1.0,
+          "macro_f1": 1.0,
+          "accuracy": 1.0,
+          "records": 9,
+          "classes_present": 3
+        }
+      }
+    },
+    {
+      "prefix_time_s": 40.0,
+      "method": "full_cover",
+      "L": 20,
+      "chance_balanced": 0.3333333333333333,
+      "selected_attack": "extra_trees_leaf1",
+      "selection_scores": {
+        "knn1": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn5": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn15": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf1": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf3": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "logistic": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        }
+      },
+      "test": {
+        "balanced_accuracy": 0.3333333333333333,
+        "macro_f1": 0.16666666666666666,
+        "accuracy": 0.3333333333333333,
+        "records": 9,
+        "classes_present": 3
+      },
+      "all_test_descriptive": {
+        "knn1": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn5": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "knn15": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf1": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "extra_trees_leaf3": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        },
+        "logistic": {
+          "balanced_accuracy": 0.3333333333333333,
+          "macro_f1": 0.16666666666666666,
+          "accuracy": 0.3333333333333333,
+          "records": 9,
+          "classes_present": 3
+        }
+      }
+    }
+  ],
+  "wire_prefix_noninterference": true,
+  "counterfactual_prefixes_checked": 144,
+  "source_hashes_unchanged": true,
+  "limitations": [
+    "Same GPS with synthetic templates checks conditional content privacy only",
+    "No claim about intent correlated with route/account/session activation",
+    "Source SUMO network reconstructed; turns unverified; constant speed makes fastest coincide with distance"
+  ]
+}

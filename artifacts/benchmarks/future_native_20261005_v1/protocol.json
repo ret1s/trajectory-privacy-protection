@@ -1,0 +1,68 @@
+{
+  "schema": "native-future-evaluation-protocol-v1",
+  "dataset_sha256": "6977f267538231a70cb1bf1f3f0bf2d1cc4cd50df128ea9d54a1967e25ed4b9c",
+  "splits": {
+    "train": [
+      "native-01",
+      "native-02",
+      "native-03",
+      "native-04",
+      "native-05",
+      "native-06",
+      "native-07",
+      "native-08",
+      "native-09",
+      "native-10",
+      "native-11",
+      "native-12"
+    ],
+    "selection": [
+      "native-13",
+      "native-14",
+      "native-15",
+      "native-16",
+      "native-17",
+      "native-18"
+    ],
+    "test": [
+      "native-19",
+      "native-20",
+      "native-21",
+      "native-22",
+      "native-23",
+      "native-24"
+    ]
+  },
+  "methods": [
+    "raw",
+    "geoi_session_reset",
+    "geoi_epoch8"
+  ],
+  "GeoI_backbone": "unchanged paced REM/noisy-reuse, matched epsilon belief, K5,theta200,H12,slack.03",
+  "public_observations": "eight fixed windows0..600 every20seconds; querywindows additionally include BOTH predeclared calibrationforkclocks",
+  "forecast_cut": "only queryevents<=shared_fork_t or <=turn_visible_t; six FULL public histories days1..6",
+  "auxiliary_context": "both outgoing native edge IDs/via geometries and both public candidate destination positions, fixed before hidden choice; neither selected future route nor private target GPS enters features",
+  "targets": "S5:first FUTURE noninternal edge after forecastcut; S6:native parked destinationGPS at600s",
+  "history_prior": "five routine/one rare historicaltrips; QUERY targets deliberately balanced and private order randomized",
+  "S4_sideinfo": "S6 attacker assumed already able to link six historical windows to this driver; no identity privacy claim",
+  "budget": {
+    "geoi_session_reset": {
+      "epoch_effective_cap": 1.84,
+      "slot_effective_cap": 0.23,
+      "unit_epsilon": 0.01
+    },
+    "geoi_epoch8": {
+      "epoch_effective_cap": 0.23,
+      "slot_effective_cap": 0.02875,
+      "unit_epsilon": 0.00125
+    }
+  },
+  "attacker_bank": "96candidate-scoring ExtraTrees depth12 leaf2; public curve mean/min/recent likelihood at20/100/300m; heading; S6 publichistoryprior and history+query; uniform control",
+  "selection": "permethod/task/stage maximum selectionbalancedaccuracy, then minimumlogloss, stable lexicalname; no fit on test",
+  "permutation": "one balanced within-family choice flip in TRAIN only; no test tuning",
+  "evaluation": "exact native candidate-edge accuracy, Brier/logloss; destinationMAE/Hit100; routine/rare separately",
+  "public_native_map": "same converted SUMOnetwork for FCD, road catalogue, service and decoder",
+  "RNG": "OSprivatekey, HMAC-independent sessions; keys/ledgers local0600 outside artifact; frozenpublicoutput replayable",
+  "utility": "static public POI union Recall@5, six categories,L10,K5,all available; not dynamicavailabilitybenchmark",
+  "privacy_scope": "coordinate transcript within declared public windows and one eight-session epoch, ideal kernel caveat; publicknowncandidategeometry narrows attack target; not full openworldrouteforecast or faithfulpaperSOTA"
+}

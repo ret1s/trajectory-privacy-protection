@@ -1,0 +1,4306 @@
+{
+  "schema": "native-versioned-static-readout-v1",
+  "protocol_sha256": "8dda6e5dfb72d80017ed8fa06ed1641f76072b2bf7a925dc3e25015671f28a7b",
+  "source_sha256": {
+    "artifacts/datasets/future_controlled_20261005_v2/dataset.json.gz": "6977f267538231a70cb1bf1f3f0bf2d1cc4cd50df128ea9d54a1967e25ed4b9c",
+    "artifacts/benchmarks/future_native_20261005_v1/public_transcripts.json.gz": "563c39529babf29bfa83c9898e6b285bc0170fd1f61ed8e6019f0e989ff308ee",
+    "artifacts/benchmarks/future_native_20261005_v1/private_accounting.json.gz": "53bcc69535dba6b55240ca0861cb073e0929d501eb5362676b1fcf42a12c6e45",
+    "artifacts/benchmarks/future_native_20261005_v1/results.json": "fbc7ed56db460559a852a86f017bf8c4d67e5b0825ac81ec0c4550c4f87e0fbb",
+    "artifacts/benchmarks/future_native_depth_20261005_v1/results.json": "2655204cbfaad7bc126d98c7af1650a8d0013b96b082ff0b65f82c7cdfcd3f3b",
+    "artifacts/benchmarks/future_native_depth_20261005_v1/public_reply40.npz": "fa56a1af115a72fd8d21c38df22978f6d04f1564de936cfdc90d6acf686d496b",
+    "artifacts/benchmarks/native_static_cache_20261006_v1/protocol.json": "6257c3a7e7d5700aa2c12080f6391b2140a5db7fb2355859d39a47f2f2d73539",
+    "artifacts/benchmarks/native_static_cache_20261006_v1/results.json": "c415e5296bf65b34af31e89d1b2da0c84b8b76fba2cf858c63f3db562cfa11f7",
+    "artifacts/benchmarks/native_static_cache_20261006_v1/weakest_tail_diagnostic.json": "883e8fdc0936de5ad495251a5afae53e80e3950a27b5a53de0d7a2c2ef35d980",
+    "benchmark/static_poi_cache.py": "1ea7f97bbc11590ad548fc30192767f27a8605489a77b60bfeecbc709daadfa0",
+    "benchmark/versioned_static_poi_cache.py": "18ca007471ed827f46c9f8942c6e15b6933e45f3d73f53e56121e0deb891417a",
+    "experiments/native_versioned_static_20261006.py": "412b4777a0b0b0930e467510cf711865105e0e19949550fc926f5616716776b7"
+  },
+  "utility_rows_sha256": "02078bcdf391aa439e51fbd4cd6e92d635a16e5ada7649aa8c9646e551ed4883",
+  "resources": {
+    "native_sha256": "1ff9cb510a1a41be05721362b66f54491b4cfd9bb3ee9b1052d9411f0809fab1",
+    "catalogue_sha256": "71980d83ad5ee56d2fae1093e24e98ae6e7a050bca7f982a0f098d10d658ba20",
+    "reference_sha256": "c844a97f3719611e7a326ee853d71adce0507ddb5da522a8faed1e58aa4c96dd",
+    "reply10_sha256": "9351ca2e151cd5fa6e3c9926c37107529f27bc98610d39c9ebbf5375f2286a28",
+    "reply40_sha256": "182d0da8d85a68425c3afc71595bb2f24cf3650b2d88d450116f3c724e70ee58",
+    "original_L10_prefix_parity": true
+  },
+  "results": {
+    "geoi_session_reset": {
+      "selection": {
+        "all_0_600": {
+          "family_macro_recall5": 0.9998456790123459,
+          "family_values": {
+            "native-13": 1.0,
+            "native-14": 0.9994708994708995,
+            "native-15": 1.0,
+            "native-16": 1.0,
+            "native-17": 1.0,
+            "native-18": 0.9996031746031746
+          },
+          "minimum_family_recall5": 0.9994708994708995,
+          "maximum_family_recall5": 1.0,
+          "median_session_recall5": 1.0,
+          "minimum_session": {
+            "family_id": "native-14",
+            "slot": 0,
+            "recall5": 0.9956989247311828
+          },
+          "reference_defined_windows": 1512,
+          "total_windows": 1512,
+          "reference_coverage": 1.0,
+          "undefined_session_count": 0,
+          "mean_cached_poi_count": 171.8366402116402,
+          "maximum_cached_poi_count": 244,
+          "reply_bytes_total": 26522986,
+          "request_count": 7560,
+          "session_values": [
+            {
+              "family_id": "native-13",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 0,
+              "recall5": 0.9956989247311828
+            },
+            {
+              "family_id": "native-14",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 0,
+              "recall5": 0.996774193548387
+            },
+            {
+              "family_id": "native-18",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 7,
+              "recall5": 1.0
+            }
+          ]
+        },
+        "early_0_180": {
+          "family_macro_recall5": 0.9995370370370371,
+          "family_values": {
+            "native-13": 1.0,
+            "native-14": 0.9984126984126985,
+            "native-15": 1.0,
+            "native-16": 1.0,
+            "native-17": 1.0,
+            "native-18": 0.9988095238095239
+          },
+          "minimum_family_recall5": 0.9984126984126985,
+          "maximum_family_recall5": 1.0,
+          "median_session_recall5": 1.0,
+          "minimum_session": {
+            "family_id": "native-14",
+            "slot": 0,
+            "recall5": 0.9866666666666667
+          },
+          "reference_defined_windows": 504,
+          "total_windows": 504,
+          "reference_coverage": 1.0,
+          "undefined_session_count": 0,
+          "mean_cached_poi_count": 169.20039682539684,
+          "maximum_cached_poi_count": 244,
+          "reply_bytes_total": 8841959,
+          "request_count": 2520,
+          "session_values": [
+            {
+              "family_id": "native-13",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 0,
+              "recall5": 0.9866666666666667
+            },
+            {
+              "family_id": "native-14",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 0,
+              "recall5": 0.99
+            },
+            {
+              "family_id": "native-18",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 7,
+              "recall5": 1.0
+            }
+          ]
+        },
+        "middle_200_380": {
+          "family_macro_recall5": 1.0,
+          "family_values": {
+            "native-13": 1.0,
+            "native-14": 1.0,
+            "native-15": 1.0,
+            "native-16": 1.0,
+            "native-17": 1.0,
+            "native-18": 1.0
+          },
+          "minimum_family_recall5": 1.0,
+          "maximum_family_recall5": 1.0,
+          "median_session_recall5": 1.0,
+          "minimum_session": {
+            "family_id": "native-13",
+            "slot": 0,
+            "recall5": 1.0
+          },
+          "reference_defined_windows": 480,
+          "total_windows": 480,
+          "reference_coverage": 1.0,
+          "undefined_session_count": 0,
+          "mean_cached_poi_count": 171.5,
+          "maximum_cached_poi_count": 244,
+          "reply_bytes_total": 8421453,
+          "request_count": 2400,
+          "session_values": [
+            {
+              "family_id": "native-13",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 7,
+              "recall5": 1.0
+            }
+          ]
+        },
+        "tail_400_600": {
+          "family_macro_recall5": 1.0,
+          "family_values": {
+            "native-13": 1.0,
+            "native-14": 1.0,
+            "native-15": 1.0,
+            "native-16": 1.0,
+            "native-17": 1.0,
+            "native-18": 1.0
+          },
+          "minimum_family_recall5": 1.0,
+          "maximum_family_recall5": 1.0,
+          "median_session_recall5": 1.0,
+          "minimum_session": {
+            "family_id": "native-13",
+            "slot": 0,
+            "recall5": 1.0
+          },
+          "reference_defined_windows": 528,
+          "total_windows": 528,
+          "reference_coverage": 1.0,
+          "undefined_session_count": 0,
+          "mean_cached_poi_count": 174.6590909090909,
+          "maximum_cached_poi_count": 244,
+          "reply_bytes_total": 9259574,
+          "request_count": 2640,
+          "session_values": [
+            {
+              "family_id": "native-13",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 7,
+              "recall5": 1.0
+            }
+          ]
+        }
+      },
+      "test": {
+        "all_0_600": {
+          "family_macro_recall5": 0.9981922398589065,
+          "family_values": {
+            "native-19": 1.0,
+            "native-20": 0.996957671957672,
+            "native-21": 1.0,
+            "native-22": 1.0,
+            "native-23": 0.9993386243386244,
+            "native-24": 0.9928571428571428
+          },
+          "minimum_family_recall5": 0.9928571428571428,
+          "maximum_family_recall5": 1.0,
+          "median_session_recall5": 1.0,
+          "minimum_session": {
+            "family_id": "native-24",
+            "slot": 0,
+            "recall5": 0.9419354838709677
+          },
+          "reference_defined_windows": 1402,
+          "total_windows": 1510,
+          "reference_coverage": 0.928476821192053,
+          "undefined_session_count": 0,
+          "mean_cached_poi_count": 164.19933774834436,
+          "maximum_cached_poi_count": 224,
+          "reply_bytes_total": 26463807,
+          "request_count": 7550,
+          "session_values": [
+            {
+              "family_id": "native-19",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 0,
+              "recall5": 0.9752688172043011
+            },
+            {
+              "family_id": "native-20",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 0,
+              "recall5": 0.9946236559139786
+            },
+            {
+              "family_id": "native-23",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 0,
+              "recall5": 0.9419354838709677
+            },
+            {
+              "family_id": "native-24",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 7,
+              "recall5": 1.0
+            }
+          ]
+        },
+        "early_0_180": {
+          "family_macro_recall5": 0.9982804232804234,
+          "family_values": {
+            "native-19": 1.0,
+            "native-20": 0.9928571428571429,
+            "native-21": 1.0,
+            "native-22": 1.0,
+            "native-23": 0.9980158730158731,
+            "native-24": 0.9988095238095239
+          },
+          "minimum_family_recall5": 0.9928571428571429,
+          "maximum_family_recall5": 1.0,
+          "median_session_recall5": 1.0,
+          "minimum_session": {
+            "family_id": "native-20",
+            "slot": 0,
+            "recall5": 0.9400000000000001
+          },
+          "reference_defined_windows": 502,
+          "total_windows": 502,
+          "reference_coverage": 1.0,
+          "undefined_session_count": 0,
+          "mean_cached_poi_count": 162.05378486055776,
+          "maximum_cached_poi_count": 224,
+          "reply_bytes_total": 8796849,
+          "request_count": 2510,
+          "session_values": [
+            {
+              "family_id": "native-19",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 0,
+              "recall5": 0.9400000000000001
+            },
+            {
+              "family_id": "native-20",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 0,
+              "recall5": 0.9833333333333332
+            },
+            {
+              "family_id": "native-23",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 0,
+              "recall5": 0.99
+            },
+            {
+              "family_id": "native-24",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 7,
+              "recall5": 1.0
+            }
+          ]
+        },
+        "middle_200_380": {
+          "family_macro_recall5": 0.99625,
+          "family_values": {
+            "native-19": 1.0,
+            "native-20": 0.9979166666666666,
+            "native-21": 1.0,
+            "native-22": 1.0,
+            "native-23": 1.0,
+            "native-24": 0.9795833333333335
+          },
+          "minimum_family_recall5": 0.9795833333333335,
+          "maximum_family_recall5": 1.0,
+          "median_session_recall5": 1.0,
+          "minimum_session": {
+            "family_id": "native-24",
+            "slot": 0,
+            "recall5": 0.8366666666666666
+          },
+          "reference_defined_windows": 438,
+          "total_windows": 480,
+          "reference_coverage": 0.9125,
+          "undefined_session_count": 0,
+          "mean_cached_poi_count": 164.19375,
+          "maximum_cached_poi_count": 224,
+          "reply_bytes_total": 8412157,
+          "request_count": 2400,
+          "session_values": [
+            {
+              "family_id": "native-19",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 0,
+              "recall5": 0.9833333333333332
+            },
+            {
+              "family_id": "native-20",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 0,
+              "recall5": 0.8366666666666666
+            },
+            {
+              "family_id": "native-24",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 7,
+              "recall5": 1.0
+            }
+          ]
+        },
+        "tail_400_600": {
+          "family_macro_recall5": 0.9998737373737373,
+          "family_values": {
+            "native-19": 1.0,
+            "native-20": 1.0,
+            "native-21": 1.0,
+            "native-22": 1.0,
+            "native-23": 1.0,
+            "native-24": 0.9992424242424243
+          },
+          "minimum_family_recall5": 0.9992424242424243,
+          "maximum_family_recall5": 1.0,
+          "median_session_recall5": 1.0,
+          "minimum_session": {
+            "family_id": "native-24",
+            "slot": 0,
+            "recall5": 0.993939393939394
+          },
+          "reference_defined_windows": 462,
+          "total_windows": 528,
+          "reference_coverage": 0.875,
+          "undefined_session_count": 6,
+          "mean_cached_poi_count": 166.2443181818182,
+          "maximum_cached_poi_count": 224,
+          "reply_bytes_total": 9254801,
+          "request_count": 2640,
+          "session_values": [
+            {
+              "family_id": "native-19",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 0,
+              "recall5": 0.993939393939394
+            },
+            {
+              "family_id": "native-24",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 7,
+              "recall5": 1.0
+            }
+          ]
+        }
+      }
+    },
+    "geoi_epoch8": {
+      "selection": {
+        "all_0_600": {
+          "family_macro_recall5": 0.9958774250440917,
+          "family_values": {
+            "native-13": 1.0,
+            "native-14": 0.9998677248677249,
+            "native-15": 0.9992063492063492,
+            "native-16": 1.0,
+            "native-17": 1.0,
+            "native-18": 0.9761904761904762
+          },
+          "minimum_family_recall5": 0.9761904761904762,
+          "maximum_family_recall5": 1.0,
+          "median_session_recall5": 1.0,
+          "minimum_session": {
+            "family_id": "native-18",
+            "slot": 0,
+            "recall5": 0.8150537634408602
+          },
+          "reference_defined_windows": 1512,
+          "total_windows": 1512,
+          "reference_coverage": 1.0,
+          "undefined_session_count": 0,
+          "mean_cached_poi_count": 347.94775132275134,
+          "maximum_cached_poi_count": 418,
+          "reply_bytes_total": 41296597,
+          "request_count": 7560,
+          "session_values": [
+            {
+              "family_id": "native-13",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 0,
+              "recall5": 0.9989247311827958
+            },
+            {
+              "family_id": "native-14",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 0,
+              "recall5": 0.9935483870967742
+            },
+            {
+              "family_id": "native-15",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 0,
+              "recall5": 0.8150537634408602
+            },
+            {
+              "family_id": "native-18",
+              "slot": 1,
+              "recall5": 0.9913978494623656
+            },
+            {
+              "family_id": "native-18",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 7,
+              "recall5": 1.0
+            }
+          ]
+        },
+        "early_0_180": {
+          "family_macro_recall5": 0.9924603174603174,
+          "family_values": {
+            "native-13": 1.0,
+            "native-14": 0.9996031746031746,
+            "native-15": 0.9976190476190477,
+            "native-16": 1.0,
+            "native-17": 1.0,
+            "native-18": 0.9575396825396825
+          },
+          "minimum_family_recall5": 0.9575396825396825,
+          "maximum_family_recall5": 1.0,
+          "median_session_recall5": 1.0,
+          "minimum_session": {
+            "family_id": "native-18",
+            "slot": 0,
+            "recall5": 0.67
+          },
+          "reference_defined_windows": 504,
+          "total_windows": 504,
+          "reference_coverage": 1.0,
+          "undefined_session_count": 0,
+          "mean_cached_poi_count": 342.2261904761905,
+          "maximum_cached_poi_count": 418,
+          "reply_bytes_total": 13760982,
+          "request_count": 2520,
+          "session_values": [
+            {
+              "family_id": "native-13",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 0,
+              "recall5": 0.9966666666666667
+            },
+            {
+              "family_id": "native-14",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 0,
+              "recall5": 0.9799999999999999
+            },
+            {
+              "family_id": "native-15",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 0,
+              "recall5": 0.67
+            },
+            {
+              "family_id": "native-18",
+              "slot": 1,
+              "recall5": 0.9733333333333334
+            },
+            {
+              "family_id": "native-18",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 7,
+              "recall5": 1.0
+            }
+          ]
+        },
+        "middle_200_380": {
+          "family_macro_recall5": 0.9959722222222221,
+          "family_values": {
+            "native-13": 1.0,
+            "native-14": 1.0,
+            "native-15": 1.0,
+            "native-16": 1.0,
+            "native-17": 1.0,
+            "native-18": 0.9758333333333333
+          },
+          "minimum_family_recall5": 0.9758333333333333,
+          "maximum_family_recall5": 1.0,
+          "median_session_recall5": 1.0,
+          "minimum_session": {
+            "family_id": "native-18",
+            "slot": 0,
+            "recall5": 0.8066666666666666
+          },
+          "reference_defined_windows": 480,
+          "total_windows": 480,
+          "reference_coverage": 1.0,
+          "undefined_session_count": 0,
+          "mean_cached_poi_count": 348.01458333333335,
+          "maximum_cached_poi_count": 418,
+          "reply_bytes_total": 13111332,
+          "request_count": 2400,
+          "session_values": [
+            {
+              "family_id": "native-13",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 0,
+              "recall5": 0.8066666666666666
+            },
+            {
+              "family_id": "native-18",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 7,
+              "recall5": 1.0
+            }
+          ]
+        },
+        "tail_400_600": {
+          "family_macro_recall5": 0.9990530303030303,
+          "family_values": {
+            "native-13": 1.0,
+            "native-14": 1.0,
+            "native-15": 1.0,
+            "native-16": 1.0,
+            "native-17": 1.0,
+            "native-18": 0.9943181818181818
+          },
+          "minimum_family_recall5": 0.9943181818181818,
+          "maximum_family_recall5": 1.0,
+          "median_session_recall5": 1.0,
+          "minimum_session": {
+            "family_id": "native-18",
+            "slot": 0,
+            "recall5": 0.9545454545454546
+          },
+          "reference_defined_windows": 528,
+          "total_windows": 528,
+          "reference_coverage": 1.0,
+          "undefined_session_count": 0,
+          "mean_cached_poi_count": 353.3484848484849,
+          "maximum_cached_poi_count": 418,
+          "reply_bytes_total": 14424283,
+          "request_count": 2640,
+          "session_values": [
+            {
+              "family_id": "native-13",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-13",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-14",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-15",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-16",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-17",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 0,
+              "recall5": 0.9545454545454546
+            },
+            {
+              "family_id": "native-18",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-18",
+              "slot": 7,
+              "recall5": 1.0
+            }
+          ]
+        }
+      },
+      "test": {
+        "all_0_600": {
+          "family_macro_recall5": 0.9934303350970018,
+          "family_values": {
+            "native-19": 1.0,
+            "native-20": 0.9998677248677249,
+            "native-21": 1.0,
+            "native-22": 0.9726190476190476,
+            "native-23": 0.9994708994708995,
+            "native-24": 0.9886243386243386
+          },
+          "minimum_family_recall5": 0.9726190476190476,
+          "maximum_family_recall5": 1.0,
+          "median_session_recall5": 1.0,
+          "minimum_session": {
+            "family_id": "native-22",
+            "slot": 0,
+            "recall5": 0.7774193548387096
+          },
+          "reference_defined_windows": 1402,
+          "total_windows": 1510,
+          "reference_coverage": 0.928476821192053,
+          "undefined_session_count": 0,
+          "mean_cached_poi_count": 343.4251655629139,
+          "maximum_cached_poi_count": 416,
+          "reply_bytes_total": 41233562,
+          "request_count": 7550,
+          "session_values": [
+            {
+              "family_id": "native-19",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 0,
+              "recall5": 0.9989247311827958
+            },
+            {
+              "family_id": "native-20",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 0,
+              "recall5": 0.7774193548387096
+            },
+            {
+              "family_id": "native-22",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 0,
+              "recall5": 0.9956989247311828
+            },
+            {
+              "family_id": "native-23",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 0,
+              "recall5": 0.9118279569892473
+            },
+            {
+              "family_id": "native-24",
+              "slot": 1,
+              "recall5": 0.9956989247311828
+            },
+            {
+              "family_id": "native-24",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 7,
+              "recall5": 1.0
+            }
+          ]
+        },
+        "early_0_180": {
+          "family_macro_recall5": 0.9931878306878307,
+          "family_values": {
+            "native-19": 1.0,
+            "native-20": 0.9996031746031746,
+            "native-21": 1.0,
+            "native-22": 0.9626984126984126,
+            "native-23": 0.9984126984126985,
+            "native-24": 0.9984126984126985
+          },
+          "minimum_family_recall5": 0.9626984126984126,
+          "maximum_family_recall5": 1.0,
+          "median_session_recall5": 1.0,
+          "minimum_session": {
+            "family_id": "native-22",
+            "slot": 0,
+            "recall5": 0.6866666666666668
+          },
+          "reference_defined_windows": 502,
+          "total_windows": 502,
+          "reference_coverage": 1.0,
+          "undefined_session_count": 0,
+          "mean_cached_poi_count": 338.5796812749004,
+          "maximum_cached_poi_count": 416,
+          "reply_bytes_total": 13709935,
+          "request_count": 2510,
+          "session_values": [
+            {
+              "family_id": "native-19",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 0,
+              "recall5": 0.9966666666666667
+            },
+            {
+              "family_id": "native-20",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 0,
+              "recall5": 0.6866666666666668
+            },
+            {
+              "family_id": "native-22",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 0,
+              "recall5": 0.9866666666666667
+            },
+            {
+              "family_id": "native-23",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 0,
+              "recall5": 0.99
+            },
+            {
+              "family_id": "native-24",
+              "slot": 1,
+              "recall5": 0.9966666666666667
+            },
+            {
+              "family_id": "native-24",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 7,
+              "recall5": 1.0
+            }
+          ]
+        },
+        "middle_200_380": {
+          "family_macro_recall5": 0.9922222222222222,
+          "family_values": {
+            "native-19": 1.0,
+            "native-20": 1.0,
+            "native-21": 1.0,
+            "native-22": 0.9691666666666666,
+            "native-23": 1.0,
+            "native-24": 0.9841666666666669
+          },
+          "minimum_family_recall5": 0.9691666666666666,
+          "maximum_family_recall5": 1.0,
+          "median_session_recall5": 1.0,
+          "minimum_session": {
+            "family_id": "native-22",
+            "slot": 0,
+            "recall5": 0.7533333333333333
+          },
+          "reference_defined_windows": 438,
+          "total_windows": 480,
+          "reference_coverage": 0.9125,
+          "undefined_session_count": 0,
+          "mean_cached_poi_count": 343.7104166666667,
+          "maximum_cached_poi_count": 416,
+          "reply_bytes_total": 13107443,
+          "request_count": 2400,
+          "session_values": [
+            {
+              "family_id": "native-19",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 0,
+              "recall5": 0.7533333333333333
+            },
+            {
+              "family_id": "native-22",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 0,
+              "recall5": 0.8833333333333334
+            },
+            {
+              "family_id": "native-24",
+              "slot": 1,
+              "recall5": 0.99
+            },
+            {
+              "family_id": "native-24",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 7,
+              "recall5": 1.0
+            }
+          ]
+        },
+        "tail_400_600": {
+          "family_macro_recall5": 0.994760101010101,
+          "family_values": {
+            "native-19": 1.0,
+            "native-20": 1.0,
+            "native-21": 1.0,
+            "native-22": 0.9852272727272727,
+            "native-23": 1.0,
+            "native-24": 0.9833333333333333
+          },
+          "minimum_family_recall5": 0.9833333333333333,
+          "maximum_family_recall5": 1.0,
+          "median_session_recall5": 1.0,
+          "minimum_session": {
+            "family_id": "native-24",
+            "slot": 0,
+            "recall5": 0.8666666666666668
+          },
+          "reference_defined_windows": 462,
+          "total_windows": 528,
+          "reference_coverage": 0.875,
+          "undefined_session_count": 6,
+          "mean_cached_poi_count": 347.77272727272725,
+          "maximum_cached_poi_count": 416,
+          "reply_bytes_total": 14416184,
+          "request_count": 2640,
+          "session_values": [
+            {
+              "family_id": "native-19",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-19",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-20",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-21",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 0,
+              "recall5": 0.8818181818181817
+            },
+            {
+              "family_id": "native-22",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-22",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 0,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-23",
+              "slot": 7,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 0,
+              "recall5": 0.8666666666666668
+            },
+            {
+              "family_id": "native-24",
+              "slot": 1,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 2,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 3,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 4,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 5,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 6,
+              "recall5": 1.0
+            },
+            {
+              "family_id": "native-24",
+              "slot": 7,
+              "recall5": 1.0
+            }
+          ]
+        }
+      }
+    }
+  },
+  "selection_acceptance": {
+    "geoi_session_reset": {
+      "accepted_for_static_selection_scope": true,
+      "selection_family_macro_recall5": 0.9998456790123459,
+      "selection_minimum_tail_family_recall5": 1.0,
+      "maximum_cacheIDs": 244,
+      "unchanged_requests_and_reply_bytes": true
+    },
+    "geoi_epoch8": {
+      "accepted_for_static_selection_scope": true,
+      "selection_family_macro_recall5": 0.9958774250440917,
+      "selection_minimum_tail_family_recall5": 0.9943181818181818,
+      "maximum_cacheIDs": 418,
+      "unchanged_requests_and_reply_bytes": true
+    }
+  },
+  "static_catalogue_version": "182d0da8d85a68425c3afc71595bb2f24cf3650b2d88d450116f3c724e70ee58",
+  "catalogue_size": 418,
+  "Q_and_primary_attacker_unchanged": true,
+  "liveavailability_evaluated": false,
+  "scope": "posthoc development after weak-test inspection; not fresh confirmation; prior TTL run immutable"
+}

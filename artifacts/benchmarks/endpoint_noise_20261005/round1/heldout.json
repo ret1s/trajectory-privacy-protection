@@ -1,0 +1,136 @@
+{
+  "schema": "endpoint-noise-heldout-v1",
+  "protocol_sha256": "d776a50ffccc5e6fc8393efcdd33a0a36f73c9e77f4007b91f656d1c0d85b25a",
+  "selection_sha256": "330ee708cfe1cbe5a2da2097764518d62f0cbbe55e29562085a847362842e98e",
+  "selected_defense": "plain",
+  "rows": {
+    "raw": {
+      "S9": {
+        "mae_m": 0.0,
+        "hit50": 1.0,
+        "hit100": 1.0,
+        "hit200": 1.0,
+        "hit500": 1.0,
+        "selected_attackers": {
+          "mae": "centroid",
+          "hit50": "centroid",
+          "hit100": "centroid",
+          "hit200": "centroid",
+          "hit500": "centroid"
+        },
+        "families": 2,
+        "observations": 8
+      },
+      "S10": {
+        "mae_m": 0.0,
+        "hit50": 1.0,
+        "hit100": 1.0,
+        "hit200": 1.0,
+        "hit500": 1.0,
+        "selected_attackers": {
+          "mae": "centroid",
+          "hit50": "centroid",
+          "hit100": "centroid",
+          "hit200": "centroid",
+          "hit500": "centroid"
+        },
+        "families": 2,
+        "observations": 8
+      },
+      "recall": 1.0,
+      "input_events": 70,
+      "released_events": 70,
+      "mean_publication_delay_s": 0.0,
+      "max_mapping_error_m": 20.643802970428542,
+      "mean_mapping_error_m": 9.26194268873354,
+      "max_budget_spent_per_m": null
+    },
+    "plain": {
+      "S9": {
+        "mae_m": 706.2942190866136,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.375,
+        "selected_attackers": {
+          "mae": "public_boundary_centroid_ols6",
+          "hit50": "public_boundary_centroid_ols6",
+          "hit100": "centroid_ols6_30s",
+          "hit200": "public_boundary_centroid_ols3",
+          "hit500": "public_boundary_centroid_ols6"
+        },
+        "families": 2,
+        "observations": 8
+      },
+      "S10": {
+        "mae_m": 816.6888682515432,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.25,
+        "selected_attackers": {
+          "mae": "centroid_ols3_120s",
+          "hit50": "centroid_ols3_120s",
+          "hit100": "centroid_ols3_120s",
+          "hit200": "shadow_knn5",
+          "hit500": "centroid_ols3_120s"
+        },
+        "families": 2,
+        "observations": 8
+      },
+      "recall": 0.9905671296296297,
+      "input_events": 70,
+      "released_events": 70,
+      "mean_publication_delay_s": 0.0,
+      "max_mapping_error_m": 20.643802970428542,
+      "mean_mapping_error_m": 9.26194268873354,
+      "max_budget_spent_per_m": 0.15
+    },
+    "delay60": {
+      "S9": {
+        "mae_m": 1241.956124902049,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.125,
+        "selected_attackers": {
+          "mae": "viterbi_history_ols6_120s",
+          "hit50": "viterbi_history_ols6_120s",
+          "hit100": "viterbi_history_ols6_120s",
+          "hit200": "viterbi_history_ols6_120s",
+          "hit500": "viterbi_history_ols6_120s"
+        },
+        "families": 2,
+        "observations": 8
+      },
+      "S10": {
+        "mae_m": 713.3900330142537,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.25,
+        "hit500": 0.0,
+        "selected_attackers": {
+          "mae": "query_prior",
+          "hit50": "query_prior",
+          "hit100": "query_prior",
+          "hit200": "sequence_knn5",
+          "hit500": "sequence_knn1"
+        },
+        "families": 2,
+        "observations": 8
+      },
+      "recall": 0.7625578703703704,
+      "input_events": 70,
+      "released_events": 46,
+      "mean_publication_delay_s": 60.0,
+      "max_mapping_error_m": 20.643802970428542,
+      "mean_mapping_error_m": 9.26194268873354,
+      "max_budget_spent_per_m": 0.13
+    }
+  },
+  "scope": "Small same-generator development on reconstructed full-city map. Heldout families only within this run; source data were previously used in historical research. Not independent confirmation or rerun of original endpoint-calendar benchmark.",
+  "raw_positive_control": {
+    "S9": true,
+    "S10": true
+  }
+}

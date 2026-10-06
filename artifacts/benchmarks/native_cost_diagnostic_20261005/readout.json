@@ -1,0 +1,46 @@
+{
+  "schema": "native-public-cost-diagnostic-readout-v1",
+  "summaries": {
+    "raw": {
+      "mean_m": 0.0,
+      "eligible_event_rows": 170,
+      "attempted_event_rows": 170,
+      "eligible_families": 4,
+      "attempted_families": 4,
+      "by_family_m": {
+        "family-1201": 0.0,
+        "family-1202": 0.0,
+        "family-1203": 0.0,
+        "family-1204": 0.0
+      },
+      "aggregation": "equal events within session/seed -> equal seeds -> sessions -> families"
+    },
+    "scale025_L20": {
+      "mean_m": 1386.7391464754378,
+      "eligible_event_rows": 170,
+      "attempted_event_rows": 170,
+      "eligible_families": 4,
+      "attempted_families": 4,
+      "by_family_m": {
+        "family-1201": 1253.0953918583423,
+        "family-1202": 1364.386463265583,
+        "family-1203": 1439.5239114394628,
+        "family-1204": 1489.950819338363
+      },
+      "aggregation": "equal events within session/seed -> equal seeds -> sessions -> families"
+    }
+  },
+  "paired_eligible_raw_zero_events": 170,
+  "protected_eligible_Q_distribution_m": {
+    "count": 850,
+    "median": 1379.687727430122,
+    "p95": 2340.4614257309618
+  },
+  "unreachable_event_rows": 0,
+  "target_count": 418,
+  "used_states_preserved": 400,
+  "interpretation": "Larger value is MORE release-origin travel-cost distortion, not privacy improvement. Raw singleton and five-Q extension have different service contracts. Local merge/ranking POI utility must be reported alongside; this is not final service loss.",
+  "transprotect_comparator_executed": false,
+  "original_comparative_Eq13_still_NA": true,
+  "no_additional_fits": true
+}

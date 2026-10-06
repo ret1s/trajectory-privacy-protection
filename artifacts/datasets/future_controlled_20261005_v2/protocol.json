@@ -1,0 +1,14 @@
+{
+  "schema": "native-fixed-history-window-protocol-v1",
+  "source_cohort_sha256": "8248ea4d786b3a204b009487f95abaddca1050735ca4a597eabe999a63b34648",
+  "before_any_attack_score": true,
+  "same_public_forks_choices_and_family_splits": true,
+  "native_dynamics": "SUMO sigma0 speed8; real destination-lane stop until650s",
+  "public_history_window_s": [
+    0.0,
+    600.0
+  ],
+  "history_clock": "0,20,...,600 same for every history",
+  "query_clocks": "same public two-route calibration fork/turn clocks as v1, queryprefix only",
+  "scope": "New native parked FCD, not edits/extensions of v1 GPS; existing sources immutable"
+}

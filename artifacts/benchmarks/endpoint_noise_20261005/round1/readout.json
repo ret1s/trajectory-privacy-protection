@@ -1,0 +1,282 @@
+{
+  "schema": "endpoint-noise-readout-v1",
+  "heldout_sha256": "871df8827f413514a9e20a0305c12cb5bf0f63eb93ef12228b86eeb667cf48d7",
+  "selected_defense": "plain",
+  "results": {
+    "raw": {
+      "S9": {
+        "mae_m": 0.0,
+        "hit50": 1.0,
+        "hit100": 1.0,
+        "hit200": 1.0,
+        "hit500": 1.0,
+        "selected_attackers": {
+          "mae": "centroid",
+          "hit50": "centroid",
+          "hit100": "centroid",
+          "hit200": "centroid",
+          "hit500": "centroid"
+        },
+        "families": 2,
+        "observations": 8
+      },
+      "S10": {
+        "mae_m": 0.0,
+        "hit50": 1.0,
+        "hit100": 1.0,
+        "hit200": 1.0,
+        "hit500": 1.0,
+        "selected_attackers": {
+          "mae": "centroid",
+          "hit50": "centroid",
+          "hit100": "centroid",
+          "hit200": "centroid",
+          "hit500": "centroid"
+        },
+        "families": 2,
+        "observations": 8
+      },
+      "recall": 1.0,
+      "input_events": 70,
+      "released_events": 70,
+      "mean_publication_delay_s": 0.0,
+      "max_mapping_error_m": 20.643802970428542,
+      "mean_mapping_error_m": 9.26194268873354,
+      "max_budget_spent_per_m": null
+    },
+    "plain": {
+      "S9": {
+        "mae_m": 706.2942190866136,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.375,
+        "selected_attackers": {
+          "mae": "public_boundary_centroid_ols6",
+          "hit50": "public_boundary_centroid_ols6",
+          "hit100": "centroid_ols6_30s",
+          "hit200": "public_boundary_centroid_ols3",
+          "hit500": "public_boundary_centroid_ols6"
+        },
+        "families": 2,
+        "observations": 8
+      },
+      "S10": {
+        "mae_m": 816.6888682515432,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.25,
+        "selected_attackers": {
+          "mae": "centroid_ols3_120s",
+          "hit50": "centroid_ols3_120s",
+          "hit100": "centroid_ols3_120s",
+          "hit200": "shadow_knn5",
+          "hit500": "centroid_ols3_120s"
+        },
+        "families": 2,
+        "observations": 8
+      },
+      "recall": 0.9905671296296297,
+      "input_events": 70,
+      "released_events": 70,
+      "mean_publication_delay_s": 0.0,
+      "max_mapping_error_m": 20.643802970428542,
+      "mean_mapping_error_m": 9.26194268873354,
+      "max_budget_spent_per_m": 0.15
+    },
+    "delay60": {
+      "S9": {
+        "mae_m": 1241.956124902049,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.125,
+        "selected_attackers": {
+          "mae": "viterbi_history_ols6_120s",
+          "hit50": "viterbi_history_ols6_120s",
+          "hit100": "viterbi_history_ols6_120s",
+          "hit200": "viterbi_history_ols6_120s",
+          "hit500": "viterbi_history_ols6_120s"
+        },
+        "families": 2,
+        "observations": 8
+      },
+      "S10": {
+        "mae_m": 713.3900330142537,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.25,
+        "hit500": 0.0,
+        "selected_attackers": {
+          "mae": "query_prior",
+          "hit50": "query_prior",
+          "hit100": "query_prior",
+          "hit200": "sequence_knn5",
+          "hit500": "sequence_knn1"
+        },
+        "families": 2,
+        "observations": 8
+      },
+      "recall": 0.7625578703703704,
+      "input_events": 70,
+      "released_events": 46,
+      "mean_publication_delay_s": 60.0,
+      "max_mapping_error_m": 20.643802970428542,
+      "mean_mapping_error_m": 9.26194268873354,
+      "max_budget_spent_per_m": 0.13
+    }
+  },
+  "paired_family_uncertainty": {
+    "S9/plain-raw/mae_m": {
+      "delta": 706.2942190866136,
+      "bootstrap95_low": 411.6649737599731,
+      "bootstrap95_high": 1000.9234644132541,
+      "family_deltas": {
+        "family-711": 411.6649737599731,
+        "family-712": 1000.9234644132541
+      },
+      "families": 2,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S9/plain-raw/hit100": {
+      "delta": -1.0,
+      "bootstrap95_low": -1.0,
+      "bootstrap95_high": -1.0,
+      "family_deltas": {
+        "family-711": -1.0,
+        "family-712": -1.0
+      },
+      "families": 2,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S9/plain-raw/hit500": {
+      "delta": -0.625,
+      "bootstrap95_low": -1.0,
+      "bootstrap95_high": -0.25,
+      "family_deltas": {
+        "family-711": -0.25,
+        "family-712": -1.0
+      },
+      "families": 2,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S9/plain-delay60/mae_m": {
+      "delta": -535.661905815435,
+      "bootstrap95_low": -738.9702637077203,
+      "bootstrap95_high": -332.35354792314973,
+      "family_deltas": {
+        "family-711": -332.35354792314973,
+        "family-712": -738.9702637077203
+      },
+      "families": 2,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S9/plain-delay60/hit100": {
+      "delta": 0.0,
+      "bootstrap95_low": 0.0,
+      "bootstrap95_high": 0.0,
+      "family_deltas": {
+        "family-711": 0.0,
+        "family-712": 0.0
+      },
+      "families": 2,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S9/plain-delay60/hit500": {
+      "delta": 0.25,
+      "bootstrap95_low": 0.0,
+      "bootstrap95_high": 0.5,
+      "family_deltas": {
+        "family-711": 0.5,
+        "family-712": 0.0
+      },
+      "families": 2,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/plain-raw/mae_m": {
+      "delta": 816.6888682515432,
+      "bootstrap95_low": 525.7098419261878,
+      "bootstrap95_high": 1107.6678945768988,
+      "family_deltas": {
+        "family-711": 1107.6678945768988,
+        "family-712": 525.7098419261878
+      },
+      "families": 2,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/plain-raw/hit100": {
+      "delta": -1.0,
+      "bootstrap95_low": -1.0,
+      "bootstrap95_high": -1.0,
+      "family_deltas": {
+        "family-711": -1.0,
+        "family-712": -1.0
+      },
+      "families": 2,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/plain-raw/hit500": {
+      "delta": -0.75,
+      "bootstrap95_low": -1.0,
+      "bootstrap95_high": -0.5,
+      "family_deltas": {
+        "family-711": -1.0,
+        "family-712": -0.5
+      },
+      "families": 2,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/plain-delay60/mae_m": {
+      "delta": 103.29883523728947,
+      "bootstrap95_low": 41.836752723253355,
+      "bootstrap95_high": 164.76091775132556,
+      "family_deltas": {
+        "family-711": 164.76091775132556,
+        "family-712": 41.836752723253355
+      },
+      "families": 2,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/plain-delay60/hit100": {
+      "delta": 0.0,
+      "bootstrap95_low": 0.0,
+      "bootstrap95_high": 0.0,
+      "family_deltas": {
+        "family-711": 0.0,
+        "family-712": 0.0
+      },
+      "families": 2,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/plain-delay60/hit500": {
+      "delta": 0.25,
+      "bootstrap95_low": 0.0,
+      "bootstrap95_high": 0.5,
+      "family_deltas": {
+        "family-711": 0.0,
+        "family-712": 0.5
+      },
+      "families": 2,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    }
+  },
+  "zero_hit100_cautions": {
+    "S9": {
+      "families": 2,
+      "endpoint_predictions": 8,
+      "families_with_any_hit100": 0,
+      "one_sided95_zero_success_upper": 0.7763932022500211,
+      "interpretation": "If families were independent Bernoulli draws from this generator, zero observed family successes still allow this upper probability of any Hit100 in one family. Seeds are not independent real people; model-based caution, not a guarantee for every attacker."
+    },
+    "S10": {
+      "families": 2,
+      "endpoint_predictions": 8,
+      "families_with_any_hit100": 0,
+      "one_sided95_zero_success_upper": 0.7763932022500211,
+      "interpretation": "If families were independent Bernoulli draws from this generator, zero observed family successes still allow this upper probability of any Hit100 in one family. Seeds are not independent real people; model-based caution, not a guarantee for every attacker."
+    }
+  },
+  "traffic_ratio": {},
+  "claim": "Development tradeoff only; finite attack bank and few families cannot establish universal superiority"
+}

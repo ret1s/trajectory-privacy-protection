@@ -1,0 +1,349 @@
+{
+  "schema": "endpoint-generalization-heldout-v3",
+  "protocol_sha256": "d3784c2c8a32062f08f71072869813a8a7053d7b878b4e9dad6098ae3fa72349",
+  "selection_sha256": "3aed7860e194a902a1304478252a9ecf9e9b18a2945e6a4e86e7538b7fa0e6cb",
+  "selected_defense": "scale025_L20",
+  "rows": {
+    "raw": {
+      "S9": {
+        "mae_m": 0.0,
+        "hit50": 1.0,
+        "hit100": 1.0,
+        "hit200": 1.0,
+        "hit500": 1.0,
+        "selected_attackers": {
+          "mae": "centroid",
+          "hit50": "centroid",
+          "hit100": "centroid",
+          "hit200": "centroid",
+          "hit500": "centroid"
+        },
+        "families": 28,
+        "observations": 112
+      },
+      "S10": {
+        "mae_m": 0.0,
+        "hit50": 1.0,
+        "hit100": 1.0,
+        "hit200": 1.0,
+        "hit500": 1.0,
+        "selected_attackers": {
+          "mae": "centroid",
+          "hit50": "centroid",
+          "hit100": "centroid",
+          "hit200": "centroid",
+          "hit500": "centroid"
+        },
+        "families": 28,
+        "observations": 112
+      },
+      "recall": 1.0,
+      "bytes_per_input": 931.8649872201212,
+      "mean_publication_delay_s": 0.0,
+      "input_events": 1308,
+      "released_events": 1308,
+      "mapping_max_m": 81.26288434224614,
+      "mean_selected_hit100": 1.0,
+      "mean_selected_mae_m": 0.0,
+      "linked_secondary": {
+        "S9": {
+          "mae_m": 0.0,
+          "hit50": 1.0,
+          "hit100": 1.0,
+          "hit200": 1.0,
+          "hit500": 1.0,
+          "selected_attackers": {
+            "mae": "linked_individual_centroid",
+            "hit50": "linked_individual_centroid",
+            "hit100": "linked_individual_centroid",
+            "hit200": "linked_individual_centroid",
+            "hit500": "linked_individual_centroid"
+          },
+          "families": 28,
+          "observations": 112
+        },
+        "S10": {
+          "mae_m": 0.0,
+          "hit50": 1.0,
+          "hit100": 1.0,
+          "hit200": 1.0,
+          "hit500": 1.0,
+          "selected_attackers": {
+            "mae": "linked_individual_centroid",
+            "hit50": "linked_individual_centroid",
+            "hit100": "linked_individual_centroid",
+            "hit200": "linked_individual_centroid",
+            "hit500": "linked_individual_centroid"
+          },
+          "families": 28,
+          "observations": 112
+        }
+      },
+      "trip_run_recall": {
+        "min": 1.0,
+        "p10": 1.0,
+        "median": 1.0,
+        "below90_fraction": 0.0
+      },
+      "max_budget_spent_per_m": null
+    },
+    "scale100_L10": {
+      "S9": {
+        "mae_m": 620.5507719572909,
+        "hit50": 0.008928571428571428,
+        "hit100": 0.03571428571428571,
+        "hit200": 0.11607142857142858,
+        "hit500": 0.41964285714285715,
+        "selected_attackers": {
+          "mae": "public_boundary_median_ols6",
+          "hit50": "centroid_ols6_30s",
+          "hit100": "public_boundary_centroid_ols6",
+          "hit200": "public_boundary_centroid_ols6",
+          "hit500": "public_boundary_median_ols6"
+        },
+        "families": 28,
+        "observations": 112
+      },
+      "S10": {
+        "mae_m": 768.7774795617253,
+        "hit50": 0.0,
+        "hit100": 0.03571428571428571,
+        "hit200": 0.08928571428571429,
+        "hit500": 0.30357142857142855,
+        "selected_attackers": {
+          "mae": "median_ols3_120s",
+          "hit50": "median_ols3_120s",
+          "hit100": "median_ols3_120s",
+          "hit200": "median_ols3_120s",
+          "hit500": "median_ols3_120s"
+        },
+        "families": 28,
+        "observations": 112
+      },
+      "recall": 0.968058713442642,
+      "bytes_per_input": 4578.079216505222,
+      "mean_publication_delay_s": 0.0,
+      "input_events": 1308,
+      "released_events": 1308,
+      "mapping_max_m": 81.26288434224614,
+      "mean_selected_hit100": 0.03571428571428571,
+      "mean_selected_mae_m": 694.6641257595081,
+      "linked_secondary": {
+        "S9": {
+          "mae_m": 566.7199738095858,
+          "hit50": 0.008928571428571428,
+          "hit100": 0.03571428571428571,
+          "hit200": 0.08928571428571429,
+          "hit500": 0.5178571428571429,
+          "selected_attackers": {
+            "mae": "linked_mean_median_ols6_30s",
+            "hit50": "linked_individual_centroid_ols6_30s",
+            "hit100": "linked_individual_public_boundary_centroid_ols6",
+            "hit200": "linked_mean_median_ols6_120s",
+            "hit500": "linked_mean_median_ols6_30s"
+          },
+          "families": 28,
+          "observations": 112
+        },
+        "S10": {
+          "mae_m": 675.3736805970311,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.05357142857142857,
+          "hit500": 0.375,
+          "selected_attackers": {
+            "mae": "linked_mean_median_ols3_120s",
+            "hit50": "linked_mean_median_ols3_120s",
+            "hit100": "linked_mean_median_ols3_120s",
+            "hit200": "linked_mean_median_ols3_120s",
+            "hit500": "linked_mean_centroid_ols3_120s"
+          },
+          "families": 28,
+          "observations": 112
+        }
+      },
+      "trip_run_recall": {
+        "min": 0.8111111111111112,
+        "p10": 0.9304841269841273,
+        "median": 0.9777777777777779,
+        "below90_fraction": 0.017857142857142856
+      },
+      "max_budget_spent_per_m": 0.23
+    },
+    "scale100_L20": {
+      "S9": {
+        "mae_m": 890.6075398132385,
+        "hit50": 0.0,
+        "hit100": 0.017857142857142856,
+        "hit200": 0.05357142857142857,
+        "hit500": 0.16964285714285715,
+        "selected_attackers": {
+          "mae": "public_boundary_median_ols6",
+          "hit50": "public_boundary_median_ols6",
+          "hit100": "public_boundary_median_ols6",
+          "hit200": "public_boundary_median_ols6",
+          "hit500": "median_ols6_120s"
+        },
+        "families": 28,
+        "observations": 112
+      },
+      "S10": {
+        "mae_m": 901.4833235035258,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.026785714285714284,
+        "hit500": 0.125,
+        "selected_attackers": {
+          "mae": "median_ols6_120s",
+          "hit50": "public_boundary_median_ols3",
+          "hit100": "public_boundary_median_ols3",
+          "hit200": "median_ols6_120s",
+          "hit500": "median_ols6_120s"
+        },
+        "families": 28,
+        "observations": 112
+      },
+      "recall": 0.9894149745756888,
+      "bytes_per_input": 6935.208944279926,
+      "mean_publication_delay_s": 0.0,
+      "input_events": 1308,
+      "released_events": 1308,
+      "mapping_max_m": 81.26288434224614,
+      "mean_selected_hit100": 0.008928571428571428,
+      "mean_selected_mae_m": 896.0454316583821,
+      "linked_secondary": {
+        "S9": {
+          "mae_m": 928.6685907587087,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.017857142857142856,
+          "hit500": 0.21428571428571427,
+          "selected_attackers": {
+            "mae": "linked_mean_median_ols6_120s",
+            "hit50": "linked_mean_median_ols6_120s",
+            "hit100": "linked_mean_viterbi_history_ols2_30s",
+            "hit200": "linked_mean_viterbi_history_ols2_30s",
+            "hit500": "linked_mean_median_ols6_120s"
+          },
+          "families": 28,
+          "observations": 112
+        },
+        "S10": {
+          "mae_m": 855.7964983950412,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.0,
+          "hit500": 0.17857142857142858,
+          "selected_attackers": {
+            "mae": "linked_mean_median_ols6_120s",
+            "hit50": "linked_individual_public_boundary_median_ols3",
+            "hit100": "linked_mean_median_ols2_60s",
+            "hit200": "linked_shadow_knn5",
+            "hit500": "linked_mean_median_ols6_120s"
+          },
+          "families": 28,
+          "observations": 112
+        }
+      },
+      "trip_run_recall": {
+        "min": 0.8999999999999999,
+        "p10": 0.9640282828282828,
+        "median": 0.9955357142857143,
+        "below90_fraction": 0.008928571428571428
+      },
+      "max_budget_spent_per_m": 0.23
+    },
+    "scale025_L20": {
+      "S9": {
+        "mae_m": 1482.5789120568786,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.008928571428571428,
+        "hit500": 0.07142857142857142,
+        "selected_attackers": {
+          "mae": "public_boundary_median_ols6",
+          "hit50": "public_boundary_median_ols6",
+          "hit100": "public_boundary_median_ols6",
+          "hit200": "public_boundary_median_ols6",
+          "hit500": "centroid_ols6_60s"
+        },
+        "families": 28,
+        "observations": 112
+      },
+      "S10": {
+        "mae_m": 1337.1553367898873,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.0625,
+        "selected_attackers": {
+          "mae": "centroid_ols3_120s",
+          "hit50": "median_ols3_120s",
+          "hit100": "median_ols3_120s",
+          "hit200": "median_ols3_120s",
+          "hit500": "median_ols3_120s"
+        },
+        "families": 28,
+        "observations": 112
+      },
+      "recall": 0.9663943089813626,
+      "bytes_per_input": 6935.503601470455,
+      "mean_publication_delay_s": 0.0,
+      "input_events": 1308,
+      "released_events": 1308,
+      "mapping_max_m": 81.26288434224614,
+      "mean_selected_hit100": 0.0,
+      "mean_selected_mae_m": 1409.8671244233828,
+      "linked_secondary": {
+        "S9": {
+          "mae_m": 1358.0874645217943,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.03571428571428571,
+          "hit500": 0.07142857142857142,
+          "selected_attackers": {
+            "mae": "linked_mean_public_boundary_median_ols6",
+            "hit50": "linked_mean_public_boundary_median_ols6",
+            "hit100": "linked_mean_public_boundary_median_ols6",
+            "hit200": "linked_mean_public_boundary_median_ols6",
+            "hit500": "linked_other_centroid_ols6_60s"
+          },
+          "families": 28,
+          "observations": 112
+        },
+        "S10": {
+          "mae_m": 1601.8102131048897,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.0,
+          "hit500": 0.08928571428571429,
+          "selected_attackers": {
+            "mae": "linked_mean_query_prior",
+            "hit50": "linked_individual_median_ols3_120s",
+            "hit100": "linked_mean_viterbi_motion_ols2_30s",
+            "hit200": "linked_mean_viterbi_motion_ols2_60s",
+            "hit500": "linked_mean_viterbi_history_ols6_120s"
+          },
+          "families": 28,
+          "observations": 112
+        }
+      },
+      "trip_run_recall": {
+        "min": 0.7761111111111113,
+        "p10": 0.9212242424242426,
+        "median": 0.9818181818181819,
+        "below90_fraction": 0.05357142857142857
+      },
+      "max_budget_spent_per_m": 0.0575
+    }
+  },
+  "scope": "Locked-config generalization on 28 previously unused within-study endpoint families, existing SUMO data and reconstructed map; not new independent real-world confirmation",
+  "defense_not_reselected": true,
+  "complete_predeclared_test": true,
+  "unique_session_rep_streams": 112,
+  "independent_session_streams": true,
+  "raw_positive_control": {
+    "S9": true,
+    "S10": true
+  }
+}

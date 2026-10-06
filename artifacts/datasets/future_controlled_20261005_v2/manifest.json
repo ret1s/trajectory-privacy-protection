@@ -1,0 +1,35 @@
+{
+  "dataset_sha256": "6977f267538231a70cb1bf1f3f0bf2d1cc4cd50df128ea9d54a1967e25ed4b9c",
+  "protocol_sha256": "22fbd5e5b6ffc6684598fcee0a4f0c44352cd83a1dcef59dc57c9f14faf7650c",
+  "source_cohort_sha256": "8248ea4d786b3a204b009487f95abaddca1050735ca4a597eabe999a63b34648",
+  "source_sha256": {
+    "experiments/build_future_fixed_window.py": "9f111334f4b552158bec38bae83749afc21746e3a121dbb32a7a7890f04d0843",
+    "data/scenario_suite/mobility.py": "0b853cb408343ccb7c561264310bc9a684adec54e26b4cb857229aefae4fe46d"
+  },
+  "family_count": 24,
+  "session_count": 192,
+  "network": {
+    "compressed_path": "artifacts/datasets/future_controlled_20261005_v1/public_native.net.xml.gz",
+    "compressed_sha256": "243924810d6c26e1df068f1e2e85198097370f39cf96d8ed759a3bd72a64f395",
+    "native_sha256": "1ff9cb510a1a41be05721362b66f54491b4cfd9bb3ee9b1052d9411f0809fab1",
+    "compile_command": [
+      "/private/tmp/trajectory-research-20261005-venv/bin/netconvert",
+      "--sumo-net-file",
+      "/private/tmp/trajectory-research-20261005-public-map/public_reconstructed.net.xml",
+      "--output-file",
+      "/private/tmp/trajectory-future-native-v1/native_cohort.net.xml",
+      "--no-internal-links",
+      "false",
+      "--junctions.limit-turn-speed",
+      "8",
+      "--no-warnings",
+      "true"
+    ],
+    "compile_stdout": "Success.\n",
+    "external_edges": 4849,
+    "internal_edges": 21179,
+    "source_reconstructed_network_sha256": "94fbd44522fd70ff74448b8045a9e4e2be318070c2399ec0d687b37c8926b114",
+    "turns_authoritative_for_this_new_network": true,
+    "original_lane_turn_parity": false
+  }
+}

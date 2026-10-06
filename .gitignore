@@ -40,6 +40,14 @@ build/
 *.sqlite3-wal
 *.sqlite3-shm
 
+# Private evaluator RNG master keys stay local; publish transcripts/receipts.
+artifacts/benchmarks/**/evaluator_randomness.json.gz
+artifacts/benchmarks/**/evaluator_shuffle_randomness.json.gz
+# Original protected evaluator bundles contain resolved private sampler seeds.
+artifacts/benchmarks/endpoint_generalization_20261005/*-scale025_L20.json.gz
+artifacts/benchmarks/endpoint_generalization_20261005/*-scale100_L10.json.gz
+artifacts/benchmarks/endpoint_generalization_20261005/*-scale100_L20.json.gz
+
 # OS / editor junk
 .DS_Store
 .idea/

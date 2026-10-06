@@ -1,0 +1,28 @@
+{
+  "schema": "fixed-public-prefix-cut-protocol-v1",
+  "splits": {
+    "train": [
+      "family-701",
+      "family-702",
+      "family-703",
+      "family-704",
+      "family-705",
+      "family-706"
+    ],
+    "selection": [
+      "family-707",
+      "family-708",
+      "family-709"
+    ],
+    "test": [
+      "family-710",
+      "family-711",
+      "family-712"
+    ]
+  },
+  "cut": "remove exactly final public event from every archived S3.A observation",
+  "target": "GPS20seconds after newlastobservedindex",
+  "fit": "trainingfamilies only",
+  "attacker_selection": "minimum selectionMAE across learned/geometric banks, stabletie byname",
+  "scope": "S5 nextlocation spatialproxy, not exactnextedge, not confirmation; developmentrepair aftercontrolinspection"
+}

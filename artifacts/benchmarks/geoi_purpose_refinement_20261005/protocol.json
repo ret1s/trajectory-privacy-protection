@@ -1,0 +1,110 @@
+{
+  "schema": "geoi-public-purpose-refinement-v1",
+  "date": "2026-10-05",
+  "source_sha256": {
+    "core/mechanisms.py": "2c950335809507f0551eeeea62089260e74fa94624b3a84eb64b4666ca0cadfa",
+    "core/road_network.py": "7e69c17f17eee24104bd9efc0b3b74b4b502a9c131a90cc99736da390c91108d",
+    "benchmark/anchor_belief.py": "9a4d99261ce43c3ebc6d0ce118e974ea3778ca82d0a02ac36b428e669d43dc61",
+    "benchmark/engines/paced_guard.py": "740b6b8eabce33a8b50bca55f33b22b868f5f42211f86600924d4d8d43b6ecf0",
+    "benchmark/engines/filtered_cover.py": "59633ff32d36de8be5d20e88d62fa579d6c7bc24f9f081904326140ddc00ee7c",
+    "benchmark/engines/matched_filter.py": "147c298c6f128c680ce899465a6dc2f980bb8f8456d38c2cc98726f47cd7e5e8",
+    "benchmark/engines/progress_cover.py": "9e1121793209e86c825dfc785a6b6859219443fd0ec86557eebdf5035a3cb4d0",
+    "benchmark/engines/slack_progress.py": "655e2a730323d1e365fef4ac8a14cbd67e7049b27816cf41fcae850651a97963",
+    "benchmark/engines/endpoint_noise.py": "ce7143bc640d9528ed2d82a1e091764208ad509b9347b1a55ac377950564152c",
+    "experiments/geoi_purpose_refinement.py": "8ff9633eb2c930622bd3e2a2d498183ad8a1469d8fcf43560009a316d8f47fa9",
+    "benchmark/geoi_lbs.py": "c3081e6ebb93637d67115e3a74cfb7650dbfac6621871ed065f9fa78b2a01acd",
+    "benchmark/public_purpose_belief.py": "7ef7a4378ab2ba09cdc4c057feba589058331680edaa2a91e2c23accfcc9de97",
+    "benchmark/query_purpose.py": "110ce445bb1a89283728b263c1994eda2cf601b3c6ae1eab49e31b2b6bad4443",
+    "evaluation/endpoint_noise_attacks.py": "b7cc3de94a3b8d163024fbd3b9d6ca91e131e7f3d2d7fd470fa55769345f23d1",
+    "experiments/public_research_resources.py": "36127eb11f4e53b13793413783392afddd2cc7a4e62f697308149db8f7267b25",
+    "experiments/endpoint_noise_depth_loop.py": "c914d57adae752e808c6a47d5c27625f65d6c25dfe0213dc51e2c152350bf7a9",
+    "evaluation/live_poi.py": "b6bf32695d1444809c1e5147868a16ee93a1a7b6fe65104a0d57e6cc369dcad2",
+    "evaluation/lane_travel.py": "111e1bc109dd53e29922d44bfbc16bded8f1409e467e43faba3723026dc45bde"
+  },
+  "dataset_sha256": "e80228fdd2e70b451dadcea23c725556345f5fcf3cc35f1915ad3f526a9a708e",
+  "frozen_backbone_files": [
+    "core/mechanisms.py",
+    "core/road_network.py",
+    "benchmark/anchor_belief.py",
+    "benchmark/engines/paced_guard.py",
+    "benchmark/engines/filtered_cover.py",
+    "benchmark/engines/matched_filter.py",
+    "benchmark/engines/progress_cover.py",
+    "benchmark/engines/slack_progress.py",
+    "benchmark/engines/endpoint_noise.py"
+  ],
+  "split_by_family": {
+    "family-701": "fit",
+    "family-702": "fit",
+    "family-703": "fit",
+    "family-704": "fit",
+    "family-705": "fit",
+    "family-706": "fit",
+    "family-707": "selection",
+    "family-708": "selection",
+    "family-709": "selection",
+    "family-710": "test",
+    "family-711": "test",
+    "family-712": "test"
+  },
+  "session_rule": "lexically first source session in each family",
+  "configs": [
+    {
+      "id": "alpha000_L10",
+      "alpha": 0.0,
+      "L": 10
+    },
+    {
+      "id": "alpha000_L20",
+      "alpha": 0.0,
+      "L": 20
+    },
+    {
+      "id": "alpha000_L40",
+      "alpha": 0.0,
+      "L": 40
+    },
+    {
+      "id": "alpha050_L10",
+      "alpha": 0.5,
+      "L": 10
+    },
+    {
+      "id": "alpha050_L20",
+      "alpha": 0.5,
+      "L": 20
+    },
+    {
+      "id": "alpha050_L40",
+      "alpha": 0.5,
+      "L": 40
+    },
+    {
+      "id": "alpha100_L10",
+      "alpha": 1.0,
+      "L": 10
+    },
+    {
+      "id": "alpha100_L20",
+      "alpha": 1.0,
+      "L": 20
+    },
+    {
+      "id": "alpha100_L40",
+      "alpha": 1.0,
+      "L": 40
+    }
+  ],
+  "baseline": "alpha000_L20",
+  "repetitions": [
+    0,
+    1
+  ],
+  "private_mechanism": "unchanged GeoI-Endpoint20 epsilon test/release .0025/m, cap .0575/m, H12 K5",
+  "public_objective": "uniform four-purpose mixture, radius1000m and eight public farthest POI states",
+  "selection_rule": "Worst-purpose Recall>=.90, improve baseline>=.01; each selected endpoint MAE>=.90baseline and Hit100<=baseline+.05; bytes<=1.5baseline unless worst-purpose gain>=.05; min bytes then max worst-purpose recall; fallback alpha0L20",
+  "clock": "60s plus final, public close visible; not private demand-driven",
+  "wire": "fixed all-category requests + POI ID replies JSON; no HTTP/TLS",
+  "scope": "Previously used SUMO families and reconstructed public map: development only; postprocessing comparison, not new primitive or confirmation",
+  "seeds": "independent per session/rep and common only across paired methods; reproducibility seeds not deployment RNG"
+}

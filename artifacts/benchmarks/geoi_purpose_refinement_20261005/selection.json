@@ -1,0 +1,580 @@
+{
+  "selected": "alpha000_L20",
+  "baseline": "alpha000_L20",
+  "promoted": false,
+  "all_selection_summaries": {
+    "alpha000_L10": {
+      "utility": {
+        "by_purpose": {
+          "nearest_distance": 0.9304773043720412,
+          "fastest_travel": 0.9304773043720412,
+          "within_radius": 0.8327380952380953,
+          "minimum_detour": 0.8645714285714287
+        },
+        "mean_recall": 0.8895660331384017,
+        "worst_purpose_recall": 0.8327380952380953,
+        "eligible_rows": 1166,
+        "empty_reference_rows": 274,
+        "invalid_returned_items": 0
+      },
+      "bytes_per_input": 5349.743097643098,
+      "attacks": {
+        "S9": {
+          "mae_m": 731.4983379093674,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.16666666666666666,
+          "hit500": 0.3333333333333333,
+          "selected_attackers": {
+            "mae": "public_boundary_median_ols6",
+            "hit50": "public_boundary_median_ols6",
+            "hit100": "public_boundary_median_ols6",
+            "hit200": "viterbi_history_ols6_60s",
+            "hit500": "public_boundary_median_ols6"
+          },
+          "families": 3,
+          "observations": 6
+        },
+        "S10": {
+          "mae_m": 908.1114681787373,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.0,
+          "hit500": 0.3333333333333333,
+          "selected_attackers": {
+            "mae": "centroid_ols3_120s",
+            "hit50": "centroid_ols3_120s",
+            "hit100": "centroid_ols3_120s",
+            "hit200": "centroid_ols3_120s",
+            "hit500": "centroid_ols3_120s"
+          },
+          "families": 3,
+          "observations": 6
+        }
+      },
+      "gain_worst_purpose": -0.13177819548872183,
+      "eligible": false,
+      "gates": {
+        "all_purposes90": false,
+        "minimum_gain1pp": false,
+        "selection_endpoint_guard": false,
+        "public_cost_guard": true
+      }
+    },
+    "alpha000_L20": {
+      "utility": {
+        "by_purpose": {
+          "nearest_distance": 0.9851216931216932,
+          "fastest_travel": 0.9851216931216932,
+          "within_radius": 0.9785714285714286,
+          "minimum_detour": 0.9645162907268171
+        },
+        "mean_recall": 0.978332776385408,
+        "worst_purpose_recall": 0.9645162907268171,
+        "eligible_rows": 1166,
+        "empty_reference_rows": 274,
+        "invalid_returned_items": 0
+      },
+      "bytes_per_input": 7694.8563973063965,
+      "attacks": {
+        "S9": {
+          "mae_m": 995.078704243495,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.0,
+          "hit500": 0.16666666666666666,
+          "selected_attackers": {
+            "mae": "public_boundary_centroid_ols6",
+            "hit50": "public_boundary_centroid_ols6",
+            "hit100": "public_boundary_centroid_ols6",
+            "hit200": "public_boundary_centroid_ols6",
+            "hit500": "public_boundary_centroid_ols6"
+          },
+          "families": 3,
+          "observations": 6
+        },
+        "S10": {
+          "mae_m": 848.500474343272,
+          "hit50": 0.16666666666666666,
+          "hit100": 0.16666666666666666,
+          "hit200": 0.16666666666666666,
+          "hit500": 0.3333333333333333,
+          "selected_attackers": {
+            "mae": "centroid_ols2_120s",
+            "hit50": "viterbi_history_ols2_30s",
+            "hit100": "centroid_ols3_120s",
+            "hit200": "centroid_ols3_120s",
+            "hit500": "viterbi_history_ols2_30s"
+          },
+          "families": 3,
+          "observations": 6
+        }
+      },
+      "gain_worst_purpose": 0.0,
+      "eligible": false,
+      "gates": {
+        "all_purposes90": true,
+        "minimum_gain1pp": false,
+        "selection_endpoint_guard": true,
+        "public_cost_guard": true
+      }
+    },
+    "alpha000_L40": {
+      "utility": {
+        "by_purpose": {
+          "nearest_distance": 0.9980000000000001,
+          "fastest_travel": 0.9980000000000001,
+          "within_radius": 0.9983333333333334,
+          "minimum_detour": 0.9993333333333334
+        },
+        "mean_recall": 0.9984166666666667,
+        "worst_purpose_recall": 0.9980000000000001,
+        "eligible_rows": 1166,
+        "empty_reference_rows": 274,
+        "invalid_returned_items": 0
+      },
+      "bytes_per_input": 12139.144107744107,
+      "attacks": {
+        "S9": {
+          "mae_m": 1253.3805516112573,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.16666666666666666,
+          "hit500": 0.16666666666666666,
+          "selected_attackers": {
+            "mae": "public_boundary_median_ols6",
+            "hit50": "public_boundary_median_ols6",
+            "hit100": "public_boundary_median_ols6",
+            "hit200": "shadow_knn5",
+            "hit500": "public_boundary_median_ols6"
+          },
+          "families": 3,
+          "observations": 6
+        },
+        "S10": {
+          "mae_m": 886.8744635907478,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.16666666666666666,
+          "hit500": 0.3333333333333333,
+          "selected_attackers": {
+            "mae": "median_ols6_120s",
+            "hit50": "median_ols6_120s",
+            "hit100": "median_ols6_120s",
+            "hit200": "median_ols2_30s",
+            "hit500": "centroid_ols2_120s"
+          },
+          "families": 3,
+          "observations": 6
+        }
+      },
+      "gain_worst_purpose": 0.033483709273183004,
+      "eligible": false,
+      "gates": {
+        "all_purposes90": true,
+        "minimum_gain1pp": true,
+        "selection_endpoint_guard": true,
+        "public_cost_guard": false
+      }
+    },
+    "alpha050_L10": {
+      "utility": {
+        "by_purpose": {
+          "nearest_distance": 0.939910888331941,
+          "fastest_travel": 0.939910888331941,
+          "within_radius": 0.8645833333333334,
+          "minimum_detour": 0.8775366193260928
+        },
+        "mean_recall": 0.905485432330827,
+        "worst_purpose_recall": 0.8645833333333334,
+        "eligible_rows": 1166,
+        "empty_reference_rows": 274,
+        "invalid_returned_items": 0
+      },
+      "bytes_per_input": 5350.118518518518,
+      "attacks": {
+        "S9": {
+          "mae_m": 732.3993449446461,
+          "hit50": 0.16666666666666666,
+          "hit100": 0.16666666666666666,
+          "hit200": 0.3333333333333333,
+          "hit500": 0.5,
+          "selected_attackers": {
+            "mae": "public_boundary_median_ols6",
+            "hit50": "public_boundary_median_ols3",
+            "hit100": "public_boundary_median_ols6",
+            "hit200": "public_boundary_median_ols6",
+            "hit500": "public_boundary_median_ols3"
+          },
+          "families": 3,
+          "observations": 6
+        },
+        "S10": {
+          "mae_m": 812.5167729810333,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.16666666666666666,
+          "hit500": 0.3333333333333333,
+          "selected_attackers": {
+            "mae": "centroid_ols3_120s",
+            "hit50": "centroid_ols3_120s",
+            "hit100": "centroid_ols3_120s",
+            "hit200": "centroid_ols6_120s",
+            "hit500": "centroid_ols3_120s"
+          },
+          "families": 3,
+          "observations": 6
+        }
+      },
+      "gain_worst_purpose": -0.09993295739348373,
+      "eligible": false,
+      "gates": {
+        "all_purposes90": false,
+        "minimum_gain1pp": false,
+        "selection_endpoint_guard": false,
+        "public_cost_guard": true
+      }
+    },
+    "alpha050_L20": {
+      "utility": {
+        "by_purpose": {
+          "nearest_distance": 0.9847089947089946,
+          "fastest_travel": 0.9847089947089946,
+          "within_radius": 0.975952380952381,
+          "minimum_detour": 0.982812030075188
+        },
+        "mean_recall": 0.9820456001113896,
+        "worst_purpose_recall": 0.975952380952381,
+        "eligible_rows": 1166,
+        "empty_reference_rows": 274,
+        "invalid_returned_items": 0
+      },
+      "bytes_per_input": 7693.31835016835,
+      "attacks": {
+        "S9": {
+          "mae_m": 1065.0169113602262,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.16666666666666666,
+          "hit500": 0.3333333333333333,
+          "selected_attackers": {
+            "mae": "public_boundary_centroid_ols6",
+            "hit50": "public_boundary_centroid_ols6",
+            "hit100": "public_boundary_centroid_ols6",
+            "hit200": "centroid",
+            "hit500": "median_ols6_120s"
+          },
+          "families": 3,
+          "observations": 6
+        },
+        "S10": {
+          "mae_m": 660.5988407887355,
+          "hit50": 0.0,
+          "hit100": 0.16666666666666666,
+          "hit200": 0.16666666666666666,
+          "hit500": 0.5,
+          "selected_attackers": {
+            "mae": "centroid_ols2_120s",
+            "hit50": "centroid_ols2_120s",
+            "hit100": "centroid_ols2_120s",
+            "hit200": "centroid_ols2_120s",
+            "hit500": "centroid_ols2_120s"
+          },
+          "families": 3,
+          "observations": 6
+        }
+      },
+      "gain_worst_purpose": 0.01143609022556391,
+      "eligible": false,
+      "gates": {
+        "all_purposes90": true,
+        "minimum_gain1pp": true,
+        "selection_endpoint_guard": false,
+        "public_cost_guard": true
+      }
+    },
+    "alpha050_L40": {
+      "utility": {
+        "by_purpose": {
+          "nearest_distance": 0.9957460317460317,
+          "fastest_travel": 0.9957460317460317,
+          "within_radius": 0.9895238095238095,
+          "minimum_detour": 0.9978835978835979
+        },
+        "mean_recall": 0.9947248677248678,
+        "worst_purpose_recall": 0.9895238095238095,
+        "eligible_rows": 1166,
+        "empty_reference_rows": 274,
+        "invalid_returned_items": 0
+      },
+      "bytes_per_input": 12138.525925925926,
+      "attacks": {
+        "S9": {
+          "mae_m": 1493.6839639145498,
+          "hit50": 0.16666666666666666,
+          "hit100": 0.16666666666666666,
+          "hit200": 0.16666666666666666,
+          "hit500": 0.16666666666666666,
+          "selected_attackers": {
+            "mae": "public_boundary_centroid_ols6",
+            "hit50": "median_ols3_120s",
+            "hit100": "median_ols3_120s",
+            "hit200": "median",
+            "hit500": "public_boundary_centroid_ols6"
+          },
+          "families": 3,
+          "observations": 6
+        },
+        "S10": {
+          "mae_m": 884.8699806652188,
+          "hit50": 0.0,
+          "hit100": 0.16666666666666666,
+          "hit200": 0.16666666666666666,
+          "hit500": 0.3333333333333333,
+          "selected_attackers": {
+            "mae": "centroid_ols3_120s",
+            "hit50": "centroid_ols3_120s",
+            "hit100": "centroid_ols6_120s",
+            "hit200": "centroid_ols6_120s",
+            "hit500": "centroid_ols3_120s"
+          },
+          "families": 3,
+          "observations": 6
+        }
+      },
+      "gain_worst_purpose": 0.025007518796992367,
+      "eligible": false,
+      "gates": {
+        "all_purposes90": true,
+        "minimum_gain1pp": true,
+        "selection_endpoint_guard": false,
+        "public_cost_guard": false
+      }
+    },
+    "alpha100_L10": {
+      "utility": {
+        "by_purpose": {
+          "nearest_distance": 0.956771372876636,
+          "fastest_travel": 0.956771372876636,
+          "within_radius": 0.9056785714285714,
+          "minimum_detour": 0.9054263436368699
+        },
+        "mean_recall": 0.9311619152046784,
+        "worst_purpose_recall": 0.9054263436368699,
+        "eligible_rows": 1166,
+        "empty_reference_rows": 274,
+        "invalid_returned_items": 0
+      },
+      "bytes_per_input": 5348.534343434344,
+      "attacks": {
+        "S9": {
+          "mae_m": 765.6508102036832,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.16666666666666666,
+          "hit500": 0.3333333333333333,
+          "selected_attackers": {
+            "mae": "public_boundary_median_ols6",
+            "hit50": "public_boundary_median_ols6",
+            "hit100": "public_boundary_median_ols6",
+            "hit200": "query_prior",
+            "hit500": "public_boundary_median_ols6"
+          },
+          "families": 3,
+          "observations": 6
+        },
+        "S10": {
+          "mae_m": 1017.0931830351902,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.16666666666666666,
+          "hit500": 0.3333333333333333,
+          "selected_attackers": {
+            "mae": "centroid_ols2_120s",
+            "hit50": "centroid_ols2_120s",
+            "hit100": "centroid_ols2_120s",
+            "hit200": "centroid_ols3_120s",
+            "hit500": "centroid_ols2_120s"
+          },
+          "families": 3,
+          "observations": 6
+        }
+      },
+      "gain_worst_purpose": -0.05908994708994719,
+      "eligible": false,
+      "gates": {
+        "all_purposes90": true,
+        "minimum_gain1pp": false,
+        "selection_endpoint_guard": false,
+        "public_cost_guard": true
+      }
+    },
+    "alpha100_L20": {
+      "utility": {
+        "by_purpose": {
+          "nearest_distance": 0.9944126984126984,
+          "fastest_travel": 0.9944126984126984,
+          "within_radius": 0.9897619047619047,
+          "minimum_detour": 0.9794586466165414
+        },
+        "mean_recall": 0.9895114870509607,
+        "worst_purpose_recall": 0.9794586466165414,
+        "eligible_rows": 1166,
+        "empty_reference_rows": 274,
+        "invalid_returned_items": 0
+      },
+      "bytes_per_input": 7691.604713804714,
+      "attacks": {
+        "S9": {
+          "mae_m": 836.1880781231961,
+          "hit50": 0.0,
+          "hit100": 0.16666666666666666,
+          "hit200": 0.16666666666666666,
+          "hit500": 0.3333333333333333,
+          "selected_attackers": {
+            "mae": "public_boundary_median_ols3",
+            "hit50": "public_boundary_median_ols3",
+            "hit100": "public_boundary_median_ols3",
+            "hit200": "public_boundary_median_ols3",
+            "hit500": "public_boundary_median_ols3"
+          },
+          "families": 3,
+          "observations": 6
+        },
+        "S10": {
+          "mae_m": 776.7420081202181,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.16666666666666666,
+          "hit500": 0.3333333333333333,
+          "selected_attackers": {
+            "mae": "centroid_ols3_120s",
+            "hit50": "centroid_ols3_120s",
+            "hit100": "centroid_ols3_120s",
+            "hit200": "median_ols6_120s",
+            "hit500": "median_ols3_120s"
+          },
+          "families": 3,
+          "observations": 6
+        }
+      },
+      "gain_worst_purpose": 0.014942355889724257,
+      "eligible": false,
+      "gates": {
+        "all_purposes90": true,
+        "minimum_gain1pp": true,
+        "selection_endpoint_guard": false,
+        "public_cost_guard": true
+      }
+    },
+    "alpha100_L40": {
+      "utility": {
+        "by_purpose": {
+          "nearest_distance": 0.9969417989417989,
+          "fastest_travel": 0.9969417989417989,
+          "within_radius": 0.9923809523809523,
+          "minimum_detour": 0.9962962962962963
+        },
+        "mean_recall": 0.9956402116402117,
+        "worst_purpose_recall": 0.9923809523809523,
+        "eligible_rows": 1166,
+        "empty_reference_rows": 274,
+        "invalid_returned_items": 0
+      },
+      "bytes_per_input": 12139.854882154881,
+      "attacks": {
+        "S9": {
+          "mae_m": 1492.940113441905,
+          "hit50": 0.16666666666666666,
+          "hit100": 0.16666666666666666,
+          "hit200": 0.16666666666666666,
+          "hit500": 0.16666666666666666,
+          "selected_attackers": {
+            "mae": "public_boundary_centroid_ols3",
+            "hit50": "median_ols3_120s",
+            "hit100": "median_ols3_120s",
+            "hit200": "median_ols3_120s",
+            "hit500": "public_boundary_centroid_ols3"
+          },
+          "families": 3,
+          "observations": 6
+        },
+        "S10": {
+          "mae_m": 789.1034105081867,
+          "hit50": 0.0,
+          "hit100": 0.16666666666666666,
+          "hit200": 0.16666666666666666,
+          "hit500": 0.5,
+          "selected_attackers": {
+            "mae": "centroid_ols2_120s",
+            "hit50": "centroid_ols2_120s",
+            "hit100": "centroid_ols6_120s",
+            "hit200": "centroid_ols2_120s",
+            "hit500": "centroid_ols2_120s"
+          },
+          "families": 3,
+          "observations": 6
+        }
+      },
+      "gain_worst_purpose": 0.027864661654135148,
+      "eligible": false,
+      "gates": {
+        "all_purposes90": true,
+        "minimum_gain1pp": true,
+        "selection_endpoint_guard": false,
+        "public_cost_guard": false
+      }
+    },
+    "raw": {
+      "utility": {
+        "by_purpose": {
+          "nearest_distance": 1.0,
+          "fastest_travel": 1.0,
+          "within_radius": 1.0,
+          "minimum_detour": 0.9384026733500418
+        },
+        "mean_recall": 0.9846006683375105,
+        "worst_purpose_recall": 0.9384026733500418,
+        "eligible_rows": 1166,
+        "empty_reference_rows": 274,
+        "invalid_returned_items": 0
+      },
+      "bytes_per_input": 1542.7558922558921,
+      "attacks": {
+        "S9": {
+          "mae_m": 0.0,
+          "hit50": 1.0,
+          "hit100": 1.0,
+          "hit200": 1.0,
+          "hit500": 1.0,
+          "selected_attackers": {
+            "mae": "centroid",
+            "hit50": "centroid",
+            "hit100": "centroid",
+            "hit200": "centroid",
+            "hit500": "centroid"
+          },
+          "families": 3,
+          "observations": 6
+        },
+        "S10": {
+          "mae_m": 0.0,
+          "hit50": 1.0,
+          "hit100": 1.0,
+          "hit200": 1.0,
+          "hit500": 1.0,
+          "selected_attackers": {
+            "mae": "centroid",
+            "hit50": "centroid",
+            "hit100": "centroid",
+            "hit200": "centroid",
+            "hit500": "centroid"
+          },
+          "families": 3,
+          "observations": 6
+        }
+      }
+    }
+  },
+  "test_used_for_selection": false
+}

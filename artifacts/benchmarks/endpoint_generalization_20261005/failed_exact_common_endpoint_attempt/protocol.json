@@ -1,0 +1,162 @@
+{
+  "schema": "endpoint-locked-generalization-v3",
+  "date": "2026-10-05",
+  "source_sha256": {
+    "experiments/endpoint_noise_loop.py": "a094038a6100b2cd82e1615f21530df6006e61ee4f08b5a37af534c44738bd1a",
+    "experiments/public_research_resources.py": "36127eb11f4e53b13793413783392afddd2cc7a4e62f697308149db8f7267b25",
+    "benchmark/engines/endpoint_noise.py": "ce7143bc640d9528ed2d82a1e091764208ad509b9347b1a55ac377950564152c",
+    "evaluation/endpoint_noise_attacks.py": "b7cc3de94a3b8d163024fbd3b9d6ca91e131e7f3d2d7fd470fa55769345f23d1",
+    "benchmark/engines/paced_slack.py": "60d96f019496e1b209b84090b787e4b484aa38c85acfda307fc71ee05dc7f2cf",
+    "benchmark/engines/paced_guard.py": "740b6b8eabce33a8b50bca55f33b22b868f5f42211f86600924d4d8d43b6ecf0",
+    "benchmark/engines/matched_filter.py": "147c298c6f128c680ce899465a6dc2f980bb8f8456d38c2cc98726f47cd7e5e8",
+    "benchmark/engines/filtered_cover.py": "59633ff32d36de8be5d20e88d62fa579d6c7bc24f9f081904326140ddc00ee7c",
+    "benchmark/engines/progress_cover.py": "9e1121793209e86c825dfc785a6b6859219443fd0ec86557eebdf5035a3cb4d0",
+    "benchmark/engines/slack_progress.py": "655e2a730323d1e365fef4ac8a14cbd67e7049b27816cf41fcae850651a97963",
+    "benchmark/anchor_belief.py": "9a4d99261ce43c3ebc6d0ce118e974ea3778ca82d0a02ac36b428e669d43dc61",
+    "core/mechanisms.py": "2c950335809507f0551eeeea62089260e74fa94624b3a84eb64b4666ca0cadfa",
+    "core/boundary_release.py": "f3f3c19963404fa4dc57b1c18b15fdc8f106f879e4f3b2752c67dd270508bb68",
+    "evaluation/live_comparison_attacks.py": "811e6fad6342e3e5afeb5a3cc73341d6555c607f7d2eecc4ac6fe750a5caa484",
+    "evaluation/live_comparison_endpoint_attacks.py": "0914d6d93a4007ab2c95ad3c56fded62b4963850c5f1d351082b936de275326a",
+    "evaluation/live_poi.py": "b6bf32695d1444809c1e5147868a16ee93a1a7b6fe65104a0d57e6cc369dcad2",
+    "benchmark/paper_comparators.py": "698d0dd885fd8d17fb45833cf7205cf26dd3e796e1c6a16d1adffb5fb7d3ef89",
+    "experiments/endpoint_noise_depth_loop.py": "c914d57adae752e808c6a47d5c27625f65d6c25dfe0213dc51e2c152350bf7a9",
+    "benchmark/engines/endpoint_phase_noise.py": "5b07fe2472d9137424ab89d6854906b95db97527644c07c20fc87d96e52b92d2",
+    "benchmark/engines/origin_guard.py": "d311ef1142b641376c9aceea543419254620cf49387feea85fda03c9aea59ccb",
+    "benchmark/response_aware_belief.py": "2f75b486472430260fa5a112cf5f49cb2bfd18d67da378d8c62954c72a43f070",
+    "benchmark/public_poi_context.py": "98aa1301ce921630dbb77ef1bb7a19c6b70241e1689cccaa132192019b88ae86",
+    "experiments/endpoint_generalization.py": "d97ddd06f068a32b72f862bfc7eddd31cdbedb6c12f50d383c5390efa530f29e",
+    "experiments/rng_util.py": "b43841f5eb50e7c02b81f2d345da20275ff82641d4109b5242851aacddc0ffa5"
+  },
+  "dataset_sha256": "e80228fdd2e70b451dadcea23c725556345f5fcf3cc35f1915ad3f526a9a708e",
+  "fit_families": [
+    "family-701",
+    "family-702",
+    "family-703",
+    "family-704",
+    "family-705",
+    "family-706",
+    "family-707",
+    "family-708"
+  ],
+  "selection_families": [
+    "family-709",
+    "family-710"
+  ],
+  "test_families": [
+    "family-1205",
+    "family-1206",
+    "family-1207",
+    "family-1208",
+    "family-1209",
+    "family-1210",
+    "family-1211",
+    "family-1212",
+    "family-1213",
+    "family-1214",
+    "family-1215",
+    "family-1216",
+    "family-1217",
+    "family-1218",
+    "family-1219",
+    "family-1220",
+    "family-1221",
+    "family-1222",
+    "family-1223",
+    "family-1224",
+    "family-1225",
+    "family-1226",
+    "family-1227",
+    "family-1228",
+    "family-1229",
+    "family-1230",
+    "family-1231",
+    "family-1232"
+  ],
+  "sessions_per_family": 2,
+  "session_rule": "lexically first two existing IDs per planned family; no score-based exclusions",
+  "query_interval_s": 60.0,
+  "read_interval_s": 60.0,
+  "include_true_last_input": true,
+  "rep_seeds": [
+    2026100501,
+    2026100502
+  ],
+  "methods": [
+    "raw",
+    "plain",
+    "delay60",
+    "noise50",
+    "noise25",
+    "noise125"
+  ],
+  "scale_grid": [
+    1.0,
+    0.5,
+    0.25,
+    0.125
+  ],
+  "budget_per_m": 0.24,
+  "H": 12,
+  "theta_m": 200.0,
+  "K": 5,
+  "L": 10,
+  "slack": 0.03,
+  "availability_p": 0.8,
+  "world_seed": 2026100541,
+  "map_spacing_m": 40.0,
+  "latent_spacing_m": 200.0,
+  "scope": "Locked-config generalization on 28 previously unused within-study endpoint families, existing SUMO data and reconstructed map; not new independent real-world confirmation",
+  "attacker_bank": "per-method aggregate and whole-sequence kNN/ExtraTrees; centroid/median/history/motion Viterbi; OLS and observable-boundary OLS; fixed training priors",
+  "visible_timing": "session start 0, close, request coordinates and actual publication timestamps",
+  "defense_selection": "minimum mean S9/S10 selected Hit100 subject to all-input Recall>=0.90; ties maximize Recall then choose largest epsilon scale; if none feasible, maximize Recall then minimize Hit100 and mark failed target",
+  "test_rule": "freeze attacker/defense selection before test; do not refit after test",
+  "aggregation": "session/rep within family, then equal-family mean; S9 and S10 separately",
+  "excluded_targets": "No S9.B partial-prefix or linked-session S9.C/S10.C claim; complete first/last endpoints only",
+  "fresh_dataset_sha256": "61fd372da8eb453142fc6eb49a9ebd40fc36f7ac0916b8d988521b26f2f9e2c6",
+  "configurations": [
+    {
+      "id": "raw",
+      "L": 10
+    },
+    {
+      "id": "scale100_L10",
+      "scale": 1.0,
+      "L": 10,
+      "phase": false,
+      "delay": false
+    },
+    {
+      "id": "scale100_L20",
+      "scale": 1.0,
+      "L": 20,
+      "phase": false,
+      "delay": false
+    },
+    {
+      "id": "scale025_L20",
+      "scale": 0.25,
+      "L": 20,
+      "phase": false,
+      "delay": false
+    }
+  ],
+  "selection_rule": "Defense remains locked; select only attackers on 709–710",
+  "byte_contract": "compactJSONrequests+POIIDresponses, noHTTP/TLS; perinputtick; deeperrepliespublicandposition-independent",
+  "fixed_defense": "scale025_L20",
+  "previously_examined_test_families": [
+    "family-1201",
+    "family-1202",
+    "family-1203",
+    "family-1204"
+  ],
+  "mechanism_reps": [
+    0,
+    1
+  ],
+  "private_randomness_sha256": "5ef3246ea58c0d33af2db9c9e5928824a05d9730e4a6253521240c864d63bedb",
+  "randomization": "HMAC-SHA256 private evaluator master + session ID + rep; distinct sessions get distinct substreams; matched methods share the same session/rep key",
+  "primary": "S10 paired MAE and Hit100/Hit500 against scale100_L20; S9 secondary; utility average, lower-tail trips and request/response bytes",
+  "linked_secondary": "Attacker may link the two predeclared repeated-base trips; pool public features and average per-trip estimates; train/select this bank separately. Endpoints must agree by construction, without score-based record filtering.",
+  "evaluation_rule": "All 28 planned groups, first two sessions, both reps, all four methods; no optional stopping, replacement families, defense tuning or post-test attacker selection",
+  "guarantee_scope": "Per-session ideal-kernel privacy bound; linked sessions compose; published synthetic experiment RNG material is evaluator-only, not production secrets"
+}

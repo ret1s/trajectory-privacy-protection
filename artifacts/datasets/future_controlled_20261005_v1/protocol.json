@@ -1,0 +1,46 @@
+{
+  "schema": "native-future-cohort-protocol-v1",
+  "seed": 2026100517,
+  "family_count": 24,
+  "splits": {
+    "train": [
+      "native-01",
+      "native-02",
+      "native-03",
+      "native-04",
+      "native-05",
+      "native-06",
+      "native-07",
+      "native-08",
+      "native-09",
+      "native-10",
+      "native-11",
+      "native-12"
+    ],
+    "selection": [
+      "native-13",
+      "native-14",
+      "native-15",
+      "native-16",
+      "native-17",
+      "native-18"
+    ],
+    "test": [
+      "native-19",
+      "native-20",
+      "native-21",
+      "native-22",
+      "native-23",
+      "native-24"
+    ]
+  },
+  "public_planning": "all public fork edges>=180m; two native internal-turn choices>=12m; direction dot<.6; shared prefix>=700m; branch tails>=1000m; endpoints separated>=600m",
+  "clock_calibration": "both alternative public routes before private choice; last shared fork sample80m before end, middle clock shared by both native internal turn traversals; reject nonidentical prefork calibration",
+  "history": "six trips,5routine1rare; routine branch selected independently per family",
+  "querydays": "day7/day8 one routine one rare, privately randomized order; no dayindex in attacker API",
+  "target_priors": "balanced query diagnostic; historyfrequency5/6 is not test target prior",
+  "private_choice_rng": "evaluator_only, separate from public route planner",
+  "isolation": "departgap1500seconds; sigma0 speed8; no cross-vehicle traffic interactions",
+  "eligibility": "public map/calibration only, before any protection run or attack score",
+  "scope": "new controlled native SUMO map; exact native road IDs for this cohort, not original Beijing network"
+}

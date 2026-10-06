@@ -1,0 +1,118 @@
+{
+  "selection": "alpha000_L20",
+  "alpha": 0.0,
+  "L": 20,
+  "promoted_in_development": false,
+  "test": {
+    "alpha000_L20": {
+      "utility": {
+        "by_purpose": {
+          "nearest_distance": 0.963349097381134,
+          "fastest_travel": 0.963349097381134,
+          "within_radius": 0.9009748102139407,
+          "minimum_detour": 0.9456552250190694
+        },
+        "mean_recall": 0.9433320574988195,
+        "worst_purpose_recall": 0.9009748102139407,
+        "eligible_rows": 1030,
+        "empty_reference_rows": 266,
+        "invalid_returned_items": 0
+      },
+      "bytes_per_input": 7677.9328703703695,
+      "attacks": {
+        "S9": {
+          "mae_m": 1497.089564309934,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.0,
+          "hit500": 0.0,
+          "selected_attackers": {
+            "mae": "public_boundary_centroid_ols6",
+            "hit50": "public_boundary_centroid_ols6",
+            "hit100": "public_boundary_centroid_ols6",
+            "hit200": "public_boundary_centroid_ols6",
+            "hit500": "public_boundary_centroid_ols6"
+          },
+          "families": 3,
+          "observations": 6
+        },
+        "S10": {
+          "mae_m": 1045.8546764150715,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.0,
+          "hit500": 0.0,
+          "selected_attackers": {
+            "mae": "centroid_ols2_120s",
+            "hit50": "viterbi_history_ols2_30s",
+            "hit100": "centroid_ols3_120s",
+            "hit200": "centroid_ols3_120s",
+            "hit500": "viterbi_history_ols2_30s"
+          },
+          "families": 3,
+          "observations": 6
+        }
+      }
+    },
+    "raw": {
+      "utility": {
+        "by_purpose": {
+          "nearest_distance": 1.0,
+          "fastest_travel": 1.0,
+          "within_radius": 1.0,
+          "minimum_detour": 0.959394863971523
+        },
+        "mean_recall": 0.9898487159928807,
+        "worst_purpose_recall": 0.959394863971523,
+        "eligible_rows": 1030,
+        "empty_reference_rows": 266,
+        "invalid_returned_items": 0
+      },
+      "bytes_per_input": 1542.4712962962965,
+      "attacks": {
+        "S9": {
+          "mae_m": 0.0,
+          "hit50": 1.0,
+          "hit100": 1.0,
+          "hit200": 1.0,
+          "hit500": 1.0,
+          "selected_attackers": {
+            "mae": "centroid",
+            "hit50": "centroid",
+            "hit100": "centroid",
+            "hit200": "centroid",
+            "hit500": "centroid"
+          },
+          "families": 3,
+          "observations": 6
+        },
+        "S10": {
+          "mae_m": 0.0,
+          "hit50": 1.0,
+          "hit100": 1.0,
+          "hit200": 1.0,
+          "hit500": 1.0,
+          "selected_attackers": {
+            "mae": "centroid",
+            "hit50": "centroid",
+            "hit100": "centroid",
+            "hit200": "centroid",
+            "hit500": "centroid"
+          },
+          "families": 3,
+          "observations": 6
+        }
+      }
+    }
+  },
+  "backbone_sources_unchanged": true,
+  "private_anchor_and_ledger_identity_checked": true,
+  "private_intent_not_network_input": true,
+  "all_constraint_violations": 0,
+  "limits": [
+    "three reused test families, two RNG draws; development only",
+    "public detour destination prior is a utility approximation, not private intent distribution",
+    "protected-source public objective changes can alter empirical attacks despite same Geo-I cap",
+    "endpoint bank chosen on selection; no untouched privacy confirmation of new Q objective"
+  ]
+}

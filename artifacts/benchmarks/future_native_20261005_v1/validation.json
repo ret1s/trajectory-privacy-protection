@@ -1,0 +1,36 @@
+{
+  "schema": "native-future-validation-v1",
+  "status": "passed",
+  "validator_sha256": "eb4bce481fa7a0f40e808e49216d3f46a5a7f7225b6790d6f27844f7c86bc00d",
+  "checked_artifacts": {
+    "protocol.json": "d535804dbbb2fad5595d556db2042347ea1fd6affc76c17439d70cf9e13e5220",
+    "results.json": "fbc7ed56db460559a852a86f017bf8c4d67e5b0825ac81ec0c4550c4f87e0fbb",
+    "public_transcripts.json.gz": "563c39529babf29bfa83c9898e6b285bc0170fd1f61ed8e6019f0e989ff308ee",
+    "private_accounting.json.gz": "53bcc69535dba6b55240ca0861cb073e0929d501eb5362676b1fcf42a12c6e45"
+  },
+  "family_count": 24,
+  "sessions": 192,
+  "test_families": 6,
+  "same_native_map_turn_catalogue": true,
+  "native_parked_fixed_windows": true,
+  "causal_public_query_prefix": true,
+  "six_public_history_windows": true,
+  "private_label_free_features": true,
+  "exact_future_edge_labels": true,
+  "raw_shared_fork_accuracy": 0.5,
+  "raw_visible_turn_gates": "passed",
+  "test_candidate_edges_absent_in_train": 12,
+  "test_candidate_edge_count": 12,
+  "epoch8_H12_cap_per_m": 0.23,
+  "session_reset_reference_epoch_cap_per_m": 1.84,
+  "no_equal_total_superiority_claim": true,
+  "limits": [
+    "public known two-choice candidate context",
+    "synthetic native SUMO network, not original lane parity",
+    "six held-out families",
+    "balanced routine/rare queries",
+    "public linked-history sideinformation",
+    "static all-available POI utility",
+    "ideal-kernel coordinate Geo-I, not identity guarantee"
+  ]
+}

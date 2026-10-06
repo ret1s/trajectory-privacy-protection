@@ -1,0 +1,83 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\usepackage[margin=1.8cm,headheight=14pt]{geometry}
+\usepackage{booktabs,longtable,array,ragged2e,enumitem,microtype,xcolor,graphicx,fancyhdr,amsmath}
+\usepackage[hidelinks,unicode]{hyperref}
+\definecolor{ink}{HTML}{193C49}\definecolor{teal}{HTML}{147D7B}\definecolor{pale}{HTML}{EAF4F2}
+\newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\setlength{\parindent}{0pt}\setlength{\parskip}{5pt}\setlength{\emergencystretch}{2em}
+\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.14}
+\setlist{nosep,leftmargin=1.3em,topsep=4pt}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small BẢO VỆ RIÊNG TƯ QUỸ ĐẠO}
+\fancyhead[R]{\small Chuẩn bị 06/10/2026}\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\newcommand{\key}[1]{\par\smallskip\noindent\colorbox{pale}{\parbox{\dimexpr\linewidth-2\fboxsep}{\textbf{#1}}}\par\smallskip}
+\begin{document}
+\begin{center}{\LARGE\bfseries\color{ink}Lời nói gợi ý cho buổi GVHD tiếp theo}\\[5pt]{\large Khoảng 10–12 phút · đi theo 7 phần của report}\\[4pt]{\small Chuẩn bị 06/10/2026 · Buổi GVHD tiếp theo · Geo-I là nền tảng}\end{center}
+\section*{1–3. Vấn đề, phương pháp và cách đo}
+\subsection*{Mở đầu — 30 giây}
+“Sau buổi 03/10, em giữ Geo-I làm nền tảng. Em tập trung ba việc: so sánh đúng metrics, mở rộng query purpose và cải thiện bảo vệ khi dữ liệu tích lũy qua nhiều chuyến.”
+
+\subsection*{Related works — 1 phút}
+“Các paper công bố output khác nhau nên metrics không chuyển trực tiếp được. Ví dụ ASR cần tìm điểm thật trong một tập, còn output của em chỉ có Q giả. Vì vậy em dùng cùng attacker để đo Hit100/MAE, cùng dịch vụ để đo Recall, rồi bổ sung metrics gốc khi đủ điều kiện. Bảng Fully/Partially là đối chiếu của em theo phạm vi paper.”
+
+\subsection*{Kiến trúc — 2 phút, chỉ tay theo mũi tên}
+\begin{itemize}
+\item “Layer 1 kiểm tra lịch và ngân sách rồi mới đọc GPS. Geo-I thử có nhiễu xem còn giữ Z cũ được không; cần thì tạo Z mới. Z chỉ ở thiết bị.”
+\item “Layer 2 dùng Z, lịch sử đã bảo vệ và mạng đường để ước lượng vùng có thể đang ở. Từ đó chọn năm Q khả thi, phủ POI tốt. Q không phải năm điểm quanh GPS thật.”
+\item “Layer 3 gửi cùng loại request từ năm Q. Server trả top-L POI mỗi loại; em hợp, bỏ trùng và dùng cache còn hiệu lực.”
+\item “Layer 4 mới dùng GPS thật và nhu cầu thật: gần nhất, nhanh nhất, trong bán kính hay ít đi vòng. Kết quả P được trả local; nhu cầu này không gửi server.”
+\end{itemize}
+\subsection*{Cấu hình và attacker — 1 phút}
+“Endpoint20 ưu tiên kiểm tra đầu/cuối không delay. Epoch8-H12 có ngân sách chung cho tám chuyến. Chúng dùng cùng Geo-I nhưng khác giới hạn, không so như thể cùng ngân sách. Attacker không chỉ là KNN: mỗi task có bank phù hợp, chọn trên validation rồi khóa.”
+
+\key{Nếu hỏi 33,33\% / 299m: “Một phần ba số mốc được đoán trong 100m; sai số trung bình là 299m. Hit thấp và MAE cao là tốt cho privacy; Recall cao là tốt cho người dùng.”}
+\clearpage
+\section*{4–7. Kết quả và điều cần trao đổi}
+\subsection*{Đối chứng — 1 phút}
+“Bảng cũ có cùng trace và protocol. Geo-I của em có Hit100 thấp hơn hoặc bằng các adaptations, nhưng DLS có MAE tốt hơn ở vài scenario và Recall S3/S10 của em chưa đạt 90\%. EIE cùng point estimate chính là MAE; các metrics gốc thiếu đầu vào em ghi N/A. Hiện em chưa kết luận thắng mọi metric.”
+
+\subsection*{S7 và utility — 2 phút}
+“Em đã tách lấy ứng viên khỏi nhu cầu thật, hỗ trợ bốn purpose local. Mean Recall của thử nghiệm này là 94,33\%, không trả POI sai điều kiện. Kiểm tra request chung chỉ đoán purpose ở mức 25\%, nhưng đây chưa loại được suy ý định qua tuyến đường.”
+
+“Ở cohort nhiều chuyến, tăng L10 lên L20 nâng Recall 89,95\% lên 94,96\%, đổi lại reply tăng 1,56 lần. Cache POI cố định theo phiên bản nâng tiếp lên 99,34\% mà không gửi thêm Q. Em chỉ giữ metadata đã nhận trong cùng epoch, không suy trạng thái realtime. Chuyến đầu chưa có cache vẫn có thể yếu.”
+
+\subsection*{S4–S6 — 1 phút}
+“Ngân sách chung ngăn reset toàn bộ $\varepsilon$ sau mỗi chuyến. H8 có AUC liên kết gần 0,5 nhưng chưa xác nhận trên nhóm mới. Bài toán tương lai dùng prefix thật: Raw đoán đúng 100\% sau rẽ; Geo-I còn 41,67–50\%. Epoch8 chưa thắng reset về attacker, nhưng dùng tổng cap nhỏ hơn.”
+
+\subsection*{S9/S10 — 1 phút}
+“Online chưa biết lần GPS cuối nên em tăng nhiễu ở mọi lần đọc, không delay. Cùng L20, MAE S10 tăng từ 758m lên 1.337m, chênh khoảng 579m. Hit100 bằng 0 cho cả hai nên cần đọc thêm Hit500. Selector mới ổn hơn về MAE nhưng còn lỗi Hit; đây là kết quả development.”
+
+\subsection*{Đề xuất với GVHD — 30 giây}
+“Em đề xuất khóa cấu hình hiện tại, kiểm tra trên nhóm/thành phố chưa dùng để chỉnh và mở rộng attacker liên kết lịch sử. Phần ưu tiên là chuyến đầu, chuyến dài và metrics gốc còn N/A. Geo-I tiếp tục là backbone.”
+
+\clearpage
+\section*{Câu trả lời ngắn khi GVHD hỏi}
+\begingroup\small
+\begin{longtable}{@{}P{5.087cm}P{12.023cm}@{}}
+\toprule
+\textbf{Câu hỏi} & \textbf{Cách trả lời}\\\midrule
+\endfirsthead
+\toprule
+\textbf{Câu hỏi} & \textbf{Cách trả lời}\\\midrule
+\endhead\bottomrule\endfoot
+Layer 2 có đọc GPS thật không? & Để tạo Q, nó chỉ dùng thông tin đã bảo vệ và input công khai. GPS thật chỉ vào cơ chế Geo-I khi được phép và xếp hạng local ở layer 4.\\
+\addlinespace[2pt]
+Tại sao cần budget? & Nhiều điểm nhiễu vẫn cho attacker tích lũy thông tin. Giới hạn chung khống chế tổng quan sát; không cấp lại theo chuyến/restart.\\
+\addlinespace[2pt]
+B và H từ đâu? & H quy đổi ngân sách, không là giới hạn cứng số lần đọc. H12 có U=23: lần đầu reserve/chi 1; sau đó tái dùng chi 1, tạo mới chi 2, trước GPS phải đủ 2. Nếu chạy đến filter dừng thì đọc 12–22 lần; phiên ngắn ít hơn. Với N chuyến/tổng C: u=C/[N(2H−1)], B=2Hu; đặt trước test.\\
+\addlinespace[2pt]
+Cache có làm lộ thêm GPS/purpose? & Candidate này dùng POI đã nhận, chỉ xử lý local; giữ nguyên Q và traffic. Đổi phiên bản/epoch thì hết hiệu lực; chưa biết realtime thì không tự gán khả dụng.\\
+\addlinespace[2pt]
+Vì sao không chỉ nhiễu điểm cuối? & Khi đang chạy chưa biết lúc nào chuyến kết thúc. Nhiễu mọi lần đọc tránh phải dùng tương lai hoặc trì hoãn.\\
+\addlinespace[2pt]
+Đã giải quyết S1–S10 chưa? & Chưa. Đã có cơ chế và thực nghiệm cho nhiều task; S8, account/IP, attacker lịch sử đầy đủ và confirmation độc lập còn thiếu.\\
+\addlinespace[2pt]
+Kết quả mới có fair với paper không? & Bảng đối chứng cũ cùng protocol là adaptations. Các cải tiến mới có cohort riêng; không ghép thành thứ hạng chung hoặc gọi là tái lập đầy đủ paper.\\
+\addlinespace[2pt]
+\end{longtable}
+\endgroup
+Không đọc hết bảng. Chỉ nêu câu hỏi mỗi bảng trả lời, một kết quả chính và một giới hạn. Khi hỏi chi tiết, mở report HTML hoặc evidence thay vì đưa nhãn sample vào bài nói.
+
+\end{document}

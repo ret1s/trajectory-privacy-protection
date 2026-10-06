@@ -1,0 +1,57 @@
+{
+  "schema": "native-public-cost-diagnostic-v1",
+  "date": "2026-10-05",
+  "selected_source_method": "scale025_L20",
+  "fixed_destination_prior": "uniform over all accepted public POI IDs",
+  "cost": "exact directed shortest-path length on shared reconstructed map",
+  "unreachable": "preserve +inf in NPZ; entire Q/event metric stays N/A; no secret target renormalization",
+  "source_sha256": {
+    "artifacts/benchmarks/endpoint_noise_20261005/round2/selection.json": "bddcd65ff83471b43b7f2faf93c3ad55f217041740cc602c31a464f8b40a0ea4",
+    "artifacts/benchmarks/endpoint_noise_20261005/round2/protocol.json": "9ab3d66b8b9989bad075a66b66477a2d74fb8ff25068ed1d6362787ee62bd3f2",
+    "artifacts/benchmarks/endpoint_noise_20261005/round2/resources.json": "13be7126ebc4bc9ada2874362962701a4e85c44604f7be227f620444b2697049",
+    "artifacts/benchmarks/endpoint_noise_20261005/round2/test-scale025_L20.json.gz": "7cbfd96edefd6caf5c3d01a8df23c007b5a151bf40f745048baa1453da2cec25",
+    "artifacts/benchmarks/endpoint_noise_20261005/round2/test-raw.json.gz": "041700342a006cfd14992431e46a84fcb32de4cf37f08f2317904271ba6cbbed",
+    "artifacts/benchmarks/research_loop/resources.json": "82b03a2dad35c898483437ab63da9437076594e913f5beb6b0d18360ffe9b8b1",
+    "artifacts/benchmarks/endpoint_noise_20261005/public_resources.json": "4865b8a5d2a93b4d23d58d15874293e10249f08708664b9462328d0e01391193",
+    "artifacts/benchmarks/endpoint_noise_20261005/public_reconstructed.net.xml.gz": "2257c09d6a3533f2ec31b7bcece6d4505efb82f0b2dcf6e41cf6b2e813a62d50"
+  },
+  "resources": {
+    "schema": "public-research-reconstruction-v1",
+    "source_sha256": {
+      "artifacts/benchmarks/paper_benchmark/results.json": "2df043bfb73c3b2f630046381daf5b4bc9f6941fb5be925b0967d6de98f27538",
+      "artifacts/benchmarks/research_loop/resources.json": "82b03a2dad35c898483437ab63da9437076594e913f5beb6b0d18360ffe9b8b1",
+      "experiments/public_research_resources.py": "36127eb11f4e53b13793413783392afddd2cc7a4e62f697308149db8f7267b25"
+    },
+    "net_sha256": "94fbd44522fd70ff74448b8045a9e4e2be318070c2399ec0d687b37c8926b114",
+    "archived_polylines": 9138,
+    "retained_non_self_loop_polylines": 4849,
+    "endpoint_cluster_m": 35.0,
+    "speed_m_s": 8.0,
+    "original_turns_verified": false,
+    "scope": "Full archived public polylines, reconstructed junctions/turns; development only; not an exact rerun of original SUMO network or frozen benchmark",
+    "catalogue": {
+      "schema": "sumo-lane-progress-v1",
+      "states": 22106,
+      "arcs": 34356,
+      "lanes": 4849,
+      "spacing_m": 40.0,
+      "max_speed_m_s": 8.0,
+      "sha256": "a15cf22b56a878f0de7f6d3e8476a50d83be7ce0115ae02db9e008c560eba2f4",
+      "lane_changes": false,
+      "traffic_lights_and_congestion": false
+    },
+    "poi_count": 418,
+    "latent_cells": 907,
+    "belief_sha256": "a90bfa371ad6de296681de08b453a42dbbc74a4e55c2a1379e291ff7f07ddf76",
+    "reference_sha256": "bbe61e6449c56db55c0575fe7bb706c64e81c9bda671ad0c6a87d28e793673aa",
+    "reply_sha256": "4cb4ce2ae543ef85db3e3ccf8d72f868a8571928b8bef81bcde1d0fa7ced06ba"
+  },
+  "code_sha256": {
+    "experiments/native_cost_diagnostic.py": "ddaef0ca397f061e2219e80b3f73d3529009c7bff59a5e387512f1c92856cbef",
+    "evaluation/native_comparator_metrics.py": "805c870110254d2224c5f38028dc6d804e6ffd5ef3f3276e7cef8d26d31321c3",
+    "evaluation/lane_travel.py": "111e1bc109dd53e29922d44bfbc16bded8f1409e467e43faba3723026dc45bde"
+  },
+  "scope": "Post-hoc metric-family diagnostic of already selected frozen public Q; previously used SUMO development data. Not an untouched confirmation, original-cache rerun, or head-to-head with TransProtect.",
+  "truth_evaluator_only": "raw frozen GPS control used ONLY to score costs; no private input to query generation here",
+  "table_scope": "all states occurring in paired raw/protected streams, all418public targets; evaluator-only state membership"
+}

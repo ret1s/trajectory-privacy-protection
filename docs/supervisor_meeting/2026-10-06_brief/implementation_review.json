@@ -1,0 +1,27 @@
+{
+  "checked_on": "2026-10-06",
+  "source_sha256": {
+    "benchmark/versioned_static_geoi_lbs.py": "309fac5a49016adaf1edd6a204a5ee4c44a82fe011fc52c9267bb162e97d7078",
+    "benchmark/versioned_static_poi_cache.py": "18ca007471ed827f46c9f8942c6e15b6933e45f3d73f53e56121e0deb891417a",
+    "tests/test_versioned_static_geoi_lbs.py": "ea6b2427a08e1fdc1cd525a0d03b10b72e0838e3a5bb32933770b00c0f514b5b",
+    "evaluation/robust_endpoint_selection.py": "065272ca40a98822093acb978ebb7e43c095eb248284286a089b1ba37b2608cd"
+  },
+  "scope": "Post-inspection development; local static POI adapter and endpoint selector; unchanged Geo-I backbone",
+  "independent_reviews": [
+    "Causal static cache and no extra GPS/request; live epoch hole found, fixed and regression checked",
+    "MAE/Hit tradeoff, AUC interpretation and cache generality qualified in report"
+  ],
+  "test_results": {
+    "tests.run_all": {
+      "passed": 521,
+      "skipped": 9
+    },
+    "pytest tests": {
+      "passed": 521,
+      "skipped": 9
+    },
+    "skips": "integration needs unavailable original SUMO cache",
+    "pip_check": "pass",
+    "diff_check": "pass"
+  }
+}

@@ -1,0 +1,790 @@
+{
+  "schema": "supervisor-next-meeting-content-v1",
+  "build_status": "complete",
+  "prepared_on": "2026-10-06",
+  "meeting_date": "not specified",
+  "source_sha256": {
+    "artifacts/benchmarks/geoi_purpose_refinement_20261005/readout.json": "fb72f4f13aee967343e0bb20fd22b6c234549b7a59ae352711bd3bc9ff3e0cb9",
+    "artifacts/benchmarks/query_purpose_20261005/snapshot/readout.json": "8dd11a602be822a81e33eb747dd5427311af62fb356a6a6097fed68b36191e32",
+    "artifacts/benchmarks/native_cost_diagnostic_20261005/readout.json": "23ce20c1fbffe1b8236fe7bf803c69baf3efffaccbeecba4c90a44fffe9aea39",
+    "artifacts/benchmarks/session_budget_20261005/round3/readout.json": "a519d141d21242cfffc4d29866a39c509b0be185767587d649fae276a312adda",
+    "artifacts/benchmarks/future_native_20261005_v1/results.json": "fbc7ed56db460559a852a86f017bf8c4d67e5b0825ac81ec0c4550c4f87e0fbb",
+    "artifacts/benchmarks/future_native_depth_20261005_v1/results.json": "2655204cbfaad7bc126d98c7af1650a8d0013b96b082ff0b65f82c7cdfcd3f3b",
+    "artifacts/benchmarks/native_static_cache_20261006_v1/results.json": "c415e5296bf65b34af31e89d1b2da0c84b8b76fba2cf858c63f3db562cfa11f7",
+    "artifacts/benchmarks/native_versioned_static_20261006_v1/results.json": "88f564cd4c0aa3d3f5e348f778f483d9e3a5bc74acb58595c987a27918606435",
+    "artifacts/benchmarks/endpoint_robust_selection_20261006/readout.json": "9d0d03a5d0df36a2ffc2ba1f1070edccfc4665a8452b6f86fc9b49a0301b24ae",
+    "artifacts/benchmarks/endpoint_generalization_20261005/readout.json": "127b6312c26f99ad60a164a5fadc97362ca2bd1fe721051078479643d4c0f7ce",
+    "artifacts/benchmarks/endpoint_generalization_20261005/protocol.json": "d3784c2c8a32062f08f71072869813a8a7053d7b878b4e9dad6098ae3fa72349",
+    "artifacts/benchmarks/future_native_20261005_v1/protocol.json": "d535804dbbb2fad5595d556db2042347ea1fd6affc76c17439d70cf9e13e5220",
+    "benchmark/engines/filtered_cover.py": "59633ff32d36de8be5d20e88d62fa579d6c7bc24f9f081904326140ddc00ee7c",
+    "benchmark/engines/matched_filter.py": "147c298c6f128c680ce899465a6dc2f980bb8f8456d38c2cc98726f47cd7e5e8",
+    "docs/research/2026-10-06_h_accounting_correction.md": "151a59d95a24befb981ed54ff3274f99352d5004f0dbedd6d4d9d7a86642d645"
+  },
+  "report": {
+    "title": "Bảo vệ riêng tư quỹ đạo với Geo-I",
+    "subtitle": "Kiến trúc, đối chứng và các cải tiến sau buổi gặp 03/10",
+    "pages": [
+      {
+        "heading": "1. Related works và cách so sánh công bằng",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Giữ Geo-I làm cơ chế bảo vệ GPS. Vòng này mở rộng dịch vụ POI, quản lý ngân sách qua nhiều chuyến và kiểm tra attacker kỹ hơn."
+          },
+          {
+            "type": "table",
+            "headers": [
+              "Paper trong 3 năm",
+              "Output",
+              "Fully",
+              "Partially",
+              "Metrics gốc"
+            ],
+            "rows": [
+              [
+                "[TransProtect (2024)](https://arxiv.org/html/2409.09495v1)",
+                "Một vị trí nhiễu/mốc",
+                "S1, S3",
+                "S2",
+                "EIE ↑; chênh chi phí tới đích ↓; chưa khóa metric vận hành"
+              ],
+              [
+                "[Semantic correlation (2026)](https://link.springer.com/article/10.1007/s44443-026-00899-w)",
+                "GPS thật + dummy theo ngữ nghĩa/đường",
+                "S1",
+                "S2, S3",
+                "ASR ↑; DER ↑ (dummy hợp lý); thời gian tạo ↓"
+              ],
+              [
+                "[Fake queries (2026)](https://link.springer.com/article/10.1007/s44443-025-00438-z)",
+                "Tập thật + dummy, xen query giả",
+                "S1, S3",
+                "S2",
+                "ASR/số đường khó phân biệt ↑; thời gian/RSS ↓; chưa chấm POI"
+              ],
+              [
+                "[CPCROK (2025)](https://uhra.herts.ac.uk/id/eprint/25705/)",
+                "Beacon xe + tuyến giả, đổi pseudonym",
+                "—",
+                "S4",
+                "Ghép đúng trace ρ ↓; số tuyến giả ψ ↓; chưa chấm POI"
+              ],
+              [
+                "[DP-FETC (2025)](https://www.aimspress.com/article/doi/10.3934/era.2025293)",
+                "Bộ trace tổng hợp offline",
+                "—",
+                "S3, S8, S9, S10",
+                "MI ↓, ε-DP; JSD phân bố ↓; độ phức tạp"
+              ],
+              [
+                "[EV Geo-I querying (2024)](https://wrap.warwick.ac.uk/id/eprint/183198/)",
+                "AGeoI + dummy; Edge trộn query",
+                "—",
+                "S1, S2, S3",
+                "(ε,δ)-AGeoI; CoP ↓, CoP=0 ↑; Wasserstein IBU ↓"
+              ]
+            ],
+            "widths": [
+              1.4,
+              1.45,
+              0.6,
+              0.85,
+              2.05
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Cửa sổ online đầu tiên: 06/10/2023–06/10/2026. **Fully:** trực tiếp xét và đánh giá task/threat trong giả định paper. **Partially:** cơ chế liên quan hoặc phạm vi hẹp hơn. Đây là đối chiếu của nhóm; scenario không ghi là chưa có bằng chứng trực tiếp. Geo-I (2013), DLS (2014), RDG (2021) là nền tảng ngoài cửa sổ."
+          },
+          {
+            "type": "p",
+            "text": "S1 vị trí; S2 nơi dừng; S3 đoạn đường; S4 liên kết danh tính người/xe; S5 đường kế tiếp; S6 đích tương lai; S7 ý định query; S8 dữ liệu người đi cùng; S9 điểm đầu bị che; S10 điểm cuối của chuyến đã kết thúc."
+          },
+          {
+            "type": "list",
+            "items": [
+              "**Output khác nhau:** một vị trí, tập thật + dummy, Q-only hoặc dataset offline; ASR cần thành viên thật nên không áp trực tiếp cho Q-only.",
+              "**Metrics trả lời khác câu hỏi:** entropy/DER đo độ khó phân biệt hoặc tính hợp lý; ε đo giới hạn cơ chế; chúng chưa đo đồng thời khả năng attacker và chất lượng POI.",
+              "**Dùng hai lớp đo:** Hit100/MAE + Recall@5 + chi phí trên cùng protocol; thêm metrics gốc khi đúng output và đủ dữ liệu. N/A phải có lý do."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "2. Kiến trúc: từ GPS tới câu trả lời POI",
+        "blocks": [
+          {
+            "type": "figure",
+            "svg": "figures/architecture.svg",
+            "pdf": "figures/architecture.pdf",
+            "height_cm": 18.5,
+            "alt": "Bốn layer của mô hình Geo-I trên thiết bị, server bên ngoài; luồng Z, Q, POI và P.",
+            "caption": "Mũi tên liền: luồng xử lý. Nét đứt: input/phương án không đọc GPS mới. **Z** nội bộ; **Q** gửi server; **P** là POI trả cho người dùng."
+          },
+          {
+            "type": "p",
+            "text": "**Layer 2** cập nhật vùng vị trí có thể xảy ra từ Z, lịch sử đã bảo vệ và khả năng di chuyển trên đường. Nó giúp chọn Q khả thi, phủ POI tốt; phiên đã cấp cap vẫn có thể dự đoán khi không đọc GPS mới. Phiên vượt giới hạn chung không đọc GPS, không gửi Q. Purpose thật chỉ dùng ở layer 4."
+          },
+          {
+            "type": "p",
+            "text": "**S1–S3:** Geo-I và phép thử tái dùng Z có nhiễu. **S9/S10:** nhiễu mạnh hơn ở mọi lần đọc, vì online chưa biết lần nào là cuối. **S7:** request chung, lọc purpose locally. **S4–S6:** ngân sách chung hạn chế tích lũy, chưa tự giấu danh tính. S8 chưa có đánh giá mới."
+          }
+        ]
+      },
+      {
+        "heading": "3. Cấu hình và attacker trước khi đọc kết quả",
+        "blocks": [
+          {
+            "type": "table",
+            "headers": [
+              "Tham số",
+              "GeoI-Endpoint20",
+              "GeoI-Epoch8-H12"
+            ],
+            "rows": [
+              [
+                "Mục tiêu",
+                "Kiểm tra S9/S10 không delay",
+                "S5/S6 và utility qua 8 chuyến"
+              ],
+              [
+                "ε thử = ε tạo Z, đơn vị /m",
+                "0,0025",
+                "0,00125"
+              ],
+              [
+                "H: tham số quy đổi ngân sách",
+                "12",
+                "12"
+              ],
+              [
+                "U=2H−1: tổng đơn vị được chi",
+                "23",
+                "23"
+              ],
+              [
+                "B: ngân sách danh nghĩa/chuyến",
+                "0,06",
+                "0,03"
+              ],
+              [
+                "Cap hiệu dụng/chuyến",
+                "0,0575",
+                "0,02875"
+              ],
+              [
+                "Ngân sách qua nhiều chuyến",
+                "Cộng theo số chuyến; chưa là cap chung",
+                "N=8; tổng C=0,23/m"
+              ],
+              [
+                "Lịch, điểm Q và kết quả",
+                "GPS 60s; K=5; L=20; k=5",
+                "GPS 60s; K=5; L20 chọn bằng utility"
+              ],
+              [
+                "Đồng hồ gửi Q công khai",
+                "Mỗi 60s trong cohort endpoint",
+                "Mỗi 20s + mốc hiệu chuẩn công khai"
+              ],
+              [
+                "Quy tắc khác",
+                "Ngưỡng 200m; slack 0,03",
+                "Cùng backbone; cache local riêng"
+              ],
+              [
+                "Warmup / delay",
+                "0 / 0",
+                "0 / 0"
+              ]
+            ],
+            "widths": [
+              1.15,
+              1.5,
+              1.5
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Đây là các cấu hình của cùng thuật toán. Với cap chung C, tối đa N chuyến và tham số H công khai: **u=C/[N(2H−1)]**, ε thử=ε tạo=u, B=2Hu. Lần đầu reserve/chi 1 đơn vị; về sau tái dùng chi 1, tạo Z mới chi 2, trước GPS phải còn đủ 2. H12 dừng sau 12–22 lần đọc tùy nhánh nếu chạy đến lúc filter dừng; phiên ngắn đọc ít hơn (600s/60s: 11 mốc). H/N đặt trước; giữ cap trong sổ trước GPS, không cấp lại khi restart. K là số Q, L là số POI/loại mỗi Q, k là số câu trả lời tối đa."
+          },
+          {
+            "type": "list",
+            "items": [
+              "**S1–S3, bảng đối chứng:** **Shadow KNN (k=3)** cùng centroid, continuity, road filter và decoder đường. S2 thêm running mean/intersection khi output chứa GPS thật.",
+              "**S7:** **kNN, ExtraTrees, logistic** đoán purpose/category từ request, reply, tọa độ, thời gian và kích thước.",
+              "**S4:** **kNN/ExtraTrees** liên kết cặp phiên từ summary/shape; **S5/S6:** **ExtraTrees trên hình học ứng viên**, decoder đường/lịch sử và uniform.",
+              "**S9/S10 mới:** **OLS, kNN, ExtraTrees, Viterbi**, gồm tracking **Hungarian**. Chọn riêng cho MAE/Hit trên validation; khóa trước chấm test."
+            ]
+          },
+          {
+            "type": "key",
+            "text": "Hit100 ↓: tỷ lệ đoán trong 100m. MAE ↑: sai số attacker trung bình (m). Recall@5 ↑: phần POI chuẩn tìm lại được. Ở S1, 33,33% / 299m nghĩa attacker đúng trong 100m ở 1/3 số mốc, sai trung bình 299m."
+          },
+          {
+            "type": "p",
+            "text": "Lúc chấm test, attacker chỉ thấy dữ liệu công bố và thông tin phụ đã định; GPS/nhãn test thuộc evaluator. GPS/nhãn shadow-train được phép dùng để học attacker. Raw kiểm tra bài toán có tín hiệu. Các họ attacker áp cho mọi phương pháp phù hợp, học/chọn riêng theo output; không chỉ có một Shadow KNN."
+          }
+        ]
+      },
+      {
+        "heading": "4. Đối chứng trên cùng protocol và metrics gốc",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Bảng paper-v2 giữ nguyên: 12 chuyến test, cùng trace/dịch vụ/split và họ attacker. **Dấu * là adaptation tại repo**, chưa tái lập đầy đủ paper. Mỗi ô là **Hit100 / MAE(m) / Recall@5**, gộp đều theo chuyến; các phương pháp không cùng bảo đảm ε."
+          },
+          {
+            "type": "table",
+            "headers": [
+              "Phương pháp",
+              "S1",
+              "S2",
+              "S3",
+              "S9",
+              "S10"
+            ],
+            "rows": [
+              [
+                "GPS thật",
+                "100,00% / 13 / 100,00%",
+                "100,00% / 39 / 100,00%",
+                "96,43% / 23 / 100,00%",
+                "41,67% / 120 / 100,00%",
+                "8,33% / 630 / 100,00%"
+              ],
+              [
+                "DLS*",
+                "58,33% / 1.318 / 100,00%",
+                "100,00% / 39 / 100,00%",
+                "31,21% / 1.688 / 100,00%",
+                "8,33% / 1.582 / 100,00%",
+                "0,00% / 2.029 / 100,00%"
+              ],
+              [
+                "TransProtect*",
+                "83,33% / 84 / 97,78%",
+                "66,67% / 88 / 97,19%",
+                "69,28% / 99 / 97,93%",
+                "25,00% / 184 / 97,27%",
+                "8,33% / 680 / 98,52%"
+              ],
+              [
+                "Semantic*",
+                "100,00% / 11 / 100,00%",
+                "100,00% / 42 / 100,00%",
+                "40,58% / 257 / 100,00%",
+                "33,33% / 132 / 100,00%",
+                "16,67% / 731 / 100,00%"
+              ],
+              [
+                "**BR-Dummy / Geo-I**",
+                "**33,33% / 299 / 95,83%**",
+                "**22,22% / 247 / 97,01%**",
+                "**7,44% / 776 / 87,67%**",
+                "**0,00% / 316 / 96,60%**",
+                "**0,00% / 2.315 / 88,33%**"
+              ]
+            ],
+            "widths": [
+              1.4,
+              1,
+              1,
+              1,
+              1,
+              1
+            ]
+          },
+          {
+            "type": "p",
+            "text": "BR có Hit100 thấp hơn hoặc bằng ba adaptations ở cả năm scenario. MAE lớn hơn TransProtect ở cả năm; DLS có MAE lớn hơn BR ở S1/S3/S9. Recall S3/S10 của BR dưới 90%. **Chưa thể nói thắng mọi metric.** Raw S9/S10 chỉ thấy cửa sổ sau che đầu/cuối; sai số còn bao gồm độ khó của masking."
+          },
+          {
+            "type": "table",
+            "headers": [
+              "Phương pháp",
+              "Recall macro ↑",
+              "JSON bytes/mốc ↓",
+              "Tạo output ms/mốc ↓"
+            ],
+            "rows": [
+              [
+                "GPS thật",
+                "100,00%",
+                "720",
+                "0,01"
+              ],
+              [
+                "DLS*",
+                "100,00%",
+                "3.282",
+                "1,01"
+              ],
+              [
+                "TransProtect*",
+                "97,74%",
+                "720",
+                "0,35"
+              ],
+              [
+                "Semantic*",
+                "100,00%",
+                "3.287",
+                "1,17"
+              ],
+              [
+                "**BR-Dummy / Geo-I**",
+                "93,09%",
+                "3.237",
+                "5,40"
+              ]
+            ],
+            "widths": [
+              1.5,
+              1,
+              1.25,
+              1.25
+            ]
+          },
+          {
+            "type": "list",
+            "items": [
+              "**EIE point estimate:** có thể tính lại; cùng ước lượng/khoảng cách/phép gộp thì đúng bằng MAE ở trên, không là bằng chứng thứ hai.",
+              "**ASR/entropy/DER:** N/A khi thiếu posterior/prior hoặc quy tắc dummy gốc. Q-only không có vị trí thật làm thành viên để chấm ASR.",
+              "**Δc của TransProtect:** N/A trong archive cũ vì thiếu cost tables/prior đích gốc. Diagnostic riêng trên mạng đường: Raw 0m, Endpoint20 trung bình Q 1.386,74m; đây là méo chi phí ↓, không phải privacy và không là head-to-head paper."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Chi phí bảng này gồm request JSON + response ID POI, chưa HTTP/TLS; thời gian trên máy benchmark cũ. Các thử nghiệm sau dùng cohort/protocol khác và được đọc riêng. [Nguồn và định nghĩa](evidence.json)."
+          }
+        ]
+      },
+      {
+        "heading": "5. S7: nhiều purpose, cùng request ra mạng",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Mọi Q lấy POI của các loại theo L cố định. Thiết bị hợp và bỏ trùng; sau đó GPS thật + purpose riêng tư quyết định câu trả lời. Đổi purpose/category/radius/destination không đổi Q, request hoặc lịch gửi."
+          },
+          {
+            "type": "table",
+            "headers": [
+              "Purpose đã hiện thực",
+              "Recall@5, cấu hình giữ lại"
+            ],
+            "rows": [
+              [
+                "Gần nhất theo quãng đường",
+                "96,33%"
+              ],
+              [
+                "Đến nhanh nhất",
+                "96,33%"
+              ],
+              [
+                "Trong bán kính riêng tư",
+                "90,10%"
+              ],
+              [
+                "Ít vòng đường tới đích riêng tư",
+                "94,57%"
+              ]
+            ],
+            "widths": [
+              2,
+              1
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Cohort development 3 nhóm, 2 RNG/chuyến; giữ α=0,L20 vì các mục tiêu Q mới chưa đạt đồng thời yêu cầu privacy/byte. Mean bốn purpose **94,33%**, không trả POI vi phạm điều kiện. Mạng này có tốc độ đồng nhất nên gần nhất/nhanh nhất trùng ranking; kiểm thử với tốc độ khác xác nhận hai hàm khác nhau."
+          },
+          {
+            "type": "p",
+            "text": "Audit nội dung: payload tường minh bị đoán purpose 100%; request chung 25% cho bốn purpose, 16,67% cho sáu category. Đây là kiểm tra kênh nội dung trực tiếp; tuyến đường đặc trưng, account hoặc click vẫn có thể tiết lộ nhu cầu. Giá/giờ mở cửa/trạng thái realtime cần metadata riêng."
+          },
+          {
+            "type": "h3",
+            "text": "Cải thiện utility mà giữ nguyên Q và Geo-I"
+          },
+          {
+            "type": "table",
+            "headers": [
+              "GeoI-Epoch8-H12, cohort native",
+              "Recall toàn cửa sổ",
+              "Recall 400–600s",
+              "Chuyến thấp nhất, 400–600s"
+            ],
+            "rows": [
+              [
+                "L10, phản hồi hiện tại",
+                "89,95%",
+                "90,29%",
+                "66,36%"
+              ],
+              [
+                "L20, phản hồi hiện tại",
+                "94,96%",
+                "94,39%",
+                "70,30%"
+              ],
+              [
+                "L20, cache 60s",
+                "95,64%",
+                "95,22%",
+                "72,42%"
+              ],
+              [
+                "**L20, cache POI cố định theo phiên bản**",
+                "99,34%",
+                "99,48%",
+                "86,67%"
+              ]
+            ],
+            "widths": [
+              2,
+              1,
+              1,
+              1.2
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Sáu nhóm test, 8 chuyến/nhóm. Cache mới chỉ giữ **metadata POI cố định đã nhận trước đó**, dùng qua các chuyến trong cùng epoch công khai; hết epoch/đổi phiên bản thì vô hiệu. Không đọc dữ liệu tương lai, không tải thêm POI theo nhu cầu. Tối đa 416/418 ID trong test."
+          },
+          {
+            "type": "p",
+            "text": "Ba phương án L20 cùng **7.550 request Q, 41.233.562 reply JSON bytes**; L20 tốn khoảng 1,56× reply L10. Recall là conditional: 1.402/1.510 mốc có reference (92,85%); đoạn cuối 462/528 (87,50%). Chuyến đầu chưa có cache còn yếu. Trạng thái đang mở/còn chỗ phải có dữ liệu mới, nếu thiếu là chưa biết."
+          },
+          {
+            "type": "p",
+            "text": "Cache đã có adapter client tùy chọn và replay causal trên transcript đóng băng; client mặc định vẫn cache epoch60. Đây là xử lý local dùng được cho cả đối chứng: reset từng chuyến cùng cache đạt 99,82%. Không thay bảng privacy S5/S6; cần confirmation độc lập sau vòng development này."
+          }
+        ]
+      },
+      {
+        "heading": "6. S4–S6: ngân sách chung và suy tương lai",
+        "blocks": [
+          {
+            "type": "table",
+            "headers": [
+              "S4, cohort development",
+              "Cap /6 chuyến",
+              "AUC người / xe",
+              "Recall@5 ↑"
+            ],
+            "rows": [
+              [
+                "GPS thật",
+                "—",
+                "0,773 / 0,716",
+                "100,00%"
+              ],
+              [
+                "Geo-I reset từng chuyến",
+                "0,345",
+                "0,632 / 0,544",
+                "97,03%"
+              ],
+              [
+                "GeoI-Epoch6-H12",
+                "0,23",
+                "0,640 / 0,577",
+                "95,53%"
+              ],
+              [
+                "**GeoI-Epoch6-H8**",
+                "0,23",
+                "0,526 / 0,504",
+                "97,23%"
+              ]
+            ],
+            "widths": [
+              1.7,
+              0.75,
+              1.1,
+              0.9
+            ]
+          },
+          {
+            "type": "p",
+            "text": "AUC gần 0,5 nghĩa attacker đã chọn chưa phân biệt ổn định trong mẫu này. H8 chỉ có 3 nhóm test đã dùng trong phát triển; audit bank có raw AUC theo nhóm tới 0,694 và 0,229 (đảo chiều), nên chưa kết luận khó liên kết. H12 chưa tốt hơn reset. **Ở cùng tổng cap, đổi cách ghi sổ không đổi output hoặc điểm attacker.** Sổ giúp thực thi cap qua nhiều phiên, chưa che account/IP/biển số."
+          },
+          {
+            "type": "h3",
+            "text": "S5/S6 trên prefix thật của native SUMO"
+          },
+          {
+            "type": "table",
+            "headers": [
+              "Sau khi bắt đầu rẽ",
+              "S5 đúng cạnh ↓",
+              "S6 Hit100 ↓",
+              "S6 MAE(m) ↑"
+            ],
+            "rows": [
+              [
+                "GPS thật",
+                "100,00%",
+                "100,00%",
+                "5"
+              ],
+              [
+                "Geo-I reset từng chuyến",
+                "41,67%",
+                "41,67%",
+                "661"
+              ],
+              [
+                "**GeoI-Epoch8-H12**",
+                "50,00%",
+                "50,00%",
+                "543"
+              ]
+            ],
+            "widths": [
+              1.8,
+              1,
+              1,
+              1
+            ]
+          },
+          {
+            "type": "p",
+            "text": "24 nhóm, 192 chuyến; 12 train/6 chọn/6 test. Attacker biết hai hướng rẽ/đích có thể xảy ra và sáu lịch sử đã bảo vệ; chỉ thấy prefix tới mốc công khai. Các cạnh test chưa xuất hiện trong train. Sau rẽ Raw 100% xác nhận có tín hiệu; trước rẽ Raw cũng 50%, là mơ hồ có sẵn."
+          },
+          {
+            "type": "p",
+            "text": "Epoch8 giữ tổng cap 0,23/m cho tám chuyến, reset có tổng 1,84/m. Epoch8 chọn uniform trên selection và chưa tốt hơn reset về attacker; hai target cùng dựa trên một lựa chọn hướng rẽ nên không là hai bằng chứng độc lập. Attacker chưa dùng đầy đủ các liên kết giữa tám chuyến."
+          },
+          {
+            "type": "key",
+            "text": "Đóng góp đã có: cap không cấp lại theo chuyến/restart; prefix tương lai được chấm đúng thời điểm; utility phục hồi bằng L/cache local. Chưa chứng minh giấu toàn bộ danh tính hoặc thắng mọi dự báo tương lai."
+          }
+        ]
+      },
+      {
+        "heading": "7. S9/S10: nhiễu không delay và kiểm tra attacker",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Không bỏ đoạn đầu và không trì hoãn đoạn cuối. Endpoint20 dùng ε nhỏ hơn trên **mọi lần đọc** vì chưa biết trước đâu là lần cuối. So với GeoI-Slack20: cùng backbone, K=5/L20, mọi mốc được gửi; ε giảm 0,01 → 0,0025/m."
+          },
+          {
+            "type": "table",
+            "headers": [
+              "28 nhóm, 112 runs/phương pháp",
+              "S9 MAE↑",
+              "S10 MAE↑",
+              "S10 Hit100↓",
+              "S10 Hit500↓"
+            ],
+            "rows": [
+              [
+                "GeoI-Slack20 (đối chứng cùng L)",
+                "790",
+                "758",
+                "0,00%",
+                "12,50%"
+              ],
+              [
+                "**GeoI-Endpoint20**",
+                "1.407",
+                "1.337",
+                "0,00%",
+                "4,46%"
+              ]
+            ],
+            "widths": [
+              1.8,
+              0.85,
+              0.85,
+              0.9,
+              0.9
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Chọn attacker bằng cross-fit theo nhóm: lần lượt giữ ngoài 1 trong 8 nhóm train, cộng 2 nhóm selection; ưu tiên điểm ổn định hơn qua nhóm, không chọn bằng test. Attacker GeoI-Slack20 có MAE S10 **758m** thay vì 901m ở bank cũ; Endpoint20 vẫn **1.337m**. Chênh MAE cùng L: **579 m; khoảng bootstrap 95% [468; 696] m**. Bootstrap theo nhóm, không coi 112 runs là độc lập."
+          },
+          {
+            "type": "p",
+            "text": "Hit100 đều 0% nên không phân biệt hai cấu hình; thêm Hit500 cho thước đo rộng hơn. Quy tắc mới cải thiện MAE nhưng Hit chưa ổn định: trên Slack L10, Hit500 S10 giảm 30,36% → 14,29%. Không gọi attacker mới tốt hơn ở mọi metric."
+          },
+          {
+            "type": "p",
+            "text": "Endpoint20 Recall **96,64%** ở cohort này, giảm khoảng 2,30 điểm % so với Slack20; 6/112 runs dưới 90%, thấp nhất 77,61%. Xáo thứ tự Q bỏ nhãn slot nhưng Hungarian vẫn ghép được bằng hình học; không xem shuffle là lợi thế privacy độc lập."
+          },
+          {
+            "type": "h3",
+            "text": "Bước tiếp theo để kết luận chắc hơn"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Khóa policy/cache/selector, chạy nhóm và thành phố chưa dùng để chỉnh phương pháp; ưu tiên chuyến đầu và chuyến dài có Recall thấp.",
+              "Mở rộng attacker liên kết toàn bộ lịch sử S4–S6; kiểm tra category/purpose lệch tần suất và suy ý định từ tuyến đường.",
+              "Bổ sung metadata và metrics gốc đúng hợp đồng từng paper; báo cả privacy, utility, chi phí và N/A. Giữ Geo-I làm nền tảng."
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Các vòng mới là development/diagnostic, chưa là confirmation chưa từng xem. Kernel Geo-I lý tưởng là nền tảng; sampler float hiện tại vẫn xấp xỉ. S8 và các kênh account/IP chưa được giải quyết. [Endpoint evidence](../../../artifacts/benchmarks/endpoint_robust_selection_20261006/readout.json) · [Cache evidence](../../../artifacts/benchmarks/native_versioned_static_20261006_v1/results.json)."
+          }
+        ]
+      }
+    ]
+  },
+  "preparation": {
+    "title": "Lời nói gợi ý cho buổi GVHD tiếp theo",
+    "subtitle": "Khoảng 10–12 phút · đi theo 7 phần của report",
+    "pages": [
+      {
+        "heading": "1–3. Vấn đề, phương pháp và cách đo",
+        "blocks": [
+          {
+            "type": "h3",
+            "text": "Mở đầu — 30 giây"
+          },
+          {
+            "type": "p",
+            "text": "“Sau buổi 03/10, em giữ Geo-I làm nền tảng. Em tập trung ba việc: so sánh đúng metrics, mở rộng query purpose và cải thiện bảo vệ khi dữ liệu tích lũy qua nhiều chuyến.”"
+          },
+          {
+            "type": "h3",
+            "text": "Related works — 1 phút"
+          },
+          {
+            "type": "p",
+            "text": "“Các paper công bố output khác nhau nên metrics không chuyển trực tiếp được. Ví dụ ASR cần tìm điểm thật trong một tập, còn output của em chỉ có Q giả. Vì vậy em dùng cùng attacker để đo Hit100/MAE, cùng dịch vụ để đo Recall, rồi bổ sung metrics gốc khi đủ điều kiện. Bảng Fully/Partially là đối chiếu của em theo phạm vi paper.”"
+          },
+          {
+            "type": "h3",
+            "text": "Kiến trúc — 2 phút, chỉ tay theo mũi tên"
+          },
+          {
+            "type": "list",
+            "items": [
+              "“Layer 1 kiểm tra lịch và ngân sách rồi mới đọc GPS. Geo-I thử có nhiễu xem còn giữ Z cũ được không; cần thì tạo Z mới. Z chỉ ở thiết bị.”",
+              "“Layer 2 dùng Z, lịch sử đã bảo vệ và mạng đường để ước lượng vùng có thể đang ở. Từ đó chọn năm Q khả thi, phủ POI tốt. Q không phải năm điểm quanh GPS thật.”",
+              "“Layer 3 gửi cùng loại request từ năm Q. Server trả top-L POI mỗi loại; em hợp, bỏ trùng và dùng cache còn hiệu lực.”",
+              "“Layer 4 mới dùng GPS thật và nhu cầu thật: gần nhất, nhanh nhất, trong bán kính hay ít đi vòng. Kết quả P được trả local; nhu cầu này không gửi server.”"
+            ]
+          },
+          {
+            "type": "h3",
+            "text": "Cấu hình và attacker — 1 phút"
+          },
+          {
+            "type": "p",
+            "text": "“Endpoint20 ưu tiên kiểm tra đầu/cuối không delay. Epoch8-H12 có ngân sách chung cho tám chuyến. Chúng dùng cùng Geo-I nhưng khác giới hạn, không so như thể cùng ngân sách. Attacker không chỉ là KNN: mỗi task có bank phù hợp, chọn trên validation rồi khóa.”"
+          },
+          {
+            "type": "key",
+            "text": "Nếu hỏi 33,33% / 299m: “Một phần ba số mốc được đoán trong 100m; sai số trung bình là 299m. Hit thấp và MAE cao là tốt cho privacy; Recall cao là tốt cho người dùng.”"
+          }
+        ]
+      },
+      {
+        "heading": "4–7. Kết quả và điều cần trao đổi",
+        "blocks": [
+          {
+            "type": "h3",
+            "text": "Đối chứng — 1 phút"
+          },
+          {
+            "type": "p",
+            "text": "“Bảng cũ có cùng trace và protocol. Geo-I của em có Hit100 thấp hơn hoặc bằng các adaptations, nhưng DLS có MAE tốt hơn ở vài scenario và Recall S3/S10 của em chưa đạt 90%. EIE cùng point estimate chính là MAE; các metrics gốc thiếu đầu vào em ghi N/A. Hiện em chưa kết luận thắng mọi metric.”"
+          },
+          {
+            "type": "h3",
+            "text": "S7 và utility — 2 phút"
+          },
+          {
+            "type": "p",
+            "text": "“Em đã tách lấy ứng viên khỏi nhu cầu thật, hỗ trợ bốn purpose local. Mean Recall của thử nghiệm này là 94,33%, không trả POI sai điều kiện. Kiểm tra request chung chỉ đoán purpose ở mức 25%, nhưng đây chưa loại được suy ý định qua tuyến đường.”"
+          },
+          {
+            "type": "p",
+            "text": "“Ở cohort nhiều chuyến, tăng L10 lên L20 nâng Recall 89,95% lên 94,96%, đổi lại reply tăng 1,56 lần. Cache POI cố định theo phiên bản nâng tiếp lên 99,34% mà không gửi thêm Q. Em chỉ giữ metadata đã nhận trong cùng epoch, không suy trạng thái realtime. Chuyến đầu chưa có cache vẫn có thể yếu.”"
+          },
+          {
+            "type": "h3",
+            "text": "S4–S6 — 1 phút"
+          },
+          {
+            "type": "p",
+            "text": "“Ngân sách chung ngăn reset toàn bộ ε sau mỗi chuyến. H8 có AUC liên kết gần 0,5 nhưng chưa xác nhận trên nhóm mới. Bài toán tương lai dùng prefix thật: Raw đoán đúng 100% sau rẽ; Geo-I còn 41,67–50%. Epoch8 chưa thắng reset về attacker, nhưng dùng tổng cap nhỏ hơn.”"
+          },
+          {
+            "type": "h3",
+            "text": "S9/S10 — 1 phút"
+          },
+          {
+            "type": "p",
+            "text": "“Online chưa biết lần GPS cuối nên em tăng nhiễu ở mọi lần đọc, không delay. Cùng L20, MAE S10 tăng từ 758m lên 1.337m, chênh khoảng 579m. Hit100 bằng 0 cho cả hai nên cần đọc thêm Hit500. Selector mới ổn hơn về MAE nhưng còn lỗi Hit; đây là kết quả development.”"
+          },
+          {
+            "type": "h3",
+            "text": "Đề xuất với GVHD — 30 giây"
+          },
+          {
+            "type": "p",
+            "text": "“Em đề xuất khóa cấu hình hiện tại, kiểm tra trên nhóm/thành phố chưa dùng để chỉnh và mở rộng attacker liên kết lịch sử. Phần ưu tiên là chuyến đầu, chuyến dài và metrics gốc còn N/A. Geo-I tiếp tục là backbone.”"
+          }
+        ]
+      },
+      {
+        "heading": "Câu trả lời ngắn khi GVHD hỏi",
+        "blocks": [
+          {
+            "type": "table",
+            "headers": [
+              "Câu hỏi",
+              "Cách trả lời"
+            ],
+            "rows": [
+              [
+                "Layer 2 có đọc GPS thật không?",
+                "Để tạo Q, nó chỉ dùng thông tin đã bảo vệ và input công khai. GPS thật chỉ vào cơ chế Geo-I khi được phép và xếp hạng local ở layer 4."
+              ],
+              [
+                "Tại sao cần budget?",
+                "Nhiều điểm nhiễu vẫn cho attacker tích lũy thông tin. Giới hạn chung khống chế tổng quan sát; không cấp lại theo chuyến/restart."
+              ],
+              [
+                "B và H từ đâu?",
+                "H quy đổi ngân sách, không là giới hạn cứng số lần đọc. H12 có U=23: lần đầu reserve/chi 1; sau đó tái dùng chi 1, tạo mới chi 2, trước GPS phải đủ 2. Nếu chạy đến filter dừng thì đọc 12–22 lần; phiên ngắn ít hơn. Với N chuyến/tổng C: u=C/[N(2H−1)], B=2Hu; đặt trước test."
+              ],
+              [
+                "Cache có làm lộ thêm GPS/purpose?",
+                "Candidate này dùng POI đã nhận, chỉ xử lý local; giữ nguyên Q và traffic. Đổi phiên bản/epoch thì hết hiệu lực; chưa biết realtime thì không tự gán khả dụng."
+              ],
+              [
+                "Vì sao không chỉ nhiễu điểm cuối?",
+                "Khi đang chạy chưa biết lúc nào chuyến kết thúc. Nhiễu mọi lần đọc tránh phải dùng tương lai hoặc trì hoãn."
+              ],
+              [
+                "Đã giải quyết S1–S10 chưa?",
+                "Chưa. Đã có cơ chế và thực nghiệm cho nhiều task; S8, account/IP, attacker lịch sử đầy đủ và confirmation độc lập còn thiếu."
+              ],
+              [
+                "Kết quả mới có fair với paper không?",
+                "Bảng đối chứng cũ cùng protocol là adaptations. Các cải tiến mới có cohort riêng; không ghép thành thứ hạng chung hoặc gọi là tái lập đầy đủ paper."
+              ]
+            ],
+            "widths": [
+              1.1,
+              2.6
+            ]
+          },
+          {
+            "type": "p",
+            "text": "Không đọc hết bảng. Chỉ nêu câu hỏi mỗi bảng trả lời, một kết quả chính và một giới hạn. Khi hỏi chi tiết, mở report HTML hoặc evidence thay vì đưa nhãn sample vào bài nói."
+          }
+        ]
+      }
+    ]
+  }
+}

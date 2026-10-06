@@ -1,0 +1,141 @@
+{
+  "protocol_sha256": "d3784c2c8a32062f08f71072869813a8a7053d7b878b4e9dad6098ae3fa72349",
+  "selected_defense": "scale025_L20",
+  "defense_not_reselected": true,
+  "selected_attackers": {
+    "raw": {
+      "S9": {
+        "mae": "centroid",
+        "hit50": "centroid",
+        "hit100": "centroid",
+        "hit200": "centroid",
+        "hit500": "centroid"
+      },
+      "S10": {
+        "mae": "centroid",
+        "hit50": "centroid",
+        "hit100": "centroid",
+        "hit200": "centroid",
+        "hit500": "centroid"
+      }
+    },
+    "scale100_L10": {
+      "S9": {
+        "mae": "public_boundary_median_ols6",
+        "hit50": "centroid_ols6_30s",
+        "hit100": "public_boundary_centroid_ols6",
+        "hit200": "public_boundary_centroid_ols6",
+        "hit500": "public_boundary_median_ols6"
+      },
+      "S10": {
+        "mae": "median_ols3_120s",
+        "hit50": "median_ols3_120s",
+        "hit100": "median_ols3_120s",
+        "hit200": "median_ols3_120s",
+        "hit500": "median_ols3_120s"
+      }
+    },
+    "scale100_L20": {
+      "S9": {
+        "mae": "public_boundary_median_ols6",
+        "hit50": "public_boundary_median_ols6",
+        "hit100": "public_boundary_median_ols6",
+        "hit200": "public_boundary_median_ols6",
+        "hit500": "median_ols6_120s"
+      },
+      "S10": {
+        "mae": "median_ols6_120s",
+        "hit50": "public_boundary_median_ols3",
+        "hit100": "public_boundary_median_ols3",
+        "hit200": "median_ols6_120s",
+        "hit500": "median_ols6_120s"
+      }
+    },
+    "scale025_L20": {
+      "S9": {
+        "mae": "public_boundary_median_ols6",
+        "hit50": "public_boundary_median_ols6",
+        "hit100": "public_boundary_median_ols6",
+        "hit200": "public_boundary_median_ols6",
+        "hit500": "centroid_ols6_60s"
+      },
+      "S10": {
+        "mae": "centroid_ols3_120s",
+        "hit50": "median_ols3_120s",
+        "hit100": "median_ols3_120s",
+        "hit200": "median_ols3_120s",
+        "hit500": "median_ols3_120s"
+      }
+    }
+  },
+  "linked_attackers": {
+    "raw": {
+      "S9": {
+        "mae": "linked_individual_centroid",
+        "hit50": "linked_individual_centroid",
+        "hit100": "linked_individual_centroid",
+        "hit200": "linked_individual_centroid",
+        "hit500": "linked_individual_centroid"
+      },
+      "S10": {
+        "mae": "linked_individual_centroid",
+        "hit50": "linked_individual_centroid",
+        "hit100": "linked_individual_centroid",
+        "hit200": "linked_individual_centroid",
+        "hit500": "linked_individual_centroid"
+      }
+    },
+    "scale100_L10": {
+      "S9": {
+        "mae": "linked_mean_median_ols6_30s",
+        "hit50": "linked_individual_centroid_ols6_30s",
+        "hit100": "linked_individual_public_boundary_centroid_ols6",
+        "hit200": "linked_mean_median_ols6_120s",
+        "hit500": "linked_mean_median_ols6_30s"
+      },
+      "S10": {
+        "mae": "linked_mean_median_ols3_120s",
+        "hit50": "linked_mean_median_ols3_120s",
+        "hit100": "linked_mean_median_ols3_120s",
+        "hit200": "linked_mean_median_ols3_120s",
+        "hit500": "linked_mean_centroid_ols3_120s"
+      }
+    },
+    "scale100_L20": {
+      "S9": {
+        "mae": "linked_mean_median_ols6_120s",
+        "hit50": "linked_mean_median_ols6_120s",
+        "hit100": "linked_mean_viterbi_history_ols2_30s",
+        "hit200": "linked_mean_viterbi_history_ols2_30s",
+        "hit500": "linked_mean_median_ols6_120s"
+      },
+      "S10": {
+        "mae": "linked_mean_median_ols6_120s",
+        "hit50": "linked_individual_public_boundary_median_ols3",
+        "hit100": "linked_mean_median_ols2_60s",
+        "hit200": "linked_shadow_knn5",
+        "hit500": "linked_mean_median_ols6_120s"
+      }
+    },
+    "scale025_L20": {
+      "S9": {
+        "mae": "linked_mean_public_boundary_median_ols6",
+        "hit50": "linked_mean_public_boundary_median_ols6",
+        "hit100": "linked_mean_public_boundary_median_ols6",
+        "hit200": "linked_mean_public_boundary_median_ols6",
+        "hit500": "linked_other_centroid_ols6_60s"
+      },
+      "S10": {
+        "mae": "linked_mean_query_prior",
+        "hit50": "linked_individual_median_ols3_120s",
+        "hit100": "linked_mean_viterbi_motion_ols2_30s",
+        "hit200": "linked_mean_viterbi_motion_ols2_60s",
+        "hit500": "linked_mean_viterbi_history_ols6_120s"
+      }
+    }
+  },
+  "attackers_sha256": "74631abf79ac8a66e0458bbf9bd4a3e05694e05abfea709056c601ce1fd6dbd1",
+  "selection_summary_sha256": "ca5ab603a7b13ad46abc2a6d079bb6dfb0c39abc0d2e64b0345c7c4be36efe59",
+  "test_labels_not_opened_by_train_select": true,
+  "development_utility_gate_met": true
+}

@@ -1,0 +1,623 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bảo vệ riêng tư quỹ đạo với Geo-I</title><style>
+:root{--ink:#193c49;--teal:#147d7b;--muted:#596c75;--line:#cedbdc}
+*{box-sizing:border-box}body{margin:0;background:#edf1ef;color:#172d37;
+font:17px/1.55 Georgia,"Times New Roman",serif}main{max-width:1080px;margin:24px auto;
+background:white;padding:38px 54px}header{border-bottom:2px solid var(--teal);padding-bottom:22px}
+h1{font-size:31px;line-height:1.25;margin:0 0 10px;color:var(--ink)}
+h2{font-size:25px;line-height:1.3;color:var(--ink);margin:30px 0 14px}
+h3{font-size:20px;color:var(--teal)}p{margin:11px 0}a{color:var(--teal)}
+.muted,.caption{color:var(--muted);font-size:15px}.status{font-size:14px;color:var(--muted)}
+.key{border-left:3px solid var(--teal);background:#eaf4f2;padding:12px 16px;font-weight:bold}
+.table-wrap{overflow:auto;margin:16px 0}table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.4}
+th,td{padding:8px 7px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:#f4f8f7;border-top:2px solid var(--ink)}tr:last-child td{border-bottom:2px solid var(--ink)}
+figure{margin:15px 0}svg{width:100%;height:auto;max-height:810px}svg text{font-family:Arial,sans-serif!important}
+li{margin:5px 0}.page{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:25px}
+.sources{font-size:14px;color:var(--muted)}.sources li{overflow-wrap:anywhere}
+@media(max-width:700px){main{margin:0;padding:22px 16px}body{font-size:16px}h1{font-size:26px}
+table{min-width:650px}svg{max-height:none}}
+@media print{body{background:white}main{padding:0;margin:0;max-width:none}.page{break-before:page;border:0}
+.page:first-of-type{break-before:auto}.toolbar,.status{display:none}tr{break-inside:avoid}}
+</style><body><main>
+<header><h1>Bảo vệ riêng tư quỹ đạo với Geo-I</h1><p>Kiến trúc, đối chứng và các cải tiến sau buổi gặp 03/10</p>
+<p class="muted">Chuẩn bị 06/10/2026 · Buổi GVHD tiếp theo · Geo-I là nền tảng</p>
+<p class="toolbar"><a href="report_explained.pdf">PDF</a> · <a href="report_explained.tex">LaTeX</a> · <a href="evidence.json">Evidence</a> · <a href="preparation_guide.html">Lời nói gợi ý</a></p>
+<p class="status">Đã dựng và kiểm chứng nội dung.</p></header>
+<section class="page" id="section-1"><h2>1. Related works và cách so sánh công bằng</h2>
+<p class="p">Giữ Geo-I làm cơ chế bảo vệ GPS. Vòng này mở rộng dịch vụ POI, quản lý ngân sách qua nhiều chuyến và kiểm tra attacker kỹ hơn.</p>
+<div class="table-wrap"><table><thead><tr><th>Paper trong 3 năm</th><th>Output</th><th>Fully</th><th>Partially</th><th>Metrics gốc</th></tr></thead><tbody><tr><td><a href="https://arxiv.org/html/2409.09495v1">TransProtect (2024)</a></td><td>Một vị trí nhiễu/mốc</td><td>S1, S3</td><td>S2</td><td>EIE ↑; chênh chi phí tới đích ↓; chưa khóa metric vận hành</td></tr><tr><td><a href="https://link.springer.com/article/10.1007/s44443-026-00899-w">Semantic correlation (2026)</a></td><td>GPS thật + dummy theo ngữ nghĩa/đường</td><td>S1</td><td>S2, S3</td><td>ASR ↑; DER ↑ (dummy hợp lý); thời gian tạo ↓</td></tr><tr><td><a href="https://link.springer.com/article/10.1007/s44443-025-00438-z">Fake queries (2026)</a></td><td>Tập thật + dummy, xen query giả</td><td>S1, S3</td><td>S2</td><td>ASR/số đường khó phân biệt ↑; thời gian/RSS ↓; chưa chấm POI</td></tr><tr><td><a href="https://uhra.herts.ac.uk/id/eprint/25705/">CPCROK (2025)</a></td><td>Beacon xe + tuyến giả, đổi pseudonym</td><td>—</td><td>S4</td><td>Ghép đúng trace ρ ↓; số tuyến giả ψ ↓; chưa chấm POI</td></tr><tr><td><a href="https://www.aimspress.com/article/doi/10.3934/era.2025293">DP-FETC (2025)</a></td><td>Bộ trace tổng hợp offline</td><td>—</td><td>S3, S8, S9, S10</td><td>MI ↓, ε-DP; JSD phân bố ↓; độ phức tạp</td></tr><tr><td><a href="https://wrap.warwick.ac.uk/id/eprint/183198/">EV Geo-I querying (2024)</a></td><td>AGeoI + dummy; Edge trộn query</td><td>—</td><td>S1, S2, S3</td><td>(ε,δ)-AGeoI; CoP ↓, CoP=0 ↑; Wasserstein IBU ↓</td></tr></tbody></table></div>
+<p class="p">Cửa sổ online đầu tiên: 06/10/2023–06/10/2026. <strong>Fully:</strong> trực tiếp xét và đánh giá task/threat trong giả định paper. <strong>Partially:</strong> cơ chế liên quan hoặc phạm vi hẹp hơn. Đây là đối chiếu của nhóm; scenario không ghi là chưa có bằng chứng trực tiếp. Geo-I (2013), DLS (2014), RDG (2021) là nền tảng ngoài cửa sổ.</p>
+<p class="p">S1 vị trí; S2 nơi dừng; S3 đoạn đường; S4 liên kết danh tính người/xe; S5 đường kế tiếp; S6 đích tương lai; S7 ý định query; S8 dữ liệu người đi cùng; S9 điểm đầu bị che; S10 điểm cuối của chuyến đã kết thúc.</p>
+<ul><li><strong>Output khác nhau:</strong> một vị trí, tập thật + dummy, Q-only hoặc dataset offline; ASR cần thành viên thật nên không áp trực tiếp cho Q-only.</li><li><strong>Metrics trả lời khác câu hỏi:</strong> entropy/DER đo độ khó phân biệt hoặc tính hợp lý; ε đo giới hạn cơ chế; chúng chưa đo đồng thời khả năng attacker và chất lượng POI.</li><li><strong>Dùng hai lớp đo:</strong> Hit100/MAE + Recall@5 + chi phí trên cùng protocol; thêm metrics gốc khi đúng output và đủ dữ liệu. N/A phải có lý do.</li></ul>
+</section>
+<section class="page" id="section-2"><h2>2. Kiến trúc: từ GPS tới câu trả lời POI</h2>
+<figure role="img" aria-label="Bốn layer của mô hình Geo-I trên thiết bị, server bên ngoài; luồng Z, Q, POI và P."><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="806.4pt" height="763.2pt" viewBox="0 0 806.4 763.2" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-06T09:17:14.944680</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 763.2 
+L 806.4 763.2 
+L 806.4 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 69.12 82.08 
+L 254.88 82.08 
+Q 262.08 82.08 262.08 74.88 
+L 262.08 18.72 
+Q 262.08 11.52 254.88 11.52 
+L 69.12 11.52 
+Q 61.92 11.52 61.92 18.72 
+L 61.92 74.88 
+Q 61.92 82.08 69.12 82.08 
+z
+" clip-path="url(#p6cead18080)" style="fill: #f5f8fa; stroke: #60727b; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 306.72 82.08 
+L 607.68 82.08 
+Q 614.88 82.08 614.88 74.88 
+L 614.88 18.72 
+Q 614.88 11.52 607.68 11.52 
+L 306.72 11.52 
+Q 299.52 11.52 299.52 18.72 
+L 299.52 74.88 
+Q 299.52 82.08 306.72 82.08 
+z
+" clip-path="url(#p6cead18080)" style="fill: #f5f8fa; stroke: #60727b; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 56.16 679.68 
+L 606.24 679.68 
+Q 614.88 679.68 614.88 671.04 
+L 614.88 113.76 
+Q 614.88 105.12 606.24 105.12 
+L 56.16 105.12 
+Q 47.52 105.12 47.52 113.76 
+L 47.52 671.04 
+Q 47.52 679.68 56.16 679.68 
+z
+" clip-path="url(#p6cead18080)" style="fill: #f9fcfb; stroke: #147d7b; stroke-width: 2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 68.04 297 
+L 594.36 297 
+Q 599.4 297 599.4 291.96 
+L 599.4 161.64 
+Q 599.4 156.6 594.36 156.6 
+L 68.04 156.6 
+Q 63 156.6 63 161.64 
+L 63 291.96 
+Q 63 297 68.04 297 
+z
+" clip-path="url(#p6cead18080)" style="fill: #eaf4f2; stroke: #c6dcda; stroke-width: 0.7; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 68.04 433.8 
+L 594.36 433.8 
+Q 599.4 433.8 599.4 428.76 
+L 599.4 312.84 
+Q 599.4 307.8 594.36 307.8 
+L 68.04 307.8 
+Q 63 307.8 63 312.84 
+L 63 428.76 
+Q 63 433.8 68.04 433.8 
+z
+" clip-path="url(#p6cead18080)" style="fill: #eaf4f2; stroke: #c6dcda; stroke-width: 0.7; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 68.04 585 
+L 594.36 585 
+Q 599.4 585 599.4 579.96 
+L 599.4 449.64 
+Q 599.4 444.6 594.36 444.6 
+L 68.04 444.6 
+Q 63 444.6 63 449.64 
+L 63 579.96 
+Q 63 585 68.04 585 
+z
+" clip-path="url(#p6cead18080)" style="fill: #eaf4f2; stroke: #c6dcda; stroke-width: 0.7; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 68.04 664.2 
+L 594.36 664.2 
+Q 599.4 664.2 599.4 659.16 
+L 599.4 600.84 
+Q 599.4 595.8 594.36 595.8 
+L 68.04 595.8 
+Q 63 595.8 63 600.84 
+L 63 659.16 
+Q 63 664.2 68.04 664.2 
+z
+" clip-path="url(#p6cead18080)" style="fill: #eaf4f2; stroke: #c6dcda; stroke-width: 0.7; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 83.52 283.68 
+L 283.68 283.68 
+Q 290.88 283.68 290.88 276.48 
+L 290.88 198.72 
+Q 290.88 191.52 283.68 191.52 
+L 83.52 191.52 
+Q 76.32 191.52 76.32 198.72 
+L 76.32 276.48 
+Q 76.32 283.68 83.52 283.68 
+z
+" clip-path="url(#p6cead18080)" style="fill: #ffffff; stroke: #193c49; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 328.32 283.68 
+L 578.88 283.68 
+Q 586.08 283.68 586.08 276.48 
+L 586.08 198.72 
+Q 586.08 191.52 578.88 191.52 
+L 328.32 191.52 
+Q 321.12 191.52 321.12 198.72 
+L 321.12 276.48 
+Q 321.12 283.68 328.32 283.68 
+z
+" clip-path="url(#p6cead18080)" style="fill: #ffffff; stroke: #193c49; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 183.6 95.602588 
+Q 183.6 144.001802 183.6 190.612162 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 186.2 185.412162 
+L 183.6 190.612162 
+L 181 185.412162 
+z
+" clip-path="url(#p6cead18080)" style="fill: #147d7b; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 576 102.802368 
+Q 576 147.601851 576 190.612479 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 578.6 185.412479 
+L 576 190.612479 
+L 573.4 185.412479 
+z
+" clip-path="url(#p6cead18080)" style="fill: #60727b; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 617.200488 360 
+Q 601.198427 360 586.985221 360 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 592.185221 362.6 
+L 586.985221 360 
+L 592.185221 357.4 
+z
+" clip-path="url(#p6cead18080)" style="fill: #60727b; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 289.999512 237.6 
+Q 306.001573 237.6 320.214779 237.6 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 315.014779 235 
+L 320.214779 237.6 
+L 315.014779 240.2 
+z
+" clip-path="url(#p6cead18080)" style="fill: #147d7b; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 83.52 420.48 
+L 290.88 420.48 
+Q 298.08 420.48 298.08 413.28 
+L 298.08 342.72 
+Q 298.08 335.52 290.88 335.52 
+L 83.52 335.52 
+Q 76.32 335.52 76.32 342.72 
+L 76.32 413.28 
+Q 76.32 420.48 83.52 420.48 
+z
+" clip-path="url(#p6cead18080)" style="fill: #ffffff; stroke: #193c49; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 335.52 420.48 
+L 578.88 420.48 
+Q 586.08 420.48 586.08 413.28 
+L 586.08 342.72 
+Q 586.08 335.52 578.88 335.52 
+L 335.52 335.52 
+Q 328.32 335.52 328.32 342.72 
+L 328.32 413.28 
+Q 328.32 420.48 335.52 420.48 
+z
+" clip-path="url(#p6cead18080)" style="fill: #ffffff; stroke: #193c49; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 187.2 307.997314 
+Q 187.2 322.198471 187.2 334.610774 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 189.8 329.410774 
+L 187.2 334.610774 
+L 184.6 329.410774 
+z
+" clip-path="url(#p6cead18080)" style="fill: #147d7b; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="patch_18">
+    <path d="M 297.199512 378 
+Q 313.201573 378 327.414779 378 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 322.214779 375.4 
+L 327.414779 378 
+L 322.214779 380.6 
+z
+" clip-path="url(#p6cead18080)" style="fill: #147d7b; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="patch_19">
+    <path d="M 59.60127 360 
+Q 68.402994 360 75.415865 360 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 70.215865 357.4 
+L 75.415865 360 
+L 70.215865 362.6 
+z
+" clip-path="url(#p6cead18080)" style="fill: #60727b; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="patch_20">
+    <path d="M 83.52 514.08 
+L 578.88 514.08 
+Q 586.08 514.08 586.08 506.88 
+L 586.08 472.32 
+Q 586.08 465.12 578.88 465.12 
+L 83.52 465.12 
+Q 76.32 465.12 76.32 472.32 
+L 76.32 506.88 
+Q 76.32 514.08 83.52 514.08 
+z
+" clip-path="url(#p6cead18080)" style="fill: #ffffff; stroke: #193c49; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_21">
+    <path d="M 83.52 571.68 
+L 578.88 571.68 
+Q 586.08 571.68 586.08 564.48 
+L 586.08 529.92 
+Q 586.08 522.72 578.88 522.72 
+L 83.52 522.72 
+Q 76.32 522.72 76.32 529.92 
+L 76.32 564.48 
+Q 76.32 571.68 83.52 571.68 
+z
+" clip-path="url(#p6cead18080)" style="fill: #ffffff; stroke: #193c49; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_22">
+    <path d="M 453.6 419.602588 
+Q 453.6 442.801384 453.6 464.211326 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 456.2 459.011326 
+L 453.6 464.211326 
+L 451 459.011326 
+z
+" clip-path="url(#p6cead18080)" style="fill: #147d7b; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="patch_23">
+    <path d="M 652.32 521.28 
+L 787.68 521.28 
+Q 794.88 521.28 794.88 514.08 
+L 794.88 407.52 
+Q 794.88 400.32 787.68 400.32 
+L 652.32 400.32 
+Q 645.12 400.32 645.12 407.52 
+L 645.12 514.08 
+Q 645.12 521.28 652.32 521.28 
+z
+" clip-path="url(#p6cead18080)" style="fill: #fff4e8; stroke: #b87728; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_24">
+    <path d="M 585.197314 489.6 
+Q 615.600116 489.6 644.214063 489.6 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke: #b87728; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 639.014063 487 
+L 644.214063 489.6 
+L 639.014063 492.2 
+z
+" clip-path="url(#p6cead18080)" style="fill: #b87728; stroke: #b87728; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="patch_25">
+    <path d="M 718.000269 547.2 
+Q 651.601839 547.2 586.992264 547.2 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke: #b87728; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 592.192264 549.8 
+L 586.992264 547.2 
+L 592.192264 544.6 
+z
+" clip-path="url(#p6cead18080)" style="fill: #b87728; stroke: #b87728; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="patch_26">
+    <path d="M 83.52 661.68 
+L 578.88 661.68 
+Q 586.08 661.68 586.08 654.48 
+L 586.08 624.96 
+Q 586.08 617.76 578.88 617.76 
+L 83.52 617.76 
+Q 76.32 617.76 76.32 624.96 
+L 76.32 654.48 
+Q 76.32 661.68 83.52 661.68 
+z
+" clip-path="url(#p6cead18080)" style="fill: #ffffff; stroke: #193c49; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_27">
+    <path d="M 331.2 570.802852 
+Q 331.2 594.722189 331.2 616.852671 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 333.8 611.652671 
+L 331.2 616.852671 
+L 328.6 611.652671 
+z
+" clip-path="url(#p6cead18080)" style="fill: #147d7b; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="patch_28">
+    <path d="M 652.32 672.48 
+L 787.68 672.48 
+Q 794.88 672.48 794.88 665.28 
+L 794.88 587.52 
+Q 794.88 580.32 787.68 580.32 
+L 652.32 580.32 
+Q 645.12 580.32 645.12 587.52 
+L 645.12 665.28 
+Q 645.12 672.48 652.32 672.48 
+z
+" clip-path="url(#p6cead18080)" style="fill: #f5f8fa; stroke: #60727b; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_29">
+    <path d="M 646.002686 640.8 
+Q 615.599884 640.8 586.985937 640.8 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 592.185937 643.4 
+L 586.985937 640.8 
+L 592.185937 638.2 
+z
+" clip-path="url(#p6cead18080)" style="fill: #60727b; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="patch_30">
+    <path d="M 16.397314 640.8 
+Q 46.800116 640.8 75.414063 640.8 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 70.214063 638.2 
+L 75.414063 640.8 
+L 70.214063 643.4 
+z
+" clip-path="url(#p6cead18080)" style="fill: #60727b; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="patch_31">
+    <path d="M 184.32 758.88 
+L 485.28 758.88 
+Q 492.48 758.88 492.48 751.68 
+L 492.48 702.72 
+Q 492.48 695.52 485.28 695.52 
+L 184.32 695.52 
+Q 177.12 695.52 177.12 702.72 
+L 177.12 751.68 
+Q 177.12 758.88 184.32 758.88 
+z
+" clip-path="url(#p6cead18080)" style="fill: #eaf4f2; stroke: #147d7b; stroke-width: 1.3; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_32">
+    <path d="M 331.2 660.796436 
+Q 331.2 678.599832 331.2 694.614374 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 333.8 689.414374 
+L 331.2 694.614374 
+L 328.6 689.414374 
+z
+" clip-path="url(#p6cead18080)" style="fill: #147d7b; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 259.2 72 
+L 259.2 93.6 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 259.2 93.6 
+L 183.6 93.6 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 457.2 79.2 
+L 457.2 100.8 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 457.2 100.8 
+L 576 100.8 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 576 100.8 
+L 619.2 100.8 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 619.2 100.8 
+L 619.2 360 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 453.6 280.8 
+L 453.6 306 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 453.6 306 
+L 187.2 306 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke: #147d7b; stroke-width: 1.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 79.2 266.4 
+L 57.6 266.4 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 57.6 266.4 
+L 57.6 360 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 720 518.4 
+L 720 547.2 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke: #b87728; stroke-width: 1.6; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 79.2 79.2 
+L 14.4 79.2 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6"/>
+   </g>
+   <g id="line2d_13">
+    <path d="M 14.4 79.2 
+L 14.4 640.8 
+" clip-path="url(#p6cead18080)" style="fill: none; stroke-dasharray: 5.92,2.56; stroke-dashoffset: 0; stroke: #60727b; stroke-width: 1.6"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 13px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(108.454219 43.641406)">INPUT RIÊNG TƯ</text>
+    <text style="font-size: 13px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(98.164922 60.210312)">GPS thật tại thiết bị</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 13px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(398.572031 43.641406)">INPUT CÔNG KHAI</text>
+    <text style="font-size: 13px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(351.714141 60.051875)">Mạng đường, POI, prior, đồng hồ</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #147d7b" x="331.2" y="133.2" transform="rotate(-0 331.2 133.2)">MÔ HÌNH CỦA TA · CHẠY TẠI THIẾT BỊ</text>
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #147d7b" x="75.6" y="172.8" transform="rotate(-0 75.6 172.8)">LAYER 1 · BẢO VỆ GPS</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #147d7b" x="75.6" y="324" transform="rotate(-0 75.6 324)">LAYER 2 · ƯỚC LƯỢNG VÀ CHỌN Q</text>
+   </g>
+   <g id="text_6">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #147d7b" x="75.6" y="460.8" transform="rotate(-0 75.6 460.8)">LAYER 3 · LẤY POI · KHÔNG WARMUP/DELAY</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #147d7b" x="75.6" y="612" transform="rotate(-0 75.6 612)">LAYER 4 · TRẢ LỜI LOCAL</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(98.63625 232.75125)">Lịch đọc + ngân sách chung</text>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(102.140625 249.55125)">Đúng lịch, còn cap mới đọc</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(375.20625 232.704375)">Geo-I trên mạng đường</text>
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(359.087812 250.025625)">Thử giữ Z có nhiễu / tạo mới</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(124.033125 373.15125)">Ước lượng vùng vị trí</text>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(111.796875 390.16125)">Từ Z và lịch sử đã bảo vệ</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(403.498125 373.674375)">Chọn K=5 điểm Q</text>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(372.260625 390.012187)">Đi được trên đường, phủ POI</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #147d7b" x="345.6" y="298.8" transform="rotate(-0 345.6 298.8)">Z nội bộ</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #60727b" x="75.6" y="300.24" transform="rotate(-0 75.6 300.24)">Phiên đã cấp cap: không đọc mới → dự đoán</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #193c49" x="331.2" y="493.270117" transform="rotate(-0 331.2 493.270117)">Xáo thứ tự Q · request chung · L cố định · mọi category</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #193c49" x="331.2" y="550.511172" transform="rotate(-0 331.2 550.511172)">Hợp POI còn hiệu lực, bỏ trùng · cache theo chính sách công khai</text>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(693.598125 448.367812)">SERVER</text>
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(695.1975 464.325)">Nhận Q</text>
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(675.394687 481.385625)">Trả top-L/loại</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #b87728" x="626.4" y="475.2" transform="rotate(-0 626.4 475.2)">Q</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #b87728" x="655.2" y="565.2" transform="rotate(-0 655.2 565.2)">POI</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #193c49" x="331.2" y="643.390117" transform="rotate(-0 331.2 643.390117)">GPS hiện tại + purpose riêng → lọc và xếp hạng POI</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(685.58707 615.521836)">INPUT LOCAL</text>
+    <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(670.721367 629.135742)">Purpose, category,</text>
+    <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(671.01832 644.478867)">radius, destination</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #60727b" transform="translate(27.9025 484.802344) rotate(-90)">GPS chỉ xếp hạng local</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(251.518125 724.27875)">OUTPUT CHO NGƯỜI DÙNG</text>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #193c49" transform="translate(227.405625 739.15125)">P: top-k POI phù hợp, mặc định k=5</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p6cead18080">
+   <rect x="0" y="0" width="806.4" height="763.2"/>
+  </clipPath>
+ </defs>
+</svg>
+<figcaption class="caption">Mũi tên liền: luồng xử lý. Nét đứt: input/phương án không đọc GPS mới. <strong>Z</strong> nội bộ; <strong>Q</strong> gửi server; <strong>P</strong> là POI trả cho người dùng.</figcaption></figure>
+<p class="p"><strong>Layer 2</strong> cập nhật vùng vị trí có thể xảy ra từ Z, lịch sử đã bảo vệ và khả năng di chuyển trên đường. Nó giúp chọn Q khả thi, phủ POI tốt; phiên đã cấp cap vẫn có thể dự đoán khi không đọc GPS mới. Phiên vượt giới hạn chung không đọc GPS, không gửi Q. Purpose thật chỉ dùng ở layer 4.</p>
+<p class="p"><strong>S1–S3:</strong> Geo-I và phép thử tái dùng Z có nhiễu. <strong>S9/S10:</strong> nhiễu mạnh hơn ở mọi lần đọc, vì online chưa biết lần nào là cuối. <strong>S7:</strong> request chung, lọc purpose locally. <strong>S4–S6:</strong> ngân sách chung hạn chế tích lũy, chưa tự giấu danh tính. S8 chưa có đánh giá mới.</p>
+</section>
+<section class="page" id="section-3"><h2>3. Cấu hình và attacker trước khi đọc kết quả</h2>
+<div class="table-wrap"><table><thead><tr><th>Tham số</th><th>GeoI-Endpoint20</th><th>GeoI-Epoch8-H12</th></tr></thead><tbody><tr><td>Mục tiêu</td><td>Kiểm tra S9/S10 không delay</td><td>S5/S6 và utility qua 8 chuyến</td></tr><tr><td>ε thử = ε tạo Z, đơn vị /m</td><td>0,0025</td><td>0,00125</td></tr><tr><td>H: số lần đọc tối đa/chuyến</td><td>12</td><td>12</td></tr><tr><td>B: ngân sách danh nghĩa/chuyến</td><td>0,06</td><td>0,03</td></tr><tr><td>Cap hiệu dụng/chuyến</td><td>0,0575</td><td>0,02875</td></tr><tr><td>Ngân sách qua nhiều chuyến</td><td>Cộng theo số chuyến; chưa là cap chung</td><td>N=8; tổng C=0,23/m</td></tr><tr><td>Lịch, điểm Q và kết quả</td><td>GPS 60s; K=5; L=20; k=5</td><td>GPS 60s; K=5; L20 chọn bằng utility</td></tr><tr><td>Đồng hồ gửi Q công khai</td><td>Mỗi 60s trong cohort endpoint</td><td>Mỗi 20s + mốc hiệu chuẩn công khai</td></tr><tr><td>Quy tắc khác</td><td>Ngưỡng 200m; slack 0,03</td><td>Cùng backbone; cache local riêng</td></tr><tr><td>Warmup / delay</td><td>0 / 0</td><td>0 / 0</td></tr></tbody></table></div>
+<p class="p">Đây là các cấu hình của cùng thuật toán. Với cap chung C, tối đa N chuyến và horizon H công khai: <strong>u=C/[N(2H−1)]</strong>, ε thử=ε tạo=u, B=2Hu. H/N được đặt trước; giữ phần cap trong sổ trước GPS; không cấp lại khi restart. K là số Q, L là số POI/loại mỗi Q, k là số câu trả lời tối đa.</p>
+<ul><li><strong>S1–S3, bảng đối chứng:</strong> <strong>Shadow KNN (k=3)</strong> cùng centroid, continuity, road filter và decoder đường. S2 thêm running mean/intersection khi output chứa GPS thật.</li><li><strong>S7:</strong> <strong>kNN, ExtraTrees, logistic</strong> đoán purpose/category từ request, reply, tọa độ, thời gian và kích thước.</li><li><strong>S4:</strong> <strong>kNN/ExtraTrees</strong> liên kết cặp phiên từ summary/shape; <strong>S5/S6:</strong> <strong>ExtraTrees trên hình học ứng viên</strong>, decoder đường/lịch sử và uniform.</li><li><strong>S9/S10 mới:</strong> <strong>OLS, kNN, ExtraTrees, Viterbi</strong>, gồm tracking <strong>Hungarian</strong>. Chọn riêng cho MAE/Hit trên validation; khóa trước chấm test.</li></ul>
+<p class="key">Hit100 ↓: tỷ lệ đoán trong 100m. MAE ↑: sai số attacker trung bình (m). Recall@5 ↑: phần POI chuẩn tìm lại được. Ở S1, 33,33% / 299m nghĩa attacker đúng trong 100m ở 1/3 số mốc, sai trung bình 299m.</p>
+<p class="p">Lúc chấm test, attacker chỉ thấy dữ liệu công bố và thông tin phụ đã định; GPS/nhãn test thuộc evaluator. GPS/nhãn shadow-train được phép dùng để học attacker. Raw kiểm tra bài toán có tín hiệu. Các họ attacker áp cho mọi phương pháp phù hợp, học/chọn riêng theo output; không chỉ có một Shadow KNN.</p>
+</section>
+<section class="page" id="section-4"><h2>4. Đối chứng trên cùng protocol và metrics gốc</h2>
+<p class="p">Bảng paper-v2 giữ nguyên: 12 chuyến test, cùng trace/dịch vụ/split và họ attacker. <strong>Dấu * là adaptation tại repo</strong>, chưa tái lập đầy đủ paper. Mỗi ô là <strong>Hit100 / MAE(m) / Recall@5</strong>, gộp đều theo chuyến; các phương pháp không cùng bảo đảm ε.</p>
+<div class="table-wrap"><table><thead><tr><th>Phương pháp</th><th>S1</th><th>S2</th><th>S3</th><th>S9</th><th>S10</th></tr></thead><tbody><tr><td>GPS thật</td><td>100,00% / 13 / 100,00%</td><td>100,00% / 39 / 100,00%</td><td>96,43% / 23 / 100,00%</td><td>41,67% / 120 / 100,00%</td><td>8,33% / 630 / 100,00%</td></tr><tr><td>DLS*</td><td>58,33% / 1.318 / 100,00%</td><td>100,00% / 39 / 100,00%</td><td>31,21% / 1.688 / 100,00%</td><td>8,33% / 1.582 / 100,00%</td><td>0,00% / 2.029 / 100,00%</td></tr><tr><td>TransProtect*</td><td>83,33% / 84 / 97,78%</td><td>66,67% / 88 / 97,19%</td><td>69,28% / 99 / 97,93%</td><td>25,00% / 184 / 97,27%</td><td>8,33% / 680 / 98,52%</td></tr><tr><td>Semantic*</td><td>100,00% / 11 / 100,00%</td><td>100,00% / 42 / 100,00%</td><td>40,58% / 257 / 100,00%</td><td>33,33% / 132 / 100,00%</td><td>16,67% / 731 / 100,00%</td></tr><tr><td><strong>BR-Dummy / Geo-I</strong></td><td><strong>33,33% / 299 / 95,83%</strong></td><td><strong>22,22% / 247 / 97,01%</strong></td><td><strong>7,44% / 776 / 87,67%</strong></td><td><strong>0,00% / 316 / 96,60%</strong></td><td><strong>0,00% / 2.315 / 88,33%</strong></td></tr></tbody></table></div>
+<p class="p">BR có Hit100 thấp hơn hoặc bằng ba adaptations ở cả năm scenario. MAE lớn hơn TransProtect ở cả năm; DLS có MAE lớn hơn BR ở S1/S3/S9. Recall S3/S10 của BR dưới 90%. <strong>Chưa thể nói thắng mọi metric.</strong> Raw S9/S10 chỉ thấy cửa sổ sau che đầu/cuối; sai số còn bao gồm độ khó của masking.</p>
+<div class="table-wrap"><table><thead><tr><th>Phương pháp</th><th>Recall macro ↑</th><th>JSON bytes/mốc ↓</th><th>Tạo output ms/mốc ↓</th></tr></thead><tbody><tr><td>GPS thật</td><td>100,00%</td><td>720</td><td>0,01</td></tr><tr><td>DLS*</td><td>100,00%</td><td>3.282</td><td>1,01</td></tr><tr><td>TransProtect*</td><td>97,74%</td><td>720</td><td>0,35</td></tr><tr><td>Semantic*</td><td>100,00%</td><td>3.287</td><td>1,17</td></tr><tr><td><strong>BR-Dummy / Geo-I</strong></td><td>93,09%</td><td>3.237</td><td>5,40</td></tr></tbody></table></div>
+<ul><li><strong>EIE point estimate:</strong> có thể tính lại; cùng ước lượng/khoảng cách/phép gộp thì đúng bằng MAE ở trên, không là bằng chứng thứ hai.</li><li><strong>ASR/entropy/DER:</strong> N/A khi thiếu posterior/prior hoặc quy tắc dummy gốc. Q-only không có vị trí thật làm thành viên để chấm ASR.</li><li><strong>Δc của TransProtect:</strong> N/A trong archive cũ vì thiếu cost tables/prior đích gốc. Diagnostic riêng trên mạng đường: Raw 0m, Endpoint20 trung bình Q 1.386,74m; đây là méo chi phí ↓, không phải privacy và không là head-to-head paper.</li></ul>
+<p class="p">Chi phí bảng này gồm request JSON + response ID POI, chưa HTTP/TLS; thời gian trên máy benchmark cũ. Các thử nghiệm sau dùng cohort/protocol khác và được đọc riêng. <a href="evidence.json">Nguồn và định nghĩa</a>.</p>
+</section>
+<section class="page" id="section-5"><h2>5. S7: nhiều purpose, cùng request ra mạng</h2>
+<p class="p">Mọi Q lấy POI của các loại theo L cố định. Thiết bị hợp và bỏ trùng; sau đó GPS thật + purpose riêng tư quyết định câu trả lời. Đổi purpose/category/radius/destination không đổi Q, request hoặc lịch gửi.</p>
+<div class="table-wrap"><table><thead><tr><th>Purpose đã hiện thực</th><th>Recall@5, cấu hình giữ lại</th></tr></thead><tbody><tr><td>Gần nhất theo quãng đường</td><td>96,33%</td></tr><tr><td>Đến nhanh nhất</td><td>96,33%</td></tr><tr><td>Trong bán kính riêng tư</td><td>90,10%</td></tr><tr><td>Ít vòng đường tới đích riêng tư</td><td>94,57%</td></tr></tbody></table></div>
+<p class="p">Cohort development 3 nhóm, 2 RNG/chuyến; giữ α=0,L20 vì các mục tiêu Q mới chưa đạt đồng thời yêu cầu privacy/byte. Mean bốn purpose <strong>94,33%</strong>, không trả POI vi phạm điều kiện. Mạng này có tốc độ đồng nhất nên gần nhất/nhanh nhất trùng ranking; kiểm thử với tốc độ khác xác nhận hai hàm khác nhau.</p>
+<p class="p">Audit nội dung: payload tường minh bị đoán purpose 100%; request chung 25% cho bốn purpose, 16,67% cho sáu category. Đây là kiểm tra kênh nội dung trực tiếp; tuyến đường đặc trưng, account hoặc click vẫn có thể tiết lộ nhu cầu. Giá/giờ mở cửa/trạng thái realtime cần metadata riêng.</p>
+<h3>Cải thiện utility mà giữ nguyên Q và Geo-I</h3>
+<div class="table-wrap"><table><thead><tr><th>GeoI-Epoch8-H12, cohort native</th><th>Recall toàn cửa sổ</th><th>Recall 400–600s</th><th>Chuyến thấp nhất, 400–600s</th></tr></thead><tbody><tr><td>L10, phản hồi hiện tại</td><td>89,95%</td><td>90,29%</td><td>66,36%</td></tr><tr><td>L20, phản hồi hiện tại</td><td>94,96%</td><td>94,39%</td><td>70,30%</td></tr><tr><td>L20, cache 60s</td><td>95,64%</td><td>95,22%</td><td>72,42%</td></tr><tr><td><strong>L20, cache POI cố định theo phiên bản</strong></td><td>99,34%</td><td>99,48%</td><td>86,67%</td></tr></tbody></table></div>
+<p class="p">Sáu nhóm test, 8 chuyến/nhóm. Cache mới chỉ giữ <strong>metadata POI cố định đã nhận trước đó</strong>, dùng qua các chuyến trong cùng epoch công khai; hết epoch/đổi phiên bản thì vô hiệu. Không đọc dữ liệu tương lai, không tải thêm POI theo nhu cầu. Tối đa 416/418 ID trong test.</p>
+<p class="p">Ba phương án L20 cùng <strong>7.550 request Q, 41.233.562 reply JSON bytes</strong>; L20 tốn khoảng 1,56× reply L10. Recall là conditional: 1.402/1.510 mốc có reference (92,85%); đoạn cuối 462/528 (87,50%). Chuyến đầu chưa có cache còn yếu. Trạng thái đang mở/còn chỗ phải có dữ liệu mới, nếu thiếu là chưa biết.</p>
+<p class="p">Cache đã có adapter client tùy chọn và replay causal trên transcript đóng băng; client mặc định vẫn cache epoch60. Đây là xử lý local dùng được cho cả đối chứng: reset từng chuyến cùng cache đạt 99,82%. Không thay bảng privacy S5/S6; cần confirmation độc lập sau vòng development này.</p>
+</section>
+<section class="page" id="section-6"><h2>6. S4–S6: ngân sách chung và suy tương lai</h2>
+<div class="table-wrap"><table><thead><tr><th>S4, cohort development</th><th>Cap /6 chuyến</th><th>AUC người / xe</th><th>Recall@5 ↑</th></tr></thead><tbody><tr><td>GPS thật</td><td>—</td><td>0,773 / 0,716</td><td>100,00%</td></tr><tr><td>Geo-I reset từng chuyến</td><td>0,345</td><td>0,632 / 0,544</td><td>97,03%</td></tr><tr><td>GeoI-Epoch6-H12</td><td>0,23</td><td>0,640 / 0,577</td><td>95,53%</td></tr><tr><td><strong>GeoI-Epoch6-H8</strong></td><td>0,23</td><td>0,526 / 0,504</td><td>97,23%</td></tr></tbody></table></div>
+<p class="p">AUC gần 0,5 nghĩa attacker đã chọn chưa phân biệt ổn định trong mẫu này. H8 chỉ có 3 nhóm test đã dùng trong phát triển; audit bank có raw AUC theo nhóm tới 0,694 và 0,229 (đảo chiều), nên chưa kết luận khó liên kết. H12 chưa tốt hơn reset. <strong>Ở cùng tổng cap, đổi cách ghi sổ không đổi output hoặc điểm attacker.</strong> Sổ giúp thực thi cap qua nhiều phiên, chưa che account/IP/biển số.</p>
+<h3>S5/S6 trên prefix thật của native SUMO</h3>
+<div class="table-wrap"><table><thead><tr><th>Sau khi bắt đầu rẽ</th><th>S5 đúng cạnh ↓</th><th>S6 Hit100 ↓</th><th>S6 MAE(m) ↑</th></tr></thead><tbody><tr><td>GPS thật</td><td>100,00%</td><td>100,00%</td><td>5</td></tr><tr><td>Geo-I reset từng chuyến</td><td>41,67%</td><td>41,67%</td><td>661</td></tr><tr><td><strong>GeoI-Epoch8-H12</strong></td><td>50,00%</td><td>50,00%</td><td>543</td></tr></tbody></table></div>
+<p class="p">24 nhóm, 192 chuyến; 12 train/6 chọn/6 test. Attacker biết hai hướng rẽ/đích có thể xảy ra và sáu lịch sử đã bảo vệ; chỉ thấy prefix tới mốc công khai. Các cạnh test chưa xuất hiện trong train. Sau rẽ Raw 100% xác nhận có tín hiệu; trước rẽ Raw cũng 50%, là mơ hồ có sẵn.</p>
+<p class="p">Epoch8 giữ tổng cap 0,23/m cho tám chuyến, reset có tổng 1,84/m. Epoch8 chọn uniform trên selection và chưa tốt hơn reset về attacker; hai target cùng dựa trên một lựa chọn hướng rẽ nên không là hai bằng chứng độc lập. Attacker chưa dùng đầy đủ các liên kết giữa tám chuyến.</p>
+<p class="key">Đóng góp đã có: cap không cấp lại theo chuyến/restart; prefix tương lai được chấm đúng thời điểm; utility phục hồi bằng L/cache local. Chưa chứng minh giấu toàn bộ danh tính hoặc thắng mọi dự báo tương lai.</p>
+</section>
+<section class="page" id="section-7"><h2>7. S9/S10: nhiễu không delay và kiểm tra attacker</h2>
+<p class="p">Không bỏ đoạn đầu và không trì hoãn đoạn cuối. Endpoint20 dùng ε nhỏ hơn trên <strong>mọi lần đọc</strong> vì chưa biết trước đâu là lần cuối. So với GeoI-Slack20: cùng backbone, K=5/L20, mọi mốc được gửi; ε giảm 0,01 → 0,0025/m.</p>
+<div class="table-wrap"><table><thead><tr><th>28 nhóm, 112 runs/phương pháp</th><th>S9 MAE↑</th><th>S10 MAE↑</th><th>S10 Hit100↓</th><th>S10 Hit500↓</th></tr></thead><tbody><tr><td>GeoI-Slack20 (đối chứng cùng L)</td><td>790</td><td>758</td><td>0,00%</td><td>12,50%</td></tr><tr><td><strong>GeoI-Endpoint20</strong></td><td>1.407</td><td>1.337</td><td>0,00%</td><td>4,46%</td></tr></tbody></table></div>
+<p class="p">Chọn attacker bằng cross-fit theo nhóm: lần lượt giữ ngoài 1 trong 8 nhóm train, cộng 2 nhóm selection; ưu tiên điểm ổn định hơn qua nhóm, không chọn bằng test. Attacker GeoI-Slack20 có MAE S10 <strong>758m</strong> thay vì 901m ở bank cũ; Endpoint20 vẫn <strong>1.337m</strong>. Chênh MAE cùng L: <strong>579 m; khoảng bootstrap 95% [468; 696] m</strong>. Bootstrap theo nhóm, không coi 112 runs là độc lập.</p>
+<p class="p">Hit100 đều 0% nên không phân biệt hai cấu hình; thêm Hit500 cho thước đo rộng hơn. Quy tắc mới cải thiện MAE nhưng Hit chưa ổn định: trên Slack L10, Hit500 S10 giảm 30,36% → 14,29%. Không gọi attacker mới tốt hơn ở mọi metric.</p>
+<p class="p">Endpoint20 Recall <strong>96,64%</strong> ở cohort này, giảm khoảng 2,30 điểm % so với Slack20; 6/112 runs dưới 90%, thấp nhất 77,61%. Xáo thứ tự Q bỏ nhãn slot nhưng Hungarian vẫn ghép được bằng hình học; không xem shuffle là lợi thế privacy độc lập.</p>
+<h3>Bước tiếp theo để kết luận chắc hơn</h3>
+<ul><li>Khóa policy/cache/selector, chạy nhóm và thành phố chưa dùng để chỉnh phương pháp; ưu tiên chuyến đầu và chuyến dài có Recall thấp.</li><li>Mở rộng attacker liên kết toàn bộ lịch sử S4–S6; kiểm tra category/purpose lệch tần suất và suy ý định từ tuyến đường.</li><li>Bổ sung metadata và metrics gốc đúng hợp đồng từng paper; báo cả privacy, utility, chi phí và N/A. Giữ Geo-I làm nền tảng.</li></ul>
+<p class="p">Các vòng mới là development/diagnostic, chưa là confirmation chưa từng xem. Kernel Geo-I lý tưởng là nền tảng; sampler float hiện tại vẫn xấp xỉ. S8 và các kênh account/IP chưa được giải quyết. <a href="../../../artifacts/benchmarks/endpoint_robust_selection_20261006/readout.json">Endpoint evidence</a> · <a href="../../../artifacts/benchmarks/native_versioned_static_20261006_v1/results.json">Cache evidence</a>.</p>
+</section>
+</main></body></html>

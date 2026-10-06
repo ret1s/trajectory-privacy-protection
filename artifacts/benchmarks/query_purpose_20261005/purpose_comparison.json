@@ -1,0 +1,120 @@
+{
+  "schema": "query-purpose-local-comparison-v1",
+  "L": 10,
+  "scope": "Snapshot internal development; same Q, replies, GPS and top-k, only local ranking changes",
+  "purpose_results": {
+    "fastest_travel": {
+      "distance_only_recall": 0.974074074074074,
+      "purpose_reranking_recall": 0.974074074074074,
+      "paired_delta": 0.0,
+      "paired_family_bootstrap_95": [
+        0.0,
+        0.0
+      ],
+      "families": 3,
+      "family_values_distance_new": {
+        "family-710": [
+          0.922222222222222,
+          0.922222222222222
+        ],
+        "family-711": [
+          1.0,
+          1.0
+        ],
+        "family-712": [
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "minimum_detour": {
+      "distance_only_recall": 0.7518518518518519,
+      "purpose_reranking_recall": 0.9370370370370371,
+      "paired_delta": 0.18518518518518523,
+      "paired_family_bootstrap_95": [
+        0.15555555555555556,
+        0.2333333333333334
+      ],
+      "families": 3,
+      "family_values_distance_new": {
+        "family-710": [
+          0.6555555555555556,
+          0.8222222222222223
+        ],
+        "family-711": [
+          0.8333333333333334,
+          0.9888888888888889
+        ],
+        "family-712": [
+          0.7666666666666666,
+          1.0
+        ]
+      }
+    },
+    "nearest_distance": {
+      "distance_only_recall": 0.974074074074074,
+      "purpose_reranking_recall": 0.974074074074074,
+      "paired_delta": 0.0,
+      "paired_family_bootstrap_95": [
+        0.0,
+        0.0
+      ],
+      "families": 3,
+      "family_values_distance_new": {
+        "family-710": [
+          0.922222222222222,
+          0.922222222222222
+        ],
+        "family-711": [
+          1.0,
+          1.0
+        ],
+        "family-712": [
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "within_radius": {
+      "distance_only_recall": 0.8888888888888888,
+      "purpose_reranking_recall": 0.8888888888888888,
+      "paired_delta": 0.0,
+      "paired_family_bootstrap_95": [
+        0.0,
+        0.0
+      ],
+      "families": 3,
+      "family_values_distance_new": {
+        "family-710": [
+          0.6666666666666666,
+          0.6666666666666666
+        ],
+        "family-711": [
+          1.0,
+          1.0
+        ],
+        "family-712": [
+          1.0,
+          1.0
+        ]
+      }
+    }
+  },
+  "radius_exhaustive_reference_checks": {
+    "rows": 51,
+    "baseline_returned_items": 201,
+    "baseline_definitely_outside_radius": 170,
+    "new_definitely_outside_radius": 0
+  },
+  "traffic_change": 0,
+  "private_GPS_budget_change": 0,
+  "source_sha256": {
+    "artifacts/benchmarks/query_purpose_20261005/snapshot/utility_rows.json.gz": "0542002726f0adcd4076d70dbdfb076a827c414f8f32afa4f900ac7e47de4b12",
+    "experiments/query_purpose_comparison.py": "53cd983921bae9799e936765af70278b897b212bfb63cccac51f2dd6b4f39f4a"
+  },
+  "limits": [
+    "three test families, bootstrap conditional on this small cohort",
+    "fastest equals distance at constant road speed",
+    "not a comparison with external paper methods"
+  ]
+}

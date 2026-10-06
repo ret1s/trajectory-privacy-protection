@@ -1,0 +1,698 @@
+{
+  "prepared_on": "2026-10-06",
+  "venue": "Journal of Information Security and Applications",
+  "target_route": "regular research article assumed pending fresh CFP/deadline",
+  "status": "draft; NOT publication ready; pilot controls do not implement planned risk-aware Q",
+  "publication_preflight": {
+    "schema_version": 1,
+    "protocol_id": "jisa-20261006-draft-current-controls-v1",
+    "stage": "draft",
+    "primary_claim": "Matched Geo-I controls prepare a constrained multi-purpose road-feasible Q study; novelty and confirmation pending.",
+    "analysis_unit": "independent source group: real person/vehicle as defined by source; SUMO synthetic family; linked sessions together",
+    "split_unit": [
+      "source_group_id"
+    ],
+    "source_pins": [
+      {
+        "path": "artifacts/benchmarks/future_native_depth_20261005_v1/public_reply40.npz",
+        "sha256": "fa56a1af115a72fd8d21c38df22978f6d04f1564de936cfdc90d6acf686d496b"
+      },
+      {
+        "path": "artifacts/benchmarks/future_native_depth_20261005_v1/results.json",
+        "sha256": "2655204cbfaad7bc126d98c7af1650a8d0013b96b082ff0b65f82c7cdfcd3f3b"
+      },
+      {
+        "path": "artifacts/benchmarks/research_loop/resources.json",
+        "sha256": "82b03a2dad35c898483437ab63da9437076594e913f5beb6b0d18360ffe9b8b1"
+      },
+      {
+        "path": "artifacts/datasets/future_controlled_20261005_v1/public_native.net.xml.gz",
+        "sha256": "243924810d6c26e1df068f1e2e85198097370f39cf96d8ed759a3bd72a64f395"
+      },
+      {
+        "path": "artifacts/datasets/future_controlled_20261005_v2/dataset.json.gz",
+        "sha256": "6977f267538231a70cb1bf1f3f0bf2d1cc4cd50df128ea9d54a1967e25ed4b9c"
+      },
+      {
+        "path": "artifacts/datasets/future_controlled_20261005_v2/manifest.json",
+        "sha256": "5502ef4cc28a321a02a6ad96b75fdb32c27834c564b54eda889014c65f10386d"
+      },
+      {
+        "path": "benchmark/anchor_belief.py",
+        "sha256": "9a4d99261ce43c3ebc6d0ce118e974ea3778ca82d0a02ac36b428e669d43dc61"
+      },
+      {
+        "path": "benchmark/engines/belief_lane.py",
+        "sha256": "adf589497a91860f5a77c7461553bfe66f62fbaebb887cf9c4c959a9906165ec"
+      },
+      {
+        "path": "benchmark/engines/budgeted.py",
+        "sha256": "c1c6b6b1dda88105ac15d36a7e32eb9fcc3af2afd070c99c11e10fbb11d903a1"
+      },
+      {
+        "path": "benchmark/engines/contextual_lane.py",
+        "sha256": "9220e7615cf8cf323a261fcf6ddae7da2017b98787fb76bfd1c14e52b92054b1"
+      },
+      {
+        "path": "benchmark/engines/fair_cover.py",
+        "sha256": "c739b71374a6682f6468588720660152bf73ad11c825237d90ed9a213cb8d8a6"
+      },
+      {
+        "path": "benchmark/engines/filtered_cover.py",
+        "sha256": "59633ff32d36de8be5d20e88d62fa579d6c7bc24f9f081904326140ddc00ee7c"
+      },
+      {
+        "path": "benchmark/engines/lane_budgeted.py",
+        "sha256": "b4c9ec1b42163e6a0504089acfad15970f236821327813b90be682967ae55695"
+      },
+      {
+        "path": "benchmark/engines/matched_filter.py",
+        "sha256": "147c298c6f128c680ce899465a6dc2f980bb8f8456d38c2cc98726f47cd7e5e8"
+      },
+      {
+        "path": "benchmark/engines/origin_guard.py",
+        "sha256": "d311ef1142b641376c9aceea543419254620cf49387feea85fda03c9aea59ccb"
+      },
+      {
+        "path": "benchmark/engines/paced_guard.py",
+        "sha256": "740b6b8eabce33a8b50bca55f33b22b868f5f42211f86600924d4d8d43b6ecf0"
+      },
+      {
+        "path": "benchmark/engines/paced_slack.py",
+        "sha256": "60d96f019496e1b209b84090b787e4b484aa38c85acfda307fc71ee05dc7f2cf"
+      },
+      {
+        "path": "benchmark/engines/planar_paced.py",
+        "sha256": "3df0f93752f085d2ac58ec8324c4f0d977b0793c2c45db76950bd83ac5a780e7"
+      },
+      {
+        "path": "benchmark/engines/progress_cover.py",
+        "sha256": "9e1121793209e86c825dfc785a6b6859219443fd0ec86557eebdf5035a3cb4d0"
+      },
+      {
+        "path": "benchmark/engines/quotient_cover.py",
+        "sha256": "93db80c1acce17b50e6dcdf4c711189604b003735b41a087c4d8d9ccaada8ed2"
+      },
+      {
+        "path": "benchmark/engines/service_cover.py",
+        "sha256": "56894618d61135c016f11609ee379b7f0867de46ddfc0699d7f174fd49ba6e48"
+      },
+      {
+        "path": "benchmark/engines/slack_progress.py",
+        "sha256": "655e2a730323d1e365fef4ac8a14cbd67e7049b27816cf41fcae850651a97963"
+      },
+      {
+        "path": "benchmark/planar_anchor.py",
+        "sha256": "65e2fd524ad2bae0af364c4246301e2aeb9a3611d28e5e637a5b1e71b6e1f8a8"
+      },
+      {
+        "path": "benchmark/public_poi_context.py",
+        "sha256": "98aa1301ce921630dbb77ef1bb7a19c6b70241e1689cccaa132192019b88ae86"
+      },
+      {
+        "path": "benchmark/response_aware_belief.py",
+        "sha256": "2f75b486472430260fa5a112cf5f49cb2bfd18d67da378d8c62954c72a43f070"
+      },
+      {
+        "path": "benchmark/static_poi_cache.py",
+        "sha256": "1ea7f97bbc11590ad548fc30192767f27a8605489a77b60bfeecbc709daadfa0"
+      },
+      {
+        "path": "benchmark/versioned_static_poi_cache.py",
+        "sha256": "18ca007471ed827f46c9f8942c6e15b6933e45f3d73f53e56121e0deb891417a"
+      },
+      {
+        "path": "core/demo_protocol.py",
+        "sha256": "7f702875178f94388298bfd02d4d073e6a8b13120508713dd728606c211e51ae"
+      },
+      {
+        "path": "core/mechanisms.py",
+        "sha256": "2c950335809507f0551eeeea62089260e74fa94624b3a84eb64b4666ca0cadfa"
+      },
+      {
+        "path": "core/road_network.py",
+        "sha256": "7e69c17f17eee24104bd9efc0b3b74b4b502a9c131a90cc99736da390c91108d"
+      },
+      {
+        "path": "core/session_budget.py",
+        "sha256": "7bbb7ed8fd16252d0ed6280375c212e67c9216128d65e2a67f9e87e2e0039171"
+      },
+      {
+        "path": "data/lane_states.py",
+        "sha256": "72ec66d395686a3d5596fdd4a59c757da1bc8e13f3899903f6a427b2bde14664"
+      },
+      {
+        "path": "data/scenario_suite/mobility.py",
+        "sha256": "0b853cb408343ccb7c561264310bc9a684adec54e26b4cb857229aefae4fe46d"
+      },
+      {
+        "path": "data/sumo_demo.py",
+        "sha256": "28dbca9b080687ac443e658e78e9aecce45404b788c035b0435cb89196b0cb4e"
+      },
+      {
+        "path": "evaluation/candidate_future_attack.py",
+        "sha256": "e0c322b98a39bb98ad65332c384a90a52554dff2b459749be6cd3a7721a1e339"
+      },
+      {
+        "path": "evaluation/endpoint_noise_attacks.py",
+        "sha256": "b7cc3de94a3b8d163024fbd3b9d6ca91e131e7f3d2d7fd470fa55769345f23d1"
+      },
+      {
+        "path": "evaluation/identity_future.py",
+        "sha256": "bb5f3db42a84c8bec563f8deb80f352ce63f6b364568c9553961c494aaf930f0"
+      },
+      {
+        "path": "evaluation/lane_travel.py",
+        "sha256": "111e1bc109dd53e29922d44bfbc16bded8f1409e467e43faba3723026dc45bde"
+      },
+      {
+        "path": "evaluation/live_poi.py",
+        "sha256": "b6bf32695d1444809c1e5147868a16ee93a1a7b6fe65104a0d57e6cc369dcad2"
+      },
+      {
+        "path": "evaluation/query_intent.py",
+        "sha256": "d902d066ca0d8f40a10333d1742d5761f890aad3084e6a2061216ef9fc0c660e"
+      },
+      {
+        "path": "evaluation/robust_endpoint_selection.py",
+        "sha256": "065272ca40a98822093acb978ebb7e43c095eb248284286a089b1ba37b2608cd"
+      },
+      {
+        "path": "evaluation/scenario_metrics.py",
+        "sha256": "b212d35ccb4d633e23f24c5d3d80a48a775361117952e2cee820d7b28fdb8e02"
+      },
+      {
+        "path": "experiments/build_future_sumo_cohort.py",
+        "sha256": "4248a0be23ef4c2f36c49791b8d4d154b9f7aeb70e06abdee9069824f35fff54"
+      },
+      {
+        "path": "experiments/future_sumo_eval.py",
+        "sha256": "8705492563025bb6c4207c3b644d7db9f5366f466b7963bee4e824b2c6395e7c"
+      },
+      {
+        "path": "experiments/jisa_native_anchor_ablation_20261006.py",
+        "sha256": "a4e87fc09c39037ba0f2496f604f4be8628f75ff56780ae386ad01f667706e68"
+      },
+      {
+        "path": "experiments/jisa_publication_preflight.py",
+        "sha256": "2c232b1298b57fef1c54e23095a4ec23d84157b649cce93a40b71ca086e093d0"
+      },
+      {
+        "path": "experiments/native_future_retrieval_depth.py",
+        "sha256": "241a9cc508cbb2f31b3069808049270619690005f0f3dc1c5187c921e765d33b"
+      },
+      {
+        "path": "experiments/native_static_cache_20261006.py",
+        "sha256": "d536c93d40c6e515547fa3ca0063575fd01fa5b7c90b4ae10bc121f036889a6d"
+      },
+      {
+        "path": "experiments/query_intent_sequence.py",
+        "sha256": "0b22ab4091e5ee63026c228ede4fcbe06b6c0627e318dcecacad1ec26a101567"
+      },
+      {
+        "path": "requirements-sumo.txt",
+        "sha256": "31a546839e3151841fd0600f303398441f32d63c5beec511e9aa158f534708a1"
+      },
+      {
+        "path": "requirements.txt",
+        "sha256": "6129a4e83491a088fb44b319039133577d438479a6151cb8f682818d61875654"
+      }
+    ],
+    "privacy_budget": {
+      "distance_unit": "m",
+      "time_unit": "s",
+      "epsilon_unit": "m^-1",
+      "epoch_cap": 0.23,
+      "public_slots": 8,
+      "public_horizon": 12,
+      "epsilon_unit_value": 0.00125,
+      "nominal_session_cap": 0.03,
+      "effective_session_cap": 0.02875
+    },
+    "methods": [
+      {
+        "id": "rem_epoch8",
+        "fidelity": "proposed",
+        "output_contract": "Q_only_coordinates_public_clock_static_POI",
+        "configuration": {
+          "N": 8,
+          "H_accounting_parameter": 12,
+          "max_units": 23,
+          "epoch_cap_per_m": 0.23,
+          "unit_epsilon_per_m": 0.00125,
+          "nominal_session_cap_per_m": 0.03,
+          "effective_session_cap_per_m": 0.02875,
+          "read_interval_s": 60,
+          "K": 5,
+          "reply_depth_L": 20,
+          "planner_depth_L": 10,
+          "reference_top_k": 5,
+          "theta_m": 200,
+          "utility_slack": 0.03,
+          "cache_policies": [
+            "current_only",
+            "versioned_epoch8"
+          ],
+          "public_epoch_s": [
+            0,
+            12000
+          ],
+          "GPS_read_count": "H12 branch-dependent stopping count12–22; short traces may read fewer; native600s clock has11 scheduled reads",
+          "status": "current development controls; NOT the unimplemented risk-aware candidate",
+          "primitive": "road-supported exponential kernel",
+          "emission": "primitive-matched release/reuse belief",
+          "paper_fidelity": "primitive control; not faithful full paper reproduction"
+        },
+        "source_pins": [
+          {
+            "path": "benchmark/engines/paced_slack.py",
+            "sha256": "60d96f019496e1b209b84090b787e4b484aa38c85acfda307fc71ee05dc7f2cf"
+          },
+          {
+            "path": "benchmark/engines/matched_filter.py",
+            "sha256": "147c298c6f128c680ce899465a6dc2f980bb8f8456d38c2cc98726f47cd7e5e8"
+          },
+          {
+            "path": "benchmark/engines/filtered_cover.py",
+            "sha256": "59633ff32d36de8be5d20e88d62fa579d6c7bc24f9f081904326140ddc00ee7c"
+          },
+          {
+            "path": "benchmark/anchor_belief.py",
+            "sha256": "9a4d99261ce43c3ebc6d0ce118e974ea3778ca82d0a02ac36b428e669d43dc61"
+          },
+          {
+            "path": "benchmark/response_aware_belief.py",
+            "sha256": "2f75b486472430260fa5a112cf5f49cb2bfd18d67da378d8c62954c72a43f070"
+          },
+          {
+            "path": "core/mechanisms.py",
+            "sha256": "2c950335809507f0551eeeea62089260e74fa94624b3a84eb64b4666ca0cadfa"
+          },
+          {
+            "path": "core/session_budget.py",
+            "sha256": "7bbb7ed8fd16252d0ed6280375c212e67c9216128d65e2a67f9e87e2e0039171"
+          },
+          {
+            "path": "benchmark/versioned_static_poi_cache.py",
+            "sha256": "18ca007471ed827f46c9f8942c6e15b6933e45f3d73f53e56121e0deb891417a"
+          },
+          {
+            "path": "experiments/jisa_native_anchor_ablation_20261006.py",
+            "sha256": "a4e87fc09c39037ba0f2496f604f4be8628f75ff56780ae386ad01f667706e68"
+          }
+        ]
+      },
+      {
+        "id": "planar_epoch8",
+        "fidelity": "control",
+        "output_contract": "Q_only_coordinates_public_clock_static_POI",
+        "configuration": {
+          "N": 8,
+          "H_accounting_parameter": 12,
+          "max_units": 23,
+          "epoch_cap_per_m": 0.23,
+          "unit_epsilon_per_m": 0.00125,
+          "nominal_session_cap_per_m": 0.03,
+          "effective_session_cap_per_m": 0.02875,
+          "read_interval_s": 60,
+          "K": 5,
+          "reply_depth_L": 20,
+          "planner_depth_L": 10,
+          "reference_top_k": 5,
+          "theta_m": 200,
+          "utility_slack": 0.03,
+          "cache_policies": [
+            "current_only",
+            "versioned_epoch8"
+          ],
+          "public_epoch_s": [
+            0,
+            12000
+          ],
+          "GPS_read_count": "H12 branch-dependent stopping count12–22; short traces may read fewer; native600s clock has11 scheduled reads",
+          "status": "current development controls; NOT the unimplemented risk-aware candidate",
+          "primitive": "full-plane Planar Laplace kernel",
+          "emission": "primitive-matched release/reuse belief",
+          "paper_fidelity": "primitive control; not faithful full paper reproduction"
+        },
+        "source_pins": [
+          {
+            "path": "benchmark/engines/planar_paced.py",
+            "sha256": "3df0f93752f085d2ac58ec8324c4f0d977b0793c2c45db76950bd83ac5a780e7"
+          },
+          {
+            "path": "benchmark/engines/matched_filter.py",
+            "sha256": "147c298c6f128c680ce899465a6dc2f980bb8f8456d38c2cc98726f47cd7e5e8"
+          },
+          {
+            "path": "benchmark/engines/filtered_cover.py",
+            "sha256": "59633ff32d36de8be5d20e88d62fa579d6c7bc24f9f081904326140ddc00ee7c"
+          },
+          {
+            "path": "benchmark/anchor_belief.py",
+            "sha256": "9a4d99261ce43c3ebc6d0ce118e974ea3778ca82d0a02ac36b428e669d43dc61"
+          },
+          {
+            "path": "benchmark/response_aware_belief.py",
+            "sha256": "2f75b486472430260fa5a112cf5f49cb2bfd18d67da378d8c62954c72a43f070"
+          },
+          {
+            "path": "core/mechanisms.py",
+            "sha256": "2c950335809507f0551eeeea62089260e74fa94624b3a84eb64b4666ca0cadfa"
+          },
+          {
+            "path": "core/session_budget.py",
+            "sha256": "7bbb7ed8fd16252d0ed6280375c212e67c9216128d65e2a67f9e87e2e0039171"
+          },
+          {
+            "path": "benchmark/versioned_static_poi_cache.py",
+            "sha256": "18ca007471ed827f46c9f8942c6e15b6933e45f3d73f53e56121e0deb891417a"
+          },
+          {
+            "path": "experiments/jisa_native_anchor_ablation_20261006.py",
+            "sha256": "a4e87fc09c39037ba0f2496f604f4be8628f75ff56780ae386ad01f667706e68"
+          }
+        ]
+      }
+    ],
+    "attackers": [
+      {
+        "id": "candidate_future_geometry_bank",
+        "source_pins": [
+          {
+            "path": "evaluation/candidate_future_attack.py",
+            "sha256": "e0c322b98a39bb98ad65332c384a90a52554dff2b459749be6cd3a7721a1e339"
+          },
+          {
+            "path": "evaluation/identity_future.py",
+            "sha256": "bb5f3db42a84c8bec563f8deb80f352ce63f6b364568c9553961c494aaf930f0"
+          },
+          {
+            "path": "experiments/jisa_native_anchor_ablation_20261006.py",
+            "sha256": "a4e87fc09c39037ba0f2496f604f4be8628f75ff56780ae386ad01f667706e68"
+          }
+        ],
+        "configuration": {
+          "tasks": [
+            "S5_next_edge",
+            "S6_future_destination"
+          ],
+          "knowledge": "two public geometric candidates; causal prefix and six prior sessions",
+          "bank": "CandidateFutureAttack geometry/ExtraTrees/decoder/prior bank",
+          "training": "per mechanism/task; train/selection/confirmation source groups disjoint",
+          "selection": "selection maximum balanced accuracy, then minimum logloss, lexical tie; frozen before confirmation"
+        }
+      },
+      {
+        "id": "robust_endpoint_bank",
+        "source_pins": [
+          {
+            "path": "evaluation/robust_endpoint_selection.py",
+            "sha256": "065272ca40a98822093acb978ebb7e43c095eb248284286a089b1ba37b2608cd"
+          },
+          {
+            "path": "evaluation/endpoint_noise_attacks.py",
+            "sha256": "b7cc3de94a3b8d163024fbd3b9d6ca91e131e7f3d2d7fd470fa55769345f23d1"
+          }
+        ],
+        "configuration": {
+          "tasks": [
+            "S9_hidden_start",
+            "S10_completed_endpoint"
+          ],
+          "bank": "OLS,kNN,ExtraTrees,Viterbi,Hungarian geometry tracking; per-metric selector",
+          "status": "available development bank; auxiliary and full-history extension pending",
+          "selection": "only train/selection; heldout source-group exclusion; no test-selected orientation"
+        }
+      }
+    ],
+    "metrics": [
+      {
+        "id": "hit100",
+        "kind": "privacy",
+        "unit": "1",
+        "direction": "lower",
+        "definition": "Estimate within100m; average within session then source group; event/empty denominators declared per scenario.",
+        "supported_contracts": [
+          "Q_only_coordinates_public_clock_static_POI"
+        ],
+        "methods": {
+          "rem_epoch8": {
+            "status": "supported"
+          },
+          "planar_epoch8": {
+            "status": "supported"
+          }
+        }
+      },
+      {
+        "id": "hit500",
+        "kind": "privacy",
+        "unit": "1",
+        "direction": "lower",
+        "definition": "Estimate within500m; same estimator and weighting as Hit100.",
+        "supported_contracts": [
+          "Q_only_coordinates_public_clock_static_POI"
+        ],
+        "methods": {
+          "rem_epoch8": {
+            "status": "supported"
+          },
+          "planar_epoch8": {
+            "status": "supported"
+          }
+        }
+      },
+      {
+        "id": "mae_m",
+        "kind": "privacy",
+        "unit": "m",
+        "direction": "higher",
+        "definition": "Attacker projected Euclidean coordinate error; task/estimator/weighting explicit; not trajectory utility MAE.",
+        "supported_contracts": [
+          "Q_only_coordinates_public_clock_static_POI"
+        ],
+        "methods": {
+          "rem_epoch8": {
+            "status": "supported"
+          },
+          "planar_epoch8": {
+            "status": "supported"
+          }
+        }
+      },
+      {
+        "id": "recall@5",
+        "kind": "utility",
+        "unit": "1",
+        "direction": "higher",
+        "definition": "Reference overlap/min(5,reference_count); conditional on nonempty reference; macro by group; completion/undefined count separately.",
+        "supported_contracts": [
+          "Q_only_coordinates_public_clock_static_POI"
+        ],
+        "methods": {
+          "rem_epoch8": {
+            "status": "supported"
+          },
+          "planar_epoch8": {
+            "status": "supported"
+          }
+        }
+      },
+      {
+        "id": "candidate_accuracy",
+        "kind": "privacy",
+        "unit": "1",
+        "direction": "lower",
+        "definition": "Exact candidate edge/destination selection; public candidate set and chance/class prior separately.",
+        "supported_contracts": [
+          "Q_only_coordinates_public_clock_static_POI"
+        ],
+        "methods": {
+          "rem_epoch8": {
+            "status": "supported"
+          },
+          "planar_epoch8": {
+            "status": "supported"
+          }
+        }
+      },
+      {
+        "id": "payload_bytes",
+        "kind": "cost",
+        "unit": "B",
+        "direction": "lower",
+        "definition": "Compact UTF8 JSON Q request plus full static POI reply estimate including repeats; excludes HTTP/TLS; per public event.",
+        "supported_contracts": [
+          "Q_only_coordinates_public_clock_static_POI"
+        ],
+        "methods": {
+          "rem_epoch8": {
+            "status": "supported"
+          },
+          "planar_epoch8": {
+            "status": "supported"
+          }
+        }
+      },
+      {
+        "id": "requests",
+        "kind": "cost",
+        "unit": "count",
+        "direction": "lower",
+        "definition": "Total per-Q requests within epoch; no free reset/refill or omitted failed events.",
+        "supported_contracts": [
+          "Q_only_coordinates_public_clock_static_POI"
+        ],
+        "methods": {
+          "rem_epoch8": {
+            "status": "supported"
+          },
+          "planar_epoch8": {
+            "status": "supported"
+          }
+        }
+      },
+      {
+        "id": "native_real_member_ASR",
+        "kind": "privacy",
+        "unit": "1",
+        "direction": "higher",
+        "definition": "Dummy anonymity score requiring a true member and paper-defined recognition rule; not our Q-only attacker success rate.",
+        "supported_contracts": [
+          "real_member_candidate_set"
+        ],
+        "methods": {
+          "rem_epoch8": {
+            "status": "n/a",
+            "reason": "Q-only does not designate a true location member; the paper real-member anonymity score is inapplicable."
+          },
+          "planar_epoch8": {
+            "status": "n/a",
+            "reason": "Q-only does not designate a true location member; the paper real-member anonymity score is inapplicable."
+          }
+        }
+      }
+    ],
+    "confirmation": {
+      "dataset_registrations": [],
+      "historical_datasets": [
+        {
+          "path": "artifacts/datasets/endpoint_holdout_expanded_v1/dataset.json",
+          "sha256": "91fd81b8b2d06e111931a06accfd9651c9a1166dacacff619c9abef25b168b71",
+          "content_sha256": "7a6bb3fcdda5f41293e5c43d4075b23e6f765d2121e7e5344275bc39d39330b9"
+        },
+        {
+          "path": "artifacts/datasets/endpoint_holdout_expanded_v1/dataset.json.gz",
+          "sha256": "61fd372da8eb453142fc6eb49a9ebd40fc36f7ac0916b8d988521b26f2f9e2c6",
+          "content_sha256": "7a6bb3fcdda5f41293e5c43d4075b23e6f765d2121e7e5344275bc39d39330b9"
+        },
+        {
+          "path": "artifacts/datasets/endpoint_holdout_v1/dataset.json",
+          "sha256": "cf151576188139ed329a8661001d78b246fc3095b63f33b4f2c8bad340dd8f19",
+          "content_sha256": "50ac214f7d5a6c410222100dbc9211f41701d7a593b5d01bbe34772fcf0796b2"
+        },
+        {
+          "path": "artifacts/datasets/future_controlled_20261005_v1/dataset.json.gz",
+          "sha256": "8248ea4d786b3a204b009487f95abaddca1050735ca4a597eabe999a63b34648",
+          "content_sha256": "47a89579b24323d081ff4be6aa3c08a9963662d92e44deda171ce88e8d7a31fe"
+        },
+        {
+          "path": "artifacts/datasets/future_controlled_20261005_v2/dataset.json.gz",
+          "sha256": "6977f267538231a70cb1bf1f3f0bf2d1cc4cd50df128ea9d54a1967e25ed4b9c",
+          "content_sha256": "79cbd259f6e4219cfe461234d6627a3e05deff0022c58785ca608d8d951a4308"
+        },
+        {
+          "path": "artifacts/datasets/research_loop_confirmation_v1/dataset.json",
+          "sha256": "357da388023b7eb998c33a80ff794a72b21085290541707941ae80070d18efe7",
+          "content_sha256": "0892b33b561d0a7d2829b2c1d5a6bc81320d2a23ec68bc882cdac852e5b993ae"
+        },
+        {
+          "path": "artifacts/datasets/research_loop_development_v1/dataset.json",
+          "sha256": "6092f46a51d57fd93639f9697627332eb4a5dbbd5cdbb745d20ae1cc91f4f3a9",
+          "content_sha256": "63b29ef8d34a2b25ef51cabd74bcea6706c2e56e33e3a1ade0e7a2d7a87ba6d4"
+        },
+        {
+          "path": "artifacts/datasets/research_loop_expanded_v1/dataset.json",
+          "sha256": "e80228fdd2e70b451dadcea23c725556345f5fcf3cc35f1915ad3f526a9a708e",
+          "content_sha256": "a00a93a76e1e3c6cfdc1da091e9c2d75fa724d27611ca2370e3c92fb1a9e2a60"
+        },
+        {
+          "path": "artifacts/datasets/research_loop_shadow_v1/dataset.json",
+          "sha256": "93625f23195ee72498b48ace4c540f7ea51d1757e4601080e0a0ce2db106a702",
+          "content_sha256": "108954653022dbc2181071d2c1b4c1009fd65e7df98be25bdb7278ed085234a7"
+        },
+        {
+          "path": "artifacts/datasets/urban_fresh_v1/dataset.json",
+          "sha256": "14cdf41db3f084030f3b00a4439bdbb0a86216759958388df7597466328a45ca",
+          "content_sha256": "2f587ba35d0142667d81a5e97e4d18893e0437803e6cf54434061fa2643e861f"
+        },
+        {
+          "path": "artifacts/datasets/urban_fresh_v2/dataset.json",
+          "sha256": "b15d79f51ffc8ae57d348032495c0d8170e6b12642b7d144c2de833ef9808a79",
+          "content_sha256": "672b25b25ab815c0873081837921115f90155e9e000dc35c5cb0baf7e7219ab9"
+        },
+        {
+          "path": "artifacts/datasets/urban_scenarios_v1/dataset.json",
+          "sha256": "826bf236588448e5e59b5e4e0304ddef3e3cf85751df8dddf901b72ae88aabb9",
+          "content_sha256": "6fc977209401f8591360e35bd7ce390bfadd9cd5098d74b47a5c9d3a9cefe358"
+        },
+        {
+          "path": "artifacts/datasets/urban_scenarios_v2/dataset.json",
+          "sha256": "e5ee6dad69074f870f2ef4cd2c1ada1a33d3fd71b846c8ef771a3b7b72856ef8",
+          "content_sha256": "27ea74e3d13deea059df663b5429f4333af97b096888cb8ee5f0669eefbbaff0"
+        },
+        {
+          "path": "artifacts/datasets/urban_scenarios_v3/dataset.json",
+          "sha256": "6ba4a1caa978540ede91b59f23d097e4a9b5e6bad17243890f17c9c49cf9a94f",
+          "content_sha256": "213886fc2722bbecf5e55f61e8978d2c2842bb6018b7f65f5021a261bd79358d"
+        },
+        {
+          "path": "artifacts/datasets/urban_shadow_v1/dataset.json",
+          "sha256": "0cf7e18da1107879ad7f1822f51c4e5e2d66cdd875cab70504096a854d02a11f",
+          "content_sha256": "7563a904421ed569425c893eda36221146729a32a3eff50366faec0fb93901b0"
+        }
+      ],
+      "frozen_methods": {},
+      "frozen_attackers": {}
+    }
+  },
+  "planned_method": {
+    "implemented": false,
+    "component": "risk-aware constrained Q selection; Geo-I/filter/epoch retained",
+    "private_inputs_allowed_for_network": "protected extended history only; no raw GPS or true QuerySpec",
+    "objective": "(1-lambda)*mean_coverage + lambda*lower_tail_CVaR_a(coverage), public feasibility and explicit coverage floor",
+    "parameter_status": "a/lambda/public purpose prototypes selected only on development train/selection then frozen; no chosen values/results",
+    "proof_status": "postprocessing conditional on ideal filter; optimizer guarantees not inherited automatically"
+  },
+  "planned_evaluation": {
+    "sources": [
+      "GeoLife person mobility after license check",
+      "Porto taxi-source vehicle mobility",
+      "new SUMO routes/groups"
+    ],
+    "historical_inventory_scope": "Canonical dataset.json/json.gz in artifacts/datasets; not a semantic overlap proof or all SQLite/raw traces. Inspected cohorts remain development.",
+    "confirmation_data_status": "not acquired/registered; no false inspection declaration",
+    "data_split": "source_group_id binds linked person/vehicle/family sessions; temporal/geographic stress cohorts separate; no dependent tick shuffle",
+    "planned_budget_grid_per_m": [
+      0.02,
+      0.05,
+      0.1,
+      0.23
+    ],
+    "candidate_selection": "Pareto/utility-floor rule on selection preserving privacy/cost; finalize numeric floors using precision/power before new holdout",
+    "co_primary_endpoints": [
+      "cold-start/lower-tail Recall@5 at matched cap and traffic",
+      "strong-attacker privacy scores with predeclared noninferiority tolerance"
+    ],
+    "uncertainty": "paired resampling by independent source group; replicate draws nested within group",
+    "pending": [
+      "full-history and mobility-correlated intent attack",
+      "real-trajectory loaders/provenance",
+      "native fidelity audits",
+      "runtime/mobile cost and dynamic POI freshness",
+      "numerical sampler guarantee or bounded scope",
+      "systematic novelty audit/full papers"
+    ]
+  }
+}

@@ -1,0 +1,2822 @@
+{
+  "schema": "supervisor-report-evidence-v1",
+  "checked_on": "2026-10-06",
+  "scope": "New report base evidence; old reports, datasets, benchmark sources and scores are read-only. Current iteration groups must stay separate.",
+  "literature_window": {
+    "from": "2023-10-06",
+    "through": "2026-10-06",
+    "rule": "Use first online publication; pre-window foundational methods are separately labelled.",
+    "excluded_recent_claim": "AnotherMe first online 2023-09-11 is outside this window; its 2024 issue year alone is insufficient.",
+    "first_online_metadata_note": "Ngày online AnotherMe dùng hồ sơ đã có trong repo; publisher hiện không mở được qua web tool. Crossref ghi tạo DOI ngày 11/09/2023 và issue 07/2024; ngày tạo DOI không được tự đồng nhất với ngày online."
+  },
+  "related_work_legend": {
+    "fully": "Paper explicitly targets and evaluates the defined task/threat within its assumptions. This is our mapping; never a claim of protection against every attacker.",
+    "partially": "Related mechanism/metric or narrower context, but no complete evaluation of the defined task.",
+    "unverified": "Insufficient primary evidence; not silently counted as full coverage.",
+    "unlisted": "No direct matching evidence found; does not establish a mechanism failure."
+  },
+  "scenario_taxonomy": [
+    {
+      "id": "S1",
+      "label": "Vị trí hiện tại"
+    },
+    {
+      "id": "S2",
+      "label": "Nơi dừng"
+    },
+    {
+      "id": "S3",
+      "label": "Đoạn đường đã đi"
+    },
+    {
+      "id": "S4",
+      "label": "Liên kết danh tính người/xe giữa phiên"
+    },
+    {
+      "id": "S5",
+      "label": "Cạnh đường kế tiếp"
+    },
+    {
+      "id": "S6",
+      "label": "Đích chưa tới"
+    },
+    {
+      "id": "S7",
+      "label": "Nội dung/ý định query"
+    },
+    {
+      "id": "S8",
+      "label": "Định vị nhờ dữ liệu người đi cùng"
+    },
+    {
+      "id": "S9",
+      "label": "Điểm đầu bị che"
+    },
+    {
+      "id": "S10",
+      "label": "Điểm cuối bị che của chuyến hoàn tất"
+    }
+  ],
+  "related_work": [
+    {
+      "key": "R1",
+      "title": "Protecting Vehicle Location Privacy with Contextually-Driven Synthetic Location Generation",
+      "short_title": "TransProtect",
+      "year": 2024,
+      "first_online": "2024-09-14",
+      "url": "https://arxiv.org/html/2409.09495v1",
+      "output_contract": "Một tọa độ đã làm nhiễu ở mỗi mốc; các tuyến ứng viên là bước nội bộ.",
+      "fully": [
+        "S1",
+        "S3"
+      ],
+      "partially": [
+        "S2"
+      ],
+      "native_privacy_metrics": "EIE ↑: sai số suy vị trí của attacker.",
+      "utility_metrics": "Δc ↓: kỳ vọng chênh chi phí tới các đích (Eq. 13).",
+      "cost_metrics": "Chưa xác minh một metric chi phí vận hành riêng.",
+      "verification_scope": "Toàn văn tác giả. Attacker biết bản đồ, tốc độ, traffic và cơ chế; bảo vệ suy vị trí/tuyến đã đi. Chưa có phép thử riêng nơi dừng, danh tính, ý định hoặc điểm đầu/cuối bị che.",
+      "source_sections": "§3.1, §4.4 Eq. 13, §5.1.4",
+      "mapping_is_our_inference": true,
+      "coverage_unlisted": "Chưa tìm thấy đánh giá trực tiếp theo scenario; không suy ra phương pháp chắc chắn thất bại.",
+      "within_window": true
+    },
+    {
+      "key": "R2",
+      "title": "A Dummy-Based Location Privacy Protection Scheme with Semantic Correlation of Moving Paths",
+      "short_title": "Semantic correlation",
+      "year": 2026,
+      "first_online": "2026-06-04",
+      "url": "https://link.springer.com/article/10.1007/s44443-026-00899-w",
+      "output_contract": "GPS thật + K−1 dummy; dùng LSTM/attention và ngữ nghĩa địa điểm.",
+      "fully": [
+        "S1"
+      ],
+      "partially": [
+        "S2",
+        "S3"
+      ],
+      "native_privacy_metrics": "ASR ↑: phần query có P(real) ≤ 1/K.",
+      "utility_metrics": "DER ↑: dummy hợp lý; không phải chất lượng POI cuối.",
+      "cost_metrics": "Thời gian tạo tập dummy ↓.",
+      "verification_scope": "Toàn văn publisher. ASR đánh giá tìm thành viên thật; DER đánh giá dummy theo đường/ngữ nghĩa. S3 chỉ partial vì chưa có phép đo tái dựng toàn đoạn đường theo taxonomy này. Ngữ nghĩa địa điểm không tương đương bảo vệ query intent S7; Sim/DER cần được khóa rõ để tái lập.",
+      "source_sections": "§3.2, §4.1–4.2, §6.3–6.5",
+      "mapping_is_our_inference": true,
+      "coverage_unlisted": "Chưa tìm thấy đánh giá trực tiếp theo scenario; không suy ra phương pháp chắc chắn thất bại.",
+      "within_window": true
+    },
+    {
+      "key": "R3",
+      "title": "Location Privacy Protection in Continuous LBSs: Enhancing Anonymity via Fake Queries",
+      "short_title": "Fake queries",
+      "year": 2026,
+      "first_online": "2026-01-03",
+      "url": "https://link.springer.com/article/10.1007/s44443-025-00438-z",
+      "output_contract": "Query thật: GPS thật + dummy; xen query giả chỉ có dummy.",
+      "fully": [
+        "S1",
+        "S3"
+      ],
+      "partially": [
+        "S2"
+      ],
+      "native_privacy_metrics": "Số đường khó phân biệt ↑; ASR theo path/reachability/semantic attack ↑.",
+      "utility_metrics": "Giữ kết quả query thật; chưa có Recall@5 hoặc metric POI tương đương.",
+      "cost_metrics": "Thời gian tạo tập ↓; RSS bộ nhớ ↓.",
+      "verification_scope": "Toàn văn publisher. Đường khó phân biệt xét thời gian đến và hướng, không chỉ khả năng đi tới. Fake query làm mờ liên kết đường, chưa chứng minh giấu nội dung/ý định S7.",
+      "source_sections": "§3–5, §6.3–6.6",
+      "mapping_is_our_inference": true,
+      "coverage_unlisted": "Chưa tìm thấy đánh giá trực tiếp theo scenario; không suy ra phương pháp chắc chắn thất bại.",
+      "within_window": true
+    },
+    {
+      "key": "R5",
+      "title": "CPCROK: A Communication-Efficient and Privacy-Preserving Scheme for Low-Density Vehicular Ad Hoc Networks",
+      "short_title": "CPCROK",
+      "year": 2025,
+      "first_online": "2025-04-09",
+      "url": "https://uhra.herts.ac.uk/id/eprint/25705/",
+      "output_contract": "Beacon thật + tuyến beacon giả; đổi pseudonym trong mix-zone VANET.",
+      "fully": [],
+      "partially": [
+        "S4"
+      ],
+      "native_privacy_metrics": "ρ ↓: tỷ lệ attacker ghép đúng trace xe trước/sau mix-zone.",
+      "utility_metrics": "Chưa có metric chất lượng dịch vụ POI.",
+      "cost_metrics": "ψ ↓: số tuyến giả tối thiểu đạt mức privacy mục tiêu; proxy communication.",
+      "verification_scope": "Toàn văn published version tải từ kho tác giả; §5 giản lược về một lần đổi pseudonym. Chỉ là liên kết xe qua mix-zone; chưa tách người, xe và thiết bị qua nhiều phiên.",
+      "source_sections": "§3.2, §5, §5.4 Eq. 25",
+      "mapping_is_our_inference": true,
+      "coverage_unlisted": "Chưa tìm thấy đánh giá trực tiếp theo scenario; không suy ra phương pháp chắc chắn thất bại.",
+      "within_window": true
+    },
+    {
+      "key": "R6",
+      "title": "DP-FETC: A Differentially Private Trajectory Publishing Method Based on Feature Extraction and Trajectory Correlation",
+      "short_title": "DP-FETC",
+      "year": 2025,
+      "first_online": "2025-11-12",
+      "url": "https://www.aimspress.com/article/doi/10.3934/era.2025293",
+      "output_contract": "Bộ quỹ đạo tổng hợp offline; SynFE + PreOD đổi đầu/cuối của tuyến tương quan.",
+      "fully": [],
+      "partially": [
+        "S3",
+        "S8",
+        "S9",
+        "S10"
+      ],
+      "native_privacy_metrics": "MI ↓ giữa tuyến gốc/tổng hợp; ε-DP là bảo đảm lý thuyết.",
+      "utility_metrics": "JSD ↓ của vị trí, thời lượng, quãng đường.",
+      "cost_metrics": "Phân tích độ phức tạp; chưa có bytes/query online tương đương.",
+      "verification_scope": "Toàn văn publisher. Bảo vệ tương quan/social links và OD trong dataset công bố. S8 partial vì chưa chấm định vị một người từ trace người đi cùng; S9/S10 partial vì không phải attacker suy endpoint bị che từ cửa sổ online.",
+      "source_sections": "§4.3–4.4, §5.2 Eq. 19–21",
+      "mapping_is_our_inference": true,
+      "coverage_unlisted": "Chưa tìm thấy đánh giá trực tiếp theo scenario; không suy ra phương pháp chắc chắn thất bại.",
+      "within_window": true
+    },
+    {
+      "key": "R12",
+      "title": "A Privacy-Preserving Querying Mechanism with High Utility for Electric Vehicles",
+      "short_title": "EV Geo-I querying",
+      "year": 2024,
+      "first_online": "2024-01-30",
+      "url": "https://wrap.warwick.ac.uk/id/eprint/183198/",
+      "output_contract": "Một vị trí AGeoI + dummy; Edge trộn query, xe chọn trạm sạc trên thiết bị.",
+      "fully": [],
+      "partially": [
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "native_privacy_metrics": "(ε,δ)-AGeoI; chưa có đo lỗi attacker theo S1/S3.",
+      "utility_metrics": "CoP ↓: quãng đường tới trạm sạc chọn từ vị trí nhiễu trừ lựa chọn thật; tỷ lệ CoP=0 ↑; Wasserstein ↓ cho IBU.",
+      "cost_metrics": "Số dummy là tham số; chưa có metric bytes/query được tái lập.",
+      "verification_scope": "Toàn văn published version từ kho tác giả. Vị trí và journey tracing là mục tiêu thiết kế, nhưng nghiên cứu thực nghiệm tập trung CoP/ước lượng traffic, và giả định reset threat khi đổi Edge. Vì thiếu phép thử attacker khớp taxonomy, không gán Fully.",
+      "source_sections": "§V.C–E, §VI Def. 6.1, §VII.B–E",
+      "mapping_is_our_inference": true,
+      "coverage_unlisted": "Chưa tìm thấy đánh giá trực tiếp theo scenario; không suy ra phương pháp chắc chắn thất bại.",
+      "within_window": true
+    }
+  ],
+  "foundational": [
+    {
+      "key": "B0",
+      "short_title": "Geo-I",
+      "title": "Geo-indistinguishability: Differential Privacy for Location-Based Systems",
+      "year": 2013,
+      "first_online": null,
+      "url": "https://doi.org/10.1145/2508859.2516735",
+      "reason": "Nguồn nền tảng của cơ chế; nằm ngoài cửa sổ related works mới.",
+      "native_privacy_metrics": "ε-Geo-I: tỷ lệ khả năng quan sát theo khoảng cách; không phải điểm attacker.",
+      "output_contract": "Vị trí đã làm nhiễu."
+    },
+    {
+      "key": "B1",
+      "short_title": "DLS",
+      "title": "Achieving k-Anonymity in Privacy-Aware Location-Based Services",
+      "year": 2014,
+      "first_online": null,
+      "url": "https://doi.org/10.1109/INFOCOM.2014.6848002",
+      "reason": "Đối chứng nền tảng đang có trong paper-v2; ngoài cửa sổ mới.",
+      "native_privacy_metrics": "Cell entropy ↑ với prior query của tập thật + dummy.",
+      "output_contract": "GPS thật + K−1 dummy."
+    },
+    {
+      "key": "B2",
+      "short_title": "RDG",
+      "title": "Privacy Preservation in Location-Based Services: A Novel Metric and Attack Model",
+      "year": 2021,
+      "first_online": "2018-05-16",
+      "url": "https://doi.org/10.1109/TMC.2020.2993599",
+      "author_url": "https://arxiv.org/pdf/1805.06104",
+      "reason": "Đối chứng nền tảng ngoài cửa sổ mới; preprint 2018, DOI online 2020, issue 2021.",
+      "native_privacy_metrics": "Cell/transition entropy ↑; chống Viterbi theo candidate contract.",
+      "output_contract": "GPS thật + dummy trong chuỗi query.",
+      "first_online_stage": "author preprint"
+    }
+  ],
+  "metric_definitions": [
+    {
+      "key": "hit100",
+      "source_field": "location_hit_100m",
+      "unit": "ratio",
+      "direction": "lower",
+      "category": "empirical_privacy",
+      "definition": "Tỷ lệ mốc attacker đoán cách đáp án không quá 100 m; attacker chọn trên validation để tối đa Hit100."
+    },
+    {
+      "key": "mae_m",
+      "source_field": "location_mae_m",
+      "unit": "m",
+      "direction": "higher",
+      "category": "empirical_privacy",
+      "definition": "Khoảng cách trung bình từ ước lượng attacker tới đáp án; attacker chọn riêng để tối thiểu MAE."
+    },
+    {
+      "key": "recall_at_5",
+      "source_field": "poi_recall_at_k",
+      "unit": "ratio",
+      "direction": "higher",
+      "category": "service_utility",
+      "definition": "|POI trả về ∩ POI tham chiếu top-5| / |POI tham chiếu| sau union/dedup/local ranking; loại reference rỗng khỏi mẫu số."
+    },
+    {
+      "key": "payload_bytes_per_event",
+      "source_field": "payload_json_bytes_per_request",
+      "unit": "JSON bytes/event",
+      "direction": "lower",
+      "category": "communication_cost",
+      "definition": "Public request JSON cộng response POI ID bytes, chia số mốc; chưa gồm TLS/HTTP hoặc chi phí radio."
+    },
+    {
+      "key": "generation_ms_per_event",
+      "source_field": "amortized_generation_ms",
+      "unit": "ms/event",
+      "direction": "lower",
+      "category": "computation_cost",
+      "definition": "Thời gian protect không tính init chia số mốc; đo trên máy benchmark cũ, không phải latency điện thoại."
+    }
+  ],
+  "metric_motivation": [
+    "Output khác nhau: một tọa độ thay thế, tập có GPS thật, tập chỉ có Q giả hoặc bộ trace offline. Metric dựa vào việc chọn thành viên thật không áp dụng nguyên xi cho mọi output.",
+    "Threat/attacker và cách gộp mẫu cũng khác; entropy/DER hoặc ε không đồng nghĩa với sai số attacker.",
+    "Chấm cùng attacker bằng Hit100/MAE, cùng POI contract bằng Recall@5, và báo bytes/thời gian. Bổ sung metric gốc khi đủ đầu vào; giữ N/A có lý do."
+  ],
+  "paper_v2": {
+    "source": "artifacts/benchmarks/paper_benchmark/results.json",
+    "source_sha256": "2df043bfb73c3b2f630046381daf5b4bc9f6941fb5be925b0967d6de98f27538",
+    "protocol_version": "paper-v2",
+    "status": "Historical controlled development evidence; not a fresh confirmatory comparison of the current model.",
+    "scenario_rows": [
+      {
+        "scenario": "S1",
+        "label": "Vị trí hiện tại",
+        "methods": {
+          "unprotected": {
+            "hit100": 1.0,
+            "mae_m": 13.370105148243688,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 785.5833333333334,
+            "generation_ms_per_event": 0.03318058831306795,
+            "eie_point_estimate_m": 13.370105148243688,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 12,
+            "poi_category_evaluable": 72
+          },
+          "dls_graph_adaptation": {
+            "hit100": 0.5833333333333334,
+            "mae_m": 1317.5299228873691,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3349.5833333333335,
+            "generation_ms_per_event": 1.2401077522857424,
+            "eie_point_estimate_m": 1317.5299228873691,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "road_filter": 8,
+              "continuity": 4
+            },
+            "hit_attacker_counts": {
+              "road_filter": 8,
+              "continuity": 4
+            },
+            "released_events": 12,
+            "poi_category_evaluable": 72
+          },
+          "transprotect_adaptation": {
+            "hit100": 0.8333333333333334,
+            "mae_m": 84.37405489811852,
+            "recall_at_5": 0.9777777777777779,
+            "payload_bytes_per_event": 785.75,
+            "generation_ms_per_event": 0.5408505821833387,
+            "eie_point_estimate_m": 84.37405489811852,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "centroid": 8,
+              "road_filter": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 12,
+            "poi_category_evaluable": 72
+          },
+          "semantic_correlation_local_adaptation": {
+            "hit100": 1.0,
+            "mae_m": 11.479628636787858,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3353.25,
+            "generation_ms_per_event": 1.2133508353144862,
+            "eie_point_estimate_m": 11.479628636787858,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 12,
+            "poi_category_evaluable": 72
+          },
+          "br_private": {
+            "hit100": 0.3333333333333333,
+            "mae_m": 298.8999900778395,
+            "recall_at_5": 0.9583333333333335,
+            "payload_bytes_per_event": 3302.4166666666665,
+            "generation_ms_per_event": 2.6082291660713963,
+            "eie_point_estimate_m": 298.8999900778395,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "centroid": 4,
+              "road_filter": 8
+            },
+            "hit_attacker_counts": {
+              "centroid": 8,
+              "road_filter": 4
+            },
+            "released_events": 12,
+            "poi_category_evaluable": 72
+          },
+          "geo_i_anchored_dummy": {
+            "hit100": 0.5833333333333334,
+            "mae_m": 93.64357664814662,
+            "recall_at_5": 0.9916666666666667,
+            "payload_bytes_per_event": 3212.3333333333335,
+            "generation_ms_per_event": 0.4346663360289919,
+            "eie_point_estimate_m": 93.64357664814662,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "road_filter": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 8,
+              "road_filter": 4
+            },
+            "released_events": 12,
+            "poi_category_evaluable": 72
+          },
+          "geo_i_anchored_dummy_road": {
+            "hit100": 0.16666666666666666,
+            "mae_m": 237.0090289728828,
+            "recall_at_5": 0.9805555555555555,
+            "payload_bytes_per_event": 3257.8333333333335,
+            "generation_ms_per_event": 0.3972363338107243,
+            "eie_point_estimate_m": 237.0090289728828,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "centroid": 4,
+              "road_filter": 4,
+              "continuity": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 8,
+              "road_filter": 4
+            },
+            "released_events": 12,
+            "poi_category_evaluable": 72
+          }
+        }
+      },
+      {
+        "scenario": "S2",
+        "label": "Nơi dừng",
+        "methods": {
+          "unprotected": {
+            "hit100": 1.0,
+            "mae_m": 38.719092422301394,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 705.3518518518518,
+            "generation_ms_per_event": 0.006481870648847824,
+            "eie_point_estimate_m": 38.719092422301394,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 108,
+            "poi_category_evaluable": 648
+          },
+          "dls_graph_adaptation": {
+            "hit100": 1.0,
+            "mae_m": 38.719092422301394,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3265.287037037037,
+            "generation_ms_per_event": 0.8878464259733273,
+            "eie_point_estimate_m": 38.719092422301394,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "full_path": 12
+            },
+            "hit_attacker_counts": {
+              "full_path": 12
+            },
+            "released_events": 108,
+            "poi_category_evaluable": 648
+          },
+          "transprotect_adaptation": {
+            "hit100": 0.6666666666666666,
+            "mae_m": 88.22411948021026,
+            "recall_at_5": 0.9719135802469135,
+            "payload_bytes_per_event": 705.0462962962964,
+            "generation_ms_per_event": 0.273716064974131,
+            "eie_point_estimate_m": 88.22411948021026,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "full_mean": 8,
+              "running_mean": 4
+            },
+            "hit_attacker_counts": {
+              "full_mean": 12
+            },
+            "released_events": 108,
+            "poi_category_evaluable": 648
+          },
+          "semantic_correlation_local_adaptation": {
+            "hit100": 1.0,
+            "mae_m": 41.614312138092664,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3272.9351851851857,
+            "generation_ms_per_event": 0.9177365187766825,
+            "eie_point_estimate_m": 41.614312138092664,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "centroid": 4,
+              "full_mean": 8
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 108,
+            "poi_category_evaluable": 648
+          },
+          "br_private": {
+            "hit100": 0.2222222222222222,
+            "mae_m": 247.33934047546347,
+            "recall_at_5": 0.9700617283950618,
+            "payload_bytes_per_event": 3219.8425925925926,
+            "generation_ms_per_event": 5.912611481983698,
+            "eie_point_estimate_m": 247.33934047546347,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "full_mean": 8,
+              "full_path": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 4,
+              "full_path": 4,
+              "full_mean": 4
+            },
+            "released_events": 108,
+            "poi_category_evaluable": 648
+          },
+          "geo_i_anchored_dummy": {
+            "hit100": 0.3611111111111111,
+            "mae_m": 105.19787740704363,
+            "recall_at_5": 0.9851851851851853,
+            "payload_bytes_per_event": 3189.9259259259256,
+            "generation_ms_per_event": 0.28174729636197704,
+            "eie_point_estimate_m": 105.19787740704363,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "full_mean": 12
+            },
+            "hit_attacker_counts": {
+              "running_mean": 4,
+              "full_mean": 8
+            },
+            "released_events": 108,
+            "poi_category_evaluable": 648
+          },
+          "geo_i_anchored_dummy_road": {
+            "hit100": 0.5370370370370371,
+            "mae_m": 121.2398064397749,
+            "recall_at_5": 0.9743827160493826,
+            "payload_bytes_per_event": 3027.796296296296,
+            "generation_ms_per_event": 1.1314683611595282,
+            "eie_point_estimate_m": 121.2398064397749,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "full_mean": 8,
+              "full_path": 4
+            },
+            "hit_attacker_counts": {
+              "full_path": 12
+            },
+            "released_events": 108,
+            "poi_category_evaluable": 648
+          }
+        }
+      },
+      {
+        "scenario": "S3",
+        "label": "Đoạn đường đã đi",
+        "methods": {
+          "unprotected": {
+            "hit100": 0.9642857142857143,
+            "mae_m": 23.485290757558158,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 704.1959836459837,
+            "generation_ms_per_event": 0.005910711227042086,
+            "eie_point_estimate_m": 23.485290757558158,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 98,
+            "poi_category_evaluable": 582
+          },
+          "dls_graph_adaptation": {
+            "hit100": 0.3121392496392496,
+            "mae_m": 1687.6741403032784,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3266.150637325638,
+            "generation_ms_per_event": 1.095242239039292,
+            "eie_point_estimate_m": 1687.6741403032784,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "centroid": 4,
+              "shadow_full_knn": 8
+            },
+            "hit_attacker_counts": {
+              "continuity": 8,
+              "road_filter": 4
+            },
+            "released_events": 98,
+            "poi_category_evaluable": 582
+          },
+          "transprotect_adaptation": {
+            "hit100": 0.6928180615680617,
+            "mae_m": 99.02892666199953,
+            "recall_at_5": 0.9793121693121694,
+            "payload_bytes_per_event": 704.324074074074,
+            "generation_ms_per_event": 0.34988881167248675,
+            "eie_point_estimate_m": 99.02892666199953,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "road_filter": 4,
+              "centroid": 8
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 98,
+            "poi_category_evaluable": 582
+          },
+          "semantic_correlation_local_adaptation": {
+            "hit100": 0.4058261183261184,
+            "mae_m": 257.0380857144107,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3263.6823082010583,
+            "generation_ms_per_event": 1.2804218489084938,
+            "eie_point_estimate_m": 257.0380857144107,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "full_path": 12
+            },
+            "hit_attacker_counts": {
+              "full_path": 12
+            },
+            "released_events": 98,
+            "poi_category_evaluable": 582
+          },
+          "br_private": {
+            "hit100": 0.0744047619047619,
+            "mae_m": 776.3218444429011,
+            "recall_at_5": 0.8767350088183421,
+            "payload_bytes_per_event": 3225.536583092833,
+            "generation_ms_per_event": 6.368856534430051,
+            "eie_point_estimate_m": 776.3218444429011,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 4,
+              "full_path": 8
+            },
+            "released_events": 98,
+            "poi_category_evaluable": 582
+          },
+          "geo_i_anchored_dummy": {
+            "hit100": 0.526509139009139,
+            "mae_m": 144.49240910826862,
+            "recall_at_5": 0.9772641093474429,
+            "payload_bytes_per_event": 3188.3184854497354,
+            "generation_ms_per_event": 0.291086081640623,
+            "eie_point_estimate_m": 144.49240910826862,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "full_path": 8,
+              "road_filter": 4
+            },
+            "hit_attacker_counts": {
+              "full_path": 12
+            },
+            "released_events": 98,
+            "poi_category_evaluable": 582
+          },
+          "geo_i_anchored_dummy_road": {
+            "hit100": 0.035684223184223186,
+            "mae_m": 1908.6474605599958,
+            "recall_at_5": 0.8196384479717813,
+            "payload_bytes_per_event": 3133.2357443482447,
+            "generation_ms_per_event": 1.208034754826682,
+            "eie_point_estimate_m": 1908.6474605599958,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "centroid": 8,
+              "shadow_full_knn": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 8,
+              "full_mean": 4
+            },
+            "released_events": 98,
+            "poi_category_evaluable": 582
+          }
+        }
+      },
+      {
+        "scenario": "S9",
+        "label": "Điểm đầu bị che",
+        "methods": {
+          "unprotected": {
+            "hit100": 0.4166666666666667,
+            "mae_m": 120.17438701599833,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 702.8888888888888,
+            "generation_ms_per_event": 0.004549770690371386,
+            "eie_point_estimate_m": 120.17438701599833,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "centroid": 8,
+              "road_filter": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 8,
+              "full_mean": 4
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "dls_graph_adaptation": {
+            "hit100": 0.08333333333333333,
+            "mae_m": 1581.942921880912,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3263.8541666666674,
+            "generation_ms_per_event": 0.8927430763934455,
+            "eie_point_estimate_m": 1581.942921880912,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "full_path": 4,
+              "road_filter": 8
+            },
+            "hit_attacker_counts": {
+              "full_path": 4,
+              "continuity": 4,
+              "centroid": 4
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "transprotect_adaptation": {
+            "hit100": 0.25,
+            "mae_m": 184.0817486264966,
+            "recall_at_5": 0.9726851851851851,
+            "payload_bytes_per_event": 702.8055555555555,
+            "generation_ms_per_event": 0.2770648126089428,
+            "eie_point_estimate_m": 184.0817486264966,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "centroid": 8,
+              "full_path": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "semantic_correlation_local_adaptation": {
+            "hit100": 0.3333333333333333,
+            "mae_m": 131.85848039310625,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3270.694444444445,
+            "generation_ms_per_event": 1.079448784568942,
+            "eie_point_estimate_m": 131.85848039310625,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "road_filter": 4,
+              "centroid": 4,
+              "continuity": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 8,
+              "continuity": 4
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "br_private": {
+            "hit100": 0.0,
+            "mae_m": 315.9685831027637,
+            "recall_at_5": 0.9659722222222222,
+            "payload_bytes_per_event": 3216.0833333333335,
+            "generation_ms_per_event": 6.169536750247869,
+            "eie_point_estimate_m": 315.9685831027637,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "full_mean": 4,
+              "continuity": 4,
+              "road_filter": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "geo_i_anchored_dummy": {
+            "hit100": 0.08333333333333333,
+            "mae_m": 307.1453145605419,
+            "recall_at_5": 0.9685185185185187,
+            "payload_bytes_per_event": 3179.6736111111113,
+            "generation_ms_per_event": 0.2540552706907167,
+            "eie_point_estimate_m": 307.1453145605419,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "full_mean": 8,
+              "continuity": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 4,
+              "continuity": 8
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "geo_i_anchored_dummy_road": {
+            "hit100": 0.4166666666666667,
+            "mae_m": 216.87887875069256,
+            "recall_at_5": 0.9699074074074074,
+            "payload_bytes_per_event": 3066.506944444445,
+            "generation_ms_per_event": 1.1292876109412948,
+            "eie_point_estimate_m": 216.87887875069256,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "full_mean": 8,
+              "full_path": 4
+            },
+            "hit_attacker_counts": {
+              "full_mean": 8,
+              "centroid": 4
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          }
+        }
+      },
+      {
+        "scenario": "S10",
+        "label": "Điểm cuối bị che của chuyến hoàn tất",
+        "methods": {
+          "unprotected": {
+            "hit100": 0.08333333333333333,
+            "mae_m": 629.6182081231215,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 704.2083333333334,
+            "generation_ms_per_event": 0.005022860932513139,
+            "eie_point_estimate_m": 629.6182081231215,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "dls_graph_adaptation": {
+            "hit100": 0.0,
+            "mae_m": 2028.96368654113,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3265.465277777778,
+            "generation_ms_per_event": 0.9497609998005726,
+            "eie_point_estimate_m": 2028.96368654113,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "continuity": 4,
+              "centroid": 4,
+              "prior": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 8,
+              "full_mean": 4
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "transprotect_adaptation": {
+            "hit100": 0.08333333333333333,
+            "mae_m": 679.7587811732056,
+            "recall_at_5": 0.985185185185185,
+            "payload_bytes_per_event": 704.0833333333331,
+            "generation_ms_per_event": 0.3303726803601926,
+            "eie_point_estimate_m": 679.7587811732056,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "semantic_correlation_local_adaptation": {
+            "hit100": 0.16666666666666666,
+            "mae_m": 730.5307651335906,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3276.7013888888887,
+            "generation_ms_per_event": 1.339090284899511,
+            "eie_point_estimate_m": 730.5307651335906,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "br_private": {
+            "hit100": 0.0,
+            "mae_m": 2314.5933707320423,
+            "recall_at_5": 0.8833333333333333,
+            "payload_bytes_per_event": 3220.555555555556,
+            "generation_ms_per_event": 5.919395528002901,
+            "eie_point_estimate_m": 2314.5933707320423,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "centroid": 4,
+              "shadow_full_knn": 4,
+              "prior": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "geo_i_anchored_dummy": {
+            "hit100": 0.0,
+            "mae_m": 636.3556527038485,
+            "recall_at_5": 0.9706018518518519,
+            "payload_bytes_per_event": 3211.652777777778,
+            "generation_ms_per_event": 0.26792245828093864,
+            "eie_point_estimate_m": 636.3556527038485,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "geo_i_anchored_dummy_road": {
+            "hit100": 0.0,
+            "mae_m": 2682.369821799641,
+            "recall_at_5": 0.7974537037037037,
+            "payload_bytes_per_event": 3139.409722222222,
+            "generation_ms_per_event": 0.902175638960519,
+            "eie_point_estimate_m": 2682.369821799641,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "full_path": 4,
+              "shadow_full_knn": 4,
+              "prior": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          }
+        }
+      }
+    ],
+    "per_method_utility": [
+      {
+        "method": "unprotected",
+        "label": "Raw",
+        "output_kind": "replacement_trajectory",
+        "is_internal_control": false,
+        "by_scenario": {
+          "S1": {
+            "hit100": 1.0,
+            "mae_m": 13.370105148243688,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 785.5833333333334,
+            "generation_ms_per_event": 0.03318058831306795,
+            "eie_point_estimate_m": 13.370105148243688,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 12,
+            "poi_category_evaluable": 72
+          },
+          "S2": {
+            "hit100": 1.0,
+            "mae_m": 38.719092422301394,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 705.3518518518518,
+            "generation_ms_per_event": 0.006481870648847824,
+            "eie_point_estimate_m": 38.719092422301394,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 108,
+            "poi_category_evaluable": 648
+          },
+          "S3": {
+            "hit100": 0.9642857142857143,
+            "mae_m": 23.485290757558158,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 704.1959836459837,
+            "generation_ms_per_event": 0.005910711227042086,
+            "eie_point_estimate_m": 23.485290757558158,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 98,
+            "poi_category_evaluable": 582
+          },
+          "S9": {
+            "hit100": 0.4166666666666667,
+            "mae_m": 120.17438701599833,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 702.8888888888888,
+            "generation_ms_per_event": 0.004549770690371386,
+            "eie_point_estimate_m": 120.17438701599833,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "centroid": 8,
+              "road_filter": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 8,
+              "full_mean": 4
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "S10": {
+            "hit100": 0.08333333333333333,
+            "mae_m": 629.6182081231215,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 704.2083333333334,
+            "generation_ms_per_event": 0.005022860932513139,
+            "eie_point_estimate_m": 629.6182081231215,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          }
+        },
+        "macro_utility": {
+          "recall_at_5": 1.0,
+          "payload_bytes_per_event": 720.4456782106782,
+          "generation_ms_per_event": 0.011029160362368477,
+          "aggregation": "Equal mean of five scenario means, each mean over the same 12 trips. The 60 windows are correlated, not 60 people.",
+          "minimum_scenario_recall_at_5": 1.0
+        }
+      },
+      {
+        "method": "dls_graph_adaptation",
+        "label": "DLS*",
+        "output_kind": "real_plus_dummies",
+        "is_internal_control": false,
+        "by_scenario": {
+          "S1": {
+            "hit100": 0.5833333333333334,
+            "mae_m": 1317.5299228873691,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3349.5833333333335,
+            "generation_ms_per_event": 1.2401077522857424,
+            "eie_point_estimate_m": 1317.5299228873691,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "road_filter": 8,
+              "continuity": 4
+            },
+            "hit_attacker_counts": {
+              "road_filter": 8,
+              "continuity": 4
+            },
+            "released_events": 12,
+            "poi_category_evaluable": 72
+          },
+          "S2": {
+            "hit100": 1.0,
+            "mae_m": 38.719092422301394,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3265.287037037037,
+            "generation_ms_per_event": 0.8878464259733273,
+            "eie_point_estimate_m": 38.719092422301394,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "full_path": 12
+            },
+            "hit_attacker_counts": {
+              "full_path": 12
+            },
+            "released_events": 108,
+            "poi_category_evaluable": 648
+          },
+          "S3": {
+            "hit100": 0.3121392496392496,
+            "mae_m": 1687.6741403032784,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3266.150637325638,
+            "generation_ms_per_event": 1.095242239039292,
+            "eie_point_estimate_m": 1687.6741403032784,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "centroid": 4,
+              "shadow_full_knn": 8
+            },
+            "hit_attacker_counts": {
+              "continuity": 8,
+              "road_filter": 4
+            },
+            "released_events": 98,
+            "poi_category_evaluable": 582
+          },
+          "S9": {
+            "hit100": 0.08333333333333333,
+            "mae_m": 1581.942921880912,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3263.8541666666674,
+            "generation_ms_per_event": 0.8927430763934455,
+            "eie_point_estimate_m": 1581.942921880912,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "full_path": 4,
+              "road_filter": 8
+            },
+            "hit_attacker_counts": {
+              "full_path": 4,
+              "continuity": 4,
+              "centroid": 4
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "S10": {
+            "hit100": 0.0,
+            "mae_m": 2028.96368654113,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3265.465277777778,
+            "generation_ms_per_event": 0.9497609998005726,
+            "eie_point_estimate_m": 2028.96368654113,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "continuity": 4,
+              "centroid": 4,
+              "prior": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 8,
+              "full_mean": 4
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          }
+        },
+        "macro_utility": {
+          "recall_at_5": 1.0,
+          "payload_bytes_per_event": 3282.0680904280907,
+          "generation_ms_per_event": 1.013140098698476,
+          "aggregation": "Equal mean of five scenario means, each mean over the same 12 trips. The 60 windows are correlated, not 60 people.",
+          "minimum_scenario_recall_at_5": 1.0
+        }
+      },
+      {
+        "method": "transprotect_adaptation",
+        "label": "TransProtect*",
+        "output_kind": "replacement_trajectory",
+        "is_internal_control": false,
+        "by_scenario": {
+          "S1": {
+            "hit100": 0.8333333333333334,
+            "mae_m": 84.37405489811852,
+            "recall_at_5": 0.9777777777777779,
+            "payload_bytes_per_event": 785.75,
+            "generation_ms_per_event": 0.5408505821833387,
+            "eie_point_estimate_m": 84.37405489811852,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "centroid": 8,
+              "road_filter": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 12,
+            "poi_category_evaluable": 72
+          },
+          "S2": {
+            "hit100": 0.6666666666666666,
+            "mae_m": 88.22411948021026,
+            "recall_at_5": 0.9719135802469135,
+            "payload_bytes_per_event": 705.0462962962964,
+            "generation_ms_per_event": 0.273716064974131,
+            "eie_point_estimate_m": 88.22411948021026,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "full_mean": 8,
+              "running_mean": 4
+            },
+            "hit_attacker_counts": {
+              "full_mean": 12
+            },
+            "released_events": 108,
+            "poi_category_evaluable": 648
+          },
+          "S3": {
+            "hit100": 0.6928180615680617,
+            "mae_m": 99.02892666199953,
+            "recall_at_5": 0.9793121693121694,
+            "payload_bytes_per_event": 704.324074074074,
+            "generation_ms_per_event": 0.34988881167248675,
+            "eie_point_estimate_m": 99.02892666199953,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "road_filter": 4,
+              "centroid": 8
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 98,
+            "poi_category_evaluable": 582
+          },
+          "S9": {
+            "hit100": 0.25,
+            "mae_m": 184.0817486264966,
+            "recall_at_5": 0.9726851851851851,
+            "payload_bytes_per_event": 702.8055555555555,
+            "generation_ms_per_event": 0.2770648126089428,
+            "eie_point_estimate_m": 184.0817486264966,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "centroid": 8,
+              "full_path": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "S10": {
+            "hit100": 0.08333333333333333,
+            "mae_m": 679.7587811732056,
+            "recall_at_5": 0.985185185185185,
+            "payload_bytes_per_event": 704.0833333333331,
+            "generation_ms_per_event": 0.3303726803601926,
+            "eie_point_estimate_m": 679.7587811732056,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "replacement_trajectory",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          }
+        },
+        "macro_utility": {
+          "recall_at_5": 0.9773747795414461,
+          "payload_bytes_per_event": 720.4018518518518,
+          "generation_ms_per_event": 0.3543785903598184,
+          "aggregation": "Equal mean of five scenario means, each mean over the same 12 trips. The 60 windows are correlated, not 60 people.",
+          "minimum_scenario_recall_at_5": 0.9719135802469135
+        }
+      },
+      {
+        "method": "semantic_correlation_local_adaptation",
+        "label": "Semantic*",
+        "output_kind": "real_plus_dummies",
+        "is_internal_control": false,
+        "by_scenario": {
+          "S1": {
+            "hit100": 1.0,
+            "mae_m": 11.479628636787858,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3353.25,
+            "generation_ms_per_event": 1.2133508353144862,
+            "eie_point_estimate_m": 11.479628636787858,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 12,
+            "poi_category_evaluable": 72
+          },
+          "S2": {
+            "hit100": 1.0,
+            "mae_m": 41.614312138092664,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3272.9351851851857,
+            "generation_ms_per_event": 0.9177365187766825,
+            "eie_point_estimate_m": 41.614312138092664,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "centroid": 4,
+              "full_mean": 8
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 108,
+            "poi_category_evaluable": 648
+          },
+          "S3": {
+            "hit100": 0.4058261183261184,
+            "mae_m": 257.0380857144107,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3263.6823082010583,
+            "generation_ms_per_event": 1.2804218489084938,
+            "eie_point_estimate_m": 257.0380857144107,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "full_path": 12
+            },
+            "hit_attacker_counts": {
+              "full_path": 12
+            },
+            "released_events": 98,
+            "poi_category_evaluable": 582
+          },
+          "S9": {
+            "hit100": 0.3333333333333333,
+            "mae_m": 131.85848039310625,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3270.694444444445,
+            "generation_ms_per_event": 1.079448784568942,
+            "eie_point_estimate_m": 131.85848039310625,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "road_filter": 4,
+              "centroid": 4,
+              "continuity": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 8,
+              "continuity": 4
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "S10": {
+            "hit100": 0.16666666666666666,
+            "mae_m": 730.5307651335906,
+            "recall_at_5": 1.0,
+            "payload_bytes_per_event": 3276.7013888888887,
+            "generation_ms_per_event": 1.339090284899511,
+            "eie_point_estimate_m": 730.5307651335906,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "real_plus_dummies",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          }
+        },
+        "macro_utility": {
+          "recall_at_5": 1.0,
+          "payload_bytes_per_event": 3287.4526653439157,
+          "generation_ms_per_event": 1.1660096544936231,
+          "aggregation": "Equal mean of five scenario means, each mean over the same 12 trips. The 60 windows are correlated, not 60 people.",
+          "minimum_scenario_recall_at_5": 1.0
+        }
+      },
+      {
+        "method": "br_private",
+        "label": "BR-Dummy / Geo-I",
+        "output_kind": "dummy_only",
+        "is_internal_control": false,
+        "by_scenario": {
+          "S1": {
+            "hit100": 0.3333333333333333,
+            "mae_m": 298.8999900778395,
+            "recall_at_5": 0.9583333333333335,
+            "payload_bytes_per_event": 3302.4166666666665,
+            "generation_ms_per_event": 2.6082291660713963,
+            "eie_point_estimate_m": 298.8999900778395,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "centroid": 4,
+              "road_filter": 8
+            },
+            "hit_attacker_counts": {
+              "centroid": 8,
+              "road_filter": 4
+            },
+            "released_events": 12,
+            "poi_category_evaluable": 72
+          },
+          "S2": {
+            "hit100": 0.2222222222222222,
+            "mae_m": 247.33934047546347,
+            "recall_at_5": 0.9700617283950618,
+            "payload_bytes_per_event": 3219.8425925925926,
+            "generation_ms_per_event": 5.912611481983698,
+            "eie_point_estimate_m": 247.33934047546347,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "full_mean": 8,
+              "full_path": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 4,
+              "full_path": 4,
+              "full_mean": 4
+            },
+            "released_events": 108,
+            "poi_category_evaluable": 648
+          },
+          "S3": {
+            "hit100": 0.0744047619047619,
+            "mae_m": 776.3218444429011,
+            "recall_at_5": 0.8767350088183421,
+            "payload_bytes_per_event": 3225.536583092833,
+            "generation_ms_per_event": 6.368856534430051,
+            "eie_point_estimate_m": 776.3218444429011,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 4,
+              "full_path": 8
+            },
+            "released_events": 98,
+            "poi_category_evaluable": 582
+          },
+          "S9": {
+            "hit100": 0.0,
+            "mae_m": 315.9685831027637,
+            "recall_at_5": 0.9659722222222222,
+            "payload_bytes_per_event": 3216.0833333333335,
+            "generation_ms_per_event": 6.169536750247869,
+            "eie_point_estimate_m": 315.9685831027637,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "full_mean": 4,
+              "continuity": 4,
+              "road_filter": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "S10": {
+            "hit100": 0.0,
+            "mae_m": 2314.5933707320423,
+            "recall_at_5": 0.8833333333333333,
+            "payload_bytes_per_event": 3220.555555555556,
+            "generation_ms_per_event": 5.919395528002901,
+            "eie_point_estimate_m": 2314.5933707320423,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "centroid": 4,
+              "shadow_full_knn": 4,
+              "prior": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          }
+        },
+        "macro_utility": {
+          "recall_at_5": 0.9308871252204586,
+          "payload_bytes_per_event": 3236.886946248196,
+          "generation_ms_per_event": 5.395725892147183,
+          "aggregation": "Equal mean of five scenario means, each mean over the same 12 trips. The 60 windows are correlated, not 60 people.",
+          "minimum_scenario_recall_at_5": 0.8767350088183421
+        }
+      },
+      {
+        "method": "geo_i_anchored_dummy",
+        "label": "Geo-I + dummy",
+        "output_kind": "dummy_only",
+        "is_internal_control": true,
+        "by_scenario": {
+          "S1": {
+            "hit100": 0.5833333333333334,
+            "mae_m": 93.64357664814662,
+            "recall_at_5": 0.9916666666666667,
+            "payload_bytes_per_event": 3212.3333333333335,
+            "generation_ms_per_event": 0.4346663360289919,
+            "eie_point_estimate_m": 93.64357664814662,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "road_filter": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 8,
+              "road_filter": 4
+            },
+            "released_events": 12,
+            "poi_category_evaluable": 72
+          },
+          "S2": {
+            "hit100": 0.3611111111111111,
+            "mae_m": 105.19787740704363,
+            "recall_at_5": 0.9851851851851853,
+            "payload_bytes_per_event": 3189.9259259259256,
+            "generation_ms_per_event": 0.28174729636197704,
+            "eie_point_estimate_m": 105.19787740704363,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "full_mean": 12
+            },
+            "hit_attacker_counts": {
+              "running_mean": 4,
+              "full_mean": 8
+            },
+            "released_events": 108,
+            "poi_category_evaluable": 648
+          },
+          "S3": {
+            "hit100": 0.526509139009139,
+            "mae_m": 144.49240910826862,
+            "recall_at_5": 0.9772641093474429,
+            "payload_bytes_per_event": 3188.3184854497354,
+            "generation_ms_per_event": 0.291086081640623,
+            "eie_point_estimate_m": 144.49240910826862,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "full_path": 8,
+              "road_filter": 4
+            },
+            "hit_attacker_counts": {
+              "full_path": 12
+            },
+            "released_events": 98,
+            "poi_category_evaluable": 582
+          },
+          "S9": {
+            "hit100": 0.08333333333333333,
+            "mae_m": 307.1453145605419,
+            "recall_at_5": 0.9685185185185187,
+            "payload_bytes_per_event": 3179.6736111111113,
+            "generation_ms_per_event": 0.2540552706907167,
+            "eie_point_estimate_m": 307.1453145605419,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "full_mean": 8,
+              "continuity": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 4,
+              "continuity": 8
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "S10": {
+            "hit100": 0.0,
+            "mae_m": 636.3556527038485,
+            "recall_at_5": 0.9706018518518519,
+            "payload_bytes_per_event": 3211.652777777778,
+            "generation_ms_per_event": 0.26792245828093864,
+            "eie_point_estimate_m": 636.3556527038485,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "centroid": 12
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          }
+        },
+        "macro_utility": {
+          "recall_at_5": 0.9786472663139331,
+          "payload_bytes_per_event": 3196.380826719577,
+          "generation_ms_per_event": 0.30589548860064947,
+          "aggregation": "Equal mean of five scenario means, each mean over the same 12 trips. The 60 windows are correlated, not 60 people.",
+          "minimum_scenario_recall_at_5": 0.9685185185185187
+        }
+      },
+      {
+        "method": "geo_i_anchored_dummy_road",
+        "label": "Geo-I + road",
+        "output_kind": "dummy_only",
+        "is_internal_control": true,
+        "by_scenario": {
+          "S1": {
+            "hit100": 0.16666666666666666,
+            "mae_m": 237.0090289728828,
+            "recall_at_5": 0.9805555555555555,
+            "payload_bytes_per_event": 3257.8333333333335,
+            "generation_ms_per_event": 0.3972363338107243,
+            "eie_point_estimate_m": 237.0090289728828,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "centroid": 4,
+              "road_filter": 4,
+              "continuity": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 8,
+              "road_filter": 4
+            },
+            "released_events": 12,
+            "poi_category_evaluable": 72
+          },
+          "S2": {
+            "hit100": 0.5370370370370371,
+            "mae_m": 121.2398064397749,
+            "recall_at_5": 0.9743827160493826,
+            "payload_bytes_per_event": 3027.796296296296,
+            "generation_ms_per_event": 1.1314683611595282,
+            "eie_point_estimate_m": 121.2398064397749,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "full_mean": 8,
+              "full_path": 4
+            },
+            "hit_attacker_counts": {
+              "full_path": 12
+            },
+            "released_events": 108,
+            "poi_category_evaluable": 648
+          },
+          "S3": {
+            "hit100": 0.035684223184223186,
+            "mae_m": 1908.6474605599958,
+            "recall_at_5": 0.8196384479717813,
+            "payload_bytes_per_event": 3133.2357443482447,
+            "generation_ms_per_event": 1.208034754826682,
+            "eie_point_estimate_m": 1908.6474605599958,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "centroid": 8,
+              "shadow_full_knn": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 8,
+              "full_mean": 4
+            },
+            "released_events": 98,
+            "poi_category_evaluable": 582
+          },
+          "S9": {
+            "hit100": 0.4166666666666667,
+            "mae_m": 216.87887875069256,
+            "recall_at_5": 0.9699074074074074,
+            "payload_bytes_per_event": 3066.506944444445,
+            "generation_ms_per_event": 1.1292876109412948,
+            "eie_point_estimate_m": 216.87887875069256,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "full_mean": 8,
+              "full_path": 4
+            },
+            "hit_attacker_counts": {
+              "full_mean": 8,
+              "centroid": 4
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          },
+          "S10": {
+            "hit100": 0.0,
+            "mae_m": 2682.369821799641,
+            "recall_at_5": 0.7974537037037037,
+            "payload_bytes_per_event": 3139.409722222222,
+            "generation_ms_per_event": 0.902175638960519,
+            "eie_point_estimate_m": 2682.369821799641,
+            "eie_is_same_mae_not_new_evidence": true,
+            "attempted": 12,
+            "completed": 12,
+            "not_applicable": 0,
+            "failed": 0,
+            "metric_denominators": {
+              "hit100": 12,
+              "mae_m": 12,
+              "recall_at_5": 12,
+              "payload_bytes_per_event": 12,
+              "generation_ms_per_event": 12
+            },
+            "output_kind": "dummy_only",
+            "mae_attacker_counts": {
+              "full_path": 4,
+              "shadow_full_knn": 4,
+              "prior": 4
+            },
+            "hit_attacker_counts": {
+              "centroid": 12
+            },
+            "released_events": 144,
+            "poi_category_evaluable": 864
+          }
+        },
+        "macro_utility": {
+          "recall_at_5": 0.9083875661375661,
+          "payload_bytes_per_event": 3124.956408128908,
+          "generation_ms_per_event": 0.9536405399397497,
+          "aggregation": "Equal mean of five scenario means, each mean over the same 12 trips. The 60 windows are correlated, not 60 people.",
+          "minimum_scenario_recall_at_5": 0.7974537037037037
+        }
+      }
+    ],
+    "display_methods": [
+      "unprotected",
+      "dls_graph_adaptation",
+      "transprotect_adaptation",
+      "semantic_correlation_local_adaptation",
+      "br_private"
+    ],
+    "internal_control_methods": [
+      "geo_i_anchored_dummy",
+      "geo_i_anchored_dummy_road"
+    ],
+    "metric_definition_ref": "metric_definitions",
+    "protocol": {
+      "k": 5,
+      "final_poi_k": 5,
+      "server_poi_l": 5,
+      "seeds": [
+        81,
+        82,
+        83
+      ],
+      "unique_test_trips": 12,
+      "scenario_windows": 60,
+      "simulation_seed_count": 3,
+      "test_trips_per_seed": 4,
+      "shadow_trips_per_seed": 6,
+      "attack_validation_trips_per_seed": 4,
+      "defense_validation_trips_per_seed": 4,
+      "source_includes_other_k": 3,
+      "nominal_br_budget_per_m": 0.24,
+      "public_horizon_events": 12,
+      "br_theta_m": 200,
+      "br_offset_m": 80,
+      "boundary_hidden_seconds": 60,
+      "boundary_visible_span_seconds": 220,
+      "service_categories": [
+        "cafe",
+        "clinic",
+        "fuel",
+        "hospital",
+        "pharmacy",
+        "restaurant"
+      ],
+      "service": "Fixed six-category requests from every coordinate; union/dedup and directed-road top-5 ranking using private GPS on device.",
+      "aggregation": "Equal trip mean within scenario and method. Within trip, MAE/Hit aggregate target events; POI Recall averages eligible event-category references.",
+      "fairness_limits": "Same traces/splits/category contract and attacker candidate families, but output cardinality and privacy notions differ. Not all methods have a composable ε cap, and budgets are not harmonized. These are local adaptations, not complete original trained reproductions.",
+      "attacker_bank": [
+        "centroid",
+        "prior",
+        "continuity",
+        "road_filter",
+        "full_path (non-S1)",
+        "full_mean (non-S1)",
+        "running_mean (S2)",
+        "stationary_intersection (S2 real-plus-dummy only)",
+        "shadow_full_knn (3 neighbors)"
+      ],
+      "attacker_training": "Train shadow KNN separately per scenario/method on shadow trips; select strongest decoder separately for MAE and Hit100 on attack validation; freeze before test. Different selected decoders are valid for different losses.",
+      "endpoint_raw_control": "Raw also observes only the retained window; hidden endpoint is not sent. Nonzero Raw endpoint error includes difficulty caused by masking."
+    },
+    "provenance": {
+      "dataset_records_field": "results.json:dataset_records",
+      "manifests_field": "results.json:manifests",
+      "source_geometry": "SUMO FCD, local Beijing OSM, controlled random traffic with planned stops; not calibrated human mobility.",
+      "all_37_frozen_source_hashes_match": true,
+      "pinned_backbone_sha256": {
+        "benchmark/__init__.py": "1031d06518cea4eb9839740d992a5a732a4c339c0059e8661bbc239d7927c93e",
+        "benchmark/contracts.py": "57934c4ddfcec78429d213ec65793593ec58ed0e79ef06241f587b07fe854fc9",
+        "benchmark/engines/__init__.py": "fdd894d6b60995b903834f52ea72e266de646c8c83c5360953ef430e1ddcbdfc",
+        "benchmark/engines/anotherme.py": "a3cbcc26110b2f5a53a9e11830ad07f22854589e21b2762e06a7a3c4f2b13041",
+        "benchmark/engines/budgeted.py": "c1c6b6b1dda88105ac15d36a7e32eb9fcc3af2afd070c99c11e10fbb11d903a1",
+        "benchmark/engines/dls.py": "41cadc9ab2476515235aa13054a76bfaa294ffcbefbf2240c578afe8c1fa492e",
+        "benchmark/engines/paper_adaptations.py": "76e9900d9c3190d65efdc34a2521baf987106c5a686eeda8b337864bd731ecb6",
+        "benchmark/engines/proposed.py": "8e64feb42b03017526992394f310f9efc9a9132324f873fb4d38ee1b6c9e2a74",
+        "benchmark/engines/semantic_correlation.py": "bf5406e3b44ab78d86135cc4cff89f747fc30941ba6c614d4ed5609bbd9f1ea4",
+        "benchmark/engines/transprotect.py": "bc97f2db31cf19fe54444f5efbf124c10e8a2d7607df56617eeab5f8e776a784",
+        "benchmark/methods/__init__.py": "35f69327c37579a7fd774f1043f1b998039fe5af4f3e210bbb9b357d77e86986",
+        "benchmark/methods/anotherme.py": "68c73b559c8e4123c374539c5a13d74b050679ac2b294b0dd09d23cba1dbeef3",
+        "benchmark/methods/paper_adaptations.py": "08e478d063b4cd4110ae812a9a81b534cd2e4d17bc7f09901fb979b94706e691",
+        "benchmark/methods/proposed.py": "ae4fe4c823dab3a5397cc73f4be3f17f498aa50d644fd094a54c7b8b3b96d692",
+        "benchmark/methods/semantic_correlation.py": "31dc6b9f1dc0f6bdea14c1c346500da6b25a07081bca029f7b4719c18c70d9ae",
+        "benchmark/methods/transprotect.py": "b5a12d0cdff67a4ef209330846378d0a0bd9cd1fa7fbfe130905ec1a1a447e2d",
+        "benchmark/registry.py": "8e627118199fb2f0a9b7a2d02892de57c5380a1580c9cdc1c4155549539a10f3",
+        "core/__init__.py": "29459ac1b184e5507bae2b4c2892eac69a451db02045d1f8f9100c03adc73274",
+        "core/demo_protocol.py": "7f702875178f94388298bfd02d4d073e6a8b13120508713dd728606c211e51ae",
+        "core/mechanisms.py": "2c950335809507f0551eeeea62089260e74fa94624b3a84eb64b4666ca0cadfa",
+        "core/road_network.py": "7e69c17f17eee24104bd9efc0b3b74b4b502a9c131a90cc99736da390c91108d",
+        "core/sota_demo.py": "c2d47f3452c6c5182c807e9da5417d5f7dd2736e0dc87ba9dd52a5f687cfacb6",
+        "core/thesis_demo.py": "a205a42657d8b1d9fb29193ef6df27f6347f67c1e0180b7249cfc12939dbe921",
+        "data/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "data/build_beijing_graph.py": "6da4207778a1f6d93dd305ac1988e85655408c16d3168675ca48b86d1fae2b29",
+        "data/geolife.py": "aa2afceaaf2d70779ece6f1f5615f901d57e0df71f1379db95501a16138ea931",
+        "data/paper_scenarios.py": "3316692f22e696a6bd0f55fffbdb195edce3dd701514913e9efa5d5e7fe6cbfe",
+        "data/sumo_demo.py": "28dbca9b080687ac443e658e78e9aecce45404b788c035b0435cb89196b0cb4e",
+        "data/threat_scenarios.py": "914f6bb1949815accc943a852e21669e652e6a5e4154bc457fafe065d90d55a1",
+        "evaluation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "evaluation/attacks.py": "0c5ad9bca59bca39cbf35917b0442c6a9fad3c8caad863a237cbfb73c98af3fe",
+        "evaluation/metrics.py": "8a1d6a72adec4af16281dae9479d410652d872d7c42bcde3a018b2bd23622ca5",
+        "evaluation/research_protocol.py": "3c47d2eaa0dfd7bd9f1001b71d67eaa4b998d37b40f1c9e11a113f49edd2a850",
+        "evaluation/scenario_metrics.py": "b212d35ccb4d633e23f24c5d3d80a48a775361117952e2cee820d7b28fdb8e02",
+        "experiments/rng_util.py": "b43841f5eb50e7c02b81f2d345da20275ff82641d4109b5242851aacddc0ffa5",
+        "experiments/run_paper_benchmark.py": "4d53666639c601ca59c2cba8cf38c6ca834aa985f02a5337e1cb5a6fec1f3848",
+        "experiments/run_report_demo.py": "576d3dae381b7fe93ff379cbd3b4985d0d83fcc895963a0dcd919c905d935c7c"
+      },
+      "independently_reaggregated_display_scores": 175,
+      "n_a_other_method": {
+        "method": "anotherme_adaptation",
+        "S1": "12/12 N/A: complete moving-route contract required",
+        "S2": "12/12 N/A: complete moving-route contract required",
+        "S9": "12/12 N/A: complete moving-route contract required",
+        "S10": "12/12 N/A: complete moving-route contract required",
+        "S3": "11/12 complete, one failure; do not treat N/A as perfect privacy."
+      }
+    },
+    "safe_findings": [
+      "BR-Dummy có Hit100 không cao hơn ba local paper adaptations trong cả năm scenario; S10 tie DLS ở 0/12 hit. DLS có EIE lớn hơn BR ở S1/S3/S9: chưa thắng mọi phép đo.",
+      "BR-Dummy EIE lớn hơn TransProtect trong cả năm scenario, với đánh đổi Recall và chi phí. EIE point estimate là cùng phép tính với MAE, không phải bằng chứng thứ hai.",
+      "Recall BR ở S3≈87.67% và S10≈88.33%; chưa đạt mục tiêu 90% trên tất cả scenario. Đây là benchmark lịch sử; không tráo các kết quả mới vào cùng bảng."
+    ]
+  },
+  "native_metric_comparability": [
+    {
+      "metric": "TransProtect EIE",
+      "status": "computed_point_estimator",
+      "unit": "m",
+      "direction": "higher",
+      "definition": "mean d(x, attacker point estimate); with identical decoder and aggregation equals MAE.",
+      "applies": "All output kinds through a public-observation attacker.",
+      "source": "artifacts/benchmarks/native_metrics_20261005/readout.json",
+      "n_a_reason": null,
+      "not_identical_to": "Calibrated posterior expected error requires posterior rows; those were not archived."
+    },
+    {
+      "metric": "TransProtect Eq.13 Δc",
+      "status": "not_available",
+      "unit": "same original road-cost units; not silently replaced by metres",
+      "direction": "lower",
+      "applies": "Original definition: one replacement coordinate and a fixed target prior/cost table.",
+      "source": "artifacts/benchmarks/native_metrics_20261005/readout.json",
+      "n_a_reason": "Original destination-cost tables/cache are absent. For Q-only, no faithful singleton output exists; min-Q or centroid reductions change the contract."
+    },
+    {
+      "metric": "DLS entropy / RDG transition entropy",
+      "status": "not_available_or_not_applicable",
+      "unit": "bits",
+      "direction": "higher",
+      "n_a_reason": "Need source-compatible historical priors/transitions and real-member contract. Q-only cannot inherit probability of choosing a published real candidate."
+    },
+    {
+      "metric": "Semantic ASR / DER",
+      "status": "not_available_or_not_applicable",
+      "unit": "percent / ratio",
+      "direction": "higher",
+      "n_a_reason": "Need real-member label, calibrated candidate posterior and a locked Sim/effectiveness rule. Q-only has no published real member; absence is not ASR=100%."
+    },
+    {
+      "metric": "Fake-query path count / ASR",
+      "status": "not_available",
+      "unit": "paths per pair / percent",
+      "direction": "higher",
+      "n_a_reason": "Exact arrival-time and direction similarity plus matching attacker success conditions were not archived. Reachability alone is insufficient."
+    },
+    {
+      "metric": "CPCROK ρ and ψ",
+      "status": "not_applicable",
+      "unit": "percent / fake traces",
+      "direction": "lower",
+      "n_a_reason": "Requires pre/post mix-zone pseudonym trace matching and beacon protocol, not a coordinate-only LBS window."
+    },
+    {
+      "metric": "DP-FETC MI / JSD",
+      "status": "not_applicable",
+      "unit": "information / divergence",
+      "direction": "lower",
+      "n_a_reason": "Requires original/synthetic dataset pairing and distributions. Online Q requests are not an offline synthetic dataset."
+    },
+    {
+      "metric": "EV CoP / IBU Wasserstein",
+      "status": "not_available",
+      "unit": "road metres / distribution distance",
+      "direction": "lower",
+      "n_a_reason": "Need available charging-station cohort, charging selection/occupancy contract and IBU distribution logs; generic POI Recall is not this original metric."
+    }
+  ],
+  "separate_evidence_groups": [
+    {
+      "key": "native_cost_family_extension",
+      "source": "artifacts/benchmarks/native_cost_diagnostic_20261005/readout.json",
+      "status": "post-hoc diagnostic on fresh reconstructed-map endpoint cohort",
+      "not_mix_with": "paper-v2 original Eq.13; no TransProtect head-to-head on this new cohort",
+      "units": "directed road length metres, uniform prior over 418 public POIs",
+      "counts": {
+        "families": 4,
+        "sessions": 8,
+        "repetitions": 2,
+        "events": 170,
+        "q_coordinates": 850
+      },
+      "summary": {
+        "raw_delta_cost_m": 0.0,
+        "geoi_all_q_mean_delta_cost_m": 1386.7391464754378,
+        "q_median_delta_cost_m": 1379.687727430122,
+        "q_p95_delta_cost_m": 2340.4614257309618,
+        "aggregation": "equal events within session/seed -> equal seeds -> sessions -> families"
+      },
+      "direction": "lower is less cost distortion; not a privacy score",
+      "need_exact_values_from_source": false
+    }
+  ],
+  "source_hashes": {
+    "artifacts/benchmarks/paper_benchmark/results.json": "2df043bfb73c3b2f630046381daf5b4bc9f6941fb5be925b0967d6de98f27538",
+    "docs/reviews/verification_paper_benchmark_v2.md": "d7815b472c139ea085f70c5d2e9c64184fb5bffd2515dc63fffe1d52f37f2d4c",
+    "artifacts/benchmarks/native_metrics_20261005/readout.json": "eaad087e3093c9524f5bccc539125fc7dba586c4124a3bcd378a5cb85c4450ee",
+    "artifacts/benchmarks/native_metrics_20261005/verification.json": "c45056c8d3f3e77bcfe3aa7d9a357b437369138d821f160d7c2072cf5ac51087",
+    "artifacts/benchmarks/native_cost_diagnostic_20261005/readout.json": "23ce20c1fbffe1b8236fe7bf803c69baf3efffaccbeecba4c90a44fffe9aea39",
+    "artifacts/benchmarks/native_cost_diagnostic_20261005/protocol.json": "5a13344c351b9ae309e6b3aafd98bfd27c39d2acd3cbac347835ac2c40a76906",
+    "artifacts/benchmarks/native_cost_diagnostic_20261005/verification.json": "dd7c59b76757d089ec2e5274fc33d08946ab31f6113c09165fd94e39d19b71f6",
+    "docs/supervisor_meeting/2026-09-26_brief/related_work_coverage.py": "2892a75653ff75c2294d911f2e7ca35b7623bb4dc23f3cc57c624de1185eab04",
+    "docs/research/2026-10-05_native_metrics.md": "6dd7a2356a9b616037c55bbba50923021523bb74ee0fe20e7e5f9cae0e5e59c1"
+  },
+  "primary_pdf_provenance": [
+    {
+      "key": "cpcrok",
+      "url": "https://uhra.herts.ac.uk/id/eprint/25705/1/futureinternet-17-00165.pdf",
+      "sha256": "cb40d02dc67b7086c9c879e913745c459225d52300b7071f547d9ff178dc23c4",
+      "access": "Primary published PDF downloaded read-only for this audit; no paper copies or source text inserted into the report."
+    },
+    {
+      "key": "dpfetc",
+      "url": "https://www.aimspress.com/aimspress-data/era/2025/11/PDF/era-33-11-293.pdf",
+      "sha256": "bcab9011ac93f97efff7ad2bd558e847df6d7427e5099d6950547a760a69eeb3",
+      "access": "Primary published PDF downloaded read-only for this audit; no paper copies or source text inserted into the report."
+    },
+    {
+      "key": "evquery",
+      "url": "https://wrap.warwick.ac.uk/id/eprint/183198/1/WRAP-privacy-preserving-querying-mechanism-high-utility-electric-vehicles-2024.pdf",
+      "sha256": "4ddd2da6d9c4f69a557439a0e3014818af6721163e7a7d8c30a9dc6c3736e118",
+      "access": "Primary published PDF downloaded read-only for this audit; no paper copies or source text inserted into the report."
+    }
+  ],
+  "limitations": [
+    "Fully/Partially là đối chiếu task của nhóm nghiên cứu, không phải nhãn tác giả hay chứng nhận privacy 100%.",
+    "Các bảng khác cohort/attacker/map/budget không được xếp hạng chung.",
+    "Các dữ liệu đã dùng để chọn cấu hình trở thành development; cần confirmation trên người/xe, thành phố và seeds mới.",
+    "Không thay mẫu, fit score hay chọn metric để buộc Geo-I thắng; báo cả thua/tie và tradeoff."
+  ],
+  "checks": {
+    "all_recent_rows_in_window": true,
+    "all_display_methods_have_12_complete_per_scenario": true,
+    "score_reaggregation_count": 175,
+    "rates_are_zero_to_one": true,
+    "eie_point_is_mae": true,
+    "full_and_partial_disjoint": true,
+    "historical_source_pins_match": 37,
+    "no_new_attacker_fitting": true,
+    "no_old_report_or_scores_written": true
+  },
+  "next_meeting_iteration_sources": {
+    "artifacts/benchmarks/geoi_purpose_refinement_20261005/readout.json": "fb72f4f13aee967343e0bb20fd22b6c234549b7a59ae352711bd3bc9ff3e0cb9",
+    "artifacts/benchmarks/query_purpose_20261005/snapshot/readout.json": "8dd11a602be822a81e33eb747dd5427311af62fb356a6a6097fed68b36191e32",
+    "artifacts/benchmarks/native_cost_diagnostic_20261005/readout.json": "23ce20c1fbffe1b8236fe7bf803c69baf3efffaccbeecba4c90a44fffe9aea39",
+    "artifacts/benchmarks/session_budget_20261005/round3/readout.json": "a519d141d21242cfffc4d29866a39c509b0be185767587d649fae276a312adda",
+    "artifacts/benchmarks/future_native_20261005_v1/results.json": "fbc7ed56db460559a852a86f017bf8c4d67e5b0825ac81ec0c4550c4f87e0fbb",
+    "artifacts/benchmarks/future_native_depth_20261005_v1/results.json": "2655204cbfaad7bc126d98c7af1650a8d0013b96b082ff0b65f82c7cdfcd3f3b",
+    "artifacts/benchmarks/native_static_cache_20261006_v1/results.json": "c415e5296bf65b34af31e89d1b2da0c84b8b76fba2cf858c63f3db562cfa11f7",
+    "artifacts/benchmarks/native_versioned_static_20261006_v1/results.json": "88f564cd4c0aa3d3f5e348f778f483d9e3a5bc74acb58595c987a27918606435",
+    "artifacts/benchmarks/endpoint_robust_selection_20261006/readout.json": "9d0d03a5d0df36a2ffc2ba1f1070edccfc4665a8452b6f86fc9b49a0301b24ae",
+    "artifacts/benchmarks/endpoint_generalization_20261005/readout.json": "127b6312c26f99ad60a164a5fadc97362ca2bd1fe721051078479643d4c0f7ce",
+    "artifacts/benchmarks/endpoint_generalization_20261005/protocol.json": "d3784c2c8a32062f08f71072869813a8a7053d7b878b4e9dad6098ae3fa72349",
+    "artifacts/benchmarks/future_native_20261005_v1/protocol.json": "d535804dbbb2fad5595d556db2042347ea1fd6affc76c17439d70cf9e13e5220"
+  },
+  "next_meeting_scope": "Development groups kept separate; no universal dominance or fresh confirmation claim."
+}

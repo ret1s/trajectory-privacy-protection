@@ -1,0 +1,37 @@
+{
+  "dataset_sha256": "8248ea4d786b3a204b009487f95abaddca1050735ca4a597eabe999a63b34648",
+  "family_count": 24,
+  "session_count": 192,
+  "network": {
+    "compressed_path": "artifacts/datasets/future_controlled_20261005_v1/public_native.net.xml.gz",
+    "compressed_sha256": "243924810d6c26e1df068f1e2e85198097370f39cf96d8ed759a3bd72a64f395",
+    "native_sha256": "1ff9cb510a1a41be05721362b66f54491b4cfd9bb3ee9b1052d9411f0809fab1",
+    "compile_command": [
+      "/private/tmp/trajectory-research-20261005-venv/bin/netconvert",
+      "--sumo-net-file",
+      "/private/tmp/trajectory-research-20261005-public-map/public_reconstructed.net.xml",
+      "--output-file",
+      "/private/tmp/trajectory-future-native-v1/native_cohort.net.xml",
+      "--no-internal-links",
+      "false",
+      "--junctions.limit-turn-speed",
+      "8",
+      "--no-warnings",
+      "true"
+    ],
+    "compile_stdout": "Success.\n",
+    "external_edges": 4849,
+    "internal_edges": 21179,
+    "source_reconstructed_network_sha256": "94fbd44522fd70ff74448b8045a9e4e2be318070c2399ec0d687b37c8926b114",
+    "turns_authoritative_for_this_new_network": true,
+    "original_lane_turn_parity": false
+  },
+  "protocol_sha256": "1ab6320de9e3313681fcbec459ddf151685bf363d5c1ca65dd60678493b0d3b5",
+  "source_sha256": {
+    "artifacts/benchmarks/paper_benchmark/results.json": "2df043bfb73c3b2f630046381daf5b4bc9f6941fb5be925b0967d6de98f27538",
+    "experiments/public_research_resources.py": "36127eb11f4e53b13793413783392afddd2cc7a4e62f697308149db8f7267b25",
+    "data/scenario_suite/mobility.py": "0b853cb408343ccb7c561264310bc9a684adec54e26b4cb857229aefae4fe46d",
+    "experiments/build_future_sumo_cohort.py": "4248a0be23ef4c2f36c49791b8d4d154b9f7aeb70e06abdee9069824f35fff54"
+  },
+  "public_eligibility_rejection_count": 48
+}

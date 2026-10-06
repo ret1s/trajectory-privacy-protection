@@ -1,0 +1,61 @@
+{
+  "schema": "native-versioned-static-validation-v1",
+  "status": "passed",
+  "validator_sha256": "98bc4f965469b04389e983436d390e4a7a67c88399e87d019e8c5fb59e9952f5",
+  "checked_artifacts": {
+    "protocol.json": "8dda6e5dfb72d80017ed8fa06ed1641f76072b2bf7a925dc3e25015671f28a7b",
+    "results.json": "88f564cd4c0aa3d3f5e348f778f483d9e3a5bc74acb58595c987a27918606435",
+    "utility_rows.json.gz": "02078bcdf391aa439e51fbd4cd6e92d635a16e5ada7649aa8c9646e551ed4883"
+  },
+  "chronological_event_method_rows": 6044,
+  "all_eight_public_session_starts_checked": true,
+  "causal_cross_session_static_membership_independently_recomputed": true,
+  "no_future_session_metadata": true,
+  "no_extra_GPS_requests_or_reply_bytes": true,
+  "source_GPS_Q_attacker_accounting_unchanged": true,
+  "reference_coverage_not_imputed": true,
+  "acceptance_uses_six_selection_families_only": true,
+  "public_cache_limit_IDs": 418,
+  "memory": {
+    "geoi_session_reset": {
+      "selection": {
+        "minimum_cached_IDs": 84,
+        "maximum_cached_IDs": 244,
+        "mean_cached_IDs": 171.8366402116402,
+        "maximum_static_JSON_payload_bytes": 21015,
+        "scope": "unique static records serialized locally; excludes Python container overhead; no new network bytes"
+      },
+      "test": {
+        "minimum_cached_IDs": 85,
+        "maximum_cached_IDs": 224,
+        "mean_cached_IDs": 164.19933774834436,
+        "maximum_static_JSON_payload_bytes": 19207,
+        "scope": "unique static records serialized locally; excludes Python container overhead; no new network bytes"
+      }
+    },
+    "geoi_epoch8": {
+      "selection": {
+        "minimum_cached_IDs": 145,
+        "maximum_cached_IDs": 418,
+        "mean_cached_IDs": 347.94775132275134,
+        "maximum_static_JSON_payload_bytes": 36045,
+        "scope": "unique static records serialized locally; excludes Python container overhead; no new network bytes"
+      },
+      "test": {
+        "minimum_cached_IDs": 167,
+        "maximum_cached_IDs": 416,
+        "mean_cached_IDs": 343.4251655629139,
+        "maximum_static_JSON_payload_bytes": 35868,
+        "scope": "unique static records serialized locally; excludes Python container overhead; no new network bytes"
+      }
+    }
+  },
+  "static_only_current_status_guard_unit_tested_not_live_evaluated": true,
+  "limits": [
+    "posthoc development after weak-test diagnosis",
+    "metadata crosses linked sessions in same public catalogue/epoch",
+    "static POI records only",
+    "minimum tail session can remain below90%",
+    "POI-reference coverage remains conditional"
+  ]
+}

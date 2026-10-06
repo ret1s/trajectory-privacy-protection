@@ -1,0 +1,224 @@
+{
+  "schema": "endpoint-noise-depth-heldout-v2",
+  "protocol_sha256": "9ab3d66b8b9989bad075a66b66477a2d74fb8ff25068ed1d6362787ee62bd3f2",
+  "selection_sha256": "bddcd65ff83471b43b7f2faf93c3ad55f217041740cc602c31a464f8b40a0ea4",
+  "selected_defense": "scale025_L20",
+  "rows": {
+    "raw": {
+      "S9": {
+        "mae_m": 0.0,
+        "hit50": 1.0,
+        "hit100": 1.0,
+        "hit200": 1.0,
+        "hit500": 1.0,
+        "selected_attackers": {
+          "mae": "centroid",
+          "hit50": "centroid",
+          "hit100": "centroid",
+          "hit200": "centroid",
+          "hit500": "centroid"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "S10": {
+        "mae_m": 0.0,
+        "hit50": 1.0,
+        "hit100": 1.0,
+        "hit200": 1.0,
+        "hit500": 1.0,
+        "selected_attackers": {
+          "mae": "centroid",
+          "hit50": "centroid",
+          "hit100": "centroid",
+          "hit200": "centroid",
+          "hit500": "centroid"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "recall": 1.0,
+      "bytes_per_input": 938.9862446581196,
+      "mean_publication_delay_s": 0.0,
+      "input_events": 170,
+      "released_events": 170,
+      "mapping_max_m": 34.74750920715257,
+      "mean_selected_hit100": 1.0,
+      "mean_selected_mae_m": 0.0
+    },
+    "scale100_L10": {
+      "S9": {
+        "mae_m": 653.4941268136598,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.125,
+        "hit500": 0.375,
+        "selected_attackers": {
+          "mae": "public_boundary_centroid_ols6",
+          "hit50": "public_boundary_centroid_ols6",
+          "hit100": "centroid_ols6_30s",
+          "hit200": "public_boundary_centroid_ols3",
+          "hit500": "public_boundary_centroid_ols6"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "S10": {
+        "mae_m": 668.2930389877871,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.3125,
+        "selected_attackers": {
+          "mae": "centroid_ols3_120s",
+          "hit50": "centroid_ols3_120s",
+          "hit100": "centroid_ols3_120s",
+          "hit200": "shadow_knn5",
+          "hit500": "centroid_ols3_120s"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "recall": 0.9732398504273505,
+      "bytes_per_input": 4592.814236111111,
+      "mean_publication_delay_s": 0.0,
+      "input_events": 170,
+      "released_events": 170,
+      "mapping_max_m": 34.74750920715257,
+      "mean_selected_hit100": 0.0,
+      "mean_selected_mae_m": 660.8935829007235
+    },
+    "delay60_L10": {
+      "S9": {
+        "mae_m": 1178.514577662986,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.0,
+        "selected_attackers": {
+          "mae": "viterbi_history_ols6_120s",
+          "hit50": "viterbi_history_ols6_120s",
+          "hit100": "viterbi_history_ols6_120s",
+          "hit200": "viterbi_history_ols6_120s",
+          "hit500": "viterbi_history_ols6_120s"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "S10": {
+        "mae_m": 1179.6860817732543,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.0,
+        "selected_attackers": {
+          "mae": "query_prior",
+          "hit50": "query_prior",
+          "hit100": "query_prior",
+          "hit200": "sequence_knn5",
+          "hit500": "sequence_knn1"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "recall": 0.7808279914529915,
+      "bytes_per_input": 3247.204326923077,
+      "mean_publication_delay_s": 60.0,
+      "input_events": 170,
+      "released_events": 122,
+      "mapping_max_m": 34.74750920715257,
+      "mean_selected_hit100": 0.0,
+      "mean_selected_mae_m": 1179.10032971812
+    },
+    "scale100_L20": {
+      "S9": {
+        "mae_m": 969.5351273886441,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.375,
+        "selected_attackers": {
+          "mae": "median_ols6_120s",
+          "hit50": "median_ols6_120s",
+          "hit100": "median_ols6_120s",
+          "hit200": "median_ols6_120s",
+          "hit500": "public_boundary_centroid_ols6"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "S10": {
+        "mae_m": 1843.8226321403602,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.0,
+        "selected_attackers": {
+          "mae": "shadow_knn5",
+          "hit50": "shadow_knn5",
+          "hit100": "shadow_knn5",
+          "hit200": "sequence_knn5",
+          "hit500": "shadow_knn5"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "recall": 0.9958689458689459,
+      "bytes_per_input": 6953.23344017094,
+      "mean_publication_delay_s": 0.0,
+      "input_events": 170,
+      "released_events": 170,
+      "mapping_max_m": 34.74750920715257,
+      "mean_selected_hit100": 0.0,
+      "mean_selected_mae_m": 1406.6788797645022
+    },
+    "scale025_L20": {
+      "S9": {
+        "mae_m": 1851.6411030556515,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.0,
+        "selected_attackers": {
+          "mae": "median_ols2_120s",
+          "hit50": "median_ols2_120s",
+          "hit100": "median_ols2_120s",
+          "hit200": "median_ols2_120s",
+          "hit500": "sequence_knn5"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "S10": {
+        "mae_m": 2297.2393620730963,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.0,
+        "selected_attackers": {
+          "mae": "shadow_tree",
+          "hit50": "shadow_tree",
+          "hit100": "shadow_tree",
+          "hit200": "viterbi_history_ols6_60s",
+          "hit500": "viterbi_history_ols6_60s"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "recall": 0.9611066595441595,
+      "bytes_per_input": 6950.570913461539,
+      "mean_publication_delay_s": 0.0,
+      "input_events": 170,
+      "released_events": 170,
+      "mapping_max_m": 34.74750920715257,
+      "mean_selected_hit100": 0.0,
+      "mean_selected_mae_m": 2074.440232564374
+    }
+  },
+  "scope": "Second bounded development loop on full reconstructed publicmap, existingSUMOfamilies; new within-study heldout1201–1204 after round1test711–712 was already examined, no reuseoftouchedtest for selection",
+  "no_post_test_reselection": true,
+  "raw_positive_control": {
+    "S9": true,
+    "S10": true
+  }
+}

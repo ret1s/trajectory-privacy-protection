@@ -14,8 +14,24 @@ it against explicit attacker, utility, and output-contract assumptions.
 - Foundations study guide: [`artifacts/reports/location_trajectory_privacy_foundations.pdf`](artifacts/reports/location_trajectory_privacy_foundations.pdf)
 - Comparator status and evidence: [`benchmark/README.md`](benchmark/README.md)
 - Documentation index: [`docs/README.md`](docs/README.md)
+- JISA publication direction (06/10): [`assessment and improvement programme`](docs/publication/jisa_20261006/README.md)
+  — venue fit, proposed Q-planner improvement, matched controls and fresh-confirmation gates;
+  current evidence remains development, with the Geo-I backbone preserved.
+- Latest supervisor brief (prepared 06/10): [`report PDF`](docs/supervisor_meeting/2026-10-06_brief/report_explained.pdf),
+  [`HTML`](docs/supervisor_meeting/2026-10-06_brief/report_explained.html), and
+  [`speaking script`](docs/supervisor_meeting/2026-10-06_brief/preparation_guide.pdf).
+  Layered Geo-I architecture, recent paper coverage/native metrics, separate
+  benchmark protocols, static POI cache and robust endpoint-selection results.
+- Latest method development (06/10): [`refinement and limits`](docs/research/2026-10-06_method_refinement.md).
+  The Geo-I backbone stays unchanged; new runs are development evidence.
+- Previous method development (05/10): [`Geo-I method refinement`](docs/research/2026-10-05_method_refinement.md)
+  — persistent budget across linked trips, local POI purposes, native S5/S6,
+  28-family endpoint checks and the query-order attack diagnostic. The Geo-I backbone
+  remains unchanged; rejected candidates and limits stay in the evidence.
+- Meeting follow-up: [`native metrics and initial scenario audits`](docs/research/2026-10-05_supervisor_followup.md).
+  New runs use a reconstructed public map; they do not replace frozen benchmarks.
 - Current research cycle: [`thesis/notes/paper_cycle_v2_protocol.md`](thesis/notes/paper_cycle_v2_protocol.md)
-- Latest evaluation: [`fresh-family switching study`](artifacts/benchmarks/fresh_switching/),
+- Preceding evaluation: [`fresh-family switching study`](artifacts/benchmarks/fresh_switching/),
   [`12 new SUMO families`](artifacts/datasets/urban_fresh_v2/), and
   [`frozen protocol`](thesis/notes/fresh_switching_protocol.md).
   Six selection and six confirmation families; no training on these routes.
@@ -33,7 +49,7 @@ it against explicit attacker, utility, and output-contract assumptions.
   does not replace fresh core-scenario confirmation.
 - Publication-oriented critique: [`latest targeted literature review`](docs/research/fresh_switching_literature_review.md)
   and [`independent verification / next research gates`](docs/reviews/verification_fresh_switching.md).
-- This week's supervisor handoff: [`verified findings and speaking outline`](docs/supervisor_meeting/2026-09-10_verified_update.md).
+- Preceding supervisor handoff: [`verified findings and speaking outline`](docs/supervisor_meeting/2026-09-10_verified_update.md).
 - Preceding frozen study: [`belief-suite results`](artifacts/benchmarks/belief_suite/)
 
 ## Repository layout

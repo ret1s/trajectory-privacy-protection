@@ -1,0 +1,32 @@
+{
+  "checked_on": "2026-10-06",
+  "status": "development and protocol integrity checked; NOT publication ready",
+  "source_sha256": {
+    "docs/publication/jisa_20261006/README.md": "b71dd5676e2c624c31f007a19d4b14ec78b648885392adbbc624b24a5900e982",
+    "docs/publication/jisa_20261006/study_design.json": "fa169ea13a2204d2111629f2c4014f898f290d637d277c33f27b76e894fa214b",
+    "docs/publication/jisa_20261006/prepare_study_design.py": "b3b8b5d71ea5f9658249ccfd5df6c7aad2096272d9fd66cab81124ecc14fd3b4",
+    "benchmark/risk_aware_cover.py": "e47817892f61b8df4123b3b036a576f557679fb4a9a2c510a2ee2ba139c16bc0",
+    "experiments/jisa_publication_preflight.py": "2c232b1298b57fef1c54e23095a4ec23d84157b649cce93a40b71ca086e093d0",
+    "experiments/jisa_native_anchor_ablation_20261006.py": "a4e87fc09c39037ba0f2496f604f4be8628f75ff56780ae386ad01f667706e68",
+    "experiments/verify_jisa_native_anchor_ablation_20261006.py": "42c86bb5159c605f18a4d470470c96fb58d8e9903025cdc6cbb0ce4d6a942c0f",
+    "artifacts/publication/jisa_readiness_20261006_v3/preflight.json": "31ff6853f1cfd7c88551a2cb65a08b0b4dcc171ee4515eca0075157387dc9ab3",
+    "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1/derived_readout_v2.json": "fd7b4bb53f0a65915d1914b62d9b9c1ee435961f94296ca3da6b2011d4f23860",
+    "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1/validation_recheck.json": "9566e70b96f2968101aef637e5bcf5fe4797d98d6e54373b9e09c33ff0ebcef2",
+    "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1/paired_differences.json": "108e2cdcba650740bd9acc6b3bd3c350aab9cf7a5df164572b962825686a76f5"
+  },
+  "checks": {
+    "canonical_tests_run_all": "567 passed,9 skipped",
+    "pytest_tests": "567 passed,9 skipped",
+    "pip_check": "No broken requirements found",
+    "compileall": "pass",
+    "git_diff_check": "pass",
+    "local_links": "pass",
+    "readiness_preflight_exact_replay": "pass; expected blocked_confirmation",
+    "study_design_generator_replay": "exact decoded JSON match; no output overwrite"
+  },
+  "native_pilot": "independent final-code verification with checkpoints and all predictions; known native families, one draw, binary tasks, static service",
+  "risk_aware_prototype": "21 objective/floor/feasibility/exact-small/local-optimum tests; NOT integrated or benchmarked",
+  "report_correction": "H prose corrected; original exports preserved; previous benchmark numbers unchanged",
+  "pending_application_gate": "public catalogue offline baseline, dynamic provider contract and source-limited planner, scaling/freshness",
+  "pending_confirmation": "uninspected data, frozen candidate/attacker config; actual semantic disjointness/license/fidelity review remains required"
+}

@@ -1,0 +1,554 @@
+{
+  "schema": "endpoint-noise-readout-v1",
+  "heldout_sha256": "5301a8fc5d0dd01a55498c95f82ccb7ace3a720518331c54737f8ed9c0435ee8",
+  "selected_defense": "scale025_L20",
+  "results": {
+    "raw": {
+      "S9": {
+        "mae_m": 0.0,
+        "hit50": 1.0,
+        "hit100": 1.0,
+        "hit200": 1.0,
+        "hit500": 1.0,
+        "selected_attackers": {
+          "mae": "centroid",
+          "hit50": "centroid",
+          "hit100": "centroid",
+          "hit200": "centroid",
+          "hit500": "centroid"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "S10": {
+        "mae_m": 0.0,
+        "hit50": 1.0,
+        "hit100": 1.0,
+        "hit200": 1.0,
+        "hit500": 1.0,
+        "selected_attackers": {
+          "mae": "centroid",
+          "hit50": "centroid",
+          "hit100": "centroid",
+          "hit200": "centroid",
+          "hit500": "centroid"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "recall": 1.0,
+      "bytes_per_input": 938.9862446581196,
+      "mean_publication_delay_s": 0.0,
+      "input_events": 170,
+      "released_events": 170,
+      "mapping_max_m": 34.74750920715257,
+      "mean_selected_hit100": 1.0,
+      "mean_selected_mae_m": 0.0
+    },
+    "scale100_L10": {
+      "S9": {
+        "mae_m": 653.4941268136598,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.125,
+        "hit500": 0.375,
+        "selected_attackers": {
+          "mae": "public_boundary_centroid_ols6",
+          "hit50": "public_boundary_centroid_ols6",
+          "hit100": "centroid_ols6_30s",
+          "hit200": "public_boundary_centroid_ols3",
+          "hit500": "public_boundary_centroid_ols6"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "S10": {
+        "mae_m": 668.2930389877871,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.3125,
+        "selected_attackers": {
+          "mae": "centroid_ols3_120s",
+          "hit50": "centroid_ols3_120s",
+          "hit100": "centroid_ols3_120s",
+          "hit200": "shadow_knn5",
+          "hit500": "centroid_ols3_120s"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "recall": 0.9732398504273505,
+      "bytes_per_input": 4592.814236111111,
+      "mean_publication_delay_s": 0.0,
+      "input_events": 170,
+      "released_events": 170,
+      "mapping_max_m": 34.74750920715257,
+      "mean_selected_hit100": 0.0,
+      "mean_selected_mae_m": 660.8935829007235
+    },
+    "delay60_L10": {
+      "S9": {
+        "mae_m": 1178.514577662986,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.0,
+        "selected_attackers": {
+          "mae": "viterbi_history_ols6_120s",
+          "hit50": "viterbi_history_ols6_120s",
+          "hit100": "viterbi_history_ols6_120s",
+          "hit200": "viterbi_history_ols6_120s",
+          "hit500": "viterbi_history_ols6_120s"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "S10": {
+        "mae_m": 1179.6860817732543,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.0,
+        "selected_attackers": {
+          "mae": "query_prior",
+          "hit50": "query_prior",
+          "hit100": "query_prior",
+          "hit200": "sequence_knn5",
+          "hit500": "sequence_knn1"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "recall": 0.7808279914529915,
+      "bytes_per_input": 3247.204326923077,
+      "mean_publication_delay_s": 60.0,
+      "input_events": 170,
+      "released_events": 122,
+      "mapping_max_m": 34.74750920715257,
+      "mean_selected_hit100": 0.0,
+      "mean_selected_mae_m": 1179.10032971812
+    },
+    "scale100_L20": {
+      "S9": {
+        "mae_m": 969.5351273886441,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.375,
+        "selected_attackers": {
+          "mae": "median_ols6_120s",
+          "hit50": "median_ols6_120s",
+          "hit100": "median_ols6_120s",
+          "hit200": "median_ols6_120s",
+          "hit500": "public_boundary_centroid_ols6"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "S10": {
+        "mae_m": 1843.8226321403602,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.0,
+        "selected_attackers": {
+          "mae": "shadow_knn5",
+          "hit50": "shadow_knn5",
+          "hit100": "shadow_knn5",
+          "hit200": "sequence_knn5",
+          "hit500": "shadow_knn5"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "recall": 0.9958689458689459,
+      "bytes_per_input": 6953.23344017094,
+      "mean_publication_delay_s": 0.0,
+      "input_events": 170,
+      "released_events": 170,
+      "mapping_max_m": 34.74750920715257,
+      "mean_selected_hit100": 0.0,
+      "mean_selected_mae_m": 1406.6788797645022
+    },
+    "scale025_L20": {
+      "S9": {
+        "mae_m": 1851.6411030556515,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.0,
+        "selected_attackers": {
+          "mae": "median_ols2_120s",
+          "hit50": "median_ols2_120s",
+          "hit100": "median_ols2_120s",
+          "hit200": "median_ols2_120s",
+          "hit500": "sequence_knn5"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "S10": {
+        "mae_m": 2297.2393620730963,
+        "hit50": 0.0,
+        "hit100": 0.0,
+        "hit200": 0.0,
+        "hit500": 0.0,
+        "selected_attackers": {
+          "mae": "shadow_tree",
+          "hit50": "shadow_tree",
+          "hit100": "shadow_tree",
+          "hit200": "viterbi_history_ols6_60s",
+          "hit500": "viterbi_history_ols6_60s"
+        },
+        "families": 4,
+        "observations": 16
+      },
+      "recall": 0.9611066595441595,
+      "bytes_per_input": 6950.570913461539,
+      "mean_publication_delay_s": 0.0,
+      "input_events": 170,
+      "released_events": 170,
+      "mapping_max_m": 34.74750920715257,
+      "mean_selected_hit100": 0.0,
+      "mean_selected_mae_m": 2074.440232564374
+    }
+  },
+  "paired_family_uncertainty": {
+    "S9/scale025_L20-raw/mae_m": {
+      "delta": 1851.6411030556515,
+      "bootstrap95_low": 1192.631828132838,
+      "bootstrap95_high": 2689.182147451501,
+      "family_deltas": {
+        "family-1201": 1634.3583588473348,
+        "family-1202": 1019.5556680711516,
+        "family-1203": 1711.8603083178973,
+        "family-1204": 3040.7900769862226
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S9/scale025_L20-raw/hit100": {
+      "delta": -1.0,
+      "bootstrap95_low": -1.0,
+      "bootstrap95_high": -1.0,
+      "family_deltas": {
+        "family-1201": -1.0,
+        "family-1202": -1.0,
+        "family-1203": -1.0,
+        "family-1204": -1.0
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S9/scale025_L20-raw/hit500": {
+      "delta": -1.0,
+      "bootstrap95_low": -1.0,
+      "bootstrap95_high": -1.0,
+      "family_deltas": {
+        "family-1201": -1.0,
+        "family-1202": -1.0,
+        "family-1203": -1.0,
+        "family-1204": -1.0
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S9/scale025_L20-scale100_L10/mae_m": {
+      "delta": 1198.1469762419915,
+      "bootstrap95_low": 858.6371814469255,
+      "bootstrap95_high": 1537.6567710370578,
+      "family_deltas": {
+        "family-1201": 1005.1576997914755,
+        "family-1202": 712.1166631023755,
+        "family-1203": 1375.1407012829782,
+        "family-1204": 1700.1728407911373
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S9/scale025_L20-scale100_L10/hit100": {
+      "delta": 0.0,
+      "bootstrap95_low": 0.0,
+      "bootstrap95_high": 0.0,
+      "family_deltas": {
+        "family-1201": 0.0,
+        "family-1202": 0.0,
+        "family-1203": 0.0,
+        "family-1204": 0.0
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S9/scale025_L20-scale100_L10/hit500": {
+      "delta": -0.375,
+      "bootstrap95_low": -0.75,
+      "bootstrap95_high": 0.0,
+      "family_deltas": {
+        "family-1201": 0.0,
+        "family-1202": -0.5,
+        "family-1203": -1.0,
+        "family-1204": 0.0
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S9/scale025_L20-delay60_L10/mae_m": {
+      "delta": 673.1265253926654,
+      "bootstrap95_low": 303.18518817920904,
+      "bootstrap95_high": 1210.298191860062,
+      "family_deltas": {
+        "family-1201": 343.7497951389547,
+        "family-1202": 262.62058121946336,
+        "family-1203": 586.9880677784793,
+        "family-1204": 1499.1476574337644
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S9/scale025_L20-delay60_L10/hit100": {
+      "delta": 0.0,
+      "bootstrap95_low": 0.0,
+      "bootstrap95_high": 0.0,
+      "family_deltas": {
+        "family-1201": 0.0,
+        "family-1202": 0.0,
+        "family-1203": 0.0,
+        "family-1204": 0.0
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S9/scale025_L20-delay60_L10/hit500": {
+      "delta": 0.0,
+      "bootstrap95_low": 0.0,
+      "bootstrap95_high": 0.0,
+      "family_deltas": {
+        "family-1201": 0.0,
+        "family-1202": 0.0,
+        "family-1203": 0.0,
+        "family-1204": 0.0
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S9/scale025_L20-scale100_L20/mae_m": {
+      "delta": 882.1059756670074,
+      "bootstrap95_low": 415.5102035956742,
+      "bootstrap95_high": 1215.979049509003,
+      "family_deltas": {
+        "family-1201": 967.2921300098853,
+        "family-1202": 199.89186553329728,
+        "family-1203": 1298.8746893420423,
+        "family-1204": 1062.365217782805
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S9/scale025_L20-scale100_L20/hit100": {
+      "delta": 0.0,
+      "bootstrap95_low": 0.0,
+      "bootstrap95_high": 0.0,
+      "family_deltas": {
+        "family-1201": 0.0,
+        "family-1202": 0.0,
+        "family-1203": 0.0,
+        "family-1204": 0.0
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S9/scale025_L20-scale100_L20/hit500": {
+      "delta": -0.375,
+      "bootstrap95_low": -0.75,
+      "bootstrap95_high": 0.0,
+      "family_deltas": {
+        "family-1201": 0.0,
+        "family-1202": -0.5,
+        "family-1203": -1.0,
+        "family-1204": 0.0
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/scale025_L20-raw/mae_m": {
+      "delta": 2297.2393620730963,
+      "bootstrap95_low": 1554.6384255180692,
+      "bootstrap95_high": 3039.840298628124,
+      "family_deltas": {
+        "family-1201": 2692.7693180256565,
+        "family-1202": 3386.911279230591,
+        "family-1203": 1536.9303568654573,
+        "family-1204": 1572.3464941706811
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/scale025_L20-raw/hit100": {
+      "delta": -1.0,
+      "bootstrap95_low": -1.0,
+      "bootstrap95_high": -1.0,
+      "family_deltas": {
+        "family-1201": -1.0,
+        "family-1202": -1.0,
+        "family-1203": -1.0,
+        "family-1204": -1.0
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/scale025_L20-raw/hit500": {
+      "delta": -1.0,
+      "bootstrap95_low": -1.0,
+      "bootstrap95_high": -1.0,
+      "family_deltas": {
+        "family-1201": -1.0,
+        "family-1202": -1.0,
+        "family-1203": -1.0,
+        "family-1204": -1.0
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/scale025_L20-scale100_L10/mae_m": {
+      "delta": 1628.9463230853091,
+      "bootstrap95_low": 929.475703626634,
+      "bootstrap95_high": 2328.416942543984,
+      "family_deltas": {
+        "family-1201": 2219.959983687468,
+        "family-1202": 2436.8739014005005,
+        "family-1203": 1125.8535662907507,
+        "family-1204": 733.0978409625174
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/scale025_L20-scale100_L10/hit100": {
+      "delta": 0.0,
+      "bootstrap95_low": 0.0,
+      "bootstrap95_high": 0.0,
+      "family_deltas": {
+        "family-1201": 0.0,
+        "family-1202": 0.0,
+        "family-1203": 0.0,
+        "family-1204": 0.0
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/scale025_L20-scale100_L10/hit500": {
+      "delta": -0.3125,
+      "bootstrap95_low": -0.625,
+      "bootstrap95_high": 0.0,
+      "family_deltas": {
+        "family-1201": -0.5,
+        "family-1202": 0.0,
+        "family-1203": -0.75,
+        "family-1204": 0.0
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/scale025_L20-delay60_L10/mae_m": {
+      "delta": 1117.553280299842,
+      "bootstrap95_low": 466.55218477043104,
+      "bootstrap95_high": 1666.4243907136047,
+      "family_deltas": {
+        "family-1201": 1865.6887547126655,
+        "family-1202": 1467.160026714544,
+        "family-1203": 1004.3481023164322,
+        "family-1204": 133.01623745572664
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/scale025_L20-delay60_L10/hit100": {
+      "delta": 0.0,
+      "bootstrap95_low": 0.0,
+      "bootstrap95_high": 0.0,
+      "family_deltas": {
+        "family-1201": 0.0,
+        "family-1202": 0.0,
+        "family-1203": 0.0,
+        "family-1204": 0.0
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/scale025_L20-delay60_L10/hit500": {
+      "delta": 0.0,
+      "bootstrap95_low": 0.0,
+      "bootstrap95_high": 0.0,
+      "family_deltas": {
+        "family-1201": 0.0,
+        "family-1202": 0.0,
+        "family-1203": 0.0,
+        "family-1204": 0.0
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/scale025_L20-scale100_L20/mae_m": {
+      "delta": 453.41672993273613,
+      "bootstrap95_low": -382.1202622556313,
+      "bootstrap95_high": 1235.9953097665393,
+      "family_deltas": {
+        "family-1201": 1287.755779721871,
+        "family-1202": 1184.2348398112076,
+        "family-1203": 245.91492980911022,
+        "family-1204": -904.2386296112443
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/scale025_L20-scale100_L20/hit100": {
+      "delta": 0.0,
+      "bootstrap95_low": 0.0,
+      "bootstrap95_high": 0.0,
+      "family_deltas": {
+        "family-1201": 0.0,
+        "family-1202": 0.0,
+        "family-1203": 0.0,
+        "family-1204": 0.0
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    },
+    "S10/scale025_L20-scale100_L20/hit500": {
+      "delta": 0.0,
+      "bootstrap95_low": 0.0,
+      "bootstrap95_high": 0.0,
+      "family_deltas": {
+        "family-1201": 0.0,
+        "family-1202": 0.0,
+        "family-1203": 0.0,
+        "family-1204": 0.0
+      },
+      "families": 4,
+      "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+    }
+  },
+  "zero_hit100_cautions": {
+    "S9": {
+      "families": 4,
+      "endpoint_predictions": 16,
+      "families_with_any_hit100": 0,
+      "one_sided95_zero_success_upper": 0.5271291954984121,
+      "interpretation": "If families were independent Bernoulli draws from this generator, zero observed family successes still allow this upper probability of any Hit100 in one family. Seeds are not independent real people; model-based caution, not a guarantee for every attacker."
+    },
+    "S10": {
+      "families": 4,
+      "endpoint_predictions": 16,
+      "families_with_any_hit100": 0,
+      "one_sided95_zero_success_upper": 0.5271291954984121,
+      "interpretation": "If families were independent Bernoulli draws from this generator, zero observed family successes still allow this upper probability of any Hit100 in one family. Seeds are not independent real people; model-based caution, not a guarantee for every attacker."
+    }
+  },
+  "traffic_ratio": {
+    "raw": 7.4022073837644005,
+    "scale100_L10": 1.5133577271234944,
+    "delay60_L10": 2.140478458911031,
+    "scale100_L20": 0.9996170807822992
+  },
+  "claim": "Development tradeoff only; finite attack bank and few families cannot establish universal superiority"
+}

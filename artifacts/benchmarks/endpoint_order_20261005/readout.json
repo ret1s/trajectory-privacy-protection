@@ -1,0 +1,1996 @@
+{
+  "schema": "endpoint-order-readout-v1",
+  "status": "POST-INSPECTION DEVELOPMENT DIAGNOSTIC; test families were already inspected",
+  "diagnostic_sha256": "033a46c5336cef00b8dbb4c5c0de4f43f5f74c1102f3c28afdfbe6489f359911",
+  "selection_sha256": "b8570223b1376246ac08678a53c0f4dc2c484263b39871905df481166aba2590",
+  "original_coordinate_set_bank_recovered": {
+    "raw/ordered": {
+      "S9": true,
+      "S10": true
+    },
+    "raw/shuffled": {
+      "S9": true,
+      "S10": true
+    },
+    "scale100_L10/ordered": {
+      "S9": true,
+      "S10": true
+    },
+    "scale100_L10/shuffled": {
+      "S9": true,
+      "S10": true
+    },
+    "scale100_L20/ordered": {
+      "S9": true,
+      "S10": true
+    },
+    "scale100_L20/shuffled": {
+      "S9": true,
+      "S10": true
+    },
+    "scale025_L20/ordered": {
+      "S9": true,
+      "S10": true
+    },
+    "scale025_L20/shuffled": {
+      "S9": true,
+      "S10": true
+    }
+  },
+  "fixed_control_and_expanded_decoder_generalization": {
+    "raw/ordered/S9": {
+      "selected_mae_decoders": {
+        "full": "centroid",
+        "invariant": "centroid"
+      },
+      "selection_mae_m": {
+        "full": 0.0,
+        "invariant": 0.0
+      },
+      "inspected_test_mae_m": {
+        "full": 0.0,
+        "invariant": 0.0
+      },
+      "selection_family_mae_m": {
+        "full": {
+          "family-709": 0.0,
+          "family-710": 0.0
+        },
+        "invariant": {
+          "family-709": 0.0,
+          "family-710": 0.0
+        }
+      },
+      "inspected_test_family_mae_m": {
+        "full": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        },
+        "invariant": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        }
+      },
+      "inspected_test_full_minus_invariant_mae_m": {
+        "delta": 0.0,
+        "bootstrap95_low": 0.0,
+        "bootstrap95_high": 0.0,
+        "family_deltas": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        }
+      },
+      "interpretation": "These are fixed selected decoders, not test-based fallback. A lower selection MAE can generalize to a higher inspected-test MAE; adding candidate attacks cannot reduce an optimal attacker's information, but this finite selection rule can select a weaker decoder."
+    },
+    "raw/ordered/S10": {
+      "selected_mae_decoders": {
+        "full": "centroid",
+        "invariant": "centroid"
+      },
+      "selection_mae_m": {
+        "full": 0.0,
+        "invariant": 0.0
+      },
+      "inspected_test_mae_m": {
+        "full": 0.0,
+        "invariant": 0.0
+      },
+      "selection_family_mae_m": {
+        "full": {
+          "family-709": 0.0,
+          "family-710": 0.0
+        },
+        "invariant": {
+          "family-709": 0.0,
+          "family-710": 0.0
+        }
+      },
+      "inspected_test_family_mae_m": {
+        "full": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        },
+        "invariant": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        }
+      },
+      "inspected_test_full_minus_invariant_mae_m": {
+        "delta": 0.0,
+        "bootstrap95_low": 0.0,
+        "bootstrap95_high": 0.0,
+        "family_deltas": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        }
+      },
+      "interpretation": "These are fixed selected decoders, not test-based fallback. A lower selection MAE can generalize to a higher inspected-test MAE; adding candidate attacks cannot reduce an optimal attacker's information, but this finite selection rule can select a weaker decoder."
+    },
+    "raw/shuffled/S9": {
+      "selected_mae_decoders": {
+        "full": "centroid",
+        "invariant": "centroid"
+      },
+      "selection_mae_m": {
+        "full": 0.0,
+        "invariant": 0.0
+      },
+      "inspected_test_mae_m": {
+        "full": 0.0,
+        "invariant": 0.0
+      },
+      "selection_family_mae_m": {
+        "full": {
+          "family-709": 0.0,
+          "family-710": 0.0
+        },
+        "invariant": {
+          "family-709": 0.0,
+          "family-710": 0.0
+        }
+      },
+      "inspected_test_family_mae_m": {
+        "full": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        },
+        "invariant": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        }
+      },
+      "inspected_test_full_minus_invariant_mae_m": {
+        "delta": 0.0,
+        "bootstrap95_low": 0.0,
+        "bootstrap95_high": 0.0,
+        "family_deltas": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        }
+      },
+      "interpretation": "These are fixed selected decoders, not test-based fallback. A lower selection MAE can generalize to a higher inspected-test MAE; adding candidate attacks cannot reduce an optimal attacker's information, but this finite selection rule can select a weaker decoder."
+    },
+    "raw/shuffled/S10": {
+      "selected_mae_decoders": {
+        "full": "centroid",
+        "invariant": "centroid"
+      },
+      "selection_mae_m": {
+        "full": 0.0,
+        "invariant": 0.0
+      },
+      "inspected_test_mae_m": {
+        "full": 0.0,
+        "invariant": 0.0
+      },
+      "selection_family_mae_m": {
+        "full": {
+          "family-709": 0.0,
+          "family-710": 0.0
+        },
+        "invariant": {
+          "family-709": 0.0,
+          "family-710": 0.0
+        }
+      },
+      "inspected_test_family_mae_m": {
+        "full": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        },
+        "invariant": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        }
+      },
+      "inspected_test_full_minus_invariant_mae_m": {
+        "delta": 0.0,
+        "bootstrap95_low": 0.0,
+        "bootstrap95_high": 0.0,
+        "family_deltas": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        }
+      },
+      "interpretation": "These are fixed selected decoders, not test-based fallback. A lower selection MAE can generalize to a higher inspected-test MAE; adding candidate attacks cannot reduce an optimal attacker's information, but this finite selection rule can select a weaker decoder."
+    },
+    "scale100_L10/ordered/S9": {
+      "selected_mae_decoders": {
+        "full": "public_boundary_median_ols6",
+        "invariant": "public_boundary_median_ols6"
+      },
+      "selection_mae_m": {
+        "full": 588.1753565096753,
+        "invariant": 588.1753565096753
+      },
+      "inspected_test_mae_m": {
+        "full": 620.5507719572909,
+        "invariant": 620.5507719572909
+      },
+      "selection_family_mae_m": {
+        "full": {
+          "family-709": 555.6271321056626,
+          "family-710": 620.723580913688
+        },
+        "invariant": {
+          "family-709": 555.6271321056626,
+          "family-710": 620.723580913688
+        }
+      },
+      "inspected_test_family_mae_m": {
+        "full": {
+          "family-1205": 401.6376513818769,
+          "family-1206": 948.8252458931279,
+          "family-1207": 763.7560669145452,
+          "family-1208": 442.96627213318254,
+          "family-1209": 440.5122789552708,
+          "family-1210": 299.5726909044158,
+          "family-1211": 381.9641046470761,
+          "family-1212": 631.8313601392388,
+          "family-1213": 690.5882455927252,
+          "family-1214": 816.3043669808268,
+          "family-1215": 623.9480932353376,
+          "family-1216": 583.3712242695661,
+          "family-1217": 642.1863830169001,
+          "family-1218": 803.0606947855729,
+          "family-1219": 484.34440624860736,
+          "family-1220": 413.2313635550155,
+          "family-1221": 362.40026472561965,
+          "family-1222": 450.90741897025976,
+          "family-1223": 1070.736236290245,
+          "family-1224": 1142.0559396346946,
+          "family-1225": 439.9460175059035,
+          "family-1226": 395.5642162794712,
+          "family-1227": 386.198961780295,
+          "family-1228": 1920.6337656569697,
+          "family-1229": 555.6188257174923,
+          "family-1230": 238.20735367291752,
+          "family-1231": 588.2067006074706,
+          "family-1232": 456.8454653095214
+        },
+        "invariant": {
+          "family-1205": 401.6376513818769,
+          "family-1206": 948.8252458931279,
+          "family-1207": 763.7560669145452,
+          "family-1208": 442.96627213318254,
+          "family-1209": 440.5122789552708,
+          "family-1210": 299.5726909044158,
+          "family-1211": 381.9641046470761,
+          "family-1212": 631.8313601392388,
+          "family-1213": 690.5882455927252,
+          "family-1214": 816.3043669808268,
+          "family-1215": 623.9480932353376,
+          "family-1216": 583.3712242695661,
+          "family-1217": 642.1863830169001,
+          "family-1218": 803.0606947855729,
+          "family-1219": 484.34440624860736,
+          "family-1220": 413.2313635550155,
+          "family-1221": 362.40026472561965,
+          "family-1222": 450.90741897025976,
+          "family-1223": 1070.736236290245,
+          "family-1224": 1142.0559396346946,
+          "family-1225": 439.9460175059035,
+          "family-1226": 395.5642162794712,
+          "family-1227": 386.198961780295,
+          "family-1228": 1920.6337656569697,
+          "family-1229": 555.6188257174923,
+          "family-1230": 238.20735367291752,
+          "family-1231": 588.2067006074706,
+          "family-1232": 456.8454653095214
+        }
+      },
+      "inspected_test_full_minus_invariant_mae_m": {
+        "delta": 0.0,
+        "bootstrap95_low": 0.0,
+        "bootstrap95_high": 0.0,
+        "family_deltas": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        }
+      },
+      "interpretation": "These are fixed selected decoders, not test-based fallback. A lower selection MAE can generalize to a higher inspected-test MAE; adding candidate attacks cannot reduce an optimal attacker's information, but this finite selection rule can select a weaker decoder."
+    },
+    "scale100_L10/ordered/S10": {
+      "selected_mae_decoders": {
+        "full": "median_ols3_120s",
+        "invariant": "median_ols3_120s"
+      },
+      "selection_mae_m": {
+        "full": 436.65830757209613,
+        "invariant": 436.65830757209613
+      },
+      "inspected_test_mae_m": {
+        "full": 768.7774795617253,
+        "invariant": 768.7774795617253
+      },
+      "selection_family_mae_m": {
+        "full": {
+          "family-709": 174.64612946299602,
+          "family-710": 698.6704856811963
+        },
+        "invariant": {
+          "family-709": 174.64612946299602,
+          "family-710": 698.6704856811963
+        }
+      },
+      "inspected_test_family_mae_m": {
+        "full": {
+          "family-1205": 1497.8993219491156,
+          "family-1206": 226.6696547113407,
+          "family-1207": 636.6984016322457,
+          "family-1208": 714.4690527084022,
+          "family-1209": 476.66767921334144,
+          "family-1210": 842.4590136480699,
+          "family-1211": 406.6082836705367,
+          "family-1212": 992.1885557784209,
+          "family-1213": 605.0961354208589,
+          "family-1214": 832.3778384375942,
+          "family-1215": 422.52401169442476,
+          "family-1216": 970.3044135448777,
+          "family-1217": 832.9202629545865,
+          "family-1218": 542.3482690586748,
+          "family-1219": 735.366912229993,
+          "family-1220": 591.9944482200135,
+          "family-1221": 661.0737473632528,
+          "family-1222": 537.9577845059168,
+          "family-1223": 1005.4622096852888,
+          "family-1224": 836.9910136978026,
+          "family-1225": 607.3944521144783,
+          "family-1226": 1749.563787932323,
+          "family-1227": 765.4554072720839,
+          "family-1228": 911.3143784473043,
+          "family-1229": 1133.2610960052941,
+          "family-1230": 553.5787529395739,
+          "family-1231": 680.922614993301,
+          "family-1232": 756.2019278991918
+        },
+        "invariant": {
+          "family-1205": 1497.8993219491156,
+          "family-1206": 226.6696547113407,
+          "family-1207": 636.6984016322457,
+          "family-1208": 714.4690527084022,
+          "family-1209": 476.66767921334144,
+          "family-1210": 842.4590136480699,
+          "family-1211": 406.6082836705367,
+          "family-1212": 992.1885557784209,
+          "family-1213": 605.0961354208589,
+          "family-1214": 832.3778384375942,
+          "family-1215": 422.52401169442476,
+          "family-1216": 970.3044135448777,
+          "family-1217": 832.9202629545865,
+          "family-1218": 542.3482690586748,
+          "family-1219": 735.366912229993,
+          "family-1220": 591.9944482200135,
+          "family-1221": 661.0737473632528,
+          "family-1222": 537.9577845059168,
+          "family-1223": 1005.4622096852888,
+          "family-1224": 836.9910136978026,
+          "family-1225": 607.3944521144783,
+          "family-1226": 1749.563787932323,
+          "family-1227": 765.4554072720839,
+          "family-1228": 911.3143784473043,
+          "family-1229": 1133.2610960052941,
+          "family-1230": 553.5787529395739,
+          "family-1231": 680.922614993301,
+          "family-1232": 756.2019278991918
+        }
+      },
+      "inspected_test_full_minus_invariant_mae_m": {
+        "delta": 0.0,
+        "bootstrap95_low": 0.0,
+        "bootstrap95_high": 0.0,
+        "family_deltas": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        }
+      },
+      "interpretation": "These are fixed selected decoders, not test-based fallback. A lower selection MAE can generalize to a higher inspected-test MAE; adding candidate attacks cannot reduce an optimal attacker's information, but this finite selection rule can select a weaker decoder."
+    },
+    "scale100_L10/shuffled/S9": {
+      "selected_mae_decoders": {
+        "full": "public_boundary_median_ols6",
+        "invariant": "public_boundary_median_ols6"
+      },
+      "selection_mae_m": {
+        "full": 588.1753565096753,
+        "invariant": 588.1753565096753
+      },
+      "inspected_test_mae_m": {
+        "full": 620.5507719572909,
+        "invariant": 620.5507719572909
+      },
+      "selection_family_mae_m": {
+        "full": {
+          "family-709": 555.6271321056626,
+          "family-710": 620.723580913688
+        },
+        "invariant": {
+          "family-709": 555.6271321056626,
+          "family-710": 620.723580913688
+        }
+      },
+      "inspected_test_family_mae_m": {
+        "full": {
+          "family-1205": 401.6376513818769,
+          "family-1206": 948.8252458931279,
+          "family-1207": 763.7560669145452,
+          "family-1208": 442.96627213318254,
+          "family-1209": 440.5122789552708,
+          "family-1210": 299.5726909044158,
+          "family-1211": 381.9641046470761,
+          "family-1212": 631.8313601392388,
+          "family-1213": 690.5882455927252,
+          "family-1214": 816.3043669808268,
+          "family-1215": 623.9480932353376,
+          "family-1216": 583.3712242695661,
+          "family-1217": 642.1863830169001,
+          "family-1218": 803.0606947855729,
+          "family-1219": 484.34440624860736,
+          "family-1220": 413.2313635550155,
+          "family-1221": 362.40026472561965,
+          "family-1222": 450.90741897025976,
+          "family-1223": 1070.736236290245,
+          "family-1224": 1142.0559396346946,
+          "family-1225": 439.9460175059035,
+          "family-1226": 395.5642162794712,
+          "family-1227": 386.198961780295,
+          "family-1228": 1920.6337656569697,
+          "family-1229": 555.6188257174923,
+          "family-1230": 238.20735367291752,
+          "family-1231": 588.2067006074706,
+          "family-1232": 456.8454653095214
+        },
+        "invariant": {
+          "family-1205": 401.6376513818769,
+          "family-1206": 948.8252458931279,
+          "family-1207": 763.7560669145452,
+          "family-1208": 442.96627213318254,
+          "family-1209": 440.5122789552708,
+          "family-1210": 299.5726909044158,
+          "family-1211": 381.9641046470761,
+          "family-1212": 631.8313601392388,
+          "family-1213": 690.5882455927252,
+          "family-1214": 816.3043669808268,
+          "family-1215": 623.9480932353376,
+          "family-1216": 583.3712242695661,
+          "family-1217": 642.1863830169001,
+          "family-1218": 803.0606947855729,
+          "family-1219": 484.34440624860736,
+          "family-1220": 413.2313635550155,
+          "family-1221": 362.40026472561965,
+          "family-1222": 450.90741897025976,
+          "family-1223": 1070.736236290245,
+          "family-1224": 1142.0559396346946,
+          "family-1225": 439.9460175059035,
+          "family-1226": 395.5642162794712,
+          "family-1227": 386.198961780295,
+          "family-1228": 1920.6337656569697,
+          "family-1229": 555.6188257174923,
+          "family-1230": 238.20735367291752,
+          "family-1231": 588.2067006074706,
+          "family-1232": 456.8454653095214
+        }
+      },
+      "inspected_test_full_minus_invariant_mae_m": {
+        "delta": 0.0,
+        "bootstrap95_low": 0.0,
+        "bootstrap95_high": 0.0,
+        "family_deltas": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        }
+      },
+      "interpretation": "These are fixed selected decoders, not test-based fallback. A lower selection MAE can generalize to a higher inspected-test MAE; adding candidate attacks cannot reduce an optimal attacker's information, but this finite selection rule can select a weaker decoder."
+    },
+    "scale100_L10/shuffled/S10": {
+      "selected_mae_decoders": {
+        "full": "median_ols3_120s",
+        "invariant": "median_ols3_120s"
+      },
+      "selection_mae_m": {
+        "full": 436.65830757209613,
+        "invariant": 436.65830757209613
+      },
+      "inspected_test_mae_m": {
+        "full": 768.7774795617253,
+        "invariant": 768.7774795617253
+      },
+      "selection_family_mae_m": {
+        "full": {
+          "family-709": 174.64612946299602,
+          "family-710": 698.6704856811963
+        },
+        "invariant": {
+          "family-709": 174.64612946299602,
+          "family-710": 698.6704856811963
+        }
+      },
+      "inspected_test_family_mae_m": {
+        "full": {
+          "family-1205": 1497.8993219491156,
+          "family-1206": 226.6696547113407,
+          "family-1207": 636.6984016322457,
+          "family-1208": 714.4690527084022,
+          "family-1209": 476.66767921334144,
+          "family-1210": 842.4590136480699,
+          "family-1211": 406.6082836705367,
+          "family-1212": 992.1885557784209,
+          "family-1213": 605.0961354208589,
+          "family-1214": 832.3778384375942,
+          "family-1215": 422.52401169442476,
+          "family-1216": 970.3044135448777,
+          "family-1217": 832.9202629545865,
+          "family-1218": 542.3482690586748,
+          "family-1219": 735.366912229993,
+          "family-1220": 591.9944482200135,
+          "family-1221": 661.0737473632528,
+          "family-1222": 537.9577845059168,
+          "family-1223": 1005.4622096852888,
+          "family-1224": 836.9910136978026,
+          "family-1225": 607.3944521144783,
+          "family-1226": 1749.563787932323,
+          "family-1227": 765.4554072720839,
+          "family-1228": 911.3143784473043,
+          "family-1229": 1133.2610960052941,
+          "family-1230": 553.5787529395739,
+          "family-1231": 680.922614993301,
+          "family-1232": 756.2019278991918
+        },
+        "invariant": {
+          "family-1205": 1497.8993219491156,
+          "family-1206": 226.6696547113407,
+          "family-1207": 636.6984016322457,
+          "family-1208": 714.4690527084022,
+          "family-1209": 476.66767921334144,
+          "family-1210": 842.4590136480699,
+          "family-1211": 406.6082836705367,
+          "family-1212": 992.1885557784209,
+          "family-1213": 605.0961354208589,
+          "family-1214": 832.3778384375942,
+          "family-1215": 422.52401169442476,
+          "family-1216": 970.3044135448777,
+          "family-1217": 832.9202629545865,
+          "family-1218": 542.3482690586748,
+          "family-1219": 735.366912229993,
+          "family-1220": 591.9944482200135,
+          "family-1221": 661.0737473632528,
+          "family-1222": 537.9577845059168,
+          "family-1223": 1005.4622096852888,
+          "family-1224": 836.9910136978026,
+          "family-1225": 607.3944521144783,
+          "family-1226": 1749.563787932323,
+          "family-1227": 765.4554072720839,
+          "family-1228": 911.3143784473043,
+          "family-1229": 1133.2610960052941,
+          "family-1230": 553.5787529395739,
+          "family-1231": 680.922614993301,
+          "family-1232": 756.2019278991918
+        }
+      },
+      "inspected_test_full_minus_invariant_mae_m": {
+        "delta": 0.0,
+        "bootstrap95_low": 0.0,
+        "bootstrap95_high": 0.0,
+        "family_deltas": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        }
+      },
+      "interpretation": "These are fixed selected decoders, not test-based fallback. A lower selection MAE can generalize to a higher inspected-test MAE; adding candidate attacks cannot reduce an optimal attacker's information, but this finite selection rule can select a weaker decoder."
+    },
+    "scale100_L20/ordered/S9": {
+      "selected_mae_decoders": {
+        "full": "geometry_nearest_slot4_ols6_boundary",
+        "invariant": "public_boundary_median_ols6"
+      },
+      "selection_mae_m": {
+        "full": 625.8951878556766,
+        "invariant": 807.3405364833818
+      },
+      "inspected_test_mae_m": {
+        "full": 1376.0406104577812,
+        "invariant": 890.6075398132385
+      },
+      "selection_family_mae_m": {
+        "full": {
+          "family-709": 359.5098485303162,
+          "family-710": 892.280527181037
+        },
+        "invariant": {
+          "family-709": 895.9558466547037,
+          "family-710": 718.7252263120599
+        }
+      },
+      "inspected_test_family_mae_m": {
+        "full": {
+          "family-1205": 1233.7080949446631,
+          "family-1206": 1150.6733694249133,
+          "family-1207": 1867.636010679417,
+          "family-1208": 1325.089192188948,
+          "family-1209": 984.0724290382796,
+          "family-1210": 1465.1137299979446,
+          "family-1211": 1126.69857826368,
+          "family-1212": 1703.6774193569122,
+          "family-1213": 1444.9389905706087,
+          "family-1214": 1577.1070547940813,
+          "family-1215": 1755.0123414471082,
+          "family-1216": 1000.3992032105658,
+          "family-1217": 1027.241091787056,
+          "family-1218": 1545.8584362371992,
+          "family-1219": 1294.9041093671817,
+          "family-1220": 932.2332187942487,
+          "family-1221": 1226.966013855765,
+          "family-1222": 1800.6429768615349,
+          "family-1223": 1787.7060281781478,
+          "family-1224": 1796.324451138406,
+          "family-1225": 1876.594342150354,
+          "family-1226": 1386.5725562849163,
+          "family-1227": 998.1913340378994,
+          "family-1228": 1835.4851088234118,
+          "family-1229": 653.5280552357591,
+          "family-1230": 426.1404511998453,
+          "family-1231": 1550.8506551388657,
+          "family-1232": 1755.7718498101617
+        },
+        "invariant": {
+          "family-1205": 426.92833400774924,
+          "family-1206": 1879.4515049954186,
+          "family-1207": 1372.7196632615794,
+          "family-1208": 474.71053876161307,
+          "family-1209": 350.291602974565,
+          "family-1210": 289.3245246421327,
+          "family-1211": 666.5352249217755,
+          "family-1212": 369.8279750303787,
+          "family-1213": 654.7650475545568,
+          "family-1214": 1403.286278038952,
+          "family-1215": 807.5951833909662,
+          "family-1216": 990.758719944814,
+          "family-1217": 853.2512934509407,
+          "family-1218": 771.698037315872,
+          "family-1219": 699.4437758786427,
+          "family-1220": 550.471981096159,
+          "family-1221": 389.7997590090629,
+          "family-1222": 673.2623117088882,
+          "family-1223": 1310.9627580404403,
+          "family-1224": 1488.6332763877747,
+          "family-1225": 910.9731541608585,
+          "family-1226": 642.841837935129,
+          "family-1227": 594.8273413430311,
+          "family-1228": 2396.378352484697,
+          "family-1229": 837.6979647195494,
+          "family-1230": 754.9873547891074,
+          "family-1231": 1355.5593619731321,
+          "family-1232": 1020.027956952894
+        }
+      },
+      "inspected_test_full_minus_invariant_mae_m": {
+        "delta": 485.4330706445427,
+        "bootstrap95_low": 296.75952969026355,
+        "bootstrap95_high": 668.9149597160967,
+        "family_deltas": {
+          "family-1205": 806.7797609369138,
+          "family-1206": -728.7781355705054,
+          "family-1207": 494.91634741783764,
+          "family-1208": 850.3786534273348,
+          "family-1209": 633.7808260637146,
+          "family-1210": 1175.7892053558119,
+          "family-1211": 460.16335334190455,
+          "family-1212": 1333.8494443265336,
+          "family-1213": 790.1739430160519,
+          "family-1214": 173.82077675512915,
+          "family-1215": 947.417158056142,
+          "family-1216": 9.640483265751868,
+          "family-1217": 173.9897983361152,
+          "family-1218": 774.1603989213271,
+          "family-1219": 595.460333488539,
+          "family-1220": 381.76123769808976,
+          "family-1221": 837.166254846702,
+          "family-1222": 1127.3806651526465,
+          "family-1223": 476.74327013770744,
+          "family-1224": 307.69117475063126,
+          "family-1225": 965.6211879894954,
+          "family-1226": 743.7307183497874,
+          "family-1227": 403.36399269486833,
+          "family-1228": -560.8932436612854,
+          "family-1229": -184.16990948379032,
+          "family-1230": -328.84690358926207,
+          "family-1231": 195.29129316573358,
+          "family-1232": 735.7438928572677
+        }
+      },
+      "interpretation": "These are fixed selected decoders, not test-based fallback. A lower selection MAE can generalize to a higher inspected-test MAE; adding candidate attacks cannot reduce an optimal attacker's information, but this finite selection rule can select a weaker decoder."
+    },
+    "scale100_L20/ordered/S10": {
+      "selected_mae_decoders": {
+        "full": "observed_slots_tree",
+        "invariant": "median_ols6_120s"
+      },
+      "selection_mae_m": {
+        "full": 470.26151047886344,
+        "invariant": 671.9598927043987
+      },
+      "inspected_test_mae_m": {
+        "full": 1677.0149389926532,
+        "invariant": 901.4833235035258
+      },
+      "selection_family_mae_m": {
+        "full": {
+          "family-709": 341.2544262073149,
+          "family-710": 599.2685947504119
+        },
+        "invariant": {
+          "family-709": 352.16847297219,
+          "family-710": 991.7513124366076
+        }
+      },
+      "inspected_test_family_mae_m": {
+        "full": {
+          "family-1205": 2259.0476216134725,
+          "family-1206": 2083.077618067615,
+          "family-1207": 2544.9102099699794,
+          "family-1208": 1414.1156877511885,
+          "family-1209": 1800.173630904917,
+          "family-1210": 1229.0396660954943,
+          "family-1211": 721.2509962191318,
+          "family-1212": 2745.840793634183,
+          "family-1213": 1134.1145316922887,
+          "family-1214": 1476.5245554726407,
+          "family-1215": 706.3225042357178,
+          "family-1216": 2875.1145170853943,
+          "family-1217": 1238.6097486746025,
+          "family-1218": 1511.115357431172,
+          "family-1219": 2953.749987000639,
+          "family-1220": 1199.1176070055292,
+          "family-1221": 835.6574186630438,
+          "family-1222": 958.8484500936597,
+          "family-1223": 1083.9356935601334,
+          "family-1224": 761.8893005464228,
+          "family-1225": 2187.9165133147494,
+          "family-1226": 2133.351216279395,
+          "family-1227": 1941.697934525013,
+          "family-1228": 2572.2036688083776,
+          "family-1229": 648.1280864864491,
+          "family-1230": 1240.2346644342856,
+          "family-1231": 3151.488988429969,
+          "family-1232": 1548.9413237988351
+        },
+        "invariant": {
+          "family-1205": 1338.0548362793731,
+          "family-1206": 774.9213819274233,
+          "family-1207": 957.5631860431873,
+          "family-1208": 903.1425835085652,
+          "family-1209": 1072.6004136907613,
+          "family-1210": 702.1056677581473,
+          "family-1211": 894.969960355159,
+          "family-1212": 997.2836958146959,
+          "family-1213": 684.6989513517404,
+          "family-1214": 460.60535104343586,
+          "family-1215": 1104.9582015062992,
+          "family-1216": 1255.3197855070478,
+          "family-1217": 596.4853895642505,
+          "family-1218": 885.6763377553245,
+          "family-1219": 1020.4813009205623,
+          "family-1220": 994.6110737233364,
+          "family-1221": 386.82805067690197,
+          "family-1222": 817.4782332738785,
+          "family-1223": 841.1145648521832,
+          "family-1224": 959.4666155887666,
+          "family-1225": 912.0995673966861,
+          "family-1226": 1965.2415075440672,
+          "family-1227": 778.1071076814967,
+          "family-1228": 1228.38222395595,
+          "family-1229": 1083.2445453170858,
+          "family-1230": 484.9000811307426,
+          "family-1231": 392.845942946625,
+          "family-1232": 748.3465009850319
+        }
+      },
+      "inspected_test_full_minus_invariant_mae_m": {
+        "delta": 775.5316154891276,
+        "bootstrap95_low": 505.4988463443757,
+        "bootstrap95_high": 1059.271580925103,
+        "family_deltas": {
+          "family-1205": 920.9927853340994,
+          "family-1206": 1308.1562361401916,
+          "family-1207": 1587.3470239267922,
+          "family-1208": 510.9731042426233,
+          "family-1209": 727.5732172141556,
+          "family-1210": 526.933998337347,
+          "family-1211": -173.71896413602713,
+          "family-1212": 1748.557097819487,
+          "family-1213": 449.4155803405482,
+          "family-1214": 1015.9192044292049,
+          "family-1215": -398.63569727058143,
+          "family-1216": 1619.7947315783465,
+          "family-1217": 642.1243591103521,
+          "family-1218": 625.4390196758475,
+          "family-1219": 1933.2686860800768,
+          "family-1220": 204.50653328219278,
+          "family-1221": 448.82936798614185,
+          "family-1222": 141.37021681978126,
+          "family-1223": 242.82112870795015,
+          "family-1224": -197.5773150423438,
+          "family-1225": 1275.8169459180633,
+          "family-1226": 168.10970873532779,
+          "family-1227": 1163.5908268435162,
+          "family-1228": 1343.8214448524277,
+          "family-1229": -435.1164588306367,
+          "family-1230": 755.334583303543,
+          "family-1231": 2758.6430454833444,
+          "family-1232": 800.5948228138033
+        }
+      },
+      "interpretation": "These are fixed selected decoders, not test-based fallback. A lower selection MAE can generalize to a higher inspected-test MAE; adding candidate attacks cannot reduce an optimal attacker's information, but this finite selection rule can select a weaker decoder."
+    },
+    "scale100_L20/shuffled/S9": {
+      "selected_mae_decoders": {
+        "full": "geometry_nearest_slot4_ols6_boundary",
+        "invariant": "public_boundary_median_ols6"
+      },
+      "selection_mae_m": {
+        "full": 625.8951878556766,
+        "invariant": 807.3405364833818
+      },
+      "inspected_test_mae_m": {
+        "full": 1376.0406104577812,
+        "invariant": 890.6075398132385
+      },
+      "selection_family_mae_m": {
+        "full": {
+          "family-709": 359.5098485303162,
+          "family-710": 892.280527181037
+        },
+        "invariant": {
+          "family-709": 895.9558466547037,
+          "family-710": 718.7252263120599
+        }
+      },
+      "inspected_test_family_mae_m": {
+        "full": {
+          "family-1205": 1233.7080949446631,
+          "family-1206": 1150.6733694249133,
+          "family-1207": 1867.636010679417,
+          "family-1208": 1325.089192188948,
+          "family-1209": 984.0724290382796,
+          "family-1210": 1465.1137299979446,
+          "family-1211": 1126.69857826368,
+          "family-1212": 1703.6774193569122,
+          "family-1213": 1444.9389905706087,
+          "family-1214": 1577.1070547940813,
+          "family-1215": 1755.0123414471082,
+          "family-1216": 1000.3992032105658,
+          "family-1217": 1027.241091787056,
+          "family-1218": 1545.8584362371992,
+          "family-1219": 1294.9041093671817,
+          "family-1220": 932.2332187942487,
+          "family-1221": 1226.966013855765,
+          "family-1222": 1800.6429768615349,
+          "family-1223": 1787.7060281781478,
+          "family-1224": 1796.324451138406,
+          "family-1225": 1876.594342150354,
+          "family-1226": 1386.5725562849163,
+          "family-1227": 998.1913340378994,
+          "family-1228": 1835.4851088234118,
+          "family-1229": 653.5280552357591,
+          "family-1230": 426.1404511998453,
+          "family-1231": 1550.8506551388657,
+          "family-1232": 1755.7718498101617
+        },
+        "invariant": {
+          "family-1205": 426.92833400774924,
+          "family-1206": 1879.4515049954186,
+          "family-1207": 1372.7196632615794,
+          "family-1208": 474.71053876161307,
+          "family-1209": 350.291602974565,
+          "family-1210": 289.3245246421327,
+          "family-1211": 666.5352249217755,
+          "family-1212": 369.8279750303787,
+          "family-1213": 654.7650475545568,
+          "family-1214": 1403.286278038952,
+          "family-1215": 807.5951833909662,
+          "family-1216": 990.758719944814,
+          "family-1217": 853.2512934509407,
+          "family-1218": 771.698037315872,
+          "family-1219": 699.4437758786427,
+          "family-1220": 550.471981096159,
+          "family-1221": 389.7997590090629,
+          "family-1222": 673.2623117088882,
+          "family-1223": 1310.9627580404403,
+          "family-1224": 1488.6332763877747,
+          "family-1225": 910.9731541608585,
+          "family-1226": 642.841837935129,
+          "family-1227": 594.8273413430311,
+          "family-1228": 2396.378352484697,
+          "family-1229": 837.6979647195494,
+          "family-1230": 754.9873547891074,
+          "family-1231": 1355.5593619731321,
+          "family-1232": 1020.027956952894
+        }
+      },
+      "inspected_test_full_minus_invariant_mae_m": {
+        "delta": 485.4330706445427,
+        "bootstrap95_low": 296.75952969026355,
+        "bootstrap95_high": 668.9149597160967,
+        "family_deltas": {
+          "family-1205": 806.7797609369138,
+          "family-1206": -728.7781355705054,
+          "family-1207": 494.91634741783764,
+          "family-1208": 850.3786534273348,
+          "family-1209": 633.7808260637146,
+          "family-1210": 1175.7892053558119,
+          "family-1211": 460.16335334190455,
+          "family-1212": 1333.8494443265336,
+          "family-1213": 790.1739430160519,
+          "family-1214": 173.82077675512915,
+          "family-1215": 947.417158056142,
+          "family-1216": 9.640483265751868,
+          "family-1217": 173.9897983361152,
+          "family-1218": 774.1603989213271,
+          "family-1219": 595.460333488539,
+          "family-1220": 381.76123769808976,
+          "family-1221": 837.166254846702,
+          "family-1222": 1127.3806651526465,
+          "family-1223": 476.74327013770744,
+          "family-1224": 307.69117475063126,
+          "family-1225": 965.6211879894954,
+          "family-1226": 743.7307183497874,
+          "family-1227": 403.36399269486833,
+          "family-1228": -560.8932436612854,
+          "family-1229": -184.16990948379032,
+          "family-1230": -328.84690358926207,
+          "family-1231": 195.29129316573358,
+          "family-1232": 735.7438928572677
+        }
+      },
+      "interpretation": "These are fixed selected decoders, not test-based fallback. A lower selection MAE can generalize to a higher inspected-test MAE; adding candidate attacks cannot reduce an optimal attacker's information, but this finite selection rule can select a weaker decoder."
+    },
+    "scale100_L20/shuffled/S10": {
+      "selected_mae_decoders": {
+        "full": "geometry_velocity_tree",
+        "invariant": "median_ols6_120s"
+      },
+      "selection_mae_m": {
+        "full": 558.5572750386251,
+        "invariant": 671.9598927043987
+      },
+      "inspected_test_mae_m": {
+        "full": 1690.9771758304737,
+        "invariant": 901.4833235035258
+      },
+      "selection_family_mae_m": {
+        "full": {
+          "family-709": 387.468024739622,
+          "family-710": 729.6465253376282
+        },
+        "invariant": {
+          "family-709": 352.16847297219,
+          "family-710": 991.7513124366076
+        }
+      },
+      "inspected_test_family_mae_m": {
+        "full": {
+          "family-1205": 2324.216098367523,
+          "family-1206": 2350.5976372838804,
+          "family-1207": 2584.034058050661,
+          "family-1208": 1450.9880969901346,
+          "family-1209": 1795.259247581633,
+          "family-1210": 1357.9966667693325,
+          "family-1211": 677.648792958292,
+          "family-1212": 2735.0326502091366,
+          "family-1213": 1191.734920226741,
+          "family-1214": 1516.3217017179336,
+          "family-1215": 736.6062666996099,
+          "family-1216": 3028.6492746605772,
+          "family-1217": 1216.429591973616,
+          "family-1218": 1535.1182155119502,
+          "family-1219": 3091.879054462181,
+          "family-1220": 1205.188154049724,
+          "family-1221": 863.1049509449873,
+          "family-1222": 949.3889675958923,
+          "family-1223": 1042.7158895938533,
+          "family-1224": 752.9607403212333,
+          "family-1225": 2059.876928284316,
+          "family-1226": 2104.3760641480217,
+          "family-1227": 1918.0130001709415,
+          "family-1228": 2475.371213936428,
+          "family-1229": 732.2579547879727,
+          "family-1230": 1198.2174047164651,
+          "family-1231": 2964.7096119804332,
+          "family-1232": 1488.6677692597973
+        },
+        "invariant": {
+          "family-1205": 1338.0548362793731,
+          "family-1206": 774.9213819274233,
+          "family-1207": 957.5631860431873,
+          "family-1208": 903.1425835085652,
+          "family-1209": 1072.6004136907613,
+          "family-1210": 702.1056677581473,
+          "family-1211": 894.969960355159,
+          "family-1212": 997.2836958146959,
+          "family-1213": 684.6989513517404,
+          "family-1214": 460.60535104343586,
+          "family-1215": 1104.9582015062992,
+          "family-1216": 1255.3197855070478,
+          "family-1217": 596.4853895642505,
+          "family-1218": 885.6763377553245,
+          "family-1219": 1020.4813009205623,
+          "family-1220": 994.6110737233364,
+          "family-1221": 386.82805067690197,
+          "family-1222": 817.4782332738785,
+          "family-1223": 841.1145648521832,
+          "family-1224": 959.4666155887666,
+          "family-1225": 912.0995673966861,
+          "family-1226": 1965.2415075440672,
+          "family-1227": 778.1071076814967,
+          "family-1228": 1228.38222395595,
+          "family-1229": 1083.2445453170858,
+          "family-1230": 484.9000811307426,
+          "family-1231": 392.845942946625,
+          "family-1232": 748.3465009850319
+        }
+      },
+      "inspected_test_full_minus_invariant_mae_m": {
+        "delta": 789.4938523269481,
+        "bootstrap95_low": 515.8162449481264,
+        "bootstrap95_high": 1070.7441039026635,
+        "family_deltas": {
+          "family-1205": 986.1612620881499,
+          "family-1206": 1575.6762553564572,
+          "family-1207": 1626.4708720074736,
+          "family-1208": 547.8455134815695,
+          "family-1209": 722.6588338908716,
+          "family-1210": 655.8909990111852,
+          "family-1211": -217.32116739686694,
+          "family-1212": 1737.7489543944407,
+          "family-1213": 507.03596887500055,
+          "family-1214": 1055.7163506744978,
+          "family-1215": -368.3519348066893,
+          "family-1216": 1773.3294891535295,
+          "family-1217": 619.9442024093655,
+          "family-1218": 649.4418777566257,
+          "family-1219": 2071.397753541619,
+          "family-1220": 210.57708032638766,
+          "family-1221": 476.27690026808534,
+          "family-1222": 131.9107343220138,
+          "family-1223": 201.60132474167006,
+          "family-1224": -206.50587526753327,
+          "family-1225": 1147.7773608876298,
+          "family-1226": 139.13455660395448,
+          "family-1227": 1139.9058924894448,
+          "family-1228": 1246.988989980478,
+          "family-1229": -350.9865905291131,
+          "family-1230": 713.3173235857225,
+          "family-1231": 2571.863669033808,
+          "family-1232": 740.3212682747654
+        }
+      },
+      "interpretation": "These are fixed selected decoders, not test-based fallback. A lower selection MAE can generalize to a higher inspected-test MAE; adding candidate attacks cannot reduce an optimal attacker's information, but this finite selection rule can select a weaker decoder."
+    },
+    "scale025_L20/ordered/S9": {
+      "selected_mae_decoders": {
+        "full": "geometry_nearest_slot4_ols2_boundary",
+        "invariant": "public_boundary_median_ols6"
+      },
+      "selection_mae_m": {
+        "full": 981.7211420943911,
+        "invariant": 1359.5232407495819
+      },
+      "inspected_test_mae_m": {
+        "full": 2199.6639927131982,
+        "invariant": 1482.5789120568786
+      },
+      "selection_family_mae_m": {
+        "full": {
+          "family-709": 838.7318518909185,
+          "family-710": 1124.7104322978637
+        },
+        "invariant": {
+          "family-709": 1441.4444055151218,
+          "family-710": 1277.602075984042
+        }
+      },
+      "inspected_test_family_mae_m": {
+        "full": {
+          "family-1205": 3220.6854409911884,
+          "family-1206": 1110.2943745029797,
+          "family-1207": 2099.79945996454,
+          "family-1208": 2535.772844181591,
+          "family-1209": 2361.5445584372237,
+          "family-1210": 1429.34254613306,
+          "family-1211": 1533.6260196407302,
+          "family-1212": 1829.7012317202611,
+          "family-1213": 2812.8838794565827,
+          "family-1214": 650.291921216566,
+          "family-1215": 3944.964420787841,
+          "family-1216": 1005.9458023648492,
+          "family-1217": 1107.8221816069977,
+          "family-1218": 4071.703840107382,
+          "family-1219": 3116.410522721539,
+          "family-1220": 2068.6634020134625,
+          "family-1221": 2598.485327141375,
+          "family-1222": 1586.1912000081543,
+          "family-1223": 2803.2042958126576,
+          "family-1224": 3011.87166050778,
+          "family-1225": 1873.286569479147,
+          "family-1226": 2276.80405942681,
+          "family-1227": 1918.7677476799554,
+          "family-1228": 3005.173742520489,
+          "family-1229": 1492.7290053088122,
+          "family-1230": 1109.1096518582692,
+          "family-1231": 2090.583699844498,
+          "family-1232": 2924.9323905348006
+        },
+        "invariant": {
+          "family-1205": 1807.7825279488452,
+          "family-1206": 2341.3958282886133,
+          "family-1207": 1035.4286015656467,
+          "family-1208": 1021.0843790402624,
+          "family-1209": 625.8260027315912,
+          "family-1210": 563.6765532240619,
+          "family-1211": 971.3209022209644,
+          "family-1212": 1359.1087444656914,
+          "family-1213": 1530.2411243437707,
+          "family-1214": 1469.6215248580997,
+          "family-1215": 1921.0320793163758,
+          "family-1216": 1363.2344548746241,
+          "family-1217": 1467.141383319332,
+          "family-1218": 2166.4716930025997,
+          "family-1219": 1550.195439566708,
+          "family-1220": 859.3738163400126,
+          "family-1221": 1115.8555577887735,
+          "family-1222": 1535.3567535278246,
+          "family-1223": 1957.6714102278488,
+          "family-1224": 2454.745181851395,
+          "family-1225": 1388.488827640737,
+          "family-1226": 1274.1652208479327,
+          "family-1227": 1768.1481212264134,
+          "family-1228": 2654.469646100849,
+          "family-1229": 1362.6261252454058,
+          "family-1230": 1170.6815021059713,
+          "family-1231": 1362.8707518575561,
+          "family-1232": 1414.195384064688
+        }
+      },
+      "inspected_test_full_minus_invariant_mae_m": {
+        "delta": 717.0850806563195,
+        "bootstrap95_low": 402.629539949513,
+        "bootstrap95_high": 1010.1494839070148,
+        "family_deltas": {
+          "family-1205": 1412.9029130423432,
+          "family-1206": -1231.1014537856336,
+          "family-1207": 1064.3708583988932,
+          "family-1208": 1514.6884651413288,
+          "family-1209": 1735.7185557056325,
+          "family-1210": 865.6659929089982,
+          "family-1211": 562.3051174197658,
+          "family-1212": 470.59248725456973,
+          "family-1213": 1282.642755112812,
+          "family-1214": -819.3296036415337,
+          "family-1215": 2023.9323414714652,
+          "family-1216": -357.2886525097749,
+          "family-1217": -359.31920171233423,
+          "family-1218": 1905.2321471047821,
+          "family-1219": 1566.215083154831,
+          "family-1220": 1209.28958567345,
+          "family-1221": 1482.6297693526014,
+          "family-1222": 50.83444648032969,
+          "family-1223": 845.5328855848088,
+          "family-1224": 557.1264786563847,
+          "family-1225": 484.7977418384098,
+          "family-1226": 1002.6388385788773,
+          "family-1227": 150.61962645354197,
+          "family-1228": 350.70409641964034,
+          "family-1229": 130.10288006340647,
+          "family-1230": -61.57185024770206,
+          "family-1231": 727.7129479869418,
+          "family-1232": 1510.7370064701126
+        }
+      },
+      "interpretation": "These are fixed selected decoders, not test-based fallback. A lower selection MAE can generalize to a higher inspected-test MAE; adding candidate attacks cannot reduce an optimal attacker's information, but this finite selection rule can select a weaker decoder."
+    },
+    "scale025_L20/ordered/S10": {
+      "selected_mae_decoders": {
+        "full": "centroid_ols3_120s",
+        "invariant": "centroid_ols3_120s"
+      },
+      "selection_mae_m": {
+        "full": 1000.9766922881097,
+        "invariant": 1000.9766922881097
+      },
+      "inspected_test_mae_m": {
+        "full": 1337.1553367898873,
+        "invariant": 1337.1553367898873
+      },
+      "selection_family_mae_m": {
+        "full": {
+          "family-709": 691.4365655794784,
+          "family-710": 1310.516818996741
+        },
+        "invariant": {
+          "family-709": 691.4365655794784,
+          "family-710": 1310.516818996741
+        }
+      },
+      "inspected_test_family_mae_m": {
+        "full": {
+          "family-1205": 1703.8101097595404,
+          "family-1206": 1476.970665357517,
+          "family-1207": 1714.8421207339036,
+          "family-1208": 1652.4383267856294,
+          "family-1209": 1883.8366050747413,
+          "family-1210": 904.9103705646766,
+          "family-1211": 1646.4882371864685,
+          "family-1212": 1361.0653837755408,
+          "family-1213": 438.64895598899375,
+          "family-1214": 1433.1795687075823,
+          "family-1215": 1361.5084213206442,
+          "family-1216": 1857.7242995541792,
+          "family-1217": 1288.6445459815518,
+          "family-1218": 1154.115080455382,
+          "family-1219": 1319.3122287465937,
+          "family-1220": 1160.170144890736,
+          "family-1221": 959.3154336108312,
+          "family-1222": 741.0282551648094,
+          "family-1223": 1196.4784320227295,
+          "family-1224": 2009.0531816894247,
+          "family-1225": 1394.179228189682,
+          "family-1226": 1989.5708143377005,
+          "family-1227": 561.5509365559667,
+          "family-1228": 1219.1963971041475,
+          "family-1229": 1812.0406044499218,
+          "family-1230": 993.2004299642788,
+          "family-1231": 1195.5954291576638,
+          "family-1232": 1011.4752229860078
+        },
+        "invariant": {
+          "family-1205": 1703.8101097595404,
+          "family-1206": 1476.970665357517,
+          "family-1207": 1714.8421207339036,
+          "family-1208": 1652.4383267856294,
+          "family-1209": 1883.8366050747413,
+          "family-1210": 904.9103705646766,
+          "family-1211": 1646.4882371864685,
+          "family-1212": 1361.0653837755408,
+          "family-1213": 438.64895598899375,
+          "family-1214": 1433.1795687075823,
+          "family-1215": 1361.5084213206442,
+          "family-1216": 1857.7242995541792,
+          "family-1217": 1288.6445459815518,
+          "family-1218": 1154.115080455382,
+          "family-1219": 1319.3122287465937,
+          "family-1220": 1160.170144890736,
+          "family-1221": 959.3154336108312,
+          "family-1222": 741.0282551648094,
+          "family-1223": 1196.4784320227295,
+          "family-1224": 2009.0531816894247,
+          "family-1225": 1394.179228189682,
+          "family-1226": 1989.5708143377005,
+          "family-1227": 561.5509365559667,
+          "family-1228": 1219.1963971041475,
+          "family-1229": 1812.0406044499218,
+          "family-1230": 993.2004299642788,
+          "family-1231": 1195.5954291576638,
+          "family-1232": 1011.4752229860078
+        }
+      },
+      "inspected_test_full_minus_invariant_mae_m": {
+        "delta": 0.0,
+        "bootstrap95_low": 0.0,
+        "bootstrap95_high": 0.0,
+        "family_deltas": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        }
+      },
+      "interpretation": "These are fixed selected decoders, not test-based fallback. A lower selection MAE can generalize to a higher inspected-test MAE; adding candidate attacks cannot reduce an optimal attacker's information, but this finite selection rule can select a weaker decoder."
+    },
+    "scale025_L20/shuffled/S9": {
+      "selected_mae_decoders": {
+        "full": "geometry_nearest_slot4_ols2_boundary",
+        "invariant": "public_boundary_median_ols6"
+      },
+      "selection_mae_m": {
+        "full": 981.7211420943911,
+        "invariant": 1359.5232407495819
+      },
+      "inspected_test_mae_m": {
+        "full": 2199.6639927131982,
+        "invariant": 1482.5789120568786
+      },
+      "selection_family_mae_m": {
+        "full": {
+          "family-709": 838.7318518909185,
+          "family-710": 1124.7104322978637
+        },
+        "invariant": {
+          "family-709": 1441.4444055151218,
+          "family-710": 1277.602075984042
+        }
+      },
+      "inspected_test_family_mae_m": {
+        "full": {
+          "family-1205": 3220.6854409911884,
+          "family-1206": 1110.2943745029797,
+          "family-1207": 2099.79945996454,
+          "family-1208": 2535.772844181591,
+          "family-1209": 2361.5445584372237,
+          "family-1210": 1429.34254613306,
+          "family-1211": 1533.6260196407302,
+          "family-1212": 1829.7012317202611,
+          "family-1213": 2812.8838794565827,
+          "family-1214": 650.291921216566,
+          "family-1215": 3944.964420787841,
+          "family-1216": 1005.9458023648492,
+          "family-1217": 1107.8221816069977,
+          "family-1218": 4071.703840107382,
+          "family-1219": 3116.410522721539,
+          "family-1220": 2068.6634020134625,
+          "family-1221": 2598.485327141375,
+          "family-1222": 1586.1912000081543,
+          "family-1223": 2803.2042958126576,
+          "family-1224": 3011.87166050778,
+          "family-1225": 1873.286569479147,
+          "family-1226": 2276.80405942681,
+          "family-1227": 1918.7677476799554,
+          "family-1228": 3005.173742520489,
+          "family-1229": 1492.7290053088122,
+          "family-1230": 1109.1096518582692,
+          "family-1231": 2090.583699844498,
+          "family-1232": 2924.9323905348006
+        },
+        "invariant": {
+          "family-1205": 1807.7825279488452,
+          "family-1206": 2341.3958282886133,
+          "family-1207": 1035.4286015656467,
+          "family-1208": 1021.0843790402624,
+          "family-1209": 625.8260027315912,
+          "family-1210": 563.6765532240619,
+          "family-1211": 971.3209022209644,
+          "family-1212": 1359.1087444656914,
+          "family-1213": 1530.2411243437707,
+          "family-1214": 1469.6215248580997,
+          "family-1215": 1921.0320793163758,
+          "family-1216": 1363.2344548746241,
+          "family-1217": 1467.141383319332,
+          "family-1218": 2166.4716930025997,
+          "family-1219": 1550.195439566708,
+          "family-1220": 859.3738163400126,
+          "family-1221": 1115.8555577887735,
+          "family-1222": 1535.3567535278246,
+          "family-1223": 1957.6714102278488,
+          "family-1224": 2454.745181851395,
+          "family-1225": 1388.488827640737,
+          "family-1226": 1274.1652208479327,
+          "family-1227": 1768.1481212264134,
+          "family-1228": 2654.469646100849,
+          "family-1229": 1362.6261252454058,
+          "family-1230": 1170.6815021059713,
+          "family-1231": 1362.8707518575561,
+          "family-1232": 1414.195384064688
+        }
+      },
+      "inspected_test_full_minus_invariant_mae_m": {
+        "delta": 717.0850806563195,
+        "bootstrap95_low": 402.629539949513,
+        "bootstrap95_high": 1010.1494839070148,
+        "family_deltas": {
+          "family-1205": 1412.9029130423432,
+          "family-1206": -1231.1014537856336,
+          "family-1207": 1064.3708583988932,
+          "family-1208": 1514.6884651413288,
+          "family-1209": 1735.7185557056325,
+          "family-1210": 865.6659929089982,
+          "family-1211": 562.3051174197658,
+          "family-1212": 470.59248725456973,
+          "family-1213": 1282.642755112812,
+          "family-1214": -819.3296036415337,
+          "family-1215": 2023.9323414714652,
+          "family-1216": -357.2886525097749,
+          "family-1217": -359.31920171233423,
+          "family-1218": 1905.2321471047821,
+          "family-1219": 1566.215083154831,
+          "family-1220": 1209.28958567345,
+          "family-1221": 1482.6297693526014,
+          "family-1222": 50.83444648032969,
+          "family-1223": 845.5328855848088,
+          "family-1224": 557.1264786563847,
+          "family-1225": 484.7977418384098,
+          "family-1226": 1002.6388385788773,
+          "family-1227": 150.61962645354197,
+          "family-1228": 350.70409641964034,
+          "family-1229": 130.10288006340647,
+          "family-1230": -61.57185024770206,
+          "family-1231": 727.7129479869418,
+          "family-1232": 1510.7370064701126
+        }
+      },
+      "interpretation": "These are fixed selected decoders, not test-based fallback. A lower selection MAE can generalize to a higher inspected-test MAE; adding candidate attacks cannot reduce an optimal attacker's information, but this finite selection rule can select a weaker decoder."
+    },
+    "scale025_L20/shuffled/S10": {
+      "selected_mae_decoders": {
+        "full": "centroid_ols3_120s",
+        "invariant": "centroid_ols3_120s"
+      },
+      "selection_mae_m": {
+        "full": 1000.9766922881097,
+        "invariant": 1000.9766922881097
+      },
+      "inspected_test_mae_m": {
+        "full": 1337.1553367898873,
+        "invariant": 1337.1553367898873
+      },
+      "selection_family_mae_m": {
+        "full": {
+          "family-709": 691.4365655794784,
+          "family-710": 1310.516818996741
+        },
+        "invariant": {
+          "family-709": 691.4365655794784,
+          "family-710": 1310.516818996741
+        }
+      },
+      "inspected_test_family_mae_m": {
+        "full": {
+          "family-1205": 1703.8101097595404,
+          "family-1206": 1476.970665357517,
+          "family-1207": 1714.8421207339036,
+          "family-1208": 1652.4383267856294,
+          "family-1209": 1883.8366050747413,
+          "family-1210": 904.9103705646766,
+          "family-1211": 1646.4882371864685,
+          "family-1212": 1361.0653837755408,
+          "family-1213": 438.64895598899375,
+          "family-1214": 1433.1795687075823,
+          "family-1215": 1361.5084213206442,
+          "family-1216": 1857.7242995541792,
+          "family-1217": 1288.6445459815518,
+          "family-1218": 1154.115080455382,
+          "family-1219": 1319.3122287465937,
+          "family-1220": 1160.170144890736,
+          "family-1221": 959.3154336108312,
+          "family-1222": 741.0282551648094,
+          "family-1223": 1196.4784320227295,
+          "family-1224": 2009.0531816894247,
+          "family-1225": 1394.179228189682,
+          "family-1226": 1989.5708143377005,
+          "family-1227": 561.5509365559667,
+          "family-1228": 1219.1963971041475,
+          "family-1229": 1812.0406044499218,
+          "family-1230": 993.2004299642788,
+          "family-1231": 1195.5954291576638,
+          "family-1232": 1011.4752229860078
+        },
+        "invariant": {
+          "family-1205": 1703.8101097595404,
+          "family-1206": 1476.970665357517,
+          "family-1207": 1714.8421207339036,
+          "family-1208": 1652.4383267856294,
+          "family-1209": 1883.8366050747413,
+          "family-1210": 904.9103705646766,
+          "family-1211": 1646.4882371864685,
+          "family-1212": 1361.0653837755408,
+          "family-1213": 438.64895598899375,
+          "family-1214": 1433.1795687075823,
+          "family-1215": 1361.5084213206442,
+          "family-1216": 1857.7242995541792,
+          "family-1217": 1288.6445459815518,
+          "family-1218": 1154.115080455382,
+          "family-1219": 1319.3122287465937,
+          "family-1220": 1160.170144890736,
+          "family-1221": 959.3154336108312,
+          "family-1222": 741.0282551648094,
+          "family-1223": 1196.4784320227295,
+          "family-1224": 2009.0531816894247,
+          "family-1225": 1394.179228189682,
+          "family-1226": 1989.5708143377005,
+          "family-1227": 561.5509365559667,
+          "family-1228": 1219.1963971041475,
+          "family-1229": 1812.0406044499218,
+          "family-1230": 993.2004299642788,
+          "family-1231": 1195.5954291576638,
+          "family-1232": 1011.4752229860078
+        }
+      },
+      "inspected_test_full_minus_invariant_mae_m": {
+        "delta": 0.0,
+        "bootstrap95_low": 0.0,
+        "bootstrap95_high": 0.0,
+        "family_deltas": {
+          "family-1205": 0.0,
+          "family-1206": 0.0,
+          "family-1207": 0.0,
+          "family-1208": 0.0,
+          "family-1209": 0.0,
+          "family-1210": 0.0,
+          "family-1211": 0.0,
+          "family-1212": 0.0,
+          "family-1213": 0.0,
+          "family-1214": 0.0,
+          "family-1215": 0.0,
+          "family-1216": 0.0,
+          "family-1217": 0.0,
+          "family-1218": 0.0,
+          "family-1219": 0.0,
+          "family-1220": 0.0,
+          "family-1221": 0.0,
+          "family-1222": 0.0,
+          "family-1223": 0.0,
+          "family-1224": 0.0,
+          "family-1225": 0.0,
+          "family-1226": 0.0,
+          "family-1227": 0.0,
+          "family-1228": 0.0,
+          "family-1229": 0.0,
+          "family-1230": 0.0,
+          "family-1231": 0.0,
+          "family-1232": 0.0
+        }
+      },
+      "interpretation": "These are fixed selected decoders, not test-based fallback. A lower selection MAE can generalize to a higher inspected-test MAE; adding candidate attacks cannot reduce an optimal attacker's information, but this finite selection rule can select a weaker decoder."
+    }
+  },
+  "no_test_based_fallback_or_oracle_minimum": true,
+  "claim": "Private shuffle removes explicit slot-position labels. It shows no Endpoint20 MAE benefit in this diagnostic, and geometry association survives exactly. Broad attacker-robust superiority is not established; fixed-bank and expanded-bank estimates must both be reported."
+}

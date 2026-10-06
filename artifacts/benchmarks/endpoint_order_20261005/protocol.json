@@ -1,0 +1,108 @@
+{
+  "schema": "endpoint-ordered-view-challenge-v1",
+  "date": "2026-10-05",
+  "source_reference": "artifacts/benchmarks/endpoint_generalization_20261005",
+  "input_sha256": {
+    "fit-raw.json.gz": "e06046e252ca143f380ed2ff532161ad89b62e23252087abfb3b1a1c561a2b47",
+    "fit-scale100_L10.json.gz": "6f44097ffe9094a0b969b90dd154ca6577a4ccc1bfa9138471afc2296a8297b6",
+    "fit-scale100_L20.json.gz": "b48ec818756d99bcf8916dc14eaac83c9ecce2331baddc5be336b57a94e6cd5a",
+    "fit-scale025_L20.json.gz": "42354f435a6b30f340d84d91c7872a16a4816bc7abdb925d6b32bdd7b6ac57f4",
+    "selection-raw.json.gz": "dc3591d117a01edb641611465e1f87ade381d121a48a13239b19c973a08ace19",
+    "selection-scale100_L10.json.gz": "b0be2e6903c70ac55d38fe71e2637d70d4c9a7caf4c210857044c9be5714f2cc",
+    "selection-scale100_L20.json.gz": "f87d58975a03ad83c564421c8fe23c6a5c00a58b1770b4a51a7b981f8070b956",
+    "selection-scale025_L20.json.gz": "ae89ace640f58b760015ae71abd063858359708f3c8c2cbb0bb22e3709d6780b",
+    "test-raw.json.gz": "8fdc3a5556768b24695d7af0cd33bf59c8987c43ad02d6d95744a0b9dc3949ce",
+    "test-scale100_L10.json.gz": "48d8ebef7224760891fe299e9a3fa11ce5bef3ed98f8eb8ce06c95935cd08925",
+    "test-scale100_L20.json.gz": "a151ae7a816ba6bc72cdad710e6c9e601ce23d2f0abbf2eb18e1586fcecf7147",
+    "test-scale025_L20.json.gz": "f568e5e9a63042a47ce2a28442d3f5f403344d083d209e643ea75187b277ea08",
+    "protocol.json": "d3784c2c8a32062f08f71072869813a8a7053d7b878b4e9dad6098ae3fa72349",
+    "selection.json": "3aed7860e194a902a1304478252a9ecf9e9b18a2945e6a4e86e7538b7fa0e6cb",
+    "heldout.json": "36dd8ab580369b711c953a167c8577cb28e7bcf037fc1d782537215d18557825",
+    "resources.json": "13be7126ebc4bc9ada2874362962701a4e85c44604f7be227f620444b2697049"
+  },
+  "source_sha256": {
+    "evaluation/ordered_endpoint_attacks.py": "d5dd9e2a742d98d4eff25d87e389dca284a4bd75c6a69476f170a0b36afdf54b",
+    "experiments/endpoint_order_challenge.py": "bf8314399b44ed0ae5572eb594930ddfa5e6a7d4074a9f26fe57551bdbaf558e",
+    "evaluation/endpoint_noise_attacks.py": "b7cc3de94a3b8d163024fbd3b9d6ca91e131e7f3d2d7fd470fa55769345f23d1",
+    "evaluation/live_comparison_attacks.py": "811e6fad6342e3e5afeb5a3cc73341d6555c607f7d2eecc4ac6fe750a5caa484",
+    "evaluation/live_comparison_endpoint_attacks.py": "0914d6d93a4007ab2c95ad3c56fded62b4963850c5f1d351082b936de275326a",
+    "benchmark/paper_comparators.py": "698d0dd885fd8d17fb45833cf7205cf26dd3e796e1c6a16d1adffb5fb7d3ef89",
+    "experiments/public_research_resources.py": "36127eb11f4e53b13793413783392afddd2cc7a4e62f697308149db8f7267b25",
+    "experiments/endpoint_noise_readout.py": "93cfc7731deec737614cbec55d7f7ca9adc71126c5720ee9ac74df1d24663135",
+    "experiments/endpoint_noise_loop.py": "a094038a6100b2cd82e1615f21530df6006e61ee4f08b5a37af534c44738bd1a"
+  },
+  "private_shuffle_sha256": "552d407447d8617dcf3708b8640089186200e26c418632169c8c3b858e77dc36",
+  "fit_families": [
+    "family-701",
+    "family-702",
+    "family-703",
+    "family-704",
+    "family-705",
+    "family-706",
+    "family-707",
+    "family-708"
+  ],
+  "selection_families": [
+    "family-709",
+    "family-710"
+  ],
+  "inspected_test_families": [
+    "family-1205",
+    "family-1206",
+    "family-1207",
+    "family-1208",
+    "family-1209",
+    "family-1210",
+    "family-1211",
+    "family-1212",
+    "family-1213",
+    "family-1214",
+    "family-1215",
+    "family-1216",
+    "family-1217",
+    "family-1218",
+    "family-1219",
+    "family-1220",
+    "family-1221",
+    "family-1222",
+    "family-1223",
+    "family-1224",
+    "family-1225",
+    "family-1226",
+    "family-1227",
+    "family-1228",
+    "family-1229",
+    "family-1230",
+    "family-1231",
+    "family-1232"
+  ],
+  "methods": [
+    "raw",
+    "scale100_L10",
+    "scale100_L20",
+    "scale025_L20"
+  ],
+  "views": [
+    "ordered",
+    "shuffled"
+  ],
+  "scenarios": [
+    "S9",
+    "S10"
+  ],
+  "groups": [
+    "full",
+    "invariant",
+    "observed_slots",
+    "geometry_associated"
+  ],
+  "status": "POST-INSPECTION DEVELOPMENT DIAGNOSTIC; test families were already inspected",
+  "defense": "Frozen raw/plainL10/plainL20/Endpoint20 Q sets; no new defense generation or tuning",
+  "intervention": "Private independent permutation of each event coordinate list, retaining every duplicate; no candidate IDs published; original engine tracks unaffected",
+  "attacker": "Per-slot endpoint and OLS 2/3/6 at observed boundary and horizons 0/30/60/120; ordered per-track ExtraTrees64/kNN1/kNN5 features; initial spatial sorting + consecutive Hungarian nearest and velocity matching with equivalent learned features; existing invariant controls",
+  "selection": "Fit only 701–708; loss-specific decoder selection only 709–710, separately by method/view/group; freeze before this runner opens existing test labels; no defense selection or test-based bank changes",
+  "randomization": "endpoint-order-private-event-v1 HMAC of evaluator-private master/session/rep/event; independent across unrelated sessions",
+  "inference": "Target each trip's original GPS endpoint; public session close allowed; no IDs, internal Z, random seed, GPS or truth enter attack features",
+  "uncertainty": "Paired bootstrap over all 28 already-inspected families; exploratory, no multiplicity correction",
+  "limits": "Same synthetic SUMO generator and reconstructed public map; finite attacker bank; this removes explicit list-position labels only, not geometric trackability or account/IP/identity linkability; cannot replace earlier coordinate-set primary results with an independent confirmation claim"
+}
