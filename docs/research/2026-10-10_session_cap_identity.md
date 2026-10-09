@@ -1,50 +1,35 @@
-# Cap từng phiên và bảo vệ riêng danh tính người/phương tiện
+# Cap từng phiên và đánh giá S4–S6 bằng cơ chế Geo-I hiện có
 
-Ngày 10/10/2026. Quyết định thiết kế theo yêu cầu người dùng: giữ Geo-I/REM,
-quay lại cap hiệu lực 0,23 m⁻¹ mỗi phiên; không giới hạn dịch vụ ở tám phiên.
-Tách S4 thành một lớp bảo vệ danh tính chuyên biệt với hai target. Đây là quyết
-định cho cấu hình làm việc tiếp theo, không thay đổi cấu hình của các benchmark
-đã lưu và không xác nhận đã triển khai anonymous transport.
+Quyết định thiết kế 10/10/2026: giữ Geo-I/REM và cap hiệu lực 0,23 m⁻¹ mỗi
+phiên. Đánh giá bảo vệ danh tính **người** và **phương tiện vật lý** riêng,
+trước khi quyết định cần thêm cơ chế nào. Chưa chọn lớp identity, relay hay
+k-anonymity làm thành phần của mô hình. Bản này sửa đề xuất thêm lớp S4 quá
+sớm trong bản trước; không thay đổi mã cơ chế hoặc số đo đã lưu.
 
-## 1. Chính sách tọa độ đã chọn
+## 1. Ngân sách tọa độ từng phiên
 
-Một phiên là một chuyến/lượt sử dụng được bắt đầu và kết thúc theo giao thức
-công khai. Trong phiên có nhiều lần đọc GPS và gửi Q. Mở lại tiến trình để tiếp
-tục cùng một chuyến không được xem là một phiên mới để tự nạp cap.
+Một phiên là một chuyến/lượt sử dụng theo giao thức công khai, có nhiều lần
+đọc GPS và gửi Q. Khởi động lại để tiếp tục cùng chuyến không tự nạp ngân sách.
+Với cap C_s và tham số phân bổ H công khai, U = 2H − 1:
 
-Đặt C_s là cap hiệu lực của một phiên; H là tham số phân bổ; U = 2H − 1.
-
-- u = C_s/U cho mỗi phép thử tái sử dụng và mỗi mẫu REM mới.
-- B_nominal = 2H u là tham số danh nghĩa mà engine hiện có nhận.
+- u = C_s/U; B_nominal = 2H u.
 - C_s = 0,23 m⁻¹; H = 12; U = 23; u = 0,01 m⁻¹; B_nominal = 0,24 m⁻¹.
 - Lịch đọc tối thiểu 60 s; dự toán trước GPS: lần đầu 1 đơn vị, lần sau 2.
-- Chi phí thực: đầu tiên 1; giữ Z sau khi thử 1; thử rồi tạo mới 2; không đọc 0.
-- Hết cap đọc trong phiên thì tiếp tục từ lịch sử bảo vệ. Không có quy tắc từ
-  chối chuyến thứ chín của thiết kế được chọn.
+- Chi phí thực: đầu tiên 1; thử rồi giữ Z 1; thử rồi tạo mới 2; không đọc 0.
+- H không phải giới hạn cứng 12 GPS reads. Hết cap đọc thì dự đoán từ lịch sử
+  bảo vệ. C_s là hệ số riêng tư, không phải bán kính nhiễu.
 
-Đây là cấu hình per-session đã tồn tại trong GeoI-Slack/session-reset. Kết hợp
-per-session cap với L30 và lớp S4 mới chưa có readout độc lập mới. Không đổi
-`recommended_configuration.json` của study L30 cũ hoặc cấp lại nhãn số liệu.
+Cơ chế per-session đã có trong GeoI-Slack/session-reset. Kết hợp chính sách này
+với L30 và bốn nhu cầu local chưa có readout mới. Không đổi cấu hình các study
+frozen để gán lại nhãn cho kết quả. Chặn lý tưởng một phiên là exp(C_s D∞);
+những phiên bị liên kết vẫn hợp thành tổng cap. Công thức phân bổ không chứng
+minh 0,23 tối ưu phổ quát; còn cần khảo sát độ nhạy và lịch đọc.
 
-Chặn toán học lý tưởng trong một phiên là exp(C_s D_infinity). Nếu attacker nối
-M phiên của cùng người hoặc xe, chặn tổng vẫn là exp(M C_s D_infinity) khi cap
-bằng nhau. Đổi pseudonym không xóa chi phí hợp thành. Không phát biểu cap 0,23
-cho cả đời hay cho tám phiên của cấu hình mới. C_s,H,lịch đọc cần khảo sát độ
-nhạy; tính đúng công thức không chứng minh 0,23 là tối ưu phổ quát.
+## 2. S4: danh tính người và xe vật lý
 
-## 2. Hai danh tính khác nhau
-
-- I_person: người thật/chủ thể, giữ xuyên chuyến và có thể đổi xe/thiết bị.
-- I_vehicle: phương tiện vật lý, có thể được nhiều người sử dụng.
-- I_device: thiết bị hoặc tài khoản là một nguồn phụ trợ; không được tự đồng
-  nhất nó với người hoặc xe.
-
-S4-person hỏi hai phiên có cùng người không. S4-vehicle hỏi hai phiên có cùng
-phương tiện vật lý không. Ground truth chỉ ở evaluator; không suy ID thật từ
-SUMO instance ID. Evaluator hiện dùng riêng `person_id` và `physical_vehicle_id`
-(`experiments/identity_future_eval.py`, phần linkage), nên hai target đã có.
-
-Đối chứng bắt buộc:
+S4-person hỏi hai phiên có cùng người không; S4-vehicle hỏi có cùng phương
+tiện vật lý không. ID thiết bị/tài khoản là kênh phụ trợ, không thay cho hai
+nhãn. Evaluator đã có `person_id` và `physical_vehicle_id` riêng.
 
 | Cặp phiên | Cùng người | Cùng xe |
 |---|---:|---:|
@@ -53,73 +38,84 @@ SUMO instance ID. Evaluator hiện dùng riêng `person_id` và `physical_vehicl
 | Hai người dùng chung xe | 0 | 1 |
 | Hai người, hai xe | 0 | 0 |
 
-Đổi điện thoại không tự đổi hai nhãn này. Dữ liệu phải có hỗ trợ thực cho các
-cặp, không chỉ gán hai target bằng cùng nhãn.
+**Cơ chế hiện có:** REM làm nhiễu tham chiếu; phép thử tái sử dụng có nhiễu
+bảo vệ tín hiệu giữ/đổi Z; lịch đọc và cap giới hạn quan sát GPS mới. b/Q chỉ
+xử lý từ lịch sử bảo vệ và dữ liệu công khai. Chúng không thêm GPS thô vào
+transcript, nhưng không có bảo đảm chống linkage riêng mạnh hơn Geo-I.
 
-## 3. Lớp S4 đề xuất: tách định danh và chống nối phiên
+**Observer:** diagnostic nhìn Q và timing, không nhận nhãn người/xe/GPS thật.
+Việc không có account/IP/ID trong simulator là giả định phạm vi, không phải
+một cơ chế transport đã được triển khai hoặc một gain riêng tư mới.
 
-Geo-I bảo vệ tọa độ; lớp S4 xử lý các kênh định danh ngoài tọa độ. Thiết kế này
-là hướng cần triển khai/kiểm chứng, không phải một bảo đảm identity đã đạt.
+**Bằng chứng:** cap phiên 0,23/m, AUC người raw 0,778 → Geo-I 0,532; AUC xe
+0,718 → 0,448. Ba nhóm test, 45 cặp phụ thuộc nhau. AUC người theo nhóm còn
+tới 0,861; AUC dưới 0,5 có thể đảo điểm. Nhãn danh tính và các cặp dùng chung/
+đổi xe là tổng hợp. Kết luận: bằng chứng một phần cho linkage từ hình học,
+chưa chứng minh ẩn danh hoặc bảo vệ trước account/IP. Xem
+[diagnostic đầy đủ](2026-10-05_identity_future.md).
 
-1. **Tách ID trong ứng dụng.** Không gửi person/vehicle/device ID, VIN, account,
-   cookie, API key cá nhân, seed hay stable track ID trong request POI. Nếu cần
-   mã đối chiếu phản hồi, chỉ dùng mã ngẫu nhiên cho request; không dẫn xuất từ
-   ID thật và không tái sử dụng qua chuyến. Dữ liệu cá nhân/cache ở thiết bị.
-2. **Tách nguồn mạng khỏi nội dung.** Dùng relay/gateway độc lập kiểu Oblivious
-   HTTP, với HTTPS, mã hóa và điều kiện các bên không thông đồng. Server POI
-   không đồng thời thấy IP nguồn và nội dung request. Không đưa authentication
-   định danh vào payload để tự phá mục tiêu này. Chưa có triển khai relay/OHTTP
-   trong simulator hoặc đo HTTP/TLS/độ trễ.
-3. **Kiểm tra liên kết quỹ đạo còn lại.** Q vẫn có hình dạng và timing. Shuffle Q
-   hoặc đổi pseudonym không đủ xóa home/work/routine hoặc fingerprint tốc độ.
-   `PrivateOrderCoverClient` đã bỏ slot-order bền, nhưng không chứng minh S4.
-   Giữ layer này là đề xuất cho tới khi attacker chỉ nhìn hình học vẫn được
-   đánh giá. Mix-zone/cooperative mixing là hướng ablation có điều kiện nhiều
-   người, không tự thêm vào mô hình một người và không trigger theo GPS thật.
+## 3. S5/S6: cơ chế hiện có và pilot cap phiên
 
-Cấu trúc: GPS → Geo-I/REM → b → Q → đóng gói loại định danh → anonymous
-transport → POI server; đáp án quay về lọc/sắp xếp local. ψ không chọn Q hoặc
-trigger lưu lượng. Mọi thay đổi lịch/chèn lưu lượng sau này phải được khai báo
-và định trước từ thông tin công khai; không dùng GPS thô để chọn mix-zone.
+**S5 – cạnh đường tương lai:** attacker chỉ nhận prefix Q; REM làm mờ hướng
+rẽ, lịch đọc thưa/tái dùng Z giảm việc bám từng chuyển động GPS. b/Q dùng
+chuyển tiếp công khai, không biết cạnh tương lai đã chọn. Tính nhân quả tự nó
+không đủ để chứng minh riêng tư trước tương quan hình học.
 
-Nền tham khảo:
+**S6 – đích chưa tới:** bảo vệ tọa độ trong lịch sử lẫn prefix hiện tại;
+đích riêng của nhu cầu ít đi vòng chỉ dùng local. Nhiều chuyến vẫn có thể
+lộ routine; S6 pilot giả định attacker đã nối được lịch sử cùng người.
 
-- [RFC 9458, Oblivious HTTP, §7](https://www.rfc-editor.org/rfc/rfc9458.html#section-7):
-  tách nguồn mạng và request cần điều kiện trust/metadata; không bảo đảm vô điều
-  kiện trước traffic analysis hoặc nội dung tự nhận diện.
-- [Beresford–Stajano, Mix Zones, 2004](https://www.cl.cam.ac.uk/~arb33/papers/BeresfordStajano-MixZones-PerSec2004.pdf):
-  đổi pseudonym đi cùng vùng không quan sát, không chỉ đổi tên trên một tuyến
-  liên tục quan sát được.
-- [Cooperative Location Privacy in Vehicular Networks, 2020](https://arxiv.org/abs/2012.06666):
-  liên kết pseudonym phụ thuộc hình học, mật độ, thời điểm và mô hình chuyển động.
+[Protocol](../../artifacts/benchmarks/future_native_20261005_v1/protocol.json),
+[kết quả](../../artifacts/benchmarks/future_native_20261005_v1/results.json),
+[validation](../../artifacts/benchmarks/future_native_20261005_v1/validation.json):
+nhánh **geoi_session_reset**, L10, u=0,01/m, cap phiên 0,23/m, K5. Tại mốc
+đang rẽ, Candidate Trees chọn trên selection cho S5 accuracy/S6 Hit100
+100% → 41,67%; S6 MAE 4,99 → 660,62m; Static Recall@5 97,72%.
 
-## 4. Kiểm chứng cần làm trước khi gọi S4 được bảo vệ
+Sáu nhóm test, 12 query, hai cạnh/đích ứng viên đã biết. Query thường lệ/ít gặp
+cân bằng; sáu chuyến lịch sử có năm thường lệ/một ít gặp không thay cho prior
+query. S5/S6 dùng chung quyết định nhánh, không là hai xác nhận độc lập.
+Trước ngã rẽ raw cũng đạt 50% vì prefix giống nhau: không tính đó là gain.
+41,67% không chứng minh tốt hơn đoán ngẫu nhiên hoặc cận cho mọi attacker.
+Utility chỉ là POI tĩnh phần có tham chiếu, không phải macro bốn nhu cầu L30.
 
-Hai đầu ra độc lập: same_person, same_vehicle. Fit attacker trên train, chọn
-bank/ngưỡng trên selection, khóa thiết kế trước test mới; nhóm toàn bộ những
-phiên cùng thực thể/route family vào cùng split.
+Những số này là pilot đã lưu, không phải chạy mới. Pilot REM/Planar L20 khác
+vẫn giữ nguyên số 50%/50%; không coi chúng là phép so ngang cùng cấu hình.
 
-Ablation: per-session REM/L30; + loại định danh; + shuffle/mã request mới;
-+ anonymous transport theo đúng observer contract; + cơ chế chống liên kết hình
-học nếu được triển khai. Hai observer: nội dung không ID, và mạng trực tiếp có
-account/IP bền làm positive control. Không dùng việc simulator vốn không gửi
-ID làm một mức giảm AUC mới. Không giả lập bỏ IP rồi gọi đã triển khai OHTTP.
+## 4. Khi nào Geo-I đủ để chứng minh hạn chế suy identity?
 
-Báo AUC và khả năng đảo điểm/định hướng trên selection, balanced accuracy,
-Recall@5 theo purpose, số request, bytes, latency và chi phí mới. Dữ liệu cùng
-người khác xe/khác người cùng xe là điều kiện đánh giá, không phải test sau này
-được phép sửa để có điểm đẹp. Thành công về một target không thay cho target kia.
+Với hai giả thuyết có cùng ngữ cảnh công khai, nếu **mọi cặp trace giữa hai
+support** có D∞ ≤ r trong mỗi phiên, đặt α = r ∑ C_s. Chặn Geo-I lý tưởng cho
+hai phân phối quan sát P,Q: P(A) ≤ exp(α)Q(A) và ngược lại. Vì vậy:
 
-## 5. Chuyển tiếp tài liệu và bằng chứng
+- TV(P,Q) ≤ tanh(α/2).
+- Prior cân bằng: Bayes success ≤ exp(α)/(1+exp(α)).
+- Prior p: success ≤ max(p,1−p,exp(α)/(1+exp(α))).
 
-Report 6 trang giới thiệu chính sách mới và S4 đề xuất. Timeline/GPS/Z/b/Q đã
-lưu dùng u = 0,00125 thuộc Epoch8 cũ; không nhân ngân sách rồi giữ nguyên Z.
-Bảng L20–L30 89,71 → 92,69% cũng thuộc Epoch8 cũ. S4 lịch sử là per-session,
-nhưng không có lớp anonymous transport và không xác nhận per-session L30 mới.
-Benchmark S5/S6 Epoch8/L20 và Endpoint20 vẫn giữ nguyên nguồn/cấu hình.
+Đây là hệ quả đã có trong [chứng minh suy luận](../../thesis/current_formal_inference.tex),
+không phải một primitive mới. Không suy điều kiện all-pair từ việc hai người
+đang đứng gần nhau; hai nhóm identity có thể khác cả routine/hành trình.
+Một phiên C_s=0,23/m, r=100m đã cho α=23, cận gần 100%: cận đúng nhưng yếu,
+không chứng minh bảo vệ identity mạnh ở thang đó. Cần điều kiện kernel lý tưởng,
+lịch/ngữ cảnh công khai chung và thiết bị tin cậy; sampler float chưa chứng nhận.
 
-`core/session_budget.py`, các study và canonical thesis là snapshot cơ chế và
-bằng chứng trước quyết định này, được giữ để tái lập. Không xóa khả năng chạy
-Epoch8 hoặc sửa số đo frozen. Cấu hình chọn tiếp theo ghi ở
-`2026-10-10_session_cap_identity.json`; trạng thái là design_selected,
-implementation_and_new_benchmark_pending, không phải deployment đã xác nhận.
+[Geo-I gốc, Andrés et al. (2013), §2–3](https://arxiv.org/html/1212.1984v3)
+phân biệt bảo vệ vị trí với k-anonymity. K=5 Q không phải k=5 người dùng.
+Không cần mặc định dùng k-anonymity: chỉ bổ sung khi kiểm chứng mô hình hiện
+có cho thấy thiếu bảo vệ và một cơ chế phù hợp với observer/utility đã định.
+
+## 5. Hướng kiểm chứng trước khi mở rộng mô hình
+
+1. Chốt per-session/L30, target riêng người và xe, attacker bank/ngưỡng trước
+   readout mới. Không điều chỉnh sample/test để làm đẹp điểm.
+2. Dùng cặp một người đổi xe/hai người dùng chung xe và split theo thực thể/
+   route family. Báo AUC có xét đảo điểm, balanced accuracy và độ bất định theo nhóm.
+3. Mở rộng S5/S6 nhiều ứng viên/bản đồ mới, prior lệch và lịch sử dài; báo
+   utility, bytes, latency cùng privacy. Phân biệt S6 giả định linked history với S4.
+4. Nếu không đạt tiêu chí đã chốt, đánh giá các hướng k-anonymity, mix-zone,
+   tách metadata/transport theo threat model. Chưa chọn hướng nào hoặc thêm vào
+   sơ đồ như một component đã có. Account/IP cần threat/triển khai riêng nếu đưa vào phạm vi.
+
+Report dùng sample và utility đã lưu ở cấu hình nhiễu khác; nêu u/cap của
+chúng tại chỗ, không nhân ngân sách rồi giữ nguyên Z/Q. Benchmark, mã core,
+canonical thesis và các bản lưu giữ nguyên. S8 còn là giới hạn mở.

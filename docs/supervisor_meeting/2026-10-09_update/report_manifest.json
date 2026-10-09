@@ -1,5 +1,5 @@
 {
-  "schema": "supervisor-report-release-v2",
+  "schema": "supervisor-report-release-v3",
   "prepared_date": "2026-10-10",
   "language": "vi",
   "format": "A4 LaTeX PDF",
@@ -10,14 +10,14 @@
   "pages": [
     {
       "page": 1,
-      "title": "Cơ chế bảo vệ nội dung và các scenario còn lại",
+      "title": "Nội dung truy vấn và ngân sách từng phiên",
       "size": "A4",
       "text_bounds": "PASS",
       "blank": false
     },
     {
       "page": 2,
-      "title": "Cap từng phiên; bảo vệ danh tính bằng lớp riêng",
+      "title": "S4--S6: cơ chế hiện có và mức bảo vệ đã kiểm chứng",
       "size": "A4",
       "text_bounds": "PASS",
       "blank": false
@@ -31,7 +31,7 @@
     },
     {
       "page": 4,
-      "title": "Kiến trúc làm việc: cap phiên và lớp S4 riêng",
+      "title": "Kiến trúc hiện tại: Geo-I và xử lý nhu cầu local",
       "size": "A4",
       "text_bounds": "PASS",
       "blank": false
@@ -52,13 +52,14 @@
     }
   ],
   "working_design": {
-    "policy": "per-session 0.23/m; no hard eight-session limit",
+    "policy": "per-session 0.23/m",
     "backbone": "Geo-I/REM unchanged",
     "identity_targets": [
       "same_person",
       "same_physical_vehicle"
     ],
-    "S4_layer_status": "PROPOSED, transport and geometry unlinkability not implemented or validated",
+    "S4_status": "Partial historical evidence; assess existing model before choosing extra protection",
+    "additional_identity_layer_selected": false,
     "new_per_session_L30_combination": "new benchmark pending",
     "specification": "../../research/2026-10-10_session_cap_identity.json"
   },
@@ -70,56 +71,57 @@
       3,
       4
     ],
-    "proposal_rendering": "S4 block dashed orange; current design distinguished from confirmed old evidence"
+    "dedicated_S4_S5_S6_page": 2,
+    "identity_rendering": "existing protection only; no proposed extra identity box"
   },
   "source_pins_file": "report_sources.json",
   "files": {
     "report_explained.pdf": {
-      "sha256": "e5b87f281d140ede8e842fa9fd4d6d18ea9604464c596fcdba1ae01a787e5a86",
-      "bytes": 696127
+      "sha256": "12de9ba45efa990b2a2fcf2cb5196666422ec7889d878521b8f234820272c04d",
+      "bytes": 700221
     },
     "report_explained.tex": {
-      "sha256": "95e2955caf605702ac6888b9700d196a9be33af63523c9f37c0c9dac482cdb25",
-      "bytes": 20540
+      "sha256": "9142bddf0957e447f1669680034c545124e055d188dfd68321427c25b375dc29",
+      "bytes": 21841
     },
     "report_tables.tex": {
-      "sha256": "f3f9784678fafde3d4c7e47d7a939fb7793278846ce5d8011d42f2249c9660b2",
-      "bytes": 986
+      "sha256": "4a4a8fc66525162247464eec4fc0ae3444023600be73efee1794c12484b6902e",
+      "bytes": 1142
     },
     "report_sources.json": {
-      "sha256": "cbb01e5902c0fd530769b240573b89ec6d6e299cb3cb03257b19222535489090",
-      "bytes": 23883
+      "sha256": "a050f71d4aed11a7e76a94490d2b4dc7bbae20f9e07190de5f71ba21ec4e7665",
+      "bytes": 24286
     },
     "build_report.py": {
-      "sha256": "beee56f37adfc7c9c381b8b4de50f2a99aefaa3abcd5d148ab944ccb0e5c3b20",
-      "bytes": 11524
+      "sha256": "7f8342577a7b40bbf8bfbcf4f8f9d4ebc5015be5c5fa9db7d7501f4088d36f3f",
+      "bytes": 12214
     },
     "presentation_script.md": {
-      "sha256": "a9e732000364ffb4fb3431b55149f37f33b858f762fea884820c4d0795619720",
-      "bytes": 16295
+      "sha256": "d342c644ab30926a418a2af06d58156901f9110d469f890f332f2efacadc693e",
+      "bytes": 15324
     },
     "speaker_notes.txt": {
-      "sha256": "230dcef6b902b48532839350a9083bb3f77f05d234453e04eab8d33f13920a95",
-      "bytes": 15856
+      "sha256": "2027edd52387b99e7d2c5e312fddb2e95617915f00be8f298560495473c975bf",
+      "bytes": 14955
     },
     "README.md": {
-      "sha256": "50201c7a4792642ed21459b3792f21627836de9249154a4358b5ebed89e01d7d",
-      "bytes": 7521
+      "sha256": "aa9003bebd6bb332bc981f640d01d2dd87c6c7226f1eb8c397ec7b1a4071538c",
+      "bytes": 6078
     },
     "manifest.json": {
-      "sha256": "d854e27fc189b652db8a2c58bf4b5cceb393da846f1831f97d3ad13a00e5ffc6",
+      "sha256": "f9ef3697b2d4fc3b352b5d5ed6d6a1a2de89afe3f8537cdb77376bd8a524b381",
       "bytes": 11291
     },
     "report_figures/architecture_current.tex": {
-      "sha256": "6ad6878ae3286e806cf12f82a9b8dce27776073520c9173ded8fa66df0224d16",
-      "bytes": 4729
+      "sha256": "7fcd9aed90ad83c0e1cec92f616789b9b124a059bca77301c738b4f7a0faa9bd",
+      "bytes": 4589
     },
     "report_figures/architecture_old.tex": {
       "sha256": "a0747c582b50aad625a6c00329c7ff83e34cded7e05d2a5a8d10a6c73fafe358",
       "bytes": 4907
     },
     "report_figures/sample_60s.pdf": {
-      "sha256": "724e84f67ee2985531ffd58c7310dcc0dc798b582640e125e4cef4fdff333113",
+      "sha256": "0645729d6792e1ad58eb8f3aa7ca4d08dfddf752470818802bc276dc2c2e1601",
       "bytes": 658529
     },
     "report_archive/epoch8/README.md": {
@@ -182,9 +184,12 @@
     "text_bounds": "6/6 PASS",
     "TeX_overfull_or_underfull_warnings": 0,
     "script_titles_and_notes": "6/6 matched",
-    "source_pins_matched": 186,
+    "source_pins_matched": 189,
+    "original_source_pins_preserved": 182,
     "selected_policy_arithmetic": "PASS",
+    "native_session_pilot_values": "source-matched; 5/12, selected Candidate Trees",
     "identity_person_vehicle_distinction": "PASS",
+    "discarded_session_count_discussion_removed_from_presentation": true,
     "prior_report_archive": "12/12 SHA256 matched last release",
     "frozen_benchmark_and_sample_files_unchanged": "8/8 SHA256 matched last release",
     "prior_slide_decks_unchanged": true,
@@ -195,11 +200,13 @@
     "compatibility_note": "Embedded sample map has newer PDF version; renders correctly, no missing glyph or layout warnings."
   },
   "evidence_scope": {
-    "utility": "L20/L30 89.71 to92.69 remains historical Epoch8 study; not new per-session results.",
-    "identity": "Historical S4 already has independent person/physical-vehicle targets; lacks new identity transport.",
-    "sample": "TRAIN Epoch8 u=.00125 frozen sample; no rescaling Z or new sample claim.",
-    "composition": "Per-session ideal Cs bound; linked M sessions still compose MCs.",
-    "S8": "Open limitation; no group guarantee."
+    "utility": "Saved L20/L30 89.71 to92.69 study, u=.00125, per-trip cap=.02875; not new per-session .23 results.",
+    "identity": "Historical S4 person/physical-vehicle linkage diagnostic, per-session .23; partial, no general anonymity claim.",
+    "future": "Previously saved native SessionReset/L10 pilot; S5/S6 share two-choice target, six test families,12queries; not fresh L30 or new measurement.",
+    "sample": "TRAIN u=.00125 frozen output; no budget rescaling or new sample claim.",
+    "inference": "Bayes bound conditional on all-pair trace support distance/common public context/balanced prior; alpha=23 example is weak.",
+    "composition": "Linked sessions compose their caps.",
+    "S8": "Open limitation."
   },
   "previous_report_archive": "report_archive/epoch8/archive_release.json",
   "previous_deck_manifest": "manifest.json"

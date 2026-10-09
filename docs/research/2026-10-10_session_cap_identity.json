@@ -1,6 +1,6 @@
 {
-  "schema": "session-cap-identity-design-v1",
-  "status": "design_selected; new_combination_and_identity_transport_not_validated",
+  "schema": "session-cap-identity-assessment-v2",
+  "status": "per_session_policy_selected; existing_GeoI_identity_assessment; new_L30_combination_not_validated",
   "backbone": "Geo-I / REM with noisy reuse, protected belief and road-feasible Q",
   "budget_policy": {
     "scope": "per_session",
@@ -12,21 +12,39 @@
     "read_interval_s": 60,
     "hard_session_count_limit": null,
     "restart_rule": "resume_same_trip_does_not_refill_budget",
-    "multi_session_bound": "sum(session_caps); no constant lifetime or eight-session cap claim"
+    "multi_session_bound": "sum(session_caps); per-session cap is not a lifetime guarantee"
   },
-  "service": {"K": 5, "server_L": 30, "planner_L": 10, "slack": 0.03, "private_purpose": "local_only", "current_evaluation_k": 5},
-  "identity_targets": ["same_person", "same_physical_vehicle"],
+  "service": {
+    "K": 5,
+    "server_L": 30,
+    "planner_L": 10,
+    "slack": 0.03,
+    "private_purpose": "local_only",
+    "current_evaluation_k": 5
+  },
+  "identity_targets": [
+    "same_person",
+    "same_physical_vehicle"
+  ],
   "device_identity": "auxiliary channel, not interchangeable with person or physical vehicle",
-  "identity_layer": {
-    "status": "proposed; no new identity performance claim",
-    "application": "exclude stable identifiers; fresh request correlation token only if required",
-    "transport": "independent oblivious relay/gateway; no identifying authentication in payload; noncollusion assumption; not implemented",
-    "trajectory": "geometry/routine/timing linkage remains; dedicated same_person/same_vehicle attacker validation required"
-  },
   "evidence": {
     "existing_per_session_engine": "GeoI-Slack/session-reset",
-    "historical_epoch8_results": "retained with original labels; not new policy results",
     "new_L30_combination": "new_benchmark_pending",
-    "scores_regenerated": false
+    "scores_regenerated": false,
+    "historical_results": "retain original configurations; no relabeling or regenerated score",
+    "per_session_future_pilot": "artifacts/benchmarks/future_native_20261005_v1/results.json: geoi_session_reset/turn_visible"
+  },
+  "identity_protection": {
+    "mechanism": "existing REM, noisy reuse, public read cadence, per-session cap; b/Q from protected history only",
+    "status": "partial empirical evidence; conditional ideal-kernel inference bound, not general identity anonymity",
+    "additional_layer_selected": false,
+    "K_dummy_is_k_anonymity": false,
+    "observer": "Q/timing without private person/vehicle labels; account/IP outside evaluated channel",
+    "next_decision": "evaluate existing model on fresh person/physical-vehicle targets before selecting extra mechanism"
+  },
+  "scenario_status": {
+    "S4": "partial historical linkage diagnostic, separate person and vehicle targets",
+    "S5": "partial known-two-candidate native pilot; per-session/L10",
+    "S6": "partial known-two-destination pilot with six linked histories; per-session/L10"
   }
 }
