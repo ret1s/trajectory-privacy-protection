@@ -1,0 +1,53 @@
+{
+  "schema": "query-bundle-kernel-audit-v1",
+  "configuration": {
+    "grid_quantiles": [
+      0.1,
+      0.26,
+      0.42,
+      0.58,
+      0.74,
+      0.9
+    ],
+    "K": [
+      3,
+      5,
+      7
+    ],
+    "beta": [
+      0.0,
+      1.0,
+      2.0,
+      4.0,
+      8.0
+    ],
+    "illustrative_beta": 2.0,
+    "cost_weight": 0.25,
+    "epsilon_release_per_m": 0.01,
+    "reference_k": 5,
+    "reply_L": 30,
+    "spacing_m": 40.0,
+    "priors": [
+      "uniform_public_grid",
+      "skewed_80_percent_first_grid_state"
+    ],
+    "library": "public greedy reference-cover bundles from each grid state; ordered canonical unique states",
+    "score": "(expected public nearest Recall@5 + cost_weight*(1-K/Kmax))/(1+cost_weight)",
+    "selection": "none: publish entire prespecified beta frontier; no production promotion"
+  },
+  "source_sha256": {
+    "artifacts/datasets/future_controlled_20261005_v1/public_native.net.xml.gz": "243924810d6c26e1df068f1e2e85198097370f39cf96d8ed759a3bd72a64f395",
+    "artifacts/benchmarks/research_loop/resources.json": "82b03a2dad35c898483437ab63da9437076594e913f5beb6b0d18360ffe9b8b1",
+    "experiments/query_bundle_audit_20261010.py": "ba964551f0f2b9e1777cceffae6de9c7369eb3f5d0e6e6e0368a98eb9ffb48fe",
+    "benchmark/probabilistic_query_bundle.py": "1b06cec154be2ba41def7621d114c521f2d2f5ac5655cbb027dce67bd39ca722",
+    "benchmark/public_poi_context.py": "98aa1301ce921630dbb77ef1bb7a19c6b70241e1689cccaa132192019b88ae86",
+    "data/lane_states.py": "72ec66d395686a3d5596fdd4a59c757da1bc8e13f3899903f6a427b2bde14664",
+    "core/road_network.py": "7e69c17f17eee24104bd9efc0b3b74b4b502a9c131a90cc99736da390c91108d",
+    "data/sumo_demo.py": "28dbca9b080687ac443e658e78e9aecce45404b788c035b0435cb89196b0cb4e",
+    "evaluation/lane_travel.py": "111e1bc109dd53e29922d44bfbc16bded8f1409e467e43faba3723026dc45bde",
+    "evaluation/scenario_metrics.py": "b212d35ccb4d633e23f24c5d3d80a48a775361117952e2cee820d7b28fdb8e02"
+  },
+  "scope": "exact ideal one-fresh-REM finite-public-prior static nearest-POI diagnostic; no moving-family benchmark",
+  "control": "deterministic fixed-K5 maximizer in SAME public library, not the full legacy engine",
+  "guarantee": "ideal-real arithmetic; float audit is numerical evidence, not certified pure-DP sampling"
+}

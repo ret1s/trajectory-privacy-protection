@@ -35,6 +35,10 @@ it against explicit attacker, utility, and output-contract assumptions.
   [`speaking script`](docs/supervisor_meeting/2026-10-06_brief/preparation_guide.pdf).
   Layered Geo-I architecture, recent paper coverage/native metrics, separate
   benchmark protocols, static POI cache and robust endpoint-selection results.
+- Joint Q-bundle development (10/10): [`probabilistic selection and proof`](docs/research/2026-10-10_probabilistic_query_bundles.md).
+  Opt-in Geo-I postprocessing with randomized bundle cardinality, posterior bounds
+  and exact static public-map diagnostics; the frozen moving-trajectory benchmark
+  and active K5 engine remain the evidence for the existing method.
 - Latest method development (06/10): [`refinement and limits`](docs/research/2026-10-06_method_refinement.md).
   The Geo-I backbone stays unchanged; new runs are development evidence.
 - Follow-up experiments (06/10): [`public POI Q planner`](docs/research/2026-10-06_geo_i_public_service_planner.md),

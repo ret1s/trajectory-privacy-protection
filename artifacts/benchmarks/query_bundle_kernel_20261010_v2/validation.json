@@ -1,0 +1,30 @@
+{
+  "schema": "query-bundle-kernel-validation-v1",
+  "results_sha256": "9ac69cdd6af0f09b83f7c04920236ed976ec47437361a17e871614782143a919",
+  "full_independent_reexecution_identical": true,
+  "replay_results_sha256": "9ac69cdd6af0f09b83f7c04920236ed976ec47437361a17e871614782143a919",
+  "first_run_runtime_warning_retained": true,
+  "v1_to_v2_max_scalar_absolute_difference": 1.021405182655144e-13,
+  "RuntimeWarning_as_error": true,
+  "checks": {
+    "pytest_passed": 34,
+    "suite": [
+      "tests/test_probabilistic_query_bundle.py",
+      "tests/test_belief_lane.py",
+      "tests/test_response_aware_belief.py",
+      "tests/test_session_budget.py"
+    ],
+    "source_pins_verified": true,
+    "core_backbone_or_frozen_benchmark_files_modified": false
+  },
+  "python_packages": {
+    "numpy": "2.0.2",
+    "scipy": "1.13.1",
+    "pytest": "8.4.2",
+    "networkx": "3.2.1",
+    "shapely": "2.0.7",
+    "pyproj": "3.6.1",
+    "sumolib": "1.28.0"
+  },
+  "claim_scope": "numerical diagnostic plus ideal-real mathematical proof; not finite-precision DP certification or moving-trajectory confirmation"
+}
