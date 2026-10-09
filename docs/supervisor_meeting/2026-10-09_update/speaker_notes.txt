@@ -26,31 +26,34 @@ thesis/current_formal_service.tex
 docs/supervisor_meeting/2026-09-26_brief/walkthrough/build_walkthrough.py
 
 
-SLIDE 2: Kiến trúc phương pháp hiện tại
+SLIDE 2: Kiến trúc phương pháp: trước và hiện tại
 
 Lời trình bày
 
-Luồng xử lý vẫn có bốn tầng. Tầng đầu kiểm tra phiên, lịch và ngân sách trước khi đọc GPS, rồi giữ hoặc tạo tham chiếu Z bằng Geo-I/REM. Tầng hai dùng lịch sử đã bảo vệ để cập nhật ước lượng b và chọn năm Q khả thi theo đường. Tầng ba gửi Q với yêu cầu POI chung. Tầng cuối gộp phản hồi và chọn top-5 theo vị trí, nhu cầu riêng tại thiết bị.
+Hai sơ đồ có cùng bốn tầng: bên trái là bản trước, bên phải là bản hiện tại. Em giữ Geo-I/REM để tạo hoặc giữ Z, ước lượng b từ lịch sử đã bảo vệ và chọn năm Q theo mạng đường.
 
-Z nằm trong thiết bị; server chỉ nhận Q và yêu cầu chung. GPS dùng xếp hạng không sửa Q. Phần bổ sung chính nằm ở kiểm soát ngân sách liên phiên và tầng dịch vụ; bộ chọn Q theo mạng đường vẫn giữ nguyên nguyên lý.
+Phần tô xanh bên phải là thay đổi. Tầng đầu chuyển từ ngân sách từng chuyến sang ngân sách chung tám phiên. Tầng truy hồi tăng phản hồi từ L10 trước đây lên L30; yêu cầu mọi loại POI đã có. Tầng cuối mở rộng từ tìm gần nhất sang bốn mục đích, nhưng GPS và nhu cầu riêng vẫn chỉ xử lý tại thiết bị.
+
+Máy chủ nằm ngoài khung, chỉ nhận Q và yêu cầu chung, rồi trả POI về tầng cuối. Bản trước có warmup và delay tùy chọn; Epoch8/L30 hiện tại gửi ngay. Nhánh Endpoint20 được trình bày riêng ở slide 5.
 
 Chỉ vào hình
 
-Đi theo mũi tên từ đầu vào qua bốn tầng. Chỉ khung thiết bị, máy chủ bên ngoài và nhánh GPS local vào bước cuối.
+So từng hàng trái–phải, nhấn ba tầng tô xanh. Chỉ hàng Geo-I/REM và b/Q được giữ, máy chủ ngoài khung, rồi đầu ra POI riêng.
 
 Chuyển ý
 
-Thay đổi đầu tiên là cách chia ngân sách qua nhiều chuyến.
+Em đi vào thay đổi đầu tiên: ngân sách chung qua nhiều chuyến.
 
 Nếu được hỏi
 
-Lịch đọc GPS bảo vệ cách ít nhất 60 s, khác lịch gửi Q. Lần đầu chi 1u, giữ Z chi 1u, thử rồi tạo Z mới chi 2u. Q không phải năm mẫu REM độc lập.
+Hai sơ đồ gộp các thành phần chi tiết theo bốn tầng để so sánh, không thêm một thuật toán mới. Geo-I/REM thuộc tầng bảo vệ GPS; b và bộ chọn Q thuộc tầng ước lượng. GPS cho Geo-I chỉ đọc sau kiểm tra lịch và cap. L10 là độ sâu phản hồi của bản minh họa cũ; benchmark utility mới so L20 với L30 trên cùng Q. Endpoint20 thuộc nhánh L20 riêng, không ghép vào kiến trúc Epoch8/L30.
 
 Nguồn:
 thesis/current_method.tex
 thesis/current_algorithm.tex
 thesis/current_formal_privacy.tex
 thesis/current_formal_service.tex
+docs/supervisor_meeting/2026-09-26_brief/walkthrough/build_walkthrough.py
 
 
 SLIDE 3: Ngân sách chung: hạn chế tích lũy qua nhiều chuyến

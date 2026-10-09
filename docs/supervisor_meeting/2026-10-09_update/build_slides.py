@@ -365,6 +365,7 @@ def main():
     utility_helpers={key:value for key,value in helpers.items() if key!='math_text'}
     views={
         'summary_overview':lambda:summary_visuals.overview(content,**helpers),
+        'summary_architecture_comparison':lambda:summary_visuals.architecture_comparison(content,**helpers),
         'summary_budget':lambda:summary_visuals.budget(multistep,**helpers),
         'summary_service':lambda:summary_visuals.service(utility,**helpers),
         'summary_endpoints':lambda:summary_visuals.endpoints(endpoint_focus,**helpers),

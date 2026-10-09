@@ -29,6 +29,46 @@ def overview(content, **h):
     return b
 
 
+def architecture_comparison(content, **h):
+    """Aligned historical/current flows; the external service is outside both device frames."""
+    t=h['text'];b=''
+    versions=[
+        (46,'Bản trước (26/09–03/10)',[
+            '1. GPS: cap phiên + lịch + Geo-I/REM\nCphiên = 0,23/m; thử giữ / tạo Z',
+            '2. Ước lượng b → chọn 5 Q theo đường\nLịch sử bảo vệ; phủ POI / tiến độ / slack',
+            '3. Chỉ gửi Q; yêu cầu mọi loại POI\nL10 / loại / Q; warmup / delay tùy chọn',
+            '4. Hợp / bỏ trùng POI → top-5 local\nXếp hạng gần nhất theo GPS',
+        ]),
+        (680,'Hiện tại (Epoch8/L30)',[
+            '1. GPS: cap 8 phiên + lịch + Geo-I/REM\nCepoch = 0,23/m; Cphiên = 0,02875/m',
+            '2. Ước lượng b → chọn 5 Q theo đường\nLịch sử bảo vệ; phủ POI / tiến độ / slack',
+            '3. Chỉ gửi Q; yêu cầu mọi loại POI\nL30 / loại / Q; gửi ngay',
+            '4. Hợp / bỏ trùng POI → top-5 local\n4 mục đích theo GPS + nhu cầu riêng ψ',
+        ]),
+    ]
+    for index,(x,title,labels) in enumerate(versions):
+        b+=t(x,128,title,25,color=h['teal'],weight=700)
+        b+=t(x,158,'Đầu vào: GPS + bản đồ / POI / lịch công khai',20,color=h['blue'])
+        b+=h['box'](x,180,554,344,stroke=h['teal'])
+        b+=t(x+16,201,'PHƯƠNG PHÁP TẠI THIẾT BỊ',18,color=h['teal'],weight=700)
+        b+=h['arrow']([(x+480,164),(x+480,218)],h['blue'])
+        for layer,label in enumerate(labels):
+            y=218+layer*76
+            color=h['teal'] if index==1 and layer!=1 else h['gray']
+            b+=h['box'](x+18,y,518,60,label,stroke=color,size=20,bold=index==1 and layer!=1)
+            if layer<2:
+                b+=h['arrow']([(x+277,y+60),(x+277,y+76)],h['gray'])
+        # Query leaves the frame, replies enter local aggregation; no direct GPS to server.
+        b+=h['arrow']([(x+18,400),(x+8,400),(x+8,583),(x+18,583)],h['blue'])
+        b+=h['box'](x+18,554,252,59,'MÁY CHỦ (ngoài mô hình)\nTrả top-L POI / loại / Q',stroke=h['blue'],size=19)
+        b+=h['arrow']([(x+270,583),(x+278,583),(x+278,537),(x+544,537),(x+544,476),(x+536,476)],h['blue'])
+        b+=h['arrow']([(x+405,506),(x+405,554)],h['teal'])
+        b+=h['box'](x+302,554,234,59,'ĐẦU RA RIÊNG\n≤5 POI cho người dùng',stroke=h['teal'],size=20)
+    b+=t(46,638,'Tô xanh ở bản hiện tại: phần thay đổi. Giữ Geo-I/REM, ước lượng b và bộ chọn Q theo mạng đường.',20,color=h['teal'])
+    b+=t(46,659,'GPS cho Geo-I đọc sau kiểm tra; Z và nhu cầu ψ giữ tại thiết bị. Endpoint20 là nhánh L20 riêng (slide 5).',18,color=h['gray'])
+    return b
+
+
 def budget(data, **h):
     t=h['text']
     b=t(46,139,'Cơ chế mới: sổ ngân sách bền vững qua nhiều phiên',24,color=h['teal'],weight=700)

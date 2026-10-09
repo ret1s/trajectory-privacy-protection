@@ -1,5 +1,5 @@
 {
-  "schema": "supervisor-slide-content-v7",
+  "schema": "supervisor-slide-content-v8",
   "prepared_date": "2026-10-09",
   "meeting_date": null,
   "language": "vi",
@@ -101,18 +101,20 @@
       ]
     },
     {
-      "title": "Kiến trúc phương pháp hiện tại",
-      "view": "compact_architecture",
-      "footer": "Khung là phương pháp tại thiết bị; chỉ Q và yêu cầu chung gửi đến máy chủ.",
-      "notes": "Lời trình bày\n\nLuồng xử lý vẫn có bốn tầng. Tầng đầu kiểm tra phiên, lịch và ngân sách trước khi đọc GPS, rồi giữ hoặc tạo tham chiếu Z bằng Geo-I/REM. Tầng hai dùng lịch sử đã bảo vệ để cập nhật ước lượng b và chọn năm Q khả thi theo đường. Tầng ba gửi Q với yêu cầu POI chung. Tầng cuối gộp phản hồi và chọn top-5 theo vị trí, nhu cầu riêng tại thiết bị.\n\nZ nằm trong thiết bị; server chỉ nhận Q và yêu cầu chung. GPS dùng xếp hạng không sửa Q. Phần bổ sung chính nằm ở kiểm soát ngân sách liên phiên và tầng dịch vụ; bộ chọn Q theo mạng đường vẫn giữ nguyên nguyên lý.\n\nChỉ vào hình\n\nĐi theo mũi tên từ đầu vào qua bốn tầng. Chỉ khung thiết bị, máy chủ bên ngoài và nhánh GPS local vào bước cuối.\n\nChuyển ý\n\nThay đổi đầu tiên là cách chia ngân sách qua nhiều chuyến.\n\nNếu được hỏi\n\nLịch đọc GPS bảo vệ cách ít nhất 60 s, khác lịch gửi Q. Lần đầu chi 1u, giữ Z chi 1u, thử rồi tạo Z mới chi 2u. Q không phải năm mẫu REM độc lập.",
+      "title": "Kiến trúc phương pháp: trước và hiện tại",
+      "view": "summary_architecture_comparison",
+      "footer": "Cùng nền Geo-I/REM; thay đổi ở ngân sách, phản hồi POI và xếp hạng local.",
+      "notes": "Lời trình bày\n\nHai sơ đồ có cùng bốn tầng: bên trái là bản trước, bên phải là bản hiện tại. Em giữ Geo-I/REM để tạo hoặc giữ Z, ước lượng b từ lịch sử đã bảo vệ và chọn năm Q theo mạng đường.\n\nPhần tô xanh bên phải là thay đổi. Tầng đầu chuyển từ ngân sách từng chuyến sang ngân sách chung tám phiên. Tầng truy hồi tăng phản hồi từ L10 trước đây lên L30; yêu cầu mọi loại POI đã có. Tầng cuối mở rộng từ tìm gần nhất sang bốn mục đích, nhưng GPS và nhu cầu riêng vẫn chỉ xử lý tại thiết bị.\n\nMáy chủ nằm ngoài khung, chỉ nhận Q và yêu cầu chung, rồi trả POI về tầng cuối. Bản trước có warmup và delay tùy chọn; Epoch8/L30 hiện tại gửi ngay. Nhánh Endpoint20 được trình bày riêng ở slide 5.\n\nChỉ vào hình\n\nSo từng hàng trái–phải, nhấn ba tầng tô xanh. Chỉ hàng Geo-I/REM và b/Q được giữ, máy chủ ngoài khung, rồi đầu ra POI riêng.\n\nChuyển ý\n\nEm đi vào thay đổi đầu tiên: ngân sách chung qua nhiều chuyến.\n\nNếu được hỏi\n\nHai sơ đồ gộp các thành phần chi tiết theo bốn tầng để so sánh, không thêm một thuật toán mới. Geo-I/REM thuộc tầng bảo vệ GPS; b và bộ chọn Q thuộc tầng ước lượng. GPS cho Geo-I chỉ đọc sau kiểm tra lịch và cap. L10 là độ sâu phản hồi của bản minh họa cũ; benchmark utility mới so L20 với L30 trên cùng Q. Endpoint20 thuộc nhánh L20 riêng, không ghép vào kiến trúc Epoch8/L30.",
       "sources": [
         "thesis/current_method.tex",
         "thesis/current_algorithm.tex",
         "thesis/current_formal_privacy.tex",
-        "thesis/current_formal_service.tex"
+        "thesis/current_formal_service.tex",
+        "docs/supervisor_meeting/2026-09-26_brief/walkthrough/build_walkthrough.py"
       ],
       "detailed_slide_numbers": [
-        13
+        13,
+        14
       ]
     },
     {
@@ -329,7 +331,8 @@
     "previous_slide_count": 18,
     "slide_count": 8,
     "source_mapping": "detailed_slide_numbers refers to the preserved18-slide archive",
-    "cover_title_svg_px": 40
+    "cover_title_svg_px": 40,
+    "architecture_comparison": "Historical 26Sep–03Oct vs current Epoch8/L30, aligned four layers; devices framed and server outside; changed layers emphasized"
   },
   "detailed_archive": "detailed",
   "presentation_minutes": [

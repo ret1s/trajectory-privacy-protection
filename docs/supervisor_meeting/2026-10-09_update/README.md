@@ -11,7 +11,7 @@ Bản ngắn giữ ba thay đổi chính: ngân sách liên phiên, bốn mục 
 
 Thứ tự nội dung:
 
-1. Slide 1–2: thay đổi chính và kiến trúc hiện tại.
+1. Slide 1–2: thay đổi chính; kiến trúc bản trước và hiện tại đặt cạnh nhau theo bốn tầng, tô nổi các phần thay đổi.
 2. Slide 3: ngân sách dùng chung qua tám phiên và kiểm tra trước GPS.
 3. Slide 4: S7, bốn mục đích local và ứng viên POI L30.
 4. Slide 5: S9/S10, delay lịch sử và Endpoint20 được đo riêng.
