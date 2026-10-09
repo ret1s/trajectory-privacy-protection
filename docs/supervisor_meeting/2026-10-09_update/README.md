@@ -1,23 +1,36 @@
 # Bảo vệ riêng tư vị trí bằng Geo-I/REM
 
-Bộ slide trình bày phương pháp, ví dụ minh họa và đánh giá thực nghiệm. Bố cục theo phong cách tài liệu khoa học: nền trắng, chữ serif, ký hiệu toán với chỉ số dưới/trên và bảng có đường kẻ ngang. Thông tin biên soạn và nguồn dữ liệu nằm trong ghi chú riêng.
+Bộ **18 slide** tập trung vào cơ chế theo từng kịch bản, benchmark chi tiết và ví dụ thuật toán qua nhiều mốc chuyển động. Giữ phong cách tài liệu khoa học: nền trắng, chữ serif, công thức và bảng số liệu. Slide chỉ chứa nội dung trình chiếu.
 
-- [slides.pdf](slides.pdf): 14 slide 16:9 để mở hoặc trình chiếu.
-- [slides.html](slides.html): bản trình chiếu offline, sơ đồ và biểu đồ vector.
-- [presentation_script.md](presentation_script.md): kịch bản trình bày tiếng Việt theo từng slide, kèm cách chỉ hình, câu chuyển ý và phần trả lời khi được hỏi.
+Bố cục được thu gọn từ 22 trang: tiêu đề 32 px, nội dung chủ yếu 20–22 px, ghi nguồn 15 px trên canvas 1280 × 720. Gộp chính sách S9/S10 với timeline delay; S1–S6 vào một bảng cơ chế; S7/S8 cùng trang; GPS cục bộ và POI đổi trạng thái thành hai bảng song song. Các bảng benchmark vẫn tách theo tập dữ liệu. Sơ đồ có các tham số và điều kiện kích hoạt ngay bên cạnh. Trường `previous_slide_numbers` lưu ánh xạ đủ 22 chủ đề của bản trước.
 
-Mở HTML bằng trình duyệt. Dùng **←/→** để chuyển trang, **F** để toàn màn hình và **Home/End** để đến trang đầu/cuối. Slide chỉ chứa nội dung trình chiếu; đọc script ở cửa sổ riêng. Trong script, phần **Lời trình bày** là lời nói chính; các phần còn lại hướng dẫn thao tác hoặc chuẩn bị trả lời.
+- [slides.pdf](slides.pdf): bản trình chiếu 16:9.
+- [slides.html](slides.html): bản offline, chữ và hình vector. Dùng ←/→, Home/End để chuyển trang và F để toàn màn hình.
+- [presentation_script.md](presentation_script.md): lời trình bày theo từng slide, cách chỉ hình, chuyển ý và nội dung chuẩn bị trả lời.
+- [speaker_notes.txt](speaker_notes.txt): ghi chú và các nguồn đối chiếu riêng.
 
-Slide 1-5 giới thiệu luồng thuật toán. Slide **6-8** là ba ví dụ có dữ liệu và bản đồ:
+Thứ tự nội dung:
 
-1. GPS → Z → b → năm Q: sample cố định `freshqp-001`, TRAIN, draw1, chuyến1 ở0/20/60giây. Thêm nhánh đọc GPS rồi vẫn giữ Z của chuyến6. Có chi phí ngân sách từng bước.
-2. Cùng năm Q, nhu cầu local khác nhau: 420bản ghi phản hồi, bỏ trùng còn252POI. Café gần nhất trả5; trong1000m trả1; detour chọn thứ tự khác. Bản đồ zoom GPS và các POI trả về.
-3. Đầu/cuối vẫn gửi ngay: sample lịch sử `u701_00`, rep0, hai cấu hình L20; nămQ ở0/384giây, không delay hoặc hủy cuối. Đây là Endpoint20 riêng, không gán cho currentL30.
+1. Slide 2: S9/S10, đối chiếu cơ chế delay trước đây với Endpoint20 đã đo sau đó; ví dụ hàng đợi và công bố.
+2. Slide 3–4: cơ chế và giới hạn đối với S1–S8.
+3. Slide 5–12: giao thức, các bảng benchmark riêng theo dữ liệu/cấu hình, chất lượng dịch vụ và chi phí.
+4. Slide 13–18: kiến trúc hiện tại, thay đổi so với bản trước và các ví dụ nhiều bước.
 
-Slide9 ghi phạm viS1-S10; slide10-14 trình bày các benchmark utility, đối chứngREM/Planar, GPS local thưa, trạng tháiPOI vàEndpoint20. Kết quảL30 mới và các phép thử lịch sử có nhãn riêng; không gộp chúng thành một cấu hình đã giải quyết toàn bộ scenario.
+**Phần delay cần đọc đúng phiên bản.** Bản trước có warmup 60 s, chờ công bố 60 s và hủy Q còn trong hàng đợi khi đóng phiên. Endpoint20 đã đo sau đó có warmup/delay bằng 0, tăng nhiễu trên mọi lần đọc được phép. Mô hình Epoch8/L30 hiện tại cũng gửi ngay. Bộ slide đối chiếu bằng chứng đã có; không thêm hoặc đo lại một biến thể delay cho mô hình hiện tại.
 
-Ví dụ lấy từ GPS SUMO và tape đã lưu, không tạo lại đầu ra bảo vệ hoặc sửa benchmark. GPS/Z và các phép kiểm tra là dữ liệu minh họa local/evaluator; server chỉ thấyQ và request. Giá trị nhiễu Laplace ban đầu không được lưu nên không tự đặt một giá trị để minh họa. Đích detour là oracle local của evaluator; deployment cần đích đã biết do người dùng cung cấp. Các map giữ cùng tỷ lệ mét trên hai trục; crop/deduplicate nét đường chỉ để hiển thị, không thay graph có hướng hay miền REM.
+Kết quả S1–S3 lịch sử, S4/S8 diagnostic, S5–S6 pilot, Endpoint20 L20 và xác nhận utility L30 thuộc các giao thức riêng. Không ghép chúng thành kết quả của một cấu hình bảo vệ đầy đủ S1–S10. Các số liệu, đầu ra bảo vệ và benchmark gốc được giữ nguyên.
 
-`sample_walkthrough.json`, `utility_sample.json`, `endpoint_sample.json` giữ dữ liệu sample và nguồn/SHA. `build_sample_walkthrough.py` tái lập phần trích timeline/belief; `utility_sample_extractor.py` trích phản hồi và thứ tự POI. `sample_visuals.py` dựng các bản đồ SVG từ dữ liệu này. `slide_content.json` giữ nội dung và số liệu gốc chưa làm tròn. `benchmark_evidence.json` và `algorithm_scope.json` ghi phạm vi, định nghĩa và nguồn. `source_pins.json` lưu SHA256 toàn bộ nguồn dùng cho deck. `build_slides.py` dựng lại HTML và ghi chú kỹ thuật nguồn; kịch bản `.md` được biên soạn riêng để trình bày, còn `speaker_notes.txt` giữ ghi chú đối chiếu chi tiết; không chạy hoặc thay đổi benchmark. PDF được xuất từ HTML bằng Chrome, với sơ đồ/chữ vector.
+Ví dụ chuyển động lấy cơ học từ `freshqp-001`, TRAIN, draw 1, phiên đầu. Các mốc 0/20/60/120/180/240/300/600 s đều dùng đầu ra đã lưu, cùng GPS nguồn/FCD và phản hồi L30. Bảng ngân sách tính cả các lần đọc giữa 300 và 600 s. Nhánh đọc rồi giữ Z dùng ô phụ từ phiên 6, không nối vào hành trình đầu. Chỉ số Q trên hình là nhãn theo dõi nội bộ; máy chủ không nhận ID track ổn định. Không tự đặt giá trị nhiễu Laplace chưa được lưu.
 
-© OpenStreetMap contributors — [ghi nguồn và giấy phép](https://www.openstreetmap.org/copyright).
+Dữ liệu và tái lập:
+
+- `benchmark_tables.json`, `benchmark_evidence.json`: số liệu đầy đủ, định nghĩa, phạm vi, nguồn và hash.
+- `endpoint_focus.json`: timeline delay trước đây và phép thử có đối chứng delay, trích nguyên nguồn đã lưu.
+- `multistep_sample.json`, `build_multistep_walkthrough.py`: timeline nhiều bước, kích hoạt thành phần, phản hồi POI và kiểm tra nguồn GPS; chỉ đọc lại đầu ra, không chạy sampler.
+- `sample_walkthrough.json`, `utility_sample.json`, `endpoint_sample.json`: các trích xuất trước vẫn được giữ để đối chiếu.
+- `build_slides.py` và các module `*_visuals.py`: dựng HTML và ghi chú; không đánh giá lại mô hình. PDF xuất bằng Chrome sau khi kiểm tra hình/chữ.
+- `source_pins.json`, `manifest.json`: nguồn và hash của bản phát hành.
+
+Mẫu là GPS tổng hợp SUMO; đích detour là đích chuẩn chỉ dùng tại thiết bị trong đánh giá. Các bản đồ dùng cùng tỷ lệ mét trên hai trục; crop và bỏ nét đường trùng chỉ phục vụ hiển thị. Bộ mô hình, thuật toán và bản luận văn chính không thay đổi trong lần biên soạn slide này.
+
+© OpenStreetMap contributors — [nguồn và giấy phép](https://www.openstreetmap.org/copyright).

@@ -1,0 +1,2018 @@
+{
+  "schema": "endpoint-delay-versus-no-delay-source-audit-v1",
+  "scope": "Read-only extraction from historical frozen evidence, no new benchmark or algorithm change; prepared for slides focus revision.",
+  "source_sha256": {
+    "docs/supervisor_meeting/2026-09-26_brief/walkthrough/walkthrough.json": "b94d237259c5a46ecf96a2d20517be35082f4ff5a9f62b9d0e1f4770dc867653",
+    "docs/supervisor_meeting/2026-09-26_brief/walkthrough/build_walkthrough.py": "3e0179fc140d4d0f450d3e598d830f570b43ba4b7d703b54eb36943ebbd7f197",
+    "docs/supervisor_meeting/2026-09-26_brief/endpoint_extension.py": "83b8b5f94fd78369148b34e720cd5f2cf624e96618d1a20bdfe03c06ff71ea8b",
+    "docs/supervisor_meeting/2026-09-26_brief/boundary_audit_protocol.md": "581c8eb23bfeb50016431a63808b9547c4dff6c80a7290381f40bc0b2e8d206e",
+    "core/boundary_release.py": "f3f3c19963404fa4dc57b1c18b15fdc8f106f879e4f3b2752c67dd270508bb68",
+    "benchmark/engines/origin_guard.py": "d311ef1142b641376c9aceea543419254620cf49387feea85fda03c9aea59ccb",
+    "benchmark/engines/endpoint_noise.py": "ce7143bc640d9528ed2d82a1e091764208ad509b9347b1a55ac377950564152c",
+    "experiments/endpoint_noise_depth_loop.py": "c914d57adae752e808c6a47d5c27625f65d6c25dfe0213dc51e2c152350bf7a9",
+    "artifacts/benchmarks/boundary_schedule/results.json": "9e53b0482455115ae1e04a2a3e76d6bc53bdfc3d4b976024e76079456acbeb67",
+    "artifacts/benchmarks/report_boundary_audit/results.json": "c92e39294d9d97e90196b34665cb409a5e8da6743507d238486dd444694df8a1",
+    "artifacts/benchmarks/endpoint_calendar_expanded_v1/protocol.json": "8523f9023140c4031b5bc1abb26860e4dbacf82129ac05062d1d6a8e31b9d639",
+    "artifacts/benchmarks/endpoint_calendar_expanded_v1/readout.json": "45bbb1d7466ae777f5a49400597ee367c566cdf36c6273dcd17d588a2f8abc5e",
+    "artifacts/benchmarks/endpoint_noise_20261005/round2/protocol.json": "9ab3d66b8b9989bad075a66b66477a2d74fb8ff25068ed1d6362787ee62bd3f2",
+    "artifacts/benchmarks/endpoint_noise_20261005/round2/readout.json": "ff831935174ad1c5bb338d8156420d6ecccfea010502156a331bc2a13ff08654",
+    "artifacts/benchmarks/endpoint_noise_20261005/round2/heldout.json": "5301a8fc5d0dd01a55498c95f82ccb7ace3a720518331c54737f8ed9c0435ee8",
+    "artifacts/benchmarks/endpoint_noise_20261005/round2/verification.json": "39bde0fcd05e837847d46da9c0331ba105dd0b6934c9d8d5b9632b5328c331e8",
+    "artifacts/benchmarks/endpoint_noise_20261005/round2/fit-delay60_L10.json.gz": "a63ee98e8a36cd7fc6685797ba57a11232424af20cf640653bd197f0161b9345",
+    "artifacts/benchmarks/endpoint_robust_selection_20261006/readout.json": "9d0d03a5d0df36a2ffc2ba1f1070edccfc4665a8452b6f86fc9b49a0301b24ae",
+    "artifacts/benchmarks/endpoint_order_20261005/readout.json": "1aff4013498963108d9230c523c2ca3e122a0b3b665453dbcc6067526b665ed3",
+    "docs/supervisor_meeting/2026-10-09_update/endpoint_sample.json": "4f312e4aef1f013af2d091d29e8bf6713d407c67a684cf1051369b95cd15d20a"
+  },
+  "main_distinctions_vi": [
+    "BR-Boundary lịch sử bỏ đầu trước Geo-I, giữ Q trong FIFO ít nhất Δ giây, rồi hủy hàng đợi khi nhận tín hiệu kết thúc thật; không xóa Q đã gửi và không dự đoán đích tương lai.",
+    "Endpoint20 có warmup=delay=0: epsilon kiểm tra/tạo Z bằng 1/4 GeoI-Slack ở mọi lần GPS được phép đọc; ngân sách cũng nhân 1/4. Đây là cấu hình tọa độ riêng lịch sử L20, không phải current Epoch8/L30.",
+    "Current Epoch8/L30 chỉ tăng độ sâu phản hồi công khai so với L20 cùng Q/ledger/clock; không tự có Endpoint20 hay BR-Boundary.",
+    "OriginGuard là cấp epsilon thấp ở pha đầu công khai, không bỏ đầu, không delay và không nhận diện 60 giây cuối.",
+    "Calendar 30/67 là truy vấn tọa độ công khai theo lịch đăng ký [0,3600), kể cả ngoài chuyến; không phải cơ chế delay và không phải nhánh Geo-I đang dùng. Không lấy score calendar làm bằng chứng cho delay."
+  ],
+  "historical_walkthrough": {
+    "path": "docs/supervisor_meeting/2026-09-26_brief/walkthrough/walkthrough.json",
+    "session_id": "u701_00",
+    "close_s": 384.0,
+    "configuration": {
+      "nominal_B_per_m": 0.24,
+      "reference_H": 12,
+      "epsilon_test_per_m": 0.01,
+      "epsilon_release_per_m": 0.01,
+      "effective_cap_per_m": 0.23,
+      "theta_m": 200.0,
+      "private_read_interval_s": 60.0,
+      "public_query_interval_s": 20.0,
+      "K": 5,
+      "L": 10,
+      "slack": 0.03,
+      "response_epoch_s": 60.0,
+      "availability_p": 0.8,
+      "world_seed": 24092801
+    },
+    "samples": {
+      "plain": {
+        "policy": {
+          "head_s": 0.0,
+          "delay_s": 0.0
+        },
+        "accounting": {
+          "input_events": 21,
+          "head_suppressed": 0,
+          "protected_events": 21,
+          "released_events": 21,
+          "tail_cancelled": 0,
+          "pending_events": 0
+        },
+        "budget_spent": 0.12,
+        "private_reads": 7,
+        "recall_all_input_times": 1.0,
+        "recall_delivery_times": 1.0,
+        "input_clock_s": [
+          0.0,
+          20.0,
+          40.0,
+          60.0,
+          80.0,
+          100.0,
+          120.0,
+          140.0,
+          160.0,
+          180.0,
+          200.0,
+          220.0,
+          240.0,
+          260.0,
+          280.0,
+          300.0,
+          320.0,
+          340.0,
+          360.0,
+          380.0,
+          384.0
+        ],
+        "head_skipped_source_times_s": [],
+        "source_to_publication": [
+          {
+            "source_t": 0.0,
+            "publication_t": 0.0
+          },
+          {
+            "source_t": 20.0,
+            "publication_t": 20.0
+          },
+          {
+            "source_t": 40.0,
+            "publication_t": 40.0
+          },
+          {
+            "source_t": 60.0,
+            "publication_t": 60.0
+          },
+          {
+            "source_t": 80.0,
+            "publication_t": 80.0
+          },
+          {
+            "source_t": 100.0,
+            "publication_t": 100.0
+          },
+          {
+            "source_t": 120.0,
+            "publication_t": 120.0
+          },
+          {
+            "source_t": 140.0,
+            "publication_t": 140.0
+          },
+          {
+            "source_t": 160.0,
+            "publication_t": 160.0
+          },
+          {
+            "source_t": 180.0,
+            "publication_t": 180.0
+          },
+          {
+            "source_t": 200.0,
+            "publication_t": 200.0
+          },
+          {
+            "source_t": 220.0,
+            "publication_t": 220.0
+          },
+          {
+            "source_t": 240.0,
+            "publication_t": 240.0
+          },
+          {
+            "source_t": 260.0,
+            "publication_t": 260.0
+          },
+          {
+            "source_t": 280.0,
+            "publication_t": 280.0
+          },
+          {
+            "source_t": 300.0,
+            "publication_t": 300.0
+          },
+          {
+            "source_t": 320.0,
+            "publication_t": 320.0
+          },
+          {
+            "source_t": 340.0,
+            "publication_t": 340.0
+          },
+          {
+            "source_t": 360.0,
+            "publication_t": 360.0
+          },
+          {
+            "source_t": 380.0,
+            "publication_t": 380.0
+          },
+          {
+            "source_t": 384.0,
+            "publication_t": 384.0
+          }
+        ],
+        "cancelled_source_times_s": [],
+        "trigger_rows": [
+          {
+            "t": 0.0,
+            "gps": [
+              39.995898,
+              116.29429
+            ],
+            "head_skipped": false,
+            "private_read": true,
+            "branch": "fresh",
+            "cost": 0.01,
+            "spent": 0.01,
+            "old_anchor": null,
+            "anchor": [
+              39.995919918443036,
+              116.29241847220396
+            ],
+            "queries": [
+              [
+                39.99804391270062,
+                116.30295403662748
+              ],
+              [
+                39.98507602859498,
+                116.30304934005764
+              ],
+              [
+                39.98476864060127,
+                116.301798719191
+              ],
+              [
+                39.98382729452884,
+                116.30662871653298
+              ],
+              [
+                39.983941288528555,
+                116.3105592448415
+              ]
+            ],
+            "publication_t": 0.0,
+            "publication_delay_s": 0.0,
+            "released_source_times": [
+              0.0
+            ]
+          },
+          {
+            "t": 20.0,
+            "gps": [
+              39.99453,
+              116.294271
+            ],
+            "head_skipped": false,
+            "private_read": false,
+            "branch": "public_clock_skip",
+            "cost": 0.0,
+            "spent": 0.01,
+            "old_anchor": [
+              39.995919918443036,
+              116.29241847220396
+            ],
+            "anchor": [
+              39.995919918443036,
+              116.29241847220396
+            ],
+            "queries": [
+              [
+                39.99804391270062,
+                116.30295403662748
+              ],
+              [
+                39.98512427986006,
+                116.30373641994731
+              ],
+              [
+                39.983503091829746,
+                116.30213613094251
+              ],
+              [
+                39.98382729452884,
+                116.30662871653298
+              ],
+              [
+                39.983941288528555,
+                116.3105592448415
+              ]
+            ],
+            "publication_t": 20.0,
+            "publication_delay_s": 0.0,
+            "released_source_times": [
+              20.0
+            ]
+          },
+          {
+            "t": 40.0,
+            "gps": [
+              39.993333,
+              116.294441
+            ],
+            "head_skipped": false,
+            "private_read": false,
+            "branch": "public_clock_skip",
+            "cost": 0.0,
+            "spent": 0.01,
+            "old_anchor": [
+              39.995919918443036,
+              116.29241847220396
+            ],
+            "anchor": [
+              39.995919918443036,
+              116.29241847220396
+            ],
+            "queries": [
+              [
+                39.99804391270062,
+                116.30295403662748
+              ],
+              [
+                39.985063073663994,
+                116.302590311154
+              ],
+              [
+                39.98305115428467,
+                116.30223750421365
+              ],
+              [
+                39.98382729452884,
+                116.30662871653298
+              ],
+              [
+                39.983941288528555,
+                116.3105592448415
+              ]
+            ],
+            "publication_t": 40.0,
+            "publication_delay_s": 0.0,
+            "released_source_times": [
+              40.0
+            ]
+          },
+          {
+            "t": 60.0,
+            "gps": [
+              39.992052,
+              116.293807
+            ],
+            "head_skipped": false,
+            "private_read": true,
+            "branch": "fresh",
+            "cost": 0.02,
+            "spent": 0.03,
+            "old_anchor": [
+              39.995919918443036,
+              116.29241847220396
+            ],
+            "anchor": [
+              39.99599015116586,
+              116.29354661388784
+            ],
+            "queries": [
+              [
+                39.99804391270062,
+                116.30295403662748
+              ],
+              [
+                39.98513723025708,
+                116.30419544954269
+              ],
+              [
+                39.98373717882647,
+                116.30321516982613
+              ],
+              [
+                39.98382729452884,
+                116.30662871653298
+              ],
+              [
+                39.983941288528555,
+                116.3105592448415
+              ]
+            ],
+            "publication_t": 60.0,
+            "publication_delay_s": 0.0,
+            "released_source_times": [
+              60.0
+            ]
+          },
+          {
+            "t": 80.0,
+            "gps": [
+              39.99128,
+              116.294245
+            ],
+            "head_skipped": false,
+            "private_read": false,
+            "branch": "public_clock_skip",
+            "cost": 0.0,
+            "spent": 0.03,
+            "old_anchor": [
+              39.99599015116586,
+              116.29354661388784
+            ],
+            "anchor": [
+              39.99599015116586,
+              116.29354661388784
+            ],
+            "queries": [
+              [
+                39.99804391270062,
+                116.30295403662748
+              ],
+              [
+                39.98508560253252,
+                116.30236142656346
+              ],
+              [
+                39.98374607536433,
+                116.30363109682565
+              ],
+              [
+                39.98382729452884,
+                116.30662871653298
+              ],
+              [
+                39.983941288528555,
+                116.3105592448415
+              ]
+            ],
+            "publication_t": 80.0,
+            "publication_delay_s": 0.0,
+            "released_source_times": [
+              80.0
+            ]
+          },
+          {
+            "t": 120.0,
+            "gps": [
+              39.991339,
+              116.297829
+            ],
+            "head_skipped": false,
+            "private_read": true,
+            "branch": "fresh",
+            "cost": 0.02,
+            "spent": 0.05,
+            "old_anchor": [
+              39.99599015116586,
+              116.29354661388784
+            ],
+            "anchor": [
+              39.99085209101657,
+              116.29862079693012
+            ],
+            "queries": [
+              [
+                39.99708617573332,
+                116.30168321165706
+              ],
+              [
+                39.98497320168555,
+                116.29968397071603
+              ],
+              [
+                39.983789931565646,
+                116.30547831108474
+              ],
+              [
+                39.98382729452884,
+                116.30662871653298
+              ],
+              [
+                39.98398602549029,
+                116.3124279914458
+              ]
+            ],
+            "publication_t": 120.0,
+            "publication_delay_s": 0.0,
+            "released_source_times": [
+              120.0
+            ]
+          },
+          {
+            "t": 180.0,
+            "gps": [
+              39.989613,
+              116.298547
+            ],
+            "head_skipped": false,
+            "private_read": true,
+            "branch": "reuse",
+            "cost": 0.01,
+            "spent": 0.06,
+            "old_anchor": [
+              39.99085209101657,
+              116.29862079693012
+            ],
+            "anchor": [
+              39.99085209101657,
+              116.29862079693012
+            ],
+            "queries": [
+              [
+                39.9948113686844,
+                116.29833467111874
+              ],
+              [
+                39.98502247602488,
+                116.30012120814179
+              ],
+              [
+                39.98190731906091,
+                116.30483781837108
+              ],
+              [
+                39.98382729452884,
+                116.30662871653298
+              ],
+              [
+                39.98446334781068,
+                116.3107320244669
+              ]
+            ],
+            "publication_t": 180.0,
+            "publication_delay_s": 0.0,
+            "released_source_times": [
+              180.0
+            ]
+          },
+          {
+            "t": 320.0,
+            "gps": [
+              39.985086,
+              116.303418
+            ],
+            "head_skipped": false,
+            "private_read": false,
+            "branch": "public_clock_skip",
+            "cost": 0.0,
+            "spent": 0.1,
+            "old_anchor": [
+              39.98371600954889,
+              116.30234704270387
+            ],
+            "anchor": [
+              39.98371600954889,
+              116.30234704270387
+            ],
+            "queries": [
+              [
+                39.995879572344144,
+                116.29830521024421
+              ],
+              [
+                39.98305115428467,
+                116.30223750421365
+              ],
+              [
+                39.983941288528555,
+                116.3105592448415
+              ],
+              [
+                39.982053951294276,
+                116.30769181550393
+              ],
+              [
+                39.987365309564765,
+                116.31005407889221
+              ]
+            ],
+            "publication_t": 320.0,
+            "publication_delay_s": 0.0,
+            "released_source_times": [
+              320.0
+            ]
+          },
+          {
+            "t": 340.0,
+            "gps": [
+              39.985137,
+              116.305209
+            ],
+            "head_skipped": false,
+            "private_read": false,
+            "branch": "public_clock_skip",
+            "cost": 0.0,
+            "spent": 0.1,
+            "old_anchor": [
+              39.98371600954889,
+              116.30234704270387
+            ],
+            "anchor": [
+              39.98371600954889,
+              116.30234704270387
+            ],
+            "queries": [
+              [
+                39.99445530075085,
+                116.29834449115228
+              ],
+              [
+                39.98305028278976,
+                116.30203290301411
+              ],
+              [
+                39.983941288528555,
+                116.3105592448415
+              ],
+              [
+                39.982842340347354,
+                116.30682227177715
+              ],
+              [
+                39.988699993332276,
+                116.30995099645122
+              ]
+            ],
+            "publication_t": 340.0,
+            "publication_delay_s": 0.0,
+            "released_source_times": [
+              340.0
+            ]
+          },
+          {
+            "t": 360.0,
+            "gps": [
+              39.985197,
+              116.306345
+            ],
+            "head_skipped": false,
+            "private_read": true,
+            "branch": "fresh",
+            "cost": 0.02,
+            "spent": 0.12,
+            "old_anchor": [
+              39.98371600954889,
+              116.30234704270387
+            ],
+            "anchor": [
+              39.98516753460092,
+              116.30632013091486
+            ],
+            "queries": [
+              [
+                39.993115330040986,
+                116.29838316650769
+              ],
+              [
+                39.98166054192749,
+                116.30203108818687
+              ],
+              [
+                39.98398602549029,
+                116.3124279914458
+              ],
+              [
+                39.98270836539117,
+                116.30500186671544
+              ],
+              [
+                39.989975980016965,
+                116.309858484692
+              ]
+            ],
+            "publication_t": 360.0,
+            "publication_delay_s": 0.0,
+            "released_source_times": [
+              360.0
+            ]
+          },
+          {
+            "t": 380.0,
+            "gps": [
+              39.985148,
+              116.304569
+            ],
+            "head_skipped": false,
+            "private_read": false,
+            "branch": "public_clock_skip",
+            "cost": 0.0,
+            "spent": 0.12,
+            "old_anchor": [
+              39.98516753460092,
+              116.30632013091486
+            ],
+            "anchor": [
+              39.98516753460092,
+              116.30632013091486
+            ],
+            "queries": [
+              [
+                39.9916893397898,
+                116.2985426544662
+              ],
+              [
+                39.98116535858383,
+                116.30078283263823
+              ],
+              [
+                39.984020704404436,
+                116.31376947748248
+              ],
+              [
+                39.98270836539117,
+                116.30500186671544
+              ],
+              [
+                39.991255811864626,
+                116.30978532578595
+              ]
+            ],
+            "publication_t": 380.0,
+            "publication_delay_s": 0.0,
+            "released_source_times": [
+              380.0
+            ]
+          },
+          {
+            "t": 384.0,
+            "gps": [
+              39.985138,
+              116.304207
+            ],
+            "head_skipped": false,
+            "private_read": false,
+            "branch": "public_clock_skip",
+            "cost": 0.0,
+            "spent": 0.12,
+            "old_anchor": [
+              39.98516753460092,
+              116.30632013091486
+            ],
+            "anchor": [
+              39.98516753460092,
+              116.30632013091486
+            ],
+            "queries": [
+              [
+                39.9916893397898,
+                116.2985426544662
+              ],
+              [
+                39.981165003982966,
+                116.3005657705117
+              ],
+              [
+                39.984020704404436,
+                116.31376947748248
+              ],
+              [
+                39.98270836539117,
+                116.30500186671544
+              ],
+              [
+                39.99142438373549,
+                116.3097699376509
+              ]
+            ],
+            "publication_t": 384.0,
+            "publication_delay_s": 0.0,
+            "released_source_times": [
+              384.0
+            ]
+          }
+        ]
+      },
+      "boundary": {
+        "policy": {
+          "head_s": 60.0,
+          "delay_s": 60.0
+        },
+        "accounting": {
+          "input_events": 21,
+          "head_suppressed": 3,
+          "protected_events": 18,
+          "released_events": 14,
+          "tail_cancelled": 4,
+          "pending_events": 0
+        },
+        "budget_spent": 0.1,
+        "private_reads": 6,
+        "recall_all_input_times": 0.7142857142857143,
+        "recall_delivery_times": 1.0,
+        "input_clock_s": [
+          0.0,
+          20.0,
+          40.0,
+          60.0,
+          80.0,
+          100.0,
+          120.0,
+          140.0,
+          160.0,
+          180.0,
+          200.0,
+          220.0,
+          240.0,
+          260.0,
+          280.0,
+          300.0,
+          320.0,
+          340.0,
+          360.0,
+          380.0,
+          384.0
+        ],
+        "head_skipped_source_times_s": [
+          0.0,
+          20.0,
+          40.0
+        ],
+        "source_to_publication": [
+          {
+            "source_t": 60.0,
+            "publication_t": 120.0
+          },
+          {
+            "source_t": 80.0,
+            "publication_t": 140.0
+          },
+          {
+            "source_t": 100.0,
+            "publication_t": 160.0
+          },
+          {
+            "source_t": 120.0,
+            "publication_t": 180.0
+          },
+          {
+            "source_t": 140.0,
+            "publication_t": 200.0
+          },
+          {
+            "source_t": 160.0,
+            "publication_t": 220.0
+          },
+          {
+            "source_t": 180.0,
+            "publication_t": 240.0
+          },
+          {
+            "source_t": 200.0,
+            "publication_t": 260.0
+          },
+          {
+            "source_t": 220.0,
+            "publication_t": 280.0
+          },
+          {
+            "source_t": 240.0,
+            "publication_t": 300.0
+          },
+          {
+            "source_t": 260.0,
+            "publication_t": 320.0
+          },
+          {
+            "source_t": 280.0,
+            "publication_t": 340.0
+          },
+          {
+            "source_t": 300.0,
+            "publication_t": 360.0
+          },
+          {
+            "source_t": 320.0,
+            "publication_t": 380.0
+          }
+        ],
+        "cancelled_source_times_s": [
+          340.0,
+          360.0,
+          380.0,
+          384.0
+        ],
+        "trigger_rows": [
+          {
+            "t": 0.0,
+            "gps": [
+              39.995898,
+              116.29429
+            ],
+            "head_skipped": true,
+            "spent": 0.0,
+            "released_source_times": []
+          },
+          {
+            "t": 20.0,
+            "gps": [
+              39.99453,
+              116.294271
+            ],
+            "head_skipped": true,
+            "spent": 0.0,
+            "released_source_times": []
+          },
+          {
+            "t": 40.0,
+            "gps": [
+              39.993333,
+              116.294441
+            ],
+            "head_skipped": true,
+            "spent": 0.0,
+            "released_source_times": []
+          },
+          {
+            "t": 60.0,
+            "gps": [
+              39.992052,
+              116.293807
+            ],
+            "head_skipped": false,
+            "private_read": true,
+            "branch": "fresh",
+            "cost": 0.01,
+            "spent": 0.01,
+            "old_anchor": null,
+            "anchor": [
+              39.983383888011836,
+              116.29404818750061
+            ],
+            "queries": [
+              [
+                39.98764084678128,
+                116.29371614152797
+              ],
+              [
+                39.98305115428467,
+                116.30223750421365
+              ],
+              [
+                39.99091866810018,
+                116.30981610181134
+              ],
+              [
+                39.983810391997736,
+                116.30761435305274
+              ],
+              [
+                39.983941288528555,
+                116.3105592448415
+              ]
+            ],
+            "publication_t": 120.0,
+            "publication_delay_s": 60.0,
+            "released_source_times": []
+          },
+          {
+            "t": 80.0,
+            "gps": [
+              39.99128,
+              116.294245
+            ],
+            "head_skipped": false,
+            "private_read": false,
+            "branch": "public_clock_skip",
+            "cost": 0.0,
+            "spent": 0.01,
+            "old_anchor": [
+              39.983383888011836,
+              116.29404818750061
+            ],
+            "anchor": [
+              39.983383888011836,
+              116.29404818750061
+            ],
+            "queries": [
+              [
+                39.98900391997203,
+                116.29348628924014
+              ],
+              [
+                39.98373717882647,
+                116.30321516982613
+              ],
+              [
+                39.992267242976304,
+                116.30969299575177
+              ],
+              [
+                39.98283470093219,
+                116.30713452149152
+              ],
+              [
+                39.98398602549029,
+                116.3124279914458
+              ]
+            ],
+            "publication_t": 140.0,
+            "publication_delay_s": 60.0,
+            "released_source_times": []
+          },
+          {
+            "t": 120.0,
+            "gps": [
+              39.991339,
+              116.297829
+            ],
+            "head_skipped": false,
+            "private_read": true,
+            "branch": "fresh",
+            "cost": 0.02,
+            "spent": 0.03,
+            "old_anchor": [
+              39.983383888011836,
+              116.29404818750061
+            ],
+            "anchor": [
+              39.99261819008306,
+              116.29844518220307
+            ],
+            "queries": [
+              [
+                39.99128893544338,
+                116.29400476814102
+              ],
+              [
+                39.98305028278976,
+                116.30203290301411
+              ],
+              [
+                39.9949529747827,
+                116.30937236695864
+              ],
+              [
+                39.9828577844836,
+                116.30759749993183
+              ],
+              [
+                39.984491745721634,
+                116.31258580122186
+              ]
+            ],
+            "publication_t": 180.0,
+            "publication_delay_s": 60.0,
+            "released_source_times": [
+              60.0
+            ]
+          },
+          {
+            "t": 180.0,
+            "gps": [
+              39.989613,
+              116.298547
+            ],
+            "head_skipped": false,
+            "private_read": true,
+            "branch": "fresh",
+            "cost": 0.02,
+            "spent": 0.05,
+            "old_anchor": [
+              39.99261819008306,
+              116.29844518220307
+            ],
+            "anchor": [
+              39.99085209101657,
+              116.29862079693012
+            ],
+            "queries": [
+              [
+                39.991252222541746,
+                116.29526761799822
+              ],
+              [
+                39.98180059351445,
+                116.30210258288841
+              ],
+              [
+                39.99273675433945,
+                116.30943523347226
+              ],
+              [
+                39.98270836539117,
+                116.30500186671544
+              ],
+              [
+                39.98398602549029,
+                116.3124279914458
+              ]
+            ],
+            "publication_t": 240.0,
+            "publication_delay_s": 60.0,
+            "released_source_times": [
+              120.0
+            ]
+          },
+          {
+            "t": 320.0,
+            "gps": [
+              39.985086,
+              116.303418
+            ],
+            "head_skipped": false,
+            "private_read": false,
+            "branch": "public_clock_skip",
+            "cost": 0.0,
+            "spent": 0.09,
+            "old_anchor": [
+              39.98372130247748,
+              116.30256407442536
+            ],
+            "anchor": [
+              39.98372130247748,
+              116.30256407442536
+            ],
+            "queries": [
+              [
+                39.98891032064766,
+                116.29864633091319
+              ],
+              [
+                39.98368370647584,
+                116.3010038325486
+              ],
+              [
+                39.98899645820618,
+                116.30993132003448
+              ],
+              [
+                39.98277659531149,
+                116.30654060544619
+              ],
+              [
+                39.983941288528555,
+                116.3105592448415
+              ]
+            ],
+            "publication_t": 380.0,
+            "publication_delay_s": 60.0,
+            "released_source_times": [
+              260.0
+            ]
+          },
+          {
+            "t": 340.0,
+            "gps": [
+              39.985137,
+              116.305209
+            ],
+            "head_skipped": false,
+            "private_read": false,
+            "branch": "public_clock_skip",
+            "cost": 0.0,
+            "spent": 0.09,
+            "old_anchor": [
+              39.98372130247748,
+              116.30256407442536
+            ],
+            "anchor": [
+              39.98372130247748,
+              116.30256407442536
+            ],
+            "queries": [
+              [
+                39.988523790089765,
+                116.29847163323724
+              ],
+              [
+                39.98305028278976,
+                116.30203290301411
+              ],
+              [
+                39.99032984573414,
+                116.3098273188588
+              ],
+              [
+                39.98270836539117,
+                116.30500186671544
+              ],
+              [
+                39.98398602549029,
+                116.3124279914458
+              ]
+            ],
+            "tail_cancelled": true,
+            "released_source_times": [
+              280.0
+            ]
+          },
+          {
+            "t": 360.0,
+            "gps": [
+              39.985197,
+              116.306345
+            ],
+            "head_skipped": false,
+            "private_read": true,
+            "branch": "reuse",
+            "cost": 0.01,
+            "spent": 0.1,
+            "old_anchor": [
+              39.98372130247748,
+              116.30256407442536
+            ],
+            "anchor": [
+              39.98372130247748,
+              116.30256407442536
+            ],
+            "queries": [
+              [
+                39.98881296941542,
+                116.29839355775975
+              ],
+              [
+                39.98166054192749,
+                116.30203108818687
+              ],
+              [
+                39.99091866810018,
+                116.30981610181134
+              ],
+              [
+                39.98270836539117,
+                116.30500186671544
+              ],
+              [
+                39.984020704404436,
+                116.31376947748248
+              ]
+            ],
+            "tail_cancelled": true,
+            "released_source_times": [
+              300.0
+            ]
+          },
+          {
+            "t": 380.0,
+            "gps": [
+              39.985148,
+              116.304569
+            ],
+            "head_skipped": false,
+            "private_read": false,
+            "branch": "public_clock_skip",
+            "cost": 0.0,
+            "spent": 0.1,
+            "old_anchor": [
+              39.98372130247748,
+              116.30256407442536
+            ],
+            "anchor": [
+              39.98372130247748,
+              116.30256407442536
+            ],
+            "queries": [
+              [
+                39.98758192937755,
+                116.29884633609335
+              ],
+              [
+                39.982141334596434,
+                116.30222313068286
+              ],
+              [
+                39.99091866810018,
+                116.30981610181134
+              ],
+              [
+                39.98270836539117,
+                116.30500186671544
+              ],
+              [
+                39.984491745721634,
+                116.31258580122186
+              ]
+            ],
+            "tail_cancelled": true,
+            "released_source_times": [
+              320.0
+            ]
+          },
+          {
+            "t": 384.0,
+            "gps": [
+              39.985138,
+              116.304207
+            ],
+            "head_skipped": false,
+            "private_read": false,
+            "branch": "public_clock_skip",
+            "cost": 0.0,
+            "spent": 0.1,
+            "old_anchor": [
+              39.98372130247748,
+              116.30256407442536
+            ],
+            "anchor": [
+              39.98372130247748,
+              116.30256407442536
+            ],
+            "queries": [
+              [
+                39.98740354130346,
+                116.29887451138451
+              ],
+              [
+                39.982292689420234,
+                116.30222548520388
+              ],
+              [
+                39.99091866810018,
+                116.30981610181134
+              ],
+              [
+                39.98270836539117,
+                116.30500186671544
+              ],
+              [
+                39.984484746924196,
+                116.31225652061846
+              ]
+            ],
+            "tail_cancelled": true,
+            "released_source_times": []
+          }
+        ]
+      }
+    },
+    "scope": "New explanatory integration run on unchanged SUMO GPS and a separate reconstructed public graph. Not a rerun of frozen benchmarks, not a privacy-attack evaluation or superiority claim.",
+    "attacker_evaluated": false,
+    "road_turn_rules_original_verified": false,
+    "internal_Z_availability": "Archived only in this explanatory walkthrough logger; not archived in Endpoint20 sample; do not invent Z."
+  },
+  "historical_matched_study": {
+    "readout_path": "artifacts/benchmarks/endpoint_noise_20261005/round2/readout.json",
+    "fit_families": "701–708",
+    "selection_families": "709–710",
+    "within_study_test_families": "1201–1204",
+    "families": 4,
+    "executions_per_method": 16,
+    "input_events_per_method": 170,
+    "rows": [
+      {
+        "method": "raw",
+        "S9": {
+          "mae_m": 0.0,
+          "hit50": 1.0,
+          "hit100": 1.0,
+          "hit200": 1.0,
+          "hit500": 1.0,
+          "selected_attackers": {
+            "mae": "centroid",
+            "hit50": "centroid",
+            "hit100": "centroid",
+            "hit200": "centroid",
+            "hit500": "centroid"
+          },
+          "families": 4,
+          "observations": 16
+        },
+        "S10": {
+          "mae_m": 0.0,
+          "hit50": 1.0,
+          "hit100": 1.0,
+          "hit200": 1.0,
+          "hit500": 1.0,
+          "selected_attackers": {
+            "mae": "centroid",
+            "hit50": "centroid",
+            "hit100": "centroid",
+            "hit200": "centroid",
+            "hit500": "centroid"
+          },
+          "families": 4,
+          "observations": 16
+        },
+        "recall": 1.0,
+        "bytes_per_input": 938.9862446581196,
+        "mean_publication_delay_s": 0.0,
+        "input_events": 170,
+        "released_events": 170
+      },
+      {
+        "method": "scale100_L10",
+        "S9": {
+          "mae_m": 653.4941268136598,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.125,
+          "hit500": 0.375,
+          "selected_attackers": {
+            "mae": "public_boundary_centroid_ols6",
+            "hit50": "public_boundary_centroid_ols6",
+            "hit100": "centroid_ols6_30s",
+            "hit200": "public_boundary_centroid_ols3",
+            "hit500": "public_boundary_centroid_ols6"
+          },
+          "families": 4,
+          "observations": 16
+        },
+        "S10": {
+          "mae_m": 668.2930389877871,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.0,
+          "hit500": 0.3125,
+          "selected_attackers": {
+            "mae": "centroid_ols3_120s",
+            "hit50": "centroid_ols3_120s",
+            "hit100": "centroid_ols3_120s",
+            "hit200": "shadow_knn5",
+            "hit500": "centroid_ols3_120s"
+          },
+          "families": 4,
+          "observations": 16
+        },
+        "recall": 0.9732398504273505,
+        "bytes_per_input": 4592.814236111111,
+        "mean_publication_delay_s": 0.0,
+        "input_events": 170,
+        "released_events": 170
+      },
+      {
+        "method": "delay60_L10",
+        "S9": {
+          "mae_m": 1178.514577662986,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.0,
+          "hit500": 0.0,
+          "selected_attackers": {
+            "mae": "viterbi_history_ols6_120s",
+            "hit50": "viterbi_history_ols6_120s",
+            "hit100": "viterbi_history_ols6_120s",
+            "hit200": "viterbi_history_ols6_120s",
+            "hit500": "viterbi_history_ols6_120s"
+          },
+          "families": 4,
+          "observations": 16
+        },
+        "S10": {
+          "mae_m": 1179.6860817732543,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.0,
+          "hit500": 0.0,
+          "selected_attackers": {
+            "mae": "query_prior",
+            "hit50": "query_prior",
+            "hit100": "query_prior",
+            "hit200": "sequence_knn5",
+            "hit500": "sequence_knn1"
+          },
+          "families": 4,
+          "observations": 16
+        },
+        "recall": 0.7808279914529915,
+        "bytes_per_input": 3247.204326923077,
+        "mean_publication_delay_s": 60.0,
+        "input_events": 170,
+        "released_events": 122
+      },
+      {
+        "method": "scale100_L20",
+        "S9": {
+          "mae_m": 969.5351273886441,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.0,
+          "hit500": 0.375,
+          "selected_attackers": {
+            "mae": "median_ols6_120s",
+            "hit50": "median_ols6_120s",
+            "hit100": "median_ols6_120s",
+            "hit200": "median_ols6_120s",
+            "hit500": "public_boundary_centroid_ols6"
+          },
+          "families": 4,
+          "observations": 16
+        },
+        "S10": {
+          "mae_m": 1843.8226321403602,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.0,
+          "hit500": 0.0,
+          "selected_attackers": {
+            "mae": "shadow_knn5",
+            "hit50": "shadow_knn5",
+            "hit100": "shadow_knn5",
+            "hit200": "sequence_knn5",
+            "hit500": "shadow_knn5"
+          },
+          "families": 4,
+          "observations": 16
+        },
+        "recall": 0.9958689458689459,
+        "bytes_per_input": 6953.23344017094,
+        "mean_publication_delay_s": 0.0,
+        "input_events": 170,
+        "released_events": 170
+      },
+      {
+        "method": "scale025_L20",
+        "S9": {
+          "mae_m": 1851.6411030556515,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.0,
+          "hit500": 0.0,
+          "selected_attackers": {
+            "mae": "median_ols2_120s",
+            "hit50": "median_ols2_120s",
+            "hit100": "median_ols2_120s",
+            "hit200": "median_ols2_120s",
+            "hit500": "sequence_knn5"
+          },
+          "families": 4,
+          "observations": 16
+        },
+        "S10": {
+          "mae_m": 2297.2393620730963,
+          "hit50": 0.0,
+          "hit100": 0.0,
+          "hit200": 0.0,
+          "hit500": 0.0,
+          "selected_attackers": {
+            "mae": "shadow_tree",
+            "hit50": "shadow_tree",
+            "hit100": "shadow_tree",
+            "hit200": "viterbi_history_ols6_60s",
+            "hit500": "viterbi_history_ols6_60s"
+          },
+          "families": 4,
+          "observations": 16
+        },
+        "recall": 0.9611066595441595,
+        "bytes_per_input": 6950.570913461539,
+        "mean_publication_delay_s": 0.0,
+        "input_events": 170,
+        "released_events": 170
+      }
+    ],
+    "paired_family_uncertainty": {
+      "S9/scale025_L20-delay60_L10/mae_m": {
+        "delta": 673.1265253926654,
+        "bootstrap95_low": 303.18518817920904,
+        "bootstrap95_high": 1210.298191860062,
+        "family_deltas": {
+          "family-1201": 343.7497951389547,
+          "family-1202": 262.62058121946336,
+          "family-1203": 586.9880677784793,
+          "family-1204": 1499.1476574337644
+        },
+        "families": 4,
+        "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+      },
+      "S9/scale025_L20-scale100_L20/mae_m": {
+        "delta": 882.1059756670074,
+        "bootstrap95_low": 415.5102035956742,
+        "bootstrap95_high": 1215.979049509003,
+        "family_deltas": {
+          "family-1201": 967.2921300098853,
+          "family-1202": 199.89186553329728,
+          "family-1203": 1298.8746893420423,
+          "family-1204": 1062.365217782805
+        },
+        "families": 4,
+        "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+      },
+      "S10/scale025_L20-delay60_L10/mae_m": {
+        "delta": 1117.553280299842,
+        "bootstrap95_low": 466.55218477043104,
+        "bootstrap95_high": 1666.4243907136047,
+        "family_deltas": {
+          "family-1201": 1865.6887547126655,
+          "family-1202": 1467.160026714544,
+          "family-1203": 1004.3481023164322,
+          "family-1204": 133.01623745572664
+        },
+        "families": 4,
+        "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+      },
+      "S10/scale025_L20-scale100_L20/mae_m": {
+        "delta": 453.41672993273613,
+        "bootstrap95_low": -382.1202622556313,
+        "bootstrap95_high": 1235.9953097665393,
+        "family_deltas": {
+          "family-1201": 1287.755779721871,
+          "family-1202": 1184.2348398112076,
+          "family-1203": 245.91492980911022,
+          "family-1204": -904.2386296112443
+        },
+        "families": 4,
+        "scope": "Paired family bootstrap; very small fixed same-generator sample, no multiple-comparison correction; degenerate zero-Hit CI is not absolute privacy proof"
+      }
+    },
+    "scope": "Finite method-adapted attacker bank, same synthetic generator, reconstructed road network, earlier shared session RNG caveat. Delay L10 vs Endpoint20 L20 changes depth, budget and traffic; not a pure delay ablation or universal superiority."
+  },
+  "later_endpoint_readout": {
+    "path": "artifacts/benchmarks/endpoint_robust_selection_20261006/readout.json",
+    "status": "POST-INSPECTION DEVELOPMENT; all 28 diagnostic test families were previously inspected",
+    "results": {
+      "raw": {
+        "robust_crossfit": {
+          "S9": {
+            "mae_m": 0.0,
+            "hit50": 1.0,
+            "hit100": 1.0,
+            "hit200": 1.0,
+            "hit500": 1.0,
+            "selected_attackers": {
+              "mae": "centroid",
+              "hit50": "centroid",
+              "hit100": "centroid",
+              "hit200": "centroid",
+              "hit500": "centroid"
+            },
+            "families": 28,
+            "observations": 112
+          },
+          "S10": {
+            "mae_m": 0.0,
+            "hit50": 1.0,
+            "hit100": 1.0,
+            "hit200": 1.0,
+            "hit500": 1.0,
+            "selected_attackers": {
+              "mae": "centroid",
+              "hit50": "centroid",
+              "hit100": "centroid",
+              "hit200": "centroid",
+              "hit500": "centroid"
+            },
+            "families": 28,
+            "observations": 112
+          }
+        },
+        "old_two_family_invariant": {
+          "S9": {
+            "mae_m": 0.0,
+            "hit50": 1.0,
+            "hit100": 1.0,
+            "hit200": 1.0,
+            "hit500": 1.0,
+            "selected_attackers": {
+              "mae": "centroid",
+              "hit50": "centroid",
+              "hit100": "centroid",
+              "hit200": "centroid",
+              "hit500": "centroid"
+            },
+            "families": 28,
+            "observations": 112
+          },
+          "S10": {
+            "mae_m": 0.0,
+            "hit50": 1.0,
+            "hit100": 1.0,
+            "hit200": 1.0,
+            "hit500": 1.0,
+            "selected_attackers": {
+              "mae": "centroid",
+              "hit50": "centroid",
+              "hit100": "centroid",
+              "hit200": "centroid",
+              "hit500": "centroid"
+            },
+            "families": 28,
+            "observations": 112
+          }
+        },
+        "old_two_family_expanded": {
+          "S9": {
+            "mae_m": 0.0,
+            "hit50": 1.0,
+            "hit100": 1.0,
+            "hit200": 1.0,
+            "hit500": 1.0,
+            "selected_attackers": {
+              "mae": "centroid",
+              "hit50": "centroid",
+              "hit100": "centroid",
+              "hit200": "centroid",
+              "hit500": "centroid"
+            },
+            "families": 28,
+            "observations": 112
+          },
+          "S10": {
+            "mae_m": 0.0,
+            "hit50": 1.0,
+            "hit100": 1.0,
+            "hit200": 1.0,
+            "hit500": 1.0,
+            "selected_attackers": {
+              "mae": "centroid",
+              "hit50": "centroid",
+              "hit100": "centroid",
+              "hit200": "centroid",
+              "hit500": "centroid"
+            },
+            "families": 28,
+            "observations": 112
+          }
+        }
+      },
+      "scale100_L10": {
+        "robust_crossfit": {
+          "S9": {
+            "mae_m": 619.6717673157156,
+            "hit50": 0.008928571428571428,
+            "hit100": 0.03571428571428571,
+            "hit200": 0.13392857142857142,
+            "hit500": 0.4375,
+            "selected_attackers": {
+              "mae": "public_boundary_centroid_ols6",
+              "hit50": "centroid_ols6_30s",
+              "hit100": "public_boundary_centroid_ols6",
+              "hit200": "centroid_ols6_60s",
+              "hit500": "public_boundary_centroid_ols6"
+            },
+            "families": 28,
+            "observations": 112
+          },
+          "S10": {
+            "mae_m": 672.6099332553067,
+            "hit50": 0.0,
+            "hit100": 0.0,
+            "hit200": 0.03571428571428571,
+            "hit500": 0.14285714285714285,
+            "selected_attackers": {
+              "mae": "centroid_ols3_120s",
+              "hit50": "centroid",
+              "hit100": "geometry_velocity_slot2_ols3_horizon30",
+              "hit200": "geometry_velocity_slot0_ols6_horizon120",
+              "hit500": "observed_slots_slot1_ols6_horizon30"
+            },
+            "families": 28,
+            "observations": 112
+          }
+        },
+        "old_two_family_invariant": {
+          "S9": {
+            "mae_m": 620.5507719572909,
+            "hit50": 0.008928571428571428,
+            "hit100": 0.03571428571428571,
+            "hit200": 0.11607142857142858,
+            "hit500": 0.41964285714285715,
+            "selected_attackers": {
+              "mae": "public_boundary_median_ols6",
+              "hit50": "centroid_ols6_30s",
+              "hit100": "public_boundary_centroid_ols6",
+              "hit200": "public_boundary_centroid_ols6",
+              "hit500": "public_boundary_median_ols6"
+            },
+            "families": 28,
+            "observations": 112
+          },
+          "S10": {
+            "mae_m": 768.7774795617253,
+            "hit50": 0.0,
+            "hit100": 0.03571428571428571,
+            "hit200": 0.08928571428571429,
+            "hit500": 0.30357142857142855,
+            "selected_attackers": {
+              "mae": "median_ols3_120s",
+              "hit50": "median_ols3_120s",
+              "hit100": "median_ols3_120s",
+              "hit200": "median_ols3_120s",
+              "hit500": "median_ols3_120s"
+            },
+            "families": 28,
+            "observations": 112
+          }
+        },
+        "old_two_family_expanded": {
+          "S9": {
+            "mae_m": 620.5507719572909,
+            "hit50": 0.008928571428571428,
+            "hit100": 0.03571428571428571,
+            "hit200": 0.11607142857142858,
+            "hit500": 0.20535714285714285,
+            "selected_attackers": {
+              "mae": "public_boundary_median_ols6",
+              "hit50": "centroid_ols6_30s",
+              "hit100": "public_boundary_centroid_ols6",
+              "hit200": "public_boundary_centroid_ols6",
+              "hit500": "geometry_nearest_slot3_ols6_boundary"
+            },
+            "families": 28,
+            "observations": 112
+          },
+          "S10": {
+            "mae_m": 768.7774795617253,
+            "hit50": 0.0,
+            "hit100": 0.03571428571428571,
+            "hit200": 0.08928571428571429,
+            "hit500": 0.0,
+            "selected_attackers": {
+              "mae": "median_ols3_120s",
+              "hit50": "median_ols3_120s",
+              "hit100": "median_ols3_120s",
+              "hit200": "median_ols3_120s",
+              "hit500": "geometry_velocity_knn1"
+            },
+            "families": 28,
+            "observations": 112
+          }
+        }
+      },
+      "scale100_L20": {
+        "robust_crossfit": {
+          "S9": {
+            "mae_m": 789.9478768232433,
+            "hit50": 0.008928571428571428,
+            "hit100": 0.017857142857142856,
+            "hit200": 0.03571428571428571,
+            "hit500": 0.24107142857142858,
+            "selected_attackers": {
+              "mae": "public_boundary_centroid_ols6",
+              "hit50": "centroid",
+              "hit100": "centroid",
+              "hit200": "centroid_ols2_30s",
+              "hit500": "centroid_ols6_30s"
+            },
+            "families": 28,
+            "observations": 112
+          },
+          "S10": {
+            "mae_m": 757.7420954761819,
+            "hit50": 0.0,
+            "hit100": 0.0,
+            "hit200": 0.0,
+            "hit500": 0.125,
+            "selected_attackers": {
+              "mae": "centroid_ols3_120s",
+              "hit50": "centroid",
+              "hit100": "centroid",
+              "hit200": "median_ols2_120s",
+              "hit500": "median_ols6_120s"
+            },
+            "families": 28,
+            "observations": 112
+          }
+        },
+        "old_two_family_invariant": {
+          "S9": {
+            "mae_m": 890.6075398132385,
+            "hit50": 0.0,
+            "hit100": 0.017857142857142856,
+            "hit200": 0.05357142857142857,
+            "hit500": 0.16964285714285715,
+            "selected_attackers": {
+              "mae": "public_boundary_median_ols6",
+              "hit50": "public_boundary_median_ols6",
+              "hit100": "public_boundary_median_ols6",
+              "hit200": "public_boundary_median_ols6",
+              "hit500": "median_ols6_120s"
+            },
+            "families": 28,
+            "observations": 112
+          },
+          "S10": {
+            "mae_m": 901.4833235035258,
+            "hit50": 0.0,
+            "hit100": 0.0,
+            "hit200": 0.026785714285714284,
+            "hit500": 0.125,
+            "selected_attackers": {
+              "mae": "median_ols6_120s",
+              "hit50": "public_boundary_median_ols3",
+              "hit100": "public_boundary_median_ols3",
+              "hit200": "median_ols6_120s",
+              "hit500": "median_ols6_120s"
+            },
+            "families": 28,
+            "observations": 112
+          }
+        },
+        "old_two_family_expanded": {
+          "S9": {
+            "mae_m": 1376.0406104577812,
+            "hit50": 0.0,
+            "hit100": 0.0,
+            "hit200": 0.026785714285714284,
+            "hit500": 0.08035714285714286,
+            "selected_attackers": {
+              "mae": "geometry_nearest_slot4_ols6_boundary",
+              "hit50": "observed_slots_slot1_ols6_boundary",
+              "hit100": "observed_slots_slot1_ols6_boundary",
+              "hit200": "observed_slots_slot1_ols6_boundary",
+              "hit500": "geometry_nearest_slot4_ols3_horizon30"
+            },
+            "families": 28,
+            "observations": 112
+          },
+          "S10": {
+            "mae_m": 1690.9771758304737,
+            "hit50": 0.0,
+            "hit100": 0.0,
+            "hit200": 0.008928571428571428,
+            "hit500": 0.0,
+            "selected_attackers": {
+              "mae": "geometry_velocity_tree",
+              "hit50": "public_boundary_median_ols3",
+              "hit100": "public_boundary_median_ols3",
+              "hit200": "observed_slots_slot3_ols6_horizon30",
+              "hit500": "geometry_velocity_knn1"
+            },
+            "families": 28,
+            "observations": 112
+          }
+        }
+      },
+      "scale025_L20": {
+        "robust_crossfit": {
+          "S9": {
+            "mae_m": 1406.7251356531292,
+            "hit50": 0.0,
+            "hit100": 0.0,
+            "hit200": 0.026785714285714284,
+            "hit500": 0.07142857142857142,
+            "selected_attackers": {
+              "mae": "public_boundary_centroid_ols6",
+              "hit50": "centroid",
+              "hit100": "centroid",
+              "hit200": "centroid_ols6_120s",
+              "hit500": "centroid_ols6_120s"
+            },
+            "families": 28,
+            "observations": 112
+          },
+          "S10": {
+            "mae_m": 1337.1553367898873,
+            "hit50": 0.0,
+            "hit100": 0.0,
+            "hit200": 0.0,
+            "hit500": 0.044642857142857144,
+            "selected_attackers": {
+              "mae": "centroid_ols3_120s",
+              "hit50": "centroid",
+              "hit100": "centroid",
+              "hit200": "observed_slots_slot0_ols3_boundary",
+              "hit500": "geometry_velocity_slot2_endpoint"
+            },
+            "families": 28,
+            "observations": 112
+          }
+        },
+        "old_two_family_invariant": {
+          "S9": {
+            "mae_m": 1482.5789120568786,
+            "hit50": 0.0,
+            "hit100": 0.0,
+            "hit200": 0.008928571428571428,
+            "hit500": 0.07142857142857142,
+            "selected_attackers": {
+              "mae": "public_boundary_median_ols6",
+              "hit50": "public_boundary_median_ols6",
+              "hit100": "public_boundary_median_ols6",
+              "hit200": "public_boundary_median_ols6",
+              "hit500": "centroid_ols6_60s"
+            },
+            "families": 28,
+            "observations": 112
+          },
+          "S10": {
+            "mae_m": 1337.1553367898873,
+            "hit50": 0.0,
+            "hit100": 0.0,
+            "hit200": 0.0,
+            "hit500": 0.0625,
+            "selected_attackers": {
+              "mae": "centroid_ols3_120s",
+              "hit50": "median_ols3_120s",
+              "hit100": "median_ols3_120s",
+              "hit200": "median_ols3_120s",
+              "hit500": "median_ols3_120s"
+            },
+            "families": 28,
+            "observations": 112
+          }
+        },
+        "old_two_family_expanded": {
+          "S9": {
+            "mae_m": 2199.6639927131982,
+            "hit50": 0.0,
+            "hit100": 0.0,
+            "hit200": 0.017857142857142856,
+            "hit500": 0.03571428571428571,
+            "selected_attackers": {
+              "mae": "geometry_nearest_slot4_ols2_boundary",
+              "hit50": "geometry_nearest_slot4_ols2_boundary",
+              "hit100": "geometry_nearest_slot3_ols6_horizon120",
+              "hit200": "geometry_nearest_slot4_ols6_horizon60",
+              "hit500": "geometry_nearest_slot4_ols3_boundary"
+            },
+            "families": 28,
+            "observations": 112
+          },
+          "S10": {
+            "mae_m": 1337.1553367898873,
+            "hit50": 0.0,
+            "hit100": 0.0,
+            "hit200": 0.0,
+            "hit500": 0.008928571428571428,
+            "selected_attackers": {
+              "mae": "centroid_ols3_120s",
+              "hit50": "median_ols3_120s",
+              "hit100": "median_ols3_120s",
+              "hit200": "median_ols3_120s",
+              "hit500": "geometry_nearest_knn1"
+            },
+            "families": 28,
+            "observations": 112
+          }
+        }
+      }
+    },
+    "interpretation_vi": "Cross-fit chọn attacker trên 10 family development; 28 family đã xem dùng như diagnostic. Không trộn hàng delay từ test 4 family vào bảng này vì không cùng cohort/selector.",
+    "historical_delay_arm_absent": true
+  },
+  "historical_evidence_not_equivalent": [
+    {
+      "path": "artifacts/benchmarks/boundary_schedule/results.json",
+      "scope": "404 bookkeeping checks, placeholder core, already allowed windows; release fraction is NOT privacy or Recall."
+    },
+    {
+      "path": "artifacts/benchmarks/report_boundary_audit/results.json",
+      "scope": "Offline extra cuts of saved paper-v2 window transcripts, 12 trips/scenario; S10 deletion is retrospective, no causal online delay claim; denominator excludes original 60-second mask."
+    },
+    {
+      "path": "artifacts/benchmarks/research_loop/iteration03_boundary.json",
+      "scope": "Actual older Quotient core/H64 head/tail/combined development6sessions2validationfamilies, modest finite attacker bank. Do not merge with current paced L30 scores."
+    }
+  ],
+  "recommended_slide_statement_vi": "Bản trước: bỏ 60 giây đầu, giữ Q 60 giây và hủy Q chưa gửi lúc đóng phiên. Bản Endpoint20 đã kiểm tra: gửi đúng lịch, tăng nhiễu ở mọi lần dùng GPS được phép. Delay che dữ liệu trực tiếp nhưng giảm dịch vụ; các điểm còn lại và metadata vẫn có thể hỗ trợ suy luận.",
+  "must_show_caveats_vi": [
+    "Giờ mở/đóng phiên, nhịp phát và account/IP còn quan sát được; không tuyên bố ẩn thời điểm hoạt động.",
+    "S9: đầu bị bỏ không được đưa vào Geo-I để tạo Z, tránh rò đầu qua neo tái dùng.",
+    "S10: khi đóng chỉ hủy dữ liệu CHƯA gửi; không rollback dữ liệu đã công bố. Last public timestamp là thời điểm phát, không phải thời điểm GPS nguồn.",
+    "Δ là độ tuổi tối thiểu; nhịp ingest thưa có thể tạo delay lớn hơn Δ. Không synthesize timer tick.",
+    "Nếu lịch kết thúc phụ thuộc hành trình riêng tư, không gọi cả lịch cắt/công bố là cùng Geo-I theorem; theorem hiện tại có public clock/session assumptions khác.",
+    "Hit100 bằng 0 ở cả delay lẫn no-delay không xác lập lợi thế; phải đọc MAE, Hit500, Recall đầy đủ mẫu số, và CI.",
+    "Một bản minh họa điểm không chứng minh bảo vệ điểm đó; road geometry/source Q khác giữa walkthrough20m và Oct5fullmap40m."
+  ]
+}

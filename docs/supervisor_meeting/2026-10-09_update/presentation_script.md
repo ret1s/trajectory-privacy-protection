@@ -1,289 +1,363 @@
 # Kịch bản trình bày: Bảo vệ riêng tư vị trí bằng Geo-I/REM
 
-Kịch bản đi theo đúng **14 slide** trong [slides.pdf](slides.pdf). Thời lượng gợi ý khoảng **12-15 phút**, chưa tính trao đổi.
-
-Đọc phần **Lời trình bày**; dùng **Chỉ vào hình** để dẫn người nghe theo sơ đồ hoặc biểu đồ. **Chuyển ý** nối sang trang tiếp theo. Phần **Nếu được hỏi** là nội dung chuẩn bị, không cần đọc trong lượt trình bày chính. Slide chỉ chứa nội dung trình chiếu; mở script ở cửa sổ riêng.
-
-Trong lời nói, dùng **điểm tham chiếu Z**, **tọa độ truy vấn Q** và **địa điểm POI** để phân biệt ba đối tượng. Dùng **điểm phần trăm** khi trừ hai tỷ lệ; **MAE** là sai số trung bình theo mét, còn **Hit100/Hit500** là tỷ lệ attacker đoán trong phạm vi 100/500 mét.
+Kịch bản gồm 18 slide, dự kiến 16–20 phút, chưa tính trao đổi. Phần **Lời trình bày** là nội dung chính. Phần **Nếu được hỏi** dùng để trả lời sâu hơn khi cần.
 
 ## Slide 1: Bảo vệ riêng tư vị trí bằng Geo-I/REM
 
 **Lời trình bày**
 
-Thưa thầy/cô, em xin trình bày phương pháp bảo vệ riêng tư vị trí bằng Geo-I/REM, kết hợp mạng đường và truy hồi POI theo nhiều mục đích. Mục tiêu là hạn chế thông tin vị trí gửi ra ngoài và duy trì chất lượng tìm địa điểm. REM tạo điểm tham chiếu đã bảo vệ; từ đó mô hình dùng mạng đường và dữ liệu công khai để chọn các tọa độ truy vấn.
+Thưa thầy/cô, em xin cập nhật phương pháp bảo vệ riêng tư vị trí trên nền Geo-I/REM. Mục tiêu là hạn chế thông tin vị trí gửi ra ngoài, đồng thời giữ chất lượng tìm địa điểm. Em tập trung vào bốn nội dung: bảo vệ điểm đầu/cuối, các kịch bản còn lại, kết quả benchmark và kiến trúc cùng ví dụ nhiều bước.
 
-Em sẽ trình bày kiến trúc, minh họa từng bước trên các hành trình đã chạy, rồi đánh giá kết quả cùng chi phí và phạm vi bảo vệ. Em sẽ phân biệt GPS, điểm tham chiếu Z, tọa độ Q gửi máy chủ và POI trả về. Các ví dụ và benchmark hiện dùng dữ liệu mô phỏng; chưa khẳng định bảo vệ đầy đủ cả mười kịch bản hoặc đã kiểm chứng trên GPS thực.
-
-**Chỉ vào hình**
-
-Chỉ vào tên Geo-I/REM và dòng mô tả truy hồi POI trên mạng đường theo nhiều mục đích.
-
-**Chuyển ý**
-
-Trước hết, em trình bày luồng xử lý của mô hình.
-
-## Slide 2: Kiến trúc phương pháp
-
-**Lời trình bày**
-
-Em chia mô hình thành bốn tầng theo thứ tự xử lý. Tầng thứ nhất kiểm tra lịch và ngân sách trước khi đọc GPS, rồi giữ hoặc tạo điểm tham chiếu đã bảo vệ Z. Tầng thứ hai dùng Z và thông tin công khai để chọn năm tọa độ truy vấn Q trên mạng đường. Tầng thứ ba gửi Q lên server và nhận các địa điểm POI. Tầng cuối gộp danh sách, rồi chọn kết quả ngay trên thiết bị.
-
-Khung này là các bước của mô hình chạy trên thiết bị; server nằm bên ngoài. Z không được gửi đi. Vị trí cục bộ và nhu cầu thật chỉ vào bước xếp hạng cuối, không quay lại để sửa Z hoặc Q. Vì vậy cần phân biệt GPS đưa vào cơ chế bảo vệ với vị trí dùng để chọn POI cho người dùng.
+Em phân biệt chính sách delay trước đây với mô hình hiện tại gửi đúng lịch. Endpoint20 cũng là cấu hình L20 được đo riêng. Các kết quả sử dụng dữ liệu mô phỏng, với phạm vi và chi phí cụ thể.
 
 **Chỉ vào hình**
 
-Đi theo mũi tên qua bốn tầng, rồi chỉ riêng nhánh vị trí cục bộ vào tầng cuối.
+Chỉ tên Geo-I/REM và bốn nội dung sẽ trình bày.
 
 **Chuyển ý**
 
-Em giải thích cụ thể lúc nào mô hình được đọc GPS và lúc nào giữ Z.
-
-## Slide 3: Bảo vệ GPS và tái sử dụng điểm tham chiếu
-
-**Lời trình bày**
-
-Không phải cứ 60 giây là mô hình chắc chắn đọc GPS. Trước khi đọc, nó phải đủ khoảng cách thời gian và đủ ngân sách dự toán. Lần đầu, REM lấy mẫu Z trên toàn bộ miền đường công khai cố định; điểm gần GPS thường có xác suất cao hơn. Những lần đọc sau dùng phép kiểm tra có thêm nhiễu để quyết định giữ Z hay tạo Z mới.
-
-Tạo Z đầu tiên chi một đơn vị. Đọc rồi giữ Z cũng chi một đơn vị, vì quyết định giữ đã dùng thông tin riêng. Kiểm tra rồi tạo Z mới chi hai đơn vị. Nếu không được đọc GPS, mô hình giữ lịch sử đã bảo vệ và không chi thêm. Phiên đã nhận vẫn có thể gửi Q từ lịch sử đó; phiên bị từ chối thì không đọc GPS và không gửi Q.
-
-**Chỉ vào hình**
-
-Đi từ bước 1 đến bước 4 ở cột trái, dừng ở phép thử có nhiễu để phân biệt giữ và tạo Z. Sau đó chỉ công thức REM chuẩn hóa trên toàn miền đường công khai ở cột phải, rồi đối chiếu các mức chi phí u, u và 2u.
-
-**Chuyển ý**
-
-Khi đã có Z, mô hình cần chọn Q sao cho phản hồi vẫn hữu ích.
+Em bắt đầu với thay đổi ở cơ chế bảo vệ điểm đầu và điểm cuối.
 
 **Nếu được hỏi**
 
-Cấu hình hiện tại dành ngân sách hiệu lực 0,23/m cho tám phiên trong một epoch, tức một khoảng thời gian áp dụng ngân sách chung. Mỗi phiên có tối đa 23 đơn vị, mỗi đơn vị 0,00125/m; khi đã có Z phải dự toán đủ hai đơn vị trước lần đọc tiếp. Sổ ngân sách phải đáng tin cậy; các epoch khác vẫn phải cộng dồn. Cận Geo-I xét tọa độ của cơ chế lý tưởng với ngữ cảnh/lịch công khai cố định; mã dùng số học hữu hạn chưa có chứng nhận tương ứng.
+L30 hiện tại không tự bao gồm Endpoint20 hay chính sách delay. Các cấu hình dùng chung nền Geo-I nhưng có giao thức và bằng chứng riêng.
 
-## Slide 4: Ước lượng vị trí và lựa chọn truy vấn
-
-**Lời trình bày**
-
-Z có nhiễu, nên chỉ truy vấn quanh Z có thể bỏ sót POI gần người dùng. Mô hình dùng phân bố b để gán trọng số cho các vùng có thể đang ở. b được cập nhật từ lịch sử đã bảo vệ và chuyển động công khai, không đọc thêm GPS thật. Khi không có lần đọc mới, b chỉ dự đoán chuyển động; nó vẫn là một ước lượng xấp xỉ.
-
-Từ b, mô hình chọn năm Q để phủ POI có khả năng hữu ích. Sau lần gửi đầu, mỗi Q phải đi được từ Q trước theo đường và thời gian đã qua. Năm Q là kết quả lựa chọn này, không phải năm lần lấy nhiễu độc lập quanh Z. Phần này phục hồi chất lượng dịch vụ sau Geo-I; Q hợp lệ trên đường chưa tự chứng minh chống tái dựng hành trình.
-
-**Chỉ vào hình**
-
-Chỉ luồng Z → b → năm Q. Với hai công thức, phân biệt lúc có lần đọc GPS bảo vệ với lúc chỉ dự đoán giữa hai lần đọc; các đường bên dưới minh họa ràng buộc chuyển động.
-
-**Chuyển ý**
-
-Sau khi nhận phản hồi từ Q, thiết bị xử lý nhu cầu thật ở đâu?
-
-**Nếu được hỏi**
-
-Trong công thức, T là mô hình chuyển động công khai trong khoảng thời gian Δt; ℒ là likelihood, tức mức phù hợp của điểm tham chiếu quan sát được với từng vị trí giả thuyết. Khi không có lần đọc mới, chỉ dùng T; không coi Z cũ là một quan sát mới.
-
-Bộ chọn Q hiện vẫn dùng danh sách POI công khai ở độ sâu L10 để tính điểm độ phủ dự đoán. L30 là độ sâu máy chủ trả về sau đó. Thử nghiệm tăng L giữ nguyên Q để tách riêng lợi ích truy hồi thêm POI; chưa khẳng định bộ chọn Q tối ưu cho L30 hoặc b đã khớp xác suất di chuyển thực tế.
-
-## Slide 5: Truy hồi POI theo nhiều mục đích
+## Slide 2: S9–S10: chính sách bảo vệ và ví dụ delay
 
 **Lời trình bày**
 
-Ở đây, K bằng năm là số tọa độ Q gửi đi. L bằng 30 là số POI tối đa server trả cho mỗi loại địa điểm tại mỗi Q. Server vẫn trả các POI gần Q; bốn mục đích là cách xử lý tại thiết bị. Thiết bị gộp và bỏ trùng ID, rồi chọn tối đa năm kết quả: gần nhất, nhanh nhất theo tốc độ công khai, trong bán kính riêng hoặc ít đi vòng tới đích.
+Bản delay trước đây bỏ 60 giây đầu trước khi gọi Geo-I, rồi giữ mỗi tập Q thêm 60 giây. Khi kết thúc thật, thiết bị hủy phần chưa gửi; không xóa dữ liệu đã công bố. Cách này giảm dữ liệu trực tiếp ở hai biên nhưng làm chậm dịch vụ. Endpoint20 gửi ngay, dùng epsilon và ngân sách bằng một phần tư đối chứng L20 lịch sử, áp dụng nhiễu mạnh hơn ở mọi lần đọc được phép.
 
-Vị trí cục bộ, loại địa điểm thật, bán kính và đích chỉ dùng ở bước cuối. Khi giữ cùng trạng thái đã bảo vệ và lịch công khai, đổi mục đích không làm đổi Q hay yêu cầu mạng. Điều này loại bỏ kênh gửi trực tiếp nhu cầu; nhu cầu tương quan với vị trí hoặc tuyến đường vẫn có thể bị suy luận.
+Trong timeline, các mốc 0, 20 và 40 giây chưa gọi Geo-I. Q tạo tại 60 giây được công bố tại 120 giây; Q tạo tại 320 giây được gửi tại 380 giây. Khi đóng ở 384 giây, bốn tập Q còn lại bị hủy. Mẫu công bố 14/21 mốc, Recall 71,43%; đây là minh họa dịch vụ, chưa chấm attacker. Giờ mở/đóng vẫn quan sát được. L30 hiện tại gửi ngay, không tự tích hợp Endpoint20.
 
 **Chỉ vào hình**
 
-Chỉ một luồng phản hồi đi vào cả bốn cách xếp hạng, cùng nhánh nhu cầu riêng ở thiết bị.
+So hai chính sách, rồi đi qua dòng 60→120 và dòng đóng 384 giây trên timeline.
 
 **Chuyển ý**
 
-Tiếp theo em dùng các mốc của một hành trình đã chạy để minh họa toàn bộ quá trình.
+Sau đầu/cuối, em trình bày các thành phần hỗ trợ bảo vệ vị trí và liên kết phiên.
 
 **Nếu được hỏi**
 
-Mục đích ít đi vòng giả định thiết bị đã biết đích; benchmark dùng đích thật làm đối chứng lý tưởng. Nếu thiếu đáp án rồi gửi thêm yêu cầu theo nhu cầu riêng, điều kiện bảo vệ kênh nội dung S7 ở đây không còn được giữ.
+Đối chứng L20 lịch sử dùng u = 0,01/m, Endpoint20 dùng u = 0,0025/m; không phải một phần tư u = 0,00125/m của Epoch8 hiện tại. Q(60) là cả tập năm tọa độ tạo tại 60 giây. Thời điểm nguồn là chú thích evaluator; máy chủ thấy thời điểm công bố. Delay không cần biết trước điểm cuối nhưng chưa bảo đảm attacker không suy endpoint từ dữ liệu còn lại.
 
-## Slide 6: Ví dụ 1: bảo vệ GPS và tạo truy vấn
+## Slide 3: S1–S6: cơ chế bảo vệ vị trí và liên kết
 
 **Lời trình bày**
 
-Ở mẫu đầu tiên, em minh họa một chuyến mô phỏng của cấu hình hiện tại. Tại giây 0, thiết bị đọc GPS và tạo Z, chi một đơn vị ngân sách. Đến giây 20, chưa đủ khoảng cách 60 giây nên không đọc GPS bảo vệ; Z giữ nguyên, chi phí bằng 0. Tại giây 60, thiết bị được phép đọc lại; phép thử có nhiễu dẫn tới tạo Z mới, chi thêm hai đơn vị. Tổng đến đây là ba đơn vị. Giữa các lần đọc, thiết bị vẫn có thể cập nhật Q từ lịch sử đã bảo vệ.
+Với S1, REM lấy mẫu tham chiếu Z trên toàn miền đường công khai cố định; máy chủ nhận Q chọn từ trạng thái đã bảo vệ. Với S2, phép kiểm tra tái sử dụng có nhiễu quyết định giữ Z hoặc tạo mới. Ngân sách tính cả quyết định này để kiểm soát thông tin tích lũy. Với S3, ước lượng b và Q dùng lịch sử đã bảo vệ; Q phải chuyển động khả thi trên đường có hướng. Ràng buộc đường hỗ trợ utility, không tự chứng minh privacy.
 
-Trên bản đồ, GPS và Z là thông tin nội bộ; chỉ năm Q được gửi lên máy chủ. Phân bố b giúp ưu tiên vùng tìm POI, không phải đoán chính xác một GPS để gửi đi. Ví dụ bên dưới thuộc chuyến 6, là một trường hợp khác: thiết bị đọc GPS nhưng vẫn giữ Z, dù khoảng cách khoảng 1.204 mét. Điều này xảy ra vì phép kiểm tra có nhiễu, không phải ngưỡng cứng 200 mét. Nhánh giữ vẫn chi một đơn vị.
+Với S4, sổ ngân sách chung quản lý tám phiên công khai trong một epoch, cap hiệu lực 0,23/m; đổi chuyến không tự cấp lại ngân sách. Cơ chế này chưa ẩn tài khoản, IP hoặc danh tính người và xe. Với S5–S6, bộ chọn Q chỉ dùng tiền tố đã bảo vệ. Phép thử dự đoán cạnh và đích dùng hai lựa chọn công khai, chưa bao phủ mọi tương lai.
 
 **Chỉ vào hình**
 
-Đi qua ba dòng 0–20–60 giây trong bảng, rồi chỉ GPS, Z và năm Q trên bản đồ; cuối cùng chỉ ví dụ giữ Z của chuyến 6.
+Đi từ REM và phép thử giữ Z sang b/Q, rồi chỉ cap liên phiên và bài toán hai lựa chọn.
 
 **Chuyển ý**
 
-Sau khi có năm Q, bước tiếp theo là xem phản hồi từ máy chủ được chuyển thành địa điểm phù hợp với nhu cầu như thế nào.
+Tiếp theo, em tách mục đích tìm địa điểm khỏi thông tin gửi ra ngoài và xét người đồng hành.
 
 **Nếu được hỏi**
 
-Một đơn vị bằng 0,00125/m; ba đơn vị là 0,00375/m, dưới ngân sách tối đa của phiên 0,02875/m. Trước lần đọc sau phải dự toán hai đơn vị, dù nhánh giữ chỉ chi một. Mười hai vùng màu cam chỉ chiếm 9,88% khối lượng b, không phải vùng tin cậy. Giá trị nhiễu Laplace cụ thể không được lưu nên em chỉ nêu điều kiện suy ra từ nhánh đã ghi nhận.
+H bằng 12 cho tối đa 23 đơn vị chi phí mỗi phiên, không phải giới hạn cứng 12 lần đọc GPS. Nhiều epoch hoặc thiết bị liên kết vẫn cần hợp thành ngân sách. Benchmark S1–S3 thuộc cấu hình lịch sử. Cận Geo-I giả định kernel lý tưởng; bộ lấy mẫu số thực trong simulator chưa có chứng nhận tương ứng. b là trọng số trên lưới công khai, chưa phải posterior đã hiệu chuẩn.
 
-## Slide 7: Ví dụ 2: xếp hạng POI tại thiết bị
+## Slide 4: S7–S8: nội dung truy vấn và người đồng hành
 
 **Lời trình bày**
 
-Em giữ nguyên năm Q ở giây 60 của mẫu trước. Mỗi Q yêu cầu mọi loại POI công khai, với tối đa 30 địa điểm cho mỗi loại. Trong mẫu này, mỗi Q nhận 84 bản ghi; năm Q nhận tổng cộng 420 bản ghi. Gộp theo ID và bỏ trùng còn 252 POI. Vì vậy, năm Q là năm tọa độ truy vấn, không phải năm địa điểm trả cho người dùng. Việc chọn địa điểm diễn ra sau đó tại thiết bị.
+Với S7, mỗi Q yêu cầu mọi loại POI công khai ở độ sâu L cố định. Thiết bị hợp phản hồi, rồi xếp hạng cục bộ theo gần nhất, nhanh nhất, bán kính hoặc ít đi vòng tới đích. Đổi mục đích không cần gửi thêm truy vấn. Tính chất này có điều kiện: cùng trạng thái đã bảo vệ và lịch công khai thì Q và payload giữ nguyên. Nó bỏ kênh gửi trực tiếp loại POI, bán kính hay đích; ý định tương quan với tuyến đường hoặc click vẫn có thể bị suy luận.
 
-Với nhu cầu tìm café gần nhất, thiết bị trả năm POI trong bảng theo khoảng cách đường. Nếu đổi sang tìm trong 1.000 mét, chỉ P167 phù hợp, nên trả một POI thay vì ép đủ năm. Nếu muốn ít đi vòng tới đích, danh sách lại khác. Cả bốn mục đích dùng cùng Q và cùng tập ứng viên, không gửi thêm truy vấn theo nhu cầu. Riêng ví dụ đi vòng giả định đích đã biết ở local; thí nghiệm lấy đích thật từ dữ liệu làm tham chiếu lý tưởng.
+S8 xét attacker quan sát thêm người đồng hành để suy vị trí mục tiêu. Diagnostic lịch sử so quan sát mục tiêu riêng với quan sát kết hợp người đồng hành và người không liên quan, trên ba nhóm và 24 mốc mục tiêu duy nhất. Đây chưa phải cơ chế bảo vệ nhóm được xác nhận cho Epoch8/L30. Em giữ cả trường hợp quan sát đồng hành không cải thiện attacker trong bank đã thử.
 
 **Chỉ vào hình**
 
-Chỉ phép gộp 420 → 252, rồi đối chiếu danh sách gần nhất với P167 trong bán kính và danh sách ít đi vòng.
+Chỉ phản hồi chung và bảng bốn cách xếp hạng, rồi phần diagnostic người đồng hành.
 
 **Chuyển ý**
 
-Hai ví dụ vừa rồi giải thích luồng xử lý chung. Tiếp theo, em dùng một cấu hình lịch sử riêng để minh họa cách gửi truy vấn ở đầu và cuối hành trình.
+Trước khi đọc kết quả, em thống nhất quyền quan sát của attacker và ý nghĩa các thước đo.
 
 **Nếu được hỏi**
 
-Nhanh nhất có cùng thứ tự với gần nhất trong mẫu này, nhưng được tính bằng thời gian đi theo tốc độ công khai. Khi triển khai, đích phải do ứng dụng hoặc người dùng cung cấp trước; không được dùng tương lai chưa biết. Kết quả đúng ở một mẫu không thay cho Recall trung bình của benchmark, cũng không chứng minh ý định không thể suy từ tuyến đường.
+Đích đi vòng phải đã biết ở thiết bị. Retry do nhu cầu riêng hoặc thiếu đáp án có thể làm request thay đổi, nên nằm ngoài tính chất này. RNG của dữ liệu S8 lịch sử có thể tái lập công khai, nhưng bank không khai thác RNG; kết quả không chứng minh an toàn trước attacker biết toàn bộ cơ chế sinh nhiễu.
 
-## Slide 8: Ví dụ 3: bảo vệ điểm đầu và điểm cuối
+## Slide 5: Giao thức đánh giá và thước đo
 
 **Lời trình bày**
 
-Mẫu này thuộc Endpoint20 lịch sử, dùng L20, và được tách khỏi cấu hình L30 hiện tại. Màu xám là Q của GeoI-Slack, màu xanh là Q của Endpoint20; dấu đỏ là GPS đầu hoặc cuối để phân tích, không gửi cho máy chủ. Z không được lưu trong transcript này nên em không suy Z từ Q. Hai cấu hình giữ cùng tám mốc gửi: truy vấn đầu tạo và gửi ở giây 0; truy vấn cuối tạo và gửi ở giây 384. Không bỏ phần đầu, giữ chờ hoặc hủy phần cuối.
+Attacker chỉ nhận quan sát công khai được phép, như Q và thời điểm gửi. GPS thật, Z và nhánh ngân sách được giữ cho evaluator. Mô hình học dùng shadow transcript từng phương pháp; chọn trên tập chọn, rồi khóa khi chấm. Mỗi thước đo có thể chọn một decoder khác nhau.
 
-Điểm cần chú ý là giây 384 chỉ cách mốc 360 khoảng 24 giây. Vì chưa đủ khoảng cách 60 giây, lúc này không đọc GPS bảo vệ mới; Q vẫn được chọn từ lịch sử đã bảo vệ. Thuật toán không cần biết trước đâu là điểm GPS cuối. Endpoint20 dùng hệ số epsilon bằng 25% của đối chứng ở mọi lần được phép đọc, để tăng nhiễu. Hình chỉ minh họa cách hoạt động; mức bảo vệ phải đánh giá qua attacker, và giờ mở, đóng phiên vẫn quan sát được.
+Hit100 và Hit500 là tỷ lệ đoán trong bán kính 100 và 500 mét; thấp hơn thuận lợi cho bảo vệ. MAE là sai số trung bình theo mét; cao hơn nghĩa attacker sai xa hơn. Recall@5 đo chất lượng tìm POI. Em đọc các chỉ số này cùng chi phí và phạm vi dữ liệu.
 
 **Chỉ vào hình**
 
-Chỉ cặp “tạo Q → gửi Q” dưới hai bản đồ, rồi chỉ dòng giải thích khoảng cách 24 giây giữa mốc 360 và 384.
+Chỉ quyền quan sát bên trái, rồi đối chiếu đơn vị của Hit, MAE và Recall bên phải.
 
 **Chuyển ý**
 
-Từ ba ví dụ này, em tổng hợp lại mỗi thành phần hỗ trợ scenario nào và bằng chứng hiện có đến đâu.
+Em bắt đầu các bảng bằng kết quả lịch sử cho vị trí và quỹ đạo.
 
 **Nếu được hỏi**
 
-Cap lý tưởng mỗi phiên của Endpoint20 là 0,0575/m, so với 0,23/m của đối chứng lịch sử; đây không phải ngân sách tối đa của phiên của Epoch8/L30. Khoảng cách một Q tới GPS không phải MAE attacker, và giảm epsilon xuống 25% không có nghĩa mọi sai số REM tăng đúng bốn lần.
+Ở S4, decoder liên kết người là **kNN15**, còn MAE S10 dùng **centroid_ols3_120s**. Decoder khác nhau theo tác vụ. Byte là JSON ứng dụng; chưa đo độ trễ mạng hay năng lượng thiết bị.
 
-## Slide 9: Phạm vi bảo vệ theo kịch bản
+## Slide 6: Benchmark S1–S3: vị trí và quỹ đạo
 
 **Lời trình bày**
 
-Trong bảng này, em phân biệt thành phần hỗ trợ bảo vệ với việc đã giải quyết đầy đủ một scenario. Với S1–S3, Geo-I/REM và ngân sách có cận lý tưởng cho đầu vào tọa độ, cùng benchmark lịch sử. Với S4, ngân sách chung chặn việc tự cấp lại ngân sách qua các chuyến trong cùng epoch, nhưng không ẩn tài khoản hay địa chỉ IP; bài toán liên kết người và xe mới được thử trên dữ liệu tổng hợp. S5–S6 hiện kiểm tra dự đoán cạnh kế tiếp và đích trong bài toán hai lựa chọn.
+Bảng này so pipeline đề xuất trước đây với các bản thích nghi DLS, Semantic và TransProtect. Ở S1, Hit100 của pipeline là 33,33%, nghĩa khoảng một phần ba dự đoán nằm trong 100 mét; MAE tương ứng khoảng 299 mét. S2 và S3 có Hit100 thấp hơn, nhưng utility của S3 còn khoảng 87,67%.
 
-S7 có kết quả rõ ở mức request: khi giữ cùng trạng thái đã bảo vệ và lịch công khai, đổi nhu cầu cục bộ không đổi truy vấn gửi lên máy chủ. Điều này chưa loại bỏ suy luận ý định từ tuyến đường. S8 mới có phép thử người đồng hành trên dữ liệu lịch sử. S9–S10 có bằng chứng của Endpoint20 riêng, chưa chuyển thành xác nhận cho L30. Vì vậy, đóng góp hiện tại là cơ chế và bằng chứng theo từng bài toán; em chưa ghép chúng thành tuyên bố một mô hình đã bảo vệ đầy đủ cả mười scenario.
+Các thước đo chưa đồng loạt cho một thứ hạng. Ví dụ DLS có MAE cao hơn ở S1 dù Hit100 cũng cao hơn. Em giữ kết quả này như bằng chứng theo metric của các bản triển khai lịch sử, chưa coi là xác nhận L30 hoặc vượt paper nguyên bản.
 
 **Chỉ vào hình**
 
-Đi từ cột “Thành phần / cơ chế” sang “Phạm vi bằng chứng”, nhấn dòng S7 và dòng S9–S10.
+Chỉ ba hàng S1 trước, rồi đối chiếu Hit100 và Recall của S3.
 
 **Chuyển ý**
 
-Với phạm vi đó, em chuyển sang kết quả chính: tăng độ sâu phản hồi từ L20 lên L30 cải thiện utility bao nhiêu và phải trả thêm chi phí gì.
+Bảng tiếp theo chuyển từ định vị sang liên kết danh tính và quan sát đồng hành.
 
 **Nếu được hỏi**
 
-Các cận Geo-I là kết quả dưới giả định kernel lý tưởng và giao thức đã khai báo; chưa phải chứng chỉ cho bộ lấy mẫu số thực của simulator. Nhiều epoch hoặc nhiều thiết bị liên kết vẫn phải hợp thành ngân sách. Với S7, nếu ứng dụng gửi thêm request do thiếu đáp án hoặc theo click riêng, điều kiện request không đổi sẽ không còn đúng.
+Mỗi hàng gộp 12 ô record × lượt nhiễu, không phải 12 điểm GPS độc lập. EIE bằng MAE khi cùng decoder và cách gộp; entropy hoặc ASR thiếu contract phù hợp được giữ N/A.
 
-## Slide 10: Độ sâu phản hồi và chất lượng dịch vụ
+## Slide 7: Benchmark S4 và S8: liên kết, đồng hành
 
 **Lời trình bày**
 
-Đây là kết quả chính sau khi em khóa cấu hình rồi đánh giá trên 24 nhóm tuyến mới. Recall đo mức giữ lại những POI thuộc top-5 tham chiếu cho nhu cầu đang xét. Khi tăng độ sâu phản hồi từ L20 lên L30, Recall trung bình tăng từ 89,71% lên 92,69%, tức 2,97 điểm phần trăm. Khoảng tin cậy 95% của mức tăng là từ 2,31 đến 3,65 điểm, nằm hoàn toàn trên 0. Cả bốn mục đích đều tăng, trong đó tìm trong bán kính tăng nhiều nhất.
+Với S4, mỗi tác vụ có 45 cặp trong ba nhóm kiểm tra. Balanced accuracy liên kết người giảm từ 69,44% xuống 43,06%; liên kết xe giảm từ 62,50% xuống 52,78%. Tuy nhiên, AUC người vẫn đạt 0,861 ở một nhóm đã bảo vệ. Điểm trung bình thấp chưa chứng minh danh tính được ẩn hoàn toàn.
 
-Đánh đổi là byte phản hồi tăng 31,10%. Em vẫn giữ nguyên năm Q, điểm tham chiếu Z, lịch gửi và ngân sách riêng tư; số request cũng không tăng. Vì vậy kết quả này cho thấy lấy thêm ứng viên giúp phục hồi chất lượng trả lời trên cùng luồng đã bảo vệ. Phạm vi xác nhận là dữ liệu mô phỏng mới trên cùng bản đồ. So sánh với các phương pháp khác ở cùng chi phí vẫn cần được đánh giá riêng.
+Với S8, quan sát đồng hành đã bảo vệ cho cùng kết quả với chỉ nhìn mục tiêu trong bank này. Quan sát GPS thật của người đồng hành giảm MAE từ khoảng 664 xuống 594 mét. Hai diagnostic thuộc dữ liệu lịch sử, chưa xác nhận cho mô hình hiện tại.
 
 **Chỉ vào hình**
 
-Chỉ mức tăng 2,97 điểm, hàng “Trong bán kính”, rồi chuyển sang hai thanh byte phản hồi.
+So hai cặp hàng người/xe, rồi chỉ hàng đồng hành GPS thật ở bảng bên phải.
 
 **Chuyển ý**
 
-Ngoài việc so L20 với L30, em cũng kiểm tra nền tảng REM với một cơ chế Geo-I đối chứng.
+Với suy luận tương lai, em có thêm pilot trên mạng native để so REM với Planar.
 
 **Nếu được hỏi**
 
-2,97 điểm phần trăm là lấy 92,69% trừ 89,71%, khác với phần trăm tăng tương đối. Recall được gộp đều theo mục đích và nhóm tuyến; tham chiếu rỗng giữ N/A. CI lấy mẫu lại theo 24 nhóm, giữ ba lượt nhiễu và tám chuyến bên trong mỗi nhóm. L là số POI tối đa mỗi category tại mỗi Q.
+BA cân bằng hai lớp. BA dưới 50% hoặc AUC dưới 0,5 chưa tự chứng minh privacy tốt hơn ngẫu nhiên. S8 có 41 quan sát cặp nhưng chỉ 24 mốc mục tiêu duy nhất.
 
-## Slide 11: So sánh REM và Planar
+## Slide 8: Benchmark S5–S6: cạnh và đích tương lai
 
 **Lời trình bày**
 
-Ở phép thử này, em so REM với Planar Laplace trên cùng ngân sách, mạng đường, K=5 và L20. Bước ước lượng cũng dùng mô hình quan sát khớp với từng loại nhiễu. Planar đạt Recall 97%, cao hơn mức 94,69% của REM. Hiện chưa có căn cứ để nói REM tốt hơn Planar về chất lượng phản hồi hiện tại.
+REM và Planar dùng cùng mạng, ngân sách, K5 và L20; GPS thật là đối chứng chưa bảo vệ. GPS thật đạt 100% khi dự đoán nhánh; hai cơ chế bảo vệ đều đạt 50%. S5 và S6 cùng phụ thuộc lựa chọn nhánh này, nên chưa phải hai bằng chứng độc lập.
 
-Về attacker, cả hai phương pháp bảo vệ đều có accuracy cạnh kế tiếp và Hit100 của đích là 50%, so với 100% khi GPS chưa được bảo vệ. Tuy nhiên, tác vụ ở đây chỉ có hai lựa chọn công khai, và S5, S6 dùng cùng một quyết định. MAE đích của REM lớn hơn, nhưng riêng con số đó chưa chứng minh ưu thế riêng tư. Đây là pilot sáu nhóm đã xem, chỉ chấm tìm gần nhất theo category; em tách nó khỏi kết quả bốn mục đích của L30 ở slide trước.
+Về dịch vụ, Planar đạt Recall 97%, cao hơn REM 94,69%. REM có MAE đích khoảng 615 mét, so với 502 mét của Planar, nhưng riêng MAE chưa xác lập ưu thế chung. Đây là pilot sáu nhóm kiểm tra, 12 phiên và hai ứng viên công khai; em giữ cả kết quả chưa thuận lợi.
 
 **Chỉ vào hình**
 
-So hai hàng REM và Planar ở cột Recall, rồi chỉ hai cột attacker cùng bằng 50%.
+So các cột S5/S6, rồi chỉ Recall của REM và Planar.
 
 **Chuyển ý**
 
-Sau đối chứng cơ chế, em kiểm tra một giả định ứng dụng: nếu vị trí cục bộ không được cập nhật liên tục thì kết quả thay đổi ra sao.
+Em quay lại đầu/cuối để đối chiếu rõ chất lượng và chi phí của delay.
 
 **Nếu được hỏi**
 
-Hit100 là tỷ lệ đoán đích trong sai số 100m. Attacker được chọn trên tập validation: **Motion** cho REM, **CurveMean(0.02)** cho Planar và **CandidateTrees** cho GPS chưa bảo vệ. Pilot có 12 phiên truy vấn thuộc sáu nhóm test; GPS dùng một tọa độ request, còn hai phương pháp bảo vệ dùng năm Q.
+Decoder được chọn cho REM là **motion**, cho Planar là **curve_mean_0.02**. Pilot chấm tìm gần nhất theo category, khác benchmark bốn mục đích của L30.
 
-## Slide 12: Ảnh hưởng của tần suất và sai số GPS
+## Slide 9: Delay và nhiễu: chất lượng, chi phí dịch vụ
 
 **Lời trình bày**
 
-Kết quả chính trước đó dùng vị trí chuẩn tại mỗi event để xếp hạng local. Ở đây, em thử thay bằng GPS cập nhật mỗi 60 giây, kèm nhiễu cảm biến giả lập ở ba mức. Q và dữ liệu đầu vào Geo-I đã đóng băng được giữ nguyên; chỉ vị trí dùng để xếp hạng POI thay đổi. Khi giữ lần đo GPS gần nhất và chưa thêm nhiễu cảm biến, L30 đạt 89,35%, thấp hơn mức 92,69% với vị trí chuẩn mỗi event. L30 vẫn tăng Recall so với L20 ở các biến thể đã thử.
+Đây là vòng thăm dò riêng trên bốn nhóm, với 170 mốc đầu vào cho mỗi phương pháp. Delay 60 giây ở L10 công bố 122 mốc, Recall 78,08% và MAE đầu/cuối khoảng 1.179 mét. Endpoint20 công bố đủ 170 mốc, Recall 96,11% và MAE khoảng 1.852/2.297 mét.
 
-Kết quả đáng chú ý là ngoại suy từ hai lần đo GPS giảm sai số vị trí trung bình, nhưng Recall lại thấp hơn cách giữ lần đo GPS gần nhất ở cả ba mức nhiễu. Vì vậy em chưa chọn ngoại suy vào pipeline chính. Vị trí cũ còn có thể làm bộ lọc bán kính trả POI ngoài miền thực, nên phải đọc thêm tính hợp lệ của đáp án. Phép thử này giúp thấy giới hạn của local ranking; nó chưa phải phép đo GPS thật hay năng lượng trên thiết bị.
+Tuy nhiên, hai hàng khác cả L, ngân sách và lưu lượng. Endpoint20 dùng gần 6.951 byte mỗi mốc, so với 3.247 byte của delay. Vì vậy, đây là đối chiếu đánh đổi dịch vụ và suy luận trong bank hữu hạn, chưa tách riêng tác dụng của delay hay chứng minh ưu thế ở cùng chi phí.
 
 **Chỉ vào hình**
 
-Chỉ khoảng cách giữa đường L20 và L30, sau đó chỉ đường ngoại suy luôn thấp hơn đường giữ lần đo GPS gần nhất của L30.
+Chỉ 122/170 so với 170/170, rồi đối chiếu Recall và byte của hai hàng.
 
 **Chuyển ý**
 
-Vị trí người dùng có thể cũ; thông tin POI từ server cũng có thể hết hạn. Slide tiếp theo kiểm tra trường hợp thứ hai.
+Vòng endpoint sau dùng nhiều nhóm hơn và kiểm tra kỹ cách lựa chọn attacker.
 
 **Nếu được hỏi**
 
-σ là độ lệch chuẩn Gaussian trên mỗi trục, lần lượt 0, 5 và 15m; đây là nhiễu kiểm soát, chưa được hiệu chỉnh theo thiết bị thật. Clock GPS local được tách khỏi clock supplier bảo vệ. Phép thử dùng lại 72 luồng đã được phân tích; không tạo Q mới. Đích của mục đích detour vẫn là đầu vào local oracle, và kết quả không gồm detour cũng cho thấy ngoại suy kém hơn giữ lần đo GPS gần nhất.
+Cap hiệu lực của delay là 0,23/m, Endpoint20 là 0,0575/m. Không ghép hàng delay của bốn nhóm vào bảng 28 nhóm sau, vì khác cohort và selector.
 
-## Slide 13: Truy hồi POI có trạng thái thay đổi
+## Slide 10: Benchmark S9–S10: kết quả được kiểm tra lại
 
 **Lời trình bày**
 
-Trong phép thử này, POI thay đổi trạng thái khả dụng theo từng khoảng công khai 60 giây. Thiết bị chỉ dùng trạng thái hiện tại đã nhận được. Biết ID của một POI chưa đủ để kết luận nó đang khả dụng; thông tin trạng thái hết hạn không được dùng để xác định POI còn khả dụng. Với L30, dùng phản hồi hiện tại đạt Recall 91,44%. Gộp các phản hồi còn hiệu lực trong cùng khoảng đưa Recall lên 91,78%, mà không tăng Q hoặc byte truyền.
+Vòng này dùng 28 nhóm đã khảo sát và chọn attacker bằng cross-fit theo nhóm. So cùng L20, Endpoint20 có MAE đầu/cuối cao hơn đối chứng. Với S10, MAE tăng từ khoảng 758 lên 1.337 mét; chênh lệch 579 mét có CI 95% thăm dò từ 468 đến 696 mét.
 
-Em cũng giữ đối chứng tải toàn catalogue với trạng thái hiện tại. Đối chứng đó đạt 100% và dùng khoảng 126,89MB JSON, thấp hơn mức 1.023,95MB của L30. Nó có API mạnh hơn truy hồi top-L, nhưng là lựa chọn hợp lệ nếu ứng dụng cho phép tải toàn bộ. Vì catalogue của workload này còn nhỏ, kết quả này chưa chứng minh cần truy vấn từ xa theo vị trí. Điều em kiểm tra được là cách dùng cache còn hiệu lực trong một thế giới trạng thái mô phỏng.
+Hit100 của cả hai bằng 0. Hit500 giảm từ 12,50% xuống 4,46%, nhưng khoảng chênh lệch chạm 0 nên chưa chắc chắn ngoài mẫu. Recall giảm từ 98,94% xuống 96,64%. Em giữ cả lỗi chọn attacker trước đây; kết quả này là diagnostic phát triển, chưa xác nhận ưu thế trước mọi đối thủ.
 
 **Chỉ vào hình**
 
-Chỉ hai điểm L30 để thấy lợi ích nhỏ của cache, rồi chỉ đối chứng toàn catalogue ở mức 100%.
+Chỉ cặp hàng S10, khoảng chênh MAE và khoảng Hit500 chạm 0.
 
 **Chuyển ý**
 
-Cuối cùng, em trình bày riêng kết quả bảo vệ điểm đầu và cuối chuyến của cấu hình Endpoint20.
+Kết quả chính cho cấu hình hiện tại là phép thử tăng độ sâu phản hồi trên tập mới.
 
 **Nếu được hỏi**
 
-Provider lấy top-L theo vị trí tĩnh rồi gắn bit trạng thái hiện tại, không chọn POI khả dụng trước. Cache hết hạn theo clock công khai; thiếu đáp án không dẫn đến request riêng theo nhu cầu. Đây là diagnostic trên các luồng đã xem và một thế giới trạng thái, không phải xác nhận độc lập. Chi phí là compact JSON ứng dụng, chưa đo HTTP/TLS, latency hay pin.
+MAE chọn **centroid_ols3_120s** ở S10 cho cả hai cấu hình. Xáo Q loại nhãn slot nhưng không có lợi ích MAE Endpoint20 đo được; attacker vẫn nối điểm bằng hình học và **Hungarian assignment**. Bank mở rộng cũ có learner thắng selection nhưng tổng quát hóa kém, nên MAE lớn đó không được coi là defense tốt lên.
 
-## Slide 14: Đánh giá bảo vệ điểm đầu và điểm cuối
+## Slide 11: Benchmark dịch vụ: bốn mục đích truy vấn
 
 **Lời trình bày**
 
-Endpoint20 là cấu hình thử nghiệm lịch sử riêng ở L20. Cấu hình này dùng epsilon và ngân sách bằng 25% của đối chứng lịch sử, nên nhiễu mạnh hơn tại mọi lần đọc được phép. Khi đang chạy, hệ thống không biết trước lần đọc nào là cuối chuyến; cấu hình này vẫn gửi ngay, không dùng delay. MAE là sai số trung bình của vị trí attacker đoán. Ở S9, MAE tăng từ khoảng 790 lên 1.407m; ở S10, từ 758 lên 1.337m. Mức tăng S10 khoảng 579m, với CI mô tả từ 468 đến 696m.
+Sau khi khóa L30, em đánh giá trên 24 nhóm mới, mỗi nhóm có ba lượt nhiễu và tám chuyến. Recall trung bình bốn mục đích tăng từ 89,71% ở L20 lên 92,69%, tức 2,97 điểm phần trăm. Khoảng 95% theo nhóm là 2,31 đến 3,65 điểm, nằm trên 0. Các mục đích đều có mức tăng dương.
 
-Hit100 ở S10 đều bằng 0 cho cả hai cấu hình, nên em đọc thêm Hit500: tỷ lệ đoán trong 500m giảm từ 12,50% xuống 4,46%. Tuy nhiên CI của chênh lệch này chạm 0, nên chưa kết luận mức giảm Hit500 chắc chắn. Đây là phép thử trên 28 nhóm đã xem và một bank attacker hữu hạn. Giờ mở, đóng phiên vẫn quan sát được; các điểm số này cũng không được gán cho cấu hình Epoch8/L30 hiện tại.
+Đánh đổi là byte phản hồi tăng 31,10%. Năm Q, Z, lịch, ngân sách và 90.570 request giữ nguyên. Kết quả xác nhận lấy thêm ứng viên cải thiện utility trong mô phỏng cùng bản đồ. Nó không tăng cận privacy và chưa chứng minh ưu thế ở cùng chi phí.
 
 **Chỉ vào hình**
 
-Chỉ hai cặp thanh MAE, rồi chỉ dòng Hit100 bằng 0 và cảnh báo CI của Hit500 chạm 0.
+Chỉ hàng trung bình bốn mục đích, CI, rồi chuyển xuống mức tăng byte phản hồi.
 
 **Chuyển ý**
 
-Em xin dừng phần kết quả ở đây và trao đổi với thầy/cô về ưu tiên tiếp theo, nhất là workload dịch vụ thực và xác nhận attacker cho cấu hình hiện tại.
+Em tiếp tục kiểm tra giả định vị trí cục bộ có chính xác ở mọi mốc hay không.
 
 **Nếu được hỏi**
 
-MAE S9 dùng **public_boundary_centroid_ols6**, S10 dùng **centroid_ols3_120s**; Hit500 có decoder được chọn riêng trên validation. CI95% của chênh lệch Hit500 là [-16,96; 0] điểm phần trăm. Nhiễu mạnh hơn này áp cho mọi protected read, không dựa vào phát hiện một “đoạn cuối” bí mật.
+CI lấy mẫu lại theo 24 nhóm, giữ các chuyến và lượt nhiễu bên trong. Tham chiếu rỗng giữ N/A. CI từng mục đích là thăm dò; chỉ macro bốn mục đích là chỉ tiêu chính.
 
-## Tài liệu đối chiếu khi chuẩn bị
+## Slide 12: Độ nhạy: GPS cục bộ và trạng thái POI
 
-Các nguồn này dùng để kiểm tra số liệu, không cần đọc đường dẫn trong buổi trình bày.
+**Lời trình bày**
 
-- [Nội dung và số liệu theo slide](slide_content.json).
-- [Ví dụ GPS, Z, b và Q](sample_walkthrough.json), [phản hồi và kết quả POI local](utility_sample.json), [ví dụ Endpoint20](endpoint_sample.json).
-- [Phạm vi thuật toán và scenario](algorithm_scope.json), [nguồn benchmark và giới hạn của từng phép thử](benchmark_evidence.json).
+Hai diagnostic này giữ nguyên Q và ngân sách. Với GPS, thiết bị có mẫu cục bộ mỗi 60 giây, riêng với lịch đọc cho Geo-I, và nhiễu Gaussian 0, 5 hoặc 15 mét mỗi trục. Giữ vị trí gần nhất cho L30 Recall 89,35% khi không thêm nhiễu, còn 85,02% ở mức 15 mét. Ngoại suy hai mẫu giảm sai số vị trí nhưng Recall thấp hơn cách giữ ở cả ba mức; em chưa chọn nó làm phương án tốt hơn.
+
+Với POI, trạng thái thay đổi mỗi 60 giây; chưa biết không được coi là khả dụng. L30 dùng phản hồi hiện tại đạt Recall 91,44%; gộp hợp lệ trong epoch đạt 91,78%. Đối chứng tải toàn danh mục đạt 100%, dùng 126,89 MB JSON, thấp hơn 1.023,95 MB của L30. Đây là hạn chế thực dụng với danh mục nhỏ. Cả hai dùng 72 khối dữ liệu đã khảo sát, chưa chứng minh tính cần thiết của truy vấn qua Q trong triển khai thật.
+
+**Chỉ vào hình**
+
+So giữ GPS với ngoại suy, rồi đối chiếu L30 hiện tại/cache và hàng tải toàn danh mục.
+
+**Chuyển ý**
+
+Sau kết quả và các kiểm tra độ nhạy, em tổng hợp kiến trúc hiện tại cùng phần đã thay đổi.
+
+**Nếu được hỏi**
+
+Sai số Euclid 15 mét không bảo đảm sai số đường nhỏ sau map matching trên đường có hướng; diagnostic chưa đo GPS thực hay pin. World trạng thái là fixture công khai theo hash, không phải bằng chứng trạng thái khó dự đoán. Cache hết epoch phải hủy status cũ; dùng status hết hạn có thể trả POI không còn khả dụng.
+
+## Slide 13: Kiến trúc phương pháp hiện tại
+
+**Lời trình bày**
+
+Mô hình có bốn tầng. Tầng một kiểm tra phiên, lịch và ngân sách trước khi đọc GPS, rồi giữ hoặc tạo Z bằng Geo-I/REM. Tầng hai dùng lịch sử đã bảo vệ để cập nhật b và chọn năm Q đi được trên mạng đường. Tầng ba gửi Q, nhận tối đa 30 POI mỗi loại tại mỗi Q.
+
+Tầng cuối hợp phản hồi và xếp hạng theo vị trí cùng mục đích tại thiết bị. Z giữ nội bộ, Q gửi máy chủ, còn POI là kết quả dịch vụ. GPS local không sửa Q; phiên bị từ chối không đọc GPS bảo vệ hay gửi Q.
+
+**Chỉ vào hình**
+
+Đi qua bốn tầng, rồi chỉ riêng nhánh GPS/mục đích cục bộ vào tầng cuối.
+
+**Chuyển ý**
+
+Em đối chiếu kiến trúc này với bản trước để chỉ rõ phần giữ và phần cập nhật.
+
+**Nếu được hỏi**
+
+Phiên đã nhận mà hết ngân sách đọc vẫn có thể gửi Q từ lịch sử đã bảo vệ. Đây khác với phiên không được nhận. Mô hình hiện tại không có hàng đợi delay.
+
+## Slide 14: Thành phần giữ nguyên và phần được cập nhật
+
+**Lời trình bày**
+
+Nền REM, phép thử tái sử dụng, lịch đọc GPS, ước lượng b và bộ chọn Q theo đường vẫn giữ nguyên. Em bổ sung sổ ngân sách bền vững và cap chung cho tám phiên. Dịch vụ mở rộng xếp hạng cục bộ thành bốn mục đích và dùng phản hồi L30.
+
+Lợi ích đã xác nhận là L20 lên L30 trên cùng Q; bộ chọn Q vẫn tính độ phủ bằng danh sách công khai L10. Cache đã có, còn kiểm tra GPS thưa và trạng thái POI làm rõ giới hạn sử dụng. Mô hình hiện tại gửi ngay. Endpoint20 L20 là nhánh lịch sử, đo riêng.
+
+**Chỉ vào hình**
+
+Đọc cột trước và hiện tại, nhấn ngân sách liên phiên và tầng truy hồi/xếp hạng.
+
+**Chuyển ý**
+
+Em dùng một chuyến chuyển động để cho thấy các thành phần kích hoạt theo từng mốc.
+
+**Nếu được hỏi**
+
+Mạng native hiện tại khác mạng minh họa tái dựng trước đây. Chứng minh và kiểm tra nguồn giúp xác định phạm vi, không phải những component chạy thêm trong thuật toán.
+
+## Slide 15: Ví dụ chuyển động: thành phần kích hoạt theo thời gian
+
+**Lời trình bày**
+
+Đây là chuyến đầu của một nhóm TRAIN cố định. Tại 0 giây, thiết bị đọc GPS, tạo Z và chi một đơn vị. Tại 20 giây, chưa đến lịch nên không đọc mới; Z giữ nguyên, b chỉ dự đoán và một Q di chuyển. Tại 60 giây, phép thử dẫn tới tạo Z mới, tổng chi phí lên ba đơn vị.
+
+Các mốc sau tiếp tục kiểm tra lịch/ngân sách, rồi xử lý b, Q và POI. Đến 600 giây đã dùng 21/23 đơn vị. Tổng này bao gồm cả các lần đọc không hiển thị giữa 300 và 600 giây; mẫu chưa có nhánh hết ngân sách.
+
+**Chỉ vào hình**
+
+Đi qua 0, 20, 60 và 600 giây, chỉ cột chi phí cùng chú thích các lần đọc ở giữa.
+
+**Chuyển ý**
+
+Ba bản đồ tiếp theo cho thấy GPS, Z và Q của chính chuyến này chuyển động ra sao.
+
+**Nếu được hỏi**
+
+Mẫu có 11 lần đọc bảo vệ ở 0, 60,…, 600 giây, đều tạo Z mới. Tại 20 giây chỉ Q1 di chuyển khoảng 155 mét. Một đơn vị là 0,00125/m; 21 đơn vị là 0,02625/m. Trước lần đọc sau khi đã có Z phải dự toán hai đơn vị, dù nhánh giữ chỉ chi một. Mẫu chỉ dùng phản hồi POI tĩnh hiện tại, không có status hay cache. Bán kính tại 240 giây có tham chiếu rỗng, giữ N/A.
+
+## Slide 16: Ví dụ chuyển động: GPS, Z và tập Q
+
+**Lời trình bày**
+
+Ba bản đồ giữ cùng tỷ lệ và vùng nhìn ở 0, 120 và 600 giây. GPS là vị trí local để phân tích, Z là tham chiếu nội bộ, Q là tập tọa độ công bố. Z đổi sau các lần đọc và tạo mới. Q phụ thuộc trạng thái đã bảo vệ và đường; từng Q có thể đứng yên.
+
+Màu cam là 12 vùng có trọng số b cao nhất, chỉ chiếm một phần phân bố. Đây chưa phải vùng tin cậy đã hiệu chuẩn. Nhãn 1–5 theo dõi Q nội bộ, máy chủ không nhận ID ổn định. Khoảng cách không thay cho đánh giá attacker.
+
+**Chỉ vào hình**
+
+Giữ cùng màu GPS/Z/Q khi đi qua ba mốc, rồi chỉ chú thích b và nhãn nội bộ.
+
+**Chuyển ý**
+
+Để phân biệt giữ Z với không đọc GPS, em dùng thêm một nhánh giữ thực tế.
+
+**Nếu được hỏi**
+
+Khi không đọc mới, b chỉ dự đoán chuyển động. Khi có lần đọc và giữ Z, b còn cập nhật theo likelihood của nhánh giữ; không coi Z cũ như một mẫu REM mới độc lập.
+
+## Slide 17: Ví dụ tái sử dụng: đọc GPS nhưng giữ Z
+
+**Lời trình bày**
+
+Đây là chuyến thứ sáu, tách khỏi chuyến vừa xem. Tại 60 giây, thiết bị đã đọc GPS; khoảng cách tới Z khoảng 1.204 mét, nhưng phép thử có nhiễu vẫn dẫn tới giữ Z. Ngưỡng 200 mét áp dụng cho khoảng cách sau khi thêm nhiễu, không áp trực tiếp vào khoảng cách thật.
+
+Đọc rồi giữ chi một đơn vị, nên tổng đến đây là hai. b cập nhật từ quan sát giữ và Q vẫn có thể thay đổi. Đây khác mốc không đọc mới, chi phí bằng 0. Nhiễu cụ thể không được lưu; em chỉ nêu điều kiện suy ra từ nhánh đã ghi nhận.
+
+**Chỉ vào hình**
+
+Chỉ phép thử có nhiễu, hai Z trùng nhau và chi phí cộng một đơn vị.
+
+**Chuyển ý**
+
+Cuối cùng, em theo chính các Q đã tạo để minh họa câu trả lời cho nhiều nhu cầu.
+
+**Nếu được hỏi**
+
+Nhánh lưu suy ra nhiễu nhỏ hơn hoặc bằng khoảng −1.004 mét; không xác định giá trị thực tế. Trước khi đọc vẫn phải dự toán hai đơn vị cho trường hợp cần tạo mới.
+
+## Slide 18: Ví dụ dịch vụ: cùng Q, các câu trả lời khác nhau
+
+**Lời trình bày**
+
+Tại 60 giây, năm Q nhận 420 bản ghi; bỏ trùng còn 252 POI. Tìm café gần nhất trả năm địa điểm theo khoảng cách đường. Với bán kính 1.000 mét, chỉ P167 phù hợp; tìm ít đi vòng cho danh sách khác. Các nhu cầu dùng cùng tập ứng viên, không gửi thêm request.
+
+Đi vòng giả định đích đã biết ở local. Em giữ nền Geo-I và làm rõ đánh đổi bảo vệ, utility, chi phí. L30 có cải thiện utility được xác nhận trong mô phỏng; S8 và bảo vệ danh tính vẫn cần thêm bằng chứng. Em xin ý kiến thầy/cô về ưu tiên tiếp theo.
+
+**Chỉ vào hình**
+
+Chỉ phép gộp 420 thành 252, rồi đối chiếu gần nhất, bán kính và ít đi vòng.
+
+**Chuyển ý**
+
+Em xin dừng phần trình bày tại đây và trao đổi về hướng hoàn thiện tiếp theo.
+
+**Nếu được hỏi**
+
+Đích detour của benchmark lấy từ đáp án chuẩn để đánh giá local, không vào bộ chọn Q. Triển khai cần đích người dùng đã khai báo. Kết quả một mẫu không thay cho Recall trung bình.

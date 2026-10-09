@@ -10,6 +10,13 @@ import html
 import json
 import re
 import sample_visuals
+import focus_visuals
+import endpoint_focus_visuals
+import benchmark_focus_visuals
+import multistep_focus_visuals
+import compact_policy_visuals
+import compact_benchmark_visuals
+import compact_sample_visuals
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -66,10 +73,10 @@ def base(title, body, footer, number, total):
     markers=''.join(f'<marker id="arr-{c[1:]}" markerWidth="9" markerHeight="9" refX="8" refY="3.5" orient="auto"><path d="M0,0 L8,3.5 L0,7" fill="{c}"/></marker>' for c in [TEAL, BLUE, GRAY, ORANGE])
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-label="{html.escape(title)}">'
             f'<defs>{markers}</defs><rect width="1280" height="720" fill="white"/>'
-            + ('' if number == 1 else text(56,77,title,43,color=TEAL,weight=400) + line(56,101,1224,101,TEAL,1.4))
-            + body + line(56,662,1224,662,LINE,1)
-            + text(56,687,footer,18,color=GRAY,lh=1.05)
-            + text(1224,687,f'{number} / {total}',18,color=GRAY,anchor='end') + '</svg>')
+            + ('' if number == 1 else text(46,67,title,32,color=TEAL,weight=400) + line(46,89,1234,89,TEAL,1.1))
+            + body + line(46,670,1234,670,LINE,1)
+            + text(46,692,footer,15,color=GRAY,lh=1.05)
+            + text(1234,692,f'{number} / {total}',15,color=GRAY,anchor='end') + '</svg>')
 
 
 def cover():
@@ -90,7 +97,7 @@ def architecture():
     b+=text(57,237,['GPS cho Geo-I','đọc sau kiểm tra'],25)
     b+=arrow([(58,300),(225,300),(225,275),(280,275)],BLUE)
     b+=text(280,221,'Tầng 1. Bảo vệ GPS',24,color=BLUE,weight=700)
-    b+=box(280,241,205,78,'1. Kiểm tra lịch\n2. Geo-I / REM',fill='#edf3fb',stroke=BLUE,size=24)
+    b+=box(280,241,205,78,'1. Lịch / ngân sách\n2. Geo-I / REM',fill='#edf3fb',stroke=BLUE,size=23)
     b+=arrow([(485,280),(544,280)],BLUE)
     b+=box(550,241,116,78,'Z nội bộ',fill='#edf3fb',stroke=BLUE,size=25)
     b+=text(717,271,['Điểm tham chiếu','giữ tại thiết bị'],23,color=GRAY)
@@ -260,7 +267,7 @@ def fresh_chart(d):
 
 
 def matched_baseline(d):
-    b=text(56,143,'Cùng ngân sách, K = 5, L = 20 và mạng đường; thay cơ chế REM / Planar',28,weight=700)
+    b=text(56,143,'REM / Planar: cùng ngân sách, K = 5, L = 20 và mạng đường',28,weight=700)
     xs=[56,440,690,930,1154]
     headers=['Phương pháp','Recall@5 ↑\ngần nhất','S5 · Accuracy ↓\ncạnh kế tiếp','S6 · Hit100 ↓\nđích tương lai','S6 · MAE ↑\n(m)']
     for j,(x,v) in enumerate(zip(xs,headers)):
@@ -315,8 +322,9 @@ def dynamic_chart(d):
     for i,(label,val,color) in enumerate(rows):
         y=234+i*64;x=x0+(val-85)/15*(x1-x0)
         b+=text(56,y+7,label,24,color=color)+dot(x,y,10,color)+text(x+20,y+7,pct(val)+'%',25,color=color,weight=700)
-    b+=text(670,588,'Recall@5 (%)',25,anchor='middle')
-    b+=text(56,634,'Tải toàn danh mục: Recall 100%, chi phí thấp hơn L30 trong bài toán này.',27,color=ORANGE,weight=700)
+    b+=text(670,579,'Recall@5 (%)',25,anchor='middle')
+    b+=text(56,613,f"JSON tổng: toàn danh mục {pct(d['bulk_total_JSON_bytes']/1e6)} MB; L30 {pct(d['l30_total_JSON_bytes']/1e6)} MB.",25)
+    b+=text(56,646,'Tải toàn danh mục: Recall 100%, chi phí thấp hơn L30 trong bài toán này.',25,color=ORANGE,weight=700)
     return b
 
 
@@ -348,12 +356,54 @@ def main():
     protection=json.loads((HERE/'sample_walkthrough.json').read_text())
     utility=json.loads((HERE/'utility_sample.json').read_text())
     endpoint=json.loads((HERE/'endpoint_sample.json').read_text())
-    helpers=dict(text=text,line=line,dot=dot,arrow=arrow,box=box,ink=INK,teal=TEAL,blue=BLUE,gray=GRAY,orange=ORANGE)
-    functions=[cover,architecture,private_read,belief_and_q,local_service,
-               lambda:sample_visuals.protection_slide(protection,**helpers),
-               lambda:sample_visuals.utility_slide(utility,protection,**helpers),
-               lambda:sample_visuals.endpoint_slide(endpoint,**helpers),scenario_scope]
-    functions += [lambda:fresh_chart(content['fresh']),lambda:matched_baseline(content['matched_baseline']),lambda:sensor_chart(content['sensor']),lambda:dynamic_chart(content['dynamic']),lambda:endpoint_chart(content['endpoint'])]
+    endpoint_focus=json.loads((HERE/'endpoint_focus.json').read_text())
+    benchmarks=json.loads((HERE/'benchmark_tables.json').read_text())
+    multistep=json.loads((HERE/'multistep_sample.json').read_text())
+    helpers=dict(text=text,line=line,dot=dot,arrow=arrow,box=box,math_text=math_text,
+                 ink=INK,teal=TEAL,blue=BLUE,gray=GRAY,orange=ORANGE)
+    utility_helpers={key:value for key,value in helpers.items() if key!='math_text'}
+    views={
+        'compact_cover':lambda:compact_policy_visuals.cover(content,**helpers),
+        'compact_endpoint_policy':lambda:compact_policy_visuals.endpoint_policy(endpoint_focus,**helpers),
+        'compact_location_policy':lambda:compact_policy_visuals.location_policy(content,**helpers),
+        'compact_content_policy':lambda:compact_policy_visuals.content_policy(content,**helpers),
+        'compact_protocol':lambda:compact_policy_visuals.protocol(content,**helpers),
+        'compact_location_results':lambda:compact_benchmark_visuals.location_results(benchmarks,**helpers),
+        'compact_linkage_results':lambda:compact_benchmark_visuals.linkage_companion_results(benchmarks,**helpers),
+        'compact_future_results':lambda:compact_benchmark_visuals.future_results(benchmarks,**helpers),
+        'compact_delay_results':lambda:compact_benchmark_visuals.delay_results(endpoint_focus,**helpers),
+        'compact_endpoint_results':lambda:compact_benchmark_visuals.endpoint_results(benchmarks,**helpers),
+        'compact_utility_results':lambda:compact_benchmark_visuals.utility_results(benchmarks,**helpers),
+        'compact_sensitivity_results':lambda:compact_benchmark_visuals.sensitivity_results(content,**helpers),
+        'compact_architecture':lambda:compact_sample_visuals.architecture(content,**helpers),
+        'compact_changes':lambda:compact_sample_visuals.changes(content,**helpers),
+        'compact_timeline':lambda:compact_sample_visuals.timeline(multistep,**helpers),
+        'compact_maps':lambda:compact_sample_visuals.maps(multistep,**helpers),
+        'compact_reuse':lambda:compact_sample_visuals.reuse(multistep,**helpers),
+        'compact_utility_sample':lambda:compact_sample_visuals.utility(utility,protection,**helpers),
+        'cover':cover,'architecture':architecture,
+        'endpoint_mechanisms':lambda:focus_visuals.endpoint_mechanisms(**helpers),
+        'delay_timeline':lambda:endpoint_focus_visuals.historical_delay_timeline(endpoint_focus,**helpers),
+        'location_mechanisms':lambda:focus_visuals.location_mechanisms(**helpers),
+        'linkage_future':lambda:focus_visuals.linkage_future(**helpers),
+        'purpose_mechanism':lambda:focus_visuals.purpose_mechanism(**helpers),
+        'companion_mechanism':lambda:focus_visuals.companion_mechanism(**helpers),
+        'evaluation_protocol':lambda:focus_visuals.evaluation_protocol(**helpers),
+        'historical_location_results':lambda:benchmark_focus_visuals.historical_location_results(benchmarks,**helpers),
+        'linkage_companion_results':lambda:benchmark_focus_visuals.linkage_companion_results(benchmarks,**helpers),
+        'matched_baseline':lambda:matched_baseline(content['matched_baseline']),
+        'delay_benchmark':lambda:endpoint_focus_visuals.historical_delay_benchmark(endpoint_focus,**helpers),
+        'endpoint_final_results':lambda:benchmark_focus_visuals.endpoint_final_results(benchmarks,**helpers),
+        'fresh_utility_results':lambda:benchmark_focus_visuals.fresh_utility_results(benchmarks,**helpers),
+        'sensor_chart':lambda:sensor_chart(content['sensor']),
+        'dynamic_chart':lambda:dynamic_chart(content['dynamic']),
+        'changes_table':lambda:focus_visuals.changes_table(**helpers),
+        'multistep_timeline':lambda:multistep_focus_visuals.moving_timeline(multistep,**helpers),
+        'multistep_maps':lambda:multistep_focus_visuals.moving_maps(multistep,**helpers),
+        'multistep_reuse':lambda:multistep_focus_visuals.actual_noisy_reuse(multistep,**helpers),
+        'utility_sample':lambda:sample_visuals.utility_slide(utility,protection,**utility_helpers),
+    }
+    functions=[views[item['view']] for item in content['slides']]
     rendered=[];notes=[]
     for i,(item,func) in enumerate(zip(content['slides'],functions),1):
         svg=base(item['title'],func(),item['footer'],i,len(functions)).replace('\u2013','-').replace('\u2014','-')
@@ -373,7 +423,8 @@ def main():
             p=ROOT/name
             if not p.is_file():raise FileNotFoundError(name)
             sources[name]=hashlib.sha256(p.read_bytes()).hexdigest()
-    for data, key in [(protection,'source_pins_sha256'),(utility,'source_sha256'),(endpoint,'source_sha256')]:
+    for data, key in [(protection,'source_pins_sha256'),(utility,'source_sha256'),(endpoint,'source_sha256'),
+                      (endpoint_focus,'source_sha256'),(benchmarks,'source_sha256'),(multistep,'source_pins_sha256')]:
         for name,expected in data[key].items():
             p=ROOT/name
             actual=hashlib.sha256(p.read_bytes()).hexdigest()
