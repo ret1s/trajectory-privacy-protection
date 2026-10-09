@@ -22,6 +22,8 @@ Thứ tự nội dung:
 
 Cap tám phiên bổ sung giới hạn tích lũy thông tin tọa độ cho Geo-I; nó không tự ẩn account/IP hoặc bảo đảm không liên kết danh tính. Tám là cấu hình hữu hạn, không là tám lần GPS hoặc ngân sách vô hạn cả đời. S8 được lược khỏi trọng tâm buổi nói, vẫn giữ trong định nghĩa scenario và giới hạn nghiên cứu.
 
+**Luồng S7:** nhu cầu thật giữ local; gửi 5 Q × L30 mỗi loại; nhận phản hồi tại thiết bị; gộp và bỏ trùng ID; dùng GPS cùng nhu cầu để lọc và sắp xếp danh sách phù hợp. Tối đa 150 bản ghi mỗi loại trước bỏ trùng, không mặc định 150 POI duy nhất. Phần giải thích cơ chế không yêu cầu top-5. Triển khai và benchmark hiện tại vẫn dùng k = 5 và Recall@5; hình minh họa chỉ trích phần đầu kết quả đã lưu. Không bỏ giới hạn trong mã hoặc thay kết quả đánh giá.
+
 **So sánh với báo cáo trước:** Recall 95,44% của GeoI-Slack L10 ở báo cáo 26/09–03/10 là số lịch sử cho tìm gần nhất, cache và cách gộp năm scenario. Recall macro 92,69% hiện tại dùng bốn purpose, cap liên phiên và cohort khác; không diễn giải chênh hai số là tăng/giảm. Phép so có đối chứng giữ cùng Q/Z/cap/lịch, L20 89,71% → L30 92,69%, kèm CI và byte. S4–S6 nay có bằng chứng bổ sung nhưng chưa có xác nhận privacy mới cho cùng L30.
 
 **Phần delay cần đọc đúng phiên bản.** Bản trước có warmup 60 s, chờ công bố 60 s và hủy Q còn trong hàng đợi khi đóng phiên. Endpoint20 đã đo sau đó có warmup/delay bằng 0, tăng nhiễu trên mọi lần đọc được phép. Mô hình Epoch8/L30 hiện tại cũng gửi ngay. Bộ slide đối chiếu bằng chứng đã có; không thêm hoặc đo lại một biến thể delay cho mô hình hiện tại.

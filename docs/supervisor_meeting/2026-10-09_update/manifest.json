@@ -1,6 +1,6 @@
 {
-  "schema": "supervisor-slide-release-v10",
-  "prepared_date": "2026-10-09",
+  "schema": "supervisor-slide-release-v11",
+  "prepared_date": "2026-10-10",
   "meeting_date": null,
   "slide_count": 8,
   "sample_slides": [
@@ -13,12 +13,12 @@
   "samples": "SUMO synthetic/evaluator illustration; frozen Q/Z, GPS and service outputs; no new sampler or attack/model evaluation",
   "files": {
     "README.md": {
-      "sha256": "30bbcc361faff421360264b34d59c0bfbc4b6665627e025b8e48c76b2c34b43f",
-      "bytes": 6394
+      "sha256": "828b78da90981d2ba4b298651867f17f8ed98d5a22e774bb4da3841cf8911e64",
+      "bytes": 6982
     },
     "agenda_visuals.py": {
-      "sha256": "76872dbb12a6a14410d0143f2f13b426e4a55a738620be6926b1512ca8bbd909",
-      "bytes": 13666
+      "sha256": "4ee4c11507cf1eb5e708b5dbd2f4a02f219cd82bb6a2ffeaf789b2f5f84ac833",
+      "bytes": 13771
     },
     "algorithm_scope.json": {
       "sha256": "27d3836e535abd4549efec81b6fd7e5f320fa7fc0ab857d94aa7aada7e41c05d",
@@ -113,8 +113,8 @@
       "bytes": 5492872
     },
     "presentation_script.md": {
-      "sha256": "cbe888d02718ac6857bf7b8a16cc13b3a7b3b37f8dc10cd551fb181ac7bb0807",
-      "bytes": 17130
+      "sha256": "9477ac5adccb537fb533cb17eeda93e769ec8224786cd1ba2cb925bd049b2071",
+      "bytes": 18194
     },
     "sample_visuals.py": {
       "sha256": "bec0a0a6568632e471bb162aee0b23affab893713401708a1fb7a6b10ad96210",
@@ -125,28 +125,28 @@
       "bytes": 1579321
     },
     "slide_content.json": {
-      "sha256": "6ffc93ddd7d572fed82e428dd49dd42dbc49410091f454ffdfd9bbbcfdb6b083",
-      "bytes": 29934
+      "sha256": "9a3864c9b83c2c7981d4fa4c3f63879d7085a73304dce05c28e2c139ecb3e026",
+      "bytes": 31263
     },
     "slides.html": {
-      "sha256": "2bb7133a9adfca559ab607eb7ac29da37d8a3d602e29272a2a1f671a78a2c1e6",
-      "bytes": 2351639
+      "sha256": "6cfcca433f49e54a6a91b403d93e5e4d0a56529ea411cf669366aac32b7e3945",
+      "bytes": 2351988
     },
     "slides.pdf": {
-      "sha256": "44948842ec3dcf1042521475fa1f5b4bb0e9f2f12e82481678701f53707ad676",
-      "bytes": 1139373
+      "sha256": "18218b135324150e8df2eaab846aa94aa8ae3ac3e4cc9b2978e26d1f28a83538",
+      "bytes": 1143677
     },
     "source_pins.json": {
       "sha256": "8f67cdeae9547911b2e2e97495c5a10e54ca44be359bc5754d9e7ea2d3c1bb04",
       "bytes": 23377
     },
     "speaker_notes.txt": {
-      "sha256": "d8ff41636d7ef67b5ccaf7ab61d35862fe5f715e4b72dc1378478ef94a0b7971",
-      "bytes": 20660
+      "sha256": "9b962ce79cfd6ee0413227dc0f02a6cb69593e22699192d50de5f79d7cb4efb7",
+      "bytes": 21724
     },
     "summary_visuals.py": {
-      "sha256": "c327caf4f0485bd868446f80b23dbe4eed7c3280ef9e6c1a922e9e9856e89240",
-      "bytes": 15711
+      "sha256": "d17c92c67a3f7877901e70401de22a9bf8d6e8aa3fcce109b7d6e4c62e49461a",
+      "bytes": 15784
     },
     "utility_sample.json": {
       "sha256": "b9c583b577c5471e352eef266e241f53ad4cc9bbc9e32e71bb42218f296aaf1d",
@@ -211,12 +211,12 @@
     "all8_pages_visual_review": "PASS",
     "script_titles_and_note_sync": "8/8 matched",
     "main_script_word_counts": [
-      140,
-      140,
+      149,
+      157,
       142,
       139,
-      130,
-      137,
+      140,
+      146,
       133,
       141
     ],
@@ -231,7 +231,21 @@
     "sample_cost_and_POI_answers_verified": true,
     "keyboard_navigation": "PASS",
     "retrieval_hypothesis": "Not adopted; verified v2 retained in slide2 Q&A; same-cohort limitation explicit",
-    "comparison_protocols": "Historical L10 context distinguished from paired L20/L30 utility and separate privacy banks"
+    "comparison_protocols": "Historical L10 context distinguished from paired L20/L30 utility and separate privacy banks",
+    "query_content_explanation": "PASS: local private purpose, fixed5xL30/category, receive before local deduplication, filter/sort list; k5 reserved for implementation/benchmark",
+    "changed_pages_visual_review": [
+      1,
+      2,
+      5,
+      6,
+      7
+    ],
+    "other_pages_pixel_identical": [
+      3,
+      4,
+      8
+    ],
+    "sample_list_excerpt": "First saved k5 answers used as ranking excerpt; no full output list fabricated or rescored"
   },
   "layout": {
     "style": "compact scientific document in slide format",
@@ -321,5 +335,6 @@
   ],
   "architecture_comparison": "Slide5 aligns historical26Sep–03Oct and currentEpoch8/L30; framed device, external server, private output and changed layers",
   "S8_presentation_scope": "Optional to main talk; retained as explicit limitation, no dedicated slide or model deletion",
-  "historical_report_comparison": "Old L10 nearest Recall 95.44% is contextual, not directly paired with current four-purpose L30 macro 92.69%; controlled L20/L30 contrast shown"
+  "historical_report_comparison": "Old L10 nearest Recall 95.44% is contextual, not directly paired with current four-purpose L30 macro 92.69%; controlled L20/L30 contrast shown",
+  "query_content_explanation": "Private user request remains local; five fixed L30 queries return at most150records/category; receive, merge/deduplicate, filter and sort locally. Top5 remains a deployment/evaluation setting, not the explanation of S7."
 }

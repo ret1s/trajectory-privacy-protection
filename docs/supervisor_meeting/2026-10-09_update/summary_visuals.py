@@ -43,7 +43,7 @@ def architecture_comparison(content, **h):
             '1. GPS: cap 8 phiên + lịch + Geo-I/REM\nCepoch = 0,23/m; Cphiên = 0,02875/m',
             '2. Ước lượng b → chọn 5 Q theo đường\nLịch sử bảo vệ; phủ POI / tiến độ / slack',
             '3. Chỉ gửi Q; yêu cầu mọi loại POI\nL30 / loại / Q; gửi ngay',
-            '4. Hợp / bỏ trùng POI → top-5 local\n4 mục đích theo GPS + nhu cầu riêng ψ',
+            '4. Gộp / bỏ trùng → lọc và sắp xếp local\nTheo GPS + nhu cầu riêng ψ',
         ]),
     ]
     for index,(x,title,labels) in enumerate(versions):
@@ -63,7 +63,8 @@ def architecture_comparison(content, **h):
         b+=h['box'](x+18,554,252,59,'MÁY CHỦ (ngoài mô hình)\nTrả top-L POI / loại / Q',stroke=h['blue'],size=19)
         b+=h['arrow']([(x+270,583),(x+278,583),(x+278,537),(x+544,537),(x+544,476),(x+536,476)],h['blue'])
         b+=h['arrow']([(x+405,506),(x+405,554)],h['teal'])
-        b+=h['box'](x+302,554,234,59,'ĐẦU RA RIÊNG\n≤5 POI cho người dùng',stroke=h['teal'],size=20)
+        output='≤5 POI cho người dùng' if index==0 else 'Danh sách POI đã sắp xếp'
+        b+=h['box'](x+302,554,234,59,'ĐẦU RA RIÊNG\n'+output,stroke=h['teal'],size=20)
     b+=t(46,638,'Tô xanh ở bản hiện tại: phần thay đổi. Giữ Geo-I/REM, ước lượng b và bộ chọn Q theo mạng đường.',20,color=h['teal'])
     b+=t(46,659,'GPS cho Geo-I đọc sau kiểm tra; Z và nhu cầu ψ giữ tại thiết bị. Endpoint20 là nhánh L20 riêng (slide 8).',18,color=h['gray'])
     return b

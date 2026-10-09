@@ -15,11 +15,11 @@ def query_content(content, **h):
     b+=t(64,195,'THIẾT BỊ: PHẦN RIÊNG',20,color=h['teal'],weight=700)
     b+=h['box'](64,221,474,57,'Lịch sử đã bảo vệ → bộ chọn Q',stroke=h['blue'],size=22)
     b+=t(64,310,['GPS local + nhu cầu ψ:','loại POI, tiêu chí, bán kính, đích'],22,lh=1.3)
-    b+=h['box'](64,364,474,68,'Ứng viên chung → lọc / xếp hạng\nGần · Nhanh · Bán kính · Đi vòng',stroke=h['teal'],size=22)
+    b+=h['box'](64,364,474,68,'Gộp POI, bỏ trùng ID\nLọc và sắp xếp theo GPS + ψ',stroke=h['teal'],size=22)
     b+=h['arrow']([(305,342),(305,364)],h['teal'])
     b+=h['box'](680,166,554,282,stroke=h['blue'])
     b+=t(698,195,'MÁY CHỦ: YÊU CẦU CHUNG',20,color=h['blue'],weight=700)
-    b+=t(698,240,['5 tọa độ Q từ lịch sử đã bảo vệ','Mọi loại POI; độ sâu cố định L30','Không có ψ, GPS thật hoặc Z'],23,lh=1.5)
+    b+=t(698,240,['5 Q × L30, yêu cầu mọi loại POI','≤150 bản ghi / loại, trước bỏ trùng','Không có ψ, GPS thật hoặc Z'],23,lh=1.5)
     b+=h['arrow']([(538,249),(680,249)],h['blue'])
     b+=h['arrow']([(680,398),(538,398)],h['blue'])
     b+=t(618,229,'Q',20,color=h['blue'],anchor='middle')
@@ -39,17 +39,19 @@ def candidates(data, **h):
     b+=h['arrow']([(392,203),(433,203)],h['teal'])
     b+=h['box'](439,164,365,78,'Gộp phản hồi, bỏ trùng ID\nTập ứng viên A trên thiết bị',stroke=h['teal'],size=22)
     b+=h['arrow']([(804,203),(845,203)],h['teal'])
-    b+=h['box'](851,164,383,78,'GPS local + ψ → tối đa 5 POI\nKhông truy vấn thêm theo ψ',stroke=h['teal'],size=22)
+    b+=h['box'](851,164,383,78,'GPS + ψ → lọc và sắp xếp\nDanh sách phù hợp trên thiết bị',stroke=h['teal'],size=22)
     rows=[['Gần nhất','Khoảng cách theo đường'],['Nhanh nhất','Thời gian đường thông thoáng'],
           ['Trong bán kính','Khoảng cách đường ≤ r'],['Ít đi vòng','Độ dài đi vòng qua POI tới đích']]
     b+=tab(['Nhu cầu riêng','Tiêu chí local'],rows,[250,485],h,y=306,row_h=41)
-    b+=t(831,292,'Cùng Q ở t = 60 s',23,color=h['blue'],weight=700)
+    b+=t(831,292,'t = 60 s (trích danh sách)',23,color=h['blue'],weight=700)
     b+=t(831,330,f"{data['merged']['raw_record_count']} bản ghi → {data['merged']['unique_count']} POI duy nhất",21)
-    b+=t(831,377,'Gần nhất: '+', '.join(r['display_alias'] for r in answers['nearest_distance']),19,color=h['blue'])
-    b+=t(831,424,'Bán kính 1 km: '+answers['within_radius'][0]['display_alias'],21,color=h['teal'])
-    b+=t(831,471,'Đi vòng: '+', '.join(r['display_alias'] for r in answers['minimum_detour']),19)
+    b+=t(831,369,'Đầu danh sách gần nhất:',20,color=h['blue'])
+    b+=t(831,395,', '.join(r['display_alias'] for r in answers['nearest_distance'])+', …',19,color=h['blue'])
+    b+=t(831,435,'Bán kính 1 km: '+answers['within_radius'][0]['display_alias'],21,color=h['teal'])
+    b+=t(831,474,'Đầu danh sách ít đi vòng:',20)
+    b+=t(831,500,', '.join(r['display_alias'] for r in answers['minimum_detour'])+', …',19)
     b+=t(46,552,'L30 tăng độ phủ khi Q đã bị làm nhiễu; không khẳng định mọi mục đích luôn chọn POI gần nhất.',21,weight=700)
-    b+=t(46,594,'Top-5 là tốt nhất trong A. Đủ đáp án chuẩn chỉ khi A chứa các POI cần cho nhu cầu đó.',21)
+    b+=t(46,594,'Lọc và sắp xếp trong A theo nhu cầu local. Đủ đáp án chỉ khi A chứa các POI cần thiết.',21)
     b+=t(46,637,'Đánh đổi: byte phản hồi cao hơn. Fastest chưa có ùn tắc; detour cần đích riêng đã biết local.',20,color=h['gray'])
     return b
 
@@ -110,7 +112,7 @@ def full_sample(data, utility, **h):
     result={p:r[utility['illustration_category']]['answer'] for p,r in utility['local_results'].items()}
     near=', '.join(p['display_alias'] for p in result['nearest_distance'])
     radius=', '.join(p['display_alias'] for p in result['within_radius'])
-    b+=t(46,551,f'Đổi ψ trên cùng phản hồi: gần nhất [{near}]; bán kính 1 km [{radius}].',20)
+    b+=t(46,551,f'Trích danh sách đã sắp xếp: gần nhất [{near}, …]; bán kính 1 km [{radius}].',20)
     reuse=data['test_reuse_inset']['events'][-1]['protection']
     b+=t(46,589,f"Nhánh giữ Z: phiên 6 tại 60 s đọc rồi giữ, chi {reuse['cost_units']}u. Khác mốc 20 s không đọc / chi 0u.",20)
     b+=t(46,626,'600 s: 21/23 gồm mọi lần đọc giữa các mốc; chưa hết cap. Gửi ngay; Z và ψ không ra mạng.',20,color=h['gray'])
