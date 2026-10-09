@@ -1,0 +1,292 @@
+{
+  "schema": "fixed-multipurpose-retrieval-hypothesis-v1",
+  "created_utc": "2026-10-09T16:31:25.472624+00:00",
+  "source_output": "artifacts/benchmarks/qplanner_depth_base_q_generalization_20261006_v1",
+  "dataset_path": "artifacts/datasets/qplanner_fresh_native_20261006_v2/dataset.json.gz",
+  "dataset_sha256": "105083bc592ca63d5cf18951465a274cc74bab96edc07b060fab57e3a7f55ed8",
+  "source_protocol_sha256": "1dc35d7b53f670564c03d3f91c997cf0af99187b77dce215b35cd0abbb976fbc",
+  "source_generation_sha256": "0feb2863aa2ec53809fbe31dfbfa6767efe98002021a92e664b01d439f5deca1",
+  "source_sha256": {
+    "benchmark/anchor_belief.py": "9a4d99261ce43c3ebc6d0ce118e974ea3778ca82d0a02ac36b428e669d43dc61",
+    "benchmark/contracts.py": "57934c4ddfcec78429d213ec65793593ec58ed0e79ef06241f587b07fe854fc9",
+    "benchmark/engines/anotherme.py": "a3cbcc26110b2f5a53a9e11830ad07f22854589e21b2762e06a7a3c4f2b13041",
+    "benchmark/engines/belief_lane.py": "adf589497a91860f5a77c7461553bfe66f62fbaebb887cf9c4c959a9906165ec",
+    "benchmark/engines/budgeted.py": "c1c6b6b1dda88105ac15d36a7e32eb9fcc3af2afd070c99c11e10fbb11d903a1",
+    "benchmark/engines/contextual_lane.py": "9220e7615cf8cf323a261fcf6ddae7da2017b98787fb76bfd1c14e52b92054b1",
+    "benchmark/engines/dls.py": "41cadc9ab2476515235aa13054a76bfaa294ffcbefbf2240c578afe8c1fa492e",
+    "benchmark/engines/fair_cover.py": "c739b71374a6682f6468588720660152bf73ad11c825237d90ed9a213cb8d8a6",
+    "benchmark/engines/filtered_cover.py": "59633ff32d36de8be5d20e88d62fa579d6c7bc24f9f081904326140ddc00ee7c",
+    "benchmark/engines/lane_budgeted.py": "b4c9ec1b42163e6a0504089acfad15970f236821327813b90be682967ae55695",
+    "benchmark/engines/matched_filter.py": "147c298c6f128c680ce899465a6dc2f980bb8f8456d38c2cc98726f47cd7e5e8",
+    "benchmark/engines/origin_guard.py": "d311ef1142b641376c9aceea543419254620cf49387feea85fda03c9aea59ccb",
+    "benchmark/engines/paced_guard.py": "740b6b8eabce33a8b50bca55f33b22b868f5f42211f86600924d4d8d43b6ecf0",
+    "benchmark/engines/paced_slack.py": "60d96f019496e1b209b84090b787e4b484aa38c85acfda307fc71ee05dc7f2cf",
+    "benchmark/engines/planar_paced.py": "3df0f93752f085d2ac58ec8324c4f0d977b0793c2c45db76950bd83ac5a780e7",
+    "benchmark/engines/progress_cover.py": "9e1121793209e86c825dfc785a6b6859219443fd0ec86557eebdf5035a3cb4d0",
+    "benchmark/engines/proposed.py": "8e64feb42b03017526992394f310f9efc9a9132324f873fb4d38ee1b6c9e2a74",
+    "benchmark/engines/public_service_planner.py": "02d69ce8e75f70dff94426e6c303c5617b22c232a2bd89c4fca1afcfc61b375c",
+    "benchmark/engines/public_service_planner_v2.py": "04208d59bd50e64127b3fd5370df7f82e8a55bd226256e123870eea315061efc",
+    "benchmark/engines/quotient_cover.py": "93db80c1acce17b50e6dcdf4c711189604b003735b41a087c4d8d9ccaada8ed2",
+    "benchmark/engines/semantic_correlation.py": "bf5406e3b44ab78d86135cc4cff89f747fc30941ba6c614d4ed5609bbd9f1ea4",
+    "benchmark/engines/service_cover.py": "56894618d61135c016f11609ee379b7f0867de46ddfc0699d7f174fd49ba6e48",
+    "benchmark/engines/slack_progress.py": "655e2a730323d1e365fef4ac8a14cbd67e7049b27816cf41fcae850651a97963",
+    "benchmark/engines/transprotect.py": "bc97f2db31cf19fe54444f5efbf124c10e8a2d7607df56617eeab5f8e776a784",
+    "benchmark/methods/__init__.py": "35f69327c37579a7fd774f1043f1b998039fe5af4f3e210bbb9b357d77e86986",
+    "benchmark/methods/anotherme.py": "68c73b559c8e4123c374539c5a13d74b050679ac2b294b0dd09d23cba1dbeef3",
+    "benchmark/methods/proposed.py": "ae4fe4c823dab3a5397cc73f4be3f17f498aa50d644fd094a54c7b8b3b96d692",
+    "benchmark/methods/semantic_correlation.py": "31dc6b9f1dc0f6bdea14c1c346500da6b25a07081bca029f7b4719c18c70d9ae",
+    "benchmark/methods/transprotect.py": "b5a12d0cdff67a4ef209330846378d0a0bd9cd1fa7fbfe130905ec1a1a447e2d",
+    "benchmark/paper_comparators.py": "698d0dd885fd8d17fb45833cf7205cf26dd3e796e1c6a16d1adffb5fb7d3ef89",
+    "benchmark/planar_anchor.py": "65e2fd524ad2bae0af364c4246301e2aeb9a3611d28e5e637a5b1e71b6e1f8a8",
+    "benchmark/public_poi_context.py": "98aa1301ce921630dbb77ef1bb7a19c6b70241e1689cccaa132192019b88ae86",
+    "benchmark/public_service_profiles.py": "2bdc6aff79317230fe3c2d1baa530c7beb9242f35fb756e635736c35f705b8b9",
+    "benchmark/public_service_profiles_v2.py": "8a5a0a0afe38b317a4601165d5f2413930ab28a4889aae44bd0539c931d10af0",
+    "benchmark/query_purpose.py": "110ce445bb1a89283728b263c1994eda2cf601b3c6ae1eab49e31b2b6bad4443",
+    "benchmark/response_aware_belief.py": "2f75b486472430260fa5a112cf5f49cb2bfd18d67da378d8c62954c72a43f070",
+    "benchmark/static_poi_cache.py": "1ea7f97bbc11590ad548fc30192767f27a8605489a77b60bfeecbc709daadfa0",
+    "benchmark/versioned_static_poi_cache.py": "18ca007471ed827f46c9f8942c6e15b6933e45f3d73f53e56121e0deb891417a",
+    "core/demo_protocol.py": "7f702875178f94388298bfd02d4d073e6a8b13120508713dd728606c211e51ae",
+    "core/mechanisms.py": "2c950335809507f0551eeeea62089260e74fa94624b3a84eb64b4666ca0cadfa",
+    "core/road_network.py": "7e69c17f17eee24104bd9efc0b3b74b4b502a9c131a90cc99736da390c91108d",
+    "core/session_budget.py": "7bbb7ed8fd16252d0ed6280375c212e67c9216128d65e2a67f9e87e2e0039171",
+    "data/lane_states.py": "72ec66d395686a3d5596fdd4a59c757da1bc8e13f3899903f6a427b2bde14664",
+    "data/scenario_suite/mobility.py": "0b853cb408343ccb7c561264310bc9a684adec54e26b4cb857229aefae4fe46d",
+    "data/sumo_demo.py": "28dbca9b080687ac443e658e78e9aecce45404b788c035b0435cb89196b0cb4e",
+    "evaluation/candidate_future_attack.py": "e0c322b98a39bb98ad65332c384a90a52554dff2b459749be6cd3a7721a1e339",
+    "evaluation/endpoint_noise_attacks.py": "b7cc3de94a3b8d163024fbd3b9d6ca91e131e7f3d2d7fd470fa55769345f23d1",
+    "evaluation/identity_future.py": "bb5f3db42a84c8bec563f8deb80f352ce63f6b364568c9553961c494aaf930f0",
+    "evaluation/lane_travel.py": "111e1bc109dd53e29922d44bfbc16bded8f1409e467e43faba3723026dc45bde",
+    "evaluation/live_comparison_attacks.py": "811e6fad6342e3e5afeb5a3cc73341d6555c607f7d2eecc4ac6fe750a5caa484",
+    "evaluation/live_comparison_endpoint_attacks.py": "0914d6d93a4007ab2c95ad3c56fded62b4963850c5f1d351082b936de275326a",
+    "evaluation/live_poi.py": "b6bf32695d1444809c1e5147868a16ee93a1a7b6fe65104a0d57e6cc369dcad2",
+    "evaluation/ordered_endpoint_attacks.py": "d5dd9e2a742d98d4eff25d87e389dca284a4bd75c6a69476f170a0b36afdf54b",
+    "evaluation/robust_endpoint_selection.py": "065272ca40a98822093acb978ebb7e43c095eb248284286a089b1ba37b2608cd",
+    "evaluation/scenario_metrics.py": "b212d35ccb4d633e23f24c5d3d80a48a775361117952e2cee820d7b28fdb8e02",
+    "experiments/build_future_sumo_cohort.py": "4248a0be23ef4c2f36c49791b8d4d154b9f7aeb70e06abdee9069824f35fff54",
+    "experiments/future_sumo_eval.py": "8705492563025bb6c4207c3b644d7db9f5366f466b7963bee4e824b2c6395e7c",
+    "experiments/jisa_native_anchor_ablation_20261006.py": "a4e87fc09c39037ba0f2496f604f4be8628f75ff56780ae386ad01f667706e68",
+    "experiments/native_future_retrieval_depth.py": "241a9cc508cbb2f31b3069808049270619690005f0f3dc1c5187c921e765d33b",
+    "experiments/native_static_cache_20261006.py": "d536c93d40c6e515547fa3ca0063575fd01fa5b7c90b4ae10bc121f036889a6d",
+    "experiments/qplanner_study_20261006_v2.py": "a3e177d4c3c704ce94878f8156b19f0e6a950a5b8a75ec634b9bfbdf28389102",
+    "requirements-sumo.txt": "31a546839e3151841fd0600f303398441f32d63c5beec511e9aa158f534708a1",
+    "requirements.txt": "6129a4e83491a088fb44b319039133577d438479a6151cb8f682818d61875654",
+    "benchmark/multi_purpose_retrieval.py": "e5fbd3eaef610949b04c3889b74e0ca5136384091b930355ec0767e581766502",
+    "experiments/multi_purpose_retrieval_20261009.py": "459cc7010ff3e86508a6fcd78d71d6fb57ceb59b5cd7c84661f2b53a968202f3",
+    "tests/test_multi_purpose_retrieval.py": "79482b3361226f06abd8558a1061b6481d4247b8ef3749f6bd2d129739a150a3"
+  },
+  "source_family_files_sha256": {
+    "freshqp-025--draw1.json.gz": "b26013391c9695fc70ca1eb63d29e521509467105d615b953f21f482dda96840",
+    "freshqp-026--draw1.json.gz": "480a7a395db27c5c45ac9c672909da355f758e15c60812943bce61e31d4fa676",
+    "freshqp-027--draw1.json.gz": "f8faebb2db229ed2cba381a9c1157dc2ddc88f9a41e2806e0cbb4f7d5d2226fc",
+    "freshqp-028--draw1.json.gz": "02371064d1909b999e0ed127063abbe405d5fa909e9a741db4fd50788865efa6",
+    "freshqp-029--draw1.json.gz": "8f29390af81dbaf6ce2456300d482c631de50b6afc2e7b9452154be5cbcb9443",
+    "freshqp-030--draw1.json.gz": "284d0d397b7fe3d277796298fcc9aea1f13b47c25395ff0166059da5b3105c9e",
+    "freshqp-031--draw1.json.gz": "894632b3cb982c698af4d871e17dd2969f2c7979da6ae4ab3efe2162203e4bf3",
+    "freshqp-032--draw1.json.gz": "888725ee534a71f14818036a305457be849978bec93b6b73df9f60f3757bc860",
+    "freshqp-033--draw1.json.gz": "b1c8910ffb4f3579cbada53c8765b1456511e824631fa1fecc4cd38805d13ba7",
+    "freshqp-034--draw1.json.gz": "138be9bbab14a39d24ae61410e8b1f7b654b504217d493a910cb167587745795",
+    "freshqp-035--draw1.json.gz": "c735abd3db1ae3c6e382f1d701c5b11a56dae1c16a176143ff8ad75d5f279a95",
+    "freshqp-036--draw1.json.gz": "4379bd08bdf571bdbba7436fbd792bd49dd2e880e8fa3b00766dbf188ddf21be",
+    "freshqp-001--draw1.json.gz": "88eb5b1d9c8fc6694cbed072cd9af2fc049837dddb1f58a990624fab4cc6f4b1",
+    "freshqp-002--draw1.json.gz": "335033892cec854906d7e7c31ac6544563a4b955fbba7b8b2ea22fe6bdd14eaa",
+    "freshqp-003--draw1.json.gz": "94ffae23d16efcfb379b72b358335b0a46416a097d113e1069519ba1a36b6a0e",
+    "freshqp-004--draw1.json.gz": "3800264cd5cfee7a2a8d4a4c58d447d929202bff750c4491c3b394d304b2a5db",
+    "freshqp-005--draw1.json.gz": "81e378cdc7bde63815ff69ba2d05ba39bef530ce343e26b1623c9ae6dd809822",
+    "freshqp-006--draw1.json.gz": "9ad2dd79eca0e05cc1c0c99ecf60b82bb47d7fb9f5f6f43d421ecea695563fb7",
+    "freshqp-007--draw1.json.gz": "4b54cab0e373b230b6243054e3d84e83eef20397de0e00b6c88d997449d60185",
+    "freshqp-008--draw1.json.gz": "aa03b4e2810433506173ed1c05019576cdf18c260d74641d4441b1806f6f5679",
+    "freshqp-009--draw1.json.gz": "c160d54ec798b22f7a95dc441783074d378bf66eadc7da4c347d21b02723799d",
+    "freshqp-010--draw1.json.gz": "eabdbda228be05a980103167e113f6b5220823f25e4a8840777fa748d9329a49",
+    "freshqp-011--draw1.json.gz": "37c9796abcb0d8ac33532f3c4838fa8b44f6b665dafb26c0e936abfbd61606bf",
+    "freshqp-012--draw1.json.gz": "6dd9d9f1965a67e682ecf0c1b7155ed6540f6d7b3b433343aa3c3f139087c06e",
+    "freshqp-013--draw1.json.gz": "ab7577955120cea9cdb999ab7802718bcefb042658778a57732a69b7ea4d9705",
+    "freshqp-014--draw1.json.gz": "fb7cab040ebf255d470956f228ec92ce44e412de68051e8feda95c174cf0846d",
+    "freshqp-015--draw1.json.gz": "1f8bf0cd140b2d2ba69d9fd7dbeddb0beacecd94723220e14b96f3c419a3a981",
+    "freshqp-016--draw1.json.gz": "1553b60c40158566f90b8c6c4f56e2626cb8ee4d50dbd4135c1b33f18b7dfc91",
+    "freshqp-017--draw1.json.gz": "d86559a8f0f2744d3b17052b8bc07eede999c00b773024584fb93827e5ef786b",
+    "freshqp-018--draw1.json.gz": "c03b3d37475320f32df90c8a56ca59f65a2e2d19e83247aeb7471016f78ec64c",
+    "freshqp-019--draw1.json.gz": "5028ec18ecaaaecb2894fd075aae17f0067b36258787a9cf4a92be64c89acf63",
+    "freshqp-020--draw1.json.gz": "9434d4019c934fd76e429144c2198784fefbc1195548d54e40fcb571c79f3f0c",
+    "freshqp-021--draw1.json.gz": "ebbd79000e1f33da187ef2afe60aa25605156fda93a76f9165afe8c9df3cf05b",
+    "freshqp-022--draw1.json.gz": "4560391b84f6735b57d20e03f59b761b79e75cd69eadc515696a6c452593af65",
+    "freshqp-023--draw1.json.gz": "627f802bbc6dd6abdd924839ea201bb11a68275a18408954efb1ff5a0148b597",
+    "freshqp-024--draw1.json.gz": "678e40d8d8243d0daafbdb1450924d51beeb5beaad282573912517b0d5513bc3",
+    "freshqp-037--draw1.json.gz": "e436a313cd33b8bbab993392c7e8518ca0821b0531bef457aeebdbd24a956606",
+    "freshqp-037--draw2.json.gz": "2957f70572221d1a744d34181acff6c54afccf77a4df6a7645796b9aa5177f03",
+    "freshqp-037--draw3.json.gz": "47c211f59b9bb50e2385a83d373ca0f7d4c84600ba034b2b7885bf5836b467d2",
+    "freshqp-038--draw1.json.gz": "7d997f0727355dc8202b70821dbb76e581f4358c9618f8db06626039c46287fd",
+    "freshqp-038--draw2.json.gz": "a7f306453da07be43191abbb125c9ff57c8a8c70d1e4f74f5e3b01dad9b5bb21",
+    "freshqp-038--draw3.json.gz": "e0e271b524b71807a4f6bd3ee0252f1ed3971afcbb91b32e12607fd06fc8539b",
+    "freshqp-039--draw1.json.gz": "8de0c8b7d3398ece409e3e884b4f1d1288c023be47705ae0d8e599c39d456b08",
+    "freshqp-039--draw2.json.gz": "c70e1557939bfb2e500855dbff492d11aa721a9648759e3c3a9ea762b114557d",
+    "freshqp-039--draw3.json.gz": "572bbda81b73bd429d6e3a86026cea33918e9c8db1443fa9364e674662ca69ba",
+    "freshqp-040--draw1.json.gz": "5740e28c46237db91e526a6c599c028cad63135a0fe327ec4f98fc7f56317d1d",
+    "freshqp-040--draw2.json.gz": "3a66e2ead8411362ed858c0758cf6d5e0595b6e2a1566a1716eea48c849911c7",
+    "freshqp-040--draw3.json.gz": "c8436e1c98b1df2ded5d824cad6345e34a846c9edcfae013f77beef17254cb72",
+    "freshqp-041--draw1.json.gz": "213f3ea39aa52ca53305a721c9360e95ba5f7a969987987be49e9fd51287b7eb",
+    "freshqp-041--draw2.json.gz": "4beac27736a57d9f437c405784c2d0f78af1598fa1b10cfd04d20b3aa9241ddb",
+    "freshqp-041--draw3.json.gz": "13f44f8b04bccf7cdc68893713d92a4c9fd4800f3841adc1c92ce35292d35a3d",
+    "freshqp-042--draw1.json.gz": "2e53e032fa6cfdc9fa9d13a5d3af04d4f80abcb1478a19262e9684cb29cbf7c4",
+    "freshqp-042--draw2.json.gz": "f497d287183409fb8542235d5e83fe69f2f78bef80b004bfce23e47037e7b419",
+    "freshqp-042--draw3.json.gz": "a4f1574a7a2c5e2fe5396c611bd9637f1de19cdf6b6c3aa15b3e48aa42a9ccaa",
+    "freshqp-043--draw1.json.gz": "2271ac9efb3d8731ad26570217a05544c81397129aa3f7a2aed241019953d0f3",
+    "freshqp-043--draw2.json.gz": "5b6446510638f2ecdba824f21cd5265d03296ad51d441a85621dd037d604e64c",
+    "freshqp-043--draw3.json.gz": "95c520aed5dfdb6328d64298e50ae43cd7d0a0d331b1dcc52236feb7bfed46dd",
+    "freshqp-044--draw1.json.gz": "00ab7ab65dafbd3ae126480d93edb76505251e97d278697f5c3cd0c3f81cd5ce",
+    "freshqp-044--draw2.json.gz": "a9fc9115cbf6bb4cb056bae718ac0cb22f77703613ff857633f8963ea1446c81",
+    "freshqp-044--draw3.json.gz": "4a6ae72e6e6fd9eb9e3db0692dad3d848350f30c86824004a3494bcdd609f0b3",
+    "freshqp-045--draw1.json.gz": "406081677ae20f175941ea069093dc286b1ed0f6219c482e32c5c0bf4c717f4c",
+    "freshqp-045--draw2.json.gz": "53210f5b62269c9ffed1d481920312d23c6abe55dab210d1662517537362fed9",
+    "freshqp-045--draw3.json.gz": "592c4799bde01ae11834e8464f4cb3777b6661bed819ddb4bd5b583e14c2c5a4",
+    "freshqp-046--draw1.json.gz": "3b277308ffabad827169661546a92cf6de975209dcdeddfe703556ea357a9bb8",
+    "freshqp-046--draw2.json.gz": "cb5b077b5a7fce5318a8365b03557751326caf3145f74391e5516e9b4d62c292",
+    "freshqp-046--draw3.json.gz": "ddc00696a4ff7dde535d22e2a30c81a35c517ea602c856ae8d4b70365e626efe",
+    "freshqp-047--draw1.json.gz": "94746247fa12bcaec7869e7fde2177284ec1114bc58bba33ab5c701403d88eff",
+    "freshqp-047--draw2.json.gz": "0c4ddf0264f3b76c0ef506f9a1834e7be342cdd56c51c12f2548a5afca8e4eb1",
+    "freshqp-047--draw3.json.gz": "f1cb83aea04747a69601f0bf4118c9affc7798d3bb03b9ec7ce7b499e87135ee",
+    "freshqp-048--draw1.json.gz": "e25b2abbaea28ca1b275fdbdab77f264953e66b56e721ed79d5e8a170532d7a5",
+    "freshqp-048--draw2.json.gz": "1cc3feae0fe7fc9b89fa02a05d9c23d1dbe446860e83cbf69c55adfcec639f2c",
+    "freshqp-048--draw3.json.gz": "9a3ebc1a3923b6e34e830f0c9e469bceced0d0198cf256d4949ac4f8e29c1e2d",
+    "freshqp-049--draw1.json.gz": "71fa52d5215494005f2cf17fd6f831289d5287ce5886050e104ac2e7e9299710",
+    "freshqp-049--draw2.json.gz": "9cbb870e5802cf450079117aee805bf517624eaa04a2cef97ee41a585fef2fa6",
+    "freshqp-049--draw3.json.gz": "9da1ae7ac2485851caee9ff0ab3f9f62e89729f1f51f51ba7866170d941288de",
+    "freshqp-050--draw1.json.gz": "6165bfea035aeb0db02336570a3a4658975a915a1d8a08e3cfd1a5559121c0e9",
+    "freshqp-050--draw2.json.gz": "e6c9876224a99dbb4e69246858134ef3f3d1f174d57e054a505cf179710596bd",
+    "freshqp-050--draw3.json.gz": "a0e0600b4ac1f8d359f263ccb1d798419b97e9b87a7a00ffc757bb03b8cb67f2",
+    "freshqp-051--draw1.json.gz": "da7bb81ab648ebd939363f077ecb7d15364ad67eed1bf6945ea43defb654ca20",
+    "freshqp-051--draw2.json.gz": "b64b5e44f9e3372c868df093c471d387f23af2e905712b4bfd1918b4645d4d70",
+    "freshqp-051--draw3.json.gz": "ff5f7d06d0ce0f3d0f8425309713646cd1a07e481fdd1bbcd2d93b64f64d3a4d",
+    "freshqp-052--draw1.json.gz": "5e89735fc927f94bb2b1422873bf8f0d428129b8abd5b500b1a5379a8caee777",
+    "freshqp-052--draw2.json.gz": "29c454afcb19982531d9e313c574883647d303bc46c1acd1ff879b00db488afa",
+    "freshqp-052--draw3.json.gz": "8b39ab378eff2a67786947b1ab5af6a3af8d2c4bd454f4d44754609333f7936b",
+    "freshqp-053--draw1.json.gz": "db34955f6755b0ec3f5bd214257f6c4a031659acccd2c8b94ef8b85db39ef3ae",
+    "freshqp-053--draw2.json.gz": "29d04b28fc591e3235ac5f3cfef8050095c5e73a2ad2b0dc20e50b81f62e7d2e",
+    "freshqp-053--draw3.json.gz": "a3853e125a9fe36a960a89768b443d98c9db9ce959a11e8fe8d6bac164a6139d",
+    "freshqp-054--draw1.json.gz": "7d5afc7b2e1f67c9ecfa32bd0b6ce7037876054e19fbdcafc5e41327cafed60c",
+    "freshqp-054--draw2.json.gz": "be2aad8ef18fdd259e7432a89ba03b5c0761cb01fd46564244e6bd1603c4bab6",
+    "freshqp-054--draw3.json.gz": "6c81a2b910588a3ac44586d55e1f37cc01ecdc178f24834d1479b3a8eec899a2",
+    "freshqp-055--draw1.json.gz": "6213e7b696be14801d0933cb81ee5c793628af9a2d63f2c1985082766dbedd28",
+    "freshqp-055--draw2.json.gz": "6e06bb8c477889a1b9adc73210754ffe7378f48921c71176aabcdb0cc9799918",
+    "freshqp-055--draw3.json.gz": "d59c237bae49a6053afff7d2260187df9e65cdeae2705176643242c14fdde374",
+    "freshqp-056--draw1.json.gz": "ffa32ba428de14cf1c1e36cda9b1f54caf42b4b259b2718c58fe9ab241408c64",
+    "freshqp-056--draw2.json.gz": "f27b8d44e5feff3e547b9052319e3286dc868421d7348a675ec671c8c2f6501c",
+    "freshqp-056--draw3.json.gz": "2085fc6dab23e4ed07299fca3b42cea9ffe22856931ba68d0970e23642d4ef6e",
+    "freshqp-057--draw1.json.gz": "23dccf27ba3370f2857d04c83f198672db2e0bf4da6d71fb60050dbde9708fb6",
+    "freshqp-057--draw2.json.gz": "f1ef3aebc7d92138c72eb0269faf61600e8017a0372c1a708d0a0cff126d4db7",
+    "freshqp-057--draw3.json.gz": "7903ea3bece0f860bdb4763779306abff708c34a40a42856e2d805d89fc474c9",
+    "freshqp-058--draw1.json.gz": "61f880d43961af5d916c48a0b60023e0d6986990dc0e04cafba636eab6bcbedc",
+    "freshqp-058--draw2.json.gz": "8328c96674807dff11a0e21c67ef63c8439ea7fc899920dd66d7713ea20c58e6",
+    "freshqp-058--draw3.json.gz": "c5a25df58de01bd60ed6f8eb62fd1e639b4ed73f7fa07056755bc8d4b998b225",
+    "freshqp-059--draw1.json.gz": "4e01fc503c174b6a3deaf0ba9f91d0d5214bba96747eca5426cc7d9cde846f85",
+    "freshqp-059--draw2.json.gz": "f55d762ca0ab151faa915238569212be0d73df95760e23b585435bfdebebc133",
+    "freshqp-059--draw3.json.gz": "4dc0a2213032d65b6645608b823889b3ef5a152671a3182f24a5ee59f8048c38",
+    "freshqp-060--draw1.json.gz": "59a9f9c6c0199017a02a67b4abf1933d413d33c76f2f941336dfa9db0fc1a921",
+    "freshqp-060--draw2.json.gz": "1d12efdfbe15394bee37417b91c35a4c782533d729ee71c65cdb8a522580bf5e",
+    "freshqp-060--draw3.json.gz": "8039d9913d0a9e818e20e18cda4aa625ace68fe47946d0730f5328457d5b57e6"
+  },
+  "existing_depth_protocol_sha256": "13c97390d8503e876bf7bb38ef8adbe6421568b20ad716b2f57537dd89bb7853",
+  "channels": {
+    "nearest_l10": [
+      [
+        "nearest_distance",
+        10
+      ]
+    ],
+    "nearest_l20": [
+      [
+        "nearest_distance",
+        20
+      ]
+    ],
+    "nearest_l30": [
+      [
+        "nearest_distance",
+        30
+      ]
+    ],
+    "nearest_l40": [
+      [
+        "nearest_distance",
+        40
+      ]
+    ],
+    "nearest15_fastest15": [
+      [
+        "nearest_distance",
+        15
+      ],
+      [
+        "fastest_travel",
+        15
+      ]
+    ],
+    "four_types_l10": [
+      [
+        "nearest_distance",
+        10
+      ],
+      [
+        "fastest_travel",
+        10
+      ],
+      [
+        "within_radius",
+        10
+      ],
+      [
+        "public_detour_bank",
+        10
+      ]
+    ],
+    "nearest20_fastest10_detour10": [
+      [
+        "nearest_distance",
+        20
+      ],
+      [
+        "fastest_travel",
+        10
+      ],
+      [
+        "public_detour_bank",
+        10
+      ]
+    ]
+  },
+  "matched_ceiling": {
+    "nearest15_fastest15": "nearest_l30",
+    "four_types_l10": "nearest_l40",
+    "nearest20_fastest10_detour10": "nearest_l40"
+  },
+  "gates": {
+    "min_macro_gain": 0.01,
+    "min_each_purpose_gain": -0.005,
+    "max_total_reply_ratio_to_l30": 1.25,
+    "min_matched_ceiling_macro_gain": 0.0,
+    "test_paired95_lower_gt": 0.0,
+    "all_test_draw_gains_gt": 0.0
+  },
+  "splits": [
+    "train",
+    "selection",
+    "test"
+  ],
+  "draws_by_split": {
+    "train": 1,
+    "selection": 1,
+    "test": 3
+  },
+  "public_radius_m": 1000.0,
+  "public_destination_grid_quantiles": [
+    0.15,
+    0.5,
+    0.85
+  ],
+  "public_destination_rule": "nearest BELIEF grid states to nine fixed bounding-box points; stable sorted IDs; round-robin equal rank, unique top-L per category",
+  "selection_rule": "SELECTION only; pass all fixed gates then minimum actual reply bytes; NONE allowed; freeze before TEST",
+  "primary": "current-only; equal-family, equal-purpose conditional category Recall@5; nested draws; empty references N/A",
+  "cost": "compactJSON requests/replies, identical POI record fields; baseline historical schema preserved; mixed templates separate requests per Q, repeated records counted; no measured HTTP latency/energy",
+  "privacy": "same Q/anchors/ledger/reads. Public fixed templates/radius/destination bank independent of private QuerySpec. No new privacy theorem; coordinate protection inherited under existing ideal assumptions.",
+  "scope": "Already-used same-map SUMO cohort; predeclared service ablation, NOT independent fresh generalization or evidence of endpoint improvement",
+  "adoption": "Only opt-in service candidate if selection gates and TEST confirmation pass. No automatic overwrite of frozen L30 artifacts or Geo-I backbone."
+}

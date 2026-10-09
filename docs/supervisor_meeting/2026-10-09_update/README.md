@@ -37,3 +37,5 @@ Dữ liệu và tái lập:
 Mẫu là GPS tổng hợp SUMO; đích detour là đích chuẩn chỉ dùng tại thiết bị trong đánh giá. Các bản đồ dùng cùng tỷ lệ mét trên hai trục; crop và bỏ nét đường trùng chỉ phục vụ hiển thị. Bộ mô hình, thuật toán và bản luận văn chính không thay đổi trong lần biên soạn slide này.
 
 © OpenStreetMap contributors — [nguồn và giấy phép](https://www.openstreetmap.org/copyright).
+
+Kiểm chứng truy hồi đa mục đích ngày 09/10: không candidate nào qua gate; giữ L30. Script slide 4 bổ sung phần trao đổi về bốn template L10 (đích mẫu công khai), không coi đây là kiến trúc đã được áp dụng. [Logic và kết quả đầy đủ](../../research/2026-10-09_multi_purpose_retrieval.md).

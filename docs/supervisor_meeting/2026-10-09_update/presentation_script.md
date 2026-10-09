@@ -84,6 +84,10 @@ Chỉ phản hồi chung, bốn tiêu chí local và ví dụ bán kính/đi vò
 
 Tính chất S7 có điều kiện cùng protected state và lịch công khai. Nó chưa loại bỏ suy luận ý định từ tuyến đường/click. L30 là tối đa mỗi loại tại mỗi Q; đích detour cần đã biết ở thiết bị.
 
+Đã kiểm chứng ba bộ truy hồi cố định trên cùng Q. Bộ bốn template L10 dùng bán kính và đích mẫu công khai đạt Recall 86,34%, so với 92,69% của L30, nhưng byte phản hồi tăng 57,52%. Không candidate nào qua tập chọn cấu hình, nên chưa thay L30. Đây là replay cohort hiện có; kết quả không phủ nhận mọi thiết kế đa mục đích. Bốn cách xếp hạng local hiện tại khác bốn query type gửi server.
+
+Với dịch vụ tìm POI lân cận, em dùng độ gần để thu ứng viên chung, rồi xếp hạng local theo nhu cầu. Không khẳng định mọi purpose luôn chọn điểm gần nhất: fastest và detour có thể ưu tiên điểm xa hơn. Top-5 local là tốt nhất trong tập đã nhận; Recall đánh giá mức thu hồi đáp án thật.
+
 ## Slide 5: S9–S10: từ delay đến nhánh nhiễu mạnh hơn
 
 **Lời trình bày**

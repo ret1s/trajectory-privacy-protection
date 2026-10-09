@@ -1,5 +1,5 @@
 {
-  "schema": "supervisor-slide-content-v8",
+  "schema": "supervisor-slide-content-v9",
   "prepared_date": "2026-10-09",
   "meeting_date": null,
   "language": "vi",
@@ -141,7 +141,7 @@
       "title": "S7 và utility: nhiều nhu cầu, cùng request",
       "view": "summary_service",
       "footer": "GPS và mục đích giữ local; L30 lấy thêm ứng viên, không thay thuật toán Geo-I.",
-      "notes": "Lời trình bày\n\nThay vì chỉ tìm điểm gần nhất, thiết bị hiện có thể chọn theo gần nhất, đến nhanh nhất, nằm trong bán kính hoặc ít đi vòng tới đích. Các mục đích dùng chung tập ứng viên: năm Q yêu cầu mọi loại POI ở độ sâu cố định, rồi thiết bị hợp và xếp hạng cục bộ. Yêu cầu mọi loại POI đã có từ trước; phần mới là tổng quát hóa xử lý nhu cầu và kiểm tra request không thay đổi khi đổi nhu cầu.\n\nTrong mẫu tại 60 giây, 420 bản ghi thành 252 POI duy nhất. Bán kính 1.000 mét chỉ trả P167; nhu cầu đi vòng cho danh sách khác. Không cần request bổ sung. Tăng L lên 30 giúp lấy thêm ứng viên, với đánh đổi byte phản hồi cao hơn.\n\nChỉ vào hình\n\nChỉ phản hồi chung, bốn tiêu chí local và ví dụ bán kính/đi vòng.\n\nChuyển ý\n\nĐối với điểm đầu/cuối, em đã thử một chính sách bảo vệ khác với delay trước đây.\n\nNếu được hỏi\n\nTính chất S7 có điều kiện cùng protected state và lịch công khai. Nó chưa loại bỏ suy luận ý định từ tuyến đường/click. L30 là tối đa mỗi loại tại mỗi Q; đích detour cần đã biết ở thiết bị.",
+      "notes": "Lời trình bày\n\nThay vì chỉ tìm điểm gần nhất, thiết bị hiện có thể chọn theo gần nhất, đến nhanh nhất, nằm trong bán kính hoặc ít đi vòng tới đích. Các mục đích dùng chung tập ứng viên: năm Q yêu cầu mọi loại POI ở độ sâu cố định, rồi thiết bị hợp và xếp hạng cục bộ. Yêu cầu mọi loại POI đã có từ trước; phần mới là tổng quát hóa xử lý nhu cầu và kiểm tra request không thay đổi khi đổi nhu cầu.\n\nTrong mẫu tại 60 giây, 420 bản ghi thành 252 POI duy nhất. Bán kính 1.000 mét chỉ trả P167; nhu cầu đi vòng cho danh sách khác. Không cần request bổ sung. Tăng L lên 30 giúp lấy thêm ứng viên, với đánh đổi byte phản hồi cao hơn.\n\nChỉ vào hình\n\nChỉ phản hồi chung, bốn tiêu chí local và ví dụ bán kính/đi vòng.\n\nChuyển ý\n\nĐối với điểm đầu/cuối, em đã thử một chính sách bảo vệ khác với delay trước đây.\n\nNếu được hỏi\n\nTính chất S7 có điều kiện cùng protected state và lịch công khai. Nó chưa loại bỏ suy luận ý định từ tuyến đường/click. L30 là tối đa mỗi loại tại mỗi Q; đích detour cần đã biết ở thiết bị.\n\nĐã kiểm chứng ba bộ truy hồi cố định trên cùng Q. Bộ bốn template L10 dùng bán kính và đích mẫu công khai đạt Recall 86,34%, so với 92,69% của L30, nhưng byte phản hồi tăng 57,52%. Không candidate nào qua tập chọn cấu hình, nên chưa thay L30. Đây là replay cohort hiện có; kết quả không phủ nhận mọi thiết kế đa mục đích. Bốn cách xếp hạng local hiện tại khác bốn query type gửi server.\n\nVới dịch vụ tìm POI lân cận, em dùng độ gần để thu ứng viên chung, rồi xếp hạng local theo nhu cầu. Không khẳng định mọi purpose luôn chọn điểm gần nhất: fastest và detour có thể ưu tiên điểm xa hơn. Top-5 local là tốt nhất trong tập đã nhận; Recall đánh giá mức thu hồi đáp án thật.",
       "sources": [
         "thesis/current_method.tex",
         "thesis/current_algorithm.tex",
@@ -154,7 +154,11 @@
         "thesis/current_companion.tex",
         "artifacts/benchmarks/s8_companion_inference_20261007_v1/readout.json",
         "docs/supervisor_meeting/2026-10-09_update/utility_sample.json",
-        "docs/supervisor_meeting/2026-10-09_update/sample_walkthrough.json"
+        "docs/supervisor_meeting/2026-10-09_update/sample_walkthrough.json",
+        "docs/research/2026-10-09_multi_purpose_retrieval.md",
+        "artifacts/benchmarks/multi_purpose_retrieval_20261009_v2/readout.json",
+        "artifacts/benchmarks/multi_purpose_retrieval_20261009_v2/validation.json",
+        "artifacts/benchmarks/multi_purpose_retrieval_20261009_v2/template_overlap.json"
       ],
       "detailed_slide_numbers": [
         4,

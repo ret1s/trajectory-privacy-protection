@@ -106,6 +106,10 @@ Nếu được hỏi
 
 Tính chất S7 có điều kiện cùng protected state và lịch công khai. Nó chưa loại bỏ suy luận ý định từ tuyến đường/click. L30 là tối đa mỗi loại tại mỗi Q; đích detour cần đã biết ở thiết bị.
 
+Đã kiểm chứng ba bộ truy hồi cố định trên cùng Q. Bộ bốn template L10 dùng bán kính và đích mẫu công khai đạt Recall 86,34%, so với 92,69% của L30, nhưng byte phản hồi tăng 57,52%. Không candidate nào qua tập chọn cấu hình, nên chưa thay L30. Đây là replay cohort hiện có; kết quả không phủ nhận mọi thiết kế đa mục đích. Bốn cách xếp hạng local hiện tại khác bốn query type gửi server.
+
+Với dịch vụ tìm POI lân cận, em dùng độ gần để thu ứng viên chung, rồi xếp hạng local theo nhu cầu. Không khẳng định mọi purpose luôn chọn điểm gần nhất: fastest và detour có thể ưu tiên điểm xa hơn. Top-5 local là tốt nhất trong tập đã nhận; Recall đánh giá mức thu hồi đáp án thật.
+
 Nguồn:
 thesis/current_method.tex
 thesis/current_algorithm.tex
@@ -119,6 +123,10 @@ thesis/current_companion.tex
 artifacts/benchmarks/s8_companion_inference_20261007_v1/readout.json
 docs/supervisor_meeting/2026-10-09_update/utility_sample.json
 docs/supervisor_meeting/2026-10-09_update/sample_walkthrough.json
+docs/research/2026-10-09_multi_purpose_retrieval.md
+artifacts/benchmarks/multi_purpose_retrieval_20261009_v2/readout.json
+artifacts/benchmarks/multi_purpose_retrieval_20261009_v2/validation.json
+artifacts/benchmarks/multi_purpose_retrieval_20261009_v2/template_overlap.json
 
 
 SLIDE 5: S9–S10: từ delay đến nhánh nhiễu mạnh hơn
