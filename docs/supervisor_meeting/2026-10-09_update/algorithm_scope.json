@@ -1,0 +1,795 @@
+{
+  "schema": "supervisor-update-algorithm-scenario-scope-v1",
+  "prepared_date": "2026-10-09",
+  "language": "vi",
+  "purpose": "Đặc tả hình và lời trình bày thuật toán cho cập nhật GVHD 9–10 slide; đối chiếu trạng thái S1–S10, không tạo hoặc sửa kết quả.",
+  "current_method": {
+    "display_name": "Geo-I / REM, L=30",
+    "short_name_for_slides": "Geo-I trên mạng đường",
+    "anchor": "REM trên toàn bộ miền trạng thái đường công khai cố định; phép thử có nhiễu để giữ hoặc thay điểm tham chiếu Z",
+    "query_planner": "legacy_l10; giữ nguyên từ nguồn Q đã khóa",
+    "planner_signature_L": 10,
+    "K_queries_per_public_event": 5,
+    "server_reply_depth_L_per_Q_per_category": 30,
+    "local_maximum_POIs_returned": 5,
+    "request_categories": "Tất cả category công khai, cố định giữa các nhu cầu riêng tư",
+    "private_purposes": [
+      {
+        "id": "nearest_distance",
+        "label": "Gần nhất theo đường"
+      },
+      {
+        "id": "fastest_travel",
+        "label": "Đến nhanh nhất",
+        "scope": "Thời gian đi theo tốc độ công khai; chưa dùng ùn tắc trực tiếp"
+      },
+      {
+        "id": "within_radius",
+        "label": "Trong bán kính riêng",
+        "scope": "Bán kính theo đường có hướng; r là input riêng chỉ dùng local"
+      },
+      {
+        "id": "minimum_detour",
+        "label": "Ít đi vòng tới đích",
+        "scope": "Đích đã biết ở thiết bị; không gửi đích lên provider"
+      }
+    ],
+    "fixed_epoch_budget": {
+      "session_slots": 8,
+      "horizon_parameter_H": 12,
+      "max_units_per_session_U": 23,
+      "unit_epsilon_per_m": 0.00125,
+      "effective_epoch_cap_per_m": 0.23,
+      "effective_session_cap_per_m": 0.02875,
+      "nominal_engine_B_per_session_per_m": 0.03,
+      "nominal_epoch_B_per_m": 0.24,
+      "epoch_start_s": 0,
+      "epoch_end_s": 12000,
+      "minimum_protection_GPS_read_interval_s": 60,
+      "reuse_noisy_threshold_m": 200,
+      "unit_costs": {
+        "first_REM": 1,
+        "noisy_test_keep_Z": 1,
+        "noisy_test_and_new_REM": 2,
+        "no_private_read": 0
+      },
+      "allocation": "Dành cap từng slot trước GPS; không thu hồi phần chưa dùng dựa trên nhánh riêng tư",
+      "read_rule": "Dự toán 1 đơn vị khi chưa có Z, 2 khi đã có Z; chỉ gọi supplier khi đủ cap và đạt khoảng cách thời gian",
+      "H_warning": "H=12 là tham số phân bổ U=2H−1, không phải đúng 12 lần đọc GPS",
+      "exhausted_admitted_session": "Giữ thông tin đã bảo vệ và tiếp tục Q theo lịch công khai; không đọc GPS bảo vệ mới",
+      "excess_session": "Không còn slot: không đọc GPS bảo vệ và không gửi Q"
+    },
+    "public_network_clock": {
+      "diagram_label": "Lịch gửi công khai",
+      "measured_native_cohort": "Mỗi phiên 0..600 s tại các mốc 20 s; hai phiên query thêm hai mốc fork đã định trước",
+      "warning": "Không đồng nhất đồng hồ gửi Q với đồng hồ đọc GPS bảo vệ 60 s"
+    },
+    "slack": {
+      "value": 0.03,
+      "meaning": "Cho phép đánh đổi nhỏ trong điểm phủ POI dự đoán để Q tiến theo đường",
+      "warning": "Không phải 3% privacy hoặc cận giảm Recall thực"
+    },
+    "key_change_since_L20": "Chỉ tăng độ sâu phản hồi dịch vụ L20→L30 trên cùng Q, neo, cap, lịch và lần đọc GPS; không thay thuật toán tạo Q hoặc công thức Geo-I",
+    "formal_scope": "Bảo đảm lý tưởng cho tọa độ GPS, dưới cùng graph/ngữ cảnh/lịch công khai và randomness độc lập; float/PRNG của simulator chưa có chứng chỉ pure Geo-I",
+    "endpoint_timing": "Current L30 không warmup, không delay, không holdback; thời điểm mở/đóng phiên vẫn thấy được"
+  },
+  "symbols_for_speaking": {
+    "x_t": "GPS được phép đọc để đưa vào cơ chế bảo vệ",
+    "Z": "Điểm tham chiếu đã bảo vệ, chỉ giữ ở thiết bị; có thể giữ hoặc thay qua các lần đọc",
+    "b": "Ước lượng các vùng có thể đang ở từ Z/lịch sử đã bảo vệ và mô hình chuyển động công khai; không đọc thêm GPS thật",
+    "Q_1_to_Q_5": "Năm vị trí truy vấn được chọn trên mạng đường; đây là các tọa độ gửi server",
+    "P": "POI trả về từ server; không phải điểm nhiễu",
+    "x_local": "Vị trí local dùng riêng để xếp hạng POI; có thể là GPS mới, giữ fix hoặc ước lượng tùy nguồn local",
+    "K": "Số Q mỗi event = 5",
+    "L": "Số POI tối đa mỗi category từ một Q; hiện tại = 30",
+    "top_k": "Tối đa 5 POI trả cho người dùng sau lọc local"
+  },
+  "diagram_spec": {
+    "layout": "Luồng ngang hoặc dọc có mũi tên theo thứ tự; bốn layer rõ ràng và nhánh phản hồi server",
+    "model_frame": {
+      "title": "Mô hình của chúng ta — chạy trên thiết bị",
+      "contains": [
+        "admission",
+        "read_gate",
+        "protected_anchor",
+        "protected_belief",
+        "road_Q_planner",
+        "fixed_cover_request",
+        "received_POIs",
+        "private_local_rank"
+      ],
+      "excludes": [
+        "GPS_source",
+        "public_context",
+        "private_query",
+        "local_position_source",
+        "provider",
+        "user_answer"
+      ]
+    },
+    "layers": [
+      {
+        "id": "L1",
+        "title": "1. Bảo vệ GPS và quản lý ngân sách",
+        "nodes": [
+          "admission",
+          "read_gate",
+          "protected_anchor"
+        ],
+        "colour": "blue"
+      },
+      {
+        "id": "L2",
+        "title": "2. Chọn 5 vị trí truy vấn hợp lệ",
+        "nodes": [
+          "protected_belief",
+          "road_Q_planner"
+        ],
+        "colour": "violet"
+      },
+      {
+        "id": "L3",
+        "title": "3. Truy hồi dữ liệu với yêu cầu cố định",
+        "nodes": [
+          "fixed_cover_request",
+          "provider",
+          "received_POIs"
+        ],
+        "colour": "orange",
+        "provider_outside_model_frame": true
+      },
+      {
+        "id": "L4",
+        "title": "4. Lọc và xếp hạng riêng tại thiết bị",
+        "nodes": [
+          "private_local_rank",
+          "user_answer"
+        ],
+        "colour": "green"
+      }
+    ],
+    "nodes": [
+      {
+        "id": "public_context",
+        "label": "Bản đồ đường + POI công khai + lịch + tham số",
+        "type": "public_input"
+      },
+      {
+        "id": "GPS_source",
+        "label": "Nguồn GPS",
+        "type": "private_source",
+        "warning": "Chỉ trả x_t sau khi gate cho phép; không dùng GPS mới để quyết định mở gate"
+      },
+      {
+        "id": "admission",
+        "label": "Còn slot phiên?",
+        "type": "control",
+        "short_reason": "Giới hạn tổng cap qua các phiên trong epoch"
+      },
+      {
+        "id": "read_gate",
+        "label": "Đã qua ≥60 s và đủ cap dự toán?",
+        "type": "control",
+        "short_reason": "Kiểm tra trước khi đọc GPS, tránh chi riêng tư vượt cap"
+      },
+      {
+        "id": "protected_anchor",
+        "label": "REM / phép thử có nhiễu → giữ hoặc thay Z",
+        "type": "privacy",
+        "short_reason": "Bảo vệ tọa độ; giữ Z không phải kiểm tra khoảng cách thật bằng ngưỡng cứng"
+      },
+      {
+        "id": "protected_belief",
+        "label": "Z + lịch sử bảo vệ → ước lượng b",
+        "type": "protected_postprocessing",
+        "short_reason": "Duy trì vùng tìm POI khả dĩ giữa các lần đọc GPS"
+      },
+      {
+        "id": "road_Q_planner",
+        "label": "Đường tới được + phủ POI + slack → Q₁…Q₅",
+        "type": "protected_postprocessing",
+        "short_reason": "Chọn Q để phản hồi có ích và mỗi track đi được theo graph/thời gian"
+      },
+      {
+        "id": "fixed_cover_request",
+        "label": "Mọi category; L=30; lịch cố định",
+        "type": "public_service_request",
+        "short_reason": "Payload không chứa purpose/category riêng, bán kính hoặc đích riêng"
+      },
+      {
+        "id": "provider",
+        "label": "Server → top-L POI mỗi Q/category",
+        "type": "external_service",
+        "short_reason": "Provider trả theo vị trí tĩnh; nếu có live status, kèm bit hiện tại của các ID được trả"
+      },
+      {
+        "id": "received_POIs",
+        "label": "Hợp POI → bỏ trùng → chỉ giữ trạng thái còn hiệu lực",
+        "type": "local_processing",
+        "short_reason": "Chỉ dùng dữ liệu đã nhận; trạng thái hết hạn hoặc chưa nhận là chưa biết"
+      },
+      {
+        "id": "private_query",
+        "label": "Nhu cầu thật + category + bán kính/đích",
+        "type": "private_local_input"
+      },
+      {
+        "id": "local_position_source",
+        "label": "Vị trí local x̂_local",
+        "type": "private_local_input",
+        "warning": "Input riêng của bộ xếp hạng; không phản hồi để sửa Z, b hoặc Q"
+      },
+      {
+        "id": "private_local_rank",
+        "label": "4 cách tìm POI; xếp hạng local → top-5",
+        "type": "private_local_processing",
+        "short_reason": "Lấy kết quả gần nhất/phù hợp với người dùng mà không gửi nhu cầu thật"
+      },
+      {
+        "id": "user_answer",
+        "label": "≤5 POI phù hợp cho người dùng",
+        "type": "private_output",
+        "may_be_empty": true
+      }
+    ],
+    "arrows": [
+      {
+        "from": "public_context",
+        "to": "admission",
+        "label": "Chính sách epoch/slot"
+      },
+      {
+        "from": "admission",
+        "to": "read_gate",
+        "label": "Phiên đã nhận"
+      },
+      {
+        "from": "public_context",
+        "to": "read_gate",
+        "label": "Clock + cap đã dành"
+      },
+      {
+        "from": "read_gate",
+        "to": "GPS_source",
+        "label": "Cho phép gọi supplier",
+        "style": "control"
+      },
+      {
+        "from": "GPS_source",
+        "to": "protected_anchor",
+        "label": "x_t được phép đọc"
+      },
+      {
+        "from": "read_gate",
+        "to": "protected_anchor",
+        "label": "Không đọc: giữ Z, chi 0",
+        "style": "skip"
+      },
+      {
+        "from": "protected_anchor",
+        "to": "protected_belief",
+        "label": "Z và lịch sử đã bảo vệ"
+      },
+      {
+        "from": "public_context",
+        "to": "protected_belief",
+        "label": "Chuyển động công khai"
+      },
+      {
+        "from": "protected_belief",
+        "to": "road_Q_planner",
+        "label": "b"
+      },
+      {
+        "from": "public_context",
+        "to": "road_Q_planner",
+        "label": "Graph + POI + chữ ký L10"
+      },
+      {
+        "from": "road_Q_planner",
+        "to": "fixed_cover_request",
+        "label": "K=5 Q"
+      },
+      {
+        "from": "fixed_cover_request",
+        "to": "provider",
+        "label": "Chỉ Q + schema công khai",
+        "style": "network"
+      },
+      {
+        "from": "provider",
+        "to": "received_POIs",
+        "label": "P: POI + metadata/trạng thái",
+        "style": "network"
+      },
+      {
+        "from": "received_POIs",
+        "to": "private_local_rank",
+        "label": "Tập ứng viên có thông tin hợp lệ"
+      },
+      {
+        "from": "private_query",
+        "to": "private_local_rank",
+        "label": "Input riêng"
+      },
+      {
+        "from": "local_position_source",
+        "to": "private_local_rank",
+        "label": "Input riêng"
+      },
+      {
+        "from": "private_local_rank",
+        "to": "user_answer",
+        "label": "Đáp án local"
+      }
+    ],
+    "state_feedback": [
+      {
+        "state": "slot/cap đã chi + thời điểm đọc gần nhất",
+        "to": "read_gate",
+        "visibility": "local"
+      },
+      {
+        "state": "Z trước",
+        "to": "protected_anchor",
+        "visibility": "protected_local"
+      },
+      {
+        "state": "b trước",
+        "to": "protected_belief",
+        "visibility": "protected_local"
+      },
+      {
+        "state": "Q trước của từng track",
+        "to": "road_Q_planner",
+        "visibility": "public_or_protected"
+      }
+    ],
+    "visible_to_server": [
+      "Q, thứ tự/timestamp và schema yêu cầu",
+      "Mọi category công khai và L cố định",
+      "Phản hồi, số byte và thời điểm mở/đóng phiên"
+    ],
+    "not_in_location_payload": [
+      "GPS x_t",
+      "Z",
+      "b hoặc sổ ngân sách nội bộ",
+      "Purpose/category riêng, r, đích",
+      "Đáp án chọn cuối cùng"
+    ],
+    "must_not_draw": [
+      "GPS mới → kiểm tra ngân sách",
+      "GPS thật → Q planner trực tiếp",
+      "Purpose thật → Q hoặc schema mạng",
+      "Đáp án local → sửa Z/b/Q",
+      "Q như năm mẫu REM độc lập quanh GPS",
+      "Delay/ẩn 60 s đầu-cuối trong cấu hình L30 hiện tại"
+    ]
+  },
+  "component_scenario_roles": [
+    {
+      "component": "REM + phép thử giữ/thay Z",
+      "main_scenarios": [
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "reason": "Giảm thông tin tọa độ đưa vào chuỗi gửi, và chi riêng tư có kiểm soát khi quan sát lặp",
+      "limit": "Không thể suy toàn bộ S1–S3 đã giải quyết từ hình kiến trúc; điểm đo mới nhất cho các scenario này là development lịch sử"
+    },
+    {
+      "component": "Cap cấp epoch + gate trước GPS",
+      "main_scenarios": [
+        "S2",
+        "S3",
+        "S4",
+        "S6"
+      ],
+      "reason": "Nhiều event hoặc phiên không được phép reset rồi quan sát riêng tư vô hạn",
+      "limit": "Không ẩn account/IP và không bảo đảm attacker không liên kết người/xe"
+    },
+    {
+      "component": "b + Q trên đường + phủ POI/slack",
+      "main_scenarios": [
+        "S1",
+        "S2",
+        "S3",
+        "S5",
+        "S6"
+      ],
+      "reason": "Dùng lịch sử đã bảo vệ để lấy POI hữu ích và tạo đường Q hợp lệ",
+      "limit": "Chủ yếu là phục hồi utility; road consistency không phải chứng minh chống attack, và có thể hỗ trợ decoder"
+    },
+    {
+      "component": "Schema mọi category + purpose chỉ local",
+      "main_scenarios": [
+        "S7"
+      ],
+      "reason": "Xóa kênh gửi trực tiếp nhu cầu thật khi giữ nguyên Q/lịch",
+      "limit": "Intent tương quan với vị trí/tuyến/activation vẫn có thể suy luận"
+    },
+    {
+      "component": "Trạng thái POI còn hiệu lực + local ranking",
+      "main_scenarios": [
+        "S7"
+      ],
+      "reason": "Bốn nhu cầu dùng cùng nguồn dữ liệu; tránh trả POI live từ bit đã hết hạn",
+      "limit": "Đây là tính đúng/utility của dịch vụ, không bảo đảm location privacy hoặc intent privacy vô điều kiện"
+    },
+    {
+      "component": "Không có cơ chế phối hợp companion riêng trong current L30",
+      "main_scenarios": [
+        "S8"
+      ],
+      "reason": "S8 đã có diagnostic bổ sung để nhìn giới hạn quan sát nhiều người",
+      "limit": "Không gọi việc attacker bank không tăng điểm là group privacy"
+    },
+    {
+      "component": "REM bảo vệ cả phép đo đầu/cuối; Endpoint20 được đo riêng",
+      "main_scenarios": [
+        "S9",
+        "S10"
+      ],
+      "reason": "Nhiễu tọa độ có thể làm việc suy điểm đầu/cuối khó hơn trong benchmark",
+      "limit": "L30 không che thời điểm bắt đầu/kết thúc; không ghép kết quả Endpoint20 vào cấu hình hiện tại"
+    }
+  ],
+  "scenario_coverage": [
+    {
+      "id": "S1",
+      "label": "Định vị từ một lần gửi",
+      "status": "Đã đo lịch sử; bảo đảm tọa độ lý tưởng có điều kiện",
+      "claim": "Có Hit100/MAE paper-v2; REM giới hạn likelihood tọa độ trong mô hình lý tưởng",
+      "limit": "Chưa có xác nhận S1 mới riêng cho L30",
+      "sources": [
+        "thesis/main.tex:473",
+        "thesis/current_evaluation.tex:78",
+        "thesis/current_formal_privacy.tex:20"
+      ]
+    },
+    {
+      "id": "S2",
+      "label": "Suy luận nơi dừng",
+      "status": "Đã đo trên đoạn dừng kiểm soát",
+      "claim": "Noisy reuse và cap xử lý việc quan sát lặp; có attacker development",
+      "limit": "Chưa phủ nhiều thời lượng/GPS thực/side information",
+      "sources": [
+        "thesis/main.tex:478",
+        "thesis/current_evaluation.tex:80"
+      ]
+    },
+    {
+      "id": "S3",
+      "label": "Tái dựng đường đã đi",
+      "status": "Đã đo với bank decoder chuỗi hữu hạn",
+      "claim": "Chuỗi Q có đánh giá suy luận quỹ đạo",
+      "limit": "Q đi được trên đường không tự chứng minh riêng tư",
+      "sources": [
+        "thesis/main.tex:483",
+        "thesis/current_evaluation.tex:82"
+      ]
+    },
+    {
+      "id": "S4",
+      "label": "Liên kết phiên: cùng người / cùng xe",
+      "status": "Đã đo người và xe vật lý tổng hợp",
+      "claim": "Cap dùng chung hạn chế tích lũy riêng tư qua các phiên đã khai báo liên kết",
+      "limit": "Không ẩn danh người thật, account/IP hay thiết bị; BA dưới chance không phải bảo đảm mạnh hơn chance",
+      "sources": [
+        "thesis/main.tex:488",
+        "thesis/current_evaluation.tex:84",
+        "thesis/current_evaluation.tex:312"
+      ]
+    },
+    {
+      "id": "S5",
+      "label": "Dự đoán cạnh đường tiếp theo",
+      "status": "Native pilot: đúng edge trong hai ứng viên công khai",
+      "claim": "Decoder hình học tổng quát sang ID chưa thấy; Raw sau khi thấy rẽ có tín hiệu rõ",
+      "limit": "Trước fork Raw 50% là mơ hồ sẵn có; chưa phải dự đoán edge open-world",
+      "sources": [
+        "thesis/main.tex:493",
+        "thesis/current_evaluation.tex:236"
+      ]
+    },
+    {
+      "id": "S6",
+      "label": "Dự đoán đích từ lịch sử và tiền tố",
+      "status": "Native pilot: sáu lịch sử + một prefix, hai đích công khai",
+      "claim": "Có nhiệm vụ đích tương lai thật, tách lịch sử quan sát và label tương lai",
+      "limit": "Chưa attacker liên kết toàn bộ tám chuyến; S5/S6 cùng phụ thuộc quyết định rẽ",
+      "sources": [
+        "thesis/main.tex:498",
+        "thesis/current_dataset.tex:39",
+        "thesis/current_evaluation.tex:86"
+      ]
+    },
+    {
+      "id": "S7",
+      "label": "Suy luận nhu cầu truy vấn",
+      "status": "Đã kiểm request bất biến có điều kiện",
+      "claim": "Giữ cùng protected state/lịch thì đổi purpose/r/đích không đổi Q hoặc payload",
+      "limit": "Không loại bỏ intent–route correlation, click/booking/metadata ngoài payload",
+      "sources": [
+        "thesis/main.tex:503",
+        "benchmark/query_purpose.py:1",
+        "thesis/current_formal_service.tex:156"
+      ]
+    },
+    {
+      "id": "S8",
+      "label": "Suy vị trí qua người đồng hành",
+      "status": "Diagnostic lịch sử, không phải current L30",
+      "claim": "Có target-only/joint/negative-control; ba test family, 24 target-event duy nhất",
+      "limit": "Seed lịch sử tái tạo được; bank chưa khai thác RNG; chưa group privacy/current Epoch8",
+      "sources": [
+        "thesis/main.tex:508",
+        "thesis/current_companion.tex:15",
+        "thesis/current_companion.tex:49"
+      ]
+    },
+    {
+      "id": "S9",
+      "label": "Suy luận điểm xuất phát",
+      "status": "Endpoint development riêng",
+      "claim": "Đã đo attacker hình học và học máy suy tọa độ đầu",
+      "limit": "Current không che thời điểm mở phiên; endpoint mô phỏng không đồng nghĩa nhà",
+      "sources": [
+        "thesis/main.tex:513",
+        "thesis/current_method.tex:204",
+        "thesis/current_evaluation.tex:93"
+      ]
+    },
+    {
+      "id": "S10",
+      "label": "Suy luận điểm kết thúc",
+      "status": "Endpoint development riêng",
+      "claim": "Đã đo suy tọa độ cuối và giữ cả attacker/selection thất bại",
+      "limit": "Endpoint20 khác L30; chưa confirmation độc lập, không che giờ đóng phiên",
+      "sources": [
+        "thesis/main.tex:518",
+        "thesis/current_method.tex:204",
+        "thesis/current_evaluation.tex:95"
+      ]
+    }
+  ],
+  "algorithm_slides": [
+    {
+      "suggested_position": 2,
+      "title": "Luồng của mô hình: GPS → Q → POI",
+      "visual": "Hình bốn layer, server ngoài khung mô hình; GPS bảo vệ và vị trí local là hai nhánh riêng",
+      "on_slide": [
+        "Z ở thiết bị; chỉ 5 Q gửi server",
+        "Ngân sách kiểm trước khi đọc GPS",
+        "Tất cả category, L30; nhu cầu thật chỉ local"
+      ],
+      "speaking_notes": "Em chia mô hình thành bốn tầng. Đầu tiên, thiết bị kiểm tra còn ngân sách riêng tư và đã tới thời điểm được đọc GPS hay chưa. Nếu được đọc, REM tạo hoặc cập nhật điểm tham chiếu Z. Từ thông tin đã bảo vệ và mạng đường, mô hình chọn năm Q để gửi server. Server trả POI, thiết bị gộp kết quả rồi xếp hạng theo vị trí local và nhu cầu thật. Z và nhu cầu thật không nằm trong payload. Các mũi tên thể hiện thứ tự này, còn khung bao quanh các bước chạy trên thiết bị."
+    },
+    {
+      "suggested_position": 3,
+      "title": "Khi nào đọc GPS, khi nào giữ Z?",
+      "visual": "Sơ đồ nhánh public gate → đọc/không đọc; nhánh test có nhiễu → giữ/thay Z; bảng chi phí 1/1/2/0",
+      "on_slide": [
+        "Chỉ đọc khi ≥60 s và đủ cap dự toán",
+        "Lần đầu: REM → Z; sau đó thử giữ Z có nhiễu",
+        "Đọc giữ/thay tốn 1/2 đơn vị; không đọc tốn 0"
+      ],
+      "speaking_notes": "Không phải cứ 60 giây là chắc chắn đọc GPS. Trước tiên phải đủ ngân sách và đủ khoảng cách thời gian. Lần đầu tạo Z bằng REM. Những lần sau, ta lấy khoảng cách từ GPS mới tới Z rồi thêm nhiễu vào phép kiểm tra: có thể giữ Z hoặc tạo Z mới. Giữ sau một lần đọc vẫn tốn ngân sách, vì quyết định giữ cũng dùng thông tin riêng. Nếu gate không cho đọc, ta giữ thông tin đã bảo vệ, chi thêm bằng không, và vẫn có thể gửi Q theo lịch. Cap chung tám phiên ngăn việc mỗi chuyến reset để quan sát vô hạn."
+    },
+    {
+      "suggested_position": 4,
+      "title": "Vì sao cần ước lượng b và mạng đường?",
+      "visual": "Z/lịch sử → b trên bản đồ → miền tới được từng Q → tập 5 Q; chú thích GPS thật không vào planner",
+      "on_slide": [
+        "b dùng Z và lịch sử đã bảo vệ, không đọc GPS mới",
+        "Q phải đi được từ Q trước theo đường/thời gian",
+        "Chọn Q để phủ POI có khả năng cần; planner vẫn L10"
+      ],
+      "speaking_notes": "Z đã có nhiễu nên nếu chỉ tìm quanh đúng một Z, phản hồi dễ bỏ sót nơi người dùng đang ở. b giữ một phân bố các vùng có thể đang ở, dựa trên thông tin đã bảo vệ và chuyển động công khai. Từ đó ta chọn Q có khả năng lấy được POI hữu ích. Mỗi Q được nối từ Q trước bằng các đường có thể đi trong khoảng thời gian đã qua. Đây là bước phục hồi utility sau Geo-I, không đọc thêm GPS để sửa kết quả. Mạng đường giúp truy vấn hợp lý, nhưng tự nó không chứng minh attacker không tái dựng được đường đi."
+    },
+    {
+      "suggested_position": 5,
+      "title": "Một tập phản hồi, bốn nhu cầu riêng",
+      "visual": "Q → mọi category/L30 → hợp POI → bốn icon purpose ở local → top5; x̂_local/r/đích chỉ nối vào rank",
+      "on_slide": [
+        "K=5 Q; L30 POI tối đa mỗi Q/category",
+        "Gộp ID rồi chọn ≤5 POI tại thiết bị",
+        "Gần nhất / nhanh nhất / trong bán kính / ít đi vòng"
+      ],
+      "speaking_notes": "K là số điểm truy vấn, còn L là độ sâu phản hồi. Với năm Q, mỗi Q xin tối đa 30 POI cho mỗi category; đây không phải 30 lần đọc GPS hay một mức privacy khác. Ta gộp các ID rồi chọn tối đa năm POI theo nhu cầu riêng: gần nhất, đến nhanh nhất, trong bán kính, hoặc ít đi vòng tới đích. Server nhận cùng schema cho cả bốn nhu cầu. Vì vậy payload không nói người dùng đang tìm gì; vị trí và tuyến vẫn có thể tiết lộ nhu cầu gián tiếp. Nếu POI có trạng thái động, chỉ dùng bit còn hiệu lực, không coi thông tin chưa biết là đang khả dụng."
+    }
+  ],
+  "scenario_slide": {
+    "suggested_position": 6,
+    "title": "Mô hình hỗ trợ scenario nào?",
+    "groups": [
+      {
+        "ids": [
+          "S1",
+          "S2",
+          "S3"
+        ],
+        "label": "Vị trí hiện tại / dừng / đường đã đi",
+        "mechanisms": "REM + reuse + cap",
+        "evidence": "Đã đo development lịch sử"
+      },
+      {
+        "ids": [
+          "S4",
+          "S5",
+          "S6"
+        ],
+        "label": "Liên kết phiên / bước tiếp theo / đích",
+        "mechanisms": "Cap qua phiên + đánh giá lịch sử/prefix",
+        "evidence": "Tổng hợp và native pilot; scope hẹp"
+      },
+      {
+        "ids": [
+          "S7"
+        ],
+        "label": "Nhu cầu truy vấn",
+        "mechanisms": "Payload cố định; purpose local",
+        "evidence": "Request bất biến có điều kiện"
+      },
+      {
+        "ids": [
+          "S8"
+        ],
+        "label": "Người đồng hành",
+        "mechanisms": "Diagnostic, chưa cơ chế phối hợp mới",
+        "evidence": "Lịch sử; chưa current L30"
+      },
+      {
+        "ids": [
+          "S9",
+          "S10"
+        ],
+        "label": "Đầu / cuối chuyến",
+        "mechanisms": "Nhiễu tọa độ; Endpoint20 riêng",
+        "evidence": "Development; timing còn thấy được"
+      }
+    ],
+    "speaking_notes": "Em phân biệt có cơ chế hỗ trợ, có phép đo, và đã giải quyết hoàn toàn. Hiện tại ta đã bổ sung phép đo cho nhiều loại suy luận, nhưng chúng thuộc các cohort và cấu hình khác nhau. S7 rõ nhất ở kênh payload: nhu cầu chỉ ở local. S4–S6 và S8 vẫn cần giới hạn về lịch sử hoặc thông tin phụ. S9–S10 có benchmark đầu-cuối riêng, nhưng current L30 không giấu giờ bắt đầu hay kết thúc. Vì vậy em không kết luận một cấu hình đã giải quyết đủ mười scenario."
+  },
+  "benchmark_presentation_scope": [
+    {
+      "topic": "L20→L30: cải thiện đã xác nhận trên cohort synthetic mới cùng map",
+      "source_dir": "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1",
+      "meaning": "Utility Recall@5 với cùng Q/cap/GPS/clock; trả thêm POI và thêm byte; current-only là primary",
+      "do_not_claim": "Không phải privacy gain hay thay đổi Q planner; không real GPS/cross-city; cache warmed không đồng nhất với primary"
+    },
+    {
+      "topic": "S5/S6 native và REM–Planar matched pilot",
+      "source_section": "thesis/current_evaluation.tex:231",
+      "meaning": "Đúng public candidate-edge/destination; Raw visible-turn kiểm chứng tín hiệu; train/selection/test tách",
+      "do_not_claim": "Không open-world; pre-fork Raw chance không phải lợi ích phòng vệ; REM không thắng Planar trên mọi utility/cache"
+    },
+    {
+      "topic": "S9/S10 attacker mạnh hơn và Endpoint20",
+      "source_section": "thesis/current_method.tex:204",
+      "meaning": "Cấu hình phát triển riêng tăng nhiễu, giữ no-delay; tách cohort/config khỏi fresh L30",
+      "do_not_claim": "Không ghép privacy Endpoint20 với utility fresh L30; không dùng Hit100 cùng bằng 0 để chứng minh hơn nhau"
+    },
+    {
+      "topic": "Dynamic availability + local GPS 60 s",
+      "source_sections": [
+        "thesis/current_dynamic.tex",
+        "thesis/current_sensor.tex"
+      ],
+      "meaning": "Phép thử độ nhạy trên Q đã khóa; live cache không stale; local vị trí kém chính xác làm utility giảm",
+      "do_not_claim": "Không confirmation mới; full-current bulk vẫn vượt nếu API cho phép; ngoại suy GPS chưa là cải tiến đã đạt"
+    }
+  ],
+  "recommended_deck_outline": [
+    {
+      "position": 1,
+      "title": "Cập nhật từ buổi trước",
+      "focus": "Thuật toán rõ hơn; L30 đã xác nhận utility; thêm kiểm tra trạng thái/GPS/companion"
+    },
+    {
+      "position": 2,
+      "title": "Luồng bốn layer của mô hình",
+      "focus": "Hình input/model/output; Z khác Q khác POI"
+    },
+    {
+      "position": 3,
+      "title": "Đọc GPS và giữ/thay Z",
+      "focus": "Gate trước GPS; chi 1/1/2; cap chia qua phiên"
+    },
+    {
+      "position": 4,
+      "title": "Từ Z tới 5 Q trên mạng đường",
+      "focus": "b, reachability, phủ POI; lý do từng thành phần"
+    },
+    {
+      "position": 5,
+      "title": "Bốn nhu cầu qua cùng phản hồi",
+      "focus": "K/L/top5; local purpose và S7"
+    },
+    {
+      "position": 6,
+      "title": "Phạm vi S1–S10",
+      "focus": "Năm nhóm; đo được đến đâu, tránh nói solved"
+    },
+    {
+      "position": 7,
+      "title": "Benchmark cải thiện L20→L30",
+      "focus": "Recall+CI+cost; cùng Q và privacy cap"
+    },
+    {
+      "position": 8,
+      "title": "S5/S6 và S9/S10",
+      "focus": "Native positive controls và endpoint riêng; mỗi bảng ghi cohort/config"
+    },
+    {
+      "position": 9,
+      "title": "Kiểm tra bổ sung sát điều kiện dịch vụ",
+      "focus": "Dynamic status + GPS local60s; bulk oracle và failure giữ nguyên"
+    },
+    {
+      "position": 10,
+      "title": "Điểm còn cần kiểm chứng",
+      "focus": "Metadata/timing, joint history/companion, real GPS/cross-city/provider contract; không appendix"
+    }
+  ],
+  "presentation_constraints": {
+    "avoid_terms": [
+      "lõi",
+      "A/B/C",
+      "mọi scenario đã được giải quyết",
+      "K=5 nên attacker chỉ có 20% thành công"
+    ],
+    "no_sections": [
+      "Related-works dài",
+      "Chứng minh toán dài",
+      "Phụ lục sample chi tiết"
+    ],
+    "figure_rules": [
+      "Số thứ tự và mũi tên theo luồng",
+      "GPS bảo vệ khác input local",
+      "Server nằm ngoài khung mô hình",
+      "Nhãn data input/output rõ",
+      "Không gọi POI P là điểm nhiễu"
+    ],
+    "cohort_labels_required": true,
+    "privacy_sentence": "Geo-I là nền tảng; các phần sau chỉ dùng thông tin đã bảo vệ và dữ liệu công khai để phục hồi utility.",
+    "closing_sentence": "Kết quả mới xác nhận L30 cải thiện utility trên cùng Q; các phép đo scenario khác được trình bày đúng cohort và giới hạn riêng."
+  },
+  "audit_notes_not_for_slide": [
+    "Nhãn scenario dùng thesis/main.tex và current_evaluation.tex; threat_records.tex là taxonomy lịch sử S1–S7, không sử dụng.",
+    "recommended_configuration.json ghi within public radius trong chuỗi metadata; QuerySpec.radius_m là private input. Slide theo code: bán kính riêng chỉ local.",
+    "public_radius_m=1000 trong configuration của profile là hằng prototype/evaluator của nghiên cứu, không chứng minh mọi query thực dùng cùng r công khai.",
+    "Planner signature L10, service L30 và local reference/top5 là ba độ sâu khác nhau.",
+    "Không thêm source/GPS/label hoặc chỉnh mẫu để làm model hơn baseline; JSON chỉ tổng hợp bằng chứng đang có."
+  ],
+  "source_pins_sha256": {
+    "thesis/main.tex": "919716d2bde99f913fcf7df253c6751455e2bbc033f889160a10f7732ef0c3b8",
+    "thesis/current_algorithm.tex": "e732a65530c1263e30ca28f3195d264dfaf7ada10104334c8995f20be7682cae",
+    "thesis/current_method.tex": "d3885a42ba43a5ad39e8ab8b28fb1822601c6e2e04bd72a4da986431c7710fb1",
+    "thesis/current_evaluation.tex": "102e85aa1006b42dfaa9ab83c9d0890e81bf87ddab0bcbc0e2a3ff2679038754",
+    "thesis/current_dataset.tex": "001b11fd9c329098c3e8dc315121bd3db97393c22e827425245bc017394ced2f",
+    "thesis/current_formal_privacy.tex": "b3a6f09db962ea0211addc5166ca6495aaef0004e8a4f80ed9b3b0dae3b6dd3a",
+    "thesis/current_formal_inference.tex": "b07255e86c447d9142743124e71045af420d836889a720dfbcdac4a4bc2a47c0",
+    "thesis/current_formal_service.tex": "db15e58820f63ae35fdcb3aaf73132cc9fc328250c9becb6351336d8d4fa58a1",
+    "thesis/current_dynamic.tex": "853321289eca0f37eb859652948a9a07d371c585f0b53067673f73fb041c662d",
+    "thesis/current_sensor.tex": "c209ae379849379e893f5d17358bbb09aeab84c4eb052b3dcee6d86b5c6534ec",
+    "thesis/current_companion.tex": "a41b9fa457351d484fb6d7e02a589eebf05fc486443c2cad08febdb71a09078c",
+    "core/mechanisms.py": "2c950335809507f0551eeeea62089260e74fa94624b3a84eb64b4666ca0cadfa",
+    "core/session_budget.py": "7bbb7ed8fd16252d0ed6280375c212e67c9216128d65e2a67f9e87e2e0039171",
+    "benchmark/anchor_belief.py": "9a4d99261ce43c3ebc6d0ce118e974ea3778ca82d0a02ac36b428e669d43dc61",
+    "benchmark/engines/filtered_cover.py": "59633ff32d36de8be5d20e88d62fa579d6c7bc24f9f081904326140ddc00ee7c",
+    "benchmark/engines/paced_guard.py": "740b6b8eabce33a8b50bca55f33b22b868f5f42211f86600924d4d8d43b6ecf0",
+    "benchmark/engines/paced_slack.py": "60d96f019496e1b209b84090b787e4b484aa38c85acfda307fc71ee05dc7f2cf",
+    "benchmark/engines/public_service_planner.py": "02d69ce8e75f70dff94426e6c303c5617b22c232a2bd89c4fca1afcfc61b375c",
+    "benchmark/engines/quotient_cover.py": "93db80c1acce17b50e6dcdf4c711189604b003735b41a087c4d8d9ccaada8ed2",
+    "benchmark/engines/slack_progress.py": "655e2a730323d1e365fef4ac8a14cbd67e7049b27816cf41fcae850651a97963",
+    "benchmark/query_purpose.py": "110ce445bb1a89283728b263c1994eda2cf601b3c6ae1eab49e31b2b6bad4443",
+    "evaluation/live_poi.py": "b6bf32695d1444809c1e5147868a16ee93a1a7b6fe65104a0d57e6cc369dcad2",
+    "experiments/qplanner_study_20261006_v2.py": "a3e177d4c3c704ce94878f8156b19f0e6a950a5b8a75ec634b9bfbdf28389102",
+    "experiments/future_sumo_eval.py": "8705492563025bb6c4207c3b644d7db9f5366f466b7963bee4e824b2c6395e7c",
+    "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/protocol.json": "13c97390d8503e876bf7bb38ef8adbe6421568b20ad716b2f57537dd89bb7853",
+    "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/recommended_configuration.json": "d50d6eb4594ced9d94b937d1d5be5acc469db08ff7514ef6d2c6d48ed538b382",
+    "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/validation.json": "8e2f0eb8b245f94edc383f9d5ef7920a40bf6ba797101e51a7925ec3d2ee19d0",
+    "artifacts/benchmarks/dynamic_provider_status_20261006_v1/validation.json": "a22b100e918cda641df12863ee65a953f106d22a749ca31ca489ced94d672c2d"
+  }
+}

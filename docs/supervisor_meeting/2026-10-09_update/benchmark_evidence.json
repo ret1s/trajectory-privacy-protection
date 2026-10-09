@@ -1,0 +1,2639 @@
+{
+  "schema": "supervisor-benchmark-evidence-v1",
+  "as_of": "2026-10-09",
+  "purpose": "Slide-ready extraction of immutable saved evidence; no score or source regeneration",
+  "numeric_encoding": {
+    "rates": "0..1; multiply by100 to display percent",
+    "gain": "absolute rate difference",
+    "gain_pp": "100 times absolute rate difference, percentage points",
+    "distance": "metres",
+    "bytes": "compact UTF8 application JSON bytes; MB=1000000 bytes",
+    "higher_utility_is_better": true,
+    "higher_attacker_hit_or_accuracy_is_worse_for_privacy": true,
+    "higher_attacker_MAE_is_better_against_that_decoder_only": true
+  },
+  "metric_definitions": {
+    "recall5": "For each purpose/category with nonempty true top-5 reference R, |answer intersection R| / |R|. The local answer comes only from received candidates. k=5 is an upper bound; |R| can be less than5.",
+    "aggregation": "Mean valid categories within event, then defined event windows within family/draw/purpose, then draws within family; equal family and equal purpose weighting. Reference coverage is identical across draws. Fresh primary uses 24 family clusters, not 18,114 independent ticks or 72 independent draws.",
+    "empty_reference": "N/A retained with all-event/category denominators, not awarded100%. Defined truth reference but no valid answer scores0.",
+    "uncertainty": "Fresh mean-difference 95% interval: saved paired whole-family percentile bootstrap, 10,000 resamples, statistical seed 2026100617; all eight sessions and three draws stay inside family. Only current/all/four-purpose macro is confirmatory; purpose/cold/tail/cache intervals are exploratory.",
+    "hit100": "Fraction of attacker point estimates within100 metres of scenario truth.",
+    "point_EIE": "Same point-decoder error mean as MAE when metric, target and aggregation match; not separate privacy evidence.",
+    "position_error": "Sensor Euclidean pre/post public-road snap error, pooled18114 events; not family-weighted Recall or GPS calibration."
+  },
+  "current_configuration": {
+    "name": "Geo-I / REM, L=30",
+    "configuration": {
+      "Geo_I_anchor": "unchanged REM + private reuse + protected belief pipeline",
+      "Q_planner": "legacy_l10",
+      "planner_signature_L": 10,
+      "K_queries_per_event": 5,
+      "server_max_POIs_per_category_per_Q_L": 30,
+      "local_top_k": 5,
+      "request_categories": "all public categories",
+      "purpose_ranking": "local nearest distance, fastest travel, within public radius, minimum detour"
+    },
+    "public_privacy_parameters": {
+      "epoch_id": "jisa-native-matched-eight-trip-epoch",
+      "start_s": 0.0,
+      "end_s": 12000.0,
+      "total_effective_epsilon_per_m": 0.23,
+      "session_slots": 8,
+      "horizon": 12,
+      "read_interval_s": 60.0,
+      "max_units_per_session": 23,
+      "unit_epsilon_per_m": 0.00125,
+      "effective_session_cap_per_m": 0.02875,
+      "nominal_session_budget_per_m": 0.03,
+      "nominal_epoch_budget_per_m": 0.24,
+      "allocation": "equal_caps_at_public_session_start_no_recycling",
+      "excess_session": "no_GPS_read_no_query",
+      "scope": "fixed_public_clock_coordinate_GeoI_only",
+      "epoch_reset": "explicit_public_policy_new_epoch_composes_with_previous_epochs"
+    },
+    "L_disambiguation_vi": "L là số POI tối đa server trả về cho MỖI category của MỖI Q. Đây không phải ID cấu hình 30/67 lịch sử. K=5 Q và local top-k=5 giữ nguyên.",
+    "ranking_radius_m": 1000,
+    "destination": "Known local destination is an evaluator oracle for minimum detour; no destination field uploaded.",
+    "privacy_vs_utility": "Fresh L30 confirmation evaluates utility/cost only, not new S1–S10 attack scores or floating-point DP certification."
+  },
+  "fresh_static": {
+    "evidence_level": "L30 selected on development and frozen before fresh synthetic generation/scoring; same-map confirmation",
+    "population": {
+      "train_families": 24,
+      "selection_families": 12,
+      "test_families": 24,
+      "test_nested_draws_per_family": 3,
+      "sessions_per_family_draw": 8,
+      "test_blocks": 72,
+      "test_sessions": 576,
+      "test_public_events": 18114,
+      "all_split_blocks_verified": 108
+    },
+    "rows": [
+      {
+        "purpose": "nearest_distance",
+        "label_vi": "Gần nhất",
+        "L20_recall": 0.924493709582599,
+        "L30_recall": 0.9467964726631398,
+        "gain": 0.022302763080540758,
+        "gain_pp": 2.230276308054076,
+        "paired95_family_bootstrap_gain": [
+          0.01741340718694863,
+          0.027315845458553763
+        ],
+        "paired95_family_bootstrap_gain_pp": [
+          1.7413407186948628,
+          2.7315845458553762
+        ],
+        "within_draw_gains": {
+          "1": 0.021438844797178034,
+          "2": 0.022179717813051045,
+          "3": 0.02328972663139324
+        },
+        "coverage": {
+          "defined_windows": 18114,
+          "total_windows": 18114,
+          "defined_categories": 108684,
+          "total_categories": 108684
+        },
+        "primary": false,
+        "source_pointer": "contrasts/service_l30--minus--service_l20--test--current--all--nearest_distance"
+      },
+      {
+        "purpose": "fastest_travel",
+        "label_vi": "Nhanh nhất",
+        "L20_recall": 0.9244863756613763,
+        "L30_recall": 0.9467799088771316,
+        "gain": 0.02229353321575536,
+        "gain_pp": 2.2293533215755357,
+        "paired95_family_bootstrap_gain": [
+          0.017406943709582533,
+          0.027307980232216308
+        ],
+        "paired95_family_bootstrap_gain_pp": [
+          1.7406943709582532,
+          2.730798023221631
+        ],
+        "within_draw_gains": {
+          "1": 0.021449823633156877,
+          "2": 0.022168650793650702,
+          "3": 0.023262125220458507
+        },
+        "coverage": {
+          "defined_windows": 18114,
+          "total_windows": 18114,
+          "defined_categories": 108684,
+          "total_categories": 108684
+        },
+        "primary": false,
+        "source_pointer": "contrasts/service_l30--minus--service_l20--test--current--all--fastest_travel"
+      },
+      {
+        "purpose": "within_radius",
+        "label_vi": "Trong bán kính",
+        "L20_recall": 0.8169384397086343,
+        "L30_recall": 0.8687856582126925,
+        "gain": 0.05184721850405816,
+        "gain_pp": 5.184721850405816,
+        "paired95_family_bootstrap_gain": [
+          0.0399189708349019,
+          0.06395670870585844
+        ],
+        "paired95_family_bootstrap_gain_pp": [
+          3.99189708349019,
+          6.395670870585844
+        ],
+        "within_draw_gains": {
+          "1": 0.05017406356950327,
+          "2": 0.05017361876524762,
+          "3": 0.055193973177423694
+        },
+        "coverage": {
+          "defined_windows": 17577,
+          "total_windows": 18114,
+          "defined_categories": 42258,
+          "total_categories": 108684
+        },
+        "primary": false,
+        "source_pointer": "contrasts/service_l30--minus--service_l20--test--current--all--within_radius"
+      },
+      {
+        "purpose": "minimum_detour",
+        "label_vi": "Ít vòng đường nhất",
+        "L20_recall": 0.9226558641975314,
+        "L30_recall": 0.9451595972957089,
+        "gain": 0.022503733098177478,
+        "gain_pp": 2.2503733098177476,
+        "paired95_family_bootstrap_gain": [
+          0.017333391387419052,
+          0.027979954805996334
+        ],
+        "paired95_family_bootstrap_gain_pp": [
+          1.7333391387419053,
+          2.797995480599633
+        ],
+        "within_draw_gains": {
+          "1": 0.02161353615520271,
+          "2": 0.02262279541446205,
+          "3": 0.023274867724867667
+        },
+        "coverage": {
+          "defined_windows": 18114,
+          "total_windows": 18114,
+          "defined_categories": 108684,
+          "total_categories": 108684
+        },
+        "primary": false,
+        "source_pointer": "contrasts/service_l30--minus--service_l20--test--current--all--minimum_detour"
+      },
+      {
+        "purpose": "equal_purpose_macro",
+        "label_vi": "Trung bình đều bốn mục đích",
+        "L20_recall": 0.8971435972875352,
+        "L30_recall": 0.9268804092621682,
+        "gain": 0.029736811974632935,
+        "gain_pp": 2.9736811974632937,
+        "paired95_family_bootstrap_gain": [
+          0.023078530151675904,
+          0.03646377214822845
+        ],
+        "paired95_family_bootstrap_gain_pp": [
+          2.3078530151675904,
+          3.646377214822845
+        ],
+        "within_draw_gains": {
+          "1": 0.028669067038760238,
+          "2": 0.029286195696602835,
+          "3": 0.03125517318853577
+        },
+        "coverage": null,
+        "primary": true,
+        "source_pointer": "contrasts/service_l30--minus--service_l20--test--current--all--equal_purpose_macro"
+      }
+    ],
+    "sensitivity": [
+      {
+        "purpose": "equal_purpose_macro",
+        "label_vi": "Trung bình đều bốn mục đích",
+        "L20_recall": 0.8833259439715253,
+        "L30_recall": 0.9145420877306518,
+        "gain": 0.031216143759126545,
+        "gain_pp": 3.1216143759126544,
+        "paired95_family_bootstrap_gain": [
+          0.02294696188333834,
+          0.039707170351495166
+        ],
+        "paired95_family_bootstrap_gain_pp": [
+          2.294696188333834,
+          3.9707170351495167
+        ],
+        "within_draw_gains": {
+          "1": 0.029537317054958195,
+          "2": 0.034078445464954234,
+          "3": 0.03003266875746713
+        },
+        "coverage": null,
+        "primary": false,
+        "source_pointer": "contrasts/service_l30--minus--service_l20--test--current--cold--equal_purpose_macro",
+        "cache": "current",
+        "phase": "cold",
+        "exploratory": true
+      },
+      {
+        "purpose": "equal_purpose_macro",
+        "label_vi": "Trung bình đều bốn mục đích",
+        "L20_recall": 0.9238825976781706,
+        "L30_recall": 0.9487988610058923,
+        "gain": 0.024916263327721722,
+        "gain_pp": 2.491626332772172,
+        "paired95_family_bootstrap_gain": [
+          0.01911090615354946,
+          0.030634280631839268
+        ],
+        "paired95_family_bootstrap_gain_pp": [
+          1.9110906153549458,
+          3.063428063183927
+        ],
+        "within_draw_gains": {
+          "1": 0.02457780934343437,
+          "2": 0.023284275042087643,
+          "3": 0.02688670559764314
+        },
+        "coverage": null,
+        "primary": false,
+        "source_pointer": "contrasts/service_l30--minus--service_l20--test--current--temporal_tail_400_600--equal_purpose_macro",
+        "cache": "current",
+        "phase": "temporal_tail_400_600",
+        "exploratory": true
+      },
+      {
+        "purpose": "equal_purpose_macro",
+        "label_vi": "Trung bình đều bốn mục đích",
+        "L20_recall": 0.9880845637108218,
+        "L30_recall": 0.9913620642011387,
+        "gain": 0.0032775004903169516,
+        "gain_pp": 0.32775004903169513,
+        "paired95_family_bootstrap_gain": [
+          0.0021973404070544226,
+          0.004522878030331122
+        ],
+        "paired95_family_bootstrap_gain_pp": [
+          0.21973404070544225,
+          0.4522878030331122
+        ],
+        "within_draw_gains": {
+          "1": 0.002720820798345185,
+          "2": 0.004695413127779134,
+          "3": 0.0024162675448265816
+        },
+        "coverage": null,
+        "primary": false,
+        "source_pointer": "contrasts/service_l30--minus--service_l20--test--static_epoch_cache--all--equal_purpose_macro",
+        "cache": "static_epoch_cache",
+        "phase": "all",
+        "exploratory": true
+      }
+    ],
+    "lower25percent_family_mean": {
+      "L20": 0.8356484546318407,
+      "L30": 0.8804621754509551,
+      "gain": 0.04481372081911439,
+      "exploratory": true
+    },
+    "cost": {
+      "L20": {
+        "requests": 90570,
+        "request_bytes": 13678985,
+        "reply_bytes": 494713236
+      },
+      "L30": {
+        "requests": 90570,
+        "request_bytes": 13678985,
+        "reply_bytes": 648578577
+      },
+      "reply_byte_ratio": 1.311019252777785,
+      "reply_growth_percent": 31.10192527777851,
+      "same_request_count_and_bytes": true
+    },
+    "fixed_controls": [
+      "Q coordinates",
+      "Q clock",
+      "protected REM anchors",
+      "protected supplier reads",
+      "privacy ledger",
+      "attacker inputs",
+      "K=5",
+      "local top-k=5"
+    ],
+    "selection_criterion": {
+      "minimum_absolute_mean_gain": 0.02,
+      "paired95_lower_bound_gt": 0.0,
+      "every_private_draw_gain_gt": 0.0,
+      "family_bootstrap_replicates": 10000,
+      "public_analysis_seed": 2026100617
+    },
+    "criterion_result": {
+      "status": "defined",
+      "passes": true,
+      "gates": {
+        "mean_gain": true,
+        "paired95_lower_bound": true,
+        "every_private_draw_gain": true
+      },
+      "primary_key": "service_l30--minus--service_l20--test--current--all--equal_purpose_macro",
+      "independent_family_clusters": 24,
+      "scope": "predeclared conditional static-utility criterion only; not a privacy equivalence or real-data confirmation claim"
+    },
+    "validation_status": "pass",
+    "limitations": [
+      "Same public map, synthetic generator, static418-POI service; not cross-city or realGPS confirmation.",
+      "L30 pays extra response bytes; no same-cost SOTA superiority or newQ/privacy algorithm.",
+      "Primary used exact syntheticGPS at each public event and known destination locally; sensor diagnostic is separate.",
+      "OnlyL20/L30 opened on fresh confirmation; deeper development arms are not fresh results."
+    ],
+    "provenance": [
+      {
+        "path": "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/protocol.json",
+        "sha256": "13c97390d8503e876bf7bb38ef8adbe6421568b20ad716b2f57537dd89bb7853"
+      },
+      {
+        "path": "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/depth_freeze.json",
+        "sha256": "7d3c393fad780d3c8522ff4159cb9bf959066182ae5b8451e6a9d6b409e47ee4"
+      },
+      {
+        "path": "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/readout.json",
+        "sha256": "f4e08d7e8388be05e4faa36be8b04da84d0618b47d698ede1134a0ddd03a8504"
+      },
+      {
+        "path": "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/paired_protocol.json",
+        "sha256": "d3385024006a8e48399ac4e7ac3947db23c320fb7585c65893266f651b13da6f"
+      },
+      {
+        "path": "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/paired_readout.json",
+        "sha256": "f1985f122e40a304afedadbbebf9fe73951e74c4241b6ec6fe00c513f9dcdd2f"
+      },
+      {
+        "path": "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/recommended_configuration.json",
+        "sha256": "d50d6eb4594ced9d94b937d1d5be5acc469db08ff7514ef6d2c6d48ed538b382"
+      },
+      {
+        "path": "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/validation.json",
+        "sha256": "8e2f0eb8b245f94edc383f9d5ef7920a40bf6ba797101e51a7925ec3d2ee19d0"
+      }
+    ]
+  },
+  "local_GPS_diagnostic": {
+    "evidence_level": "Secondary sensitivity on already-inspected24TESTfamilies, not fresh confirmation",
+    "population": {
+      "families": 24,
+      "nested_draws": 3,
+      "sessions": 576,
+      "events": 18114,
+      "virtual_local_fixes": 6336
+    },
+    "design": {
+      "local_fix_interval_s": 60,
+      "fixes_per_session": 11,
+      "noise_sigma_per_axis_m": [
+        0,
+        5,
+        15
+      ],
+      "noise": "Controlled shared Gaussian offsets, not calibrated realGPS",
+      "estimators": [
+        "hold last noisy fix",
+        "last-two-noisy-fix straight velocity, clipped8m/s; first fix holds"
+      ],
+      "causality": "Past fixes only; no true heading/route/lane/future eventGPS for estimate",
+      "clocks": "Only local-ranking position is perturbed. Frozen Geo-I/Q used earlier exact synthetic GPS. The 11-fix local clock is separate from the protected supplier clock; these are not total device GNSS reads.",
+      "local_destination": "Known destination oracle retained for detour; Recall3 excludes detour."
+    },
+    "rows": [
+      {
+        "variant": "exact_event_oracle",
+        "mode": "exact_event_oracle",
+        "sigma_m": 0.0,
+        "mean_position_error_before_snap_m": 0.0,
+        "mean_position_error_after_snap_m": 6.454205653020622,
+        "p95_position_error_after_snap_m": 15.395253651166357,
+        "invalid_estimate_events": 0,
+        "L20_recall4": 0.8971435972875348,
+        "L30_recall4": 0.9268804092621679,
+        "gain_pp": 2.973681197463307,
+        "L20_recall3_without_destination": 0.8886395083175361,
+        "L30_recall3_without_destination": 0.9207873465843209,
+        "within_draw_recall4_gains": {
+          "1": 0.028669067038760265,
+          "2": 0.029286195696602846,
+          "3": 0.03125517318853588
+        },
+        "L30_radius_recall": 0.8687856582126925,
+        "L30_radius_denominators": {
+          "total_events": 18114,
+          "defined_events": 17577,
+          "reference_category_count": 42258,
+          "all_category_count": 108684,
+          "overlap_total": 102622,
+          "reference_poi_total": 124092,
+          "empty_reference_categories": 66426,
+          "zero_answer_reference_categories": 3231,
+          "estimated_empty_categories": 66426,
+          "invalid_estimate_reference_categories": 0,
+          "returned_items": 107776,
+          "returned_outside_true_domain": 0,
+          "answered_empty_reference_categories": 0
+        },
+        "source_pointer": "summary/exact_event_oracle--L30/all"
+      },
+      {
+        "variant": "hold_last60_s0",
+        "mode": "hold_last60",
+        "sigma_m": 0.0,
+        "mean_position_error_before_snap_m": 66.3154052871204,
+        "mean_position_error_after_snap_m": 69.88415100127922,
+        "p95_position_error_after_snap_m": 286.54014073777176,
+        "invalid_estimate_events": 0,
+        "L20_recall4": 0.8674441143834367,
+        "L30_recall4": 0.8935305864109495,
+        "gain_pp": 2.6086472027512797,
+        "L20_recall3_without_destination": 0.8519213069302183,
+        "L30_recall3_without_destination": 0.8797191230531257,
+        "within_draw_recall4_gains": {
+          "1": 0.02513095709984836,
+          "2": 0.0256198322552047,
+          "3": 0.02750862672748522
+        },
+        "L30_radius_recall": 0.7843538565197535,
+        "L30_radius_denominators": {
+          "total_events": 18114,
+          "defined_events": 17577,
+          "reference_category_count": 42258,
+          "all_category_count": 108684,
+          "overlap_total": 92154,
+          "reference_poi_total": 124092,
+          "empty_reference_categories": 66426,
+          "zero_answer_reference_categories": 5021,
+          "estimated_empty_categories": 66846,
+          "invalid_estimate_reference_categories": 0,
+          "returned_items": 106303,
+          "returned_outside_true_domain": 7241,
+          "answered_empty_reference_categories": 1368
+        },
+        "source_pointer": "summary/hold_last60_s0--L30/all"
+      },
+      {
+        "variant": "hold_last60_s5",
+        "mode": "hold_last60",
+        "sigma_m": 5.0,
+        "mean_position_error_before_snap_m": 70.30429823610481,
+        "mean_position_error_after_snap_m": 70.68477939144633,
+        "p95_position_error_after_snap_m": 284.4536460843215,
+        "invalid_estimate_events": 0,
+        "L20_recall4": 0.8452992252952768,
+        "L30_recall4": 0.8693015290393845,
+        "gain_pp": 2.4002303744107722,
+        "L20_recall3_without_destination": 0.8251196215773199,
+        "L30_recall3_without_destination": 0.8505064625874922,
+        "within_draw_recall4_gains": {
+          "1": 0.022840590489964896,
+          "2": 0.023672847258061513,
+          "3": 0.025493473484296758
+        },
+        "L30_radius_recall": 0.7284823360282026,
+        "L30_radius_denominators": {
+          "total_events": 18114,
+          "defined_events": 17577,
+          "reference_category_count": 42258,
+          "all_category_count": 108684,
+          "overlap_total": 85320,
+          "reference_poi_total": 124092,
+          "empty_reference_categories": 66426,
+          "zero_answer_reference_categories": 5935,
+          "estimated_empty_categories": 66799,
+          "invalid_estimate_reference_categories": 0,
+          "returned_items": 105756,
+          "returned_outside_true_domain": 12062,
+          "answered_empty_reference_categories": 2302
+        },
+        "source_pointer": "summary/hold_last60_s5--L30/all"
+      },
+      {
+        "variant": "hold_last60_s15",
+        "mode": "hold_last60",
+        "sigma_m": 15.0,
+        "mean_position_error_before_snap_m": 78.49929890861456,
+        "mean_position_error_after_snap_m": 76.53113072129887,
+        "p95_position_error_after_snap_m": 282.10943445733074,
+        "invalid_estimate_events": 0,
+        "L20_recall4": 0.8277389609665186,
+        "L30_recall4": 0.8502305869365233,
+        "gain_pp": 2.249162597000476,
+        "L20_recall3_without_destination": 0.8044473134266495,
+        "L30_recall3_without_destination": 0.8281408119765049,
+        "within_draw_recall4_gains": {
+          "1": 0.021329304352667555,
+          "2": 0.02223916338916121,
+          "3": 0.0239064101681854
+        },
+        "L30_radius_recall": 0.6902217745538533,
+        "L30_radius_denominators": {
+          "total_events": 18114,
+          "defined_events": 17577,
+          "reference_category_count": 42258,
+          "all_category_count": 108684,
+          "overlap_total": 80584,
+          "reference_poi_total": 124092,
+          "empty_reference_categories": 66426,
+          "zero_answer_reference_categories": 6609,
+          "estimated_empty_categories": 66871,
+          "invalid_estimate_reference_categories": 0,
+          "returned_items": 106488,
+          "returned_outside_true_domain": 16430,
+          "answered_empty_reference_categories": 2967
+        },
+        "source_pointer": "summary/hold_last60_s15--L30/all"
+      },
+      {
+        "variant": "velocity_twofix60_s0",
+        "mode": "velocity_twofix60",
+        "sigma_m": 0.0,
+        "mean_position_error_before_snap_m": 56.7791126706929,
+        "mean_position_error_after_snap_m": 59.4377072947546,
+        "p95_position_error_after_snap_m": 300.42065409814194,
+        "invalid_estimate_events": 0,
+        "L20_recall4": 0.8577779011509546,
+        "L30_recall4": 0.8828491127418805,
+        "gain_pp": 2.5071211590925846,
+        "L20_recall3_without_destination": 0.8406813961260231,
+        "L30_recall3_without_destination": 0.8673290394073594,
+        "within_draw_recall4_gains": {
+          "1": 0.02424867510416573,
+          "2": 0.02436489611461745,
+          "3": 0.026600063553994246
+        },
+        "L30_radius_recall": 0.7648799312732245,
+        "L30_radius_denominators": {
+          "total_events": 18114,
+          "defined_events": 17577,
+          "reference_category_count": 42258,
+          "all_category_count": 108684,
+          "overlap_total": 89884,
+          "reference_poi_total": 124092,
+          "empty_reference_categories": 66426,
+          "zero_answer_reference_categories": 5099,
+          "estimated_empty_categories": 66996,
+          "invalid_estimate_reference_categories": 0,
+          "returned_items": 106519,
+          "returned_outside_true_domain": 9443,
+          "answered_empty_reference_categories": 1326
+        },
+        "source_pointer": "summary/velocity_twofix60_s0--L30/all"
+      },
+      {
+        "variant": "velocity_twofix60_s5",
+        "mode": "velocity_twofix60",
+        "sigma_m": 5.0,
+        "mean_position_error_before_snap_m": 61.58672083410218,
+        "mean_position_error_after_snap_m": 60.896783142129294,
+        "p95_position_error_after_snap_m": 294.5198967853079,
+        "invalid_estimate_events": 0,
+        "L20_recall4": 0.8379892095667577,
+        "L30_recall4": 0.8612958342895836,
+        "gain_pp": 2.3306624722825853,
+        "L20_recall3_without_destination": 0.8167890029183263,
+        "L30_recall3_without_destination": 0.8414068991781944,
+        "within_draw_recall4_gains": {
+          "1": 0.022536625752652584,
+          "2": 0.02274472243771697,
+          "3": 0.024638525978107895
+        },
+        "L30_radius_recall": 0.7164233724317028,
+        "L30_radius_denominators": {
+          "total_events": 18114,
+          "defined_events": 17577,
+          "reference_category_count": 42258,
+          "all_category_count": 108684,
+          "overlap_total": 83718,
+          "reference_poi_total": 124092,
+          "empty_reference_categories": 66426,
+          "zero_answer_reference_categories": 5968,
+          "estimated_empty_categories": 66962,
+          "invalid_estimate_reference_categories": 0,
+          "returned_items": 106094,
+          "returned_outside_true_domain": 13624,
+          "answered_empty_reference_categories": 2185
+        },
+        "source_pointer": "summary/velocity_twofix60_s5--L30/all"
+      },
+      {
+        "variant": "velocity_twofix60_s15",
+        "mode": "velocity_twofix60",
+        "sigma_m": 15.0,
+        "mean_position_error_before_snap_m": 72.47969336425598,
+        "mean_position_error_after_snap_m": 68.75360438772638,
+        "p95_position_error_after_snap_m": 289.30242651373413,
+        "invalid_estimate_events": 0,
+        "L20_recall4": 0.825358767586141,
+        "L30_recall4": 0.8477193501854093,
+        "gain_pp": 2.236058259926832,
+        "L20_recall3_without_destination": 0.801840090075662,
+        "L30_recall3_without_destination": 0.8253942207841515,
+        "within_draw_recall4_gains": {
+          "1": 0.021470645636110564,
+          "2": 0.02158050246449572,
+          "3": 0.024030599697198562
+        },
+        "L30_radius_recall": 0.6891780915117723,
+        "L30_radius_denominators": {
+          "total_events": 18114,
+          "defined_events": 17577,
+          "reference_category_count": 42258,
+          "all_category_count": 108684,
+          "overlap_total": 80370,
+          "reference_poi_total": 124092,
+          "empty_reference_categories": 66426,
+          "zero_answer_reference_categories": 6431,
+          "estimated_empty_categories": 66799,
+          "invalid_estimate_reference_categories": 0,
+          "returned_items": 107622,
+          "returned_outside_true_domain": 17359,
+          "answered_empty_reference_categories": 2868
+        },
+        "source_pointer": "summary/velocity_twofix60_s15--L30/all"
+      }
+    ],
+    "cost_identical_to_fresh_static_by_L": true,
+    "negative_finding": "Velocity lowers mean Euclidean position error but lowers Recall4 and Recall3 versus hold at every matched sigma and depth; it was not adopted as an improvement.",
+    "radius_denominator_warning": "Outside-true-domain/returned item counts pool repeated answers, not people-level rates. Empty truth reference staysN/A; estimated empty answer against defined truth scores0.",
+    "validation_status": "pass",
+    "limitations": [
+      "No noisy-input Geo-I experiment or privacy guarantee change.",
+      "No deviceGNSSenergy/memorymeasurement; logical1/2fix estimator state only.",
+      "NoCI or post-score estimator/noise selection; all fixed variants retained."
+    ],
+    "provenance": [
+      {
+        "path": "artifacts/benchmarks/local_gps_robustness_20261007_v1/protocol.json",
+        "sha256": "54036441d375aef9702d03fd60e7743685c611236ac13cd1dbd24021abc566ad"
+      },
+      {
+        "path": "artifacts/benchmarks/local_gps_robustness_20261007_v1/readout.json",
+        "sha256": "89b72dc2483963d18e8e62af79744196a8aa58a0e3f6546cce5db5fdecb60ac7"
+      },
+      {
+        "path": "artifacts/benchmarks/local_gps_robustness_20261007_v1/baseline_recovery.json",
+        "sha256": "55df61c0dec43d48284ee4566d6287886ed96c6ec133ccb34b4fbd3946d50efc"
+      },
+      {
+        "path": "artifacts/benchmarks/local_gps_robustness_20261007_v1/verification_protocol.json",
+        "sha256": "7cf266eefa1fa2564e4214673bca1c8aa26b90d4de20d75b03f10202fb7b0a8c"
+      },
+      {
+        "path": "artifacts/benchmarks/local_gps_robustness_20261007_v1/validation.json",
+        "sha256": "4f2c0b2f9d680ba63a5f2e83f5e0e8d392ed59cf5ef2327915fbe42b8f572781"
+      }
+    ]
+  },
+  "dynamic_status_diagnostic": {
+    "evidence_level": "Secondary inspected same-map single-world controlled availability sensitivity",
+    "population": {
+      "families": 24,
+      "nested_draws": 3,
+      "events_per_arm": 18114,
+      "public_POIs": 418,
+      "public_epochs": 88
+    },
+    "provider_contract": "Top-L STATIC nearest records per public category + CURRENT epoch availability bit; no available-first filtering; all-purpose fixed requests",
+    "availability_probability": 0.5,
+    "status_epoch_seconds": 60,
+    "rows": [
+      {
+        "arm": "geoi_l20_current",
+        "recall4": 0.8784713874299136,
+        "cold_recall4": 0.8591536481696652,
+        "tail_400_600_recall4": 0.913530171957779,
+        "purpose_recall": {
+          "nearest_distance": 0.9098524750146972,
+          "fastest_travel": 0.9098566490299823,
+          "within_radius": 0.7867051911070732,
+          "minimum_detour": 0.9074712345679012
+        },
+        "within_draw_means": {
+          "1": 0.8767780671204074,
+          "2": 0.8813732011217131,
+          "3": 0.8772628940476196
+        },
+        "cost": {
+          "requests": 90570,
+          "static_request_bytes": 13678985,
+          "status_upload_bytes": 4201350,
+          "static_reply_bytes": 494713236,
+          "status_download_bytes": 272825457,
+          "total_application_JSON_bytes": 785419028
+        },
+        "denominators": {
+          "nearest_distance": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 324434,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 42820,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 324434,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 1519888,
+            "current_status_unknown_candidates": 0
+          },
+          "fastest_travel": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 324435,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 42819,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 324435,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 1519888,
+            "current_status_unknown_candidates": 0
+          },
+          "within_radius": {
+            "total_events": 18114,
+            "defined_events": 16557,
+            "reference_category_count": 32859,
+            "all_category_count": 108684,
+            "reference_poi_total": 84738,
+            "overlap_total": 60986,
+            "empty_reference_categories": 75825,
+            "retrieval_miss_reference_pois": 23752,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 60986,
+            "returned_items": 64980,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 4633,
+            "current_known_unavailable_candidates": 1519888,
+            "current_status_unknown_candidates": 0
+          },
+          "minimum_detour": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 323268,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 43986,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 323268,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 1519888,
+            "current_status_unknown_candidates": 0
+          }
+        },
+        "operationally_valid": true,
+        "source_pointer": "summary/geoi_l20_current/all"
+      },
+      {
+        "arm": "geoi_l20_epoch60",
+        "recall4": 0.8837199144595541,
+        "cold_recall4": 0.8644409643356776,
+        "tail_400_600_recall4": 0.9181829123990188,
+        "purpose_recall": {
+          "nearest_distance": 0.9139129071134627,
+          "fastest_travel": 0.9139219106407994,
+          "within_radius": 0.7955689097488573,
+          "minimum_detour": 0.9114759303350969
+        },
+        "within_draw_means": {
+          "1": 0.882001451514737,
+          "2": 0.8869425207471745,
+          "3": 0.8822157711167509
+        },
+        "cost": {
+          "requests": 90570,
+          "static_request_bytes": 13678985,
+          "status_upload_bytes": 4201350,
+          "static_reply_bytes": 494713236,
+          "status_download_bytes": 272825457,
+          "total_application_JSON_bytes": 785419028
+        },
+        "denominators": {
+          "nearest_distance": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 326383,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 4852,
+            "current_status_unknown_reference_pois": 36019,
+            "known_available_reference_pois": 326383,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 1585495,
+            "current_status_unknown_candidates": 3400872
+          },
+          "fastest_travel": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 326386,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 4851,
+            "current_status_unknown_reference_pois": 36017,
+            "known_available_reference_pois": 326386,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 1585495,
+            "current_status_unknown_candidates": 3400872
+          },
+          "within_radius": {
+            "total_events": 18114,
+            "defined_events": 16557,
+            "reference_category_count": 32859,
+            "all_category_count": 108684,
+            "reference_poi_total": 84738,
+            "overlap_total": 61973,
+            "empty_reference_categories": 75825,
+            "retrieval_miss_reference_pois": 2816,
+            "current_status_unknown_reference_pois": 19949,
+            "known_available_reference_pois": 61973,
+            "returned_items": 65827,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 4453,
+            "current_known_unavailable_candidates": 1585495,
+            "current_status_unknown_candidates": 3400872
+          },
+          "minimum_detour": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 325184,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 5108,
+            "current_status_unknown_reference_pois": 36962,
+            "known_available_reference_pois": 325184,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 1585495,
+            "current_status_unknown_candidates": 3400872
+          }
+        },
+        "operationally_valid": true,
+        "source_pointer": "summary/geoi_l20_epoch60/all"
+      },
+      {
+        "arm": "geoi_l30_current",
+        "recall4": 0.9143633581829516,
+        "cold_recall4": 0.8973115510161881,
+        "tail_400_600_recall4": 0.9424457493444672,
+        "purpose_recall": {
+          "nearest_distance": 0.9374366402116402,
+          "fastest_travel": 0.9373843621399177,
+          "within_radius": 0.8476684944602012,
+          "minimum_detour": 0.934963935920047
+        },
+        "within_draw_means": {
+          "1": 0.9116938499754893,
+          "2": 0.9174615833360952,
+          "3": 0.9139346412372701
+        },
+        "cost": {
+          "requests": 90570,
+          "static_request_bytes": 13678985,
+          "status_upload_bytes": 4201350,
+          "static_reply_bytes": 648578577,
+          "status_download_bytes": 357495996,
+          "total_application_JSON_bytes": 1023954908
+        },
+        "denominators": {
+          "nearest_distance": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 337569,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 29685,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 337569,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 1886633,
+            "current_status_unknown_candidates": 0
+          },
+          "fastest_travel": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 337543,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 29711,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 337543,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 1886633,
+            "current_status_unknown_candidates": 0
+          },
+          "within_radius": {
+            "total_events": 18114,
+            "defined_events": 16557,
+            "reference_category_count": 32859,
+            "all_category_count": 108684,
+            "reference_poi_total": 84738,
+            "overlap_total": 67895,
+            "empty_reference_categories": 75825,
+            "retrieval_miss_reference_pois": 16843,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 67895,
+            "returned_items": 70531,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 3291,
+            "current_known_unavailable_candidates": 1886633,
+            "current_status_unknown_candidates": 0
+          },
+          "minimum_detour": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 336385,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 30869,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 336385,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 1886633,
+            "current_status_unknown_candidates": 0
+          }
+        },
+        "operationally_valid": true,
+        "source_pointer": "summary/geoi_l30_current/all"
+      },
+      {
+        "arm": "geoi_l30_epoch60",
+        "recall4": 0.917806009374265,
+        "cold_recall4": 0.9012474295790828,
+        "tail_400_600_recall4": 0.9456589737115815,
+        "purpose_recall": {
+          "nearest_distance": 0.9399708847736626,
+          "fastest_travel": 0.9399263874191653,
+          "within_radius": 0.8538106130408579,
+          "minimum_detour": 0.9375161522633745
+        },
+        "within_draw_means": {
+          "1": 0.915688685757391,
+          "2": 0.9206808440286319,
+          "3": 0.9170484983367722
+        },
+        "cost": {
+          "requests": 90570,
+          "static_request_bytes": 13678985,
+          "status_upload_bytes": 4201350,
+          "static_reply_bytes": 648578577,
+          "status_download_bytes": 357495996,
+          "total_application_JSON_bytes": 1023954908
+        },
+        "denominators": {
+          "nearest_distance": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 338783,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 3427,
+            "current_status_unknown_reference_pois": 25044,
+            "known_available_reference_pois": 338783,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 1948100,
+            "current_status_unknown_candidates": 2965862
+          },
+          "fastest_travel": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 338761,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 3430,
+            "current_status_unknown_reference_pois": 25063,
+            "known_available_reference_pois": 338761,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 1948100,
+            "current_status_unknown_candidates": 2965862
+          },
+          "within_radius": {
+            "total_events": 18114,
+            "defined_events": 16557,
+            "reference_category_count": 32859,
+            "all_category_count": 108684,
+            "reference_poi_total": 84738,
+            "overlap_total": 68532,
+            "empty_reference_categories": 75825,
+            "retrieval_miss_reference_pois": 1994,
+            "current_status_unknown_reference_pois": 14212,
+            "known_available_reference_pois": 68532,
+            "returned_items": 71106,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 3167,
+            "current_known_unavailable_candidates": 1948100,
+            "current_status_unknown_candidates": 2965862
+          },
+          "minimum_detour": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 337607,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 3632,
+            "current_status_unknown_reference_pois": 26015,
+            "known_available_reference_pois": 337607,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 1948100,
+            "current_status_unknown_candidates": 2965862
+          }
+        },
+        "operationally_valid": true,
+        "source_pointer": "summary/geoi_l30_epoch60/all"
+      },
+      {
+        "arm": "raw_l20_current",
+        "recall4": 0.9925543584656085,
+        "cold_recall4": 0.9922692652329749,
+        "tail_400_600_recall4": 0.9939638573232323,
+        "purpose_recall": {
+          "nearest_distance": 0.9992164726631394,
+          "fastest_travel": 0.9992054497354497,
+          "within_radius": 1.0,
+          "minimum_detour": 0.9717955114638448
+        },
+        "within_draw_means": {
+          "1": 0.9925543584656085,
+          "2": 0.9925543584656085,
+          "3": 0.9925543584656085
+        },
+        "cost": {
+          "requests": 18114,
+          "static_request_bytes": 2442222,
+          "status_upload_bytes": 840270,
+          "static_reply_bytes": 98968614,
+          "status_download_bytes": 54584823,
+          "total_application_JSON_bytes": 156835929
+        },
+        "denominators": {
+          "nearest_distance": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 366879,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 375,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 366879,
+            "returned_items": 366879,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 578745,
+            "current_status_unknown_candidates": 0
+          },
+          "fastest_travel": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 366873,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 381,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 366873,
+            "returned_items": 366879,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 578745,
+            "current_status_unknown_candidates": 0
+          },
+          "within_radius": {
+            "total_events": 18114,
+            "defined_events": 16557,
+            "reference_category_count": 32859,
+            "all_category_count": 108684,
+            "reference_poi_total": 84738,
+            "overlap_total": 84738,
+            "empty_reference_categories": 75825,
+            "retrieval_miss_reference_pois": 0,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 84738,
+            "returned_items": 84738,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 578745,
+            "current_status_unknown_candidates": 0
+          },
+          "minimum_detour": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 353790,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 13464,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 353790,
+            "returned_items": 366861,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 578745,
+            "current_status_unknown_candidates": 0
+          }
+        },
+        "operationally_valid": true,
+        "source_pointer": "summary/raw_l20_current/all"
+      },
+      {
+        "arm": "raw_l30_current",
+        "recall4": 0.9972933686067019,
+        "cold_recall4": 0.9971494175627239,
+        "tail_400_600_recall4": 0.9980555555555556,
+        "purpose_recall": {
+          "nearest_distance": 1.0,
+          "fastest_travel": 1.0,
+          "within_radius": 1.0,
+          "minimum_detour": 0.9891734744268078
+        },
+        "within_draw_means": {
+          "1": 0.997293368606702,
+          "2": 0.997293368606702,
+          "3": 0.997293368606702
+        },
+        "cost": {
+          "requests": 18114,
+          "static_request_bytes": 2442222,
+          "status_upload_bytes": 840270,
+          "static_reply_bytes": 129751824,
+          "status_download_bytes": 71519919,
+          "total_application_JSON_bytes": 204554235
+        },
+        "denominators": {
+          "nearest_distance": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 367254,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 0,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 367254,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 759456,
+            "current_status_unknown_candidates": 0
+          },
+          "fastest_travel": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 367254,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 0,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 367254,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 759456,
+            "current_status_unknown_candidates": 0
+          },
+          "within_radius": {
+            "total_events": 18114,
+            "defined_events": 16557,
+            "reference_category_count": 32859,
+            "all_category_count": 108684,
+            "reference_poi_total": 84738,
+            "overlap_total": 84738,
+            "empty_reference_categories": 75825,
+            "retrieval_miss_reference_pois": 0,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 84738,
+            "returned_items": 84738,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 759456,
+            "current_status_unknown_candidates": 0
+          },
+          "minimum_detour": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 362079,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 5175,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 362079,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 759456,
+            "current_status_unknown_candidates": 0
+          }
+        },
+        "operationally_valid": true,
+        "source_pointer": "summary/raw_l30_current/all"
+      },
+      {
+        "arm": "static_catalogue_stale_safe",
+        "recall4": 0.012099518990698376,
+        "cold_recall4": 0.09779465659081532,
+        "tail_400_600_recall4": 0.0,
+        "purpose_recall": {
+          "nearest_distance": 0.011924603174603176,
+          "fastest_travel": 0.011924603174603176,
+          "within_radius": 0.012624266438983974,
+          "minimum_detour": 0.011924603174603176
+        },
+        "within_draw_means": {
+          "1": 0.012099518990698374,
+          "2": 0.012099518990698374,
+          "3": 0.012099518990698374
+        },
+        "cost": {
+          "requests": 72,
+          "static_request_bytes": 2664,
+          "status_upload_bytes": 0,
+          "static_reply_bytes": 2595240,
+          "status_download_bytes": 1409112,
+          "total_application_JSON_bytes": 4007016
+        },
+        "denominators": {
+          "nearest_distance": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 4752,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 0,
+            "current_status_unknown_reference_pois": 362502,
+            "known_available_reference_pois": 4752,
+            "returned_items": 4752,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 96018,
+            "current_known_unavailable_candidates": 45792,
+            "current_status_unknown_candidates": 7481364
+          },
+          "fastest_travel": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 4752,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 0,
+            "current_status_unknown_reference_pois": 362502,
+            "known_available_reference_pois": 4752,
+            "returned_items": 4752,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 96018,
+            "current_known_unavailable_candidates": 45792,
+            "current_status_unknown_candidates": 7481364
+          },
+          "within_radius": {
+            "total_events": 18114,
+            "defined_events": 16557,
+            "reference_category_count": 32859,
+            "all_category_count": 108684,
+            "reference_poi_total": 84738,
+            "overlap_total": 939,
+            "empty_reference_categories": 75825,
+            "retrieval_miss_reference_pois": 0,
+            "current_status_unknown_reference_pois": 83799,
+            "known_available_reference_pois": 939,
+            "returned_items": 939,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 32433,
+            "current_known_unavailable_candidates": 45792,
+            "current_status_unknown_candidates": 7481364
+          },
+          "minimum_detour": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 4752,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 0,
+            "current_status_unknown_reference_pois": 362502,
+            "known_available_reference_pois": 4752,
+            "returned_items": 4752,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 96018,
+            "current_known_unavailable_candidates": 45792,
+            "current_status_unknown_candidates": 7481364
+          }
+        },
+        "operationally_valid": true,
+        "source_pointer": "summary/static_catalogue_stale_safe/all"
+      },
+      {
+        "arm": "current_catalogue_bulk_oracle",
+        "recall4": 1.0,
+        "cold_recall4": 1.0,
+        "tail_400_600_recall4": 1.0,
+        "purpose_recall": {
+          "nearest_distance": 1.0,
+          "fastest_travel": 1.0,
+          "within_radius": 1.0,
+          "minimum_detour": 1.0
+        },
+        "within_draw_means": {
+          "1": 1.0,
+          "2": 1.0,
+          "3": 1.0
+        },
+        "cost": {
+          "requests": 6408,
+          "static_request_bytes": 2664,
+          "status_upload_bytes": 306576,
+          "static_reply_bytes": 2595240,
+          "status_download_bytes": 123986880,
+          "total_application_JSON_bytes": 126891360
+        },
+        "denominators": {
+          "nearest_distance": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 367254,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 0,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 367254,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 3770751,
+            "current_status_unknown_candidates": 0
+          },
+          "fastest_travel": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 367254,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 0,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 367254,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 3770751,
+            "current_status_unknown_candidates": 0
+          },
+          "within_radius": {
+            "total_events": 18114,
+            "defined_events": 16557,
+            "reference_category_count": 32859,
+            "all_category_count": 108684,
+            "reference_poi_total": 84738,
+            "overlap_total": 84738,
+            "empty_reference_categories": 75825,
+            "retrieval_miss_reference_pois": 0,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 84738,
+            "returned_items": 84738,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 3770751,
+            "current_status_unknown_candidates": 0
+          },
+          "minimum_detour": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 367254,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 0,
+            "current_status_unknown_reference_pois": 0,
+            "known_available_reference_pois": 367254,
+            "returned_items": 367254,
+            "returned_unavailable_items": 0,
+            "returned_current_status_unknown_items": 0,
+            "reference_exists_zero_answer_categories": 0,
+            "current_known_unavailable_candidates": 3770751,
+            "current_status_unknown_candidates": 0
+          }
+        },
+        "operationally_valid": true,
+        "source_pointer": "summary/current_catalogue_bulk_oracle/all"
+      },
+      {
+        "arm": "static_catalogue_stale_unsafe",
+        "recall4": 0.5048849858123062,
+        "cold_recall4": 0.5887940703778591,
+        "tail_400_600_recall4": 0.47946649569877664,
+        "purpose_recall": {
+          "nearest_distance": 0.5157695469576719,
+          "fastest_travel": 0.5158545337301587,
+          "within_radius": 0.46921861498643863,
+          "minimum_detour": 0.5186972475749559
+        },
+        "within_draw_means": {
+          "1": 0.5048849858123062,
+          "2": 0.5048849858123062,
+          "3": 0.5048849858123062
+        },
+        "cost": {
+          "requests": 72,
+          "static_request_bytes": 2664,
+          "status_upload_bytes": 0,
+          "static_reply_bytes": 2595240,
+          "status_download_bytes": 1409112,
+          "total_application_JSON_bytes": 4007016
+        },
+        "denominators": {
+          "nearest_distance": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 179028,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 0,
+            "current_status_unknown_reference_pois": 362502,
+            "known_available_reference_pois": 4752,
+            "returned_items": 398508,
+            "returned_unavailable_items": 194148,
+            "returned_current_status_unknown_items": 393756,
+            "reference_exists_zero_answer_categories": 8760,
+            "current_known_unavailable_candidates": 45792,
+            "current_status_unknown_candidates": 7481364
+          },
+          "fastest_travel": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 179076,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 0,
+            "current_status_unknown_reference_pois": 362502,
+            "known_available_reference_pois": 4752,
+            "returned_items": 398508,
+            "returned_unavailable_items": 194043,
+            "returned_current_status_unknown_items": 393756,
+            "reference_exists_zero_answer_categories": 8760,
+            "current_known_unavailable_candidates": 45792,
+            "current_status_unknown_candidates": 7481364
+          },
+          "within_radius": {
+            "total_events": 18114,
+            "defined_events": 16557,
+            "reference_category_count": 32859,
+            "all_category_count": 108684,
+            "reference_poi_total": 84738,
+            "overlap_total": 38793,
+            "empty_reference_categories": 75825,
+            "retrieval_miss_reference_pois": 0,
+            "current_status_unknown_reference_pois": 83799,
+            "known_available_reference_pois": 939,
+            "returned_items": 83985,
+            "returned_unavailable_items": 40629,
+            "returned_current_status_unknown_items": 83046,
+            "reference_exists_zero_answer_categories": 4887,
+            "current_known_unavailable_candidates": 45792,
+            "current_status_unknown_candidates": 7481364
+          },
+          "minimum_detour": {
+            "total_events": 18114,
+            "defined_events": 18114,
+            "reference_category_count": 97098,
+            "all_category_count": 108684,
+            "reference_poi_total": 367254,
+            "overlap_total": 180417,
+            "empty_reference_categories": 11586,
+            "retrieval_miss_reference_pois": 0,
+            "current_status_unknown_reference_pois": 362502,
+            "known_available_reference_pois": 4752,
+            "returned_items": 398508,
+            "returned_unavailable_items": 194505,
+            "returned_current_status_unknown_items": 393756,
+            "reference_exists_zero_answer_categories": 8760,
+            "current_known_unavailable_candidates": 45792,
+            "current_status_unknown_candidates": 7481364
+          }
+        },
+        "operationally_valid": false,
+        "source_pointer": "summary/static_catalogue_stale_unsafe/all"
+      }
+    ],
+    "L30_minus_L20_current_gain": 0.03589197075303796,
+    "L30_current_vs_L20_total_JSON_ratio": 1.3037052471308348,
+    "L30_epoch60_cache_gain": 0.003442651191313484,
+    "bulk_vs_L30_total_JSON_ratio": 0.1239228007098922,
+    "cache_rule": "StaticIDs can persist; bits expire at absolute60s epoch, unknown != unavailable. Answers need known CURRENT available status; no secret-purpose retry.",
+    "bulk_scope": "Current full-catalogue bulk achieves100% with no location upload and lower JSONcost. StrongerAPI than topL, valid control if application permits.",
+    "unsafe_scope": "Stale unsafe arm is deliberately invalid; unavailable/unknown item counts overlap, never combine or call live quality.",
+    "validation_status": "pass",
+    "validation_caveat": "Pre-score checker failure retained. V2 post-score serialization-order correction uses uniqueevent/arm keys; runner/fixture/scores unchanged.",
+    "limitations": [
+      "One fixed synthetic status world shared across families/draws, not independent worlds.",
+      "Public research fixture lets informed client compute statuses; experimentalAPI excludes it by assumption only.",
+      "No dynamictraffic/realprovider/latency/battery/newattacker/privacyresult.",
+      "Does not resolve small-catalogue/bulk-download applicationgap."
+    ],
+    "provenance": [
+      {
+        "path": "artifacts/benchmarks/dynamic_provider_status_20261006_v1/protocol.json",
+        "sha256": "5d944d4cd99e6040fbdf144ba0f1ed07bb8db803511d2cfb1dedaa725aa05208"
+      },
+      {
+        "path": "artifacts/benchmarks/dynamic_provider_status_20261006_v1/readout.json",
+        "sha256": "d0871bcf1facce80fce0985c48ab7c2242d035f96beba4d27bb586f37ca85289"
+      },
+      {
+        "path": "artifacts/benchmarks/dynamic_provider_status_20261006_v1/verification_protocol.json",
+        "sha256": "4aa4e58869b2ff0e4b716a5bba814d3bb5201a972e111d8083d58a3553aa36e4"
+      },
+      {
+        "path": "artifacts/benchmarks/dynamic_provider_status_20261006_v1/verification_review_protocol_v2.json",
+        "sha256": "bafeafa9a28b5742294216c9454f5140dc78f6d01a2b229a66e1280c7ff79c3d"
+      },
+      {
+        "path": "artifacts/benchmarks/dynamic_provider_status_20261006_v1/validation_attempt_v1_failure.json",
+        "sha256": "b12e2d4e9384db30409a321e34f9f1a38cc6ba19a623d9ac13b0bd44b761a8dd"
+      },
+      {
+        "path": "artifacts/benchmarks/dynamic_provider_status_20261006_v1/validation.json",
+        "sha256": "a22b100e918cda641df12863ee65a953f106d22a749ca31ca489ced94d672c2d"
+      }
+    ]
+  },
+  "historical_matched_anchor_pilot": {
+    "evidence_level": "Previously inspected development pilot, NOT currentfreshL30cohort",
+    "configuration": {
+      "budget": {
+        "epoch_id": "jisa-native-matched-eight-trip-epoch",
+        "start_s": 0.0,
+        "end_s": 12000.0,
+        "total_effective_epsilon_per_m": 0.23,
+        "session_slots": 8,
+        "horizon": 12,
+        "read_interval_s": 60.0,
+        "max_units_per_session": 23,
+        "unit_epsilon_per_m": 0.00125,
+        "effective_session_cap_per_m": 0.02875,
+        "nominal_session_budget_per_m": 0.03,
+        "nominal_epoch_budget_per_m": 0.24,
+        "allocation": "equal_caps_at_public_session_start_no_recycling",
+        "excess_session": "no_GPS_read_no_query",
+        "scope": "fixed_public_clock_coordinate_GeoI_only",
+        "epoch_reset": "explicit_public_policy_new_epoch_composes_with_previous_epochs"
+      },
+      "K": 5,
+      "reply_depth_L": 20,
+      "planner_reply_depth_L": 10,
+      "reference_top_k": 5,
+      "theta_m": 200.0,
+      "utility_slack": 0.03,
+      "state_spacing_m": 40.0,
+      "policies": [
+        "current_only",
+        "versioned_epoch8"
+      ],
+      "methods": [
+        "raw",
+        "rem_epoch8",
+        "planar_epoch8"
+      ]
+    },
+    "rows": [
+      {
+        "method": "raw",
+        "current_recall5": 1.0,
+        "static_cache_recall5": 1.0,
+        "reference_defined_windows": 1402,
+        "total_windows": 1510,
+        "cost": {
+          "request_count": 1510,
+          "request_bytes_total": 203489,
+          "reply_bytes_total": 7658607
+        },
+        "S5_selected_attacker": "candidate_trees",
+        "S5_exact_candidate_edge_accuracy": 1.0,
+        "S6_selected_attacker": "candidate_trees",
+        "S6_destination_hit100": 1.0,
+        "S6_destination_mae_m": 4.989157333134833,
+        "test_queries": 12,
+        "test_families": 6
+      },
+      {
+        "method": "rem_epoch8",
+        "current_recall5": 0.9469331420622501,
+        "static_cache_recall5": 0.9990520282186949,
+        "reference_defined_windows": 1402,
+        "total_windows": 1510,
+        "cost": {
+          "request_count": 7550,
+          "request_bytes_total": 1140292,
+          "reply_bytes_total": 41235772
+        },
+        "S5_selected_attacker": "motion",
+        "S5_exact_candidate_edge_accuracy": 0.5,
+        "S6_selected_attacker": "motion",
+        "S6_destination_hit100": 0.5,
+        "S6_destination_mae_m": 614.9294973771806,
+        "test_queries": 12,
+        "test_families": 6
+      },
+      {
+        "method": "planar_epoch8",
+        "current_recall5": 0.9699903122438335,
+        "static_cache_recall5": 0.9935185185185184,
+        "reference_defined_windows": 1402,
+        "total_windows": 1510,
+        "cost": {
+          "request_count": 7550,
+          "request_bytes_total": 1140457,
+          "reply_bytes_total": 41224091
+        },
+        "S5_selected_attacker": "curve_mean_0.02",
+        "S5_exact_candidate_edge_accuracy": 0.5,
+        "S6_selected_attacker": "curve_mean_0.02",
+        "S6_destination_hit100": 0.5,
+        "S6_destination_mae_m": 501.6545025906498,
+        "test_queries": 12,
+        "test_families": 6
+      }
+    ],
+    "interpretation": "Planar beatsREM current-onlyRecall in thispilot; selected visible-turn attacks tie50%. REM static-cache gain does not establish privacy superiority.",
+    "threat": "Two PUBLIC candidate fork edges/destinations;S6 uses sixprotectedhistory sessions andqueryprefix. S5/S6 share binarydecision, not independentopenworldtasks.",
+    "attack_selection": "12train/6selectionfamilies choose bank, then6testfamilies/12queries; preserve saved actualattacker names.",
+    "utility_scope": "Historical category nearestPOIRecall atL20service/L10planner, not freshfourpurpose macro.",
+    "provenance": [
+      {
+        "path": "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1/protocol.json",
+        "sha256": "2fa6a67159f0fb9462e3cebc2ffc05c1c45d8289cd74bac4db9df0e0d5c88dd2"
+      },
+      {
+        "path": "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1/results.json",
+        "sha256": "8c1a9965b4c9e865e230e56a55feb9e32de21d69396ef58b451bd49e5c3aec63"
+      },
+      {
+        "path": "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1/derived_readout_v2.json",
+        "sha256": "fd7b4bb53f0a65915d1914b62d9b9c1ee435961f94296ca3da6b2011d4f23860"
+      },
+      {
+        "path": "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1/validation.json",
+        "sha256": "7e1b33c23498d1746f2a6af03c6600957a27ccdae2a480bd698b82be00625238"
+      }
+    ]
+  },
+  "historical_endpoint_diagnostic": {
+    "evidence_level": "Inspected28family development; attackerselector refinement, not defense/currentL30confirmation",
+    "rows": [
+      {
+        "method": "raw",
+        "scenario": "S9",
+        "mae_m": 0.0,
+        "hit100": 1.0,
+        "hit500": 1.0,
+        "families": 28,
+        "observations": 112,
+        "selected_attackers": {
+          "mae": "centroid",
+          "hit50": "centroid",
+          "hit100": "centroid",
+          "hit200": "centroid",
+          "hit500": "centroid"
+        }
+      },
+      {
+        "method": "raw",
+        "scenario": "S10",
+        "mae_m": 0.0,
+        "hit100": 1.0,
+        "hit500": 1.0,
+        "families": 28,
+        "observations": 112,
+        "selected_attackers": {
+          "mae": "centroid",
+          "hit50": "centroid",
+          "hit100": "centroid",
+          "hit200": "centroid",
+          "hit500": "centroid"
+        }
+      },
+      {
+        "method": "scale100_L10",
+        "scenario": "S9",
+        "mae_m": 619.6717673157156,
+        "hit100": 0.03571428571428571,
+        "hit500": 0.4375,
+        "families": 28,
+        "observations": 112,
+        "selected_attackers": {
+          "mae": "public_boundary_centroid_ols6",
+          "hit50": "centroid_ols6_30s",
+          "hit100": "public_boundary_centroid_ols6",
+          "hit200": "centroid_ols6_60s",
+          "hit500": "public_boundary_centroid_ols6"
+        }
+      },
+      {
+        "method": "scale100_L10",
+        "scenario": "S10",
+        "mae_m": 672.6099332553067,
+        "hit100": 0.0,
+        "hit500": 0.14285714285714285,
+        "families": 28,
+        "observations": 112,
+        "selected_attackers": {
+          "mae": "centroid_ols3_120s",
+          "hit50": "centroid",
+          "hit100": "geometry_velocity_slot2_ols3_horizon30",
+          "hit200": "geometry_velocity_slot0_ols6_horizon120",
+          "hit500": "observed_slots_slot1_ols6_horizon30"
+        }
+      },
+      {
+        "method": "scale100_L20",
+        "scenario": "S9",
+        "mae_m": 789.9478768232433,
+        "hit100": 0.017857142857142856,
+        "hit500": 0.24107142857142858,
+        "families": 28,
+        "observations": 112,
+        "selected_attackers": {
+          "mae": "public_boundary_centroid_ols6",
+          "hit50": "centroid",
+          "hit100": "centroid",
+          "hit200": "centroid_ols2_30s",
+          "hit500": "centroid_ols6_30s"
+        }
+      },
+      {
+        "method": "scale100_L20",
+        "scenario": "S10",
+        "mae_m": 757.7420954761819,
+        "hit100": 0.0,
+        "hit500": 0.125,
+        "families": 28,
+        "observations": 112,
+        "selected_attackers": {
+          "mae": "centroid_ols3_120s",
+          "hit50": "centroid",
+          "hit100": "centroid",
+          "hit200": "median_ols2_120s",
+          "hit500": "median_ols6_120s"
+        }
+      },
+      {
+        "method": "scale025_L20",
+        "scenario": "S9",
+        "mae_m": 1406.7251356531292,
+        "hit100": 0.0,
+        "hit500": 0.07142857142857142,
+        "families": 28,
+        "observations": 112,
+        "selected_attackers": {
+          "mae": "public_boundary_centroid_ols6",
+          "hit50": "centroid",
+          "hit100": "centroid",
+          "hit200": "centroid_ols6_120s",
+          "hit500": "centroid_ols6_120s"
+        }
+      },
+      {
+        "method": "scale025_L20",
+        "scenario": "S10",
+        "mae_m": 1337.1553367898873,
+        "hit100": 0.0,
+        "hit500": 0.044642857142857144,
+        "families": 28,
+        "observations": 112,
+        "selected_attackers": {
+          "mae": "centroid_ols3_120s",
+          "hit50": "centroid",
+          "hit100": "centroid",
+          "hit200": "observed_slots_slot0_ols3_boundary",
+          "hit500": "geometry_velocity_slot2_endpoint"
+        }
+      }
+    ],
+    "Endpoint20_minus_plainL20_MAE": [
+      {
+        "scenario": "S9",
+        "Endpoint20_minus_plainL20_mae_m": 616.777258829886,
+        "paired95_family_bootstrap_m": [
+          474.3623710492409,
+          763.599591924012
+        ],
+        "families": 28,
+        "posthoc_exploratory": true
+      },
+      {
+        "scenario": "S10",
+        "Endpoint20_minus_plainL20_mae_m": 579.4132413137053,
+        "paired95_family_bootstrap_m": [
+          468.2411462451376,
+          695.8449461830218
+        ],
+        "families": 28,
+        "posthoc_exploratory": true
+      }
+    ],
+    "identity_warning": "scale025_L20 / GeoI-Endpoint20 is a separate historical endpoint-noise setting, not current Epoch8 L30.",
+    "attacker_scope": "Per-metric robust cross-fit selector over a finite bank of geometry, sequence, Hungarian assignment, ExtraTrees64 and kNN attackers. The row names are the actual saved selections; MAE and Hit can use different decoders.",
+    "interpretation": "Endpoint20 increases selected-attacker MAE in this inspected cohort. S10 Hit100 ties at zero for plain L20 and Endpoint20; zero hits do not establish a difference or absolute privacy.",
+    "provenance": [
+      {
+        "path": "artifacts/benchmarks/endpoint_robust_selection_20261006/protocol.json",
+        "sha256": "078e8e2db0ffb5bccb100a657eec1deaff20986d4172838b59a3ad3bc9ccc70d"
+      },
+      {
+        "path": "artifacts/benchmarks/endpoint_robust_selection_20261006/readout.json",
+        "sha256": "9d0d03a5d0df36a2ffc2ba1f1070edccfc4665a8452b6f86fc9b49a0301b24ae"
+      },
+      {
+        "path": "artifacts/benchmarks/endpoint_robust_selection_20261006/verification.json",
+        "sha256": "5b0a03ab9d4415ba842fe9c5bff7fbbd146ccca5773d6221b86892977829a19b"
+      },
+      {
+        "path": "artifacts/benchmarks/endpoint_generalization_20261005/protocol.json",
+        "sha256": "d3784c2c8a32062f08f71072869813a8a7053d7b878b4e9dad6098ae3fa72349"
+      },
+      {
+        "path": "benchmark/engines/endpoint_noise.py",
+        "sha256": "ce7143bc640d9528ed2d82a1e091764208ad509b9347b1a55ac377950564152c"
+      }
+    ],
+    "defense_configs": [
+      {
+        "id": "raw",
+        "L": 10
+      },
+      {
+        "id": "scale100_L10",
+        "scale": 1.0,
+        "L": 10,
+        "phase": false,
+        "delay": false
+      },
+      {
+        "id": "scale100_L20",
+        "scale": 1.0,
+        "L": 20,
+        "phase": false,
+        "delay": false
+      },
+      {
+        "id": "scale025_L20",
+        "scale": 0.25,
+        "L": 20,
+        "phase": false,
+        "delay": false
+      }
+    ],
+    "endpoint_noise_policy": "Public privacy_scale=.25 scales the existing accounted budget/epsilon at EVERY protected read, because online closing time is unknown; no secret end-window detector, head suppression or publication delay.",
+    "publication_delay_s": 0,
+    "head_suppression_s": 0,
+    "upstream_parameters": {
+      "budget_per_m": 0.24,
+      "H": 12,
+      "theta_m": 200.0,
+      "K": 5,
+      "slack": 0.03,
+      "read_interval_s": 60.0,
+      "mechanism_reps": [
+        0,
+        1
+      ],
+      "sessions_per_family": 2,
+      "linked_composition_cap_per_m": 0.115,
+      "guarantee_scope": "Per-session ideal-kernel privacy bound; linked sessions compose; published synthetic experiment RNG material is evaluator-only, not production secrets"
+    },
+    "warning_vi": "Kết quả endpoint dùng cấu hình noise25/L20 lịch sử và cohort 28 family đã xem; không gắn các điểm số này cho Epoch8/L30 hiện tại. Noise mạnh hơn được áp cho mọi lần đọc bảo vệ, vì không biết trước chuyến đi sẽ kết thúc khi nào. Không dùng delay."
+  },
+  "historical_paper_v2": {
+    "evidence_level": "controlled_comparative_study_not_sota_reproduction",
+    "rows": [
+      {
+        "method": "br_private",
+        "scenario": "S1",
+        "k": 5,
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "not_applicable": 0,
+        "location_mae_m": 298.8999900778395,
+        "location_hit_100m": 0.3333333333333333,
+        "poi_recall_at_k": 0.9583333333333335,
+        "metric_n": {
+          "mae": 12,
+          "hit100": 12,
+          "recall5": 12
+        },
+        "eie_point_estimate_m": 298.89999007773145,
+        "eie_equals_MAE": true,
+        "method_fidelity": "historical proposed Q-only pipeline"
+      },
+      {
+        "method": "dls_graph_adaptation",
+        "scenario": "S1",
+        "k": 5,
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "not_applicable": 0,
+        "location_mae_m": 1317.5299228873691,
+        "location_hit_100m": 0.5833333333333334,
+        "poi_recall_at_k": 1.0,
+        "metric_n": {
+          "mae": 12,
+          "hit100": 12,
+          "recall5": 12
+        },
+        "eie_point_estimate_m": 1317.529922887533,
+        "eie_equals_MAE": true,
+        "method_fidelity": "local adaptation, not faithful paper reproduction"
+      },
+      {
+        "method": "semantic_correlation_local_adaptation",
+        "scenario": "S1",
+        "k": 5,
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "not_applicable": 0,
+        "location_mae_m": 11.479628636787858,
+        "location_hit_100m": 1.0,
+        "poi_recall_at_k": 1.0,
+        "metric_n": {
+          "mae": 12,
+          "hit100": 12,
+          "recall5": 12
+        },
+        "eie_point_estimate_m": 11.479628636641406,
+        "eie_equals_MAE": true,
+        "method_fidelity": "local adaptation, not faithful paper reproduction"
+      },
+      {
+        "method": "transprotect_adaptation",
+        "scenario": "S1",
+        "k": 5,
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "not_applicable": 0,
+        "location_mae_m": 84.37405489811852,
+        "location_hit_100m": 0.8333333333333334,
+        "poi_recall_at_k": 0.9777777777777779,
+        "metric_n": {
+          "mae": 12,
+          "hit100": 12,
+          "recall5": 12
+        },
+        "eie_point_estimate_m": 84.37405489799114,
+        "eie_equals_MAE": true,
+        "method_fidelity": "local adaptation, not faithful paper reproduction"
+      },
+      {
+        "method": "unprotected",
+        "scenario": "S1",
+        "k": 5,
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "not_applicable": 0,
+        "location_mae_m": 13.370105148243688,
+        "location_hit_100m": 1.0,
+        "poi_recall_at_k": 1.0,
+        "metric_n": {
+          "mae": 12,
+          "hit100": 12,
+          "recall5": 12
+        },
+        "eie_point_estimate_m": 13.370105148407958,
+        "eie_equals_MAE": true,
+        "method_fidelity": "unprotected positive control"
+      },
+      {
+        "method": "br_private",
+        "scenario": "S2",
+        "k": 5,
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "not_applicable": 0,
+        "location_mae_m": 247.33934047546347,
+        "location_hit_100m": 0.2222222222222222,
+        "poi_recall_at_k": 0.9700617283950618,
+        "metric_n": {
+          "mae": 12,
+          "hit100": 12,
+          "recall5": 12
+        },
+        "eie_point_estimate_m": 247.3393404753333,
+        "eie_equals_MAE": true,
+        "method_fidelity": "historical proposed Q-only pipeline"
+      },
+      {
+        "method": "dls_graph_adaptation",
+        "scenario": "S2",
+        "k": 5,
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "not_applicable": 0,
+        "location_mae_m": 38.719092422301394,
+        "location_hit_100m": 1.0,
+        "poi_recall_at_k": 1.0,
+        "metric_n": {
+          "mae": 12,
+          "hit100": 12,
+          "recall5": 12
+        },
+        "eie_point_estimate_m": 38.719092422208035,
+        "eie_equals_MAE": true,
+        "method_fidelity": "local adaptation, not faithful paper reproduction"
+      },
+      {
+        "method": "semantic_correlation_local_adaptation",
+        "scenario": "S2",
+        "k": 5,
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "not_applicable": 0,
+        "location_mae_m": 41.614312138092664,
+        "location_hit_100m": 1.0,
+        "poi_recall_at_k": 1.0,
+        "metric_n": {
+          "mae": 12,
+          "hit100": 12,
+          "recall5": 12
+        },
+        "eie_point_estimate_m": 41.614312137929694,
+        "eie_equals_MAE": true,
+        "method_fidelity": "local adaptation, not faithful paper reproduction"
+      },
+      {
+        "method": "transprotect_adaptation",
+        "scenario": "S2",
+        "k": 5,
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "not_applicable": 0,
+        "location_mae_m": 88.22411948021026,
+        "location_hit_100m": 0.6666666666666666,
+        "poi_recall_at_k": 0.9719135802469135,
+        "metric_n": {
+          "mae": 12,
+          "hit100": 12,
+          "recall5": 12
+        },
+        "eie_point_estimate_m": 88.22411948024465,
+        "eie_equals_MAE": true,
+        "method_fidelity": "local adaptation, not faithful paper reproduction"
+      },
+      {
+        "method": "unprotected",
+        "scenario": "S2",
+        "k": 5,
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "not_applicable": 0,
+        "location_mae_m": 38.719092422301394,
+        "location_hit_100m": 1.0,
+        "poi_recall_at_k": 1.0,
+        "metric_n": {
+          "mae": 12,
+          "hit100": 12,
+          "recall5": 12
+        },
+        "eie_point_estimate_m": 38.719092422208035,
+        "eie_equals_MAE": true,
+        "method_fidelity": "unprotected positive control"
+      },
+      {
+        "method": "br_private",
+        "scenario": "S3",
+        "k": 5,
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "not_applicable": 0,
+        "location_mae_m": 776.3218444429011,
+        "location_hit_100m": 0.0744047619047619,
+        "poi_recall_at_k": 0.8767350088183421,
+        "metric_n": {
+          "mae": 12,
+          "hit100": 12,
+          "recall5": 12
+        },
+        "eie_point_estimate_m": 776.3218444428136,
+        "eie_equals_MAE": true,
+        "method_fidelity": "historical proposed Q-only pipeline"
+      },
+      {
+        "method": "dls_graph_adaptation",
+        "scenario": "S3",
+        "k": 5,
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "not_applicable": 0,
+        "location_mae_m": 1687.6741403032784,
+        "location_hit_100m": 0.3121392496392496,
+        "poi_recall_at_k": 1.0,
+        "metric_n": {
+          "mae": 12,
+          "hit100": 12,
+          "recall5": 12
+        },
+        "eie_point_estimate_m": 1687.6741403031663,
+        "eie_equals_MAE": true,
+        "method_fidelity": "local adaptation, not faithful paper reproduction"
+      },
+      {
+        "method": "semantic_correlation_local_adaptation",
+        "scenario": "S3",
+        "k": 5,
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "not_applicable": 0,
+        "location_mae_m": 257.0380857144107,
+        "location_hit_100m": 0.4058261183261184,
+        "poi_recall_at_k": 1.0,
+        "metric_n": {
+          "mae": 12,
+          "hit100": 12,
+          "recall5": 12
+        },
+        "eie_point_estimate_m": 257.03808571442806,
+        "eie_equals_MAE": true,
+        "method_fidelity": "local adaptation, not faithful paper reproduction"
+      },
+      {
+        "method": "transprotect_adaptation",
+        "scenario": "S3",
+        "k": 5,
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "not_applicable": 0,
+        "location_mae_m": 99.02892666199953,
+        "location_hit_100m": 0.6928180615680617,
+        "poi_recall_at_k": 0.9793121693121694,
+        "metric_n": {
+          "mae": 12,
+          "hit100": 12,
+          "recall5": 12
+        },
+        "eie_point_estimate_m": 99.02892666205695,
+        "eie_equals_MAE": true,
+        "method_fidelity": "local adaptation, not faithful paper reproduction"
+      },
+      {
+        "method": "unprotected",
+        "scenario": "S3",
+        "k": 5,
+        "attempted": 12,
+        "completed": 12,
+        "failures": 0,
+        "not_applicable": 0,
+        "location_mae_m": 23.485290757558158,
+        "location_hit_100m": 0.9642857142857143,
+        "poi_recall_at_k": 1.0,
+        "metric_n": {
+          "mae": 12,
+          "hit100": 12,
+          "recall5": 12
+        },
+        "eie_point_estimate_m": 23.48529075756173,
+        "eie_equals_MAE": true,
+        "method_fidelity": "unprotected positive control"
+      }
+    ],
+    "identity_warning": "Historical br_private differs from current Epoch8 L30. Never combine its attack scores and fresh L30 Recall into a single method row.",
+    "original_metric_scope": "Shared controlledlocaladaptationcomparison, notfaithful paper-native reproduction. NativeDelta_c/posteriorentropy/ASR/DER/pathsimilarity missing/incompatibleinputsstayN/A.",
+    "provenance": [
+      {
+        "path": "artifacts/benchmarks/paper_benchmark/results.json",
+        "sha256": "2df043bfb73c3b2f630046381daf5b4bc9f6941fb5be925b0967d6de98f27538"
+      }
+    ]
+  },
+  "native_metric_contracts": {
+    "verification_status": "passed",
+    "independent_paper_EIE_coordinate_checks": 431,
+    "EIE": "Point-estimateEIE equalsMAE withsame target/decoder/aggregation; renaming doesnot addprivacy evidence.",
+    "TransProtect_Delta_c": "Archived exactcomparative metricN/A: prior/roadcosttable/outputcontract missing. Separate perQ directedcostdiagnostic isnot singletonhead-to-head.",
+    "entropy_ASR_DER": "No compatibleposterior/real-plus-dummylabels incurrentQ-only; never inferASR100%.",
+    "AnotherMe": "Offlinefailures/incompatibleworkflow retainfailure/N_A; failureisnotprivacysuccess.",
+    "provenance": [
+      {
+        "path": "artifacts/benchmarks/native_metrics_20261005/readout.json",
+        "sha256": "eaad087e3093c9524f5bccc539125fc7dba586c4124a3bcd378a5cb85c4450ee"
+      },
+      {
+        "path": "artifacts/benchmarks/native_metrics_20261005/verification.json",
+        "sha256": "c45056c8d3f3e77bcfe3aa7d9a357b437369138d821f160d7c2072cf5ac51087"
+      }
+    ]
+  },
+  "rejected_planner_rounds": [
+    {
+      "output": "artifacts/benchmarks/qplanner_development_20261006_v2",
+      "selected": null,
+      "records": {
+        "aligned_nearest": {
+          "macro_gain": -0.0006089691092993066,
+          "reasons": [
+            "insufficient utility gain"
+          ]
+        },
+        "multi_mean": {
+          "macro_gain": -0.004108116910496062,
+          "reasons": [
+            "insufficient utility gain"
+          ]
+        },
+        "tail25": {
+          "macro_gain": 0.004370999339829207,
+          "reasons": [
+            "insufficient utility gain",
+            "S5 future guard failed",
+            "S6 future guard failed"
+          ]
+        },
+        "tail50": {
+          "macro_gain": 0.00432507047445585,
+          "reasons": [
+            "insufficient utility gain",
+            "S5 future guard failed",
+            "S6 future guard failed"
+          ]
+        }
+      }
+    },
+    {
+      "output": "artifacts/benchmarks/qplanner_development_20261006_v3",
+      "selected": null,
+      "records": {
+        "aligned_nearest": {
+          "macro_gain": -0.0006089691092993066,
+          "reasons": [
+            "insufficient utility gain"
+          ]
+        },
+        "normalized_mean": {
+          "macro_gain": 0.0011750773411974835,
+          "reasons": [
+            "insufficient utility gain"
+          ]
+        },
+        "normalized_tight": {
+          "macro_gain": -0.003453914584959583,
+          "reasons": [
+            "insufficient utility gain"
+          ]
+        },
+        "normalized_tail": {
+          "macro_gain": -0.0034432884826669508,
+          "reasons": [
+            "insufficient utility gain"
+          ]
+        }
+      }
+    }
+  ],
+  "suggested_benchmark_slides": [
+    {
+      "title_vi": "Giữ Geo-I, tăng chất lượng tìm POI bằng L30",
+      "main_message_vi": "24 nhóm tuyến mới: Recall 89,71% → 92,69%; tăng 2,97 điểm phần trăm, CI 95% [2,31; 3,65].",
+      "visual": "Bảng trước/sau cho bốn mục đích, kèm phần đánh đổi request/byte phản hồi.",
+      "display_rows": [
+        "Gần nhất: 92,45% → 94,68%",
+        "Nhanh nhất: 92,45% → 94,68%",
+        "Trong bán kính: 81,69% → 86,88%",
+        "Ít vòng đường: 92,27% → 94,52%"
+      ],
+      "tradeoff_vi": "K=5, local top-5, Q/lịch/neo/ngân sách giữ nguyên. Byte phản hồi +31,10%; số request không đổi. L là POI tối đa mỗi category/mỗi Q.",
+      "spoken_note_vi": "Em chọn L30 trên tập phát triển, khóa cấu hình rồi mới sinh và chấm các nhóm tuyến mới. Kết quả xác nhận cải thiện utility có trả thêm bandwidth; chưa phải thắng đối chứng ở cùng chi phí hay một thuật toán Geo-I mới.",
+      "footnote_vi": "24 family × 3 draw × 8 phiên, cùng bản đồ và dịch vụ tĩnh tổng hợp; CI ghép theo family. Bán kính có tham chiếu rỗng giữ N/A.",
+      "evidence_sections": [
+        "fresh_static",
+        "current_configuration"
+      ]
+    },
+    {
+      "title_vi": "Khi GPS local chỉ cập nhật mỗi 60 giây",
+      "main_message_vi": "L30 vẫn tăng Recall, nhưng ngoại suy hai fix chưa tốt hơn giữ fix cũ.",
+      "visual": "So Recall L30 giữa exact, hold và velocity; giữ cả kết quả âm, có thể thêm lỗi vị trí trung bình.",
+      "display_rows": [
+        "GPS mỗi event: 92,69%",
+        "Giữ fix 60s, σ=0m: 89,35%",
+        "Ngoại suy 2 fix, σ=0m: 88,28%",
+        "Giữ fix 60s, σ=15m: 85,02%",
+        "Ngoại suy 2 fix, σ=15m: 84,77%"
+      ],
+      "spoken_note_vi": "Ngoại suy giảm sai số vị trí trung bình nhưng Recall giảm. Vì vậy em chưa đưa ngoại suy vào cấu hình được khuyến nghị. Diagnostic chỉ đổi vị trí local để xếp hạng từ cùng POI đã nhận; Q và ngân sách Geo-I giữ nguyên.",
+      "footnote_vi": "Dữ liệu đã xem; nhiễu Gaussian kiểm soát, không phải đo GPS thật. Clock local khác clock supplier bảo vệ. Detour dùng đích đã biết local; Recall3 cũng giảm với velocity.",
+      "evidence_sections": [
+        "local_GPS_diagnostic"
+      ]
+    },
+    {
+      "title_vi": "POI động: cache phải có hạn, bulk vẫn là giới hạn",
+      "main_message_vi": "L30 current đạt 91,44%; cache cùng epoch 60s đạt 91,78%, không tăng request.",
+      "visual": "Bảng L20 current / L30 current / L30 cache60 / current bulk, kèm tổng JSON MB.",
+      "display_rows": [
+        "L20 current: 87,85%; 785,42MB",
+        "L30 current: 91,44%; 1.023,95MB",
+        "L30 cache60: 91,78%; 1.023,95MB",
+        "Bulk hiện tại: 100%; 126,89MB"
+      ],
+      "spoken_note_vi": "Có ID POI không có nghĩa trạng thái hiện tại còn hợp lệ; bit hết hạn phải thành unknown. Bulk có API mạnh hơn, đạt 100% và rẻ hơn trong catalogue 418 POI. Do đó thí nghiệm này kiểm tra freshness và cache, chưa chứng minh bắt buộc truy vấn từ xa.",
+      "footnote_vi": "Diagnostic trên một thế giới trạng thái tổng hợp đã xem; không đo mạng thực, pin hoặc privacy mới. Bulk là đối chứng hợp lệ nếu ứng dụng cho phép API đó.",
+      "evidence_sections": [
+        "dynamic_status_diagnostic"
+      ]
+    }
+  ],
+  "source_files": {
+    "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/paired_readout.json": {
+      "sha256": "f1985f122e40a304afedadbbebf9fe73951e74c4241b6ec6fe00c513f9dcdd2f",
+      "bytes": 1301538
+    },
+    "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/protocol.json": {
+      "sha256": "13c97390d8503e876bf7bb38ef8adbe6421568b20ad716b2f57537dd89bb7853",
+      "bytes": 20336
+    },
+    "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/recommended_configuration.json": {
+      "sha256": "d50d6eb4594ced9d94b937d1d5be5acc469db08ff7514ef6d2c6d48ed538b382",
+      "bytes": 3367
+    },
+    "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/validation.json": {
+      "sha256": "8e2f0eb8b245f94edc383f9d5ef7920a40bf6ba797101e51a7925ec3d2ee19d0",
+      "bytes": 2487
+    },
+    "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/readout.json": {
+      "sha256": "f4e08d7e8388be05e4faa36be8b04da84d0618b47d698ede1134a0ddd03a8504",
+      "bytes": 22707
+    },
+    "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/verification_protocol.json": {
+      "sha256": "35c0ee3bff4679ccfe12fbc6caeec71e7a3162e25751986ed08a7ea1304c92b6",
+      "bytes": 9357
+    },
+    "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/paired_protocol.json": {
+      "sha256": "d3385024006a8e48399ac4e7ac3947db23c320fb7585c65893266f651b13da6f",
+      "bytes": 1117
+    },
+    "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/depth_freeze.json": {
+      "sha256": "7d3c393fad780d3c8522ff4159cb9bf959066182ae5b8451e6a9d6b409e47ee4",
+      "bytes": 868
+    },
+    "artifacts/benchmarks/local_gps_robustness_20261007_v1/readout.json": {
+      "sha256": "89b72dc2483963d18e8e62af79744196a8aa58a0e3f6546cce5db5fdecb60ac7",
+      "bytes": 3589652
+    },
+    "artifacts/benchmarks/local_gps_robustness_20261007_v1/protocol.json": {
+      "sha256": "54036441d375aef9702d03fd60e7743685c611236ac13cd1dbd24021abc566ad",
+      "bytes": 1115488
+    },
+    "artifacts/benchmarks/local_gps_robustness_20261007_v1/validation.json": {
+      "sha256": "4f2c0b2f9d680ba63a5f2e83f5e0e8d392ed59cf5ef2327915fbe42b8f572781",
+      "bytes": 1487
+    },
+    "artifacts/benchmarks/local_gps_robustness_20261007_v1/verification_protocol.json": {
+      "sha256": "7cf266eefa1fa2564e4214673bca1c8aa26b90d4de20d75b03f10202fb7b0a8c",
+      "bytes": 8142
+    },
+    "artifacts/benchmarks/local_gps_robustness_20261007_v1/baseline_recovery.json": {
+      "sha256": "55df61c0dec43d48284ee4566d6287886ed96c6ec133ccb34b4fbd3946d50efc",
+      "bytes": 471
+    },
+    "artifacts/benchmarks/dynamic_provider_status_20261006_v1/readout.json": {
+      "sha256": "d0871bcf1facce80fce0985c48ab7c2242d035f96beba4d27bb586f37ca85289",
+      "bytes": 2218980
+    },
+    "artifacts/benchmarks/dynamic_provider_status_20261006_v1/protocol.json": {
+      "sha256": "5d944d4cd99e6040fbdf144ba0f1ed07bb8db803511d2cfb1dedaa725aa05208",
+      "bytes": 1485052
+    },
+    "artifacts/benchmarks/dynamic_provider_status_20261006_v1/validation.json": {
+      "sha256": "a22b100e918cda641df12863ee65a953f106d22a749ca31ca489ced94d672c2d",
+      "bytes": 1502
+    },
+    "artifacts/benchmarks/dynamic_provider_status_20261006_v1/verification_protocol.json": {
+      "sha256": "4aa4e58869b2ff0e4b716a5bba814d3bb5201a972e111d8083d58a3553aa36e4",
+      "bytes": 2110
+    },
+    "artifacts/benchmarks/dynamic_provider_status_20261006_v1/verification_review_protocol_v2.json": {
+      "sha256": "bafeafa9a28b5742294216c9454f5140dc78f6d01a2b229a66e1280c7ff79c3d",
+      "bytes": 3038
+    },
+    "artifacts/benchmarks/dynamic_provider_status_20261006_v1/validation_attempt_v1_failure.json": {
+      "sha256": "b12e2d4e9384db30409a321e34f9f1a38cc6ba19a623d9ac13b0bd44b761a8dd",
+      "bytes": 1010
+    },
+    "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1/derived_readout_v2.json": {
+      "sha256": "fd7b4bb53f0a65915d1914b62d9b9c1ee435961f94296ca3da6b2011d4f23860",
+      "bytes": 1043726
+    },
+    "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1/protocol.json": {
+      "sha256": "2fa6a67159f0fb9462e3cebc2ffc05c1c45d8289cd74bac4db9df0e0d5c88dd2",
+      "bytes": 9525
+    },
+    "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1/validation.json": {
+      "sha256": "7e1b33c23498d1746f2a6af03c6600957a27ccdae2a480bd698b82be00625238",
+      "bytes": 744
+    },
+    "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1/results.json": {
+      "sha256": "8c1a9965b4c9e865e230e56a55feb9e32de21d69396ef58b451bd49e5c3aec63",
+      "bytes": 1030957
+    },
+    "artifacts/benchmarks/endpoint_robust_selection_20261006/readout.json": {
+      "sha256": "9d0d03a5d0df36a2ffc2ba1f1070edccfc4665a8452b6f86fc9b49a0301b24ae",
+      "bytes": 135764
+    },
+    "artifacts/benchmarks/endpoint_robust_selection_20261006/protocol.json": {
+      "sha256": "078e8e2db0ffb5bccb100a657eec1deaff20986d4172838b59a3ad3bc9ccc70d",
+      "bytes": 8764
+    },
+    "artifacts/benchmarks/endpoint_robust_selection_20261006/verification.json": {
+      "sha256": "5b0a03ab9d4415ba842fe9c5bff7fbbd146ccca5773d6221b86892977829a19b",
+      "bytes": 759
+    },
+    "artifacts/benchmarks/paper_benchmark/results.json": {
+      "sha256": "2df043bfb73c3b2f630046381daf5b4bc9f6941fb5be925b0967d6de98f27538",
+      "bytes": 30592817
+    },
+    "artifacts/benchmarks/native_metrics_20261005/readout.json": {
+      "sha256": "eaad087e3093c9524f5bccc539125fc7dba586c4124a3bcd378a5cb85c4450ee",
+      "bytes": 504977
+    },
+    "artifacts/benchmarks/native_metrics_20261005/verification.json": {
+      "sha256": "c45056c8d3f3e77bcfe3aa7d9a357b437369138d821f160d7c2072cf5ac51087",
+      "bytes": 511
+    },
+    "artifacts/benchmarks/qplanner_development_20261006_v2/defense_selection.json": {
+      "sha256": "b7c8fde2994831efdf8454dc3aee95830d57acfe80691aea577c15802eea8dff",
+      "bytes": 5316
+    },
+    "artifacts/benchmarks/qplanner_development_20261006_v3/defense_selection.json": {
+      "sha256": "1d30ebea02f48e065026d4e0ba40fd1499f5faf8dca29985ea7f275298ac10e4",
+      "bytes": 5173
+    },
+    "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/README.md": {
+      "sha256": "a6cfd7cffe7dc5c8f915affac6431f389ead1abec975e2ee1ec45a4e64afb98b",
+      "bytes": 4332
+    },
+    "artifacts/benchmarks/local_gps_robustness_20261007_v1/README.md": {
+      "sha256": "a8907c164e9795586b3bc9baa9179b10ee515f66a217c202ca6f4bfcc8e38525",
+      "bytes": 6500
+    },
+    "artifacts/benchmarks/dynamic_provider_status_20261006_v1/README.md": {
+      "sha256": "b22fd0f4f6196044bde97f935919654e3607f02b02b03f2c3aec3f25f8c632c3",
+      "bytes": 9589
+    },
+    "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1/README.md": {
+      "sha256": "4c1864a9b0904ad34473c13f3eaeba7862c14f90b19e8459624e8f455ee54f7d",
+      "bytes": 9988
+    },
+    "artifacts/benchmarks/endpoint_robust_selection_20261006/README.md": {
+      "sha256": "5fd0b955e33cce6c7b202b1002a84c8d118cd90471118b0a98a4208e0d80893d",
+      "bytes": 6163
+    },
+    "docs/research/2026-10-05_native_metrics.md": {
+      "sha256": "6dd7a2356a9b616037c55bbba50923021523bb74ee0fe20e7e5f9cae0e5e59c1",
+      "bytes": 13810
+    },
+    "thesis/current_evaluation.tex": {
+      "sha256": "102e85aa1006b42dfaa9ab83c9d0890e81bf87ddab0bcbc0e2a3ff2679038754",
+      "bytes": 31960
+    },
+    "thesis/current_sensor.tex": {
+      "sha256": "c209ae379849379e893f5d17358bbb09aeab84c4eb052b3dcee6d86b5c6534ec",
+      "bytes": 5914
+    },
+    "thesis/current_dynamic.tex": {
+      "sha256": "853321289eca0f37eb859652948a9a07d371c585f0b53067673f73fb041c662d",
+      "bytes": 6891
+    },
+    "artifacts/benchmarks/endpoint_generalization_20261005/protocol.json": {
+      "sha256": "d3784c2c8a32062f08f71072869813a8a7053d7b878b4e9dad6098ae3fa72349",
+      "bytes": 7271
+    },
+    "benchmark/engines/endpoint_noise.py": {
+      "sha256": "ce7143bc640d9528ed2d82a1e091764208ad509b9347b1a55ac377950564152c",
+      "bytes": 1907
+    }
+  },
+  "extraction_audit": {
+    "source_hashes_stable_during_read": true,
+    "fresh_sensor_dynamic_certificates_and_readout_pins_match": true,
+    "fresh_gain_checked_from_saved_family_values": true,
+    "fresh_TEST_cost_checked_by_summing72_saved_family_draw_rows": true,
+    "sensor_costs_equal_original_for_all14_arms": true,
+    "paper_point_EIE_matches_MAE_tolerance_m": 1e-07,
+    "new_score_generation": false,
+    "new_fit_or_sample_mutation": false,
+    "scope": "Read-only extraction/arithmetic; retains existing independentcertificates, does notrerun them orcertify privacytheorem."
+  }
+}

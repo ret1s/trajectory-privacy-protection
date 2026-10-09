@@ -1,0 +1,327 @@
+{
+  "schema": "supervisor-algorithm-benchmark-slides-v1",
+  "prepared_date": "2026-10-09",
+  "meeting_date": null,
+  "language": "vi",
+  "slide_count": 14,
+  "fresh": {
+    "before": 89.71435972875352,
+    "after": 92.68804092621681,
+    "gain_pp": 2.9736811974632937,
+    "ci_pp": [
+      2.3078530151675904,
+      3.646377214822845
+    ],
+    "purposes": [
+      {
+        "label": "Gần nhất",
+        "before": 92.4493709582599,
+        "after": 94.67964726631398,
+        "gain_pp": 2.230276308054076
+      },
+      {
+        "label": "Nhanh nhất",
+        "before": 92.44863756613762,
+        "after": 94.67799088771316,
+        "gain_pp": 2.2293533215755357
+      },
+      {
+        "label": "Trong bán kính",
+        "before": 81.69384397086344,
+        "after": 86.87856582126925,
+        "gain_pp": 5.184721850405816
+      },
+      {
+        "label": "Ít vòng tới đích",
+        "before": 92.26558641975315,
+        "after": 94.51595972957088,
+        "gain_pp": 2.2503733098177476
+      }
+    ],
+    "reply_before": 494713236,
+    "reply_after": 648578577,
+    "reply_growth_pct": 31.10192527777851,
+    "requests": 90570
+  },
+  "sensor": {
+    "hold20": [
+      86.74441143834368,
+      84.52992252952768,
+      82.77389609665185
+    ],
+    "hold30": [
+      89.35305864109495,
+      86.93015290393845,
+      85.02305869365233
+    ],
+    "velocity30": [
+      88.28491127418805,
+      86.12958342895836,
+      84.77193501854093
+    ],
+    "oracle30": 92.68804092621679,
+    "gain_range_pp": [
+      2.236058259926832,
+      2.6086472027512797
+    ]
+  },
+  "dynamic": {
+    "l20_current": 87.84713874299136,
+    "l20_cached": 88.37199144595542,
+    "l30_current": 91.43633581829516,
+    "l30_cached": 91.7806009374265,
+    "bulk": 100.0,
+    "l30_total_JSON_bytes": 1023954908,
+    "bulk_total_JSON_bytes": 126891360
+  },
+  "endpoint": {
+    "s9_before": 789.9478768232433,
+    "s9_after": 1406.7251356531292,
+    "s10_before": 757.7420954761819,
+    "s10_after": 1337.1553367898873,
+    "s10_hit500_before": 12.5,
+    "s10_hit500_after": 4.464285714285714
+  },
+  "slides": [
+    {
+      "title": "Bảo vệ riêng tư vị trí bằng Geo-I/REM",
+      "footer": "Mô hình Geo-I/REM trên thiết bị · Truy hồi POI đa mục đích",
+      "notes": "Buổi này em chỉ báo cáo luồng thuật toán hiện tại, phạm vi các scenario và những kết quả đã cải thiện hoặc được bổ sung. Geo-I/REM vẫn là nền tảng. Kết quả chính là utility của L30 cao hơn L20 trên cùng Q, đi cùng chi phí phản hồi cao hơn. Các phép thử GPS và trạng thái POI bổ sung kiểm tra giới hạn ứng dụng; chưa phải dữ liệu GPS thực.",
+      "sources": [
+        "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/protocol.json",
+        "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/depth_freeze.json",
+        "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/readout.json",
+        "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/paired_protocol.json",
+        "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/paired_readout.json",
+        "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/recommended_configuration.json",
+        "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/validation.json",
+        "thesis/current_method.tex",
+        "benchmark/anchor_belief.py",
+        "benchmark/budgeted_geoi_lbs.py",
+        "benchmark/query_purpose.py"
+      ]
+    },
+    {
+      "title": "Kiến trúc phương pháp",
+      "footer": "Z chỉ lưu trên thiết bị; máy chủ nhận Q và trả ứng viên POI.",
+      "notes": "Em chia mô hình thành bốn tầng. Đầu tiên, thiết bị kiểm tra còn ngân sách riêng tư và đã tới thời điểm được đọc GPS hay chưa. Nếu được đọc, REM tạo hoặc cập nhật điểm tham chiếu Z. Từ thông tin đã bảo vệ và mạng đường, mô hình chọn năm Q để gửi server. Server trả POI, thiết bị gộp kết quả rồi xếp hạng theo vị trí local và nhu cầu thật. Z và nhu cầu thật không nằm trong payload. Các mũi tên thể hiện thứ tự này, còn khung bao quanh các bước chạy trên thiết bị.\nLayer 3 gửi mọi category; L30 là độ sâu mỗi category tại mỗi Q. Layer 4 mới dùng vị trí local và nhu cầu riêng. Hai đồng hồ GPS cho Geo-I và cho local ranking được tách biệt.",
+      "sources": [
+        "thesis/current_method.tex",
+        "benchmark/anchor_belief.py",
+        "benchmark/budgeted_geoi_lbs.py",
+        "benchmark/query_purpose.py",
+        "core/session_budget.py"
+      ]
+    },
+    {
+      "title": "Bảo vệ GPS và tái sử dụng điểm tham chiếu",
+      "footer": "Phiên đã nhận: hết lượt đọc vẫn truy vấn. Phiên bị từ chối: không đọc GPS, không gửi Q.",
+      "notes": "Không phải cứ 60 giây là chắc chắn đọc GPS. Trước tiên phải đủ ngân sách và đủ khoảng cách thời gian. Lần đầu tạo Z bằng REM. Những lần sau, ta lấy khoảng cách từ GPS mới tới Z rồi thêm nhiễu vào phép kiểm tra: có thể giữ Z hoặc tạo Z mới. Giữ sau một lần đọc vẫn tốn ngân sách, vì quyết định giữ cũng dùng thông tin riêng. Nếu gate không cho đọc, ta giữ thông tin đã bảo vệ, chi thêm bằng không, và vẫn có thể gửi Q theo lịch. Ledger tin cậy dùng ngân sách chung cho tối đa tám phiên trong cùng epoch, ngăn một chuyến tự cấp lại cap. Nhiều epoch hoặc thiết bị vẫn phải cộng dồn ngân sách theo mô hình bảo đảm tương ứng.\nTrong cấu hình current, 8 slot dùng tổng cap hiệu lực C=0,23/m; H12 tương đương U=23 unit mỗi phiên, u=0,00125/m. Lần đầu dự toán 1 unit; khi đã có Z phải còn 2 unit trước GPS, dù sau đó nhánh giữ chỉ chi 1. Điều kiện giữ phải có nhiễu; dùng ngưỡng raw sẽ mở thêm kênh thông tin. Một unit không phải một lần GPS miễn phí.\nREM lấy mẫu Z trên mạng đường công khai: xác suất tại mỗi điểm giảm theo khoảng cách từ GPS. Không cắt miền ứng viên bằng một vùng quanh GPS thật. Kiểm tra giữ Z cũng thêm nhiễu, nên cả lần tạo mới và quyết định giữ đều được tính vào ngân sách.",
+      "sources": [
+        "thesis/current_method.tex",
+        "benchmark/anchor_belief.py",
+        "benchmark/budgeted_geoi_lbs.py",
+        "benchmark/query_purpose.py",
+        "core/mechanisms.py",
+        "core/session_budget.py",
+        "thesis/current_formal_privacy.tex"
+      ]
+    },
+    {
+      "title": "Ước lượng vị trí và lựa chọn truy vấn",
+      "footer": "b dùng lịch sử đã bảo vệ và dữ liệu công khai; chưa xác nhận độ hiệu chỉnh xác suất.",
+      "notes": "Z đã có nhiễu nên nếu chỉ tìm quanh đúng một Z, phản hồi dễ bỏ sót nơi người dùng đang ở. b giữ một phân bố các vùng có thể đang ở, dựa trên thông tin đã bảo vệ và chuyển động công khai. Từ đó ta chọn Q có khả năng lấy được POI hữu ích. Mỗi Q được nối từ Q trước bằng các đường có thể đi trong khoảng thời gian đã qua. Đây là bước phục hồi utility sau Geo-I, không đọc thêm GPS để sửa kết quả. Mạng đường giúp truy vấn hợp lý, nhưng tự nó không chứng minh attacker không tái dựng được đường đi.\nNăm Q không phải năm lần lấy nhiễu Geo-I độc lập quanh Z. Planner giữ mỗi track trong miền tới được theo graph có hướng. Mục tiêu là độ phủ nearest của các POI được belief gán trọng số, không phải suy chính xác GPS hay tối ưu toàn hành trình. Hình đường chỉ là sơ đồ, không phải sample benchmark. Signature planner vẫn L10 trong khi phản hồi server là L30.",
+      "sources": [
+        "thesis/current_method.tex",
+        "benchmark/anchor_belief.py",
+        "benchmark/budgeted_geoi_lbs.py",
+        "benchmark/query_purpose.py",
+        "benchmark/engines/public_service_planner.py",
+        "thesis/current_formal_belief_bridge.tex",
+        "thesis/current_formal_service.tex"
+      ]
+    },
+    {
+      "title": "Truy hồi POI theo nhiều mục đích",
+      "footer": "S7 có điều kiện: cùng trạng thái đã bảo vệ và lịch công khai, mục đích không thay đổi truy vấn.",
+      "notes": "K là số điểm truy vấn, còn L là độ sâu phản hồi. Với năm Q, mỗi Q xin tối đa 30 POI cho mỗi category; đây không phải 30 lần đọc GPS hay một mức privacy khác. Ta gộp các ID rồi chọn tối đa năm POI theo nhu cầu riêng: gần nhất, đến nhanh nhất, trong bán kính, hoặc ít đi vòng tới đích. Với cùng trạng thái đã bảo vệ và lịch công khai, server nhận cùng payload cho cả bốn nhu cầu. Vì vậy payload không nói người dùng đang tìm gì; vị trí và tuyến vẫn có thể tiết lộ nhu cầu gián tiếp. Nếu POI có trạng thái động, chỉ dùng bit còn hiệu lực, không coi thông tin chưa biết là đang khả dụng.\nServer vẫn trả nearest top-L cho mỗi category tại Q; bốn purpose là cách xếp hạng tại thiết bị. Trong bán kính và detour dùng khoảng cách đường có hướng, fastest dùng tốc độ free-flow. Đích detour phải có sẵn ở local; phép thử dùng đích thật làm oracle. Không bao phủ click, account/IP hay intent tương quan với tuyến đường. Nếu thiếu đáp án rồi gửi request theo purpose, điều kiện S7 sẽ bị phá.",
+      "sources": [
+        "thesis/current_method.tex",
+        "benchmark/anchor_belief.py",
+        "benchmark/budgeted_geoi_lbs.py",
+        "benchmark/query_purpose.py",
+        "thesis/current_formal_service.tex"
+      ]
+    },
+    {
+      "title": "Ví dụ 1: bảo vệ GPS và tạo truy vấn",
+      "footer": "Mẫu SUMO từ tập huấn luyện; GPS/Z chỉ để phân tích. © OpenStreetMap contributors.",
+      "notes": "Em dùng một tape đã lưu, chọn cố định nhóm freshqp-001, TRAIN, draw1, chuyến đầu; không tìm sample có Recall đẹp. Đây là GPS SUMO mô phỏng. Chuyến1 là slot0 trong dữ liệu.\nTại0s, đọc GPS rồi REM tạo Z; tốn1 đơn vị. Tại20s, chưa đủ khoảng cách60s nên không đọc GPS bảo vệ, Z giữ nguyên và chi0. Tại60s, đủ lịch/ngân sách; đọc GPS rồi phép kiểm tra có nhiễu chọn tạo mới, tốn2 đơn vị. Tổng đã chi3×0,00125=0,00375/m, nhỏ hơn cap mỗi chuyến0,02875/m. K=5 và chọn Q không nhân chi phí GPS này. Đây là clock GPS cho bảo vệ, riêng GPS dùng xếp hạng local trong benchmark vẫn có ở từng event.\nGPS tại60s=39.982839,116.292335. Z ban đầu=39.981442,116.328083; Z mới=39.988552,116.293209. Bản đồ đặt GPS, Z và5Q đúng vị trí nguồn ở60s; chỉ Q được gửi. b được dựng lại từ Z và cờ read bằng đúng public model, không dùng GPS thật. Chỉ12 vùng có trọng số lớn nhất được vẽ; chúng chiếm9.88% khối lượng b, không phải miền80% hay vùng tin cậy. b phục hồi ưu tiên POI, không đoán một GPS chính xác.\nĐể thấy nhánh đọc rồi vẫn giữ Z, em thêm chuyến6 (slot5), mốc60s. Khoảng cách tới Z cũ là1203.920m, lớn hơn200m, nhưng phép kiểm tra có nhiễu cho nhánh giữ. Nhánh này tốn1 đơn vị và tổng2 đơn vị=0,0025/m. Không dùng raw distance làm điều kiện giữ. Giá trị nhiễu Laplace ban đầu không được lưu; bất đẳng thức trên slide suy ra từ nhánh đã lưu, không phải một giá trị nhiễu tự đặt.\nCác Q theo track vẫn phải tới được theo đường có hướng; tại60s số ứng viên là19/6/29/21/21. Slack loss0,00338≤0,03 trên điểm planner, không phải cận giảm Recall. Các đường và điểm là bản đồ công khai, crop chỉ để trình bày. © OpenStreetMap contributors; https://www.openstreetmap.org/copyright.",
+      "sources": [
+        "docs/supervisor_meeting/2026-10-09_update/sample_walkthrough.json",
+        "docs/supervisor_meeting/2026-10-09_update/build_sample_walkthrough.py"
+      ]
+    },
+    {
+      "title": "Ví dụ 2: xếp hạng POI tại thiết bị",
+      "footer": "L = 30/loại/Q; đích detour là đầu vào chuẩn để đánh giá. © OpenStreetMap contributors.",
+      "notes": "Vẫn sample freshqp-001/chuyến1 ở60s, cùng5Q. Mỗi Q xin mọi6category, L30 là tối đa30POI/category/Q. Sample này có30cafe+3clinic+1fuel+7hospital+13pharmacy+30restaurant=84bản ghi mỗiQ;5Q trả420bản ghi, bỏ trùngID còn252POI, gồm83cafe. Thiết bị không chuyển5Q thành5POI: Q là tọa độ, POI là kết quả máy chủ.\nTrong café, gần nhất choP167,P13,P224,P166,P126 với khoảng cách đường xấp xỉ985,1037,1341,1389,1436m. P là alias của catalogue_index; ID OSM và toạ độ đầy đủ nằm trong source JSON, không tạo địa điểm giả. Các dấu xanh dương là5POI này. Nhanh nhất cũng cho cùng thứ tự trong sample này; nó vẫn tính bằng score thời gian free-flow, không phải mọi dữ liệu đều có thứ tự giống nhau.\nNếu nhu cầu là trong1000m, chỉP167 hợp lệ; trả1POI, không ép đủ5. Nếu nhu cầu là ít đi vòng tới đích, thứ tự làP93,P167,P57,P58,P13, với khoảng cách tăng thêm xấp xỉ950,1060,1150,1150,1617m. Đích của phép minh họa lấy từ điểm cuối thật trong dataset, chỉ cung cấp cho local evaluator, là oracle như benchmark; deployment cần người dùng nhập đích đã biết. Không đưa đích đó vào planner/server.\nBốn purpose dùng nguyên5Q, payload mọicategory, cùngpool252POI và không gửi thêm request. Sample này trả đúng reference trong cả4purpose nhưng không phải mean benchmark, không chứng minh100%utility tổng quát hay che intent tương quan với tuyến. Byte ứng dụng đã lưu:5request/746bytes và35837replybytes, không phải đo năng lượng, latency hay network overhead. © OpenStreetMap contributors; https://www.openstreetmap.org/copyright.",
+      "sources": [
+        "docs/supervisor_meeting/2026-10-09_update/utility_sample.json",
+        "docs/supervisor_meeting/2026-10-09_update/utility_sample_extractor.py",
+        "docs/supervisor_meeting/2026-10-09_update/sample_walkthrough.json"
+      ]
+    },
+    {
+      "title": "Ví dụ 3: bảo vệ điểm đầu và điểm cuối",
+      "footer": "Endpoint20: cấu hình L20 riêng, khác L30 hiện tại; một mẫu chưa chứng minh riêng tư. © OpenStreetMap contributors.",
+      "notes": "Mẫu thứ3 dùng chuyến u701_00, rep0, nhóm fit đầu tiên theoID của bank lịch sử. Đây là cấu hình L20 khác current Epoch8/L30; em dùng nó để minh họa chính xác no-delay của Endpoint20, không gán Q hay score này cho L30.\nMàu xám là5Q của GeoI-Slack lịch sử; màu xanh là5Q Endpoint20. GPS đỏ chỉ là nhãn đầu/cuối để phân tích, server không nhận GPS. Các điểm trên hai bản đồ được chép đúng tape; Z và nhánh giữ/tạo mới không được lưu trong bank này nên không suy Z từQ hoặc vẽ Z giả.\nHai cấu hình cùng8mốc gửi:0,60,120,180,240,300,360,384s. Mốc0 tạo và gửi lúc0; mốc384 tạoQ và gửi lúc384. Không bỏ đầu, không giữ chờ, không hủy phần cuối. Nhưng384 chỉ24s sau360: pacing60s không cho đọc GPS bảo vệ mới ở384. Mô hình vẫn chọnQ từ thông tin đã bảo vệ; nó không cần biết trước đâu là GPS cuối. Tăng nhiễu áp dụng ở mọi lần được đọc, không chỉ khi evaluator gắn nhãn đầu/cuối.\nHệ số epsilon/budget Endpoint20 bằng25% của baseline lịch sử; cap lý tưởng mỗi phiên là0,0575/m thay0,23/m. Trong sample tổng budget đã lưu0,03/m thay0,12/m. Không khẳng định mọi lỗi vị trí tăng đúng4lần. Khoảng cách mộtQ tớiGPS không phải MAE attacker hay bằng chứng riêng tư; xem benchmark riêng ở cuối deck. Giờ bắt đầu/kết thúc vẫn quan sát được. Mạng lịch sử tái dựng, chưa xác nhận mọi luật rẽ nguyên bản. © OpenStreetMap contributors; https://www.openstreetmap.org/copyright.",
+      "sources": [
+        "docs/supervisor_meeting/2026-10-09_update/endpoint_sample.json",
+        "benchmark/engines/endpoint_noise.py"
+      ]
+    },
+    {
+      "title": "Phạm vi bảo vệ theo kịch bản",
+      "footer": "Bằng chứng theo từng bài toán và cấu hình; chưa xác nhận bảo vệ đầy đủ S1–S10.",
+      "notes": "Em phân biệt hỗ trợ bằng cơ chế với giải quyết đầy đủ. S1-S3 có cận lý tưởng cho đầu vào tọa độ và benchmark lịch sử. Ngân sách chung hỗ trợ S4 bằng cách chặn tự reset qua chuyến, nhưng không ẩn account hoặc IP; task S4 đo liên kết các phiên của cùng người hoặc xe. S5-S6 mới kiểm tra tương lai hai lựa chọn. S7 có lập luận request bất biến với cùng trạng thái đã bảo vệ và lịch công khai. S8 là diagnostic từ dữ liệu người đồng hành lịch sử. S9-S10 có evidence Endpoint20 riêng; chưa chứng nhận bảo vệ đầu/cuối cho current L30 hoặc che giờ mở/đóng. Phần toán Geo-I và các điều kiện utility đã bổ sung trong Chương 5 nếu cần hỏi sâu.",
+      "sources": [
+        "thesis/current_method.tex",
+        "benchmark/anchor_belief.py",
+        "benchmark/budgeted_geoi_lbs.py",
+        "benchmark/query_purpose.py",
+        "thesis/current_dataset.tex",
+        "thesis/current_evaluation.tex",
+        "thesis/current_formal_inference.tex"
+      ]
+    },
+    {
+      "title": "Độ sâu phản hồi và chất lượng dịch vụ",
+      "footer": "Mô phỏng cùng bản đồ: 24 nhóm mới × 3 lượt nhiễu × 8 chuyến; CI theo nhóm; MB = 10⁶ byte.",
+      "notes": "Đây là kết quả xác nhận mới sau khi khóa cấu hình. Recall là trung bình đều bốn purpose và chỉ chấm trên reference có nghĩa. L20 đạt 89,714%, L30 đạt 92,688%, chênh 2,974 điểm phần trăm; CI95% [2,308;3,646] và cả ba draw đều dương. Trong bán kính tăng nhiều nhất, 5,185 pp, nhưng còn thấp hơn các purpose còn lại. Tăng L trả thêm ứng viên trên cùng Q, không thay input Geo-I, cap hoặc lịch đọc. Request vẫn 90.570 và byte request không đổi; reply JSON tăng 31,102%. Đây là đánh đổi utility-cost so với L20, chưa là thắng paper/SOTA ở cùng chi phí. Bản đồ synthetic cùng vùng và đích detour oracle là giới hạn.",
+      "sources": [
+        "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/protocol.json",
+        "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/depth_freeze.json",
+        "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/readout.json",
+        "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/paired_protocol.json",
+        "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/paired_readout.json",
+        "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/recommended_configuration.json",
+        "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/validation.json"
+      ]
+    },
+    {
+      "title": "So sánh REM và Planar",
+      "footer": "Thăm dò lịch sử: 6 nhóm kiểm tra/12 phiên, L20; gần nhất; không gộp với tập L30.",
+      "notes": "Đây là phép thử đối chứng thuật toán trên cùng mạng đường, cap Epoch8, K=5 và L20. Thay cơ chế tạo neo REM bằng Planar Laplace, đồng thời dùng mô hình quan sát belief khớp kernel tương ứng; đây không phải tập 24 nhóm mới của slide L30 và utility ở đây chỉ chấm nearest theo category. REM Recall 94,69%, Planar 97,00%; vì vậy chưa thể nói REM vượt Planar về utility hiện tại. Ở S5, attacker đoán cạnh kế tiếp trong hai lựa chọn công khai; ở S6, attacker chọn giữa hai đích công khai, nên hai score không phải hai kết quả độc lập. Các phương pháp bảo vệ đều accuracy/Hit100 50%; MAE đích REM khoảng615m, Planar khoảng502m. Số mẫu nhỏ và bank development đã xem, không chứng minh ưu thế tổng quát. GPS chưa bảo vệ là đối chứng attacker có thông tin mạnh và dùng một tọa độ request, không phải nămQ như hai phương pháp bảo vệ. Bank chọn trên12nhóm train và6nhóm selection rồi chấm6nhóm test/12query. Attacker thực tế: GPS - CandidateTrees; REM - Motion; Planar - CurveMean(0.02), cho cả hai task. Các tên chỉ cách ước lượng của attacker trong phép thử này, không phải tác giả paper. ↑ ở Recall/MAE là tốt hơn cho utility/privacy tương ứng; ↓ ở Accuracy và Hit100 là tốt hơn cho privacy.",
+      "sources": [
+        "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1/protocol.json",
+        "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1/results.json",
+        "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1/derived_readout_v2.json",
+        "artifacts/benchmarks/jisa_native_anchor_ablation_20261006_v1/validation.json"
+      ]
+    },
+    {
+      "title": "Ảnh hưởng của tần suất và sai số GPS",
+      "footer": "72 luồng mô phỏng đã khảo sát; chỉ đổi GPS xếp hạng, giữ đầu vào Geo-I; σ: Gaussian mỗi trục.",
+      "notes": "Phép thử này thay vị trí xếp hạng local bằng fix mỗi 60 giây, có nhiễu mỗi trục 0, 5 hoặc 15 m. L30 vẫn hơn L20 khoảng 2,24 đến 2,61 pp ở các biến thể không oracle. Giữ fix không nhiễu đạt 89,35%, thấp hơn 92,69% khi có vị trí chuẩn mỗi event. Ngoại suy hai fix giảm sai số vị trí trung bình nhưng Recall thấp hơn giữ fix ở cả ba mức nhiễu, nên chưa chọn nó vào pipeline chính. Với radius, vị trí cũ có thể trả POI ngoài miền thật; không thể chỉ báo Recall để kết luận đáp án hợp lệ. Đây là sensitivity trên các tape đã xem, không phải xác nhận GPS thực, đo năng lượng GPS hay đổi nguồn input của cơ chế bảo vệ.",
+      "sources": [
+        "artifacts/benchmarks/local_gps_robustness_20261007_v1/protocol.json",
+        "artifacts/benchmarks/local_gps_robustness_20261007_v1/readout.json",
+        "artifacts/benchmarks/local_gps_robustness_20261007_v1/baseline_recovery.json",
+        "artifacts/benchmarks/local_gps_robustness_20261007_v1/verification_protocol.json",
+        "artifacts/benchmarks/local_gps_robustness_20261007_v1/validation.json"
+      ]
+    },
+    {
+      "title": "Truy hồi POI có trạng thái thay đổi",
+      "footer": "72 luồng mô phỏng đã khảo sát; trạng thái đổi mỗi 60 s; chỉ dùng thông tin còn hiệu lực.",
+      "notes": "POI có trạng thái khả dụng thay theo epoch công khai 60 giây. Trạng thái chưa biết không được coi là khả dụng. L30 với phản hồi hiện tại đạt 91,44%; gộp những kết quả đã biết trong epoch đạt 91,78% mà không tăng Q hay traffic. Đây là diagnostic hợp đồng provider và freshness, không phải xác nhận mới độc lập. Đối chứng tải catalogue hiện tại đạt 100% và tổng JSON khoảng 126,89 MB, thấp hơn L30 khoảng 1.023,95 MB. Vì catalogue nhỏ và bulk được cho phép, chưa chứng minh cần retrieval theo vị trí từ server trong workload này. Không nhầm tổng traffic dynamic với reply JSON static 31,10%.",
+      "sources": [
+        "artifacts/benchmarks/dynamic_provider_status_20261006_v1/protocol.json",
+        "artifacts/benchmarks/dynamic_provider_status_20261006_v1/readout.json",
+        "artifacts/benchmarks/dynamic_provider_status_20261006_v1/verification_protocol.json",
+        "artifacts/benchmarks/dynamic_provider_status_20261006_v1/verification_review_protocol_v2.json",
+        "artifacts/benchmarks/dynamic_provider_status_20261006_v1/validation_attempt_v1_failure.json",
+        "artifacts/benchmarks/dynamic_provider_status_20261006_v1/validation.json"
+      ]
+    },
+    {
+      "title": "Đánh giá bảo vệ điểm đầu và điểm cuối",
+      "footer": "Thăm dò lịch sử: 28 nhóm, 112 quan sát/kịch bản; cùng L20, khác L30 hiện tại; gửi ngay.",
+      "notes": "Đây là bank đầu/cuối lịch sử và cấu hình Endpoint20 riêng, không phải Epoch8/L30. Endpoint20 dùng hệ số epsilon/budget 0,25 thay cho 1 của GeoI-Slack lịch sử ở L20 (ngân sách bằng25%, nhiễu mạnh hơn), tăng nhiễu tại mọi lần đọc được phép vì khi đang chạy ta không biết lần nào là GPS cuối. MAE attacker tăng từ khoảng 790 lên 1.407 m ở S9; ở S10 tăng từ 758 lên 1.337 m, tức khoảng 579 m, CI exploratory [468;696] m. MAE dùng attacker centroid/OLS được chọn trên validation cho từng task; Hit500 có bộ chọn riêng gồm ước lượng hình học/vận tốc. S10 Hit100 đều 0 nên đọc thêm Hit500: từ 12,50% xuống 4,46%, thấp hơn là tốt hơn cho privacy. Tuy nhiên CI95% của chênh lệch Hit500 là[-16,96;0]pp, chạm0; đây là hướng cải thiện mô tả, chưa kết luận cải thiện Hit500 chắc chắn. Đây chưa là theorem riêng tư endpoint hay chuyển đô thị, và giờ mở/đóng vẫn lộ. Không gán số này cho L30 hiện tại.",
+      "sources": [
+        "artifacts/benchmarks/endpoint_robust_selection_20261006/protocol.json",
+        "artifacts/benchmarks/endpoint_robust_selection_20261006/readout.json",
+        "artifacts/benchmarks/endpoint_robust_selection_20261006/verification.json",
+        "artifacts/benchmarks/endpoint_generalization_20261005/protocol.json",
+        "benchmark/engines/endpoint_noise.py"
+      ]
+    }
+  ],
+  "input_evidence_sha256": {
+    "benchmark_evidence.json": "7265df0846c4a5f04e4759467b0e42ffd71672dfe9449c25e918271f86fbc1cf",
+    "algorithm_scope.json": "27d3836e535abd4549efec81b6fd7e5f320fa7fc0ab857d94aa7aada7e41c05d"
+  },
+  "matched_baseline": {
+    "rows": [
+      {
+        "method": "raw",
+        "current_recall5": 1.0,
+        "static_cache_recall5": 1.0,
+        "reference_defined_windows": 1402,
+        "total_windows": 1510,
+        "cost": {
+          "request_count": 1510,
+          "request_bytes_total": 203489,
+          "reply_bytes_total": 7658607
+        },
+        "S5_selected_attacker": "candidate_trees",
+        "S5_exact_candidate_edge_accuracy": 1.0,
+        "S6_selected_attacker": "candidate_trees",
+        "S6_destination_hit100": 1.0,
+        "S6_destination_mae_m": 4.989157333134833,
+        "test_queries": 12,
+        "test_families": 6
+      },
+      {
+        "method": "rem_epoch8",
+        "current_recall5": 0.9469331420622501,
+        "static_cache_recall5": 0.9990520282186949,
+        "reference_defined_windows": 1402,
+        "total_windows": 1510,
+        "cost": {
+          "request_count": 7550,
+          "request_bytes_total": 1140292,
+          "reply_bytes_total": 41235772
+        },
+        "S5_selected_attacker": "motion",
+        "S5_exact_candidate_edge_accuracy": 0.5,
+        "S6_selected_attacker": "motion",
+        "S6_destination_hit100": 0.5,
+        "S6_destination_mae_m": 614.9294973771806,
+        "test_queries": 12,
+        "test_families": 6
+      },
+      {
+        "method": "planar_epoch8",
+        "current_recall5": 0.9699903122438335,
+        "static_cache_recall5": 0.9935185185185184,
+        "reference_defined_windows": 1402,
+        "total_windows": 1510,
+        "cost": {
+          "request_count": 7550,
+          "request_bytes_total": 1140457,
+          "reply_bytes_total": 41224091
+        },
+        "S5_selected_attacker": "curve_mean_0.02",
+        "S5_exact_candidate_edge_accuracy": 0.5,
+        "S6_selected_attacker": "curve_mean_0.02",
+        "S6_destination_hit100": 0.5,
+        "S6_destination_mae_m": 501.6545025906498,
+        "test_queries": 12,
+        "test_families": 6
+      }
+    ]
+  },
+  "sample_scope": "Frozen illustrative samples; protection outputs and benchmark scores unchanged; private evaluator positions are only included for local analysis."
+}
