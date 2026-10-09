@@ -15,7 +15,7 @@
     \node[input,text width=3.3cm] (pub) at (1.95,.2) {\textbf{Dữ liệu công khai}\\Bản đồ, POI, lịch gửi};
     \node[input,text width=7.6cm] (gps) at (8,.2) {\textbf{GPS cho cơ chế Geo-I}\\Chỉ đọc sau khi lịch và ngân sách cho phép};
     \node[layer] at (1.95,-2.7) {Tầng 1\\Bảo vệ GPS};
-    \node[stage,draw=teal,line width=.9pt] (guard) at (8,-2.8) {\textbf{1. Kiểm tra lịch và ngân sách}\\Cap $C_s=0{,}23\,\mathrm m^{-1}$ mỗi phiên; không giới hạn 8 phiên\\Dự toán trước GPS; $u=0{,}01\,\mathrm m^{-1}$; khoảng đọc $\geq60$ s};
+    \node[stage,draw=ink,line width=.9pt] (guard) at (8,-2.8) {\textbf{1. Kiểm tra lịch và ngân sách}\\Cap $0{,}23/\mathrm m$ mỗi phiên; khoảng đọc $\geq60$ s\\Warmup 60 s trước GPS khi bật bảo vệ đầu chuyến};
     \node[stage] (rem) at (8,-5.05) {\textbf{2. Geo-I / REM + kiểm tra tái sử dụng}\\Đọc GPS $x$; thử giữ $Z$ bằng phép thử có nhiễu.\\Giữ $Z$ hoặc lấy mẫu REM mới trên miền đường cố định.};
     \draw[flow] (gps.south) -- (guard.north);
     \draw[flow] (guard.south) -- node[right,font=\footnotesize] {được phép đọc} (rem.north);
@@ -29,17 +29,18 @@
     \draw[public] (pub.south) -- (1.95,-.7) -- (.15,-.7) -- (.15,-9.45) -- (planner.west);
     \draw[public] (.15,-7.4) -- (belief.west);
     \node[layer] at (1.95,-11.65) {Tầng 3\\Truy hồi POI};
-    \node[stage,draw=teal,line width=.9pt] (send) at (8,-11.7) {\textbf{5. Yêu cầu chung, gửi ngay}\\$K=5$ Q; mọi loại POI; $L=30$ mỗi loại mỗi Q};
+    \node[stage,draw=ink,line width=.9pt] (send) at (8,-11.7) {\textbf{5. Yêu cầu chung; delay tùy chọn}\\$K=5$ Q; mọi loại POI; $L=10$ mỗi loại mỗi Q\\Khi bật: giữ Q 60 s rồi mới công bố};
     \draw[flow] (planner.south) -- (send.north);
     \node[external,minimum height=1.9cm] (server) at (14.85,-11.7) {\textbf{MÁY CHỦ POI}\\Ngoài mô hình\\Trả top-$L$ mỗi loại\\tại từng $Q$};
     \draw[network] (send.east) -- node[above,font=\footnotesize] {$Q$} (server.west);
-    \node[stage,draw=orange,dashed,fill=orange!3,font=\footnotesize,inner sep=4pt,minimum height=1.12cm] at (8,-13.35) {\textbf{S4 đề xuất: danh tính người + xe}\\Không ID bền; mã request riêng; relay tách IP.\\Chưa triển khai: cần đo linkage hình học cho hai target.};
+    \node[font=\small,text=gray,align=center,text width=8cm] at (8,-13.5) {$Z$ và GPS thật giữ tại thiết bị.\\Máy chủ chỉ nhận tọa độ $Q$ và yêu cầu chung.};
     \node[layer] at (1.95,-15.05) {Tầng 4\\Xử lý local};
-    \node[stage,draw=teal,line width=.9pt] (local) at (8,-15.05) {\textbf{6. Gộp, bỏ trùng, lọc và sắp xếp local}\\GPS + nhu cầu $\psi$: gần nhất, nhanh nhất,\\trong bán kính hoặc ít đi vòng tới đích};
+    \node[stage,draw=ink,line width=.9pt] (local) at (8,-15.05) {\textbf{6. Hợp phản hồi và xếp hạng local}\\Giữ phản hồi còn hiệu lực theo epoch dịch vụ\\Xếp hạng gần nhất theo GPS; giới hạn $k=5$};
     \draw[network] (server.east) -- (16.75,-11.7) -- (16.75,-15.05) -- node[above,font=\footnotesize] {phản hồi POI} (local.east);
-
-    \node[input,text width=4.6cm] (private) at (3.3,-17.3) {\textbf{Đầu vào riêng cho local}\\GPS local + nhu cầu $\psi$};
-    \node[input,text width=4.6cm,draw=teal,fill=teal!4] (answer) at (10.15,-17.3) {\textbf{Đầu ra riêng cho người dùng}\\Danh sách POI phù hợp\\đã lọc và sắp xếp};
+    \node[external,draw=orange,fill=orange!4,font=\footnotesize] (close) at (14.85,-13.75) {\textbf{Khi đóng phiên}\\Hủy Q còn chờ\\nếu đang bật delay};
+    \draw[->,dashed,draw=orange] (send.south east) -- (12.95,-12.55) -- (12.95,-13.75) -- (close.west);
+    \node[input,text width=4.6cm] (private) at (3.3,-17.3) {\textbf{Đầu vào riêng cho local}\\GPS local};
+    \node[input,text width=4.6cm,draw=teal,fill=teal!4] (answer) at (10.15,-17.3) {\textbf{Đầu ra riêng cho người dùng}\\Tối đa 5 POI mỗi loại\\theo khoảng cách gần nhất};
     \draw[network] (private.north) -- (3.3,-16.45) -- (6,-16.45) -- (6,-15.82);
     \draw[flow,draw=teal] (10.15,-15.82) -- (answer.north);
     \end{tikzpicture}

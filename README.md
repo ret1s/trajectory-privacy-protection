@@ -1,5 +1,12 @@
 # Trajectory Privacy Protection
 
+Working design decision (10/10): restore the **0.23 m⁻¹ per-session cap** and
+separate identity protection into **person** and **physical-vehicle** targets.
+[Selected policy and pending S4 design](docs/research/2026-10-10_session_cap_identity.md)
+and [six-page method report](docs/supervisor_meeting/2026-10-09_update/report_explained.pdf).
+The existing Epoch8 benchmark and canonical thesis remain historical evidence;
+no new per-session L30 or identity-transport result has been claimed.
+
 Research code and thesis artifacts for **“Bảo vệ tính riêng tư về quỹ đạo cho
 người dùng dịch vụ dựa trên vị trí.”** The active system studies road-aware,
 Geo-I/REM protection and road-feasible query sets for continuous location-based services and evaluates

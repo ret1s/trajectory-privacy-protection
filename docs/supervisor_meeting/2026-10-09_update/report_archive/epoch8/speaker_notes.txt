@@ -8,7 +8,7 @@ Với nội dung truy vấn, em giữ nhu cầu thật tại thiết bị. Mỗi
 
 Độ gần giúp thu ứng viên cho dịch vụ lân cận; người dùng vẫn có thể chọn theo thời gian, bán kính hoặc độ đi vòng. Câu trả lời phụ thuộc độ phủ ứng viên.
 
-S4 có hai target: danh tính người và phương tiện vật lý. Em tách nó thành lớp bảo vệ chuyên biệt đang thiết kế. S5 và S6 được hỗ trợ bằng lịch sử bảo vệ và không dùng tương lai thật để tạo Q. Các thành phần này chưa đủ để khẳng định bảo vệ danh tính hoặc chống mọi dự đoán tương lai. S8 vẫn là hướng mở.
+S4 được hỗ trợ bằng giới hạn thông tin tích lũy. S5 và S6 được hỗ trợ bằng lịch sử bảo vệ và không dùng tương lai thật để tạo Q. Các thành phần này chưa đủ để khẳng định bảo vệ danh tính hoặc chống mọi dự đoán tương lai. S8 vẫn là hướng mở.
 
 Cách chỉ nội dung
 
@@ -22,30 +22,29 @@ Khi trao đổi
 - Hình dạng tuyến đường, click, account/IP hoặc việc đổi hành trình có thể giúp suy luận ý định; tính bất biến chỉ xét cùng trạng thái bảo vệ, lịch và ngữ cảnh công khai.
 - S5 là dự đoán cạnh đường tiếp theo, S6 là dự đoán đích chưa tới. Chỉ dùng prefix tránh lấy trực tiếp tương lai làm đầu vào; không tự loại được tương quan hành trình.
 
-TRANG 2: Cap từng phiên; bảo vệ danh tính bằng lớp riêng
+TRANG 2: Cap tám phiên và lập luận riêng tư
 
 Lời trình bày
 
-Em giữ cap tọa độ theo từng phiên, thay vì chia cho tám chuyến. Một phiên là một chuyến/lượt sử dụng, có nhiều lần đọc GPS và gửi Q. Cap hiệu lực là 0,23 trên mét; đây là hệ số riêng tư, không phải bán kính nhiễu.
+Geo-I bảo vệ từng quan sát, nhưng quan sát nhiều lần vẫn tích lũy thông tin. Trước đây, mỗi phiên có cap 0,23 trên mét. Nếu cho tám phiên độc lập cùng mức đó, mức hợp thành có thể lên 1,84. Em bổ sung cap chung 0,23 cho một epoch hữu hạn gồm tối đa tám phiên, nên mỗi phiên được cấp 0,02875.
 
-Mỗi phiên có 23 đơn vị, mỗi đơn vị bằng 0,01. Đọc lần đầu tốn một đơn vị. Đọc rồi giữ Z tốn một đơn vị phép thử; thử rồi tạo mới tốn hai. Kiểm tra lịch và dự toán trước GPS. Hết cap đọc thì dự đoán từ lịch sử bảo vệ; không từ chối chuyến thứ chín vì một giới hạn tám phiên.
+Mỗi phiên dùng 23 đơn vị, mỗi đơn vị bằng 0,00125. Lần tạo Z đầu tiên tốn một đơn vị; lần đọc rồi giữ Z tốn một đơn vị cho phép thử; thử không đạt rồi tạo Z mới tốn hai đơn vị. Không đọc GPS mới thì không chi thêm. Lịch và dự toán được kiểm tra trước khi đọc GPS.
 
-Về toán học, REM và phép thử tái sử dụng cho chặn của từng phiên. Nếu attacker nối nhiều chuyến, ngân sách vẫn cộng lại, không được gọi cả lịch sử có cùng cap 0,23.
+Về toán học, REM tạo phân bố trên miền đường cố định. Kiểm tra giữ Z dùng nhiễu Laplace. Chi phí của từng nhánh được cộng lại và bị chặn bởi ngân sách epoch. Các bước tạo Q từ thông tin đã bảo vệ là xử lý tiếp, nên không cộng thêm chi phí vị trí theo lý thuyết này.
 
-S4 cần lớp riêng: không gửi định danh bền của người, xe hoặc thiết bị; tách nguồn IP khỏi nội dung truy vấn bằng relay độc lập. Tuy vậy, hình dạng tuyến đường còn có thể nối chuyến. Em sẽ kiểm chứng hai target riêng, gồm một người đổi xe và hai người dùng chung xe. Đây là thiết kế, chưa có kết quả triển khai relay hoặc chống liên kết mới.
+Đây là chặn tích lũy thông tin tọa độ trong một epoch, chưa phải bảo đảm ẩn danh hoặc ngân sách vô hạn cả đời.
 
 Cách chỉ nội dung
 
-Chỉ bảng chi phí và công thức cap phiên. Chỉ bảng bốn cặp người/xe để giải thích tại sao hai nhãn không được đồng nhất.
+Đi từ bảng cap cũ/mới tới phép chia 0,23/8, rồi bảng chi phí 0/1/2 đơn vị. Chỉ bất đẳng thức cuối để giải thích vì sao tổng chi phí không vượt cap.
 
 Khi trao đổi
 
-- Với cap C_s và H công khai: U = 2H − 1; u = C_s/U; B danh nghĩa = 2H u. Cấu hình H12 cho u = 0,01, B = 0,24, cap hiệu lực 0,23 m⁻¹. H không là hard maximum 12 GPS reads.
-- Tắt/mở lại để tiếp tục cùng chuyến không được tự nạp cap. Chuyến mới có cap mới, nhưng tuyên bố cho lịch sử phải hợp thành tổng các cap.
-- Cap tọa độ không tự chống nhận diện. Đổi mã/shuffle cũng không đủ chống home/work, timing hoặc routine.
-- OHTTP cần relay/gateway độc lập, HTTPS và không thông đồng; payload không chứa account/cookie/VIN/API key cá nhân. Đây là thành phần đề xuất chưa triển khai.
-- Nhãn người và phương tiện vật lý khác ID thiết bị. Evaluator đã dùng `person_id` và `physical_vehicle_id`; phải kiểm tra hai target trên cặp đổi xe/chung xe, không chỉ AUC gộp.
-- Chặn lý tưởng giả định kernel/ngữ cảnh công khai và thiết bị tin cậy. Không chứng nhận sampler float hay anonymous transport.
+- Phiên là một chuyến; epoch là nhóm tối đa tám phiên có cấp ngân sách theo lịch công khai. H = 12 dẫn tới U = 2H − 1 = 23 đơn vị, không có nghĩa chỉ được 12 lần đọc GPS trong mọi nhánh.
+- C_epoch là ngân sách cả nhóm phiên; C_phiên là phần được cấp cho một phiên. Mức thực cấp 0,02875 khác cap danh nghĩa 0,03.
+- Ledger lưu phần đã dành/chi qua các phiên, đặt dự toán trước hành động riêng và không hoàn lại theo nhánh bí mật. Phiên đang được nhận nhưng hết ngân sách còn có thể dự đoán và gửi Q; quá tám slot thì từ chối phiên mới trước GPS và Q.
+- Theorem xét kernel và randomness lý tưởng, miền đường/ngữ cảnh công khai cố định, thiết bị tin cậy. GPS/nhu cầu local không được làm phát sinh request riêng. Chưa có chứng nhận tương đương cho sampler dấu phẩy động.
+- Cap không tự che IP/account, giờ mở/đóng hay giải quyết reset ngân sách cả đời. Thêm epoch khác cần cộng ngân sách, không mặc định bắt đầu lại miễn phí.
 
 TRANG 3: Kiến trúc trước: cap từng phiên và tìm POI gần nhất
 
@@ -69,34 +68,34 @@ Khi trao đổi
 - Q là tọa độ truy vấn được chọn từ lịch sử bảo vệ, không phải năm mẫu nhiễu REM độc lập quanh Z. P là POI trong danh mục.
 - Delay 60 s là tùy chọn lịch sử. Ví dụ Q tại 60 s công bố ở 120 s; khi đóng tại 384 s, hủy Q còn chờ ở 340/360/380/384 s. Sơ đồ không áp delay cho mọi cấu hình cũ.
 
-TRANG 4: Kiến trúc làm việc: cap phiên và lớp S4 riêng
+TRANG 4: Kiến trúc hiện tại: cap liên phiên và nhu cầu local
 
 Lời trình bày
 
-Em giữ Geo-I/REM, tái sử dụng Z, ước lượng b và chọn Q theo mạng đường. Thay đổi chính sách ngân sách là quay về cap từng chuyến; không còn giới hạn cấp tám chuyến trong thiết kế được chọn.
+Ở kiến trúc hiện tại, em giữ cùng bốn tầng và cùng nền Geo-I/REM. Ba phần viền xanh là những thay đổi chính.
 
-L30 và xử lý nhu cầu local vẫn được giữ. Máy chủ nhận tọa độ Q và yêu cầu chung; GPS thật, Z và nhu cầu riêng không gửi ra. L_plan bằng 10 là bảng POI cho bộ chọn Q, khác L30 của phản hồi máy chủ.
+Thứ nhất, trước GPS có kiểm tra cap chung tám phiên, để hạn chế thông tin tích lũy qua nhiều chuyến. Thứ hai, độ sâu phản hồi tăng từ L10 lịch sử lên L30 để thu tập ứng viên rộng hơn. Máy chủ vẫn chỉ nhận Q và yêu cầu chung; mô hình hiện tại gửi ngay.
 
-Khối nét đứt là lớp S4 đề xuất cho cả người và xe. Nó xử lý định danh và nguồn mạng, còn Geo-I xử lý tọa độ. Lớp này chưa có triển khai OHTTP và chưa có benchmark chống nối quỹ đạo. Nếu attacker vẫn nối được người hoặc xe từ hình dạng, ta chưa thể gọi target đó đã được bảo vệ.
+Thứ ba, xử lý local mở rộng từ chọn gần nhất sang bốn nhu cầu. Nhu cầu thật ψ và GPS local chỉ đi vào bước lọc, sắp xếp sau khi nhận POI. Đổi nhu cầu dùng lại cùng tập phản hồi, không làm thay đổi Q hoặc tạo query riêng.
 
-Các kết quả Epoch8/L30 trước đây không chuyển nguyên sang cấu hình cap từng phiên. Đổi u làm đổi phân bố Z và Q. Em giữ số liệu cũ để đối chiếu và cần chạy cấu hình mới, cùng các ablation S4, trên dữ liệu chưa dùng để chọn thiết kế.
+L_plan = 10 ở bước chọn Q và L = 30 ở bước truy hồi là hai tham số khác nhau. Slack 0,03 là dung sai trên điểm độ phủ của bộ chọn Q; không phải bảo đảm chỉ mất ba phần trăm Recall. Tăng ứng viên và kiểm soát ngân sách giúp hai mặt utility và privacy, nhưng mỗi mặt vẫn cần kiểm chứng riêng.
 
 Cách chỉ hình
 
-Chỉ cap ở bước 1, L30 ở bước 5 và nhu cầu local ở bước 6. Chỉ khối S4 nét đứt, phân biệt đề xuất với các bước nền đã chạy.
+Đối chiếu bước 1, 5, 6 với trang trước; chỉ rõ mũi tên ψ/GPS chỉ vào bước 6. Không cần đọc lại những bước Geo-I, b và chọn Q đã giữ nguyên.
 
 Khi trao đổi
 
-- Cấu hình chọn: cap hiệu lực 0,23 m⁻¹/phiên, u = 0,01, K5, L30, L_plan10, slack0,03. Không có benchmark mới cho toàn bộ tổ hợp này.
-- Lớp S4 phải loại person/vehicle/device ID, định danh tài khoản và nguồn mạng; không gửi hai bí danh người/xe riêng mà vô tình cung cấp thêm khóa liên kết.
-- Relay không tự che nội dung tự nhận diện hoặc hình dạng/timing. Chỉ đổi pseudonym trên tuyến liên tục không bảo đảm unlinkability.
-- Endpoint20 là nhánh L20 riêng. Chưa có xác nhận đầu/cuối cho tổ hợp mới và chưa nhận các số đo của nhánh đó làm kết quả mới.
+- Không đổi nền tảng sang phương pháp khác. Quan sát Z nội bộ, dự đoán b và planner Q theo mạng đường vẫn giữ.
+- L_plan là bảng POI công khai để chấm điểm khi chọn Q; L30 là số POI mỗi loại máy chủ trả tại mỗi Q.
+- S9/S10 có bằng chứng từ nhánh Endpoint20 riêng: tăng nhiễu, không delay. Chưa nhập kết quả đó thành privacy đã xác nhận cho Epoch8/L30.
+- “Danh sách đã lọc/sắp xếp” mô tả cơ chế S7; cấu hình triển khai/đánh giá hiện tại vẫn cắt k = 5.
 
-TRANG 5: Ví dụ cơ chế đã lưu: từ GPS đến danh sách POI
+TRANG 5: Ví dụ đầy đủ: từ GPS đến danh sách POI
 
 Lời trình bày
 
-Em dùng một hành trình Epoch8 cũ đã lưu để minh họa cơ chế, không xem là kết quả của cap phiên mới. Ở giây 0, mô hình tạo Z đầu tiên, cập nhật b và chi một đơn vị. Ở giây 20, chưa đủ lịch đọc GPS; giữ Z, chỉ dự đoán b và không chi thêm. Q vẫn có thể di chuyển theo lịch sử bảo vệ và mạng đường.
+Em dùng một hành trình đã lưu để minh họa, không chọn nó làm bằng chứng benchmark. Ở giây 0, mô hình tạo Z đầu tiên, cập nhật b và chi một đơn vị. Ở giây 20, chưa đủ lịch đọc GPS; giữ Z, chỉ dự đoán b và không chi thêm. Q vẫn có thể di chuyển theo lịch sử bảo vệ và mạng đường.
 
 Ở giây 60, đủ lịch và ngân sách để đọc. Khoảng cách GPS tới Z cũ khoảng ba kilômét; phép thử có nhiễu không đạt nên tạo Z mới. Lần này chi hai đơn vị, tổng ba trên hai mươi ba. Từ quan sát mới, mô hình cập nhật b, chọn năm Q và truy hồi L30.
 
@@ -120,13 +119,13 @@ TRANG 6: Benchmark: cải thiện đã đo và phạm vi kết luận
 
 Lời trình bày
 
-Kết quả đã xác nhận trong study Epoch8 trước là phép so L20–L30 giữ nguyên Q, Z, lịch và cap trên 24 nhóm mới. Recall trung bình đều bốn mục đích tăng từ 89,71 lên 92,69 phần trăm: tăng 2,97 điểm phần trăm, khoảng tin cậy 2,31 đến 3,65. Cả ba lượt nhiễu đều tăng. Đánh đổi là byte phản hồi tăng 31,10 phần trăm, số request giữ nguyên.
+Kết quả rõ nhất hiện tại là phép so L20–L30 giữ nguyên Q, Z, lịch và cap trên 24 nhóm mới. Recall trung bình đều bốn mục đích tăng từ 89,71 lên 92,69 phần trăm: tăng 2,97 điểm phần trăm, khoảng tin cậy 2,31 đến 3,65. Cả ba lượt nhiễu đều tăng. Đánh đổi là byte phản hồi tăng 31,10 phần trăm, số request giữ nguyên.
 
 Recall 95,44 phần trăm trong báo cáo trước là tìm gần nhất với cấu hình và cohort khác. Không lấy chênh số đó với macro bốn nhu cầu để kết luận tốt hơn hoặc kém hơn.
 
 Về privacy, S4 cho thấy giảm khả năng liên kết trong diagnostic lịch sử, nhưng vẫn còn nhóm bị liên kết tốt. Pilot S5/S6 giảm dự đoán đúng từ 100 xuống 50 phần trăm, song mới là bài toán hai ứng viên. Endpoint20 tăng sai số suy vị trí đầu/cuối với một ít giảm utility; kết quả chưa thắng mọi metric.
 
-Em kết luận đã xác nhận lợi ích utility của L30 và bổ sung bằng chứng privacy theo từng cấu hình. Bước tiếp theo là chạy per-session L30 và kiểm chứng lớp S4 mới với hai target người/xe, cùng chi phí triển khai.
+Em kết luận đã xác nhận lợi ích utility của L30 và bổ sung bằng chứng privacy theo từng cấu hình. Bước tiếp theo là xác nhận privacy trên cùng Epoch8/L30, mở rộng attacker và đo chi phí triển khai.
 
 Cách chỉ bảng
 
@@ -138,7 +137,7 @@ Khi trao đổi
 - Attacker chọn theo task/metric trên tập chọn. S4 dùng shape/kNN hoặc trees; S5/S6 có Candidate Trees, Motion, Curve Mean. Không phải tất cả cùng Shadow kNN.
 - CI bootstrap theo nhóm, không theo từng tick. Chỉ đo kích thước reply JSON, chưa tính HTTP/TLS, latency hoặc năng lượng.
 - S4: ba nhóm/45 cặp, AUC người từng nhóm còn tới 0,861. S5/S6: sáu nhóm/12 query, Planar cũng đạt 50% và có Recall cao hơn REM. Không kết luận REM vượt trội trên mọi đối chứng.
-- Endpoint20: 28 nhóm đã khảo sát, 112 quan sát/task, u = 0,0025/m so với 0,01/m lịch sử. Recall 98,94 → 96,64%; S10 Hit100 cùng 0%, CI chênh Hit500 chạm 0. Không gán nhánh L20 này cho cap phiên/L30 và lớp S4 mới.
+- Endpoint20: 28 nhóm đã khảo sát, 112 quan sát/task, u = 0,0025/m so với 0,01/m lịch sử. Recall 98,94 → 96,64%; S10 Hit100 cùng 0%, CI chênh Hit500 chạm 0. Không gọi u này là một phần tư u = 0,00125/m hiện tại.
 - S1–S3 và đối chứng paper ở tài liệu chi tiết; S8 còn mở. Không tuyên bố fully giải quyết S1–S10.
 
 NGUỒN ĐỐI CHIẾU
@@ -150,9 +149,6 @@ NGUỒN ĐỐI CHIẾU
 - `thesis/current_method.tex`, `thesis/current_formal_privacy.tex`, `thesis/current_formal_service.tex`: mô hình và lập luận toán học.
 - `docs/supervisor_meeting/2026-09-26_brief/method_evidence.json`: kết quả bối cảnh lịch sử.
 - `docs/research/2026-10-09_multi_purpose_retrieval.md`: replay bốn template L10 chưa được áp dụng.
-- `docs/research/2026-10-10_session_cap_identity.md` và `.json`: chính sách được chọn, lớp identity đề xuất và điều kiện đánh giá.
 - `report_sources.json`: hash nguồn của bản report; các nguồn này không được đánh giá lại khi biên soạn.
 
 Bản kịch bản của 8 slide trước được giữ riêng tại `slides_presentation_script.md`; ghi chú nguồn tương ứng là `slides_speaker_notes.txt`.
-
-Bản report Epoch8 trước được giữ tại `report_archive/epoch8/`. Các số đo và sample Epoch8 vẫn giữ nguyên cấu hình gốc; không có kết quả mới cho cap phiên/L30 hoặc relay.

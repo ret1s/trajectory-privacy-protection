@@ -1,5 +1,5 @@
 {
-  "schema": "supervisor-report-release-v1",
+  "schema": "supervisor-report-release-v2",
   "prepared_date": "2026-10-10",
   "language": "vi",
   "format": "A4 LaTeX PDF",
@@ -11,143 +11,196 @@
     {
       "page": 1,
       "title": "Cơ chế bảo vệ nội dung và các scenario còn lại",
-      "text_bounds": "PASS",
       "size": "A4",
+      "text_bounds": "PASS",
       "blank": false
     },
     {
       "page": 2,
-      "title": "Cap tám phiên và lập luận riêng tư",
-      "text_bounds": "PASS",
+      "title": "Cap từng phiên; bảo vệ danh tính bằng lớp riêng",
       "size": "A4",
+      "text_bounds": "PASS",
       "blank": false
     },
     {
       "page": 3,
       "title": "Kiến trúc trước: cap từng phiên và tìm POI gần nhất",
-      "text_bounds": "PASS",
       "size": "A4",
+      "text_bounds": "PASS",
       "blank": false
     },
     {
       "page": 4,
-      "title": "Kiến trúc hiện tại: cap liên phiên và nhu cầu local",
-      "text_bounds": "PASS",
+      "title": "Kiến trúc làm việc: cap phiên và lớp S4 riêng",
       "size": "A4",
+      "text_bounds": "PASS",
       "blank": false
     },
     {
       "page": 5,
-      "title": "Ví dụ đầy đủ: từ GPS đến danh sách POI",
-      "text_bounds": "PASS",
+      "title": "Ví dụ cơ chế đã lưu: từ GPS đến danh sách POI",
       "size": "A4",
+      "text_bounds": "PASS",
       "blank": false
     },
     {
       "page": 6,
       "title": "Benchmark: cải thiện đã đo và phạm vi kết luận",
-      "text_bounds": "PASS",
       "size": "A4",
+      "text_bounds": "PASS",
       "blank": false
     }
   ],
-  "presentation_minutes": [
-    8,
-    10
-  ],
+  "working_design": {
+    "policy": "per-session 0.23/m; no hard eight-session limit",
+    "backbone": "Geo-I/REM unchanged",
+    "identity_targets": [
+      "same_person",
+      "same_physical_vehicle"
+    ],
+    "S4_layer_status": "PROPOSED, transport and geometry unlinkability not implemented or validated",
+    "new_per_session_L30_combination": "new benchmark pending",
+    "specification": "../../research/2026-10-10_session_cap_identity.json"
+  },
   "design": {
     "font": "TeX Gyre Termes",
     "body_pt": 10,
     "margins_cm": 1.8,
-    "diagrams": "Native TikZ vector; aligned historical/current architecture on separate pages 3 and 4",
-    "sample_map": "Vector crop of the unchanged eight-slide PDF, page 6, fixed 60-second event"
+    "architecture_pages": [
+      3,
+      4
+    ],
+    "proposal_rendering": "S4 block dashed orange; current design distinguished from confirmed old evidence"
   },
   "source_pins_file": "report_sources.json",
   "files": {
     "report_explained.pdf": {
-      "sha256": "3120c41d4e6e0600d3e9e6e59ae2786b50d8992ccaff02274b5e7423f2cde9b4",
-      "bytes": 691024
+      "sha256": "e5b87f281d140ede8e842fa9fd4d6d18ea9604464c596fcdba1ae01a787e5a86",
+      "bytes": 696127
     },
     "report_explained.tex": {
-      "sha256": "9eb5345d1e5dbc7b34e84a92001d29f80ffc8d9de068fd2a8ce7b3b86941c464",
-      "bytes": 20018
+      "sha256": "95e2955caf605702ac6888b9700d196a9be33af63523c9f37c0c9dac482cdb25",
+      "bytes": 20540
     },
     "report_tables.tex": {
-      "sha256": "febc7b4ca6cb6a25eca4a3fd57bd149b72a2580d2e1cabed24cc1917d6cbced8",
-      "bytes": 978
+      "sha256": "f3f9784678fafde3d4c7e47d7a939fb7793278846ce5d8011d42f2249c9660b2",
+      "bytes": 986
     },
     "report_sources.json": {
-      "sha256": "33cc2ecaab6ad19999670bee5cd3bf76adb0287d8c1f6701c72cad41ac8c3956",
-      "bytes": 23637
+      "sha256": "cbb01e5902c0fd530769b240573b89ec6d6e299cb3cb03257b19222535489090",
+      "bytes": 23883
     },
     "build_report.py": {
-      "sha256": "675b28e2736bae3b11843794f275baba07238a93f9ba8f3ddc6849fac0a7f978",
-      "bytes": 10761
+      "sha256": "beee56f37adfc7c9c381b8b4de50f2a99aefaa3abcd5d148ab944ccb0e5c3b20",
+      "bytes": 11524
     },
     "presentation_script.md": {
-      "sha256": "a09d160b5070706f3fc7e215b6b23df0e8f832f7b3c36e4e9ab7a9c297d49d97",
-      "bytes": 15657
+      "sha256": "a9e732000364ffb4fb3431b55149f37f33b858f762fea884820c4d0795619720",
+      "bytes": 16295
     },
     "speaker_notes.txt": {
-      "sha256": "34fe3313f8163bee0c28f67ea9d1655f69e044aa712bd6d60b5c290790adfc11",
-      "bytes": 15218
+      "sha256": "230dcef6b902b48532839350a9083bb3f77f05d234453e04eab8d33f13920a95",
+      "bytes": 15856
     },
     "README.md": {
-      "sha256": "59902ffaafd7ccc3c75347b2d3d9da73769044567726dd0dee69b4ac54a1b190",
-      "bytes": 6100
+      "sha256": "50201c7a4792642ed21459b3792f21627836de9249154a4358b5ebed89e01d7d",
+      "bytes": 7521
     },
     "manifest.json": {
-      "sha256": "b57641be5f2e824de0cbb60adb820c84d45a157a4588ae4a7672f7f761b217ad",
+      "sha256": "d854e27fc189b652db8a2c58bf4b5cceb393da846f1831f97d3ad13a00e5ffc6",
       "bytes": 11291
     },
     "report_figures/architecture_current.tex": {
-      "sha256": "997c6e384b8a4a2c67efaa1eb0a427978bee2ac633a8c23a7802ee24679b9779",
-      "bytes": 4578
+      "sha256": "6ad6878ae3286e806cf12f82a9b8dce27776073520c9173ded8fa66df0224d16",
+      "bytes": 4729
     },
     "report_figures/architecture_old.tex": {
       "sha256": "a0747c582b50aad625a6c00329c7ff83e34cded7e05d2a5a8d10a6c73fafe358",
       "bytes": 4907
     },
     "report_figures/sample_60s.pdf": {
+      "sha256": "724e84f67ee2985531ffd58c7310dcc0dc798b582640e125e4cef4fdff333113",
+      "bytes": 658529
+    },
+    "report_archive/epoch8/README.md": {
+      "sha256": "59902ffaafd7ccc3c75347b2d3d9da73769044567726dd0dee69b4ac54a1b190",
+      "bytes": 6100
+    },
+    "report_archive/epoch8/archive_release.json": {
+      "sha256": "fe72fdf4f6399c83243c701d09468aca4e8788d31c684d1812d8ef680a5e012d",
+      "bytes": 1970
+    },
+    "report_archive/epoch8/build_report.py": {
+      "sha256": "675b28e2736bae3b11843794f275baba07238a93f9ba8f3ddc6849fac0a7f978",
+      "bytes": 10761
+    },
+    "report_archive/epoch8/manifest.json": {
+      "sha256": "b57641be5f2e824de0cbb60adb820c84d45a157a4588ae4a7672f7f761b217ad",
+      "bytes": 11291
+    },
+    "report_archive/epoch8/presentation_script.md": {
+      "sha256": "a09d160b5070706f3fc7e215b6b23df0e8f832f7b3c36e4e9ab7a9c297d49d97",
+      "bytes": 15657
+    },
+    "report_archive/epoch8/report_explained.pdf": {
+      "sha256": "3120c41d4e6e0600d3e9e6e59ae2786b50d8992ccaff02274b5e7423f2cde9b4",
+      "bytes": 691024
+    },
+    "report_archive/epoch8/report_explained.tex": {
+      "sha256": "9eb5345d1e5dbc7b34e84a92001d29f80ffc8d9de068fd2a8ce7b3b86941c464",
+      "bytes": 20018
+    },
+    "report_archive/epoch8/report_figures/architecture_current.tex": {
+      "sha256": "997c6e384b8a4a2c67efaa1eb0a427978bee2ac633a8c23a7802ee24679b9779",
+      "bytes": 4578
+    },
+    "report_archive/epoch8/report_figures/architecture_old.tex": {
+      "sha256": "a0747c582b50aad625a6c00329c7ff83e34cded7e05d2a5a8d10a6c73fafe358",
+      "bytes": 4907
+    },
+    "report_archive/epoch8/report_figures/sample_60s.pdf": {
       "sha256": "bc3b86e9199ff1fe548eeddec1d5413c3d74ced1fb2331343903ef37164c5418",
       "bytes": 658529
+    },
+    "report_archive/epoch8/report_sources.json": {
+      "sha256": "33cc2ecaab6ad19999670bee5cd3bf76adb0287d8c1f6701c72cad41ac8c3956",
+      "bytes": 23637
+    },
+    "report_archive/epoch8/report_tables.tex": {
+      "sha256": "febc7b4ca6cb6a25eca4a3fd57bd149b72a2580d2e1cabed24cc1917d6cbced8",
+      "bytes": 978
+    },
+    "report_archive/epoch8/speaker_notes.txt": {
+      "sha256": "34fe3313f8163bee0c28f67ea9d1655f69e044aa712bd6d60b5c290790adfc11",
+      "bytes": 15218
     }
   },
   "validation": {
     "pdf_pages": 6,
     "blank_pages": 0,
+    "all_pages_visual_review": "PASS",
     "text_bounds": "6/6 PASS",
     "TeX_overfull_or_underfull_warnings": 0,
-    "missing_characters": 0,
-    "all_pages_visual_review": "PASS",
     "script_titles_and_notes": "6/6 matched",
-    "main_script_word_counts": [
-      221,
-      210,
-      179,
-      197,
-      203,
-      203
-    ],
-    "source_pins_matched": 184,
+    "source_pins_matched": 186,
+    "selected_policy_arithmetic": "PASS",
+    "identity_person_vehicle_distinction": "PASS",
+    "prior_report_archive": "12/12 SHA256 matched last release",
     "frozen_benchmark_and_sample_files_unchanged": "8/8 SHA256 matched last release",
-    "prior_eight_slide_PDF_HTML_content_unchanged": true,
-    "prior_slide_script_and_notes_preserved_byte_identical": true,
-    "detailed_archive_unchanged": true,
+    "prior_slide_decks_unchanged": true,
     "canonical_thesis_unchanged_sha256": "d3d51ad7f97995cc098b3ba7a0546e679214a36501c137e885b8d0ca14e3f920",
     "scores_regenerated": false,
     "core_algorithm_changed": false,
-    "renderer": "PyMuPDF; six raster pages visually reviewed",
-    "compatibility_note": "Tectonic reports a newer embedded map PDF version; rendered correctly. No layout or missing-glyph warnings."
+    "renderer": "PyMuPDF",
+    "compatibility_note": "Embedded sample map has newer PDF version; renders correctly, no missing glyph or layout warnings."
   },
   "evidence_scope": {
-    "utility": "Controlled fresh 24-family L20/L30 contrast on same Q/Z/cap/clock; macro gain 2.97 pp, CI [2.31,3.65], JSON reply bytes +31.10%.",
-    "privacy": "S4 historical diagnostic, S5/S6 Epoch8/L20 pilot, Endpoint20 L20 separate evidence; no unified current Epoch8/L30 privacy confirmation.",
-    "sample": "Frozen TRAIN freshqp-001, draw1, slot0; no new noise sample, no fabricated full list. Private GPS utility oracle distinct from protected-GPS schedule.",
-    "composition": "Ideal REM/noisy-test cost bound for a finite public epoch; trusted device/public context assumptions and uncertified finite sampler explicit.",
-    "query_content": "Private purpose retained locally; fixed all-category queries independent of purpose conditional on same protected/public state. Deployment and evaluation still k5.",
-    "historical_comparison": "L10 Recall95.44 is context only; cohort/purpose/budget/aggregation differ from current macro92.69.",
-    "S8": "Retained as open limitation, not claimed covered."
+    "utility": "L20/L30 89.71 to92.69 remains historical Epoch8 study; not new per-session results.",
+    "identity": "Historical S4 already has independent person/physical-vehicle targets; lacks new identity transport.",
+    "sample": "TRAIN Epoch8 u=.00125 frozen sample; no rescaling Z or new sample claim.",
+    "composition": "Per-session ideal Cs bound; linked M sessions still compose MCs.",
+    "S8": "Open limitation; no group guarantee."
   },
+  "previous_report_archive": "report_archive/epoch8/archive_release.json",
   "previous_deck_manifest": "manifest.json"
 }

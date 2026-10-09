@@ -1,0 +1,32 @@
+{
+  "schema": "session-cap-identity-design-v1",
+  "status": "design_selected; new_combination_and_identity_transport_not_validated",
+  "backbone": "Geo-I / REM with noisy reuse, protected belief and road-feasible Q",
+  "budget_policy": {
+    "scope": "per_session",
+    "effective_session_cap_per_m": 0.23,
+    "horizon": 12,
+    "max_cost_units": 23,
+    "unit_epsilon_per_m": 0.01,
+    "nominal_engine_budget_per_m": 0.24,
+    "read_interval_s": 60,
+    "hard_session_count_limit": null,
+    "restart_rule": "resume_same_trip_does_not_refill_budget",
+    "multi_session_bound": "sum(session_caps); no constant lifetime or eight-session cap claim"
+  },
+  "service": {"K": 5, "server_L": 30, "planner_L": 10, "slack": 0.03, "private_purpose": "local_only", "current_evaluation_k": 5},
+  "identity_targets": ["same_person", "same_physical_vehicle"],
+  "device_identity": "auxiliary channel, not interchangeable with person or physical vehicle",
+  "identity_layer": {
+    "status": "proposed; no new identity performance claim",
+    "application": "exclude stable identifiers; fresh request correlation token only if required",
+    "transport": "independent oblivious relay/gateway; no identifying authentication in payload; noncollusion assumption; not implemented",
+    "trajectory": "geometry/routine/timing linkage remains; dedicated same_person/same_vehicle attacker validation required"
+  },
+  "evidence": {
+    "existing_per_session_engine": "GeoI-Slack/session-reset",
+    "historical_epoch8_results": "retained with original labels; not new policy results",
+    "new_L30_combination": "new_benchmark_pending",
+    "scores_regenerated": false
+  }
+}

@@ -19,7 +19,7 @@ def number(value, digits=2):
 def architecture(current):
     """Native TikZ flow with a framed device and an external POI server."""
     gate = r'\textbf{1. Kiểm tra lịch và ngân sách}'
-    gate += (r'\\Cap $C_s=0{,}23\,\mathrm m^{-1}$ mỗi phiên; không giới hạn 8 phiên\\Dự toán trước GPS; $u=0{,}01\,\mathrm m^{-1}$; khoảng đọc $\geq60$ s'
+    gate += (r'\\Cap chung 8 phiên; $C_{\rm epoch}=0{,}23/\mathrm m$\\Dự toán chi phí trước GPS; khoảng đọc $\geq60$ s'
              if current else r'\\Cap $0{,}23/\mathrm m$ mỗi phiên; khoảng đọc $\geq60$ s\\Warmup 60 s trước GPS khi bật bảo vệ đầu chuyến')
     send = (r'\textbf{5. Yêu cầu chung, gửi ngay}\\$K=5$ Q; mọi loại POI; $L=30$ mỗi loại mỗi Q'
             if current else r'\textbf{5. Yêu cầu chung; delay tùy chọn}\\$K=5$ Q; mọi loại POI; $L=10$ mỗi loại mỗi Q\\Khi bật: giữ Q 60 s rồi mới công bố')
@@ -73,7 +73,6 @@ def architecture(current):
     \draw[flow,draw=teal] (10.15,-15.82) -- (answer.north);
     \end{tikzpicture}
     '''
-    body=body.replace(r'\node[font=\small,text=gray,align=center,text width=8cm] at (8,-13.5) {$Z$ và GPS thật giữ tại thiết bị.\\Máy chủ chỉ nhận tọa độ $Q$ và yêu cầu chung.};', r'\node[stage,draw=orange,dashed,fill=orange!3,font=\footnotesize,inner sep=4pt,minimum height=1.12cm] at (8,-13.35) {\textbf{S4 đề xuất: danh tính người + xe}\\Không ID bền; mã request riêng; relay tách IP.\\Chưa triển khai: cần đo linkage hình học cho hai target.};') if current else body
     close = '' if current else r'''\node[external,draw=orange,fill=orange!4,font=\footnotesize] (close) at (14.85,-13.75) {\textbf{Khi đóng phiên}\\Hủy Q còn chờ\\nếu đang bật delay};
     \draw[->,dashed,draw=orange] (send.south east) -- (12.95,-12.55) -- (12.95,-13.75) -- (close.west);'''
     for key, value in [('COL',col),('GATE',gate),('SEND',send),('LOCAL',local),('CLOSE',close),
@@ -104,7 +103,7 @@ def main():
                         number(index['geoi_slack_reconstructed',target]['roc_auc'],3),'Geo-I lịch sử'])
     for scenario,key,metric in [('S5','S5_exact_candidate_edge_accuracy','Đúng cạnh'),('S6','S6_destination_hit100','Hit100')]:
         privacy.append([scenario,metric+r' $\downarrow$ (\%)',number(100*pilot['raw'][key]),
-                        number(100*pilot['rem_epoch8'][key]),'Epoch8 / L20 cũ'])
+                        number(100*pilot['rem_epoch8'][key]),'Epoch8 / L20'])
     for scenario in ['S9','S10']:
         privacy.append([scenario,r'MAE $\uparrow$ (m)',number(endpoint[scenario,'scale100_L20']['mae_m'],0),
                         number(endpoint[scenario,'scale025_L20']['mae_m'],0),'Endpoint20 riêng'])
@@ -126,8 +125,6 @@ def main():
     for name in ['benchmark_tables.json','multistep_sample.json','utility_sample.json','slides.pdf',
                  'slide_content.json','endpoint_focus.json']:
         pins[str((HERE/name).relative_to(ROOT))]=hashlib.sha256((HERE/name).read_bytes()).hexdigest()
-    for name in ['docs/research/2026-10-10_session_cap_identity.md','docs/research/2026-10-10_session_cap_identity.json']:
-        pins[name]=hashlib.sha256((ROOT/name).read_bytes()).hexdigest()
     (HERE/'report_sources.json').write_text(json.dumps(pins,ensure_ascii=False,indent=2)+'\n')
     script=(HERE/'presentation_script.md').read_text()
     parts=re.split(r'^## Trang (\d+): (.+)\n',script,flags=re.MULTILINE)

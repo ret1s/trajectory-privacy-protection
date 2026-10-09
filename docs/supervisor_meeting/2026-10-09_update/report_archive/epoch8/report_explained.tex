@@ -63,78 +63,81 @@ Trong bán kính $r$ & Giữ $D_G(x,p)\leq r$, rồi sắp theo khoảng cách.\
 Đủ đáp án chỉ khi pool chứa các POI cần thiết. Số POI hiển thị không quyết định cơ chế S7;
 triển khai và benchmark vẫn dùng $k=5$, Recall@5. Tương quan ý định--tuyến đường và click còn là kênh suy luận.
 
-\subsection{S4 riêng cho người và xe; S5/S6 là kiểm định mở rộng}
+\subsection{S4, S5, S6: hỗ trợ gián tiếp, chưa có bảo vệ chuyên biệt đầy đủ}
 \par\smallskip
 \begin{tabularx}{\linewidth}{@{}P{.8cm}P{3.25cm}Y@{}}\toprule
 \textbf{Case} & \textbf{Attacker muốn biết} & \textbf{Cơ chế và khó khăn}\\\midrule
-S4 & Cùng người hoặc cùng xe qua phiên & Hai target riêng: cùng người, cùng xe vật lý. Đề xuất tách định danh/nguồn mạng; hình dạng và routine vẫn có thể liên kết.\\
+S4 & Cùng người hoặc cùng xe qua phiên & Cap chung giới hạn tọa độ tích lũy. Account/IP, hình dạng và thói quen vẫn có thể liên kết danh tính.\\
 S5 & Cạnh đường sắp đi & Geo-I, lịch đọc và cap làm mờ prefix. $Q$ không dùng tương lai thật; hình học vẫn có thể tiết lộ hướng rẽ.\\
 S6 & Đích chưa tới & Bảo vệ tọa độ trong lịch sử và prefix; đích riêng không gửi theo query. Routine qua nhiều chuyến vẫn có thể gợi ý đích.\\\bottomrule
 \end{tabularx}
 
-$b$ và bộ chọn $Q$ phục vụ utility. Lớp S4 chuyên biệt là đề xuất, chưa có benchmark mới.\newline
-Cùng người khác xe và khác người cùng xe phải là hai đối chứng riêng; ID thiết bị không thay cho cả hai. Pilot S5/S6 mới xét hai ứng viên.
+$b$ và bộ chọn $Q$ phục vụ utility, không phải bộ chống dự đoán độc lập. Pilot S5/S6 mới xét hai ứng viên.
 \textbf{S8} là suy vị trí qua người đồng hành: đã có diagnostic lịch sử, chưa xác nhận cơ chế cấp nhóm.
 Giữ S8 như giới hạn phạm vi, không dành phần trình bày riêng hoặc tuyên bố đã giải quyết S1--S10.
 {\small\color{gray}Nền nghiên cứu: Geo-I (Andrés, 2013), predictive composition (Chatzikokolakis, 2014);
 nhận dạng quỹ đạo (de Montjoye, 2013), dự báo hành trình (Ziebart, 2008), interdependent privacy (Olteanu, 2017).}
 
 \clearpage
-\section{Cap từng phiên; bảo vệ danh tính bằng lớp riêng}
-\textbf{Chính sách được chọn:} giữ cap hiệu lực $C_s=0{,}23\,\mathrm m^{-1}$ cho mỗi chuyến;
-không chia cap cho tám phiên hoặc từ chối chuyến thứ chín. Geo-I/REM vẫn là nền tảng.
-Một phiên có nhiều lần đọc GPS và gửi Q; khởi động lại để tiếp tục cùng chuyến không được tự nạp cap.
+\section{Cap tám phiên và lập luận riêng tư}
+\textbf{Vì sao thêm cap liên phiên?} Geo-I giới hạn thông tin mỗi lần đọc được bảo vệ, nhưng nhiều lần quan sát vẫn hợp thành.
+Nếu mỗi chuyến tự được cấp lại toàn bộ ngân sách, attacker có thể gom các chuyến để tăng thông tin về vị trí và routine.
+Sổ chung bổ sung giới hạn tích lũy cho Geo-I, hỗ trợ S2/S3 và phần tọa độ của S4.
 
-\subsection{Khái quát ngân sách và tính phí trước GPS}
-Với $H$ công khai, $U=2H-1$, chọn $u=C_s/U$ và ngân sách danh nghĩa $B=2Hu$.
-Cấu hình làm việc: $H=12$, $U=23$, $u=0{,}01\,\mathrm m^{-1}$, $B=0{,}24\,\mathrm m^{-1}$.
-$0{,}23$ là hệ số riêng tư, không phải bán kính $0{,}23$ m hoặc một giá trị tối ưu phổ quát.
+\textbf{Phiên} là một chuyến; \textbf{epoch} là nhóm tối đa $N=8$ phiên được cấp theo chính sách công khai.
+Sổ lưu bền vững qua khởi động lại; dành slot trước GPS và không hoàn phần dư dựa trên nhánh bí mật.
+\par\smallskip
+\begin{tabularx}{\linewidth}{@{}P{4.5cm}Y Y@{}}\toprule
+\textbf{Phân bổ} & \textbf{Bản trước} & \textbf{Epoch8 hiện tại}\\\midrule
+Cap mỗi phiên & $0{,}23/\mathrm m$ & $0{,}02875/\mathrm m$\\
+Tổng cận tám phiên & $1{,}84/\mathrm m$ nếu cấp lại từng chuyến & $0{,}23/\mathrm m$ dùng chung\\
+Đơn vị phí $u$ & $0{,}01/\mathrm m$ & $0{,}00125/\mathrm m$\\\bottomrule
+\end{tabularx}
+\[
+C_{\rm epoch}=0{,}23/\mathrm m,\qquad C_{\rm phiên}=C_{\rm epoch}/8=0{,}02875/\mathrm m,
+\]
+\[
+H=12,\qquad U=2H-1=23,\qquad u=C_{\rm phiên}/U=0{,}00125/\mathrm m.
+\]
+$U$ là số đơn vị phí của một phiên. $H=12$ không buộc đúng 12 lần GPS; tám phiên cũng không phải tám lần đọc.
+Ngân sách danh nghĩa phiên $0{,}03/\mathrm m$ khác cap hiệu lực $0{,}02875/\mathrm m$.
+
+\subsection{Kiểm tra trước GPS và tính phí theo nhánh}
+Trước GPS, kiểm tra slot, khoảng thời gian ít nhất 60 s và đủ dự toán nhánh đắt nhất:
+lần đầu cần $1u$; đã có $Z$ cần $2u$. Chi phí thực tế như sau.
 \par\smallskip
 \begin{tabularx}{\linewidth}{@{}P{4.1cm}P{1.8cm}Y@{}}\toprule
 \textbf{Nhánh} & \textbf{Chi phí} & \textbf{Xử lý}\\\midrule
 Đọc lần đầu & $1u$ & REM lấy mẫu $Z$ mới.\\
-Đọc rồi giữ $Z$ & $1u$ & Phí phép thử có nhiễu, dù không tạo Z mới.\\
+Đọc rồi giữ $Z$ & $1u$ & Phép thử có nhiễu đạt ngưỡng; vẫn phải tính phí thử.\\
 Thử rồi tạo mới & $2u$ & Phí thử $u$ và phí REM $u$.\\
-Không đọc mới & $0u$ & Dự đoán $b$, chọn Q từ lịch sử đã bảo vệ.\\\bottomrule
+Không đọc mới & $0u$ & Tiếp tục dự đoán $b$ và chọn $Q$ từ lịch sử bảo vệ.\\\bottomrule
 \end{tabularx}
-Dự toán trước GPS: lần đầu đủ $1u$, các lần sau đủ $2u$; khoảng đọc ít nhất 60 s.
-$H$ không buộc đúng 12 lần đọc: giữ Z liên tục có thể đọc tới 22 lần nếu lịch đủ dài.
-Hết cap đọc trong phiên vẫn có thể phục vụ bằng Q dự đoán.
+Phiên đã nhận mà không đủ cap đọc vẫn có thể gửi $Q$ dự đoán. Hết tám slot thì từ chối phiên mới,
+không đọc GPS hoặc gửi $Q$. Tám là lựa chọn cấu hình hữu hạn, không phải hằng số lý thuyết đặc biệt.
+Epoch mới vẫn phải hợp thành với epoch cũ; sổ chung không tự che danh tính hoặc bảo vệ vô hạn cả đời.
 
-REM trên miền đường công khai cố định và phép thử có nhiễu giữ nguyên:
+\subsection{Bảo đảm toán học ngắn trước khi xem benchmark}
+Giữ cùng bản đồ, miền đường, lịch và metadata công khai. REM lý tưởng lấy mẫu trạng thái $v$ trên miền cố định $V$:
 \[
-R_u(v\mid x)=\frac{\exp[-u\,d_E(x,a_v)/2]}{\sum_{w\in V}\exp[-u\,d_E(x,a_w)/2]},\qquad
- d_E(x,Z_{\rm cũ})+\eta\leq\theta,\quad\eta\sim\mathrm{Lap}(1/u).
+R_u(v\mid x)=\frac{\exp[-u\,d_E(x,a_v)/2]}{\sum_{w\in V}\exp[-u\,d_E(x,a_w)/2]}.
 \]
-Với chi phí $c_i\in\{0,1,2\}$, $\sum_i c_i\leq U$, chặn lý tưởng cho một phiên:
+REM thỏa $u$-Geo-I nhờ bất đẳng thức tam giác cho cả tử và hệ số chuẩn hóa.
+Phép thử $d_E(x,Z_{\rm cũ})+\eta\leq\theta$, với $\eta\sim\mathrm{Lap}(1/u)$,
+cũng có phí $u$; $\theta=200$ m là công khai. Không phải cứ vượt 200 m là chắc chắn tạo mới.
+
+Với mỗi đường thực thi $e$, chi phí $c_i(e)\in\{0,1,2\}$ và quy tắc dự toán cho
+$\sum_i c_i(e)\leq NU$. Đặt $D_\infty(X,X')=\max_i d_E(x_i,x'_i)$, chain rule cho:
 \[
 \frac{p_X(e)}{p_{X'}(e)}\leq
-\exp\!\left(u\sum_i c_i d_E(x_i,x'_i)\right)
-\leq\exp\!\left(C_s D_\infty(X,X')\right).
+\exp\!\left(u\sum_i c_i(e)d_E(x_i,x'_i)\right)
+\leq \exp\!\left(C_{\rm epoch}D_\infty(X,X')\right).
 \]
-Nếu attacker liên kết $M$ phiên, cap hợp thành vẫn là $MC_s$, không phải $C_s$.
-Đổi pseudonym không xóa chi phí này. Điều kiện: kernel lý tưởng, thiết bị tin cậy,
-ngữ cảnh/lịch công khai và gửi từ lịch sử bảo vệ; sampler float chưa được chứng nhận.
+Cộng các đường thực thi rồi hậu xử lý sang $Q$/phản hồi giữ cận này cho quan sát máy chủ.
+\textbf{Điều kiện:} kernel và randomness lý tưởng, thiết bị tin cậy, mọi hành vi gửi chỉ dùng thông tin công khai/lịch sử bảo vệ;
+GPS và nhu cầu local không kích hoạt request bổ sung. Cận không che account/IP, giờ mở/đóng hay tự trở thành theorem riêng tư của đích;
+sampler float hiện chưa được chứng nhận tương đương.
 
-\subsection{S4: danh tính người và phương tiện vật lý}
-\par\smallskip
-\begin{tabularx}{\linewidth}{@{}Ycc@{}}\toprule
-\textbf{Cặp chuyến} & \textbf{Cùng người} & \textbf{Cùng xe}\\\midrule
-Một người, cùng xe & 1 & 1\\
-Một người đổi xe & 1 & 0\\
-Hai người dùng chung xe & 0 & 1\\
-Hai người, hai xe & 0 & 0\\\bottomrule
-\end{tabularx}
-\textbf{Lớp S4 đề xuất:} bỏ ID người/xe/thiết bị, account, cookie và stable track ID;
-nếu cần, chỉ mã ngẫu nhiên riêng cho request. Tách nguồn IP khỏi request bằng relay/gateway
-độc lập kiểu OHTTP, với HTTPS và điều kiện không thông đồng; không gửi auth định danh bên trong.
-Q còn hình dạng và timing: đổi tên hoặc shuffle không tự chống liên kết quỹ đạo.
-
-\key{Cap phiên bảo vệ tọa độ; S4 phải kiểm chứng riêng cho người và xe. Lớp identity/transport mới chưa được triển khai hoặc xác nhận.}
-\textbf{Đánh giá tiếp:} hai attacker/target, cặp đổi xe và chung xe, ablation metadata/transport/hình học;
-AUC có xét đảo điểm, balanced accuracy, Recall, bytes và latency. Không nhận việc simulator vốn thiếu ID là gain mới.
-{\footnotesize\color{gray}Nền lớp S4: RFC 9458, \S7 (OHTTP); Beresford--Stajano (2004, mix zones);
-Cooperative Location Privacy in Vehicular Networks (2020). Chi tiết/nguồn: \texttt{2026-10-10\_session\_cap\_identity.md}.}
 \clearpage
 \section{Kiến trúc trước: cap từng phiên và tìm POI gần nhất}
 Đọc từ trên xuống theo các bước đánh số. Khung xanh là mô hình tại thiết bị; máy chủ POI ở ngoài khung.
@@ -145,27 +148,24 @@ xếp hạng gần nhất và chọn tối đa năm POI mỗi loại. Không đ�
 
 \textbf{S9/S10 tùy chọn:} warmup 60 s trước GPS, delay công bố 60 s, hủy Q còn chờ khi đóng.
 Ví dụ đã lưu: Q tạo ở 60 s gửi ở 120 s; đóng tại 384 s hủy Q(340), Q(360), Q(380), Q(384).
-Delay làm chậm hoặc mất câu trả lời; sơ đồ này không phải cấu hình Epoch8/L30 của study trước.
+Delay làm chậm hoặc mất câu trả lời; sơ đồ này không phải cấu hình Epoch8/L30 hiện tại.
 
 \clearpage
-\section{Kiến trúc làm việc: cap phiên và lớp S4 riêng}
+\section{Kiến trúc hiện tại: cap liên phiên và nhu cầu local}
 Giữ Geo-I/REM, tái sử dụng $Z$, ước lượng $b$ và bộ chọn $Q$ theo đường.
-Viền xanh đánh dấu chính sách cap và truy hồi/xử lý nhu cầu. Khối nét đứt S4 là đề xuất cần triển khai, chưa phải kết quả đã xác nhận.
+Viền xanh ở các bước 1, 5, 6 đánh dấu phần cập nhật; máy chủ vẫn chỉ nhận yêu cầu chung.
 \begin{center}\input{report_figures/architecture_current}\end{center}
-\textbf{Phần được chọn:} cap $0{,}23\,\mathrm m^{-1}$ mỗi phiên, $u=0{,}01\,\mathrm m^{-1}$;
-$K=5$, phản hồi $L30$, bốn nhu cầu local. Bộ chọn vẫn dùng $L_{\rm plan}=10$ và slack $0{,}03$.
-Không có hard cap tám chuyến. Geo-I/REM, tái dùng Z, b và chọn Q theo đường vẫn giữ.
+\textbf{Ba cập nhật:} cap chung tám phiên; tăng phản hồi lên $L30$ để mở rộng ứng viên;
+lọc và sắp xếp theo bốn nhu cầu local. $L_{\rm plan}=10$ của bộ chọn khác $L=30$ của máy chủ;
+slack $0{,}03$ nới điểm độ phủ tại cùng event, không phải giảm Recall 3\%.
 
-\textbf{S4 đề xuất riêng:} không công bố định danh người/xe/thiết bị; tách IP và nội dung bằng relay.
-Vẫn phải chống và đo liên kết hình dạng cho cả người lẫn xe. Khối S4 chưa có triển khai OHTTP hoặc benchmark mới;
-độ trễ/chi phí phải được đo trước khi áp dụng. Nội dung nhu cầu chỉ xử lý local, triển khai/đánh giá hiện vẫn dùng $k=5$.
+\textbf{Đầu/cuối gửi ngay:} không warmup/delay trong Epoch8/L30. Nhánh Endpoint20 tăng nhiễu được đo ở $L20$ riêng;
+không chuyển kết quả của nhánh đó sang L30. Đầu ra trên sơ đồ mô tả chức năng lọc/sắp xếp;
+triển khai và benchmark hiện tại vẫn giới hạn $k=5$.
 
-\textbf{Chuyển tiếp bằng chứng:} Epoch8/L30 cũ gửi ngay; Endpoint20 là nhánh L20 tăng nhiễu riêng.
-Bỏ cap liên phiên không giữ nguyên phân bố Z/Q của Epoch8. Kết hợp cap phiên + L30 + S4 mới cần đánh giá lại;
-không gán các số đo cũ cho kiến trúc được chọn.
 \clearpage
-\section{Ví dụ cơ chế đã lưu: từ GPS đến danh sách POI}
-Mẫu cố định \texttt{freshqp-001}, TRAIN, draw 1, phiên 1, \textbf{Epoch8 cũ}. Minh họa cơ chế, không phải mẫu của chính sách mới.
+\section{Ví dụ đầy đủ: từ GPS đến danh sách POI}
+Mẫu cố định \texttt{freshqp-001}, TRAIN, draw 1, phiên 1. Dùng minh họa cơ chế, không phải kết quả test.
 Mỗi mốc công khai 20 s gửi $Q$; lịch GPS cho Geo-I ít nhất 60 s. $Z$ giữ nội bộ, $Q$ gửi máy chủ, $P$ là POI trong danh mục.
 
 \begin{minipage}[t]{.49\linewidth}\vspace{0pt}
@@ -222,7 +222,7 @@ giờ mở/đóng ứng dụng còn có thể lộ.
 Mẫu dùng GPS tổng hợp SUMO. Đánh giá utility dùng vị trí thật local tại mỗi mốc 20 s;
 đây là oracle đánh giá, không phải phép đo số lần lấy GPS hay năng lượng trên thiết bị thật.
 
-\key{Mẫu giữ đúng $u=0{,}00125$ của cấu hình cũ; cap phiên mới và lớp S4 cần mẫu/benchmark riêng.}
+\key{GPS bảo vệ theo lịch; $Z$ và $b$ tạo Q; Q lấy POI; nhu cầu thật chỉ lọc/sắp xếp tại thiết bị.}
 
 \clearpage
 \section{Benchmark: cải thiện đã đo và phạm vi kết luận}
@@ -230,8 +230,8 @@ Mẫu dùng GPS tổng hợp SUMO. Đánh giá utility dùng vị trí thật lo
 Mỗi phép thử chọn attacker theo task/metric trên tập chọn, không mặc định mọi task đều dùng Shadow kNN.
 Hit100 là tỷ lệ suy đúng trong 100 m; MAE là sai số vị trí trung bình; Recall@5 là chất lượng dịch vụ.
 
-\subsection{Utility đã xác nhận: L20 và L30 trên cùng Q của Epoch8 cũ}
-24 nhóm mới trên cùng bản đồ SUMO, 3 lượt nhiễu mỗi nhóm, 8 chuyến/lượt; cap chung của \textbf{study trước}.
+\subsection{Utility: L20 và L30 trên cùng Q}
+24 nhóm mới trên cùng bản đồ SUMO, 3 lượt nhiễu mỗi nhóm, 8 chuyến/lượt.
 Giữ Q, Z, lịch, cap và $k=5$; chỉ đổi độ sâu phản hồi. Macro cho bốn mục đích trọng số đều.
 \par\smallskip
 \begin{tabularx}{\linewidth}{@{}Yrrr@{}}\toprule
@@ -244,12 +244,12 @@ Reply JSON $494{,}71\to648{,}58$ MB ($+31{,}10\%$), cùng 90.570 request.
 CI bootstrap theo 24 nhóm, không coi tick là subject độc lập. Chưa đo latency, HTTP/TLS hoặc năng lượng.
 
 \textbf{So với báo cáo trước:} L10 đạt Recall 95,44\% cho tìm gần nhất, gộp năm scenario với cache và cap từng chuyến.
-Macro L30 92,69\% của study Epoch8 khác purpose, cap, cohort và cách gộp; không lấy chênh hai số làm tăng/giảm trực tiếp.
+Macro L30 92,69\% hiện tại khác purpose, cap, cohort và cách gộp; không lấy chênh hai số làm tăng/giảm trực tiếp.
 Replay bốn template L10 không qua gate (86,34\%, byte cao hơn L30 57,52\%); giữ L30.
 Replay này dùng lại cohort hiện có, không là xác nhận độc lập mới.
 
 \subsection{Privacy: bằng chứng bổ sung ở các cấu hình riêng}
-Các bảng giữ cấu hình gốc, \textbf{chưa đo kiến trúc cap phiên + L30 + S4 mới}. Đối chứng S4--S6 là GPS thật; S9/S10 là Geo-I L20 lịch sử.
+Đối chứng S4--S6 là GPS thật; đối chứng S9/S10 là Geo-I L20 lịch sử.
 \par\smallskip
 \begin{tabularx}{\linewidth}{@{}P{2.7cm}P{2.8cm}rrY@{}}\toprule
 \textbf{Task} & \textbf{Metric} & \textbf{Đối chứng} & \textbf{Bảo vệ} & \textbf{Cấu hình}\\\midrule
@@ -258,19 +258,19 @@ Các bảng giữ cấu hình gốc, \textbf{chưa đo kiến trúc cap phiên +
 
 \textbf{S4:} 3 nhóm test/45 cặp; attacker người \textbf{shape/kNN15}, xe \textbf{shape/kNN5} ở raw và \textbf{shape/trees} ở Geo-I.
 AUC người từng nhóm còn tới 0,861; AUC dưới 0,5 không chứng minh ẩn danh vì có thể đảo điểm.
-S4 này chưa có lớp identity/transport đề xuất và chưa xác nhận cho L30 cap phiên.
+Chưa xác nhận linkage cho Epoch8/L30 mới.
 
 \textbf{S5/S6:} pilot Epoch8/L20, 6 nhóm/12 query; \textbf{Candidate Trees} ở raw, \textbf{Motion} ở REM, \textbf{Curve Mean} ở Planar.
 Planar cũng đạt 50\%; Recall Planar 97,00\%, REM 94,69\%. Hai task chung quyết định nhị phân, chưa phải dự đoán mọi cạnh/đích.
 
 \textbf{S9/S10:} Endpoint20 gửi ngay, dùng $u=0{,}0025/\mathrm m$ thay $0{,}01/\mathrm m$ của đối chứng L20,
-tăng nhiễu ở mọi lần đọc được phép. Đây là nhánh riêng, không phải Epoch8 hoặc kết quả của lớp S4 mới.
+tăng nhiễu ở mọi lần đọc được phép; không phải một phần tư $u$ hiện tại của Epoch8.
 28 nhóm đã khảo sát, 112 quan sát/task. Recall $98{,}94\to96{,}64\%$; S10 Hit100 cùng 0\%, CI chênh Hit500 chạm 0.
 Attacker chọn riêng theo metric; MAE tăng không chứng minh thắng mọi phép đo.
 
-\key{Gain utility thuộc study Epoch8 cũ. Chưa có kết quả mới cho cap phiên/L30 và lớp S4 người + xe.}
+\key{Đã xác nhận tăng utility có đánh đổi byte. Privacy còn theo từng bank/cấu hình; chưa có một benchmark Epoch8/L30 thống nhất cho S1--S10.}
 S1--S3 và đối chứng paper thích nghi giữ ở tài liệu chi tiết; S8 còn mở.
-Ưu tiên: chạy per-session L30, triển khai/ablate lớp identity và đo linkage người + xe trên dữ liệu mới; S8 còn mở.
+Ưu tiên tiếp theo: xác nhận privacy trên cùng Epoch8/L30, mở rộng linkage và dự đoán tương lai, đo chi phí triển khai.
 
 {\footnotesize\color{gray}\textbf{Nguồn đối chiếu:} \texttt{benchmark\_tables.json}, \texttt{multistep\_sample.json}, \texttt{utility\_sample.json};
 báo cáo trước: \texttt{method\_evidence.json} trong thư mục \texttt{2026-09-26\_brief}; mô hình/chứng minh:
