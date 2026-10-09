@@ -1,5 +1,5 @@
 {
-  "schema": "supervisor-report-release-v3",
+  "schema": "supervisor-report-release-v4",
   "prepared_date": "2026-10-10",
   "language": "vi",
   "format": "A4 LaTeX PDF",
@@ -17,7 +17,7 @@
     },
     {
       "page": 2,
-      "title": "S4--S6: cơ chế hiện có và mức bảo vệ đã kiểm chứng",
+      "title": "S4--S6: phân tích mức bảo vệ từ cận Geo-I",
       "size": "A4",
       "text_bounds": "PASS",
       "blank": false
@@ -72,44 +72,52 @@
       4
     ],
     "dedicated_S4_S5_S6_page": 2,
+    "analysis_focus": "likelihood/posterior odds/TV/Bayes and target-specific conditions",
+    "empirical_privacy_scenarios": [
+      "S1",
+      "S2",
+      "S3",
+      "S9",
+      "S10"
+    ],
     "identity_rendering": "existing protection only; no proposed extra identity box"
   },
   "source_pins_file": "report_sources.json",
   "files": {
     "report_explained.pdf": {
-      "sha256": "12de9ba45efa990b2a2fcf2cb5196666422ec7889d878521b8f234820272c04d",
-      "bytes": 700221
+      "sha256": "44a696974a1ca3b9b925e77285e745193f5b56b04fc26ce0ebb252aba5d44066",
+      "bytes": 702115
     },
     "report_explained.tex": {
-      "sha256": "9142bddf0957e447f1669680034c545124e055d188dfd68321427c25b375dc29",
-      "bytes": 21841
+      "sha256": "07c0e1ad78e32a9b34f03eb67737f1f137c610d45da642c425ccd4163a2d6b95",
+      "bytes": 21881
     },
     "report_tables.tex": {
-      "sha256": "4a4a8fc66525162247464eec4fc0ae3444023600be73efee1794c12484b6902e",
-      "bytes": 1142
+      "sha256": "a167f6c25c60c4c3689ca4304eb549153f8b4bd6646b85abe1d009925c961aa6",
+      "bytes": 992
     },
     "report_sources.json": {
-      "sha256": "a050f71d4aed11a7e76a94490d2b4dc7bbae20f9e07190de5f71ba21ec4e7665",
+      "sha256": "44895d5be86020e914b74ef6c23f99c1d9c29b4bab804e3b5574cffce01ab063",
       "bytes": 24286
     },
     "build_report.py": {
-      "sha256": "7f8342577a7b40bbf8bfbcf4f8f9d4ebc5015be5c5fa9db7d7501f4088d36f3f",
-      "bytes": 12214
+      "sha256": "cdc79a0e3ab233481218049510f6acfe45f441bd882b6f708228cc15239cd162",
+      "bytes": 11513
     },
     "presentation_script.md": {
-      "sha256": "d342c644ab30926a418a2af06d58156901f9110d469f890f332f2efacadc693e",
-      "bytes": 15324
+      "sha256": "85781eed351e21d80d86678a2d7717437bcc6005e58d1805d704b5f01e1a7f0d",
+      "bytes": 16094
     },
     "speaker_notes.txt": {
-      "sha256": "2027edd52387b99e7d2c5e312fddb2e95617915f00be8f298560495473c975bf",
-      "bytes": 14955
+      "sha256": "8a75c064a3fe24ab16eb785c4c573851725746a8b638f2986a806f2ef8c4a6b9",
+      "bytes": 15725
     },
     "README.md": {
-      "sha256": "aa9003bebd6bb332bc981f640d01d2dd87c6c7226f1eb8c397ec7b1a4071538c",
-      "bytes": 6078
+      "sha256": "806bed5c218f11647e64795186b5252d7152376b8673ce6c2df024bbbe8251cd",
+      "bytes": 6073
     },
     "manifest.json": {
-      "sha256": "f9ef3697b2d4fc3b352b5d5ed6d6a1a2de89afe3f8537cdb77376bd8a524b381",
+      "sha256": "e2878530ce81a59f61803e03cc95e3a2a47026069b6f27e84318ab3e33cc636d",
       "bytes": 11291
     },
     "report_figures/architecture_current.tex": {
@@ -121,7 +129,7 @@
       "bytes": 4907
     },
     "report_figures/sample_60s.pdf": {
-      "sha256": "0645729d6792e1ad58eb8f3aa7ca4d08dfddf752470818802bc276dc2c2e1601",
+      "sha256": "9fc18f44c17afb95990feda0d53dc61acacb6e180f660f9b49aa6e0df1f6b887",
       "bytes": 658529
     },
     "report_archive/epoch8/README.md": {
@@ -187,7 +195,8 @@
     "source_pins_matched": 189,
     "original_source_pins_preserved": 182,
     "selected_policy_arithmetic": "PASS",
-    "native_session_pilot_values": "source-matched; 5/12, selected Candidate Trees",
+    "coordinate_benchmark_values": "S1-S3 source-matched to historical GeoI-Slack; S9-S10 pinned Endpoint20",
+    "analytic_examples": "alpha .2 and2 -> balanced Bayes bounds54.98% and88.08%, not empirical accuracy",
     "identity_person_vehicle_distinction": "PASS",
     "discarded_session_count_discussion_removed_from_presentation": true,
     "prior_report_archive": "12/12 SHA256 matched last release",
@@ -201,10 +210,10 @@
   },
   "evidence_scope": {
     "utility": "Saved L20/L30 89.71 to92.69 study, u=.00125, per-trip cap=.02875; not new per-session .23 results.",
-    "identity": "Historical S4 person/physical-vehicle linkage diagnostic, per-session .23; partial, no general anonymity claim.",
-    "future": "Previously saved native SessionReset/L10 pilot; S5/S6 share two-choice target, six test families,12queries; not fresh L30 or new measurement.",
+    "identity": "Conditional inference analysis for same-person/same-physical-vehicle hypotheses; all-pair trace support bound required; diagnostics retained outside main tables.",
+    "future": "Main report uses conditional inference on prefixes/linked histories, with prior preserved; saved pilot remains traceable research evidence, not primary report score.",
     "sample": "TRAIN u=.00125 frozen output; no budget rescaling or new sample claim.",
-    "inference": "Bayes bound conditional on all-pair trace support distance/common public context/balanced prior; alpha=23 example is weak.",
+    "inference": "Posterior-odds factor e^alpha; balanced Bayes example for single-coordinate differences; alpha23 whole-trace example remains weak; not new primitive or unconditional scenario resolution.",
     "composition": "Linked sessions compose their caps.",
     "S8": "Open limitation."
   },

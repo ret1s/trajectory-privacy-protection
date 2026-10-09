@@ -10,11 +10,11 @@ Tài liệu chính là **report LaTeX 6 trang A4**, dùng trình bày khoảng *
 Thứ tự nội dung:
 
 1. S7: request chung L30, nhu cầu giữ local; bốn tiêu chí; ngân sách Geo-I mỗi phiên.
-2. **S4–S6 riêng:** target, cơ chế đang có, bằng chứng và giới hạn; người/xe vật lý riêng; cận suy luận có điều kiện và khi nào cần cơ chế bổ sung.
+2. **S4–S6 riêng:** target, cơ chế, likelihood/posterior odds và cận Bayes; phân biệt người/xe, prefix cạnh, lịch sử/đích; ví dụ lý thuyết và điều kiện.
 3. Kiến trúc trước: bốn tầng, luồng đánh số, delay đầu/cuối tùy chọn.
 4. Kiến trúc hiện tại: giữ Geo-I, L30/bốn nhu cầu local; không thêm một khối identity chưa được chọn.
 5. Sample đã lưu: timeline, bản đồ, kích hoạt cơ chế và kết quả local; ghi đúng tham số mẫu.
-6. Benchmark: L20–L30 theo bốn nhu cầu/CI/bytes và privacy theo các cấu hình riêng.
+6. Benchmark: L20–L30 theo bốn nhu cầu/CI/bytes; bảng tọa độ S1–S3 và đầu/cuối S9–S10 theo cấu hình riêng.
 
 ## Phạm vi kết luận
 
@@ -22,11 +22,11 @@ Thứ tự nội dung:
 
 **Cap phiên:** C_s=0,23 m⁻¹; H12/U23; u=0,01 m⁻¹; B danh nghĩa=0,24 m⁻¹. Khởi động lại cùng chuyến không nạp cap. H không là số GPS reads tối đa. Những phiên bị liên kết vẫn hợp thành tổng cap; chưa có readout mới cho kết hợp cap làm việc/L30. [Chính sách và đánh giá](../../research/2026-10-10_session_cap_identity.md); [cấu hình](../../research/2026-10-10_session_cap_identity.json).
 
-**S4:** cơ chế hiện có làm mờ linkage hình học qua REM/noisy reuse, lịch đọc và cap. Hai target độc lập: cùng người, cùng phương tiện vật lý; không đồng nhất với thiết bị. Diagnostic AUC người 0,778→0,532, xe 0,718→0,448 nhưng còn nhóm AUC người 0,861. Đây là bằng chứng một phần, không phải anonymity/transport guarantee. K5 Q không phải k-anonymity với năm người dùng. Chưa chọn lớp identity bổ sung; kiểm chứng trước rồi mới quyết định.
+**S4–S6:** phần chính chuyển sang phân tích cận của Geo-I hiện có: likelihood, mức thay đổi posterior odds, TV và Bayes theo prior. S4 phân biệt người/xe; S5 dùng prefix trước dự báo; S6 tính lịch sử đã liên kết và prior routine. Điều kiện all-pair trên hai support phải xác định; K5 không phải k-anonymity. Không chọn lớp identity mới. Diagnostic AUC/accuracy đã lưu vẫn ở tài liệu nghiên cứu, không phải bảng kết quả chính.
 
-**S5/S6:** thêm vào report các số **đã lưu** của pilot `future_native_20261005_v1`, nhánh `geoi_session_reset/turn_visible`, cap phiên/L10. Candidate Trees: accuracy cạnh/Hit100 đích 100→41,67%; MAE đích 4,99→660,62m, Static Recall@5 97,72%. Sáu nhóm test/12 query, hai cạnh/đích ứng viên đã biết. S6 giả định sáu lịch sử đã nối cùng người; không chứng minh S4. Hai task chung quyết định nhánh, không là hai xác nhận độc lập hoặc thế giới mở. Không đổi số frozen hoặc nhận chúng là một lần chạy mới.
+**S1–S3:** đưa lại bảng GeoI-Slack cap phiên/L10 từ `2026-09-26_brief/method_evidence.json`: Hit100 5,56/1,39/2,88%; MAE 1.119/874/904m; Recall 91,24/97,98/95,62%. Đây là 12 nhóm phát triển/macro theo các điều kiện; chưa phải confirmation L30. Nguồn được pin, không chạy lại hoặc gán số của pipeline khác cho Geo-I.
 
-**Chứng minh:** nếu mọi cặp trace giữa hai support có D∞≤r và cùng ngữ cảnh công khai, Geo-I lý tưởng cho α=r∑C_s và cận Bayes cân bằng exp(α)/(1+exp(α)). Cận không tự hữu ích cho identity: C_s=0,23/m và r=100m đã cho α=23. Chưa chứng nhận sampler float; chưa bao phủ account/IP. Không thêm k-anonymity chỉ vì có nhiều hướng giải identity.
+**Chứng minh:** nếu mọi cặp trace giữa hai support có D∞≤r và cùng ngữ cảnh công khai, Geo-I lý tưởng cho α=r∑C_s và cận Bayes cân bằng exp(α)/(1+exp(α)). Ví dụ chỉ khác một GPS 10m/100m dùng alpha≤2ur cho cận Bayes 54,98%/88,08%; không áp cho hai tuyến khác nhiều mẫu. Cận không tự hữu ích cho identity: C_s=0,23/m và r=100m đã cho α=23. Chưa chứng nhận sampler float; chưa bao phủ account/IP. Không thêm k-anonymity chỉ vì có nhiều hướng giải identity.
 
 **Utility/đầu cuối:** L20 89,71→L30 92,69% trong study đã lưu dùng u=0,00125/m, cap mỗi chuyến 0,02875/m; không gán cho cấu hình làm việc. Gain 2,97 điểm %, CI [2,31;3,65], reply bytes +31,10%. Recall L10 95,44% lịch sử khác purpose/cohort. Nhánh Endpoint20 riêng tăng nhiễu, gửi ngay; bản cũ warmup/delay tùy chọn. Chưa có một cấu hình được xác nhận fully bảo vệ S1–S10; S8 còn mở.
 
@@ -34,7 +34,7 @@ Thứ tự nội dung:
 
 ## Tái lập report
 
-`build_report.py` kiểm tra nguồn pin, dựng sơ đồ TikZ/bảng, crop bản đồ vector và đồng bộ ghi chú. Nó đọc thêm protocol/results/validation của pilot cap phiên đã lưu; không chạy sampler, attacker hoặc evaluator.
+`build_report.py` kiểm tra nguồn pin, dựng sơ đồ TikZ/bảng, crop bản đồ vector và đồng bộ ghi chú. Nó đọc bảng lịch sử S1–S3 và bảng Endpoint20 đúng nguồn pin; tạo thêm bảng ví dụ Bayes từ công thức, không phải score thực nghiệm. Không chạy sampler, attacker hoặc evaluator.
 
 ```sh
 python3 build_report.py

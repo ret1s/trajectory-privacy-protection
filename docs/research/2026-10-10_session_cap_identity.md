@@ -119,3 +119,27 @@ có cho thấy thiếu bảo vệ và một cơ chế phù hợp với observer/
 Report dùng sample và utility đã lưu ở cấu hình nhiễu khác; nêu u/cap của
 chúng tại chỗ, không nhân ngân sách rồi giữ nguyên Z/Q. Benchmark, mã core,
 canonical thesis và các bản lưu giữ nguyên. S8 còn là giới hạn mở.
+
+## 6. Trọng tâm trình bày: tọa độ thực nghiệm, identity/future phân tích
+
+Report giữ benchmark S1–S3, S9–S10 cùng utility, theo đúng cấu hình đã đo.
+S1–S3 dùng `2026-09-26_brief/method_evidence.json` GeoI-Slack per-session/L10;
+S9–S10 dùng Endpoint20 đã lưu. Không thay score hoặc gán chúng cho L30 mới.
+Cận tọa độ là cơ sở toán học; không biến nó thành bảo đảm Hit100/MAE hoặc
+thành tuyên bố các scenario đã được giải quyết hoàn toàn.
+
+S4–S6 tập trung công thức likelihood/posterior odds, TV/Bayes có điều kiện.
+Không đưa diagnostic AUC/accuracy nhỏ vào bảng chính; các diagnostic ở trên
+và nguồn gốc vẫn giữ nguyên. Với S5 cùng prefix và ngữ cảnh, luật Q giống nhau
+nên không thêm thông tin về lựa chọn tương lai; prior có thể đã mạnh. S6 dùng
+lịch sử + prefix cần hợp thành mọi cap và giữ prior routine. S4 cần chặn all-pair
+trên luật trace của giả thuyết cùng/khác người hoặc xe, không tự có từ K5.
+
+Ví dụ lý thuyết u=0,01/m: chỉ khác một GPS 10m cho α≤0,2, Bayes cân bằng
+≤54,98%; chỉ khác một GPS 100m cho α≤2, ≤88,08%. Toàn trace với D∞=100m và
+cap phiên 0,23/m cho α=23, cận gần 100% và yếu. Đây không phải benchmark hoặc
+cận identity hữu ích đã được xác nhận. Không suy cận một GPS cho hai tuyến.
+
+Metric chọn theo secret/observer: tọa độ Hit/MAE; linkage AUC/BA; cạnh đúng
+edge; đích accuracy/Hit/MAE; dịch vụ Recall/cost. Không buộc mọi scenario có
+một metric khác hoàn toàn, cũng không ép một score vào mọi model/task.

@@ -5,6 +5,7 @@ Tectonic, then render and review the resulting PDF before release.
 """
 from pathlib import Path
 import hashlib
+import math
 import json
 import re
 
@@ -94,38 +95,37 @@ def main():
     rows=tables['current_fresh_four_purpose_utility']['rows']
     utility='\n'.join(' & '.join([r['label_vi'],number(100*r['L20_recall']),number(100*r['L30_recall']),
                          '+'+number(r['gain_pp'])])+r'\\' for r in rows)
-    index={(r['method'],r['target']):r for r in tables['S4_historical_linkage']['rows']}
-    native_dir=ROOT/'artifacts/benchmarks/future_native_20261005_v1'
-    native=json.loads((native_dir/'results.json').read_text())
-    validation=json.loads((native_dir/'validation.json').read_text())
-    assert validation['status']=='passed'
-    for name in ['protocol.json','results.json']:
-        assert hashlib.sha256((native_dir/name).read_bytes()).hexdigest()==validation['checked_artifacts'][name]
-    future=native['results']['geoi_session_reset']['turn_visible']
-    raw_future=native['results']['raw']['turn_visible']
+    historical_path=HERE.parent/'2026-09-26_brief/method_evidence.json'
+    historical=json.loads(historical_path.read_text())
+    historical_index={r['scenario']:r for r in historical['scenario_rows']}
+    coordinates=[]
+    for scenario in ['S1','S2','S3']:
+        r=historical_index[scenario]
+        coordinates.append([scenario,number(100*r['raw_hit100']),number(100*r['hit100']),
+                            number(r['mae_m'],0),number(100*r['recall'])])
     endpoint={(r['scenario'],r['method']):r for r in tables['S9_S10_full_bank_endpoint']['rows']}
-    privacy=[]
-    for target,label in [('same_person','S4: cùng người'),('same_vehicle','S4: cùng xe')]:
-        privacy.append([label,r'AUC $\downarrow$',number(index['raw',target]['roc_auc'],3),
-                        number(index['geoi_slack_reconstructed',target]['roc_auc'],3),'Geo-I lịch sử'])
-    for scenario,task,key,metric in [('S5','S5_next_edge','exact_candidate_edge_accuracy','Đúng cạnh'),('S6','S6_history_destination','destination_hit100','Hit100')]:
-        privacy.append([scenario,metric+r' $\downarrow$ (\%)',number(100*raw_future[task]['test'][key]),
-                        number(100*future[task]['test'][key]),'Cap phiên / L10'])
+    endpoints=[]
     for scenario in ['S9','S10']:
-        privacy.append([scenario,r'MAE $\uparrow$ (m)',number(endpoint[scenario,'scale100_L20']['mae_m'],0),
-                        number(endpoint[scenario,'scale025_L20']['mae_m'],0),'Endpoint20 riêng'])
+        a=endpoint[scenario,'scale100_L20'];b=endpoint[scenario,'scale025_L20']
+        endpoints.append([scenario,number(100*a['hit100']),number(a['mae_m'],0),
+                          number(100*b['hit100']),number(b['mae_m'],0)])
+    inference=[]
+    for label,alpha in [(r'Chỉ khác một GPS, $r=10$ m',2*.01*10),
+                        (r'Chỉ khác một GPS, $r=100$ m',2*.01*100),
+                        (r'Cả trace, $D_\infty=100$ m, cap $0{,}23/\mathrm m$',.23*100)]:
+        bound=100/(1+math.exp(-alpha))
+        inference.append([label,number(alpha,2),r'$\approx100\%$' if alpha>20 else number(bound,2)+r'\%'])
     timeline=[]
     for time in [0,20,60,120,600]:
         event=next(e for e in sample['main_sample']['events'] if e['t_s']==time);pr=event['protection']
         timeline.append([str(time),'Có' if pr['GPS_read'] else 'Không','Tạo mới' if pr['branch']=='fresh' else 'Giữ',
                          'Cập nhật' if pr['GPS_read'] else 'Dự đoán',str(pr['cost_units'])+'u',str(pr['spent_after_units'])+'/23'])
     def texrows(values):return '\n'.join(' & '.join(v)+r'\\' for v in values)
-    generated='\n'.join([r'\newcommand{\UtilityRows}{'+utility+'}',r'\newcommand{\PrivacyRows}{'+texrows(privacy)+'}',
-                         r'\newcommand{\TimelineRows}{'+texrows(timeline)+'}',
-                         r'\newcommand{\FutureEdgeAccuracy}{'+number(100*future['S5_next_edge']['test']['exact_candidate_edge_accuracy'])+'}',
-                         r'\newcommand{\FutureDestinationHit}{'+number(100*future['S6_history_destination']['test']['destination_hit100'])+'}',
-                         r'\newcommand{\FutureDestinationMAE}{'+number(future['S6_history_destination']['test']['destination_mae_m'],0)+'}',
-                         r'\newcommand{\FutureRecall}{'+number(100*native['utility']['geoi_session_reset']['test_static_recall5'])+'}'])+'\n'
+    generated='\n'.join([r'\newcommand{\UtilityRows}{'+utility+'}',
+                         r'\newcommand{\CoordinateRows}{'+texrows(coordinates)+'}',
+                         r'\newcommand{\EndpointRows}{'+texrows(endpoints)+'}',
+                         r'\newcommand{\InferenceRows}{'+texrows(inference)+'}',
+                         r'\newcommand{\TimelineRows}{'+texrows(timeline)+'}'])+'\n'
     (HERE/'report_tables.tex').write_text(generated)
     import pymupdf
     source=HERE/'slides.pdf';original=pymupdf.open(source)
@@ -137,7 +137,7 @@ def main():
                  'slide_content.json','endpoint_focus.json']:
         pins[str((HERE/name).relative_to(ROOT))]=hashlib.sha256((HERE/name).read_bytes()).hexdigest()
     for name in ['protocol.json','results.json','validation.json']:
-        f=native_dir/name
+        f=ROOT/'artifacts/benchmarks/future_native_20261005_v1'/name
         pins[str(f.relative_to(ROOT))]=hashlib.sha256(f.read_bytes()).hexdigest()
     for name in ['docs/research/2026-10-10_session_cap_identity.md','docs/research/2026-10-10_session_cap_identity.json']:
         pins[name]=hashlib.sha256((ROOT/name).read_bytes()).hexdigest()
@@ -152,7 +152,7 @@ def main():
         body=parts[i+2].split('## Nguồn đối chiếu\n',1)[0].strip()
         notes.append(f'TRANG {parts[i]}: {parts[i+1]}\n\n'+body.replace('**',''))
     (HERE/'speaker_notes.txt').write_text('\n\n'.join(notes)+'\n\nNGUỒN ĐỐI CHIẾU\n'+source_notes)
-    print(f'Generated native TikZ architectures, three tables and vector sample map; {len(pins)} source pins. No scores regenerated.')
+    print(f'Generated native TikZ architectures, five tables and vector sample map; {len(pins)} source pins. No scores regenerated.')
 
 
 if __name__=='__main__':main()

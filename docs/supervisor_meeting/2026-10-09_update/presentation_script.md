@@ -26,35 +26,37 @@ Chỉ luồng 5 Q × L30 → nhận → bỏ trùng → lọc/sắp xếp local,
 - U=2H−1, u=C_s/U, B danh nghĩa=2Hu. H không phải hard maximum 12 GPS reads. Khởi động lại cùng chuyến không tự nạp cap.
 - Nhiều phiên bị liên kết vẫn cộng cap. Cận toán học dùng kernel lý tưởng và ngữ cảnh/lịch công khai; không chứng nhận sampler float.
 
-## Trang 2: S4--S6: cơ chế hiện có và mức bảo vệ đã kiểm chứng
+## Trang 2: S4--S6: phân tích mức bảo vệ từ cận Geo-I
 
 **Lời trình bày**
 
-Em tách ba scenario này thành một mục riêng vì chúng hỏi các secret khác nhau, nhưng trước hết dùng chính cơ chế Geo-I đã có để bảo vệ.
+Em trình bày S4–S6 theo cận suy luận thay vì dùng vài pilot nhỏ làm kết luận chính. Các diagnostic vẫn giữ để tra cứu. Nền chứng minh là Geo-I cho tọa độ, rồi chuyển sang các giả thuyết về secret dưới điều kiện rõ ràng.
 
-S4 là liên kết hai chuyến với cùng người hoặc cùng xe vật lý. Hai nhãn khác nhau: một người đổi xe vẫn cùng người; hai người dùng chung xe vẫn cùng xe. REM làm nhiễu tham chiếu, phép thử có nhiễu bảo vệ tín hiệu giữ/đổi Z, còn lịch và cap giới hạn quan sát GPS mới. b và Q chỉ dùng lịch sử bảo vệ. Những cơ chế này giảm tín hiệu nhận dạng từ tuyến đường, nhưng không tự bảo vệ account hay IP.
+Gọi H0 và H1 là hai khả năng attacker muốn phân biệt. Nếu mọi cặp trace giữa hai nhóm giả thuyết có khoảng cách được chặn và cùng ngữ cảnh công khai, tổng cap nhân khoảng cách cho alpha. Transcript Q không thể làm tỷ lệ tin giữa hai giả thuyết thay đổi quá exp(alpha) lần so với trước quan sát.
 
-Diagnostic cho AUC người giảm từ 0,778 xuống 0,532 và xe từ 0,718 xuống 0,448. Đây là bằng chứng hỗ trợ một phần: một nhóm vẫn có AUC người tới 0,861 và chỉ có ba nhóm test. Em chưa gọi đó là ẩn danh đầy đủ.
+Đây là giới hạn thông tin thêm. Nếu attacker vốn biết một đích rất thường gặp, ta không được nói nó sẽ chỉ đoán đúng 50%. Với hai giả thuyết có prior cân bằng, cận Bayes là exp(alpha) chia cho một cộng exp(alpha). Càng nhỏ alpha thì quan sát càng ít giúp phân biệt.
 
-S5 là đoán cạnh sẽ đi tiếp. Attacker chỉ thấy prefix Q đã bảo vệ; nó không được thấy tương lai thật. Nhiễu, đọc thưa và tái dùng Z làm giảm tín hiệu hướng rẽ. Trong pilot cap phiên/L10, tại mốc hướng rẽ đã có tín hiệu, Candidate Trees đạt 100% với raw và 41,67% với Geo-I. Trước ngã rẽ raw cũng đạt 50%, nên em không tính sự mơ hồ đó là đóng góp của phương pháp.
+S4 xét cùng người hoặc cùng xe vật lý, là hai target riêng. Mô hình làm nhiễu dấu hiệu hành trình qua REM, phép thử và cap. Muốn áp cận cho identity phải kiểm tra khoảng cách của toàn bộ các trace khả dĩ giữa hai giả thuyết; việc giấu Z hoặc có năm Q chưa tự cho điều kiện đó.
 
-S6 là đoán đích chưa tới từ lịch sử và prefix hiện tại. Tọa độ lịch sử cũng được bảo vệ; đích riêng trong nhu cầu chỉ dùng local. Cùng pilot, Hit100 giảm từ 100% xuống 41,67%, MAE tăng từ khoảng 5 lên 661 mét. Static Recall@5 đạt 97,72%. Pilot chỉ có hai đích đã biết và giả định đã nối được sáu chuyến lịch sử; nó không chứng minh S4 hoặc đích bất kỳ.
+S5 xét cạnh tương lai. Nếu hai lựa chọn có cùng prefix thật và ngữ cảnh, Q có cùng phân phối nên không cung cấp thông tin mới về lựa chọn chưa thể hiện. Khi có tín hiệu hướng rẽ trong prefix, phải dùng cận khoảng cách tương ứng, không lấy GPS tương lai làm đầu vào.
 
-Về chứng minh, Geo-I cho cận phân biệt hai giả thuyết nếu toàn bộ các trace khả dĩ giữa hai nhóm thỏa điều kiện khoảng cách. Cận có thể yếu khi các hành trình rất khác nhau hoặc quan sát nhiều phiên. Vì vậy em kiểm chứng cơ chế hiện có trước, chưa tự thêm k-anonymity. Năm Q không phải năm người dùng ẩn danh.
+S6 xét đích từ lịch sử và prefix. Phải tính cả lịch sử đã liên kết vào cận, giữ prior routine của attacker và phân biệt đích private local với tương quan hành trình. Bảo vệ nội dung đích không đồng nghĩa xóa khả năng đoán đích từ tuyến.
+
+Ví dụ chỉ khác một GPS 10 mét cho cận Bayes khoảng 54,98%; khác 100 mét cho 88,08%. Nhưng hai hành trình khác cả trace ở thang 100 mét, cap phiên 0,23 cho cận gần 100%, nên cận đúng mà chưa đủ mạnh để chứng minh identity tốt. Đây là cận lý thuyết, không phải attack accuracy đã đo.
 
 **Cách chỉ nội dung**
 
-Đi lần lượt S4 → S5 → S6: mục tiêu, cơ chế, số đo và giới hạn. Chỉ công thức Bayes cuối trang để phân biệt chứng minh có điều kiện với kết quả của một bank attacker hữu hạn.
+Theo ba bước: cận tọa độ → tỷ lệ prior/posterior → áp dụng S4/S5/S6. Chỉ bảng ví dụ để giải thích phạm vi một mẫu GPS so với toàn trace.
 
 **Khi trao đổi**
 
-- S4-person và S4-vehicle phải đánh giá riêng; ID thiết bị không thay cho cả hai. Nhãn simulator là tổng hợp, không phải danh tính người thật.
-- Attacker S4: người shape/kNN15; xe shape/kNN5 ở raw và shape/trees ở Geo-I. AUC dưới 0,5 có thể đảo điểm, không tự chứng minh riêng tư mạnh.
-- S5/S6: Candidate Trees chọn trên selection, sáu nhóm test/12 query. S5 accuracy và S6 Hit100 cùng 41,67% do chung quyết định nhánh, không là hai xác nhận độc lập. Không diễn giải dưới 50% thành tốt hơn đoán ngẫu nhiên.
-- S6 dùng sáu lịch sử đã liên kết, query thường lệ/ít gặp cân bằng. Tỷ lệ năm thường lệ/một ít gặp trong lịch sử không phải prior query.
-- Cận Bayes dùng prior cân bằng và mọi cặp trace giữa hai support có D∞≤r, cùng ngữ cảnh công khai. α=r∑C_s; TV≤tanh(α/2) cho success≤exp(α)/(1+exp(α)).
-- Một phiên C_s=0,23/m, r=100m cho α=23, cận gần 100%: đúng nhưng chưa hữu ích để chứng minh identity mạnh ở thang này.
-- Chưa chọn cơ chế bổ sung. Nếu kiểm chứng mới cho thấy thiếu bảo vệ, mới xét k-anonymity/mix-zone/metadata theo threat model phù hợp. S8 còn mở.
+- Alpha=∑C_s r_s nếu mọi cặp trace giữa hai support thỏa D∞,s≤r_s. Nhiều phiên bị nối cộng cap, không reset tri thức attacker.
+- TV≤tanh(alpha/2) cho cận Bayes cân bằng. Prior lệch không mặc định chance 50%; giới hạn posterior odds vẫn giữ tỷ lệ prior.
+- Hai trace chỉ khác một GPS dùng alpha≤2ur cho toàn transcript, kể cả ảnh hưởng tới Q sau đó. Không áp ví dụ này cho hai tuyến khác nhiều mẫu.
+- S5 cùng prefix chỉ không thêm thông tin về lựa chọn tương lai; prior/ngữ cảnh có thể đã gợi ý. Khi prefix khác, alpha không tự bằng 0.
+- M là số giả thuyết secret, K5 là số Q; không suy k-anonymity từ K. Người đổi xe/xe đổi người cần nhãn riêng.
+- Giả định kernel lý tưởng, thiết bị tin cậy, cùng ngữ cảnh/lịch công khai; chưa chứng nhận account/IP, sensor hay float sampler.
+- Metrics theo target: S4 AUC/BA; S5 đúng cạnh; S6 đúng đích/Hit100/MAE. Có thể dùng chung metric khi cùng dạng target, không ép một metric duy nhất cho tất cả.
 
 ## Trang 3: Kiến trúc trước: cap từng phiên và tìm POI gần nhất
 
@@ -85,7 +87,7 @@ Nền Geo-I, giữ/đổi Z, ước lượng b và chọn năm Q vẫn giữ ngu
 
 Em giữ cap tọa độ theo từng phiên. Kết hợp cap làm việc này với L30 cần benchmark mới; các số utility ở cuối report dùng cấu hình nhiễu được ghi riêng.
 
-S4–S6 được hỗ trợ bởi transcript đã bảo vệ và đánh giá riêng, chưa thêm một khối identity mới. Tầng ước lượng/chọn Q giúp giữ chất lượng dịch vụ. Tầng truy hồi/local giữ nội dung nhu cầu khỏi payload. Nhánh Endpoint20 riêng tăng nhiễu và gửi ngay; chưa gán kết quả đầu/cuối của nó cho L30.
+S4–S6 được hỗ trợ bởi transcript đã bảo vệ và phân tích cận riêng, chưa thêm một khối identity mới. Tầng ước lượng/chọn Q giúp giữ chất lượng dịch vụ. Tầng truy hồi/local giữ nội dung nhu cầu khỏi payload. Nhánh Endpoint20 riêng tăng nhiễu và gửi ngay; chưa gán kết quả đầu/cuối của nó cho L30.
 
 **Cách chỉ hình**
 
@@ -126,31 +128,35 @@ Tới giây 600 đã chi 21 đơn vị, gồm các lần đọc không hiện tr
 
 **Lời trình bày**
 
-Phép so L20–L30 giữ nguyên Q, Z, lịch và cap trên 24 nhóm đã lưu, dùng tham số nhiễu nêu ở đầu mục. Recall trung bình đều bốn nhu cầu tăng từ 89,71 lên 92,69%: tăng 2,97 điểm phần trăm, khoảng tin cậy 2,31–3,65. Cả ba lượt nhiễu đều tăng. Byte phản hồi tăng 31,10%, số request giữ nguyên.
+Phần thực nghiệm tập trung vào utility và năm scenario tọa độ S1, S2, S3, S9, S10. Mỗi bảng giữ cấu hình đã đo, không gộp thành một mô hình đã được xác nhận chung.
 
-Recall 95,44% trong báo cáo trước thuộc tìm gần nhất với cấu hình và cohort khác, không lấy chênh với macro này làm phép so trực tiếp.
+L20–L30 giữ cùng Q, Z, lịch và cap trên 24 nhóm. Recall trung bình đều bốn nhu cầu tăng 89,71 lên 92,69%, khoảng tin cậy của gain là 2,31–3,65 điểm phần trăm. Byte phản hồi tăng 31,10%. Đây là phép đo lợi ích của response depth trong cấu hình đã lưu.
 
-Bảng privacy gom các thí nghiệm riêng. S4 cho thấy giảm linkage nhưng còn nhóm bị nhận dạng tốt. S5/S6 cap phiên/L10 đã giải thích ở mục 2. Endpoint20 tăng MAE đầu/cuối, với Recall giảm từ 98,94 xuống 96,64%; chưa thắng mọi metric.
+Bảng S1–S3 là GeoI-Slack cap từng phiên/L10 trong báo cáo trước. Hit100 raw là 100%; Geo-I lần lượt 5,56%, 1,39%, 2,88%. MAE tăng lên khoảng 1.119, 874 và 904 mét; Recall tương ứng 91,24%, 97,98%, 95,62%. Nó cho thấy dấu hiệu giảm khả năng định vị trong benchmark, không phải bảo đảm các tỷ lệ này cho mọi attacker.
 
-Kết luận của em là L30 có lợi ích utility đã đo, còn S4–S6 có bằng chứng bảo vệ một phần từ Geo-I hiện có. Bước tiếp theo là xác nhận cap phiên/L30 và attacker mạnh hơn trên dữ liệu mới, rồi mới quyết định có cần bổ sung cơ chế identity hay dự báo tương lai nào.
+Bảng đầu/cuối là study Endpoint20 riêng: MAE đầu tăng khoảng 790 lên 1.407 mét, cuối tăng 758 lên 1.337 mét. S10 Hit100 hai cấu hình đều 0%, nên không được nói mọi metric đều cải thiện. Recall giảm 98,94 xuống 96,64%.
+
+Em kết luận cận Geo-I giải thích giới hạn phân biệt tọa độ, còn benchmark đo attacker cụ thể. Với identity/cạnh/đích tương lai, em dùng phân tích công thức ở mục 2 làm trọng tâm và giữ diagnostic ở tài liệu nghiên cứu. Cần cùng target, observer, cấu hình và cohort mới được so sánh trực tiếp.
 
 **Cách chỉ bảng**
 
-Chỉ macro, CI, byte; sau đó đọc từng hàng privacy cùng cột cấu hình. Không xem mọi hàng là số của một cấu hình duy nhất.
+Chỉ lần lượt utility → S1–S3 → S9/S10. Đọc Hit100, MAE và Recall theo ý nghĩa riêng; không gộp thành một điểm privacy chung hoặc xếp hạng chéo cohort.
 
 **Khi trao đổi**
 
-- Recall cao tốt cho dịch vụ; Hit100 thấp/MAE cao tốt cho privacy. Attacker chọn theo task/metric, không mặc định mọi task dùng Shadow kNN.
-- CI utility bootstrap theo nhóm, không coi tick độc lập. Byte chỉ là reply JSON, chưa gồm HTTP/TLS, latency hoặc năng lượng.
-- Pilot REM/Planar L20 riêng cùng đạt attack score 50%; Recall Planar 97%, REM 94,69%. Không kết luận REM vượt mọi baseline.
-- Endpoint20: 28 nhóm đã khảo sát, 112 quan sát/task; u=0,0025/m so với 0,01/m lịch sử. S10 Hit100 cùng 0%, CI chênh Hit500 chạm 0.
-- Các số đo hiện có không xác nhận một cấu hình bảo vệ đầy đủ S1–S10. S1–S3 và đối chứng paper ở tài liệu chi tiết; S8 còn mở.
+- S1 hiện tại, S2 nơi dừng, S3 trace quá khứ, S9 tọa độ đầu, S10 tọa độ cuối. Hit100 thấp/MAE cao tốt cho privacy, Recall cao tốt cho utility.
+- S1–S3: bank mean/median, track, Shadow kNN, ExtraTrees/road-snap. Geo-I chọn median cho MAE; Hit100 track_1 ở S1, median S2/S3. Không mặc định mọi score đều dùng Shadow kNN.
+- S1–S3 là 12 nhóm phát triển và macro các điều kiện trong từng scenario; không phải confirmation mới cho L30. Utility L10 lấy từ study cache đã lưu.
+- Endpoint20: 28 nhóm đã khảo sát, 112 quan sát/task; u=0,0025/m so với 0,01/m của đối chứng L20. Attacker chọn riêng metric; MAE dùng OLS từ tâm Q. CI chênh S10 Hit500 chạm 0.
+- Cận toán học cho kernel lý tưởng không chứng minh attack accuracy hay MAE bất kỳ; nhiều cận có thể lỏng. Không gọi năm scenario đã giải quyết hoàn toàn.
+- Đối chứng paper thích nghi và diagnostic S4–S6 vẫn lưu ở tài liệu chi tiết; không bỏ dữ liệu thất bại hoặc coi đổi cách trình bày là thêm kết quả mới. S8 còn mở.
 
 ## Nguồn đối chiếu
 
 - `report_explained.tex`, `report_tables.tex`: nội dung và bảng report.
 - `benchmark_tables.json`, `benchmark_evidence.json`: kết quả/giao thức đã lưu.
-- `artifacts/benchmarks/future_native_20261005_v1/{protocol,results,validation}.json`: pilot cap phiên/L10 cho S5/S6, nhánh `geoi_session_reset/turn_visible`.
+- `docs/supervisor_meeting/2026-09-26_brief/method_evidence.json`: benchmark GeoI-Slack cap phiên/L10 cho S1–S3.
+- `artifacts/benchmarks/future_native_20261005_v1/{protocol,results,validation}.json`: diagnostic S5/S6 đã lưu để tra cứu, không là bảng kết quả chính của report.
 - `multistep_sample.json`, `utility_sample.json`, `endpoint_focus.json`: sample và nhánh delay lịch sử.
 - `thesis/current_formal_privacy.tex`, `thesis/current_formal_inference.tex`: chặn lý tưởng và hệ quả Bayes có điều kiện.
 - `docs/research/2026-10-05_identity_future.md`: diagnostic riêng người/xe.
