@@ -1,21 +1,24 @@
 {
-  "schema": "supervisor-slide-release-v9",
+  "schema": "supervisor-slide-release-v10",
   "prepared_date": "2026-10-09",
   "meeting_date": null,
   "slide_count": 8,
   "sample_slides": [
-    4,
-    5,
+    2,
     6
   ],
   "format": "16:9",
   "language": "vi",
-  "scope": "Eight-slide mechanism-focused supervisor presentation: shared cross-session budget, four private local purposes, deeper POI replies for utility; separate endpoint study; frozen multistep example; essential evidence and remaining scenario gaps",
+  "scope": "S7 and shared candidates; S4–S6 mechanisms and limitations; epoch budget; old/current architecture; full sample; utility/privacy before/current evidence",
   "samples": "SUMO synthetic/evaluator illustration; frozen Q/Z, GPS and service outputs; no new sampler or attack/model evaluation",
   "files": {
     "README.md": {
-      "sha256": "5171ffa43a756ee4abd056fabbc0e3814b8cb81c2992152d77277aa2fbe20aa3",
-      "bytes": 5122
+      "sha256": "30bbcc361faff421360264b34d59c0bfbc4b6665627e025b8e48c76b2c34b43f",
+      "bytes": 6394
+    },
+    "agenda_visuals.py": {
+      "sha256": "76872dbb12a6a14410d0143f2f13b426e4a55a738620be6926b1512ca8bbd909",
+      "bytes": 13666
     },
     "algorithm_scope.json": {
       "sha256": "27d3836e535abd4549efec81b6fd7e5f320fa7fc0ab857d94aa7aada7e41c05d",
@@ -42,8 +45,8 @@
       "bytes": 21167
     },
     "build_slides.py": {
-      "sha256": "b2b70b4723fe22041a5b71ea86975f758c0a3b5358888368c9105ed98ca6ef33",
-      "bytes": 31469
+      "sha256": "104084ac4d7355966623c88e01a5c806f8b8d6c26120b50b2a84bc8be467e755",
+      "bytes": 32106
     },
     "compact_benchmark_visuals.py": {
       "sha256": "9d52c6c346dd34390147b8b81412aa6cfa3a923cb0228ae9243d19d08a846877",
@@ -110,8 +113,8 @@
       "bytes": 5492872
     },
     "presentation_script.md": {
-      "sha256": "a0ddcb47973bbc1918c3ead7f72a43dcf6dd7bbee7739ccbf05ecb60bf42d42d",
-      "bytes": 12240
+      "sha256": "cbe888d02718ac6857bf7b8a16cc13b3a7b3b37f8dc10cd551fb181ac7bb0807",
+      "bytes": 17130
     },
     "sample_visuals.py": {
       "sha256": "bec0a0a6568632e471bb162aee0b23affab893713401708a1fb7a6b10ad96210",
@@ -122,27 +125,27 @@
       "bytes": 1579321
     },
     "slide_content.json": {
-      "sha256": "4da76080aa8268ecb986c65c5fcff09287d07130118f54a4e1335f7424757b1a",
-      "bytes": 23419
+      "sha256": "6ffc93ddd7d572fed82e428dd49dd42dbc49410091f454ffdfd9bbbcfdb6b083",
+      "bytes": 29934
     },
     "slides.html": {
-      "sha256": "98826e5209570f284c13e26e57c6c2f94985cf72edfee2245536f3603a33524b",
-      "bytes": 2526388
+      "sha256": "2bb7133a9adfca559ab607eb7ac29da37d8a3d602e29272a2a1f671a78a2c1e6",
+      "bytes": 2351639
     },
     "slides.pdf": {
-      "sha256": "a141f5e30cf0407185da3ec1f0c7e69923b2f3bdab528e049ffbfbc2f0ad3165",
-      "bytes": 1090117
+      "sha256": "44948842ec3dcf1042521475fa1f5b4bb0e9f2f12e82481678701f53707ad676",
+      "bytes": 1139373
     },
     "source_pins.json": {
-      "sha256": "33b90267694ea4bf39043e2df44983f4e3ac8c60c2b991757ead1b6d5ee3da5e",
-      "bytes": 23106
+      "sha256": "8f67cdeae9547911b2e2e97495c5a10e54ca44be359bc5754d9e7ea2d3c1bb04",
+      "bytes": 23377
     },
     "speaker_notes.txt": {
-      "sha256": "ae6fd51dd2238487c6c9e62d1890600b7d10d30f153ff01c42564e4a2e607279",
-      "bytes": 14575
+      "sha256": "d8ff41636d7ef67b5ccaf7ab61d35862fe5f715e4b72dc1378478ef94a0b7971",
+      "bytes": 20660
     },
     "summary_visuals.py": {
-      "sha256": "7e045513fc832bc9d11806a50fee574baca9c4d979f16905a57fb2ea645263d7",
+      "sha256": "c327caf4f0485bd868446f80b23dbe4eed7c3280ef9e6c1a922e9e9856e89240",
       "bytes": 15711
     },
     "utility_sample.json": {
@@ -160,12 +163,11 @@
   "presentation": "Compact scientific slide-only PDF/HTML for8-10minutes; separate short presenter script; original18-slide detailed deck archived unchanged",
   "design": {
     "style": "compact scientific document in slide format",
-    "body_font": "Times New Roman with serif math fallback",
+    "body_font": "STIX Two Text / Times New Roman serif fallback",
     "slide_titles": "research subjects without meeting or preparation metadata",
-    "equations": "typeset subscripts/superscripts; REM normalization; branch costs; conditional belief update",
+    "equations": "Typeset epoch/session allocation and unit budget; ideal composition bound in presenter Q&A",
     "source_notes": "speaker_notes.txt",
     "title_svg_px": 32,
-    "cover_title_svg_px": 40,
     "body_svg_px": [
       20,
       22
@@ -173,26 +175,26 @@
     "footer_svg_px": 15
   },
   "sections": {
-    "overview_and_architecture": [
+    "query_content_and_candidates": [
       1,
       2
     ],
-    "shared_budget": [
+    "identity_future_and_S8_scope": [
       3
     ],
-    "private_purpose_and_service": [
+    "epoch_budget": [
       4
     ],
-    "endpoint_policy": [
+    "old_current_architecture": [
       5
     ],
-    "frozen_algorithm_walkthrough": [
+    "full_algorithm_walkthrough": [
       6
     ],
-    "essential_evidence": [
+    "utility_before_current": [
       7
     ],
-    "scenario_scope_and_next_steps": [
+    "privacy_evidence_and_limits": [
       8
     ]
   },
@@ -202,30 +204,34 @@
     "current": "Epoch8/L30 sends immediately; epoch cap0.23/m, unit u=0.00125/m; fresh response-depth confirmation compares L20/L30 on the same protected Q"
   },
   "validation": {
-    "source_pin_count": 180,
+    "source_pin_count": 182,
     "pdf_pages": 8,
     "blank_pages": 0,
     "DOM_text_bounds_and_overlap": "PASS",
     "all8_pages_visual_review": "PASS",
     "script_titles_and_note_sync": "8/8 matched",
     "main_script_word_counts": [
-      123,
-      148,
-      126,
-      138,
-      128,
+      140,
+      140,
+      142,
+      139,
       130,
-      128,
-      135
+      137,
+      133,
+      141
     ],
     "scores_regenerated": false,
     "core_algorithm_changed": false,
+    "frozen_benchmark_and_sample_files_unchanged": "8/8 SHA256 matched previous release",
+    "raw_content_metrics_unchanged": "6/6 matched previous release",
     "detailed_archive_pages": 18,
-    "detailed_archive_unchanged": "5/5 files match the previous release",
-    "architecture_comparison_visual_review": "PASS",
-    "other7_pages_pixel_identical": true,
-    "projected_PDF_and_HTML_unchanged": true,
-    "retrieval_hypothesis_notes": "Verified v2; no model adoption; same-cohort limitation and local-search rationale in slide4 Q&A"
+    "detailed_archive_unchanged": "5/5 files match archived original release",
+    "canonical_thesis_unchanged": true,
+    "historical_Recall95_44_verified": true,
+    "sample_cost_and_POI_answers_verified": true,
+    "keyboard_navigation": "PASS",
+    "retrieval_hypothesis": "Not adopted; verified v2 retained in slide2 Q&A; same-cohort limitation explicit",
+    "comparison_protocols": "Historical L10 context distinguished from paired L20/L30 utility and separate privacy banks"
   },
   "layout": {
     "style": "compact scientific document in slide format",
@@ -242,7 +248,6 @@
     "previous_slide_count": 18,
     "slide_count": 8,
     "source_mapping": "detailed_slide_numbers refers to the preserved18-slide archive",
-    "cover_title_svg_px": 40,
     "architecture_comparison": "Historical 26Sep–03Oct vs current Epoch8/L30, aligned four layers; devices framed and server outside; changed layers emphasized"
   },
   "detailed_archive": "detailed",
@@ -254,19 +259,27 @@
     {
       "slide": 1,
       "detailed_slide_numbers": [
-        1,
-        14
+        4
       ]
     },
     {
       "slide": 2,
       "detailed_slide_numbers": [
-        13,
-        14
+        4,
+        18
       ]
     },
     {
       "slide": 3,
+      "detailed_slide_numbers": [
+        3,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "slide": 4,
       "detailed_slide_numbers": [
         3,
         15,
@@ -274,16 +287,10 @@
       ]
     },
     {
-      "slide": 4,
-      "detailed_slide_numbers": [
-        4,
-        18
-      ]
-    },
-    {
       "slide": 5,
       "detailed_slide_numbers": [
-        2
+        13,
+        14
       ]
     },
     {
@@ -291,17 +298,13 @@
       "detailed_slide_numbers": [
         15,
         16,
-        17
+        17,
+        18
       ]
     },
     {
       "slide": 7,
       "detailed_slide_numbers": [
-        6,
-        7,
-        8,
-        9,
-        10,
         11,
         12
       ]
@@ -309,14 +312,14 @@
     {
       "slide": 8,
       "detailed_slide_numbers": [
-        3,
-        4,
-        5,
+        6,
         7,
         8,
         10
       ]
     }
   ],
-  "architecture_comparison": "Slide2 aligns historical26Sep–03Oct and currentEpoch8/L30 device architectures in four layers, with changed budget/service/local-purpose layers emphasized and external server explicit"
+  "architecture_comparison": "Slide5 aligns historical26Sep–03Oct and currentEpoch8/L30; framed device, external server, private output and changed layers",
+  "S8_presentation_scope": "Optional to main talk; retained as explicit limitation, no dedicated slide or model deletion",
+  "historical_report_comparison": "Old L10 nearest Recall 95.44% is contextual, not directly paired with current four-purpose L30 macro 92.69%; controlled L20/L30 contrast shown"
 }

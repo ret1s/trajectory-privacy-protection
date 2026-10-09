@@ -18,6 +18,7 @@ import compact_policy_visuals
 import compact_benchmark_visuals
 import compact_sample_visuals
 import summary_visuals
+import agenda_visuals
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -364,6 +365,13 @@ def main():
                  ink=INK,teal=TEAL,blue=BLUE,gray=GRAY,orange=ORANGE)
     utility_helpers={key:value for key,value in helpers.items() if key!='math_text'}
     views={
+        'agenda_query_content':lambda:agenda_visuals.query_content(content,**helpers),
+        'agenda_candidates':lambda:agenda_visuals.candidates(utility,**helpers),
+        'agenda_identity_future':lambda:agenda_visuals.identity_future(content,**helpers),
+        'agenda_budget':lambda:agenda_visuals.budget(multistep,**helpers),
+        'agenda_full_sample':lambda:agenda_visuals.full_sample(multistep,utility,**helpers),
+        'agenda_utility_results':lambda:agenda_visuals.utility_results(benchmarks,**helpers),
+        'agenda_privacy_results':lambda:agenda_visuals.privacy_results(benchmarks,**helpers),
         'summary_overview':lambda:summary_visuals.overview(content,**helpers),
         'summary_architecture_comparison':lambda:summary_visuals.architecture_comparison(content,**helpers),
         'summary_budget':lambda:summary_visuals.budget(multistep,**helpers),

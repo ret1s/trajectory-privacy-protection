@@ -1,114 +1,22 @@
-SLIDE 1: Hoàn thiện phương pháp Geo-I/REM
+SLIDE 1: S7: bảo vệ nội dung và mục đích truy vấn
 
-Lời trình bày
+**Lời trình bày**
 
-Thưa thầy/cô, so với bản trước, em giữ nguyên nền Geo-I/REM và tập trung hoàn thiện ba phần. Thứ nhất, các chuyến liên kết dùng chung ngân sách để hạn chế thông tin vị trí tích lũy. Thứ hai, em mở rộng xếp hạng tại thiết bị thành bốn mục đích nhưng giữ yêu cầu gửi ra mạng giống nhau. Thứ ba, em tăng độ sâu phản hồi để phục hồi chất lượng tìm POI khi vị trí đã làm nhiễu.
+Thưa thầy/cô, trước hết em trình bày việc bảo vệ nội dung truy vấn. Nhu cầu có thể là tìm quán gần nhất, đến nhanh nhất, trong bán kính hoặc ít đi vòng. Nếu gửi nhu cầu thật lên máy chủ, máy chủ biết thêm ý định dù tọa độ đã làm nhiễu.
 
-Với đầu/cuối chuyến, em đối chiếu delay trước đây với một nhánh nhiễu mạnh hơn được đo riêng. Em sẽ trình bày cơ chế, một ví dụ và bằng chứng chính, đồng thời chỉ rõ các scenario chưa giải quyết đầy đủ.
+Em giữ yêu cầu chung: năm Q, mọi loại POI và độ sâu phản hồi cố định. Thiết bị nhận ứng viên rồi dùng GPS và nhu cầu riêng để chọn câu trả lời. Phần mới là bốn cách xử lý local và kiểm tra yêu cầu mạng không đổi khi đổi nhu cầu. Với cùng trạng thái bảo vệ và lịch công khai, máy chủ không phân biệt mục đích qua request này. Suy luận ý định từ tuyến đường hoặc click vẫn là giới hạn.
 
-Chỉ vào hình
+**Chỉ vào hình**
 
-Đi qua bốn hàng: ngân sách, mục đích, ứng viên POI và đầu/cuối.
+Chỉ ψ trong khung thiết bị, Q đi ra máy chủ và POI quay về. GPS thật, Z và ψ không đi theo mũi tên ra mạng.
 
-Chuyển ý
+**Chuyển ý**
 
-Trước hết, em đặt các thay đổi vào luồng xử lý của mô hình.
+Yêu cầu chung có đủ ứng viên cho nhiều nhu cầu không? Em giải thích lựa chọn L30.
 
-Nếu được hỏi
+**Nếu được hỏi**
 
-Geo-I/REM, phép thử tái sử dụng Z, b và bộ chọn Q đã có. Endpoint20 và Epoch8/L30 là các cấu hình có bằng chứng riêng.
-
-Nguồn:
-thesis/current_method.tex
-thesis/current_algorithm.tex
-thesis/current_formal_privacy.tex
-thesis/current_formal_service.tex
-docs/supervisor_meeting/2026-09-26_brief/walkthrough/build_walkthrough.py
-
-
-SLIDE 2: Kiến trúc phương pháp: trước và hiện tại
-
-Lời trình bày
-
-Hai sơ đồ có cùng bốn tầng: bên trái là bản trước, bên phải là bản hiện tại. Em giữ Geo-I/REM để tạo hoặc giữ Z, ước lượng b từ lịch sử đã bảo vệ và chọn năm Q theo mạng đường.
-
-Phần tô xanh bên phải là thay đổi. Tầng đầu chuyển từ ngân sách từng chuyến sang ngân sách chung tám phiên. Tầng truy hồi tăng phản hồi từ L10 trước đây lên L30; yêu cầu mọi loại POI đã có. Tầng cuối mở rộng từ tìm gần nhất sang bốn mục đích, nhưng GPS và nhu cầu riêng vẫn chỉ xử lý tại thiết bị.
-
-Máy chủ nằm ngoài khung, chỉ nhận Q và yêu cầu chung, rồi trả POI về tầng cuối. Bản trước có warmup và delay tùy chọn; Epoch8/L30 hiện tại gửi ngay. Nhánh Endpoint20 được trình bày riêng ở slide 5.
-
-Chỉ vào hình
-
-So từng hàng trái–phải, nhấn ba tầng tô xanh. Chỉ hàng Geo-I/REM và b/Q được giữ, máy chủ ngoài khung, rồi đầu ra POI riêng.
-
-Chuyển ý
-
-Em đi vào thay đổi đầu tiên: ngân sách chung qua nhiều chuyến.
-
-Nếu được hỏi
-
-Hai sơ đồ gộp các thành phần chi tiết theo bốn tầng để so sánh, không thêm một thuật toán mới. Geo-I/REM thuộc tầng bảo vệ GPS; b và bộ chọn Q thuộc tầng ước lượng. GPS cho Geo-I chỉ đọc sau kiểm tra lịch và cap. L10 là độ sâu phản hồi của bản minh họa cũ; benchmark utility mới so L20 với L30 trên cùng Q. Endpoint20 thuộc nhánh L20 riêng, không ghép vào kiến trúc Epoch8/L30.
-
-Nguồn:
-thesis/current_method.tex
-thesis/current_algorithm.tex
-thesis/current_formal_privacy.tex
-thesis/current_formal_service.tex
-docs/supervisor_meeting/2026-09-26_brief/walkthrough/build_walkthrough.py
-
-
-SLIDE 3: Ngân sách chung: hạn chế tích lũy qua nhiều chuyến
-
-Lời trình bày
-
-Trước đây, mỗi chuyến có thể được cấp cận 0,23/m. Nếu tám chuyến được cấp lại riêng, tổng cận lên 1,84/m. Hiện tại, tám phiên dùng chung cận 0,23/m, mỗi phiên được phân bổ 0,02875/m. Sổ ngân sách được lưu bền vững; mở chuyến mới không tự cấp lại toàn bộ ngân sách.
-
-Hệ thống kiểm tra slot, thời gian và chi phí dự toán trước khi đọc GPS. Khi phiên đã nhận hết ngân sách đọc, nó vẫn có thể chọn Q từ lịch sử đã bảo vệ. Cơ chế này hạn chế tích lũy tọa độ khi quan sát lặp và gom nhiều chuyến, hỗ trợ S2/S3 và S4. Nó chưa tự ẩn tài khoản, IP hoặc toàn bộ danh tính người và xe.
-
-Chỉ vào hình
-
-Chỉ tổng cận tám phiên, rồi ba bước kiểm tra trước GPS.
-
-Chuyển ý
-
-Vị trí được bảo vệ hơn có thể làm dịch vụ khó hơn; phần tiếp theo xử lý chất lượng và nhu cầu truy vấn.
-
-Nếu được hỏi
-
-H12 tạo allowance 23 đơn vị mỗi phiên, không phải đúng 12 lần đọc. u = 0,00125/m. Khi đã có Z, phải dự toán 2u trước khi đọc, dù nhánh giữ thực tế chỉ chi 1u.
-
-Nguồn:
-thesis/current_method.tex
-thesis/current_algorithm.tex
-thesis/current_formal_privacy.tex
-thesis/current_formal_service.tex
-docs/supervisor_meeting/2026-10-09_update/benchmark_evidence.json
-docs/supervisor_meeting/2026-10-09_update/algorithm_scope.json
-docs/supervisor_meeting/2026-10-09_update/multistep_sample.json
-
-
-SLIDE 4: S7 và utility: nhiều nhu cầu, cùng request
-
-Lời trình bày
-
-Thay vì chỉ tìm điểm gần nhất, thiết bị hiện có thể chọn theo gần nhất, đến nhanh nhất, nằm trong bán kính hoặc ít đi vòng tới đích. Các mục đích dùng chung tập ứng viên: năm Q yêu cầu mọi loại POI ở độ sâu cố định, rồi thiết bị hợp và xếp hạng cục bộ. Yêu cầu mọi loại POI đã có từ trước; phần mới là tổng quát hóa xử lý nhu cầu và kiểm tra request không thay đổi khi đổi nhu cầu.
-
-Trong mẫu tại 60 giây, 420 bản ghi thành 252 POI duy nhất. Bán kính 1.000 mét chỉ trả P167; nhu cầu đi vòng cho danh sách khác. Không cần request bổ sung. Tăng L lên 30 giúp lấy thêm ứng viên, với đánh đổi byte phản hồi cao hơn.
-
-Chỉ vào hình
-
-Chỉ phản hồi chung, bốn tiêu chí local và ví dụ bán kính/đi vòng.
-
-Chuyển ý
-
-Đối với điểm đầu/cuối, em đã thử một chính sách bảo vệ khác với delay trước đây.
-
-Nếu được hỏi
-
-Tính chất S7 có điều kiện cùng protected state và lịch công khai. Nó chưa loại bỏ suy luận ý định từ tuyến đường/click. L30 là tối đa mỗi loại tại mỗi Q; đích detour cần đã biết ở thiết bị.
-
-Đã kiểm chứng ba bộ truy hồi cố định trên cùng Q. Bộ bốn template L10 dùng bán kính và đích mẫu công khai đạt Recall 86,34%, so với 92,69% của L30, nhưng byte phản hồi tăng 57,52%. Không candidate nào qua tập chọn cấu hình, nên chưa thay L30. Đây là replay cohort hiện có; kết quả không phủ nhận mọi thiết kế đa mục đích. Bốn cách xếp hạng local hiện tại khác bốn query type gửi server.
-
-Với dịch vụ tìm POI lân cận, em dùng độ gần để thu ứng viên chung, rồi xếp hạng local theo nhu cầu. Không khẳng định mọi purpose luôn chọn điểm gần nhất: fastest và detour có thể ưu tiên điểm xa hơn. Top-5 local là tốt nhất trong tập đã nhận; Recall đánh giá mức thu hồi đáp án thật.
+Truy hồi mọi loại POI đã có trước đây; không tính lại như đóng góp mới. Tính bất biến xét khi giữ nguyên protected state, lịch và ngữ cảnh công khai. Đổi nhu cầu có thể làm người dùng đổi hành trình hoặc thao tác; các kênh đó nằm ngoài tính chất này. Mục đích không gây request bổ sung, thay lịch hoặc cache policy. Nguồn: `thesis/current_formal_service.tex`, `benchmark/query_purpose.py`.
 
 Nguồn:
 thesis/current_method.tex
@@ -129,103 +37,74 @@ artifacts/benchmarks/multi_purpose_retrieval_20261009_v2/validation.json
 artifacts/benchmarks/multi_purpose_retrieval_20261009_v2/template_overlap.json
 
 
-SLIDE 5: S9–S10: từ delay đến nhánh nhiễu mạnh hơn
+SLIDE 2: L30: tập ứng viên chung, câu trả lời theo nhu cầu
 
-Lời trình bày
+**Lời trình bày**
 
-Bản trước bỏ 60 giây đầu, giữ Q 60 giây trước khi gửi và hủy Q còn chờ khi đóng phiên. Nó giảm dữ liệu trực tiếp ở hai biên nhưng làm dịch vụ chậm hoặc thiếu câu trả lời. Ví dụ Q tạo tại 60 giây chỉ gửi tại 120 giây; khi đóng ở 384 giây, bốn tập Q chưa gửi bị hủy.
+Em giữ L30 vì dịch vụ đang xét là tìm POI lân cận. Độ gần giúp thu tập ứng viên chung; tiêu chí riêng được áp dụng sau tại thiết bị. Không có nghĩa mọi nhu cầu đều chọn điểm gần nhất: đến nhanh hoặc ít đi vòng có thể chọn điểm xa hơn.
 
-Nhánh Endpoint20 đã đo sau đó gửi ngay và giảm u còn một phần tư đối chứng L20 lịch sử. Nhiễu mạnh hơn áp dụng ở mọi lần đọc được phép, vì online chưa biết lần nào là cuối. Mô hình Epoch8/L30 hiện tại cũng gửi ngay, nhưng kết quả Endpoint20 vẫn là bằng chứng của nhánh L20 riêng. Giờ mở/đóng phiên còn lộ.
+L30 là tối đa ba mươi POI mỗi loại tại mỗi Q. Năm Q cho tối đa một trăm năm mươi bản ghi mỗi loại trước bỏ trùng. Trong mẫu sáu mươi giây, tổng phản hồi có bốn trăm hai mươi bản ghi, còn hai trăm năm mươi hai POI duy nhất. Cùng tập đó cho danh sách gần nhất và danh sách bán kính khác nhau. Top-5 tốt nhất trong tập nhận được; Recall đo tập đó có thu hồi đủ đáp án chuẩn không.
 
-Chỉ vào hình
+**Chỉ vào hình**
 
-Đối chiếu delay với Endpoint20, rồi chỉ hai thời điểm tạo/gửi Q của ví dụ.
+Chỉ 5 × 30, bỏ trùng và bốn tiêu chí local. Đối chiếu gần nhất với bán kính chỉ có P167; không bắt buộc đủ năm POI.
 
-Chuyển ý
+**Chuyển ý**
 
-Em dùng một chuyến đã lưu để minh họa lúc nào các thành phần thực sự kích hoạt.
+Nhìn nhiều chuyến còn tạo các nguy cơ về danh tính và tương lai.
 
-Nếu được hỏi
+**Nếu được hỏi**
 
-Endpoint20 dùng u = 0,0025/m so với 0,01/m lịch sử, không phải một phần tư u = 0,00125/m hiện tại. Không thêm một cơ chế delay mới vào L30 trong lần biên soạn này.
+K = 5 là số Q; L = 30 là độ sâu mỗi loại mỗi Q; k = 5 là số đáp án tối đa. Có sáu loại POI nên trần tổng là 900 bản ghi, không phải 150 toàn phản hồi. P là POI trong danh mục, Q là tọa độ truy vấn được chọn, không phải năm mẫu REM độc lập. Fastest dùng thời gian đường thông thoáng; detour cần đích đã biết local.
+
+Bộ bốn template L10 với bán kính và đích mẫu công khai đạt Recall macro 86,34%, so với 92,69% của L30, byte tăng 57,52%. Không candidate nào qua gate nên chưa thay mô hình. Đây là replay cohort đã dùng, không là xác nhận độc lập mới; không phủ nhận mọi thiết kế đa mục đích. Nguồn: `docs/research/2026-10-09_multi_purpose_retrieval.md`.
 
 Nguồn:
-docs/supervisor_meeting/2026-10-09_update/endpoint_focus.json
 thesis/current_method.tex
 thesis/current_algorithm.tex
 thesis/current_formal_privacy.tex
 thesis/current_formal_service.tex
-
-
-SLIDE 6: Ví dụ: thành phần kích hoạt theo từng mốc
-
-Lời trình bày
-
-Ở 0 giây, mô hình đọc GPS, tạo Z và chi một đơn vị. Đến 20 giây chưa đủ khoảng cách thời gian nên không đọc mới; Z giữ nguyên, b chỉ dự đoán và Q vẫn có thể đổi theo đường. Tại 60 giây, phép thử dẫn tới tạo Z mới, tổng chi phí lên ba đơn vị. Mỗi mốc gửi Q đều lấy phản hồi và xếp hạng POI tại thiết bị.
-
-Đọc rồi giữ Z là nhánh khác: trong phiên thứ sáu tại 60 giây, hệ thống vẫn đọc GPS, chi một đơn vị và cập nhật b từ quan sát giữ. Đến 600 giây của chuyến chính đã dùng 21/23 đơn vị, bao gồm các lần đọc giữa hai hình. Mẫu này chưa hết ngân sách.
-
-Chỉ vào hình
-
-Đi qua 0/20/60 giây; chỉ GPS, Z và Q trên bản đồ. Nhấn nhánh giữ Z thuộc phiên khác.
-
-Chuyển ý
-
-Các thay đổi được hỗ trợ bởi hai kết quả chính, với cấu hình đánh giá riêng.
-
-Nếu được hỏi
-
-Mẫu TRAIN chỉ minh họa cơ chế. Màu cam là một phần trọng số b, chưa là posterior hiệu chuẩn. Q được chọn từ trạng thái đã bảo vệ; GPS local chỉ phục vụ xếp hạng POI.
-
-Nguồn:
-docs/supervisor_meeting/2026-10-09_update/multistep_sample.json
-
-
-SLIDE 7: Bằng chứng chính: privacy, utility và chi phí
-
-Lời trình bày
-
-Kết quả xác nhận trên 24 nhóm mới cho thấy tăng L20 lên L30 trên cùng Q nâng Recall trung bình bốn mục đích từ 89,71 lên 92,69%, tức gần ba điểm phần trăm. Khoảng 95% nằm trên 0, nhưng byte phản hồi tăng 31,10%. Đây là cải thiện chất lượng có chi phí, không thay mức bảo vệ tọa độ.
-
-Ở phép thử endpoint riêng, Endpoint20 tăng MAE đầu/cuối so với Geo-I L20, còn Recall giảm nhẹ. Hit100 điểm cuối cùng bằng 0 và khoảng chênh Hit500 chạm 0. Pilot S5/S6 cho REM và Planar cùng 50%; Planar còn có Recall cao hơn. Vì vậy, em giữ kết luận trong phạm vi từng phép thử, chưa tuyên bố một cấu hình thắng mọi đối chứng và scenario.
-
-Chỉ vào hình
-
-Chỉ Recall và byte ở bảng trái; MAE và Recall ở bảng phải. Hai bảng thuộc hai cấu hình/cohort riêng.
-
-Chuyển ý
-
-Em kết thúc bằng phần đã có và khoảng trống cần ưu tiên.
-
-Nếu được hỏi
-
-Attacker nhìn Q/thời điểm, không nhận GPS hay Z; chọn riêng theo thước đo. Utility L30 là xác nhận tập mới cùng bản đồ; endpoint là diagnostic trên nhóm đã khảo sát. Bảng chi tiết nằm trong bản 18 trang.
-
-Nguồn:
-docs/supervisor_meeting/2026-10-09_update/benchmark_tables.json
+benchmark/query_purpose.py
+benchmark/budgeted_geoi_lbs.py
 docs/supervisor_meeting/2026-10-09_update/benchmark_evidence.json
 docs/supervisor_meeting/2026-10-09_update/algorithm_scope.json
-thesis/current_evaluation_generated/matched_anchor.tex
-docs/supervisor_meeting/2026-10-09_update/endpoint_focus.json
-thesis/current_sensor.tex
-thesis/current_dynamic.tex
+thesis/current_companion.tex
+artifacts/benchmarks/s8_companion_inference_20261007_v1/readout.json
+docs/supervisor_meeting/2026-10-09_update/utility_sample.json
+docs/supervisor_meeting/2026-10-09_update/sample_walkthrough.json
+docs/research/2026-10-09_multi_purpose_retrieval.md
+artifacts/benchmarks/multi_purpose_retrieval_20261009_v2/readout.json
+artifacts/benchmarks/multi_purpose_retrieval_20261009_v2/validation.json
+artifacts/benchmarks/multi_purpose_retrieval_20261009_v2/template_overlap.json
 
 
-SLIDE 8: Phạm vi bảo vệ và hướng hoàn thiện tiếp
+SLIDE 3: S4–S6: cơ chế đang có và khó khăn còn lại
 
-Lời trình bày
+**Lời trình bày**
 
-Đóng góp hiện tại là ngân sách liên phiên, xử lý nhiều mục đích local và phục hồi utility bằng phản hồi sâu hơn, trong khi giữ nền Geo-I/REM. S1–S3 có cơ chế tọa độ và chuỗi với bảo đảm lý tưởng có điều kiện. S4 được hỗ trợ ở tích lũy vị trí, S5/S6 mới có pilot hai lựa chọn. S7 có tính chất request bất biến trong điều kiện đã nêu.
+S4 hỏi hai chuyến có cùng người hoặc cùng xe không. Ngân sách chung hạn chế tọa độ tích lũy, nhưng không xóa tài khoản, IP hay hình dạng hành trình. Đây là hỗ trợ bảo vệ danh tính, chưa phải cơ chế không liên kết phiên hoàn chỉnh.
 
-S8 vẫn là khoảng trống về bảo vệ nhóm. S9/S10 có nhánh thử nghiệm riêng nhưng chưa xác nhận cho cùng Epoch8/L30 hiện tại. Hướng tiếp theo là chấm privacy trên cấu hình thống nhất, ưu tiên người đồng hành và liên kết danh tính, đồng thời kiểm tra chi phí triển khai. Em xin ý kiến thầy/cô về ưu tiên này.
+S5 và S6 hỏi cạnh đường tiếp theo và đích chưa tới. Q chỉ dựa trên lịch sử bảo vệ, không dùng tương lai thật. Attacker vẫn có thể dự đoán từ chuyển động và thói quen. Em bổ sung pilot hai ứng viên; chưa kết luận cho mọi đường hoặc mọi đích.
 
-Chỉ vào hình
+Geo-I và hợp thành ngân sách là nền nghiên cứu kế thừa. S8 thêm thông tin người đồng hành, cần mô hình tương quan riêng. Em lược khỏi trọng tâm buổi này và giữ như giới hạn chưa giải quyết.
 
-Chỉ cột đã có và phần còn thiếu; nhấn S8 và yêu cầu đánh giá trên cùng cấu hình.
+**Chỉ vào hình**
 
-Nếu được hỏi
+Đi từng hàng: attacker muốn biết gì, thành phần hỗ trợ, rồi khó khăn. S5/S6 chưa có một bộ chống dự đoán mới riêng.
 
-Chứng minh hợp thành ngân sách/hậu xử lý áp dụng cho cơ chế lý tưởng dưới các giả định công khai; sampler float chưa có chứng nhận tương đương. Cache đã có từ trước, không được tính như một đóng góp hoàn toàn mới.
+**Chuyển ý**
+
+Em giải thích cụ thể ngân sách chung bổ sung gì cho Geo-I.
+
+**Nếu được hỏi**
+
+Nền tảng: Andrés et al. (2013), *Geo-Indistinguishability: Differential Privacy for Location-Based Systems*; Chatzikokolakis et al. (2014), *A Predictive Differentially-Private Mechanism for Mobility Traces*; Olteanu et al. (2017), *Quantifying Interdependent Privacy Risks with Location Data*. Tài liệu tham khảo: `thesis/main.tex`; cơ chế và giới hạn: `current_method.tex`, `current_formal_privacy.tex`, `current_companion.tex`.
+
+S4 tham chiếu de Montjoye et al. (2013), *Unique in the Crowd: The Privacy Bounds of Human Mobility*. S5/S6 tham chiếu Ziebart et al. (2008), *Maximum Entropy Inverse Reinforcement Learning*, làm cơ sở năng lực dự báo hành trình. Các nghiên cứu này giải thích nguy cơ, không chứng minh attacker hiện tại đã khai thác thành công hay mô hình ta đã khắc phục hoàn toàn. Bank trong benchmark của ta không phải bản tái lập nguyên các paper đó.
+
+Attacker S4: **shape/kNN15** cho người; **shape/kNN5** ở raw và **shape/trees** ở Geo-I cho xe. Pilot S5/S6: **Candidate Trees** ở raw, **Motion** ở REM, **Curve Mean** ở Planar. Bank chọn bằng tập chọn, không phải mọi task đều dùng Shadow kNN. Nhãn tổng hợp, task nhỏ và cấu hình riêng; chưa bảo vệ đầy đủ S4–S6.
+
+S8 có thể bỏ khỏi phần nói chính hoặc giới hạn phạm vi luận văn một cách rõ ràng. Đồng vị trí và thông tin phụ trợ vẫn có thể giúp attacker; diagnostic lịch sử chưa xác nhận cơ chế nhóm cho Epoch8/L30. Không xóa định nghĩa S8 hoặc thay benchmark trong lần biên soạn này.
 
 Nguồn:
 thesis/current_method.tex
@@ -241,3 +120,159 @@ artifacts/benchmarks/s8_companion_inference_20261007_v1/readout.json
 thesis/current_evaluation.tex
 docs/supervisor_meeting/2026-10-09_update/benchmark_tables.json
 thesis/current_evaluation_generated/matched_anchor.tex
+thesis/main.tex
+
+
+SLIDE 4: Cap 8 phiên: kiểm soát tích lũy thông tin
+
+**Lời trình bày**
+
+Một phiên là một chuyến; epoch là nhóm tối đa tám phiên chung sổ ngân sách. Geo-I giới hạn thông tin mỗi lần công bố, nhưng nhiều lần vẫn hợp thành. Nếu cấp lại cận 0,23 mỗi chuyến, tám chuyến có tổng cận 1,84. Hiện tại cả tám chung cận 0,23, mỗi phiên 0,02875.
+
+Mỗi phiên có hai mươi ba đơn vị, một đơn vị là 0,00125 trên mét. Trước GPS, hệ thống kiểm tra slot, lịch và chi phí dự toán. Tạo Z lần đầu tốn một đơn vị; đọc rồi giữ tốn một; thử rồi tạo mới tốn hai. Không đọc thì không chi thêm. Sổ lưu qua khởi động lại nên mở chuyến mới không tự cấp lại cap. Nó bổ sung kiểm soát tích lũy tọa độ cho Geo-I, chưa tự ẩn danh người dùng.
+
+**Chỉ vào hình**
+
+Chỉ tổng cận tám chuyến, công thức chia cap và ba bước trước GPS. Nhấn kiểm tra giữ Z vẫn phải tính phí.
+
+**Chuyển ý**
+
+Các thay đổi nằm ở đâu trong kiến trúc so với bản trước?
+
+**Nếu được hỏi**
+
+Tám là lựa chọn cấu hình hữu hạn, không phải hằng số lý thuyết đặc biệt hay tám lần đọc. H = 12 tạo U = 2H − 1 = 23 đơn vị, không buộc đúng mười hai lần GPS. u nhỏ hơn cho cận chặt hơn ở cùng khoảng cách nhưng thường tăng nhiễu, làm utility khó hơn; L30 hỗ trợ utility mà không chi thêm ngân sách tọa độ.
+
+Đã có Z thì dự toán 2u trước đọc dù giữ thực tế chỉ chi 1u. Phiên đã nhận hết cap đọc vẫn chọn Q từ lịch sử bảo vệ; hết tám slot thì từ chối phiên mới, không đọc / gửi Q. Cấp slot trước GPS theo lịch công khai, không hoàn phần dư theo nhánh bí mật. Epoch mới vẫn hợp thành với epoch cũ, không bảo đảm vô hạn cả đời. Sổ tin cậy, chưa chống chủ thiết bị xóa/rollback. Ngân sách danh nghĩa phiên 0,03 khác cap hiệu lực 0,02875.
+
+Cận lý tưởng: Pr[O(X) ∈ A] ≤ exp(Cepoch × D∞(X,X′)) Pr[O(X′) ∈ A], với cùng ngữ cảnh công khai và các giả định đã nêu. Đây là cận xác suất theo khoảng cách, không bảo đảm attacker luôn sai một số mét. Sampler float chưa được chứng nhận. Diagnostic sáu slot lịch sử không chứng minh cap tự tăng ưu thế attacker khi ngân sách khớp; equal-total control cho output bằng nhau.
+
+Nguồn:
+thesis/current_method.tex
+thesis/current_algorithm.tex
+thesis/current_formal_privacy.tex
+thesis/current_formal_service.tex
+docs/supervisor_meeting/2026-10-09_update/benchmark_evidence.json
+docs/supervisor_meeting/2026-10-09_update/algorithm_scope.json
+docs/supervisor_meeting/2026-10-09_update/multistep_sample.json
+
+
+SLIDE 5: Kiến trúc phương pháp: trước và hiện tại
+
+**Lời trình bày**
+
+Hai sơ đồ có cùng bốn tầng. Tầng một kiểm tra ngân sách rồi bảo vệ GPS bằng Geo-I/REM. Tầng hai ước lượng b từ lịch sử bảo vệ và chọn năm Q theo mạng đường. Tầng ba gửi Q lấy POI; tầng bốn gộp và xếp hạng tại thiết bị.
+
+Em giữ Geo-I/REM, phép thử giữ Z, b và bộ chọn Q. Ba phần thay đổi tô xanh: cap chung tám phiên, phản hồi từ L10 của bản trước lên L30 và mở rộng từ tìm gần nhất sang bốn nhu cầu local. Máy chủ ngoài khung, chỉ nhận Q và yêu cầu chung. Bản trước có warmup/delay tùy chọn; mô hình hiện tại gửi ngay. Endpoint20 ở bảng kết quả riêng, không ghép thành kết quả của L30.
+
+**Chỉ vào hình**
+
+So từng tầng trái–phải. Đi theo Q ra máy chủ, POI về tầng local và đầu ra riêng cho người dùng.
+
+**Chuyển ý**
+
+Em dùng một mẫu nhiều mốc để nối toàn bộ các bước này.
+
+**Nếu được hỏi**
+
+Z là tham chiếu nội bộ; b là phân bố xấp xỉ để chọn Q hữu ích, không phải posterior hiệu chuẩn. Bộ chọn dùng bảng nearest Lplan = 10 và slack 0,03 trên điểm độ phủ, không phải server L30 hoặc giảm Recall 3%. Q phải phù hợp mạng đường, có thể đổi khi không đọc GPS mới. GPS local chọn POI sau phản hồi không cấp cho bộ chọn Q hoặc máy chủ. Chi phí cảm biến local thật chưa đo.
+
+Nguồn:
+thesis/current_method.tex
+thesis/current_algorithm.tex
+thesis/current_formal_privacy.tex
+thesis/current_formal_service.tex
+docs/supervisor_meeting/2026-09-26_brief/walkthrough/build_walkthrough.py
+
+
+SLIDE 6: Ví dụ: từ GPS đến câu trả lời qua nhiều bước
+
+**Lời trình bày**
+
+Mẫu này thuộc TRAIN, dùng minh họa. Ở không giây, đọc GPS và tạo Z, chi một đơn vị. Hai mươi giây chưa đủ lịch đọc nên giữ Z, b chỉ dự đoán và không chi thêm. Sáu mươi giây, hệ thống dự toán hai đơn vị; phép thử không giữ được Z nên REM tạo Z mới. b cập nhật rồi chọn năm Q theo đường.
+
+Máy chủ nhận Q với L30 mọi loại, trả bốn trăm hai mươi bản ghi. Thiết bị bỏ trùng còn hai trăm năm mươi hai POI, dùng GPS và nhu cầu riêng chọn đáp án. Đổi từ gần nhất sang bán kính một kilômét chỉ còn P167 mà không gửi thêm query. Sáu trăm giây đã chi hai mươi mốt trên hai mươi ba đơn vị; mẫu chưa hết cap.
+
+**Chỉ vào hình**
+
+Đi 0/20/60 s trong bảng, rồi GPS, Z, b và Q ở hình 60 s. Nối phản hồi đến hai câu trả lời local.
+
+**Chuyển ý**
+
+Em trình bày cải thiện utility được so có đối chứng trên cùng Q.
+
+**Nếu được hỏi**
+
+Nhánh đọc rồi giữ Z lấy từ phiên thứ sáu ở 60 s: chi 1u và cập nhật b từ quan sát giữ; không ghép vào timeline phiên đầu. Tổng 21/23 tính đủ các lần đọc 360/420/480/540 s không hiển thị. Không dựng giá trị nhiễu Laplace chưa được log. GPS là tổng hợp SUMO; màu cam chỉ một phần trọng số b. Q được chọn từ trạng thái bảo vệ, không phải Z gửi lên. Đầu/cuối gửi ngay; giờ mở/đóng phiên vẫn có thể lộ.
+
+Nguồn:
+docs/supervisor_meeting/2026-10-09_update/multistep_sample.json
+docs/supervisor_meeting/2026-10-09_update/utility_sample.json
+
+
+SLIDE 7: Benchmark utility: bản trước và hiện tại
+
+**Lời trình bày**
+
+Báo cáo trước đạt Recall 95,44 phần trăm cho tìm gần nhất ở L10. Nay đánh giá bốn mục đích, cap chung tám phiên và dữ liệu khác. Không lấy 95,44 so trực tiếp với 92,69 để nói tăng hoặc giảm.
+
+So có đối chứng trong bảng giữ nguyên Q, lịch, Z và ngân sách, chỉ tăng L20 lên L30. Trên hai mươi bốn nhóm mới và ba lượt nhiễu, Recall trung bình bốn mục đích từ 89,71 lên 92,69 phần trăm. Cả ba lượt đều tăng, khoảng 95 phần trăm của chênh lệch nằm trên không. Nhu cầu trong bán kính tăng nhiều nhất. Byte phản hồi tăng 31,10 phần trăm; số request giữ nguyên. Đây là cải thiện chất lượng có chi phí, không phải tăng mức bảo vệ tọa độ.
+
+**Chỉ vào hình**
+
+Chỉ bốn mục đích, hàng macro, khoảng tin cậy và byte; không đọc mọi ô.
+
+**Chuyển ý**
+
+Privacy có thêm bằng chứng, nhưng từng phép thử có cấu hình riêng.
+
+**Nếu được hỏi**
+
+Recall@5 là phần đáp án chuẩn thu hồi được trong tối đa năm POI; bán kính chỉ tính khi đáp án chuẩn tồn tại. Macro cho bốn purpose trọng số đều rồi gộp theo nhóm; CI bootstrap theo 24 nhóm, không coi tick là subject độc lập. Phép thử chính dùng GPS tổng hợp chính xác ở mỗi mốc local và đích đã biết; sparse GPS là diagnostic riêng.
+
+Recall trước gộp đều năm scenario, cache theo epoch khả dụng mô phỏng và cap từng chuyến. Nay gộp bốn purpose trên bản đồ native SUMO với cap chung. L10 replay trên Q hiện tại đạt macro 83,41%, nhưng là ablation trên cohort đã dùng, không phải số của báo cáo trước hay xác nhận độc lập mới. Byte bảng là reply JSON, chưa gồm HTTP/TLS, latency, năng lượng. Không suy ra hơn mọi đối chứng; tải toàn danh mục có lợi trong bài toán khác ở bản chi tiết.
+
+Nguồn:
+docs/supervisor_meeting/2026-10-09_update/benchmark_tables.json
+docs/supervisor_meeting/2026-10-09_update/benchmark_evidence.json
+docs/supervisor_meeting/2026-10-09_update/algorithm_scope.json
+thesis/current_evaluation_generated/matched_anchor.tex
+docs/supervisor_meeting/2026-10-09_update/endpoint_focus.json
+thesis/current_sensor.tex
+thesis/current_dynamic.tex
+docs/supervisor_meeting/2026-09-26_brief/method_evidence.json
+docs/supervisor_meeting/2026-09-26_brief/report_explained.html
+
+
+SLIDE 8: Benchmark privacy: bằng chứng bổ sung và giới hạn
+
+**Lời trình bày**
+
+Trước đây S4 đến S8 chưa có benchmark. Nay có phép thử liên kết người và xe, cùng pilot cạnh và đích tương lai. Geo-I giảm khả năng liên kết trung bình trong bank lịch sử, nhưng từng nhóm vẫn liên kết tốt. Pilot S5/S6 giảm từ đúng một trăm xuống năm mươi phần trăm; Planar cũng năm mươi, nên chưa chứng minh REM hơn mọi đối chứng.
+
+Với đầu/cuối, Endpoint20 tăng sai số suy luận so với Geo-I L20 và giảm nhẹ Recall. Nó tăng nhiễu mỗi lần đọc được phép rồi gửi ngay, thay delay cũ; không dùng tương lai biết phần cuối. Các bảng thuộc cấu hình riêng, chưa là privacy benchmark thống nhất cho Epoch8/L30. Tiếp theo cần xác nhận cùng cấu hình, ưu tiên danh tính và dự đoán tương lai; S8 giữ ngoài trọng tâm.
+
+**Chỉ vào hình**
+
+Chỉ metric từng task, đối chứng và phạm vi. S4–S6 là bằng chứng bổ sung; S9/S10 là nhánh L20 riêng.
+
+**Nếu được hỏi**
+
+AUC đo khả năng xếp cặp cùng danh tính cao hơn cặp khác. AUC dưới 0,5 không chứng minh riêng tư mạnh vì có thể đảo điểm. S4 chỉ ba nhóm/45 cặp; protected person AUC một nhóm còn 0,861. Pilot có sáu nhóm/12 query, S5/S6 chung quyết định hai ứng viên; S6 REM MAE 614,93 m, Planar 501,65 m, raw 4,99 m. Không coi hai score 50% là hai thành công độc lập.
+
+Endpoint20 dùng u = 0,0025/m so đối chứng lịch sử 0,01/m, không phải một phần tư u hiện tại 0,00125/m. Có 28 nhóm đã khảo sát, 112 quan sát/task; S9 MAE 789,95 → 1.406,73 m, S10 757,74 → 1.337,16 m. S10 Hit100 cùng 0%; CI chênh Hit500 chạm 0. Giờ mở/đóng vẫn lộ. Attacker endpoint chọn riêng theo metric, xem `benchmark_tables.json`.
+
+S1–S3 và đối chứng paper thích nghi ở bản chi tiết; chưa đo mới cùng L30. Không ghép score các bank thành model thắng S1–S10. Giữ Geo-I/REM làm nền, báo rõ phần có bằng chứng và phần cần kiểm chứng tiếp.
+
+Nguồn:
+docs/supervisor_meeting/2026-10-09_update/benchmark_tables.json
+docs/supervisor_meeting/2026-10-09_update/benchmark_evidence.json
+docs/supervisor_meeting/2026-10-09_update/algorithm_scope.json
+thesis/current_evaluation_generated/matched_anchor.tex
+docs/supervisor_meeting/2026-10-09_update/endpoint_focus.json
+thesis/current_sensor.tex
+thesis/current_dynamic.tex
+thesis/current_method.tex
+thesis/current_algorithm.tex
+thesis/current_formal_privacy.tex
+thesis/current_formal_service.tex

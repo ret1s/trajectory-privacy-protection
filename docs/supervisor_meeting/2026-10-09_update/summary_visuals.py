@@ -65,7 +65,7 @@ def architecture_comparison(content, **h):
         b+=h['arrow']([(x+405,506),(x+405,554)],h['teal'])
         b+=h['box'](x+302,554,234,59,'ĐẦU RA RIÊNG\n≤5 POI cho người dùng',stroke=h['teal'],size=20)
     b+=t(46,638,'Tô xanh ở bản hiện tại: phần thay đổi. Giữ Geo-I/REM, ước lượng b và bộ chọn Q theo mạng đường.',20,color=h['teal'])
-    b+=t(46,659,'GPS cho Geo-I đọc sau kiểm tra; Z và nhu cầu ψ giữ tại thiết bị. Endpoint20 là nhánh L20 riêng (slide 5).',18,color=h['gray'])
+    b+=t(46,659,'GPS cho Geo-I đọc sau kiểm tra; Z và nhu cầu ψ giữ tại thiết bị. Endpoint20 là nhánh L20 riêng (slide 8).',18,color=h['gray'])
     return b
 
 
