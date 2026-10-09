@@ -425,7 +425,7 @@ def main():
     for i,(item,func) in enumerate(zip(content['slides'],functions),1):
         svg=base(item['title'],func(),item['footer'],i,len(functions)).replace('\u2013','-').replace('\u2014','-')
         # The projected deck contains only the slide canvas. Presenter prose
-        # lives in presentation_script.md; source notes remain a reference.
+        # lives in slides_presentation_script.md; source notes remain a reference.
         rendered.append(f'<section class="slide" id="slide-{i}" aria-label="Slide {i}">{svg}</section>')
         notes.append(f"SLIDE {i}: {item['title']}\n\n{item['notes']}\n\nNguồn:\n"+'\n'.join(item['sources'])+'\n')
     page='''<!doctype html><html lang="vi"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Geo-I / REM - Phương pháp và đánh giá thực nghiệm</title><style>
@@ -433,7 +433,7 @@ def main():
     </style><body>'''+''.join(rendered)+'''
     <script>(()=>{const slides=[...document.querySelectorAll('.slide')];let index=0;const paint=()=>{slides.forEach((s,i)=>s.classList.toggle('active',i===index));history.replaceState(null,'','#'+(index+1));document.title=(index+1)+' / '+slides.length+' · Geo-I / REM'};const hash=Number(location.hash.slice(1));if(hash>=1&&hash<=slides.length)index=hash-1;paint();addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' ','ArrowLeft','PageUp','Home','End'].includes(e.key))e.preventDefault();if(['ArrowRight','PageDown',' '].includes(e.key))index=Math.min(index+1,slides.length-1);if(['ArrowLeft','PageUp'].includes(e.key))index=Math.max(index-1,0);if(e.key==='Home')index=0;if(e.key==='End')index=slides.length-1;if(e.key.toLowerCase()==='f'){if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen().catch(()=>{})}paint()});})();</script></body></html>'''
     (HERE/'slides.html').write_text(page)
-    (HERE/'speaker_notes.txt').write_text('\n\n'.join(notes))
+    (HERE/'slides_speaker_notes.txt').write_text('\n\n'.join(notes))
     sources={}
     for item in content['slides']:
         for name in item['sources']:

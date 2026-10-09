@@ -1,48 +1,54 @@
-# Bảo vệ riêng tư vị trí bằng Geo-I/REM
+# Bảo vệ riêng tư truy vấn và quỹ đạo bằng Geo-I/REM
 
-Bộ **8 slide**, khoảng **8–10 phút**, tập trung giải thích các cơ chế bổ sung để hoàn thiện bảo vệ scenario và giữ chất lượng dịch vụ. Giữ phong cách tài liệu khoa học: nền trắng, chữ serif và sơ đồ luồng. Slide chỉ chứa nội dung trình chiếu.
+Tài liệu chính là **report LaTeX 6 trang A4**, dùng để trình bày khoảng **8–10 phút**. Chữ serif TeX Gyre Termes, cỡ nội dung 10 pt, bảng khoa học và sơ đồ vector. Không dùng bố cục slide hoặc metadata buổi gặp trong nội dung report.
 
-Bản ngắn đi từ bảo vệ query content tới cơ chế liên phiên và dự đoán tương lai, rồi giải thích cap tám phiên, so kiến trúc cũ–mới, minh họa toàn bộ luồng và đối chiếu benchmark. Tiêu đề 32 px, nội dung chủ yếu 20–22 px, ghi nguồn 15 px trên canvas 1280 × 720. Bản **18 trang được giữ nguyên trong [detailed/](detailed/README.md)** để tra cứu khi cần. Trường `detailed_slide_numbers` đối chiếu từng slide ngắn với bản chi tiết.
-
-- [slides.pdf](slides.pdf): bản trình chiếu 16:9.
-- [slides.html](slides.html): bản offline, chữ và hình vector. Dùng ←/→, Home/End để chuyển trang và F để toàn màn hình.
-- [presentation_script.md](presentation_script.md): lời trình bày theo từng slide, cách chỉ hình, chuyển ý và nội dung chuẩn bị trả lời.
-- [speaker_notes.txt](speaker_notes.txt): ghi chú và các nguồn đối chiếu riêng.
+- [report_explained.pdf](report_explained.pdf): bản đọc và trình bày.
+- [report_explained.tex](report_explained.tex): nguồn LaTeX chỉnh sửa được.
+- [presentation_script.md](presentation_script.md): lời trình bày theo sáu trang, cách chỉ hình và điểm cần nhớ khi trao đổi.
+- [speaker_notes.txt](speaker_notes.txt): ghi chú đồng bộ theo sáu trang.
 
 Thứ tự nội dung:
 
-1. S7: tách mục đích riêng khỏi request chung; phân biệt cơ chế đã có với phần mới.
-2. L30: độ gần để thu ứng viên, bốn tiêu chí local để chọn câu trả lời; giới hạn độ phủ.
-3. S4–S6: nghiên cứu nền, thành phần hỗ trợ, nguy cơ còn lại; S8 là hướng mở, không có slide riêng.
-4. Cap tám phiên: định nghĩa phiên/epoch, phép chia ngân sách, chi phí nhánh và hợp thành.
-5. Kiến trúc cũ–mới: cùng bốn tầng; đóng khung mô hình tại thiết bị, máy chủ và đầu ra riêng bên ngoài.
-6. Ví dụ đầy đủ: timeline 0/20/60/120/600 s, bản đồ 60 s và luồng GPS → Z → b → Q → POI → đáp án local.
-7. Benchmark utility: Recall bản trước để đặt bối cảnh; bảng bốn mục đích L20–L30 trên cùng Q và chi phí byte.
-8. Benchmark privacy: bằng chứng bổ sung S4/S5/S6 và nhánh S9/S10; phân biệt các cohort và giới hạn.
+1. S7: nhu cầu giữ local, request chung L30; bốn tiêu chí lọc/sắp xếp; cơ chế hỗ trợ và khó khăn S4–S6, giới hạn S8.
+2. Cap tám phiên: cap từng phiên so với cap epoch, đơn vị 0/1/2, kiểm tra trước GPS và chặn hợp thành toán học.
+3. Kiến trúc trước: một trang riêng, bốn tầng, khung mô hình tại thiết bị, máy chủ bên ngoài, đầu vào/đầu ra và delay tùy chọn.
+4. Kiến trúc hiện tại: cùng bố cục trên một trang riêng; đánh dấu cập nhật cap, L30 và xử lý nhu cầu local.
+5. Ví dụ nhiều bước: timeline 0/20/60/120/600 s, bản đồ 60 s, sáu bước kích hoạt và đáp án khác nhau trên cùng phản hồi.
+6. Benchmark: bảng L20–L30 theo bốn mục đích, CI và byte; bảng privacy bổ sung; phân biệt cấu hình/cohort và so bối cảnh báo cáo trước.
 
-Cap tám phiên bổ sung giới hạn tích lũy thông tin tọa độ cho Geo-I; nó không tự ẩn account/IP hoặc bảo đảm không liên kết danh tính. Tám là cấu hình hữu hạn, không là tám lần GPS hoặc ngân sách vô hạn cả đời. S8 được lược khỏi trọng tâm buổi nói, vẫn giữ trong định nghĩa scenario và giới hạn nghiên cứu.
+## Phạm vi kết luận
 
-**Luồng S7:** nhu cầu thật giữ local; gửi 5 Q × L30 mỗi loại; nhận phản hồi tại thiết bị; gộp và bỏ trùng ID; dùng GPS cùng nhu cầu để lọc và sắp xếp danh sách phù hợp. Tối đa 150 bản ghi mỗi loại trước bỏ trùng, không mặc định 150 POI duy nhất. Phần giải thích cơ chế không yêu cầu top-5. Triển khai và benchmark hiện tại vẫn dùng k = 5 và Recall@5; hình minh họa chỉ trích phần đầu kết quả đã lưu. Không bỏ giới hạn trong mã hoặc thay kết quả đánh giá.
+**S7:** nhu cầu thật ψ không gửi lên mạng. Năm Q × L30 lấy tối đa 150 bản ghi mỗi loại trước bỏ trùng; máy chủ trả về, thiết bị gộp, bỏ trùng và lọc/sắp xếp theo GPS cùng nhu cầu. Không mặc định 150 POI duy nhất toàn bộ phản hồi. Tính bất biến request xét cùng trạng thái bảo vệ, lịch và ngữ cảnh công khai. Triển khai/benchmark vẫn dùng k = 5 và Recall@5; không bỏ giới hạn trong mã hoặc dựng một danh sách mới cho mẫu.
 
-**So sánh với báo cáo trước:** Recall 95,44% của GeoI-Slack L10 ở báo cáo 26/09–03/10 là số lịch sử cho tìm gần nhất, cache và cách gộp năm scenario. Recall macro 92,69% hiện tại dùng bốn purpose, cap liên phiên và cohort khác; không diễn giải chênh hai số là tăng/giảm. Phép so có đối chứng giữ cùng Q/Z/cap/lịch, L20 89,71% → L30 92,69%, kèm CI và byte. S4–S6 nay có bằng chứng bổ sung nhưng chưa có xác nhận privacy mới cho cùng L30.
+**Ngân sách:** cap chung 0,23/m cho tối đa tám phiên, mỗi phiên 0,02875/m, đơn vị 0,00125/m. Cap bổ sung chặn thông tin tọa độ tích lũy, không tự che account/IP hoặc bảo đảm không liên kết danh tính. H = 12 không đồng nghĩa chỉ được 12 lần đọc GPS. Theorem dùng kernel/ngữ cảnh lý tưởng và giả định nêu trong report; không chứng nhận sampler thực hoặc ngân sách cả đời.
 
-**Phần delay cần đọc đúng phiên bản.** Bản trước có warmup 60 s, chờ công bố 60 s và hủy Q còn trong hàng đợi khi đóng phiên. Endpoint20 đã đo sau đó có warmup/delay bằng 0, tăng nhiễu trên mọi lần đọc được phép. Mô hình Epoch8/L30 hiện tại cũng gửi ngay. Bộ slide đối chiếu bằng chứng đã có; không thêm hoặc đo lại một biến thể delay cho mô hình hiện tại.
+**Phiên bản đầu/cuối:** bản trước có warmup/delay 60 s tùy chọn, hủy Q đang chờ khi đóng phiên. Epoch8/L30 hiện tại gửi ngay. Nhánh Endpoint20 riêng đã đo tăng nhiễu trên mọi lần đọc được phép, không dùng delay; không nhập kết quả của nhánh L20 này thành xác nhận privacy của L30.
 
-Kết quả S1–S3 lịch sử, S4/S8 diagnostic, S5–S6 pilot, Endpoint20 L20 và xác nhận utility L30 thuộc các giao thức riêng. Không ghép chúng thành kết quả của một cấu hình bảo vệ đầy đủ S1–S10. Các số liệu, đầu ra bảo vệ và benchmark gốc được giữ nguyên.
+**Benchmark:** phép so L20 89,71% → L30 92,69% giữ nguyên Q/Z/cap/lịch trên 24 nhóm mới, tăng 2,97 điểm phần trăm, CI [2,31; 3,65], reply JSON tăng 31,10%. Recall L10 95,44% lịch sử thuộc mục đích/cohort/cách gộp khác, chỉ dùng làm bối cảnh. S4 diagnostic, S5/S6 pilot và Endpoint20 là các thử nghiệm riêng. Chưa có một cấu hình được xác nhận bảo vệ đầy đủ S1–S10; S8 vẫn giữ trong định nghĩa và giới hạn nghiên cứu.
 
-Ví dụ chuyển động lấy cơ học từ `freshqp-001`, TRAIN, draw 1, phiên đầu. Bản ngắn trích 0/20/60/120/600 s từ đầu ra đã lưu, cùng GPS nguồn/FCD và phản hồi L30 tại 60 s: 420 bản ghi → 252 POI duy nhất → đáp án khác nhau theo mục đích local. Tổng ngân sách tính đủ các lần đọc không hiển thị. Nhánh đọc rồi giữ Z thuộc phiên 6, không nối vào hành trình đầu. Chỉ số Q trên hình là nhãn theo dõi nội bộ; máy chủ không nhận ID track ổn định. Không tự đặt giá trị nhiễu Laplace chưa được lưu.
+**Ví dụ:** dùng đầu ra cố định `freshqp-001`, TRAIN, draw 1, phiên đầu. Tại 60 s có 420 bản ghi → 252 POI duy nhất; trích phần đầu đáp án k = 5 đã lưu. Tổng ngân sách tính cả các lần đọc không hiển thị. Nhánh đọc rồi giữ Z thuộc phiên 6, không nối vào hành trình đầu. Không đặt giá trị nhiễu Laplace chưa lưu. GPS tổng hợp SUMO; utility dùng GPS local tại mỗi mốc như oracle, chưa đo chi phí GNSS/năng lượng thực.
 
-Dữ liệu và tái lập:
+## Tái lập report
 
-- `benchmark_tables.json`, `benchmark_evidence.json`: số liệu đầy đủ, định nghĩa, phạm vi, nguồn và hash.
-- `endpoint_focus.json`: timeline delay trước đây và phép thử có đối chứng delay, trích nguyên nguồn đã lưu.
-- `multistep_sample.json`, `build_multistep_walkthrough.py`: timeline nhiều bước, kích hoạt thành phần, phản hồi POI và kiểm tra nguồn GPS; chỉ đọc lại đầu ra, không chạy sampler.
-- `sample_walkthrough.json`, `utility_sample.json`, `endpoint_sample.json`: các trích xuất trước vẫn được giữ để đối chiếu.
-- `build_slides.py` và các module `*_visuals.py`: dựng HTML và ghi chú; không đánh giá lại mô hình. PDF xuất bằng Chrome sau khi kiểm tra hình/chữ.
-- `source_pins.json`, `manifest.json`: nguồn và hash của bản phát hành.
+`build_report.py` kiểm tra nguồn được pin, dựng hai sơ đồ TikZ, ba bảng từ số đo đã lưu, crop bản đồ vector của ví dụ và tạo ghi chú theo kịch bản. Không chạy sampler, attacker hoặc evaluator. Nguồn LaTeX phần diễn giải chỉnh trực tiếp trong `report_explained.tex`.
 
-Mẫu là GPS tổng hợp SUMO; đích detour là đích chuẩn chỉ dùng tại thiết bị trong đánh giá. Các bản đồ dùng cùng tỷ lệ mét trên hai trục; crop và bỏ nét đường trùng chỉ phục vụ hiển thị. Bộ mô hình, thuật toán và bản luận văn chính không thay đổi trong lần biên soạn slide này.
+Cần Python với `PyMuPDF`, và Tectonic hoặc XeLaTeX với các gói LaTeX được khai báo trong nguồn:
+
+```sh
+python3 build_report.py
+tectonic --keep-logs report_explained.tex
+```
+
+Chạy từ thư mục này. Khi sửa, render PDF và kiểm tra đủ sáu trang trước phát hành. `report_sources.json` pin nguồn nghiên cứu; `report_manifest.json` ghi hash tài liệu phát hành và kiểm chứng. Các benchmark, đầu ra mô hình và luận văn chính giữ nguyên.
+
+## Bộ slide trước để tra cứu
+
+- [slides.pdf](slides.pdf), [slides.html](slides.html): bản tám slide trước, giữ nguyên nội dung.
+- [slides_presentation_script.md](slides_presentation_script.md), [slides_speaker_notes.txt](slides_speaker_notes.txt): kịch bản và ghi chú gốc của tám slide.
+- `build_slides.py` dựng lại HTML và ghi chú slide riêng, không ghi đè ghi chú report.
+- `manifest.json`, `source_pins.json`: bản phát hành tám slide, độc lập với manifest report.
+- [detailed/](detailed/README.md): bản 18 trang lưu trữ trước đó.
+
+Dữ liệu đối chiếu: `benchmark_tables.json`, `benchmark_evidence.json`, `multistep_sample.json`, `utility_sample.json`, `endpoint_focus.json`; model và chứng minh tại `thesis/`; bối cảnh L10 tại `2026-09-26_brief/`. S1–S3 và đối chứng paper đầy đủ nằm trong tài liệu chi tiết. Replay bốn template L10 chưa qua gate và không được áp dụng: [logic/kết quả](../../research/2026-10-09_multi_purpose_retrieval.md).
 
 © OpenStreetMap contributors — [nguồn và giấy phép](https://www.openstreetmap.org/copyright).
-
-Kiểm chứng truy hồi đa mục đích ngày 09/10: không candidate nào qua gate; giữ L30. Script slide 2 có phần trao đổi về bốn template L10 (đích mẫu công khai), không coi đây là kiến trúc đã áp dụng. [Logic và kết quả đầy đủ](../../research/2026-10-09_multi_purpose_retrieval.md).

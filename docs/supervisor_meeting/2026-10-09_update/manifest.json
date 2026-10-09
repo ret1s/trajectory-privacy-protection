@@ -1,5 +1,5 @@
 {
-  "schema": "supervisor-slide-release-v11",
+  "schema": "supervisor-slide-release-v12",
   "prepared_date": "2026-10-10",
   "meeting_date": null,
   "slide_count": 8,
@@ -13,8 +13,8 @@
   "samples": "SUMO synthetic/evaluator illustration; frozen Q/Z, GPS and service outputs; no new sampler or attack/model evaluation",
   "files": {
     "README.md": {
-      "sha256": "828b78da90981d2ba4b298651867f17f8ed98d5a22e774bb4da3841cf8911e64",
-      "bytes": 6982
+      "sha256": "59902ffaafd7ccc3c75347b2d3d9da73769044567726dd0dee69b4ac54a1b190",
+      "bytes": 6100
     },
     "agenda_visuals.py": {
       "sha256": "4ee4c11507cf1eb5e708b5dbd2f4a02f219cd82bb6a2ffeaf789b2f5f84ac833",
@@ -45,8 +45,8 @@
       "bytes": 21167
     },
     "build_slides.py": {
-      "sha256": "104084ac4d7355966623c88e01a5c806f8b8d6c26120b50b2a84bc8be467e755",
-      "bytes": 32106
+      "sha256": "b0cc0c822f378f7a2c4901d72f86f15af7aab5a9f825318e2217b0828c0b9d3b",
+      "bytes": 32120
     },
     "compact_benchmark_visuals.py": {
       "sha256": "9d52c6c346dd34390147b8b81412aa6cfa3a923cb0228ae9243d19d08a846877",
@@ -112,10 +112,6 @@
       "sha256": "be6f05846a014dc8ce1fdf216e196993a3152caed6bbde5e3f49764cfc5b02a0",
       "bytes": 5492872
     },
-    "presentation_script.md": {
-      "sha256": "9477ac5adccb537fb533cb17eeda93e769ec8224786cd1ba2cb925bd049b2071",
-      "bytes": 18194
-    },
     "sample_visuals.py": {
       "sha256": "bec0a0a6568632e471bb162aee0b23affab893713401708a1fb7a6b10ad96210",
       "bytes": 10293
@@ -140,10 +136,6 @@
       "sha256": "8f67cdeae9547911b2e2e97495c5a10e54ca44be359bc5754d9e7ea2d3c1bb04",
       "bytes": 23377
     },
-    "speaker_notes.txt": {
-      "sha256": "9b962ce79cfd6ee0413227dc0f02a6cb69593e22699192d50de5f79d7cb4efb7",
-      "bytes": 21724
-    },
     "summary_visuals.py": {
       "sha256": "d17c92c67a3f7877901e70401de22a9bf8d6e8aa3fcce109b7d6e4c62e49461a",
       "bytes": 15784
@@ -155,18 +147,26 @@
     "utility_sample_extractor.py": {
       "sha256": "0bd548da05c7cf63ce15747caff9b270519d97a12ebec0adfc6076a9bc127730",
       "bytes": 12186
+    },
+    "slides_presentation_script.md": {
+      "sha256": "9477ac5adccb537fb533cb17eeda93e769ec8224786cd1ba2cb925bd049b2071",
+      "bytes": 18194
+    },
+    "slides_speaker_notes.txt": {
+      "sha256": "9b962ce79cfd6ee0413227dc0f02a6cb69593e22699192d50de5f79d7cb4efb7",
+      "bytes": 21724
     }
   },
   "source_pins_file": "source_pins.json",
   "canonical_thesis_unchanged_sha256": "d3d51ad7f97995cc098b3ba7a0546e679214a36501c137e885b8d0ca14e3f920",
-  "presenter_script": "presentation_script.md",
-  "presentation": "Compact scientific slide-only PDF/HTML for8-10minutes; separate short presenter script; original18-slide detailed deck archived unchanged",
+  "presenter_script": "slides_presentation_script.md",
+  "presentation": "Preserved eight-slide PDF/HTML and archived slide script/notes; superseded for presentation by the six-page LaTeX report.",
   "design": {
     "style": "compact scientific document in slide format",
     "body_font": "STIX Two Text / Times New Roman serif fallback",
     "slide_titles": "research subjects without meeting or preparation metadata",
     "equations": "Typeset epoch/session allocation and unit budget; ideal composition bound in presenter Q&A",
-    "source_notes": "speaker_notes.txt",
+    "source_notes": "slides_speaker_notes.txt",
     "title_svg_px": 32,
     "body_svg_px": [
       20,
@@ -336,5 +336,8 @@
   "architecture_comparison": "Slide5 aligns historical26Sep–03Oct and currentEpoch8/L30; framed device, external server, private output and changed layers",
   "S8_presentation_scope": "Optional to main talk; retained as explicit limitation, no dedicated slide or model deletion",
   "historical_report_comparison": "Old L10 nearest Recall 95.44% is contextual, not directly paired with current four-purpose L30 macro 92.69%; controlled L20/L30 contrast shown",
-  "query_content_explanation": "Private user request remains local; five fixed L30 queries return at most150records/category; receive, merge/deduplicate, filter and sort locally. Top5 remains a deployment/evaluation setting, not the explanation of S7."
+  "query_content_explanation": "Private user request remains local; five fixed L30 queries return at most150records/category; receive, merge/deduplicate, filter and sort locally. Top5 remains a deployment/evaluation setting, not the explanation of S7.",
+  "status": "Reference eight-slide deck; primary presentation is the six-page LaTeX report.",
+  "primary_document": "report_explained.pdf",
+  "primary_document_manifest": "report_manifest.json"
 }
