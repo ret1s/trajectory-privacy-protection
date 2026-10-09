@@ -1,0 +1,34 @@
+\chapter{Kết luận và hướng phát triển}
+\label{ch:conclusions}
+
+\section{Trả lời các câu hỏi nghiên cứu}
+
+\textbf{RQ1 -- Ranh giới bảo vệ.} Pipeline giữ Geo-I làm nền tảng, dùng REM trên miền đường công khai, kiểm tra tái sử dụng có nhiễu và cap nhiều phiên được dành trước. Các bước ước lượng và chọn Q chỉ nhận lịch sử đã bảo vệ; GPS, đích và mục đích thật được dùng tại bộ xếp hạng cục bộ. Luận văn chỉ ra điều kiện để hợp thành áp dụng cho transcript trong mô hình lý tưởng. Sổ ngân sách và các phép kiểm tra bảo đảm invariant của implementation, chưa chứng nhận sampler dấu phẩy động thực hiện pure Geo-I.
+
+Gửi mọi loại POI theo lịch cố định loại bỏ một kênh nội dung khi cùng vị trí thật và lịch công khai được giữ cố định. Điều này chưa ngăn suy ý định từ tuyến đường, tài khoản, kích hoạt ứng dụng hoặc tương tác sau tìm kiếm. Bảo đảm tọa độ không đồng nhất với ẩn danh người/xe; S8 và identity trong thế giới mở vẫn chưa được xác lập.
+
+Chẩn đoán S8 bổ sung việc bật/tắt dữ liệu người đồng hành trên ba family lịch sử. Bank hữu hạn chưa khai thác được thêm transcript đã bảo vệ; Raw phụ trợ giảm MAE nhưng không tăng Hit100. RNG của nguồn lịch sử có seed tái tạo, nên phép thử này chỉ kiểm tra các bộ suy luận thống kê đã khai báo, chưa xác nhận riêng tư của cấu hình hiện tại hoặc bảo đảm cấp nhóm.
+
+\textbf{RQ2 -- Chất lượng và tài nguyên.} Hai vòng thay bộ chọn Q không qua điều kiện chọn; kết quả âm giúp giới hạn mức phức tạp nên thêm vào mô hình. Cấu hình dịch vụ L30 giữ Q và cơ chế riêng tư, trả thêm POI rồi gộp và xếp hạng tại thiết bị. Nó cải thiện bốn mục đích ở chi phí phản hồi cao hơn. Tải toàn catalogue tĩnh là một đối chứng mạnh hơn trong hợp đồng dịch vụ cho phép bulk; lợi ích cache hoặc L30 vì thế không chứng minh cần gửi vị trí định kỳ trong mọi ứng dụng.
+
+\textbf{RQ3 -- Độ ổn định.} Trên 24 nhóm tuyến kiểm thử mới, mỗi nhóm ba draw và tám chuyến, L30 nâng Recall@5 current-only từ \EvalFreshRecallBefore{}\% lên \EvalFreshRecallAfter{}\%. Chênh lệch \EvalFreshGain{} điểm phần trăm có CI95\% [\EvalFreshLow{}; \EvalFreshHigh{}], cả ba draw đều dương, với phản hồi JSON tăng \EvalReplyGrowth{}\%. Kết quả qua điều kiện đã cố định trước; không đổi cấu hình sau khi xem kiểm thử. Đây là bằng chứng ổn định trong thiết kế tổng hợp cùng bản đồ, không phải chặn chất lượng cho mọi hành trình.
+
+Chẩn đoán bổ sung thay trạng thái khả dụng POI theo mỗi epoch công khai 60 s, vẫn dùng Q đã khóa. L30 đạt Recall@5 \EvalDynamicLThirtyCurrent{}\%; gộp kết quả chỉ khi trạng thái còn hiệu lực đạt \EvalDynamicLThirtyCached{}\% mà không thêm request. Trạng thái chưa biết không được coi là còn khả dụng. Đây là một thế giới trạng thái tổng hợp trên cohort đã xem, không phải xác nhận mới. Catalogue đầy đủ được cập nhật vẫn đạt 100\% với chi phí thấp hơn, nên thử nghiệm này chưa chứng minh cần dịch vụ truy vấn vị trí từ xa.
+
+Phép thử GPS local riêng chỉ cập nhật vị trí mỗi 60 s, với nhiễu mỗi trục 0/5/15 m, trên đủ 72 stream đã khóa. L30 vẫn tăng Recall từ \SensorMinNonOracleGain{} đến \SensorMaxNonOracleGain{} điểm phần trăm so L20 ở sáu biến thể không dùng GPS chính xác mỗi event. Giữ fix cuối không nhiễu đạt 89,35\% ở L30, so 92,69\% của baseline chính. Ngoại suy hai fix giảm sai số vị trí trung bình nhưng làm Recall thấp hơn giữ fix ở cả ba mức nhiễu; chưa có cơ sở chọn nó cho pipeline chính. Kết quả này cho thấy cần đánh giá đáp án dịch vụ và lỗi vi phạm bán kính, thay vì chọn estimator chỉ bằng sai số tọa độ. Đây là diagnostic trên cohort đã xem, chưa là xác nhận GPS thực hay đầu vào nhiễu cho Geo-I.
+
+\section{Phạm vi đóng góp đã đạt}
+
+Luận văn đã có pipeline thực thi, ranh giới quan sát rõ, dữ liệu SUMO đối chiếu với nguồn gốc, bộ đo theo output contract và các vòng phát triển/xác nhận có lưu bằng chứng. Kết quả chính là một đánh đổi utility--cost được xác nhận, cùng phân tích tại sao vài sửa đổi planner không có hiệu quả và tại sao catalogue tĩnh nhỏ tạo lợi thế cho phương án local-only. Đóng góp nằm ở cách thiết kế, hiện thực và kiểm tra hệ thống; Geo-I, private reuse, ước lượng Bayes và tối ưu phủ là các nền tảng kế thừa.
+
+S1--S3 có kết quả trong các vòng trước; S5--S6 có phép thử nút rẽ hai lựa chọn; S7 có kiểm tra không phụ thuộc nội dung ở cùng GPS/lịch; S8 có chẩn đoán đồng hành lịch sử; S9--S10 có các thử nghiệm biên trước bộ đối thủ hữu hạn. Những kết quả này thuộc protocol và cấu hình riêng, không cộng lại thành chứng nhận một cấu hình duy nhất bảo vệ đủ S1--S10. Các bản thích nghi paper được ghi đúng mức trung thành; chưa có căn cứ tuyên bố vượt SOTA trên mọi chỉ số.
+
+\section{Giới hạn và bước tiếp theo}
+
+Ba giới hạn ảnh hưởng trực tiếp diễn giải kết quả. Thứ nhất, cap toàn epoch $C=0{,}23\,\mathrm m^{-1}$ cho cận $\exp(23)$ ở 100 m, rất lỏng dù accounting hợp lệ; cần nghiên cứu đường đánh đổi tại cap chặt hơn thay vì suy bảo vệ mạnh từ số đo của một bộ đối thủ. Thứ hai, utility chính dùng GPS local chính xác, cùng graph và trạng thái dịch vụ giả lập; diagnostic sensor chỉ xét nhiễu có kiểm soát và đích đã biết. Cần dữ liệu sensor được hiệu chuẩn, mục đích ngoài workload và trạng thái dịch vụ thực. Thứ ba, identity tổng hợp và hai nhánh đích không đại diện người/xe thật hoặc các đích chưa biết.
+
+Audit context cũng tách file nén 1,71 MB khỏi payload signature L60 95,31 MB. Cache đường đi nếu đầy có thể lớn hơn nhiều; view phản hồi L20/L30 của replay còn giữ mảng L60 gốc. Những phép tính cấu trúc này chưa đo peak RAM hoặc chứng minh tính khả thi trên điện thoại.
+
+Ưu tiên tiếp theo là cải thiện độ phù hợp của protected belief và proxy utility bằng dữ liệu học/chọn riêng, rồi xác nhận trên nguồn chưa xem. Song song, cần sweep cap công khai, attacker biết cơ chế và thông tin phụ đầy đủ hơn, phép thử S7 có tương quan intent--route, và identity giữ riêng người/xe theo thời gian. Bất kỳ sửa đổi nào sau khi xem cohort hiện tại phải được xem là development và có cohort xác nhận mới.
+
+Để chuyển từ thesis mô phỏng sang bài báo hoặc ứng dụng triển khai, còn cần dữ liệu GPS thực với license/provenance, nhiều vùng, hợp đồng provider có lý do cần retrieval từ xa, và đo thời gian/CPU/RAM/traffic/sensor trên thiết bị. Đối chiếu toàn văn nghiên cứu gần nhất và chất lượng tái lập đối chứng cũng là yêu cầu riêng. Luận văn hiện cung cấp một kết quả thực nghiệm và phạm vi khoa học có thể phản biện; khả năng được chấp nhận bởi hội đồng hoặc tạp chí còn phụ thuộc đánh giá học thuật và yêu cầu của nơi nộp.

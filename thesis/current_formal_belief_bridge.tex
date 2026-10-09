@@ -1,0 +1,131 @@
+% An explicit conditional bridge from the current reference5 surrogate
+% to nearest retrieval utility. No calibration or empirical claim is added.
+\section{Vì sao cần ước lượng trước khi chọn Q?}
+\label{sec:formal-belief-utility-bridge}
+
+Ước lượng ở đây không nhằm đoán lại GPS để gửi lên máy chủ. Nó phân bổ
+trọng số cho những vùng có thể chứa người dùng, rồi chọn Q có khả năng
+thu hồi POI của các vùng đó. Phần này chứng minh ý nghĩa chính xác của
+điểm độ phủ và chỉ ra điều kiện còn thiếu để coi nó là utility kỳ vọng
+thật. Không giả sử bộ lọc hiện tại đã được hiệu chuẩn.
+
+\subsection{Điểm độ phủ là kỳ vọng trong mô hình lưới}
+
+Giữ một sự kiện, lịch sử đã bảo vệ, catalogue và các miền chọn Q cố định.
+Gọi $\ell$ là một đại diện lưới công khai, $b_\ell\geq0$ là belief và
+$\sum_\ell b_\ell=1$. Dịch vụ ánh xạ tọa độ đại diện tới trạng thái truy
+cập $a(\ell)$ theo cùng quy tắc công khai dùng khi nhận Q. Nếu hai làn
+trùng tọa độ, $a(\ell)$ có thể khác trạng thái làn của đại diện; không
+được thay âm thầm bằng khoảng cách từ làn đó.
+
+Gọi $\mathcal C_\ell$ là các category có reference nearest không rỗng
+tại $a(\ell)$ và $R_{\ell,c}$ là reference top5 của category $c$.
+Mỗi danh sách gồm các ID khác nhau và có thể ít hơn5 POI. Trọng số mà
+mô hình gốc tạo là
+\begin{equation}
+ a_{\ell p}=\begin{cases}
+ \displaystyle\sum_{c\in\mathcal C_\ell}
+ \frac{\mathbf1\{p\in R_{\ell,c}\}}
+ {|\mathcal C_\ell|\,|R_{\ell,c}|},&|\mathcal C_\ell|>0,\\[2mm]
+ 0,&|\mathcal C_\ell|=0,
+ \end{cases}
+ \qquad w_b(p)=\sum_\ell b_\ell a_{\ell p}.
+ \label{eq:formal-belief-reference-weights}
+\end{equation}
+Một hàng có reference có tổng trọng số1; hàng rỗng có tổng0. Như vậy
+$\sum_p w_b(p)$ có thể nhỏ hơn1 khi belief đặt khối lượng vào vùng
+không có reference. Đây không phải lỗi chuẩn hóa cần bù bằng POI giả.
+
+Gọi $A_{10}(Q)$ là hợp signature top10 của mọi category tại các Q,
+được lấy theo cùng phép ánh xạ tọa độ của dịch vụ. Đặt
+\begin{equation}
+ f_Q(\ell)=\sum_p a_{\ell p}\mathbf1\{p\in A_{10}(Q)\},
+ \qquad F_b(Q)=\sum_\ell b_\ell f_Q(\ell).
+ \label{eq:formal-belief-expected-cover}
+\end{equation}
+Đổi thứ tự hai tổng hữu hạn cho
+$F_b(Q)=\sum_p w_b(p)\mathbf1\{p\in A_{10}(Q)\}$, đúng mục tiêu ở
+(\ref{eq:formal-service-cover}). Khi $\mathcal C_\ell$ không rỗng,
+\begin{equation}
+ f_Q(\ell)=\frac{1}{|\mathcal C_\ell|}
+ \sum_{c\in\mathcal C_\ell}
+ \frac{|R_{\ell,c}\cap A_{10}(Q)|}{|R_{\ell,c}|},
+ \qquad 0\leq f_Q(\ell)\leq1.
+ \label{eq:formal-belief-category-recall}
+\end{equation}
+Do đó $F_b$ là kỳ vọng của \emph{độ thu hồi reference nearest trung bình
+đều giữa các category không rỗng}, theo mô hình lưới $b$. Nó không dùng
+trực tiếp category hoặc purpose riêng của người dùng.
+
+Với dịch vụ tĩnh, cùng catalogue, thứ tự tie và phép ánh xạ tọa độ,
+phản hồi $L=30$ chứa prefix top10. Nếu local ranking được đánh giá đúng
+tại $a(\ell)$, Tính chất~3 ở Mục~\ref{sec:formal-service-local-exactness}
+cho Recall nearest trung bình trên các category đó không thấp hơn
+$f_Q(\ell)$. Khẳng định này chỉ nối surrogate với \emph{reference tại
+đại diện lưới}. Nó chưa nối tới GPS liên tục, làn thật khác trạng thái
+truy cập, fastest, radius hay detour; và không đổi mẫu số khi reference
+rỗng. Trong phương trình, $f_Q(\ell)=0$ ở hàng rỗng chỉ biểu thị đóng góp
+surrogate bằng0, không quy ước Recall benchmark của reference rỗng bằng0.
+\footnote{Công thức trọng số: \path{benchmark/anchor_belief.py},
+\texttt{PublicAnchorModel.\_poi\_weights} và
+\texttt{AnchorBelief.poi\_weights}. Wrapper
+\path{benchmark/response_aware_belief.py} giữ reference5 gốc, dùng
+signature planner10 và kiểm tra catalogue/phép truy cập phù hợp.}
+
+\subsection{Sai lệch belief ảnh hưởng cận chọn Q như thế nào?}
+
+Giả sử có một phân bố mục tiêu $\mu$ trên \emph{cùng lưới và cùng
+reference/category weighting}. Giữ mọi miền khả thi như trên và giả
+sử sai lệch total variation có một cận đã được xác lập riêng:
+\begin{equation}
+ \operatorname{TV}(b,\mu)=\frac12\sum_\ell|b_\ell-\mu_\ell|
+ \leq\zeta.
+ \label{eq:formal-belief-calibration-assumption}
+\end{equation}
+Đây là \textbf{giả định có điều kiện}, không phải giá trị đã đo của bộ
+lọc hiện tại. Vì mọi $f_Q$ thuộc $[0,1]$, ta có đồng thời cho mọi Q:
+\begin{equation}
+ |F_b(Q)-F_\mu(Q)|\leq\zeta.
+ \label{eq:formal-belief-expectation-error}
+\end{equation}
+Để thấy điều này, tổng các phần dương của $b-\mu$ và trị tuyệt đối tổng
+các phần âm đều bằng TV. Nhân từng phần với một số trong $[0,1]$ giữ
+hiệu hai tổng trong đoạn $[-\operatorname{TV},\operatorname{TV}]$.
+
+Đặt $\sigma=\delta_F$ là cùng \texttt{utility\_slack} ở
+(\ref{eq:formal-service-slack-floor}), hiện bằng0,03 điểm surrogate.
+
+\begin{samepage}
+\noindent\textbf{Hệ quả (cận độ phủ khi belief có sai lệch).}
+Nếu greedy và slack lý tưởng thỏa
+$F_b(Q_{\rm alg})\geq\tfrac12\max_Q F_b(Q)-\sigma$,
+thì
+\begin{equation}
+ F_\mu(Q_{\rm alg})\geq
+ \max\!\left\{0,\ \tfrac12\max_Q F_\mu(Q)-\sigma-
+ \tfrac32\zeta\right\}.
+ \label{eq:formal-belief-utility-bridge}
+\end{equation}
+\end{samepage}
+
+\noindent\emph{Chứng minh.}
+Gọi $Q^*_\mu$ là tối ưu cho $\mu$ trên cùng tập khả thi. Dùng
+(\ref{eq:formal-belief-expectation-error}) trước và sau cận greedy:
+\[
+ \begin{aligned}
+ F_\mu(Q_{\rm alg})
+ &\geq F_b(Q_{\rm alg})-\zeta\\
+ &\geq\tfrac12F_b(Q^*_\mu)-\sigma-\zeta\\
+ &\geq\tfrac12F_\mu(Q^*_\mu)-\sigma-\tfrac32\zeta.
+ \end{aligned}
+\]
+Độ phủ không âm nên có thể lấy thêm cận0. \hfill$\square$
+
+Cận giải thích tại sao có layer ước lượng: giảm sai lệch của phân bố
+dùng chọn Q có thể cải thiện mục tiêu dịch vụ; chỉ giảm lỗi của một tọa
+độ trung bình không đủ. Tuy nhiên, $\zeta$ hiện chưa được xác lập, nên
+không thay số để tuyên bố cận Recall thực nghiệm. Muốn áp dụng cho người
+dùng thật còn cần kiểm tra sai lệch đại diện lưới, phân bố category và
+quan hệ giữa sensor với trạng thái xếp hạng. Cận vẫn chỉ cho một sự
+kiện trên miền khả thi đã cố định; sự thay đổi Q làm đổi miền ở các sự
+kiện tiếp theo và không cho một bảo đảm tối ưu toàn chuyến.

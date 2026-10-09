@@ -1,0 +1,185 @@
+% NEW ideal internal-anchor accuracy argument. No simulator/source/data edits.
+\section{Độ chính xác xác suất của neo nội bộ}
+\label{sec:formal-current-accuracy}
+
+Cận riêng tư chặn tỷ số xác suất, không cho bán kính sai số. Phần này xét
+riêng $Z$ \emph{nội bộ} của REM/tái sử dụng. Viết $\xi_t$ là tọa độ GPS
+đưa vào cơ chế trong hệ phẳng cố định, $a_v$ là tọa độ trạng thái công khai
+$v\in V$, và $E_t=\|\xi_t-Z_t\|_2$. Giữ support hữu hạn, $u>0$, test
+Laplace và randomness độc lập lý tưởng như phần riêng tư. Khoảng cách ở
+đây là Euclid của \emph{vị trí đo}, không phải khoảng cách đường hoặc lỗi
+so với vị trí vật lý chưa đo. Mọi cận dưới đây là đặc tả toán học, chưa
+chứng nhận phân bố float của simulator.
+
+\subsection{REM: phân bố và quantile phụ thuộc bản đồ}
+\label{sec:formal-rem-accuracy}
+
+Với một input cố định $\xi$, đặt $d_v=\|\xi-a_v\|_2$ và
+$W_\xi=\sum_{v\in V}e^{-ud_v/2}$. Nếu $Z$ được lấy mới bằng REM thì
+\begin{equation}
+ F_\xi(r)=\Pr[\|\xi-Z\|_2\leq r]
+ =\frac{\sum_{d_v\leq r}e^{-ud_v/2}}{W_\xi},\qquad
+ T_\xi(r)=1-F_\xi(r).
+ \label{eq:accuracy-rem-cdf}
+\end{equation}
+Đây là CDF chính xác của kernel hữu hạn: cộng các khối xác suất thuộc
+biến cố. Nếu nhiều trạng thái có cùng tọa độ/khoảng cách, vẫn phải cộng
+\emph{mọi ID}; bỏ trùng sẽ đổi phân bố. Sắp các khoảng cách phân biệt
+$r_1<\cdots<r_m$, với $n_j$ trạng thái tại $r_j$, cho
+\begin{equation}
+ F_\xi(r_j)=\frac{\sum_{k\leq j}n_ke^{-ur_k/2}}
+                         {\sum_{k\leq m}n_ke^{-ur_k/2}},\qquad
+ \rho_R(\xi,\alpha)=\min\{r_j:F_\xi(r_j)\geq1-\alpha\},
+ \quad 0<\alpha<1.
+ \label{eq:accuracy-rem-quantile}
+\end{equation}
+Vì support không rỗng, quantile tồn tại và không vượt $r_m$. $r_1$ là
+sai số nhỏ nhất có thể đạt trên support đó; nó không nhất thiết bằng 0.
+Không thay (\ref{eq:accuracy-rem-quantile}) bằng bán kính Gamma hoặc các
+hằng số polar Laplace: mật độ trạng thái đường và biên bản đồ làm REM khác
+phân bố nhiễu đẳng hướng trên toàn mặt phẳng.
+
+Một cận chỉ dùng khối lượng hình học giúp giải thích đuôi. Với $0\leq a\leq r$,
+gọi $n_a=|\{v:d_v\leq a\}|>0$ và $n_{>r}=|\{v:d_v>r\}|$. Khi đó
+\begin{equation}
+ T_\xi(r)\leq
+ \frac{n_{>r}e^{-u(r-a)/2}}{n_a+n_{>r}e^{-u(r-a)/2}}.
+ \label{eq:accuracy-rem-mass-tail}
+\end{equation}
+\emph{Chứng minh.} Tổng trọng số trong bán kính $r$ không nhỏ hơn
+$n_ae^{-ua/2}$; tổng ngoài bán kính không lớn hơn $n_{>r}e^{-ur/2}$.
+Tỷ số $B/(A+B)$ tăng theo $B$ và giảm theo $A$, nên thay hai cận đó cho
+(\ref{eq:accuracy-rem-mass-tail}). Nếu $n_{>r}=0$, đuôi đúng bằng 0.
+
+Do vậy, với $n_{>r}>0$, điều kiện đủ để $T_\xi(r)\leq\alpha$ là
+\begin{equation}
+ r\geq a+\frac2u\log\!\left(\frac{n_{>r}}{n_a}
+                                  \frac{1-\alpha}{\alpha}\right),
+ \qquad r\geq a.
+ \label{eq:accuracy-rem-radius-sufficient}
+\end{equation}
+$n_{>r}$ còn phụ thuộc $r$, nên đây là kiểm tra cho một bán kính đã chọn;
+có thể thay nó bằng $|V|-n_a$ để được cận tường minh thô hơn. Một cận chung
+trên miền input công khai $\Omega$ cần bảo đảm số trạng thái gần cho
+\emph{mọi} $\xi\in\Omega$, hoặc lấy $\sup_{\xi\in\Omega}T_\xi(r)$.
+Quantile tại một GPS riêng không tự là quantile chung toàn thành phố;
+tính nó để phân tích không cho phép gửi GPS hoặc bán kính phụ thuộc GPS
+lên máy chủ mà bỏ phân tích riêng tư.
+
+\subsection{Lần đọc có test: phân bố hỗn hợp và chia xác suất lỗi}
+\label{sec:formal-reuse-accuracy}
+
+Điều kiện theo lịch sử trước một \emph{lần đọc được phép} và input $\xi$,
+tham chiếu $h$ cố định; đặt $d=\|\xi-h\|_2$. Gọi $q(d)$ là xác suất giữ
+của test, đã tính ở (\ref{eq:formal-hold-probability}). Nhánh tạo mới dùng
+REM độc lập test. Do hai nhánh rời nhau, sai số sau lần đọc có đuôi đúng
+\begin{equation}
+ \Pr[E>r\mid\xi,h,\text{lịch sử trước đọc}]
+ =q(d)\mathbf1\{d>r\}+[1-q(d)]T_\xi(r).
+ \label{eq:accuracy-reuse-mixture}
+\end{equation}
+Đây là xác suất \emph{chung} của giữ rồi sai, cộng tạo mới rồi sai.
+Không dùng cận biến cố ``giữ và xa'' như một cận lỗi \emph{điều kiện đã giữ}.
+Ở lần đọc đầu không có test, đuôi chỉ là $T_\xi(r)$.
+
+Với $r\geq\theta$, đặt $b(r)=\tfrac12 e^{-u(r-\theta)}$. Nếu $d\leq r$
+thì nhánh giữ không sai bán kính. Nếu $d>r$ thì $q(d)\leq b(r)$; vì vậy
+\begin{equation}
+ \Pr[E>r\mid\xi,h,\text{lịch sử trước đọc}]
+ \leq T_\xi(r)+b(r)[1-T_\xi(r)].
+ \label{eq:accuracy-reuse-uniform-h}
+\end{equation}
+Cận không cần predictor gần GPS. Nếu $T_\xi(r)\leq\alpha_R$ và
+$b(r)\leq\alpha_T$, vế phải không vượt
+$\alpha_R+\alpha_T-\alpha_R\alpha_T$. Một lựa chọn đủ là
+\begin{equation}
+ r\geq\max\!\left\{\rho_R(\xi,\alpha_R),\ \theta,
+                   \theta+\frac1u\log\frac1{2\alpha_T}\right\},
+ \qquad 0<\alpha_R,\alpha_T<1.
+ \label{eq:accuracy-read-radius}
+\end{equation}
+Để chặn lỗi bởi $\alpha$, có thể chia $\alpha_R+\alpha_T\leq\alpha$;
+hoặc chọn hai phần bằng $1-\sqrt{1-\alpha}$ để dùng đúng cận tích trên.
+Không mặc nhiên gán mỗi thành phần cùng failure rate $\alpha$ rồi khẳng
+định toàn bước cũng có failure rate $\alpha$. Phân tích test/prediction
+được kế thừa về ý tưởng~\cite{chatzikokolakis2014predictive}; ở đây dùng
+trực tiếp kernel REM hữu hạn và (\ref{eq:accuracy-reuse-mixture}), không
+nhập hằng số planar Laplace của paper.\footnote{Nguồn gốc: Proposition 1
+và phần skipping trong \url{https://arxiv.org/abs/1311.4008}. REM, tham
+chiếu là neo cuối và test hiện tại: \path{core/mechanisms.py}.}
+
+\subsection{Event không đọc: cần giả định chuyển động thêm}
+\label{sec:formal-no-read-accuracy}
+
+Tại event không đọc GPS, neo không đổi; belief và Q có thể tiếp tục chuyển
+động. Nếu $\tau(t)$ là lần đọc gần nhất của phiên được nhận, ta có đẳng
+thức $Z_t=Z_{\tau(t)}$. Với một cận \emph{đã giả định hoặc xác minh} cho
+chuyển dịch của input đo,
+$\|\xi_t-\xi_{\tau(t)}\|_2\leq w(\tau(t),t)$, tam giác cho cận đường đi
+\begin{equation}
+ E_t\leq E_{\tau(t)}+w(\tau(t),t).
+ \label{eq:accuracy-no-read-pathwise}
+\end{equation}
+Ví dụ $w(\tau,t)=v(t-\tau)$ cần vận tốc của \emph{tọa độ đo} được chặn
+bởi $v$. Tốc độ 8 m/s của graph/dummy hoặc clip trong local estimator không
+chứng minh giả định này cho GPS. Nếu chỉ tốc độ vị trí thật được chặn và
+sai số đo từng thời điểm không quá $b_0$, cần dùng
+$w\leq v(t-\tau)+2b_0$; nhiễu Gaussian không có hard bound $b_0$.
+
+$\tau(t)$ có thể thích nghi theo lịch sử test/cap. Vì vậy không tự gán
+mức tin cậy của một lần đọc cố định cho lần đọc được chọn làm ``cuối cùng''.
+Cách an toàn là bảo đảm đồng thời mọi lần đọc. Giả sử mỗi lần đọc, điều
+kiện theo lịch sử \emph{trước} đọc, có $\Pr[E_i>r]\leq\alpha_0$ đều trên
+miền input, và mọi đường có tối đa $M$ lần đọc. Quyết định đọc không dùng
+input mới; do đó
+\begin{equation}
+ \begin{split}
+ \Pr[\exists i:\text{đọc}_i\ \text{và}\ E_i>r]
+ &\leq\sum_i\Pr[\text{đọc}_i\ \text{và}\ E_i>r]\\
+ &\leq\alpha_0\sum_i\Pr[\text{đọc}_i]
+ \leq M\alpha_0.
+ \end{split}
+ \label{eq:accuracy-all-read-union}
+\end{equation}
+Tổng lấy trên danh sách event công khai hữu hạn. Trên biến cố tốt này,
+(\ref{eq:accuracy-no-read-pathwise}) giữ \emph{đồng thời} tại các event
+không đọc, kể cả sau dừng cap. Nếu cần bán kính cố định $r+vA$, còn phải
+có cận tuổi neo $t-\tau(t)\leq A$. Pacing hiện tại chỉ chặn khoảng đọc
+\emph{tối thiểu} 60 s; cap có thể dừng đọc lâu hơn, nên không tự cho
+$A=60$ s. Phiên bị từ chối không có neo và không thuộc bảo đảm accuracy
+này.\footnote{Pacing và bộ lọc: \path{benchmark/engines/paced_guard.py},
+\path{benchmark/engines/filtered_cover.py}; supplier:
+\path{core/session_budget.py}.}
+
+\subsection{Ví dụ tham số và phạm vi sử dụng}
+\label{sec:formal-accuracy-example}
+
+Xét \emph{bản đồ minh họa toán học}, không phải số benchmark: ba trạng thái
+trên một đường thẳng tại 0, 1.000, 3.000 m, input $\xi=0$ và
+$u=0{,}00125\,\mathrm m^{-1}$. Trọng số là
+$1,e^{-0{,}625},e^{-1{,}875}$. CDF REM tại 1.000 m xấp xỉ $0{,}9092$;
+quantile 90\% là 1.000 m, còn quantile 95\% là 3.000 m. Nếu tham chiếu
+$h=3.000$ m, $\theta=200$ m thì $q(d)=\tfrac12e^{-3{,}5}\simeq0{,}0151$;
+theo (\ref{eq:accuracy-reuse-mixture}), xác suất sai quá 1.000 m tăng từ
+khoảng $0{,}0908$ của fresh REM lên $0{,}1045$ của bước hỗn hợp. Neo giữ
+ít lần vẫn có thể tăng đuôi; accuracy không suy chỉ từ số lần fresh.
+
+Với các tham số $u,\theta$ đó, chia failure rate 5\% thành
+$\alpha_R=\alpha_T=0{,}025$ yêu cầu phần test ít nhất
+$200+800\log20\simeq2.596{,}6$ m, rồi còn lấy max với quantile REM 97,5\%
+của \emph{bản đồ/input đang xét}. Cận bước đọc cho failure không quá
+$0{,}049375$. Đây có thể là cận lỏng, không phải tuyên bố 95\% neo của
+cohort thực nghiệm nằm trong bán kính vừa tính. Nếu tuổi neo 40 s và có
+giả định \emph{thêm} $v=8$ m/s cho input đo, propagation cộng tối đa
+320 m; nếu cap ngừng đọc, phải dùng tuổi thật lớn hơn. Bảo đảm đồng thời
+nhiều lần đọc cần chia failure rate tiếp như
+(\ref{eq:accuracy-all-read-union}).
+
+Cuối cùng, cận trên áp cho $Z$, không cho mỗi $Q_1,\ldots,Q_K$. Planner
+chọn đường/POI từ protected belief có thể đặt Q xa Z; hậu xử lý giữ riêng
+tư nhưng không tự giữ localization accuracy. Euclid gần cũng không bảo
+đảm đường có hướng hữu hạn hoặc thứ hạng POI ổn định. Belief chưa có chứng
+chỉ posterior calibration; local top-k đọc vị trí/đích riêng và candidate
+pool, nên Recall, completion và chất lượng GPS thưa vẫn phải đánh giá
+riêng. Các công thức không đổi GPS clocks, budget, $K,L$, code hoặc số đã
+chốt; không chứng nhận sampler float hay GPS vật lý thực tế.

@@ -1,95 +1,167 @@
 # Graduation thesis
 
-[`main.tex`](main.tex) is the single canonical LaTeX source for the evolving
-graduation thesis. It no longer imports a dated supervisor-meeting file.
+[`main.tex`](main.tex) is the single canonical source. The reviewed PDF is
+[`../artifacts/reports/graduation_thesis.pdf`](../artifacts/reports/graduation_thesis.pdf).
+The 07/10/2026 revision brings the active thesis up to the current Geo-I research
+state; it is a supervisor-review manuscript, not a certificate of graduation
+approval or journal acceptance.
 
-The current main document contains seven chapters:
+The seven chapters cover:
 
-1. System architecture and trust boundary.
-2. Urban scope, motion constraints and causal online processing.
-3. Protection targets, S1--S10 threat scenarios, related protective work and
-   SUMO-based dataset design.
-4. Neural/non-neural comparator methods, original metrics and a common
-   privacy/POI-utility/cost evaluation specification.
-5. BR-Dummy: private anchors, noisy reuse, fixed-horizon ledger and reachable-road
-   postprocessing; protected-history service coverage, bounded exchanges and
-   category-capped coverage; ideal proof, complexity and limitations.
-6. Controlled SUMO S1--S3 plus S9/S10 study, stronger offline adversaries,
-   five-way split, constrained parameter selection and negative findings.
-7. Conclusions with explicit implemented versus specified coverage.
+1. Problem, trust boundary, research questions and scoped contributions.
+2. Urban vehicle motion and causal online processing.
+3. S1–S10, dataset design and the source/role of each cohort.
+4. Comparator output contracts, original metrics and common task measurements.
+5. The current Geo-I/REM pipeline: persistent cap, noisy reuse, protected belief,
+   road-feasible queries, fixed multi-purpose service and private local ranking,
+   followed by explicit ideal privacy and service proofs before the benchmarks.
+6. Evidence by protocol: historical baselines, matched development, retained
+   planner failures, fresh L20/L30 confirmation, application controls and a
+   controlled dynamic-status/cache diagnostic, local-GPS sensitivity,
+   historical companion inference and resource accounting.
+7. Answers to the research questions, limitations and further work.
 
-The 2026-09-07 research revision and evidence boundaries are documented in
-[`notes/research_update_2026-09-07.md`](notes/research_update_2026-09-07.md).
-It adds local map context and a functional protection diagram, separates person
-and device identity, and includes protected trajectory endpoints. The common
-benchmark specification is not a claim that all scenarios or metrics are implemented.
+Chapters 5–7 are `current_method.tex`, `current_evaluation.tex` and
+`current_conclusions.tex`. Chapter 3 uses `current_dataset.tex`. Numerical tables
+in the current evaluation are exported from pinned artifacts rather than
+invented or copied from a differently configured model. Follow the source and
+rebuild commands recorded in the evaluation module and its generated tables.
 
-Chapters 5--7 live in `report_demo_chapters.tex`; their numeric tables are
-generated from `artifacts/benchmarks/paper_benchmark/results.json`, never copied
-manually. The release guide is
-[`notes/paper_cycle_v2_protocol.md`](notes/paper_cycle_v2_protocol.md).
-The earlier complete source before the four-chapter scope reduction is preserved in
-[`notes/snapshots/graduation_thesis_full_2026-09-05.tex`](notes/snapshots/graduation_thesis_full_2026-09-05.tex).
-To rebuild that reference, run LaTeX from `thesis/` using the snapshot path and
-a separate output directory; it is not a second canonical thesis.
+The principal confirmed result is a **service-depth utility/cost tradeoff**:
+L30 retains the legacy Geo-I Q stream, raises current-only conditional
+Recall@5 from 89.714% to 92.688% on 24 new same-map synthetic test families,
+and costs 31.102% more reply JSON bytes. Three private draws remain nested
+within each family. This is not a new privacy theorem or equally costed SOTA
+victory. S5/S6 are a controlled two-choice future task; S7 is conditional
+payload noninterference; S4 and S8 have no established real-user protection.
 
-The illustrative records for the **previous S1--S7 taxonomy** remain in
-[`threat_records.tex`](threat_records.tex), referenced by the full snapshot but
-not included in the current main document. They are hand-constructed teaching
-examples, not SUMO benchmark records or measured attack results. Their IDs must
-be translated using the migration table in the research revision note; they were
-not silently relabelled to match the new ten-scenario specification.
+The thesis separates ideal mathematical guarantees from the floating-point
+simulator. `current_formal_privacy.tex` proves REM normalization, the private
+reuse test, joint branch costs, prospective epoch composition, server
+postprocessing and Bayesian odds. `current_formal_service.tex` proves road
+feasibility, the inherited greedy/slack bound, conditional purpose
+noninterference, local top-k exactness and the conditions for L-depth
+monotonicity. The continued formal revision adds four modules:
+`current_formal_inference.tex` derives TV/Bayes discrimination bounds, finite
+epoch composition and a conditional sensor-channel transfer;
+`current_formal_accuracy.tex` derives finite-road REM quantiles, the exact
+reuse mixture tail and simultaneous read/no-read displacement bounds;
+`current_formal_ranking_robustness.tex` establishes directed-road score and
+top-k stability conditions; and `current_formal_belief_bridge.tex` identifies
+the nearest reference objective and its conditional calibration penalty.
+These establish the system contract; they do not prove benchmark superiority,
+certify the executable sampler or establish actual sensor/belief calibration.
+It also reports the full-static-catalogue local-ranking control:
+the small public catalogue can remove the need for periodic coordinate
+queries when bulk retrieval is permitted. Primary local utility uses exact
+evaluator GPS at each event; a secondary diagnostic now changes only the local
+ranking position to 60 s fixes. Neither clock measures total GNSS reads or energy.
 
-Build from this directory into an ignored scratch directory:
+The local-GPS diagnostic independently checks all 72 retained streams and
+14 fixed arms: exact-event control and two estimators at per-axis Gaussian
+noise 0/5/15 m, each with L20/L30. L30 gains remain 2.24–2.61 percentage points
+in the six non-oracle variants. Two-fix extrapolation lowers mean position
+error but also lowers Recall compared with holding the last fix, so it has
+not been adopted. The test uses inspected same-map synthetic data and a known
+local destination; the three-purpose result excludes that destination oracle.
 
-```bash
-# From repo root first, if the result artifact changed:
-# venv/bin/python -m experiments.verify_paper_benchmark
-# venv/bin/python -m experiments.export_paper_benchmark
+A separate historical S8 diagnostic compares actual simultaneous SUMO pairs.
+The protected-partner bank ties target-only; raw-partner information decreases
+MAE but also decreases Hit100. Three test families and publicly reproducible
+historical RNG constrain this to a finite-bank diagnostic, without a privacy
+claim for current Epoch8/L30 or linked groups.
+
+Context accounting distinguishes 1.71 MB compressed L60 archive from its
+95.31 MB signature payload. Response prefix views retain the L60 allocation;
+the planner has a separate L10 context. Cache capacities are analytic storage
+estimates, without a measured peak-RAM or phone feasibility claim.
+
+A secondary dynamic-status replay keeps all 72 frozen test streams, makes
+availability expire at public 60 s epoch boundaries and separates unreceived
+records from unknown current status. L30 obtains 91.44% Recall; causal
+within-epoch accumulation obtains 91.78% with unchanged requests/bytes. It is
+one synthetic status world on the already-inspected cohort. Current bulk
+status still dominates, and the public seed/world can reconstruct availability
+when given to the client. This is a freshness/dataflow diagnostic under an
+assumed provider contract, not a new independent privacy or application proof.
+
+Build from `thesis/` into ignored scratch output:
+
+From the repository root, first authenticate or rebuild the retained-statistic
+exports (these commands do not score a model):
+
+```sh
+python -m experiments.plot_thesis_depth_20261006
+python -m experiments.export_thesis_evaluation_20261006
+python -m experiments.export_thesis_evaluation_20261006 --check
+python -m experiments.audit_public_resource_footprint_20261007 --check
+python -m experiments.export_thesis_extensions_20261007
+python -m experiments.export_thesis_extensions_20261007 --check
+```
+
+The exporter checks the independently audited dynamic readout as well. To
+verify that workload separately without re-scoring or creating private draws:
+
+```sh
+python -m experiments.dynamic_provider_status_20261006 contract
+python -m experiments.verify_dynamic_provider_status_20261006_v2
+```
+
+The V1 checker failure and explicitly post-score V2 row-order correction are
+retained in the dynamic artifact; the frozen workload and numbers did not
+change. Do not run `replay` to overwrite the saved results.
+
+Independent local-GPS and S8 verifiers reconstruct the existing public evidence
+without protection sampling or private keys (the full GPS replay takes longer):
+
+```sh
+python -m experiments.verify_local_gps_robustness_20261007
+python -m experiments.verify_s8_companion_inference_20261007
+```
+
+The existing protocols/checkers were fixed before their scores. Never edit their
+self-pinned sources or overwrite the saved study; a changed design needs a new
+version/output. These diagnostics reuse inspected data and are separate from
+the original fresh L30 confirmation.
+
+```sh
 mkdir -p ../build/thesis
 latexmk -xelatex -interaction=nonstopmode -halt-on-error \
   -outdir=../build/thesis main.tex
+# Alternative, when Tectonic is installed:
+tectonic -X compile --outdir ../build/thesis main.tex
 ```
 
-The reviewed deliverable is committed once at
-`artifacts/reports/graduation_thesis.pdf`. LaTeX intermediate files and
-`thesis/main.pdf` are ignored if a local editor creates them; neither is a
-canonical artifact.
+After checking references, numbers and rendered pages, replace the one
+canonical PDF under `artifacts/reports/`. `thesis/main.pdf` and LaTeX
+intermediates are ignored. Do not create another competing final thesis.
 
-The modular chapters and BibTeX database from Internship 2 are preserved at
-`archive/internship_2/thesis/`; they are not imported by the current thesis.
-Older benchmark artifacts remain available for provenance. Chapter 6 now covers
-the controlled paper/lane/context/belief/service/prior-factor cycles and the
-`artifacts/benchmarks/expanded_shadow/` inference audit. This is a controlled study, not a
-publication-ready SOTA leaderboard. S4--S8 have no measured coverage yet. No BR
-grid configuration met Recall >=90% simultaneously across five scenarios on
-defense-validation data. The earlier chapters remain in `notes/report_demo_chapters_v1.tex`.
+Previous method/evaluation chapters remain in `report_demo_chapters.tex` and
+the associated modules; they are no longer imported by the active thesis.
+Their frozen benchmark results and negative findings are retained. Older
+dataset registry/specification modules describe the corresponding historical
+cohorts and remain available for provenance. The previous teaching examples
+in `threat_records.tex` use the old S1–S7 taxonomy and are not benchmark data.
 
-Development status, implementation caveats and reproducibility notes are kept
-separately in [`notes/draft_clarifications.md`](notes/draft_clarifications.md)
-so that `main.tex` retains the tone and structure of the final thesis.
+The full 05/09 source remains at
+[`notes/snapshots/graduation_thesis_full_2026-09-05.tex`](notes/snapshots/graduation_thesis_full_2026-09-05.tex).
+Internship 2 modules remain in `archive/internship_2/thesis/`. These are
+historical material and are not the current canonical source.
 
-The latest auxiliary-data specification is in `dataset_registry.tex`; the
-frozen-defender attack comparison is in `expanded_shadow_comparison.tex`.
-It adds 80 SUMO route groups (64 auxiliary training, 16 auxiliary holdout), not
-a new core-scenario confirmation set. Exact tables are exported only after the
-independent verifier passes. Literature and QA handoff:
-`docs/research/expanded_shadow_literature_review.md` and
-`docs/reviews/verification_expanded_shadow.md`.
+Current evidence and reviewer handoff:
 
-The preceding matched development cycle is in `coverage_frontier_method.tex`,
-`coverage_frontier_comparison.tex` and `coverage_frontier_findings.tex`.
-It separates selector changes from top-L response allowances at a fixed top-5
-reference, across three B values. Category balancing is a tested hypothesis,
-not guaranteed robustness. The original anchors and legacy controls stay fixed;
-no default defender or SOTA claim is promoted by these internal ablations.
-Source-pinned protocol: `notes/coverage_frontier_protocol.md`. Exact evidence,
-independent checks and rebuild order: `artifacts/benchmarks/coverage_frontier/`.
-
-The newest fresh-family cycle adds `fresh_dataset.tex`, `switching_method.tex`
-and `fresh_switching_comparison.tex`. It tests a two-mode protected-history
-filter on six selection and six confirmation families. No configuration passes
-the prespecified 90% minimum-case validation gate, even at top-10 server depth;
-the candidate is not promoted as a new default. Full confirmation and overlap
-sensitivity results are in `artifacts/benchmarks/fresh_switching/`.
-The canonical PDF is still the same file under `artifacts/reports/`.
+- [`Geo-I response-depth result`](../docs/research/2026-10-06_geo_i_response_depth.md).
+- [`Planner chronology`](../docs/reviews/2026-10-06_qplanner_iteration_log.md).
+- [`Formal audit`](../docs/research/2026-10-06_jisa_formal_audit.md).
+- [`Evaluation audit`](../docs/research/2026-10-06_jisa_evaluation_audit.md).
+- [`Publication plan`](../docs/publication/jisa_20261006/README.md).
+- [`Dynamic status diagnostic`](../artifacts/benchmarks/dynamic_provider_status_20261006_v1/README.md).
+- [`Local-GPS sensitivity`](../artifacts/benchmarks/local_gps_robustness_20261007_v1/README.md).
+- [`Historical companion diagnostic`](../artifacts/benchmarks/s8_companion_inference_20261007_v1/README.md).
+- [`Context storage audit`](../artifacts/benchmarks/public_resource_footprint_20261007_v1/README.md).
+- [`Formal analysis revision`](../docs/reviews/2026-10-07_thesis_formal_analysis.md).
+- [`Continued proof revision`](../docs/reviews/2026-10-07_thesis_formal_completion_v2.md).
+- [`AnotherMe theory source audit`](../docs/research/2026-10-07_anotherme_theory_comparison.md); its exact proof remains unverified without full text.
+- [`Previous 07/10 thesis review`](../docs/reviews/2026-10-07_thesis_completion.md); its exact PDF/source bytes are retained under `artifacts/reports/thesis_review_20261007/`.
+- [`Previous review`](../docs/reviews/2026-10-06_thesis_completion.md); its exact
+  reviewed PDF/source bytes are retained under `artifacts/reports/thesis_review_20261006/`.

@@ -1,0 +1,46 @@
+\section{Dung lượng context và bộ nhớ suy ra từ cấu trúc dữ liệu}
+\label{sec:current-resource-footprint}
+\input{current_extensions_generated/resource_rows}
+
+Chi phí reply JSON không bao gồm context bản đồ, các bảng POI và cache đường
+đi tại thiết bị hoặc evaluator. Một audit chỉ đọc đã kiểm tra header và hash
+của bảng công khai dùng trong các phép thử trên. Bảng L60 nén còn 1,71 MB
+trên đĩa, nhưng payload signature int32 khi mở là 95,31 MB, cộng 0,26 MB
+cho mảng access. Không dùng kích thước file nén như số RAM cần chạy.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Payload mảng công khai và storage suy ra. MB là $10^6$ byte;
+không phải peak RAM đã đo.}
+\label{tab:current-resource-footprint}
+\begin{tabularx}{\textwidth}{Yrr}
+\toprule Cấu trúc & Bytes & MB \\\midrule
+\EvalResourceRows
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Prefix L10 là bảng signature dùng cho planner hiện tại; L30 là độ sâu
+\emph{phản hồi tại Q}, không yêu cầu client giữ bảng L30 toàn bản đồ. L60
+ở đây là fixture của provider/evaluator. Các hàng prefix chỉ nhân kích thước
+miền, category, L và itemsize; chưa cộng graph, Python objects, prior, belief,
+response buffer hoặc mảng tạm.
+
+Trong replay độ sâu, các prefix phản hồi L20/L30/L40 là view của mảng L60
+nên vẫn giữ vùng dữ liệu L60 ở bộ nhớ. Planner dùng context L10 riêng;
+con số 15,89 MB là payload L10 tính theo shape nếu materialize, không phải
+peak RAM của cả planner. Chưa hiện thực hay đo một client điện thoại.
+
+Cache ranking mặc định giữ tối đa 256 vector khoảng cách; runner offline đã
+dùng giới hạn 4.096. Hai hàng cache cho dung lượng \emph{nếu đầy} bằng vector
+float64 trên 66.189 trạng thái, không khẳng định quá trình đã chạm mức đó.
+Evaluator có yêu cầu khác ứng dụng điện thoại, vì nó chấm nhiều GPS/đích;
+không chuyển cấu hình cache offline thành yêu cầu triển khai bắt buộc.
+Audit này giúp xác định thành phần cần đo/thu gọn khi triển khai, nhưng chưa
+thay thế đo RSS, CPU, latency, thời gian tải hay năng lượng trên phần cứng.
+
+Nguồn tính và kiểm tra lại:
+\begin{quote}\small
+\path{experiments/audit_public_resource_footprint_20261007.py}\\
+\path{artifacts/benchmarks/public_resource_footprint_20261007_v1/readout.json}
+\end{quote}

@@ -1,0 +1,53 @@
+\section{Các cohort sử dụng và mức bằng chứng}
+\label{sec:current-dataset}
+
+Một tập có nhãn S1--S10 không có nghĩa đã benchmark đủ mười kịch bản. Luận văn phân biệt dữ liệu dùng phát triển, dữ liệu mới dùng xác nhận một cấu hình đã chọn, và dữ liệu chỉ kiểm tra một giả thuyết phụ. Tất cả chuyến của cùng nhóm nằm trong một phần dữ liệu; seed cơ chế, tick GPS và truy vấn không được xem như những người dùng độc lập.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Vai trò của các cohort; tên tập ``test'' trong thí nghiệm cũ không biến thành xác nhận mới cho một thay đổi về sau.}
+\label{tab:current-cohorts}
+\begin{tabularx}{\textwidth}{P{3.1cm}Y Y}
+\toprule
+Cohort & Tổ chức và sử dụng & Mức bằng chứng\\
+\midrule
+Các vòng S1--S3 ban đầu & SUMO, cửa sổ dừng/di chuyển và các bản thích nghi đối chứng; nguồn và kết quả cũ giữ nguyên. & Phát triển bộ lọc, bộ chọn và đối thủ; không gộp số với cấu hình L30.\\
+\addlinespace
+Native tương lai & 24 nhóm, mỗi nhóm tám chuyến; hai nhánh/đích có kiểm soát. & Phát triển S5--S6, cap nhiều phiên, S7, cache, Planar và đối chứng catalogue đầy đủ.\\
+\addlinespace
+Native mới & 60 nhóm, 480 chuyến; 24 học, 12 chọn, 24 kiểm thử. & Xác nhận L30 đã chọn trước; ba draw trong mỗi nhóm kiểm thử.\\
+\addlinespace
+Trạng thái POI thay đổi & Phát lại Q đã cố định với trạng thái tổng hợp theo epoch công khai. & Chẩn đoán dịch vụ phụ trên cohort đã xem; không xác nhận độc lập một thuật toán mới.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Nguồn chuyển động và ngữ cảnh công khai}
+
+Các tọa độ được lấy từ FCD nguyên gốc của SUMO, không chỉnh để làm tăng điểm benchmark. Vòng native dùng mạng có làn và đường rẽ nội bộ được biên dịch từ hình học công khai đã lưu. Kiểm tra tuyến/làn có giá trị cho mạng mới này; chưa xác lập tính trùng khớp toàn bộ làn và luật rẽ với mạng Beijing gốc. Graph dịch vụ có 66.189 trạng thái và 78.439 cung. Catalogue có 419 POI nguồn, còn 418 sau quy tắc công khai chỉ giữ điểm cách nơi tiếp cận trên đường không quá 250 m. Mọi cơ chế trong một so sánh dùng cùng graph, POI và quy tắc truy cập.
+
+Đây là chuyển động xe tổng hợp. Vòng mới có hai mức tốc độ công khai 6 và 8 m/s, cân bằng trong mỗi split; chưa có ùn tắc, phân bố tài xế thực, giao thông nhiều thành phố hoặc dữ liệu GPS đo ngoài thực địa. GeoLife và Porto chưa tham gia kết quả của luận văn. Tên bản đồ và số tick không được dùng làm bằng chứng cho tính đại diện của dân cư đô thị.
+
+\subsection{Cohort xác nhận mới và kiểm soát quá trình sinh}
+
+Cohort mới có 60 nhóm nút giao cuối khác nhau, loại các nhóm đã dùng trước. Tuyến trùng có Jaccard tập cạnh từ 0,8 trở lên bị loại bằng quy tắc công khai; đường chưa đủ điều kiện hoàn thành cũng bị loại trước khi lấy lựa chọn nhánh bí mật. Trong 178 nút rẽ được khảo sát, 60 nhóm được giữ và cả 118 trường hợp không đủ điều kiện vẫn có nhật ký. Điểm riêng tư và chất lượng POI không tham gia điều kiện sinh.
+
+Mỗi nhóm gồm sáu chuyến lịch sử và hai chuyến truy vấn. Lịch sử có năm lượt tới đích thường gặp và một lượt tới đích hiếm; hai chuyến truy vấn được cân bằng lựa chọn hai đích, với thứ tự ngẫu nhiên riêng. Đây là workload có chủ đích để kiểm tra dự đoán ở nút rẽ, không phải prior của người dùng thật. Đối thủ trong phép thử tương lai có thể biết hai hình học ứng viên; không diễn giải kết quả thành dự đoán đích trong thế giới mở. S5 và S6 cùng dựa vào một quyết định rẽ nên không là hai nguồn xác nhận độc lập.
+
+Cửa sổ quan sát công khai là 0--600 s; tám chuyến có mốc khởi hành 0, 1.500, \ldots, 10.500 s. Các chuyến dừng ở làn đích tới 650 s. Bộ kiểm chứng độc lập đối chiếu 312.480 điểm FCD của 480 chuyến với nguồn XML lưu lại, cùng 240 chuyến hiệu chuẩn phản thực và 360 tệp nguồn nén. Những lần sinh hoặc kiểm chứng gặp lỗi được giữ với lý do; sửa lỗi seed SUMO và nhầm số POI không xem kết quả bảo vệ.
+
+Tuyến mới vẫn dùng cùng bản đồ và bộ sinh. Các nhóm có thể dùng chung cạnh dưới ngưỡng loại trùng; khoảng tin cậy lấy nhóm làm đơn vị cụm phản ánh thiết kế này, không chứng minh độc lập hình học tuyệt đối. Dữ liệu kiểm thử đã được dùng cho phân tích kết quả chỉ có thể phục vụ chẩn đoán/phát triển ở vòng sau. Muốn xác nhận một sửa đổi mới phải có protocol và cohort khác được cố định trước.
+
+\subsection{Tách dữ liệu thiết bị, nhà cung cấp và bộ đánh giá}
+
+Thiết bị nhận GPS hiện tại theo giao diện supplier của lớp bảo vệ. Planner chỉ nhận điểm tham chiếu và lịch sử đã bảo vệ, graph/catalogue/prior công khai; không nhận đích thật, nhãn người hoặc phần tương lai. Nhà cung cấp thấy toàn bộ Q và timestamp của lịch gửi, danh sách loại POI công khai, $L$ và phản hồi; không thấy điểm tham chiếu nội bộ hoặc kết quả top-5 cục bộ.
+
+Bộ đánh giá giữ FCD đầy đủ, đích thật, lựa chọn nhánh và nhãn kịch bản để tính đáp án. Utility hiện giả định bộ xếp hạng cục bộ có GPS chính xác tại mỗi sự kiện gửi. Giới hạn đọc 60 s của supplier chỉ áp vào các phép kiểm tra/tạo neo có chi ngân sách riêng tư, không phải mọi lần GNSS của điện thoại. Vì vậy số supplier reads không chứng minh tiết kiệm pin hoặc độ đúng khi xếp hạng bằng vị trí cũ 60 s.
+
+\subsection{Tái lập và quản lý phiên bản}
+
+Các cohort cũ được quản lý bằng phiên bản SQLite bất biến; cohort native mới lưu JSON nén, nguồn SUMO và manifest SHA-256. Đó là hai hình thức lưu bằng chứng cùng mục tiêu, không phải mọi tập mới đều đã được nhập vào SQLite. Mỗi run cố định dataset, nguồn thuật toán, tham số, phép chia, workload, quy tắc chọn và bộ đối thủ. Các receipt kiểm chứng lưu riêng, không ghi đè kết quả cũ khi chạy lại.
+
+Nguồn cohort xác nhận là \path{artifacts/datasets/qplanner_fresh_native_20261006_v2/}; nguồn base-Q và kết quả L20/L30 lần lượt là \path{artifacts/benchmarks/qplanner_depth_base_q_generalization_20261006_v1/} và \path{artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/}. Đường dẫn được hiểu tương đối từ thư mục gốc repository. Manifest và snapshot cho phép truy ngược số liệu về đúng byte dữ liệu và mã nguồn, không dùng tên ``mới nhất'' ngầm định.
+
+Khóa lấy mẫu riêng và SQLite ledger của client không nằm trong artifact công khai. FCD và nhãn nhánh được lưu là đáp án mô phỏng của bộ đánh giá, không phải GPS cá nhân thực. Mã băm và receipt kiểm tra tính toàn vẹn và khả năng phát lại; chúng không tự chứng minh theorem riêng tư, tính mới hoặc việc thực nghiệm đại diện thế giới thực.

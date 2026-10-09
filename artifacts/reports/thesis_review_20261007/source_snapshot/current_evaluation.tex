@@ -1,0 +1,486 @@
+% Current evaluation chapter, authored 06/10/2026. Earlier development chapters
+% and sealed evidence are retained. Compile from thesis/ as part of main.tex.
+\chapter{Đánh giá thực nghiệm và phạm vi kết luận}
+\label{ch:experiments}
+\input{current_evaluation_generated/fresh_purposes}
+\input{current_evaluation_generated/fresh_cost}
+\input{current_evaluation_generated/matched_anchor}
+\input{current_evaluation_generated/endpoint}
+\input{current_evaluation_generated/historical_location}
+\input{current_evaluation_generated/rejected_planners}
+
+Kết quả hiện tại cho thấy hệ thống có thể giữ nền tảng Geo-I, phục vụ nhiều mục
+đích tìm POI tại thiết bị và cải thiện chất lượng trả lời bằng một thay đổi công
+khai ở phía dịch vụ. Trên tập xác nhận mới cùng bản đồ, tăng độ sâu phản hồi từ
+L20 lên L30 làm Recall@5 trung bình tăng \EvalFreshGain{} điểm phần trăm, với
+khoảng tin cậy ghép theo nhóm tuyến là
+[\EvalFreshLow{}; \EvalFreshHigh{}] điểm phần trăm. Đổi lại, byte phản hồi tăng
+\EvalReplyGrowth{}\%. Cùng những tọa độ Q, lịch gửi, neo và sổ ngân sách được
+giữ nguyên. Đây là kết quả điều chỉnh utility--cost của dịch vụ tĩnh, không phải
+một thuật toán Geo-I mới hoặc một chứng minh thắng các đối chứng ở cùng chi phí.
+
+Các phép thử suy luận tương lai, liên kết phiên và điểm đầu/cuối bổ sung bằng
+chứng cho luận văn, nhưng có phạm vi khác nhau. Vì vậy chương này trình bày
+riêng kết quả xác nhận mới, các chẩn đoán phát triển đã được xem và những tác vụ
+chưa đo. Không ghép chúng thành một bảng xếp hạng riêng tư duy nhất.
+
+\section{Thiết kế đánh giá và mức độ bằng chứng}
+\label{sec:current-evidence-design}
+
+\subsection{Tách dữ liệu phát triển khỏi xác nhận mới}
+
+Mỗi thí nghiệm có protocol, dữ liệu, đầu ra công khai, nhãn chỉ dành cho bộ
+đánh giá, nguồn mã đã đóng băng và bản kiểm chứng riêng. Một kết quả kiểm chứng
+PASS xác nhận các điều kiện mà checker thực sự kiểm tra, chẳng hạn hash nguồn,
+ngân sách đã chi, mẫu số và phép tính metric. Nó không tự chứng nhận theorem
+Geo-I, độ mạnh tối ưu của attacker hoặc hiệu quả trong triển khai thực tế.
+
+Ba nhóm bằng chứng được sử dụng như sau.
+\begin{enumerate}
+  \item \textbf{Phát triển lịch sử.} Paper-v2 đo S1--S3 và S9--S10 trên các
+  adaptation; những vòng endpoint, S4, S7 và planner tiếp theo đã sử dụng lại
+  hoặc đã đọc các nhóm đánh giá. Chúng là chẩn đoán phát triển, kể cả khi tệp
+  có tên \texttt{test}.
+  \item \textbf{Pilot native có kiểm soát.} Mạng đường mới được biên dịch từ
+  hình học lưu trữ và dùng nhất quán để sinh chuyển động SUMO, bảo vệ, truy hồi
+  POI và giải mã cạnh. Các pilot có 24 nhóm tuyến, chia 12/6/6 nhóm
+  train/selection/test. Kết quả này kiểm tra các quyết định và cơ chế cụ thể;
+  những extension được thiết kế sau khi xem pilot vẫn là phát triển.
+  \item \textbf{Xác nhận utility đã khóa.} Sau hai vòng planner không đạt gate,
+  chỉ chính sách độ sâu công khai L30 được chọn và đóng băng trước khi sinh và
+  chấm cohort mới. Cohort có 60 nhóm tuyến native, chia 24/12/24 nhóm; số lần
+  ngẫu nhiên theo ba phần là 1/1/3. Phần test gồm 24 nhóm, mỗi nhóm ba lần
+  ngẫu nhiên và tám phiên. Chỉ L20 và L30 được chấm ở bước xác nhận.
+\end{enumerate}
+
+Các mạng mới giữ đúng lane, turn và edge ID cho chính mạng SUMO được tạo.
+Chúng không phải bản phục hồi đầy đủ mạng Beijing gốc. Toàn bộ dữ liệu vẫn là
+mô phỏng trên một khu vực và một bộ POI công khai. Cohort mới giảm việc chọn
+cấu hình theo đáp án đã xem, nhưng không thay thế xác nhận khác thành phố,
+GPS thật hoặc dữ liệu dịch vụ thật.
+
+\subsection{Trạng thái S1--S10}
+
+Trong Bảng~\ref{tab:current-scenario-coverage}, ``thực nghiệm'' nghĩa tác vụ
+đã có đầu vào và metric chạy được; không có nghĩa scenario đã được giải quyết
+đầy đủ. ``Lý thuyết'' chỉ bảo đảm có điều kiện của kernel Geo-I và phép hợp
+thành. ``Proxy'' là một đại diện hẹp hơn target đã định nghĩa.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{longtable}{P{0.7cm}P{3.4cm}P{3.0cm}P{7.3cm}}
+\caption{Phân loại bằng chứng hiện tại theo scenario.}\label{tab:current-scenario-coverage}\\
+\toprule S & Target & Bằng chứng & Giới hạn khi kết luận \\\midrule
+\endfirsthead
+\toprule S & Target & Bằng chứng & Giới hạn khi kết luận \\\midrule
+\endhead
+S1 & Vị trí hiện tại & Thực nghiệm phát triển; lý thuyết tọa độ có điều kiện &
+Paper-v2 có Hit100/MAE. Chưa có xác nhận S1 mới cho cấu hình L30; $\varepsilon$ không tự quyết định attack score. \\
+S2 & Nơi dừng & Thực nghiệm phát triển &
+Đo trên đoạn dừng có kiểm soát; chưa bao phủ mọi thời lượng, mức nhiễu GPS và thông tin phụ trợ về điểm dừng. \\
+S3 & Đường đã đi & Thực nghiệm phát triển &
+Giải mã chuỗi bằng bank hữu hạn. Validity/độ hợp lý của Q không phải metric riêng tư. \\
+S4 & Cùng người hoặc phương tiện & Thực nghiệm nhãn tổng hợp; chưa đo metadata &
+Tách người và xe; các cặp trong cùng family phụ thuộc. Không bảo vệ account, IP, biển số hay phần cứng bằng Geo-I. \\
+S5 & Cạnh đường kế tiếp & Proxy cũ; thực nghiệm native ứng viên &
+Pilot mới chấm edge thật tại fork hai lựa chọn; không phải dự báo cạnh trong thế giới mở. \\
+S6 & Đích tương lai & Proxy cũ; thực nghiệm native có lịch sử &
+Sáu lịch sử và prefix chuyến hiện tại, hai đích công khai. Chưa xét attacker đã liên kết tất cả chuyến truy vấn. \\
+S7 & Nội dung hoặc ý định query & Kiểm thử bất biến request; thực nghiệm phát triển &
+Đổi purpose local không đổi request có cùng protected state. Tương quan intent--location vẫn có thể tiết lộ ý định; không phải privacy vô điều kiện cho intent. \\
+S8 & Suy luận từ người đồng hành & Chẩn đoán lịch sử, bank hữu hạn &
+So bật/tắt quan sát đồng hành trên ba family. RNG lịch sử có seed tái tạo; chưa xác nhận cho Epoch8/L30, attacker biết seed hoặc privacy cấp nhóm. \\
+S9 & Điểm xuất phát & Thực nghiệm endpoint phát triển &
+Bank hình học và học có điều chỉnh theo output; cohort đã xem. Không đồng nhất che đầu, thêm nhiễu và ẩn thời điểm bắt đầu. \\
+S10 & Điểm kết thúc & Thực nghiệm endpoint phát triển &
+Giữ cả bank/selector thất bại. Hit100 bằng 0 ở hai phương pháp không chứng minh chênh lệch; chưa xác nhận endpoint trên cohort độc lập mới. \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\section{Metric chung và metric của công trình gốc}
+\label{sec:current-metric-fairness}
+
+Output của đối chứng không cùng loại: có phương pháp công bố một tọa độ thay
+thế, có tập chứa tọa độ thật và dummy, có tập Q chỉ gồm tọa độ được bảo vệ,
+hoặc một bộ quỹ đạo tổng hợp offline. Vì thế, một metric giả định có ``thành
+viên thật trong tập công bố'' không thể được áp trực tiếp cho Q-only. Không
+được gán ASR bằng 100\% chỉ vì tọa độ thật không có trong tập Q, hoặc biến một
+failure của bộ sinh quỹ đạo thành thành tích riêng tư.
+
+Đánh giá dùng hai lớp bổ sung. Lớp chung chấm target mà attacker suy ra từ
+đúng output được cấp: MAE và Hit tại ngưỡng công khai cho vị trí; balanced
+accuracy, log-loss hoặc AUC cho phân loại; Recall@5 cho POI; request/byte cho
+chi phí. Lớp metric gốc chỉ tính khi có đủ input và đúng ý nghĩa của output.
+Các ô thiếu dữ liệu giữ N/A cùng lý do.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Phạm vi metric gốc trong hồ sơ bằng chứng hiện tại.}
+\label{tab:current-native-metrics}
+\begin{tabularx}{\textwidth}{P{3.0cm}Y Y}
+\toprule Metric & Có thể đọc từ evidence & Không được suy rộng \\\midrule
+EIE dạng point estimate & Khi cùng decoder, khoảng cách và phép gộp, bằng MAE đã báo cáo. & Không phải một bằng chứng riêng tư độc lập thứ hai; posterior EIE cần posterior phù hợp. \\
+$\Delta c$ của TransProtect & Một diagnostic riêng tính chi phí đường có hướng trên prior POI công khai. & Archive đối chứng thiếu cost table/prior gốc; diagnostic Q-only không lấp N/A hoặc chứng nhận tái lập paper. \\
+Entropy, ASR, DER & Chỉ có nghĩa khi có prior/posterior, thành viên thật và quy tắc khả thi tương ứng. & Không áp trực tiếp cho Q-only; DER hay dummy hợp lý không đồng nghĩa attacker sai. \\
+Số đường khó phân biệt & Cần quy tắc thời gian tới/hướng đi và số query kề nhau tương thích nguồn. & Không thay bằng số Q hoặc số đường hợp lệ trên bản đồ. \\
+CoP/JSD/beacon linkage & Cần trạm sạc, dataset tổng hợp ghép cặp hoặc beacon/pseudonym trace đúng hợp đồng. & Không coi CoP, JSD, Recall và MAE là cùng một privacy score. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Một adaptation chưa đạt fidelity của mô hình học, output protocol và attacker
+gốc được ghi dấu *. So sánh chung có ích để phản biện thiết kế, nhưng không
+gọi là tái lập trung thành hoặc chứng minh thắng paper đã công bố. Ngoài split
+và dữ liệu, cần đọc cùng số tọa độ gửi, chi phí phản hồi và tổng cap; hai
+phương pháp có cùng metric không tự có cùng tài nguyên hoặc cùng bảo đảm.
+
+\subsection{Mẫu số và khoảng tin cậy}
+
+Với purpose $p$, category $c$ và thời điểm $t$, bộ tham chiếu $R_{p,c,t}$ được
+xếp hạng từ GPS và điều kiện query riêng ở phía evaluator. Kết quả thiết bị
+$A_{p,c,t}$ chỉ được lấy từ các POI đã nhận và còn hiệu lực. Khi tham chiếu
+không rỗng,
+\begin{equation}
+ r_{p,c,t}=\frac{|A_{p,c,t}\cap R_{p,c,t}|}{|R_{p,c,t}|}.
+ \label{eq:current-conditional-recall}
+\end{equation}
+Khi không có POI tham chiếu phù hợp hoặc tới được, metric là N/A. Không đổi
+N/A thành 0 hoặc 1; đồng thời báo số category và cửa sổ có tham chiếu.
+
+Kết quả fresh lấy trung bình category có tham chiếu tại mỗi event, rồi gộp các
+event trong mỗi purpose, các lần ngẫu nhiên trong mỗi family và các purpose
+được định nghĩa với trọng số đều. Cuối cùng mỗi family có cùng trọng số.
+Các draw có cùng inventory tham chiếu. Số cửa sổ hoặc số request không được
+dùng như số subject độc lập. Bootstrap ghép lấy lại toàn bộ family 10.000 lần
+và giữ ba draw bên trong; báo percentile 2,5\% và 97,5\% của chênh lệch L30--L20.
+Khoảng này mô tả biến thiên giữa nhóm tuyến của generator hiện tại, không
+bao gồm bất định của thành phố khác, đo GPS thật hoặc lựa chọn thiết kế khác.
+
+\section{Kết quả xác nhận: tăng độ sâu phản hồi trên cùng Q}
+\label{sec:current-fresh-depth}
+
+Hai vòng thử cải thiện mục tiêu chọn Q không đủ điều kiện được chọn. Bước
+tiếp theo giữ planner \texttt{legacy\_l10}, chữ ký nội bộ L10, K=5 và top-5
+local; chỉ tăng số POI tối đa cho mỗi category ở mỗi Q mà dịch vụ trả về.
+L30 không có nghĩa 30 điểm nhiễu hay 30 lần đọc GPS. Các category được yêu cầu
+và độ sâu là cấu hình công khai, không phụ thuộc purpose riêng.
+
+Trên development, thử L20/30/40/60 và chọn độ sâu nhỏ nhất tăng utility ít nhất
+2 điểm phần trăm, không giảm nearest và có byte phản hồi không quá 2,5 lần
+L20. L30 được chọn dù L40/L60 cũng đủ gate; không chọn độ sâu theo điểm test.
+Quy tắc fresh được khóa trước generation/scoring: mean gain ít nhất 2 điểm
+phần trăm, cận dưới CI ghép 95\% dương và gain dương ở cả ba draw.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Fresh test: Recall@5 conditional theo purpose, phản hồi hiện tại, 24 family. Đơn vị Recall là \%; gain và CI là điểm phần trăm.}
+\label{tab:current-fresh-purpose}
+\begin{tabularx}{\textwidth}{Yrrrr}
+\toprule Purpose & L20 & L30 & Gain & CI ghép 95\% \\\midrule
+\EvalFreshPurposeRows
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Cả ba điều kiện fresh đều đạt. Gain theo draw là
+\EvalDrawOne{}, \EvalDrawTwo{} và \EvalDrawThree{} điểm phần trăm. Trung bình
+của 25\% family có utility thấp nhất tăng từ \EvalTailLowBefore{}\% lên
+\EvalTailLowAfter{}\%; đây là chênh lệch của hai tail mean, không phải tail
+mean của các chênh lệch. Các khoảng theo purpose và tail là phân tích phụ,
+chưa hiệu chỉnh nhiều phép so sánh.
+
+Purpose within-radius có \EvalRadiusDefinedCategories{}/\EvalRadiusTotalCategories{}
+category references và \EvalRadiusDefinedWindows{}/\EvalRadiusTotalWindows{}
+cửa sổ được định nghĩa. Ba purpose còn lại có toàn bộ tham chiếu category
+được định nghĩa trong test. Gain trong Bảng~\ref{tab:current-fresh-purpose}
+vì vậy là chất lượng có điều kiện trên nơi có tham chiếu; tăng L không tạo ra
+POI ở nơi không có mục tiêu phù hợp. GPS và điểm đến riêng của evaluator dùng
+để chấm utility tại event không đi vào planner Q hay server.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Chi phí JSON ứng dụng trên fresh test. Mỗi bộ phản hồi tính cả POI trùng giữa các Q.}
+\label{tab:current-fresh-cost}
+\begin{tabular}{lrrr}
+\toprule Cấu hình & Requests & Request bytes & Reply bytes \\\midrule
+\EvalFreshCostRows
+\bottomrule
+\end{tabular}
+\end{table}
+
+Byte phản hồi tăng \EvalReplyGrowth{}\%, còn request và request bytes giữ
+nguyên. Đây là lượng compact JSON được tính từ bản tin thực trong simulator;
+chưa đo HTTP/TLS, latency, pin hoặc chi phí nhà cung cấp. Không diễn giải lịch
+đọc GPS bảo vệ cách 60 giây thành mức tiết kiệm năng lượng điện thoại.
+
+Kiểm chứng độc lập đã xác nhận nguyên vẹn 108 bundle, bản tin Q/lịch gửi,
+neo và ledger; tái dựng utility/cost L20, prefix L30 và các phép tính ghép
+family. Kết quả current-only là primary. Cache tĩnh theo epoch tăng từ
+98,808\% lên 99,136\%, chỉ 0,328 điểm phần trăm, là kết quả phụ khác hợp đồng
+current-only; không dùng số cache để thay điểm primary.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../artifacts/reports/thesis_figures_20261006/depth_utility_cost.pdf}
+\caption{Fresh L30--L20: Recall có điều kiện và CI95\% ghép nhóm trên cùng Q. Trục Recall phóng từ 75--100\%; khoảng theo purpose là phân tích phụ chưa hiệu chỉnh nhiều phép so sánh. Hình định dạng lại thống kê đã lưu, không chấm thêm cấu hình trên fresh.}
+\label{fig:current-depth-utility-cost}
+\end{figure}
+
+\input{current_sensor}
+
+\section{Pilot native: suy luận tương lai và đối chứng REM--Planar}
+\label{sec:current-native-future}
+
+S5 cũ dùng GPS sau 20 giây như một proxy; classifier tên edge có Raw accuracy
+bằng 0 khi edge test chưa xuất hiện trong train nên không đủ positive control.
+Pilot native mới chấm hình học của hai cạnh ứng viên và dùng ID cạnh thật để
+xuất đáp án. S6 dùng sáu chuyến lịch sử công khai và prefix một chuyến truy vấn
+để chọn một trong hai đích; hai chuyến query thường lệ/ít gặp được cân bằng.
+Tỷ lệ 5/6 của lịch sử không được thay cho prior nhãn test.
+
+Hai đồng hồ dự báo có vai trò khác nhau. Trước fork, prefix GPS giống nhau ở
+hai nhánh, nên Raw 50\% là mơ hồ vốn có. Khi xe đang rẽ trên hai internal lane
+khác nhau nhưng cạnh tiếp theo còn ở tương lai, Raw đạt 100\%; đây mới là
+positive control có tín hiệu. Attacker được cấp hai đường và hai đích ứng
+viên công khai, không được cấp route tương lai hoặc lựa chọn riêng tư. Fit
+dùng train, chọn attacker trên selection rồi giữ nguyên khi báo test.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Pilot matched REM--Planar, sáu test family, 12 query dự báo ở đồng hồ đang rẽ. Utility dùng L20; planner signature L10. Cùng map, clock, K và cap. Các cột là \%.}
+\label{tab:current-matched-anchor}
+\begin{tabularx}{\textwidth}{P{2.9cm}YYYY}
+\toprule & S5 đúng cạnh & S6 Hit100 & Recall hiện tại & Recall cache tĩnh \\\midrule
+\EvalMatchedAnchorRows
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Planar tốt hơn REM về utility current-only trong pilot này, còn REM tốt hơn
+khi dùng cache tĩnh có version qua tám phiên. Cả hai có attack accuracy đã
+chọn bằng 50\%; không dùng tie đó để khẳng định REM có privacy tốt hơn.
+MAE đích, dự đoán từng family và toàn bank được giữ để đọc thêm. Pilot tách
+được ảnh hưởng anchor khi giữ cùng tài nguyên, nhưng chưa chứng minh một
+anchor thắng trên mọi tình huống.
+
+Utility pilot chỉ có 1.402/1.510 cửa sổ có tham chiếu; riêng đoạn 400--600s
+có 462/528. Sáu phiên của một family không có tham chiếu trong toàn đoạn cuối.
+Tệp \texttt{derived\_readout\_v2.json} sửa đúng mẫu số session cold/warm của
+aggregate cũ; giữ bản cũ và không đổi Q, attack score hay ground truth. Cache
+tĩnh chỉ hợp lệ cho catalogue version đã biết, trong phạm vi epoch/admission
+và invalidation đã khai báo. Phản hồi về tình trạng còn chỗ hoặc khả dụng
+động cần clock mới; điểm utility tĩnh không chứng minh trạng thái đó.
+
+Pilot ngân sách trước đó còn so SessionReset với Epoch8 ở tổng cap khác
+nhau. So sánh đó kiểm tra allocation và utility, không phải superiority ở
+ngân sách bằng nhau. Với cấu hình epoch hiện tại, $H=12$ hiệu chuẩn 23 đơn vị,
+$u=0{,}00125\,\mathrm{m}^{-1}$ và cap mỗi slot
+$0{,}02875\,\mathrm{m}^{-1}$; tám cap cộng thành $0{,}23\,\mathrm{m}^{-1}$.
+H không phải giới hạn cứng 12 lần đọc GPS: số phép đo được chấp nhận phụ thuộc
+nhánh reuse/refresh và bước dự phòng trước phép đọc tiếp theo.
+
+\section{Những kết quả phát triển bổ sung}
+\label{sec:current-development-diagnostics}
+
+\subsection{S1--S3 và đối chứng lịch sử}
+
+\begin{table}[htbp]
+\centering\small
+\caption{Paper-v2 lịch sử, K=5, 12 chuyến test, ba seed SUMO. Mỗi ô: Hit100\% $\downarrow$ / MAE m $\uparrow$ / Recall@5\% $\uparrow$. * là local adaptation.}
+\label{tab:current-historical-location}
+\begin{tabularx}{\textwidth}{P{3.0cm}YYY}
+\toprule Phương pháp & S1 & S2 & S3 \\\midrule
+\EvalHistoricalLocationRows
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Hàng BR dùng đúng method ID \texttt{br\_private}, không phải
+\texttt{br\_selected} hoặc cấu hình L30 hiện tại. Bank gồm các decoder thống
+kê, đường và Shadow kNN; MAE và Hit có selector riêng trên attack validation.
+Các phương pháp dùng cùng trace và service trong cohort này nhưng số tọa độ
+công bố và bảo đảm ngân sách khác nhau. BR có Hit100 thấp hơn các adaptation
+hiển thị, đồng thời Recall S3 thấp hơn và DLS có MAE S1/S3 lớn hơn BR. Đây là
+trade-off, không phải thắng mọi metric. AnotherMe complete-route có các trường
+hợp N/A và một failure S3; chúng không được chấm thành private thành công.
+Không ghép điểm lịch sử này vào bảng fresh L30.
+
+\subsection{S4 và S7: tác vụ hẹp hơn bảo vệ danh tính/ý định đầy đủ}
+
+S4 development đánh giá 45 cặp test của ba family, tách nhãn cùng người tổng
+hợp và cùng phương tiện tổng hợp. Balanced accuracy Raw/GeoI-Slack lần lượt
+là 69,44/43,06\% cho người và 62,50/52,78\% cho phương tiện. Chỉ 20\% cặp
+cùng nhãn nên accuracy thông thường có baseline ``luôn khác'' 80\%.
+Giá trị dưới 50\% có thể do calibration hoặc selector; không phải mức bảo vệ
+tốt hơn ngẫu nhiên. Một test family vẫn có AUC liên kết người 0,861, cho thấy
+trung bình che mất một trường hợp còn rò. Không coi 45 cặp phụ thuộc là 45
+người độc lập hoặc suy ra ẩn account/IP.
+
+S7 có một gate trực tiếp hơn: với cùng protected state và lịch công khai,
+đổi purpose, radius hoặc destination ở bước local không tạo thêm request,
+không đổi Q và không thêm phép bảo vệ GPS. Trong sequence diagnostic ba lớp
+intent và chín record test, control công bố metadata có balanced accuracy
+100\% ở prefix 20/40s, còn fixed full-cover request là 33,33\%. Đây là bằng
+chứng chống kênh rò do nội dung request trong thiết kế đó. Các ý định được
+ghép counterfactual trên cùng mobility; tương quan intent--location trong
+đời thực chưa được giải quyết bởi phép bất biến này. Vì vậy S7 được báo là
+request noninterference có điều kiện, không phải intent privacy vô điều kiện.
+
+\input{current_companion}
+
+\subsection{S9--S10: tăng độ mạnh đánh giá trước khi kết luận về defense}
+
+Vòng endpoint đã giữ mọi Q và lịch gửi nhưng mở rộng attacker bằng thống kê
+tập điểm, ngoại suy, slot/track, Hungarian nối hình học, kNN và Extra Trees.
+Xáo Q riêng tư bỏ nhãn slot bền vững nhưng không ngăn geometric linking.
+Kết quả expanded bank cũng chỉ ra selector trên hai family có thể chọn
+learner tốt ở selection nhưng kém ở các nhóm tiếp theo; không lấy MAE test
+lớn do selector thất bại làm đóng góp bảo vệ.
+
+Vòng robust tiếp theo dùng leave-one-family-out trên tám fit family cùng hai
+selection family. MAE được chọn bằng mean family cộng một SE; Hit được chọn
+bằng mean trừ một SE, hòa bằng tên đã quy định. SE là penalty lựa chọn, không
+phải CI. Các phương pháp và mọi candidate/fold đều được giữ. Nhóm 1205--1232
+đã xem ở vòng trước nên Bảng~\ref{tab:current-endpoint} là development.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Endpoint development: 28 family, 112 session/rep cho mỗi phương pháp. Mỗi ô: Hit100\% / MAE m / Hit500\%. Attacker được chọn riêng cho từng loss.}
+\label{tab:current-endpoint}
+\begin{tabularx}{\textwidth}{P{3.8cm}YY}
+\toprule Phương pháp & S9 & S10 \\\midrule
+\EvalEndpointRows
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Endpoint20 là cấu hình scale025/L20 riêng, không phải thành phần đã được
+xác nhận của cấu hình L30. So cùng L20 bằng selector robust, MAE S10 tăng
+579,4m với CI ghép family [468,2; 695,8]m; Hit500 giảm 8,04 điểm phần trăm
+nhưng CI [--16,96; 0] còn chạm 0. Hit100 của cả hai cùng bằng 0 nên cột đó
+không chứng minh edge. Rule mới giảm vấn đề generalization ở L20 thường,
+nhưng Endpoint20 vẫn có gap MAE validation--readout khoảng 171m; một số
+selector Hit còn kém control cũ. Chưa có bằng chứng attacker bank tối ưu hay
+xác nhận độc lập cho endpoint. Giữ lịch đầu/cuối không delay không đồng nghĩa
+ẩn thời điểm bắt đầu, kết thúc hoặc cơ chế tấn công dựa metadata.
+
+\section{Kết quả âm và đối chứng tải toàn bộ catalogue}
+\label{sec:current-negative-results}
+
+\begin{table}[htbp]
+\centering\small
+\caption{Hai vòng đổi mục tiêu chọn Q trên development: gain utility selection so legacy, đơn vị điểm phần trăm. Không phương án nào được chọn.}
+\label{tab:current-rejected-planners}
+\begin{tabular}{llrl}
+\toprule Vòng & Candidate & Gain & Gate không đạt \\\midrule
+\EvalRejectedPlannerRows
+\bottomrule
+\end{tabular}
+\end{table}
+
+Vòng 1 thử mean/tail objective; vòng 2 chuẩn hóa khối lượng theo purpose và
+category có tham chiếu. Cả hai cần gain tối thiểu 1 điểm phần trăm và các
+guard endpoint/future đã khóa. Selector đều trả NONE; không mở fresh để tìm
+candidate thắng và không đổi threshold sau điểm selection. Bảng lưu cả
+candidate giảm utility. Những guard này là tiêu chí phát triển hữu hạn,
+không phải phép kiểm định tương đương về riêng tư.
+
+Một negative control ở cấp ứng dụng còn quan trọng hơn: nếu 418 POI tĩnh
+của khu vực và catalogue version được tải về toàn bộ từ đầu epoch, thiết bị
+có thể xếp hạng cả bốn purpose tại chỗ. Bulk có Recall 100\% trên mọi tham
+chiếu được định nghĩa vì bộ tham chiếu là tập con của chính catalogue đó.
+Đây là full-catalogue oracle, không phải kết quả privacy tốt hơn do thêm nhiễu.
+Mỗi family chỉ có một request không chứa tọa độ, 196 request bytes và 36.132
+reply bytes; không có request mới khi đổi query local. Trong sáu family test
+pilot, tổng bulk là 217.968 bytes, so REM online 42.376.064 bytes. Không đo
+thời gian truyền hoặc timing của người dùng, và không mô phỏng chúng bằng
+số ms của thuật toán.
+
+Bulk giả định được phép tải đầy đủ, biết khu vực công khai, có bản đồ và
+catalogue đúng version, không có trạng thái khả dụng động hoặc kết quả chỉ
+server biết. Khi các giả định này đúng, cần biện minh vì sao dùng truy vấn
+online thay vì giải pháp local đơn giản hơn. Do đó điểm Recall cao trong
+simulator tĩnh chưa đủ làm đóng góp ứng dụng độc lập; dữ liệu dịch vụ động,
+giới hạn bulk và chi phí cập nhật cần được đo riêng.
+
+\input{current_dynamic}
+
+\input{current_resources}
+
+\section{Giới hạn và kết luận được hỗ trợ}
+\label{sec:current-evaluation-limits}
+
+Những giới hạn quyết định cách diễn giải kết quả gồm dữ liệu synthetic một
+bản đồ, số nhóm nhỏ ở pilot và nhiều cohort đã xem; attacker hữu hạn cùng
+thông tin phụ trợ khai báo; output contract và cap khác nhau ở một số đối
+chứng; POI tĩnh và utility chính dùng GPS/đích thật ở evaluator. Phép thử
+GPS local 60 s đã đo nhạy cảm của bước xếp hạng, nhưng nhiễu Gaussian được
+đặt công khai chưa là mô hình sensor thực đã hiệu chuẩn. Không có
+đánh giá đầy đủ S8, metadata danh tính, dịch vụ khả dụng động thực, latency,
+năng lượng hoặc deployment trên điện thoại. PRNG/sampler số thực của mô
+phỏng không là chứng nhận kernel lý tưởng hay randomness an toàn của sản phẩm.
+Ngân sách nhiều epoch và thiết bị cần scope hợp thành thích hợp; cap tọa độ
+một epoch không là ngân sách vô hạn hay bảo đảm identity/intent riêng biệt.
+
+Luận văn có thể kết luận ba điểm. Thứ nhất, hệ thống và bộ đánh giá đã tách
+đúng Q công khai, dữ liệu local và nhãn evaluator, cho phép phản biện theo
+scenario và giữ failure/N/A. Thứ hai, pilot native kiểm tra được next-edge và
+history-destination bằng positive control có tín hiệu, cùng các trade-off
+anchor/cache và allocation. Thứ ba, độ sâu công khai L30 đã cải thiện utility
+theo gate đóng băng trên cohort mới cùng bản đồ với chi phí phản hồi được
+định lượng, trong khi Geo-I và transcript tọa độ giữ nguyên. Bằng chứng chưa
+hỗ trợ kết luận giải quyết trọn S1--S10, thắng mọi paper/metric hoặc đã sẵn
+sàng công bố ở một tạp chí cụ thể.
+
+\section{Nguồn số liệu và kiểm tra tái lập}
+\label{sec:current-evaluation-provenance}
+\begingroup\small\raggedright
+
+Bảng số của chương được xuất trực tiếp từ JSON bằng hai script sau:
+\begin{quote}\small
+\path{experiments/export_thesis_evaluation_20261006.py}\\
+\path{experiments/export_thesis_extensions_20261007.py}
+\end{quote}
+Hai manifest giữ hash của nguồn và mọi fragment:
+\begin{quote}\small
+\path{thesis/current_evaluation_generated/sources.json}\\
+\path{thesis/current_extensions_generated/sources.json}
+\end{quote}
+Lệnh \texttt{--check} kiểm tra output đã lưu mà không
+fit model, chấm lại benchmark hoặc đọc khóa RNG. Nguồn chính là:
+\begin{itemize}
+  \item \path{qplanner_response_depth_generalization_20261006_v1}:
+  freeze, paired readout, independent validation, recommended configuration
+  và hình PDF đã có provenance.
+  \item \path{paper_benchmark} và \path{native_metrics_20261005}:
+  bảng S1--S3 lịch sử và phạm vi metric gốc.
+  \item \path{future_native_20261005_v1},
+  \path{jisa_native_anchor_ablation_20261006_v1}:
+  edge/history task, matched control và derived readout sửa denominator.
+  \item \path{identity_future_20261005},
+  \path{query_purpose_20261005} và
+  \path{endpoint_robust_selection_20261006}:
+  các chẩn đoán phát triển S4/S7/S9/S10.
+  \item \path{qplanner_development_20261006_v2/v3} và
+  \path{jisa_static_catalogue_control_20261006_v1}:
+  các candidate bị loại và bulk control.
+  \item \path{dynamic_provider_status_20261006_v1}:
+  chẩn đoán trạng thái khả dụng tổng hợp trên cùng Q, audit độc lập V2 và
+  bản lỗi checker V1 được giữ lại.
+  \item \path{public_resource_footprint_20261007_v1}:
+  payload mảng từ header NPZ đã lưu và phép tính dung lượng cache nếu đầy;
+  không phải peak RAM hoặc latency.
+  \item \path{s8_companion_inference_20261007_v1}:
+  cặp đồng hành SUMO lịch sử, bank được học/chọn riêng và checker độc lập;
+  không xác nhận bảo vệ S8 của cấu hình hiện tại.
+  \item \path{local_gps_robustness_20261007_v1}:
+  bảy biến thể vị trí local, hai độ sâu phản hồi, recovery baseline chính
+  và kiểm chứng độc lập đủ 72 block; giữ Q và cơ chế riêng tư đã khóa.
+\end{itemize}
+Các artifact nằm dưới \texttt{artifacts/benchmarks/}. Bản kiểm chứng nguồn
+công khai không cần tái tạo khóa riêng từ seed; generation mới phải dùng
+output/work directory mới. Kết quả cũ, sửa denominator và chẩn đoán thất bại
+được giữ riêng để người đọc kiểm tra sự thay đổi của kết luận.
+\par\endgroup

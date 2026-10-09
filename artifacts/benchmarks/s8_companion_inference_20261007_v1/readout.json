@@ -1,0 +1,3634 @@
+{
+  "schema": "historical-frozen-S8-location-readout-v1",
+  "protocol_sha256": "338477cac3898e480d462c486a77ac5f8dfb4bc3ce3fbdcd632d994bd8782c78",
+  "selection_sha256": "3c85cc3ae281fc7b9c522bfa180d5ccb3b91ace01c2537032f3c020cdb641f11",
+  "predictions_sha256": "8edb586a204c59e94196f8200ea4959765104b865232fb3e83cb97f574d5f684",
+  "results": {
+    "target_only": {
+      "selected_attacker": "public_target_last",
+      "test": {
+        "family_macro_mae_m": 664.2679549584651,
+        "family_macro_hit100": 0.037037037037037035,
+        "family_values": {
+          "family-710": {
+            "mae_m": 484.7046035363158,
+            "hit100": 0.1111111111111111,
+            "cases": [
+              {
+                "case_id": "S8.A",
+                "mae_m": 484.7046035363158,
+                "hit100": 0.1111111111111111,
+                "events": 9
+              },
+              {
+                "case_id": "S8.B",
+                "mae_m": 484.7046035363158,
+                "hit100": 0.1111111111111111,
+                "events": 9
+              }
+            ]
+          },
+          "family-711": {
+            "mae_m": 653.9199075986469,
+            "hit100": 0.0,
+            "cases": [
+              {
+                "case_id": "S8.A",
+                "mae_m": 653.9199075986469,
+                "hit100": 0.0,
+                "events": 7
+              }
+            ]
+          },
+          "family-712": {
+            "mae_m": 854.1793537404328,
+            "hit100": 0.0,
+            "cases": [
+              {
+                "case_id": "S8.A",
+                "mae_m": 854.1793537404328,
+                "hit100": 0.0,
+                "events": 8
+              },
+              {
+                "case_id": "S8.B",
+                "mae_m": 854.1793537404328,
+                "hit100": 0.0,
+                "events": 8
+              }
+            ]
+          }
+        },
+        "events": 41,
+        "case_family_cells": 5,
+        "partner_missing_events": 41,
+        "event_pooled_mae_m": 657.7802896753935,
+        "event_pooled_hit100": 0.04878048780487805
+      },
+      "bank_test_descriptive_only": {
+        "trees": {
+          "family_macro_mae_m": 1907.4944502069484,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 2153.705743569002,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2153.705743569002,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2153.705743569002,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1406.6430556937373,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1406.6430556937373,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 2162.134551358105,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2162.134551358105,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2162.134551358105,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 41,
+          "event_pooled_mae_m": 2029.4477462397044,
+          "event_pooled_hit100": 0.0
+        },
+        "knn1": {
+          "family_macro_mae_m": 1532.3509050498508,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1804.8192208136593,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1804.8192208136593,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1804.8192208136593,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 921.890078621805,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 921.890078621805,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1870.3434157140882,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1870.3434157140882,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1870.3434157140882,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 41,
+          "event_pooled_mae_m": 1679.6456384493636,
+          "event_pooled_hit100": 0.0
+        },
+        "knn5": {
+          "family_macro_mae_m": 1442.4661791634223,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1748.2868250587953,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1748.2868250587953,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1748.2868250587953,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 748.7518264665435,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 748.7518264665435,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1830.3598859649278,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1830.3598859649278,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1830.3598859649278,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 41,
+          "event_pooled_mae_m": 1609.6630197990967,
+          "event_pooled_hit100": 0.0
+        },
+        "knn15": {
+          "family_macro_mae_m": 1342.380711679779,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1510.5264196713733,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1510.5264196713733,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1510.5264196713733,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 539.7197000967215,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 539.7197000967215,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1976.896015271242,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1976.896015271242,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1976.896015271242,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 41,
+          "event_pooled_mae_m": 1526.7768219293084,
+          "event_pooled_hit100": 0.0
+        },
+        "train_prior": {
+          "family_macro_mae_m": 2271.037110799168,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1749.0971281584555,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1749.0971281584555,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1749.0971281584555,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1478.9850004105538,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1478.9850004105538,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 3585.029203828496,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 3585.029203828496,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 3585.029203828496,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 41,
+          "event_pooled_mae_m": 2419.4417212434637,
+          "event_pooled_hit100": 0.0
+        },
+        "public_target_last": {
+          "family_macro_mae_m": 664.2679549584651,
+          "family_macro_hit100": 0.037037037037037035,
+          "family_values": {
+            "family-710": {
+              "mae_m": 484.7046035363158,
+              "hit100": 0.1111111111111111,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 484.7046035363158,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 484.7046035363158,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 653.9199075986469,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 653.9199075986469,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 854.1793537404328,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 854.1793537404328,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 854.1793537404328,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 41,
+          "event_pooled_mae_m": 657.7802896753935,
+          "event_pooled_hit100": 0.04878048780487805
+        },
+        "public_target_velocity": {
+          "family_macro_mae_m": 664.2679549584651,
+          "family_macro_hit100": 0.037037037037037035,
+          "family_values": {
+            "family-710": {
+              "mae_m": 484.7046035363158,
+              "hit100": 0.1111111111111111,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 484.7046035363158,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 484.7046035363158,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 653.9199075986469,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 653.9199075986469,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 854.1793537404328,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 854.1793537404328,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 854.1793537404328,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 41,
+          "event_pooled_mae_m": 657.7802896753935,
+          "event_pooled_hit100": 0.04878048780487805
+        }
+      }
+    },
+    "joint_protected_partner": {
+      "selected_attacker": "public_target_last",
+      "test": {
+        "family_macro_mae_m": 664.2679549584651,
+        "family_macro_hit100": 0.037037037037037035,
+        "family_values": {
+          "family-710": {
+            "mae_m": 484.7046035363158,
+            "hit100": 0.1111111111111111,
+            "cases": [
+              {
+                "case_id": "S8.A",
+                "mae_m": 484.7046035363158,
+                "hit100": 0.1111111111111111,
+                "events": 9
+              },
+              {
+                "case_id": "S8.B",
+                "mae_m": 484.7046035363158,
+                "hit100": 0.1111111111111111,
+                "events": 9
+              }
+            ]
+          },
+          "family-711": {
+            "mae_m": 653.9199075986469,
+            "hit100": 0.0,
+            "cases": [
+              {
+                "case_id": "S8.A",
+                "mae_m": 653.9199075986469,
+                "hit100": 0.0,
+                "events": 7
+              }
+            ]
+          },
+          "family-712": {
+            "mae_m": 854.1793537404328,
+            "hit100": 0.0,
+            "cases": [
+              {
+                "case_id": "S8.A",
+                "mae_m": 854.1793537404328,
+                "hit100": 0.0,
+                "events": 8
+              },
+              {
+                "case_id": "S8.B",
+                "mae_m": 854.1793537404328,
+                "hit100": 0.0,
+                "events": 8
+              }
+            ]
+          }
+        },
+        "events": 41,
+        "case_family_cells": 5,
+        "partner_missing_events": 5,
+        "event_pooled_mae_m": 657.7802896753935,
+        "event_pooled_hit100": 0.04878048780487805
+      },
+      "bank_test_descriptive_only": {
+        "trees": {
+          "family_macro_mae_m": 1911.0882662675137,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 2161.3744481776293,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2145.8996778318033,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2176.849218523455,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1435.5748266446658,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1435.5748266446658,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 2136.315523980246,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2137.8555512195817,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2134.77549674091,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 2027.6783472535103,
+          "event_pooled_hit100": 0.0
+        },
+        "knn1": {
+          "family_macro_mae_m": 1430.1077091695413,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1673.145695272015,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1459.133765441441,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1887.1576251025888,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 891.5772304907084,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 891.5772304907084,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1725.600201745901,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1751.5379169149464,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1699.6624865768554,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1560.1772282016009,
+          "event_pooled_hit100": 0.0
+        },
+        "knn5": {
+          "family_macro_mae_m": 1355.1060817903428,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1564.648853586826,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1430.6882734120388,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1698.609433761613,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 650.3106503714544,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 650.3106503714544,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1850.3587414127483,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1860.2934750449667,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1840.4240077805298,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1520.0388726772442,
+          "event_pooled_hit100": 0.0
+        },
+        "knn15": {
+          "family_macro_mae_m": 1366.1033774488071,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1408.0085010865578,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1353.8782677710342,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1462.1387344020816,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 622.3900080477773,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 622.3900080477773,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 2067.911623212086,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2069.2982838453654,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2066.524962578806,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1531.4016840801428,
+          "event_pooled_hit100": 0.0
+        },
+        "train_prior": {
+          "family_macro_mae_m": 2271.037110799168,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1749.0971281584555,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1749.0971281584555,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1749.0971281584555,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1478.9850004105538,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1478.9850004105538,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 3585.029203828496,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 3585.029203828496,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 3585.029203828496,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 2419.4417212434637,
+          "event_pooled_hit100": 0.0
+        },
+        "public_target_last": {
+          "family_macro_mae_m": 664.2679549584651,
+          "family_macro_hit100": 0.037037037037037035,
+          "family_values": {
+            "family-710": {
+              "mae_m": 484.7046035363158,
+              "hit100": 0.1111111111111111,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 484.7046035363158,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 484.7046035363158,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 653.9199075986469,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 653.9199075986469,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 854.1793537404328,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 854.1793537404328,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 854.1793537404328,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 657.7802896753935,
+          "event_pooled_hit100": 0.04878048780487805
+        },
+        "public_target_velocity": {
+          "family_macro_mae_m": 664.2679549584651,
+          "family_macro_hit100": 0.037037037037037035,
+          "family_values": {
+            "family-710": {
+              "mae_m": 484.7046035363158,
+              "hit100": 0.1111111111111111,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 484.7046035363158,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 484.7046035363158,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 653.9199075986469,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 653.9199075986469,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 854.1793537404328,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 854.1793537404328,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 854.1793537404328,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 657.7802896753935,
+          "event_pooled_hit100": 0.04878048780487805
+        },
+        "ignore_partner_trees": {
+          "family_macro_mae_m": 1907.4944502069484,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 2153.705743569002,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2153.705743569002,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2153.705743569002,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1406.6430556937373,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1406.6430556937373,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 2162.134551358105,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2162.134551358105,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2162.134551358105,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 2029.4477462397044,
+          "event_pooled_hit100": 0.0
+        },
+        "ignore_partner_knn1": {
+          "family_macro_mae_m": 1532.3509050498508,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1804.8192208136593,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1804.8192208136593,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1804.8192208136593,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 921.890078621805,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 921.890078621805,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1870.3434157140882,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1870.3434157140882,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1870.3434157140882,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1679.6456384493636,
+          "event_pooled_hit100": 0.0
+        },
+        "ignore_partner_knn5": {
+          "family_macro_mae_m": 1442.4661791634223,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1748.2868250587953,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1748.2868250587953,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1748.2868250587953,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 748.7518264665435,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 748.7518264665435,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1830.3598859649278,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1830.3598859649278,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1830.3598859649278,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1609.6630197990967,
+          "event_pooled_hit100": 0.0
+        },
+        "ignore_partner_knn15": {
+          "family_macro_mae_m": 1342.380711679779,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1510.5264196713733,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1510.5264196713733,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1510.5264196713733,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 539.7197000967215,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 539.7197000967215,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1976.896015271242,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1976.896015271242,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1976.896015271242,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1526.7768219293084,
+          "event_pooled_hit100": 0.0
+        },
+        "ignore_partner_train_prior": {
+          "family_macro_mae_m": 2271.037110799168,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1749.0971281584555,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1749.0971281584555,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1749.0971281584555,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1478.9850004105538,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1478.9850004105538,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 3585.029203828496,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 3585.029203828496,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 3585.029203828496,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 2419.4417212434637,
+          "event_pooled_hit100": 0.0
+        },
+        "public_partner_last": {
+          "family_macro_mae_m": 754.3514265606905,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 862.3990068862581,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 814.7471457703755,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 910.0508680021409,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 489.2364067361224,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 489.2364067361224,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 911.418866059691,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 929.5678117201364,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 893.2699203992456,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 817.818020196599,
+          "event_pooled_hit100": 0.0
+        },
+        "public_partner_velocity": {
+          "family_macro_mae_m": 707.4883473749206,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 800.1173851658045,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 767.0864820516196,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 833.1482882799896,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 491.1916583571641,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 491.1916583571641,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 831.1559986017934,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 858.3911367840021,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 803.9208604195846,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 759.4865980271543,
+          "event_pooled_hit100": 0.0
+        }
+      }
+    },
+    "joint_public_raw_partner": {
+      "selected_attacker": "public_partner_velocity",
+      "test": {
+        "family_macro_mae_m": 594.3291173559466,
+        "family_macro_hit100": 0.018518518518518517,
+        "family_values": {
+          "family-710": {
+            "mae_m": 473.93746717998806,
+            "hit100": 0.05555555555555555,
+            "cases": [
+              {
+                "case_id": "S8.A",
+                "mae_m": 727.8512009399572,
+                "hit100": 0.0,
+                "events": 9
+              },
+              {
+                "case_id": "S8.B",
+                "mae_m": 220.02373342001897,
+                "hit100": 0.1111111111111111,
+                "events": 9
+              }
+            ]
+          },
+          "family-711": {
+            "mae_m": 674.8726785708814,
+            "hit100": 0.0,
+            "cases": [
+              {
+                "case_id": "S8.A",
+                "mae_m": 674.8726785708814,
+                "hit100": 0.0,
+                "events": 7
+              }
+            ]
+          },
+          "family-712": {
+            "mae_m": 634.1772063169703,
+            "hit100": 0.0,
+            "cases": [
+              {
+                "case_id": "S8.A",
+                "mae_m": 746.5543055569985,
+                "hit100": 0.0,
+                "events": 8
+              },
+              {
+                "case_id": "S8.B",
+                "mae_m": 521.8001070769421,
+                "hit100": 0.0,
+                "events": 8
+              }
+            ]
+          }
+        },
+        "events": 41,
+        "case_family_cells": 5,
+        "partner_missing_events": 5,
+        "event_pooled_mae_m": 570.7760600074996,
+        "event_pooled_hit100": 0.024390243902439025
+      },
+      "bank_test_descriptive_only": {
+        "trees": {
+          "family_macro_mae_m": 1950.8086119677682,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 2202.68950457775,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2206.15219199731,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2199.2268171581895,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1575.210038955354,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1575.210038955354,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 2074.5262923702003,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2073.241158095885,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2075.8114266445154,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 2045.5439520246387,
+          "event_pooled_hit100": 0.0
+        },
+        "knn1": {
+          "family_macro_mae_m": 1487.4009642300055,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1870.2320299658359,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1837.7663057679185,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1902.6977541637534,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 814.2570001998448,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 814.2570001998448,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1777.7138625243356,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1777.7138625243356,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1777.7138625243356,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1653.838959540813,
+          "event_pooled_hit100": 0.0
+        },
+        "knn5": {
+          "family_macro_mae_m": 1359.887792356022,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1566.4934556611224,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1535.8465443304733,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1597.1403669917718,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 748.398064130848,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 748.398064130848,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1764.771857276095,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1748.8057229995206,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1780.7379915526694,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1504.1955699325283,
+          "event_pooled_hit100": 0.0
+        },
+        "knn15": {
+          "family_macro_mae_m": 1233.863537889725,
+          "family_macro_hit100": 0.047619047619047616,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1311.958837052643,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1283.9472046069957,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1339.9704694982906,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 424.2804987115343,
+              "hit100": 0.14285714285714285,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 424.2804987115343,
+                  "hit100": 0.14285714285714285,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1965.3512779049975,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1939.809548090442,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1990.8930077195528,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1415.3864147416652,
+          "event_pooled_hit100": 0.024390243902439025
+        },
+        "train_prior": {
+          "family_macro_mae_m": 2271.037110799168,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1749.0971281584555,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1749.0971281584555,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1749.0971281584555,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1478.9850004105538,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1478.9850004105538,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 3585.029203828496,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 3585.029203828496,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 3585.029203828496,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 2419.4417212434637,
+          "event_pooled_hit100": 0.0
+        },
+        "public_target_last": {
+          "family_macro_mae_m": 664.2679549584651,
+          "family_macro_hit100": 0.037037037037037035,
+          "family_values": {
+            "family-710": {
+              "mae_m": 484.7046035363158,
+              "hit100": 0.1111111111111111,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 484.7046035363158,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 484.7046035363158,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 653.9199075986469,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 653.9199075986469,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 854.1793537404328,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 854.1793537404328,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 854.1793537404328,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 657.7802896753935,
+          "event_pooled_hit100": 0.04878048780487805
+        },
+        "public_target_velocity": {
+          "family_macro_mae_m": 664.2679549584651,
+          "family_macro_hit100": 0.037037037037037035,
+          "family_values": {
+            "family-710": {
+              "mae_m": 484.7046035363158,
+              "hit100": 0.1111111111111111,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 484.7046035363158,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 484.7046035363158,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 653.9199075986469,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 653.9199075986469,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 854.1793537404328,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 854.1793537404328,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 854.1793537404328,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 657.7802896753935,
+          "event_pooled_hit100": 0.04878048780487805
+        },
+        "ignore_partner_trees": {
+          "family_macro_mae_m": 1907.4944502069484,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 2153.705743569002,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2153.705743569002,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2153.705743569002,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1406.6430556937373,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1406.6430556937373,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 2162.134551358105,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2162.134551358105,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2162.134551358105,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 2029.4477462397044,
+          "event_pooled_hit100": 0.0
+        },
+        "ignore_partner_knn1": {
+          "family_macro_mae_m": 1532.3509050498508,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1804.8192208136593,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1804.8192208136593,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1804.8192208136593,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 921.890078621805,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 921.890078621805,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1870.3434157140882,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1870.3434157140882,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1870.3434157140882,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1679.6456384493636,
+          "event_pooled_hit100": 0.0
+        },
+        "ignore_partner_knn5": {
+          "family_macro_mae_m": 1442.4661791634223,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1748.2868250587953,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1748.2868250587953,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1748.2868250587953,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 748.7518264665435,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 748.7518264665435,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1830.3598859649278,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1830.3598859649278,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1830.3598859649278,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1609.6630197990967,
+          "event_pooled_hit100": 0.0
+        },
+        "ignore_partner_knn15": {
+          "family_macro_mae_m": 1342.380711679779,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1510.5264196713733,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1510.5264196713733,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1510.5264196713733,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 539.7197000967215,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 539.7197000967215,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1976.896015271242,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1976.896015271242,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1976.896015271242,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1526.7768219293084,
+          "event_pooled_hit100": 0.0
+        },
+        "ignore_partner_train_prior": {
+          "family_macro_mae_m": 2271.037110799168,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1749.0971281584555,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1749.0971281584555,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1749.0971281584555,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1478.9850004105538,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1478.9850004105538,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 3585.029203828496,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 3585.029203828496,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 3585.029203828496,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 2419.4417212434637,
+          "event_pooled_hit100": 0.0
+        },
+        "public_partner_last": {
+          "family_macro_mae_m": 570.4339937758838,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 519.2013407499427,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 761.8378378719112,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 276.56484362797414,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 625.7370227066398,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 625.7370227066398,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 566.3636178710691,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 665.6645890695438,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 467.0626466725943,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 555.7951506922574,
+          "event_pooled_hit100": 0.0
+        },
+        "public_partner_velocity": {
+          "family_macro_mae_m": 594.3291173559466,
+          "family_macro_hit100": 0.018518518518518517,
+          "family_values": {
+            "family-710": {
+              "mae_m": 473.93746717998806,
+              "hit100": 0.05555555555555555,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 727.8512009399572,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 220.02373342001897,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 674.8726785708814,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 674.8726785708814,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 634.1772063169703,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 746.5543055569985,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 521.8001070769421,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 570.7760600074996,
+          "event_pooled_hit100": 0.024390243902439025
+        }
+      }
+    },
+    "joint_unrelated_protected_partner": {
+      "selected_attacker": "public_target_last",
+      "test": {
+        "family_macro_mae_m": 664.2679549584651,
+        "family_macro_hit100": 0.037037037037037035,
+        "family_values": {
+          "family-710": {
+            "mae_m": 484.7046035363158,
+            "hit100": 0.1111111111111111,
+            "cases": [
+              {
+                "case_id": "S8.A",
+                "mae_m": 484.7046035363158,
+                "hit100": 0.1111111111111111,
+                "events": 9
+              },
+              {
+                "case_id": "S8.B",
+                "mae_m": 484.7046035363158,
+                "hit100": 0.1111111111111111,
+                "events": 9
+              }
+            ]
+          },
+          "family-711": {
+            "mae_m": 653.9199075986469,
+            "hit100": 0.0,
+            "cases": [
+              {
+                "case_id": "S8.A",
+                "mae_m": 653.9199075986469,
+                "hit100": 0.0,
+                "events": 7
+              }
+            ]
+          },
+          "family-712": {
+            "mae_m": 854.1793537404328,
+            "hit100": 0.0,
+            "cases": [
+              {
+                "case_id": "S8.A",
+                "mae_m": 854.1793537404328,
+                "hit100": 0.0,
+                "events": 8
+              },
+              {
+                "case_id": "S8.B",
+                "mae_m": 854.1793537404328,
+                "hit100": 0.0,
+                "events": 8
+              }
+            ]
+          }
+        },
+        "events": 41,
+        "case_family_cells": 5,
+        "partner_missing_events": 5,
+        "event_pooled_mae_m": 657.7802896753935,
+        "event_pooled_hit100": 0.04878048780487805
+      },
+      "bank_test_descriptive_only": {
+        "trees": {
+          "family_macro_mae_m": 1909.0345323475149,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 2099.7143078691897,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2098.3809730799135,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2101.0476426584664,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1476.558833801033,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1476.558833801033,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 2150.830455372322,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2156.7627591586593,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2144.898151585984,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 2013.2696747368243,
+          "event_pooled_hit100": 0.0
+        },
+        "knn1": {
+          "family_macro_mae_m": 2223.4752249033504,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1984.6704907433514,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1921.022964592709,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2048.318016893994,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 2033.3110760254174,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2033.3110760254174,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 2652.444107941282,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2682.9025867965447,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2621.985629086019,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 2253.569563234604,
+          "event_pooled_hit100": 0.0
+        },
+        "knn5": {
+          "family_macro_mae_m": 2165.543185627046,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1783.2375651623818,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1784.8293004520444,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1781.645829872719,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1938.4162404049582,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1938.4162404049582,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 2774.975751313798,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 3017.215307377999,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2532.7361952495967,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 2196.751265287277,
+          "event_pooled_hit100": 0.0
+        },
+        "knn15": {
+          "family_macro_mae_m": 2117.915587196078,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1783.0124135052092,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1822.5827477710773,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1743.4420792393414,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1565.697447737994,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1565.697447737994,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 3005.0369003450305,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 3215.740698468611,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2794.3331022214506,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 2222.7974629946393,
+          "event_pooled_hit100": 0.0
+        },
+        "train_prior": {
+          "family_macro_mae_m": 2271.037110799168,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1749.0971281584555,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1749.0971281584555,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1749.0971281584555,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1478.9850004105538,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1478.9850004105538,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 3585.029203828496,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 3585.029203828496,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 3585.029203828496,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 2419.4417212434637,
+          "event_pooled_hit100": 0.0
+        },
+        "public_target_last": {
+          "family_macro_mae_m": 664.2679549584651,
+          "family_macro_hit100": 0.037037037037037035,
+          "family_values": {
+            "family-710": {
+              "mae_m": 484.7046035363158,
+              "hit100": 0.1111111111111111,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 484.7046035363158,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 484.7046035363158,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 653.9199075986469,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 653.9199075986469,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 854.1793537404328,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 854.1793537404328,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 854.1793537404328,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 657.7802896753935,
+          "event_pooled_hit100": 0.04878048780487805
+        },
+        "public_target_velocity": {
+          "family_macro_mae_m": 664.2679549584651,
+          "family_macro_hit100": 0.037037037037037035,
+          "family_values": {
+            "family-710": {
+              "mae_m": 484.7046035363158,
+              "hit100": 0.1111111111111111,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 484.7046035363158,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 484.7046035363158,
+                  "hit100": 0.1111111111111111,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 653.9199075986469,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 653.9199075986469,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 854.1793537404328,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 854.1793537404328,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 854.1793537404328,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 657.7802896753935,
+          "event_pooled_hit100": 0.04878048780487805
+        },
+        "ignore_partner_trees": {
+          "family_macro_mae_m": 1907.4944502069484,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 2153.705743569002,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2153.705743569002,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2153.705743569002,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1406.6430556937373,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1406.6430556937373,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 2162.134551358105,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2162.134551358105,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2162.134551358105,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 2029.4477462397044,
+          "event_pooled_hit100": 0.0
+        },
+        "ignore_partner_knn1": {
+          "family_macro_mae_m": 1532.3509050498508,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1804.8192208136593,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1804.8192208136593,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1804.8192208136593,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 921.890078621805,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 921.890078621805,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1870.3434157140882,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1870.3434157140882,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1870.3434157140882,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1679.6456384493636,
+          "event_pooled_hit100": 0.0
+        },
+        "ignore_partner_knn5": {
+          "family_macro_mae_m": 1442.4661791634223,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1748.2868250587953,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1748.2868250587953,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1748.2868250587953,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 748.7518264665435,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 748.7518264665435,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1830.3598859649278,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1830.3598859649278,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1830.3598859649278,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1609.6630197990967,
+          "event_pooled_hit100": 0.0
+        },
+        "ignore_partner_knn15": {
+          "family_macro_mae_m": 1342.380711679779,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1510.5264196713733,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1510.5264196713733,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1510.5264196713733,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 539.7197000967215,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 539.7197000967215,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1976.896015271242,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1976.896015271242,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1976.896015271242,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1526.7768219293084,
+          "event_pooled_hit100": 0.0
+        },
+        "ignore_partner_train_prior": {
+          "family_macro_mae_m": 2271.037110799168,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1749.0971281584555,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1749.0971281584555,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1749.0971281584555,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1478.9850004105538,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1478.9850004105538,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 3585.029203828496,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 3585.029203828496,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 3585.029203828496,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 2419.4417212434637,
+          "event_pooled_hit100": 0.0
+        },
+        "public_partner_last": {
+          "family_macro_mae_m": 1661.857160494791,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 881.282598426287,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 845.5291142155479,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 917.0360826370262,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1458.2147168611173,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1458.2147168611173,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 2646.0741661969687,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2519.5849983736975,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2772.5633340202403,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1668.4823524110366,
+          "event_pooled_hit100": 0.0
+        },
+        "public_partner_velocity": {
+          "family_macro_mae_m": 1675.0185840509885,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 881.9226422653694,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 847.2955781268003,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 916.5497064039387,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1531.3969840141103,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1531.3969840141103,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 2611.7361258734854,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 2520.106116795114,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 2703.3661349518575,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 5,
+          "event_pooled_mae_m": 1667.8576698256386,
+          "event_pooled_hit100": 0.0
+        }
+      }
+    },
+    "raw_target_positive_control": {
+      "selected_attacker": "public_target_last",
+      "test": {
+        "family_macro_mae_m": 0.0,
+        "family_macro_hit100": 1.0,
+        "family_values": {
+          "family-710": {
+            "mae_m": 0.0,
+            "hit100": 1.0,
+            "cases": [
+              {
+                "case_id": "S8.A",
+                "mae_m": 0.0,
+                "hit100": 1.0,
+                "events": 9
+              },
+              {
+                "case_id": "S8.B",
+                "mae_m": 0.0,
+                "hit100": 1.0,
+                "events": 9
+              }
+            ]
+          },
+          "family-711": {
+            "mae_m": 0.0,
+            "hit100": 1.0,
+            "cases": [
+              {
+                "case_id": "S8.A",
+                "mae_m": 0.0,
+                "hit100": 1.0,
+                "events": 7
+              }
+            ]
+          },
+          "family-712": {
+            "mae_m": 0.0,
+            "hit100": 1.0,
+            "cases": [
+              {
+                "case_id": "S8.A",
+                "mae_m": 0.0,
+                "hit100": 1.0,
+                "events": 8
+              },
+              {
+                "case_id": "S8.B",
+                "mae_m": 0.0,
+                "hit100": 1.0,
+                "events": 8
+              }
+            ]
+          }
+        },
+        "events": 41,
+        "case_family_cells": 5,
+        "partner_missing_events": 41,
+        "event_pooled_mae_m": 0.0,
+        "event_pooled_hit100": 1.0
+      },
+      "bank_test_descriptive_only": {
+        "trees": {
+          "family_macro_mae_m": 1082.7270675040365,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1484.8247439790607,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1484.8247439790607,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1484.8247439790607,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 422.45104768133314,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 422.45104768133314,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1340.905410851716,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1340.905410851716,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1340.905410851716,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 41,
+          "event_pooled_mae_m": 1247.2802268053629,
+          "event_pooled_hit100": 0.0
+        },
+        "knn1": {
+          "family_macro_mae_m": 1088.0051385659206,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1252.7894202741993,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1252.7894202741993,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1252.7894202741993,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 575.808819286606,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 575.808819286606,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1435.4171761369566,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1435.4171761369566,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1435.4171761369566,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 41,
+          "event_pooled_mae_m": 1208.476734588613,
+          "event_pooled_hit100": 0.0
+        },
+        "knn5": {
+          "family_macro_mae_m": 1036.4046981289603,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1144.7327128395007,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1144.7327128395007,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1144.7327128395007,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 496.8747142127371,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 496.8747142127371,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1467.606667334643,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1467.606667334643,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1467.606667334643,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 41,
+          "event_pooled_mae_m": 1160.1224026330356,
+          "event_pooled_hit100": 0.0
+        },
+        "knn15": {
+          "family_macro_mae_m": 1012.0986025245451,
+          "family_macro_hit100": 0.047619047619047616,
+          "family_values": {
+            "family-710": {
+              "mae_m": 998.8247163790121,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 998.8247163790121,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 998.8247163790121,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 433.2615486705975,
+              "hit100": 0.14285714285714285,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 433.2615486705975,
+                  "hit100": 0.14285714285714285,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 1604.2095425240252,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1604.2095425240252,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1604.2095425240252,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 41,
+          "event_pooled_mae_m": 1138.5128881927026,
+          "event_pooled_hit100": 0.024390243902439025
+        },
+        "train_prior": {
+          "family_macro_mae_m": 2271.037110799168,
+          "family_macro_hit100": 0.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 1749.0971281584555,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1749.0971281584555,
+                  "hit100": 0.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 1749.0971281584555,
+                  "hit100": 0.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 1478.9850004105538,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 1478.9850004105538,
+                  "hit100": 0.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 3585.029203828496,
+              "hit100": 0.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 3585.029203828496,
+                  "hit100": 0.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 3585.029203828496,
+                  "hit100": 0.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 41,
+          "event_pooled_mae_m": 2419.4417212434637,
+          "event_pooled_hit100": 0.0
+        },
+        "public_target_last": {
+          "family_macro_mae_m": 0.0,
+          "family_macro_hit100": 1.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 0.0,
+              "hit100": 1.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 0.0,
+                  "hit100": 1.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 0.0,
+                  "hit100": 1.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 0.0,
+              "hit100": 1.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 0.0,
+                  "hit100": 1.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 0.0,
+              "hit100": 1.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 0.0,
+                  "hit100": 1.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 0.0,
+                  "hit100": 1.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 41,
+          "event_pooled_mae_m": 0.0,
+          "event_pooled_hit100": 1.0
+        },
+        "public_target_velocity": {
+          "family_macro_mae_m": 0.0,
+          "family_macro_hit100": 1.0,
+          "family_values": {
+            "family-710": {
+              "mae_m": 0.0,
+              "hit100": 1.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 0.0,
+                  "hit100": 1.0,
+                  "events": 9
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 0.0,
+                  "hit100": 1.0,
+                  "events": 9
+                }
+              ]
+            },
+            "family-711": {
+              "mae_m": 0.0,
+              "hit100": 1.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 0.0,
+                  "hit100": 1.0,
+                  "events": 7
+                }
+              ]
+            },
+            "family-712": {
+              "mae_m": 0.0,
+              "hit100": 1.0,
+              "cases": [
+                {
+                  "case_id": "S8.A",
+                  "mae_m": 0.0,
+                  "hit100": 1.0,
+                  "events": 8
+                },
+                {
+                  "case_id": "S8.B",
+                  "mae_m": 0.0,
+                  "hit100": 1.0,
+                  "events": 8
+                }
+              ]
+            }
+          },
+          "events": 41,
+          "case_family_cells": 5,
+          "partner_missing_events": 41,
+          "event_pooled_mae_m": 0.0,
+          "event_pooled_hit100": 1.0
+        }
+      }
+    }
+  },
+  "no_new_GPS_sampler_or_protection_calls": true,
+  "scope": "Previously inspected12-family6/3/3 synthetic development; legacy per-session cap, reconstructed map, one retained draw; NOT current-model/fullS8/group-privacy/real-person confirmation"
+}

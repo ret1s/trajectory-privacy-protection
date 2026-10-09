@@ -1,0 +1,116 @@
+{
+  "schema": "thesis-depth-figure-v1",
+  "rows": [
+    {
+      "purpose": "nearest_distance",
+      "label": "Gần nhất",
+      "L20": 92.4493709582599,
+      "L30": 94.67964726631398,
+      "gain_pp": 2.230276308054076,
+      "interval95_pp": [
+        1.7413407186948628,
+        2.7315845458553762
+      ],
+      "reference_coverage": {
+        "defined_windows": 18114,
+        "total_windows": 18114,
+        "defined_categories": 108684,
+        "total_categories": 108684
+      },
+      "interval_scope": "secondary, multiplicity unadjusted"
+    },
+    {
+      "purpose": "fastest_travel",
+      "label": "Nhanh nhất",
+      "L20": 92.44863756613762,
+      "L30": 94.67799088771316,
+      "gain_pp": 2.2293533215755357,
+      "interval95_pp": [
+        1.7406943709582532,
+        2.730798023221631
+      ],
+      "reference_coverage": {
+        "defined_windows": 18114,
+        "total_windows": 18114,
+        "defined_categories": 108684,
+        "total_categories": 108684
+      },
+      "interval_scope": "secondary, multiplicity unadjusted"
+    },
+    {
+      "purpose": "within_radius",
+      "label": "Trong bán kính",
+      "L20": 81.69384397086344,
+      "L30": 86.87856582126925,
+      "gain_pp": 5.184721850405816,
+      "interval95_pp": [
+        3.99189708349019,
+        6.395670870585844
+      ],
+      "reference_coverage": {
+        "defined_windows": 17577,
+        "total_windows": 18114,
+        "defined_categories": 42258,
+        "total_categories": 108684
+      },
+      "interval_scope": "secondary, multiplicity unadjusted"
+    },
+    {
+      "purpose": "minimum_detour",
+      "label": "Ít vòng đường nhất",
+      "L20": 92.26558641975315,
+      "L30": 94.51595972957088,
+      "gain_pp": 2.2503733098177476,
+      "interval95_pp": [
+        1.7333391387419053,
+        2.797995480599633
+      ],
+      "reference_coverage": {
+        "defined_windows": 18114,
+        "total_windows": 18114,
+        "defined_categories": 108684,
+        "total_categories": 108684
+      },
+      "interval_scope": "secondary, multiplicity unadjusted"
+    },
+    {
+      "purpose": "equal_purpose_macro",
+      "label": "Trung bình đều\n(chính)",
+      "L20": 89.71435972875352,
+      "L30": 92.68804092621681,
+      "gain_pp": 2.9736811974632937,
+      "interval95_pp": [
+        2.3078530151675904,
+        3.646377214822845
+      ],
+      "reference_coverage": null,
+      "interval_scope": "primary predeclared"
+    }
+  ],
+  "cost": {
+    "L20": {
+      "requests": 90570,
+      "request_bytes": 13678985,
+      "reply_bytes": 494713236
+    },
+    "L30": {
+      "requests": 90570,
+      "request_bytes": 13678985,
+      "reply_bytes": 648578577
+    },
+    "reply_byte_ratio": 1.311019252777785,
+    "scope": "compact application JSON estimates; HTTP/TLS, latency and battery not measured"
+  },
+  "source_sha256": {
+    "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/paired_readout.json": "f1985f122e40a304afedadbbebf9fe73951e74c4241b6ec6fe00c513f9dcdd2f",
+    "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/recommended_configuration.json": "d50d6eb4594ced9d94b937d1d5be5acc469db08ff7514ef6d2c6d48ed538b382",
+    "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/validation.json": "8e2f0eb8b245f94edc383f9d5ef7920a40bf6ba797101e51a7925ec3d2ee19d0"
+  },
+  "builder_sha256": "231cd21a65ef1a3662389a22fb12a2c3ba94d379ccd1a6ac9f6aeeba62b5ab04",
+  "matplotlib_version": "3.11.2",
+  "output_sha256": {
+    "depth_utility_cost.pdf": "6de41b19d4c3a60de7ab3b282e184076d7d82c9cc1b031891acfe4637f9f4b90",
+    "depth_utility_cost.png": "2696fb1d1a9d25c79839a09f7d8acf2f3280df5f05ad55c1c6b285638dd46af4"
+  },
+  "scope": "Formatting certified retained statistics only; no rescoring or new uncertainty."
+}

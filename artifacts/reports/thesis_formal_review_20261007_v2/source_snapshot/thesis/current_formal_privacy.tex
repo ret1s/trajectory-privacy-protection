@@ -1,0 +1,348 @@
+% Ideal-kernel proof for the CURRENT matched, paced REM/noisy-reuse pipeline.
+% Integrator may replace the shorter privacy proof in current_method.tex.
+% No production code, sampler or sealed evidence is changed by this module.
+\section{Chứng minh riêng tư cho cơ chế lý tưởng}
+\label{sec:formal-current-privacy}
+\label{sec:current-ideal-claim}
+
+Phần này chứng minh rằng trong cùng một epoch công khai, thay tọa độ đầu vào
+bằng một chuỗi gần chúng chỉ thay xác suất quan sát máy chủ trong một hệ số
+đã chặn. Đây là áp dụng của riêng tư theo khoảng cách và cơ chế dự đoán có quản lý
+ngân sách~\cite{andres2013geoi,chatzikokolakis2014predictive}, không phải
+một nguyên lý riêng tư mới. Chứng minh cho kernel lý tưởng, chưa là chứng chỉ pure Geo-I
+cho mã float của simulator.
+
+Ý chính là: hai đầu vào gần nhau phải tạo ra phân phối quan sát gần nhau. Bảo đảm này phải còn đúng sau kiểm tra giữ/làm mới, qua nhiều phiên và khi chuyển neo thành tập Q. Phần tiếp theo chứng minh tính khả thi trên đường, ranh giới nội dung truy vấn và điều kiện phục hồi top-$k$; Chương~\ref{ch:experiments} mới đánh giá chất lượng thực tế.
+
+\subsection{Miền so sánh và các giả định}
+\label{sec:formal-privacy-assumptions}
+
+Giữ ngữ cảnh $\mathcal C$ cố định: graph và support công khai $V$ hữu hạn,
+không rỗng; phép chiếu $\Pi$ cố định; catalogue/prior/model công khai; các
+tham số $N,H,C,\theta,K,L$; epoch, thời điểm mở/đóng phiên và danh sách sự
+kiện công khai hữu hạn. Giả sử $N,H$ là số nguyên dương, $H\geq1$ và
+$C>0$. Với tọa độ GPS hợp lệ $x,x'$, đặt
+\begin{equation}
+ d_E(x,x')=\|\Pi(x)-\Pi(x')\|_2,\qquad
+ D_\infty(X,X')=\max_{s,t}d_E(x_{s,t},x'_{s,t}).
+ \label{eq:formal-trace-metric}
+\end{equation}
+$X,X'$ có cùng danh sách phiên/sự kiện, chỉ khác các tọa độ. Khoảng cách có
+đơn vị m trong phép chiếu; nó không phải khoảng cách đường có hướng hoặc
+định lý cho khoảng cách geodesic trên toàn cầu. Định lý bảo vệ tọa độ GPS được đưa vào cơ chế, chưa tự chuyển thành bảo đảm cho vị trí vật lý thật khi cảm biến sai. Tọa độ ở event không được
+đọc vẫn thuộc $X$ để giữ cùng miền so sánh, nhưng không đi vào tính toán
+riêng tư tại event đó.
+
+\noindent\textbf{Định nghĩa (Geo-I).} Một cơ chế ngẫu nhiên $M$ thỏa $\varepsilon$-Geo-I nếu với mọi $x,x'$ và mọi biến cố đầu ra $A$,
+\begin{equation}
+ \Pr[M(x)\in A]\leq e^{\varepsilon d_E(x,x')}\Pr[M(x')\in A].
+ \label{eq:formal-geoi-definition}
+\end{equation}
+Bất đẳng thức cũng áp dụng khi đổi $x,x'$. Nó chặn mức thay đổi xác suất, không bắt mọi điểm đầu ra phải nằm trong một bán kính cố định. $\varepsilon$ nhỏ hơn cho cận chặt hơn ở cùng khoảng cách~\cite{andres2013geoi}.
+
+Chứng minh dùng các điều kiện sau:
+\begin{enumerate}
+ \item Tọa độ/tham số hợp lệ, hữu hạn. Support, phép chiếu và tham số không
+ lấy từ GPS chưa bảo vệ; không cắt support hoặc loại mẫu theo GPS thật.
+ \item REM và Laplace được lấy mẫu đúng trong số học thực với randomness
+ độc lập lý tưởng. Ngẫu nhiên cho hậu xử lý độc lập với ngẫu nhiên REM/phép thử và chỉ dùng
+ transcript đã bảo vệ. Đây là giả định toán học, không phải tính chất đã
+ chứng nhận của NumPy PRNG/HMAC trong mã chạy.
+ \item Lần đầu tạo neo bằng REM. Các lần sau dùng neo đã bảo vệ gần nhất
+ làm tham chiếu, thử Laplace rồi giữ hoặc tạo neo mới. Quyết định cho phép
+ đọc được tính \emph{trước} gọi GPS từ đồng hồ công khai và sổ chi phí của
+ lịch sử đã bảo vệ. Bộ lọc dự toán đủ phí của nhánh đắt nhất.
+ \item Sổ chung cấp tối đa $N$ slot cho chủ thể liên kết, dành trước dùng và
+ không hoàn lại phần dư theo nhánh. Thiết bị tin cậy không xóa/rollback hoặc
+ mở sổ thứ hai để tự cấp lại cap. Lỗi/crash quan sát được không tạo tín hiệu
+ mới từ GPS/nhu cầu chưa bảo vệ.
+ \item Quan sát được chứng minh là bản tin logic và phản hồi của máy chủ.
+ Mọi Q, nội dung request và hành vi gửi sau cơ chế chỉ dùng $\mathcal C$
+ hoặc transcript đã bảo vệ. GPS cục bộ, mục đích, category, radius, đích,
+ đáp án local, click và khóa RNG không được gửi hoặc dùng để kích hoạt
+ request/retry phụ thuộc bí mật.
+\end{enumerate}
+
+Thời điểm mở/đóng ứng dụng và metadata định danh được giữ cùng nhau khi so
+sánh $X,X'$; định lý không bảo vệ sự thay đổi của những trường đó. Một lịch
+logic cố định cũng chưa chứng minh latency của packet thực độc lập GPS.
+
+\subsection{Bổ đề REM: phải tính cả hệ số chuẩn hóa}
+\label{sec:formal-rem}
+
+Gọi $a_v$ là tọa độ phẳng công khai của trạng thái $v\in V$, và $u>0$ là
+giá của một đơn vị ngân sách, có đơn vị $\mathrm m^{-1}$. Kernel REM là
+\begin{equation}
+ R_u(v\mid x)=\frac{\exp[-u\|\Pi(x)-a_v\|_2/2]}{Z_u(x)},\qquad
+ Z_u(x)=\sum_{w\in V}\exp[-u\|\Pi(x)-a_w\|_2/2].
+ \label{eq:formal-rem-kernel}
+\end{equation}
+Do $V$ hữu hạn, không rỗng, mọi số hạng dương nên $0<Z_u(x)<\infty$ và mọi
+trạng thái đều có xác suất dương. Với $d=d_E(x,x')$, bất đẳng thức tam giác
+cho
+\begin{equation}
+ e^{-ud/2}\leq
+ \frac{\exp[-u\|\Pi(x)-a_v\|_2/2]}{\exp[-u\|\Pi(x')-a_v\|_2/2]}
+ \leq e^{ud/2}.
+ \label{eq:formal-rem-score}
+\end{equation}
+Cộng cùng bất đẳng thức theo $v$ cho
+$e^{-ud/2}\leq Z_u(x)/Z_u(x')\leq e^{ud/2}$. Vì vậy
+\begin{equation}
+ e^{-ud}\leq\frac{R_u(v\mid x)}{R_u(v\mid x')}\leq e^{ud}.
+ \label{eq:formal-rem-ratio}
+\end{equation}
+Đây là $u$-Geo-I theo $d_E$. Hệ số $1/2$ trong số mũ cần thiết cho cách
+chặn này: một nửa trả cho score, một nửa cho chuẩn hóa. Cộng xác suất của
+các trạng thái cùng tọa độ vẫn giữ cận; không cần giả định mỗi vertex có
+tọa độ khác nhau. Support cố định là điều kiện riêng tư, còn khả thi trên
+đường của Q thuộc bước hậu xử lý sau REM.\footnote{Kernel hiện tại:
+\path{core/mechanisms.py}, lớp \texttt{RoadExponential}.}
+
+\subsection{Bổ đề phép thử: cả giữ và không giữ đều phải riêng tư}
+\label{sec:formal-private-test}
+
+Tại một lịch sử đã bảo vệ cố định, tham chiếu $h$ là cùng một điểm dưới
+$X,X'$. Đặt $g_h(x)=\|\Pi(x)-h\|_2$. Hàm này là 1-Lipschitz:
+$|g_h(x)-g_h(x')|\leq d_E(x,x')$. Với
+$Y=g_h(x)+\eta$, $\eta\sim\operatorname{Lap}(1/u)$, mật độ là
+\begin{equation}
+ f_x(y)=\frac{u}{2}e^{-u|y-g_h(x)|},\qquad
+ \frac{f_x(y)}{f_{x'}(y)}
+ \leq e^{u|g_h(x)-g_h(x')|}\leq e^{ud_E(x,x')}.
+ \label{eq:formal-laplace-density}
+\end{equation}
+Tích phân trên hai miền $(-\infty,\theta]$ và $(\theta,\infty)$, với
+$\theta$ hữu hạn công khai, cho
+\begin{equation}
+ \begin{split}
+ q_x&=\Pr[Y\leq\theta],\\
+ q_x&\leq e^{ud_E(x,x')}q_{x'},\qquad
+ 1-q_x\leq e^{ud_E(x,x')}(1-q_{x'}).
+ \end{split}
+ \label{eq:formal-test-two-branches}
+\end{equation}
+Đổi $x,x'$ cho hai cận ngược. Cả $q_x$ và $1-q_x$ đều dương với các
+tọa độ hữu hạn. Phép thử không phải rule ``dưới ngưỡng luôn giữ, trên ngưỡng
+luôn tạo mới''; cả hai kết quả đều được trả phí riêng tư.\footnote{Phép thử:
+\path{core/mechanisms.py}, lớp \texttt{PrivateReuseSMREM}.}
+
+Với khoảng cách $d=\|\Pi(x)-h\|_2$, xác suất giữ có biểu thức cụ thể
+\begin{equation}
+ q(d)=\begin{cases}
+ 1-\tfrac12 e^{-u(\theta-d)},&d\leq\theta,\\
+ \tfrac12 e^{-u(d-\theta)},&d>\theta.
+ \end{cases}
+ \label{eq:formal-hold-probability}
+\end{equation}
+Tại $u=0{,}00125\,\mathrm m^{-1}$, $\theta=200$ m, khoảng cách 50 m cho
+$q\simeq0{,}5855$, còn 1.200 m cho $q\simeq0{,}1433$. Ngưỡng 200 m
+không là cận cứng của sai số. Với $r\geq\theta$, điều kiện theo lịch sử trước
+test rồi lấy trung bình cho
+\begin{equation}
+ \Pr[\text{giữ}\ \text{và}\ d>r]
+ \leq\tfrac12e^{-u(r-\theta)}.
+ \label{eq:formal-far-hold-joint}
+\end{equation}
+Đây là cận biến cố chung tại một event, không phải
+$\Pr[d>r\mid\text{giữ}]$; xác suất có điều kiện đó có thể bằng 1 khi
+tham chiếu luôn xa. Không chuyển cận này thành bảo đảm sai số của Q hoặc
+Recall người dùng.
+
+\subsection{Chi phí theo nhánh là cận của xác suất chung}
+\label{sec:formal-joint-branch}
+
+Để chứng minh, xét transcript mở rộng $E$: tại mỗi event nó ghi bỏ qua,
+tạo neo đầu, giữ neo hoặc tạo neo mới, kèm ID trạng thái khi lấy mẫu REM.
+$E$ không chứa GPS thật, giá trị nhiễu $\eta$, các giá trị ngẫu nhiên gốc hoặc khóa RNG;
+nó là công cụ chứng minh, không yêu cầu công bố các trường này. Gọi
+$e_{<i}$ là phần lịch sử trước sự kiện $i$ (prefix) cố định; neo $h$, số đơn vị đã chi và đồng hồ đọc
+đều được xác định từ prefix đó. Tại event được đọc sau lần đầu, kernel
+\emph{chung} của nhánh và neo là
+\begin{equation}
+ \begin{split}
+ K_x(\text{giữ}\mid e_{<i})&=q_x,\\
+ K_x(\text{mới},v\mid e_{<i})&=(1-q_x)R_u(v\mid x).
+ \end{split}
+ \label{eq:formal-extended-step}
+\end{equation}
+Fresh REM dùng randomness độc lập với phép thử, nên có tích thứ hai.
+Bổ đề trên cho cận một đơn vị $u$ ở nhánh giữ và hai đơn vị $2u$ ở nhánh
+mới. Lần đầu không có test, chỉ tốn $u$. Event bị bỏ qua theo pacing/cap
+không đọc GPS, kernel không phụ thuộc $x$ và tốn 0.
+
+\textbf{Không được bỏ xác suất nhánh hoặc chuẩn hóa lại đường đã chọn.}
+Các cận này so sánh xác suất chung của \emph{cùng} outcome khi điều kiện
+theo \emph{cùng prefix}, không phải định lý rằng một cơ chế được chọn sau
+chạy có epsilon bằng số lần tạo neo mới. Nếu fresh REM lại lấy đúng $h$,
+outcome ``mới, $h$'' vẫn khác outcome ``giữ'' trong $E$. Khi chỉ quan sát
+neo, phải cộng cả hai khối xác suất; không suy nhánh từ việc hai tọa độ bằng
+nhau. Không cần công bố, hoặc giả định đối thủ biết, nhánh nội bộ để lấy
+biên này.
+
+\subsection{Định lý bộ lọc và hợp thành qua phiên}
+\label{sec:formal-adaptive-cap}
+
+Đặt $U=2H-1$, $u=C/(NU)$ như bộ lọc khớp cap hiện tại. Trước đọc đầu cần
+còn ít nhất 1 đơn vị; các lần sau cần ít nhất 2. Nếu không đủ dự toán, không
+đọc GPS và tiếp tục hậu xử lý. Với mọi đường $e$, gọi
+$c_i(e)\in\{0,1,2\}$ là chi phí tại event $i$. Quy tắc dự toán cho, bằng
+quy nạp,
+\begin{equation}
+ \sum_{i\text{ trong phiên }s}c_i(e)\leq U,
+ \qquad \sum_i c_i(e)\leq NU.
+ \label{eq:formal-pathwise-cap}
+\end{equation}
+Chi phí có thể thích nghi theo nhánh; cận trên là cho \emph{mọi đường},
+không phải chi phí kỳ vọng. Bộ lọc dùng integer units để hiện thực invariant
+này, nhưng chỉ invariant đó chưa chứng minh chất lượng sampler.
+
+\noindent\textbf{Định lý (epoch lý tưởng).} Dưới các giả định đã nêu, với
+mọi $X,X'$ cùng $\mathcal C$ và mọi biến cố quan sát máy chủ $A$,
+\begin{equation}
+ \Pr[\mathsf O(X)\in A]
+ \leq e^{C D_\infty(X,X')}\Pr[\mathsf O(X')\in A].
+ \label{eq:current-transcript-bound}
+\end{equation}
+
+\noindent\emph{Chứng minh.} Đánh số hữu hạn tất cả event trong epoch theo
+thứ tự công khai. Tại cùng $e_{<i}$, bộ lọc có cùng số dư, tham chiếu và
+thời điểm đọc trước dưới $X,X'$; admission, dự toán và pacing do đó cho
+cùng quyết định. Không điều kiện theo hai prefix khác nhau để so kernel.
+Ở event có lấy mẫu, REM và hai nhánh Laplace có support dương chung. Ở
+event không lấy mẫu, outcome xác định giống nhau. Vì vậy các đường khả thi
+có cùng support dưới hai input; không xuất hiện một đường chỉ có xác suất
+dương ở một phía do bộ lọc.
+
+Cùng prefix không có nghĩa hai lần chạy thực tế luôn đi cùng nhánh: ta
+đang chặn xác suất của từng đường tương ứng, rồi cộng các đường.
+
+\noindent
+Áp chain rule cho xác suất \emph{chung} của một đường $e$ và các cận từng
+event:
+\begin{equation}
+ \begin{split}
+ p_X(e)&=\prod_i K_{x_i}(e_i\mid e_{<i}),\\
+ \frac{p_X(e)}{p_{X'}(e)}
+ &\leq \exp\!\left(u\sum_i c_i(e)d_E(x_i,x'_i)\right)\\
+ &\leq \exp\!\left(uNU D_\infty(X,X')\right)
+ =e^{C D_\infty(X,X')}.
+ \end{split}
+ \label{eq:formal-path-ratio}
+\end{equation}
+Các quyết định dừng theo cap đã nằm trong chain rule qua prefix, nên
+không cộng thêm một ``phí dừng'' hoặc giả định stopping time độc lập input.
+Điều cần là nó chỉ dùng lịch công khai và $E$, cùng với dự toán trước đọc.
+Cộng bất đẳng thức cho mọi đường trong một biến cố cho cận của $E$. Bước
+hậu xử lý bên dưới chuyển cận sang $\mathsf O$. \hfill$\square$
+
+Đây là áp dụng của bounded predictive composition~\cite{chatzikokolakis2014predictive};
+Theorem 1 của nguồn gốc dùng mức chi lớn nhất trên các run.\footnote{Bản tác
+giả: \url{https://arxiv.org/abs/1311.4008}; Theorem 1 và chứng minh trong phụ
+lục. Bộ lọc hiện tại: \path{benchmark/engines/filtered_cover.py},
+\path{benchmark/engines/matched_filter.py},
+\path{benchmark/engines/paced_guard.py}; sổ qua phiên:
+\path{core/session_budget.py}.}
+
+\noindent\textbf{Hệ quả (chỉ thay một tọa độ đầu vào).} Nếu $X,X'$ giống nhau tại mọi sự kiện trừ $i_0$, đặt $r=d_E(x_{i_0},x'_{i_0})$. Trong (\ref{eq:formal-path-ratio}), mọi khoảng cách khác bằng 0 và $c_{i_0}(e)\leq2$, nên toàn quan sát máy chủ thỏa
+\begin{equation}
+ \Pr[\mathsf O(X)\in A]\leq e^{2ur}\Pr[\mathsf O(X')\in A].
+ \label{eq:formal-single-coordinate}
+\end{equation}
+Lấy biên và hậu xử lý giữ cận như trên, kể cả các sự kiện sau thay đổi phản hồi do lịch sử neo. Với $r=100$ m và $u=0{,}00125\,\mathrm m^{-1}$, hệ số là $e^{0{,}25}\simeq1{,}284$. Đây là so sánh hai trace chỉ khác một mẫu GPS; hai tuyến khác nhau ở nhiều thời điểm không được dùng cận này. Nó không tự bảo vệ thuộc tính nhà/nơi làm việc được suy từ cả tuyến hoặc giờ bật ứng dụng.
+
+Mỗi slot có cap hiệu lực $Uu=C/N$; engine nhận ngân sách danh nghĩa $2Hu$,
+không phải cap này. Tham số hiện tại $N=8,H=12,C=0{,}23\,\mathrm m^{-1}$
+cho $U=23$, $u=0{,}00125\,\mathrm m^{-1}$ và cap phiên
+$0{,}02875\,\mathrm m^{-1}$. $H$ không phải ceiling số lần GPS: đường giữ
+liên tục có thể đọc $2H-2$ lần khi $H\geq2$ và lịch đủ dài; $H=1$ có một
+lần đầu. Supplier pacing 60 s trong phiên 600 s giới hạn ở 11 lần bằng
+đồng hồ riêng. Ví dụ, ba lần đọc lần lượt tạo neo đầu, giữ neo, rồi tạo mới dùng $(1+1+2)u=0{,}005\,\mathrm m^{-1}$. Việc sinh $K=5$ Q và nhận $L=30$ POI mỗi loại từ lịch sử đó không tự cộng thêm phí Geo-I: chúng là hậu xử lý theo các giả định đã nêu. Thay $K,L$ vẫn có thể đổi độ chính xác, chi phí hoặc khả năng suy luận thực nghiệm. Các epoch/sổ khác của cùng chủ thể hợp thành tiếp; reset
+không cho một cap chung mới cho toàn lịch sử.
+
+\subsection{Hậu xử lý: từ neo nội bộ tới toàn quan sát máy chủ}
+\label{sec:formal-server-postprocessing}
+
+Điều kiện theo $E=e$, belief, các track đường, Q, thứ tự Q và request chỉ
+phụ thuộc $e,\mathcal C$ và randomness hậu xử lý. Máy chủ trả lời từ Q và
+ngữ cảnh/chiến lược của nó; phản hồi không phải kênh GPS thật thứ hai. Vì
+vậy tồn tại một kernel chung $T_{\mathcal C}(A\mid e)$ không phụ thuộc
+$X$ ngoài $e$, thỏa
+\begin{equation}
+ \begin{split}
+ \Pr[\mathsf O(X)\in A]
+ &=\sum_e p_X(e)T_{\mathcal C}(A\mid e)\\
+ &\leq e^{CD_\infty(X,X')}
+       \sum_e p_{X'}(e)T_{\mathcal C}(A\mid e).
+ \end{split}
+ \label{eq:formal-postprocessing}
+\end{equation}
+Kernel này bao gồm các request logic, thứ tự/độ dài đã mô hình hóa, phản
+hồi và việc tiếp tục dự đoán sau khi hết cap. Máy chủ có thể thích nghi theo
+những bản tin nó đã thấy và randomness riêng; chứng minh vẫn dùng cùng
+chiến lược, miễn không có feedback mới từ GPS/nhu cầu chưa bảo vệ. Một
+belief xấp xỉ hoặc planner chưa tối ưu vẫn giữ hậu xử lý; độ chuẩn của
+posterior và utility là câu hỏi khác.
+
+Local ranking được phép đọc GPS và nhu cầu thật vì đáp án local không nằm
+trong $\mathsf O$. Nếu công bố đáp án đó, nó không còn là hậu xử lý của
+$E$; không tự áp (\ref{eq:formal-postprocessing}). Lọc POI, cache và trạng
+thái unknown chỉ giữ ranh giới mạng khi đáp án thiếu không sinh retry hoặc
+đổi thời điểm request theo bí mật. Account/IP, packet latency thực, crash
+và truy cập bộ nhớ ngoài mô hình phải được phân tích riêng.
+
+Tính chất không thêm kênh purpose cho S7 được chứng minh riêng. Cận tọa độ
+ở đây không suy intent độc lập với tuyến hoặc giờ bật ứng dụng.
+
+\subsection{Hệ quả Bayesian: thông tin thêm do quan sát}
+\label{sec:formal-bayesian-odds}
+
+Xét hai giả thuyết $H_0:X$ và $H_1:X'$ với cùng $\mathcal C$ và prior dương,
+có thể đã điều kiện theo tri thức phụ cố định của đối thủ. Với biến cố
+quan sát $A$ có xác suất dương, định lý và chiều ngược cho
+\begin{equation}
+ e^{-CD_\infty(X,X')}
+ \leq
+ \frac{\Pr[H_0\mid A]/\Pr[H_1\mid A]}
+      {\Pr[H_0]/\Pr[H_1]}
+ =\frac{\Pr[A\mid H_0]}{\Pr[A\mid H_1]}
+ \leq e^{CD_\infty(X,X')}.
+ \label{eq:formal-posterior-odds}
+\end{equation}
+Ở đây odds là tỷ số xác suất của hai giả thuyết. Quan sát mới chỉ được nhân tỷ số trước quan sát trong khoảng này. Kết quả
+không đòi prior bằng nhau, nhưng không sửa prior đã gần chắc chắn, không
+chặn Hit100 ở một tỷ lệ cố định và không cho MAE tối thiểu. Với hai giả
+thuyết hỗn hợp về tập trace, có thể lấy tích phân để có cùng cận $e^{Cr}$
+\emph{nếu mọi cặp trace giữa hai support đều có $D_\infty\leq r$} và cùng
+ngữ cảnh. Không áp cận cho hai nhóm tùy ý có tuyến rất xa nhau.
+
+Với $r=100$ m, một REM hoặc nhánh giữ có cận $e^{ur}=e^{0{,}125}$ khi
+$u=0{,}00125\,\mathrm m^{-1}$; nhánh test rồi tạo mới có cận $e^{0{,}25}$.
+Nếu chỉ có hai giả thuyết với prior $1/2$--$1/2$ tại một lịch sử cố định, chỉ xét riêng một đầu ra REM (không kèm kết quả phép thử), cận posterior tối đa là $e^{0{,}125}/(1+e^{0{,}125})\simeq53{,}12\%$. Đây là ví dụ cho một quan sát với hai ứng viên, không phải độ chính xác của attacker benchmark. Cả epoch có cận $e^{Cr}=e^{23}$, rất lỏng ở thang đó. Theorem xác định cách
+hợp thành, không biến epsilon thành Hit/MAE hoặc chứng minh mọi S1--S10,
+identity, giờ đầu/cuối, đồng hành hay điểm nhà đã được bảo vệ. Benchmark
+vẫn cần để đánh giá utility và sức tấn công thực dụng.
+
+\subsection{Phản ví dụ khi bỏ điều kiện và giới hạn thực thi}
+\label{sec:formal-counterexamples}
+
+\textbf{Giữ neo không miễn phí.} Lấy tham chiếu công khai $h=0$, ngưỡng
+$\theta=0$ và hai vị trí cách $h$ lần lượt 0 và $r>0$. Khi chỉ xét outcome
+giữ của Laplace test, $q_0=1/2$ và $q_r=e^{-ur}/2$, tỷ số bằng $e^{ur}$.
+Đếm riêng số neo fresh rồi gán nhánh giữ chi phí 0 bỏ qua đúng lượng tin
+đã lộ. Ngưỡng 0 chỉ dùng làm phản ví dụ, không đổi ngưỡng 200 m hiện tại.
+
+\textbf{Support theo GPS tạo xác suất 0.} Trên support công khai
+$V=\{0,1\}$ của một đường thẳng, chỉ nhận vertex cách GPS không quá 0,6
+sẽ cho vertex 0 xác suất dương ở $x=0{,}6-\delta$ và xác suất 0 ở
+$x'=0{,}6+\delta$, với $0<\delta<0{,}1$. Hai input cách $2\delta$ vẫn có
+tỷ số vô hạn. Tương tự, một quy tắc giữ neo chắc chắn dưới ngưỡng và fresh
+chắc chắn trên ngưỡng có thể lộ việc qua ranh giới; nhiễu test là điều kiện
+của proof, không chỉ thủ thuật utility.
+
+\textbf{Cap không chặn kênh bên ngoài cơ chế.} Nếu gửi hoặc không gửi
+request được quyết định trực tiếp từ GPS thật, hai input ở hai phía một
+ngưỡng có thể tạo biến cố ``có request'' với xác suất 1 và 0, dù tổng chi
+REM không vượt cap. Điều tương tự xảy ra khi retry/click phụ thuộc mục
+đích riêng hoặc memory dump đưa raw GPS/khóa RNG vào quan sát. 
+Mã hiện tại dùng float64, Gumbel-max/Laplace và NumPy PRNG. Ngẫu nhiên hữu hạn có thể tạo xác suất 0 phụ thuộc input, trái với support dương lý tưởng. Monte Carlo, log-domain và seed riêng không chứng minh pure Geo-I. HMAC tách luồng và sổ SQLite xác nhận invariant dưới giả định thiết bị tin cậy, chưa chứng nhận ngẫu nhiên lý tưởng hoặc chống rollback. Cần sampler/entropy có chứng minh, hoặc cận approximate được chứng nhận; hiện chưa có chứng chỉ đó.\footnote{Giới hạn sampler: \path{core/mechanisms.py}; phản ví dụ: \path{tests/test_sampler_support.py}. Nguồn: I. Mironov, CCS 2012, \url{https://www.microsoft.com/en-us/research/publication/on-significance-of-the-least-significant-bits-for-differential-privacy/}.}

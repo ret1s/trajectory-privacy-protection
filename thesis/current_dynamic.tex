@@ -1,0 +1,101 @@
+% Secondary workload sensitivity on unchanged frozen Q. Numeric macros are
+% generated directly from the sealed readout; this file does not change it.
+\input{current_evaluation_generated/dynamic_status}
+\section{Kiểm tra trạng thái dịch vụ thay đổi theo thời gian}
+\label{sec:current-dynamic-status}
+
+Catalogue tĩnh nhỏ cho phép tải toàn bộ POI rồi tìm kiếm tại thiết bị. Để kiểm
+tra một điều kiện gần với dịch vụ có trạng thái thay đổi, thí nghiệm bổ sung
+trạng thái \emph{đang khả dụng} cho mỗi POI theo từng epoch công khai 60 giây.
+Nó trả lời câu hỏi hẹp: khi phản hồi bị giới hạn ở top-L, thiết bị có giữ
+được chất lượng tìm kiếm và tránh dùng trạng thái hết hạn hay không? Đây là
+kiểm tra độ nhạy trên dữ liệu đã xem, không phải một xác nhận mới hoặc phép
+đo riêng tư bổ sung.
+
+\subsection{Hợp đồng phản hồi và cache còn hiệu lực}
+
+Dịch vụ lấy top-L POI \textbf{theo vị trí tĩnh trong từng category}, rồi gắn
+bit khả dụng hiện tại cho các ID đó. Nó không lọc POI khả dụng trước khi lấy
+top-L. Thiết bị vẫn gửi tất cả category theo lịch cố định; purpose, bán kính
+và đích riêng chỉ dùng để xếp hạng tại thiết bị. L20 và L30 dùng đúng Q, lịch,
+neo và ledger đã lưu; không tạo thêm điểm bảo vệ hoặc lần đọc GPS. Trường
+epoch và yêu cầu trạng thái được thêm công khai vào bản tin dịch vụ.
+
+Hai chính sách local được so sánh. \textbf{Current-only} dùng các POI nhận ở
+event hiện tại. \textbf{Cache epoch60} cộng dồn các phản hồi đã nhận trong
+cùng epoch tuyệt đối, nên không thêm request hoặc byte. ID và thông tin tĩnh
+có thể được giữ lâu hơn, nhưng bit trạng thái hết hạn khi qua epoch. Epoch
+được tính bằng thời gian tuyệt đối của tám phiên, không bắt đầu lại từ 0
+ở mỗi chuyến. Thiết bị chỉ biết bit đã nhận qua API.
+
+Cần phân biệt ba trường hợp: POI chưa được truy hồi; có thông tin tĩnh nhưng
+\emph{chưa biết trạng thái hiện tại}; và được biết là không khả dụng. Không
+suy ``không khả dụng'' từ việc POI vắng trong phản hồi. Câu trả lời live chỉ
+chứa POI có trạng thái hiện tại đã biết và đang khả dụng. Tham chiếu là top-5
+POI hiện đang khả dụng theo từng purpose/category. Tham chiếu rỗng giữ N/A;
+nếu tham chiếu tồn tại nhưng không có ứng viên hợp lệ, Recall bằng 0.
+
+\subsection{Workload và kết quả có kiểm soát}
+
+Workload được khóa trước khi chấm: 418 POI, 88 epoch quan sát và xác suất
+khả dụng 0,5, sinh bằng hash của ID, epoch và seed cố định. Replay gồm toàn
+bộ 24 family test đã xem, mỗi family ba draw và tám phiên, tổng cộng 18.114
+event cho mỗi arm. Tất cả family/draw dùng cùng một thế giới trạng thái.
+Recall được gộp theo category có tham chiếu, event, draw và family; cuối
+cùng lấy trung bình đều bốn purpose, như cách gộp utility đã định nghĩa.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Kiểm tra trạng thái tổng hợp trên cùng Q. Recall là \%; cold là
+phiên đầu, tail là thời gian tương đối $t\ge400$ giây. JSON MB dùng
+$10^6$ byte, tính cả metadata và trạng thái.}
+\label{tab:current-dynamic-status}
+\begin{tabularx}{\textwidth}{Yrrrr}
+\toprule Arm & Recall & Cold & Tail & JSON MB \\\midrule
+\EvalDynamicRows
+\bottomrule
+\end{tabularx}
+\end{table}
+
+L30 current-only đạt \EvalDynamicLThirtyCurrent{}\%, tăng
+\EvalDynamicGain{} điểm phần trăm so với L20, với tổng JSON tăng
+\EvalDynamicCostGrowth{}\%. Cache epoch60 đưa L30 lên
+\EvalDynamicLThirtyCached{}\% mà không tăng truy vấn hoặc byte. Đây là
+utility dưới workload mới; L30 vẫn là độ sâu đã khóa từ phép thử trước,
+không được chọn lại bằng kết quả trạng thái này. Purpose trong bán kính có
+\EvalDynamicRadiusDefined{}/18.114 event được định nghĩa; các event không
+có tham chiếu không được cộng điểm hoàn hảo.
+
+Mọi arm vận hành hợp lệ đều trả về 0 POI không khả dụng và 0 POI có trạng
+thái hiện tại chưa biết. Control catalogue cũ \emph{safe} có Recall thấp vì
+từ chối bit hết hạn. Control \emph{unsafe} cố ý dùng lại bit cũ và được đánh
+dấu \textbf{không hợp lệ}: trong 1.279.509 item trả về theo bốn purpose,
+623.325 hiện không khả dụng và 1.264.314 chưa có trạng thái hiện tại đã biết.
+Hai số này có phần giao nhau; không xem Recall của arm đó là chất lượng câu
+trả lời live an toàn.
+
+Control tải toàn catalogue với bit hiện tại đạt 100\%, không cần gửi vị trí
+và dùng ít JSON hơn L30. Nó có API mạnh hơn provider top-L, nhưng phải được
+giữ trong so sánh nếu ứng dụng cho phép bulk. Vì vậy trạng thái động chưa
+giải quyết khoảng trống catalogue nhỏ/tải toàn bộ; muốn lập luận dịch vụ từ
+xa là cần thiết còn phải có hợp đồng provider và workload thực phù hợp.
+
+\subsection{Kiểm chứng và giới hạn diễn giải}
+
+Checker độc lập đã PASS cho 72 block và 163.026 dòng arm/event: tái dựng
+trạng thái, thứ tự tham chiếu đường có hướng, cache nhận theo thời gian,
+partition unknown, mẫu số và chi phí. Bản V1 cùng khai báo trước scoring và
+failure do thứ tự serialization được giữ nguyên. V2 sửa cách ghép bằng
+khóa event/arm, được khai báo rõ sau scoring; không đổi nguồn runner, thế
+giới trạng thái, rows hay readout. Hồ sơ ở
+\path{artifacts/benchmarks/dynamic_provider_status_20261006_v1/}.
+
+Seed và fixture đầy đủ công khai trong artifact nghiên cứu để tái lập,
+nhưng bị loại khỏi API client của thí nghiệm. Client được cấp fixture có
+thể tự tính mọi trạng thái. Do đó phép thử kiểm tra freshness và luồng dữ
+liệu dưới giả định API, không chứng minh trạng thái thực không thể dự đoán
+hoặc phải gọi server. Một thế giới tổng hợp không đại diện nhiều quá trình
+khả dụng độc lập. Byte chỉ là compact JSON ứng dụng; chưa đo mạng, latency,
+pin, traffic động hoặc giá dịch vụ. Kết quả này giữ nguyên nền tảng Geo-I,
+bổ sung điều kiện dùng cache live, và không thay thế bằng chứng xác nhận
+utility tĩnh hay chứng nhận riêng tư mới.

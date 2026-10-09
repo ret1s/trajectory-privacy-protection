@@ -2,7 +2,7 @@
 
 Research code and thesis artifacts for **“Bảo vệ tính riêng tư về quỹ đạo cho
 người dùng dịch vụ dựa trên vị trí.”** The active system studies road-aware,
-dummy-generation protection for continuous location-based services and evaluates
+Geo-I/REM protection and road-feasible query sets for continuous location-based services and evaluates
 it against explicit attacker, utility, and output-contract assumptions.
 
 ## Start here
@@ -10,6 +10,10 @@ it against explicit attacker, utility, and output-contract assumptions.
 - Final thesis source: [`thesis/main.tex`](thesis/main.tex)
 - Scenario database and update history: [`storage guide`](data/scenario_store/README.md)
 - Current thesis PDF: [`artifacts/reports/graduation_thesis.pdf`](artifacts/reports/graduation_thesis.pdf)
+- Current thesis revision (07/10): [`scope and rebuild guide`](thesis/README.md)
+  — Geo-I/REM, evidence by scenario/protocol, fresh L30 utility/cost confirmation,
+  local-GPS sensitivity, historical companion diagnostic and resource accounting.
+- Thesis handoff: [`formal proofs and verification`](docs/reviews/2026-10-07_thesis_formal_completion_v2.md)
 - Problem formulation: [`docs/research/problem_formulation.md`](docs/research/problem_formulation.md)
 - Foundations study guide: [`artifacts/reports/location_trajectory_privacy_foundations.pdf`](artifacts/reports/location_trajectory_privacy_foundations.pdf)
 - Comparator status and evidence: [`benchmark/README.md`](benchmark/README.md)
@@ -32,13 +36,25 @@ it against explicit attacker, utility, and output-contract assumptions.
   [`static catalogue control`](docs/research/2026-10-06_jisa_static_catalogue_gate.md).
   Retained planner failures, matched Geo-I realizations, response-depth utility/cost
   confirmation on24 fresh families and application limits.
+- Controlled dynamic POI status (06/10): [`workload and audited readout`](artifacts/benchmarks/dynamic_provider_status_20261006_v1/README.md).
+  Frozen Geo-I Q streams, causal status expiry, four local purposes and retained
+  current-bulk controls; secondary evidence on the already-inspected cohort.
+- Local GPS robustness (07/10): [`fixed-Q diagnostic`](artifacts/benchmarks/local_gps_robustness_20261007_v1/README.md).
+  L30 gains persist with 60 s local fixes; two-fix extrapolation reduces mean
+  position error but lowers POI Recall. No protection sampler or Q regeneration.
+- Companion inference (07/10): [`historical S8 diagnostic`](artifacts/benchmarks/s8_companion_inference_20261007_v1/README.md).
+  Actual simultaneous SUMO pairs; finite-bank results with explicit historical
+  public-seed limitations, without a current S8/group-privacy claim.
+- Context storage (07/10): [`array and cache accounting`](artifacts/benchmarks/public_resource_footprint_20261007_v1/README.md).
+  Compressed disk size, uncompressed payload and analytic cache capacity are
+  distinguished; peak RAM and device cost remain unmeasured.
 - Previous method development (05/10): [`Geo-I method refinement`](docs/research/2026-10-05_method_refinement.md)
   — persistent budget across linked trips, local POI purposes, native S5/S6,
   28-family endpoint checks and the query-order attack diagnostic. The Geo-I backbone
   remains unchanged; rejected candidates and limits stay in the evidence.
 - Meeting follow-up: [`native metrics and initial scenario audits`](docs/research/2026-10-05_supervisor_followup.md).
   New runs use a reconstructed public map; they do not replace frozen benchmarks.
-- Current research cycle: [`thesis/notes/paper_cycle_v2_protocol.md`](thesis/notes/paper_cycle_v2_protocol.md)
+- Historical paper cycle: [`thesis/notes/paper_cycle_v2_protocol.md`](thesis/notes/paper_cycle_v2_protocol.md)
 - Preceding evaluation: [`fresh-family switching study`](artifacts/benchmarks/fresh_switching/),
   [`12 new SUMO families`](artifacts/datasets/urban_fresh_v2/), and
   [`frozen protocol`](thesis/notes/fresh_switching_protocol.md).

@@ -1,0 +1,151 @@
+% Conditional stability of the existing local directed-graph POI ranking.
+% No mechanism, ranking implementation, dataset or empirical score is changed.
+\section{Độ ổn định của top-$k$ khi vị trí local sai}
+\label{sec:formal-ranking-robustness}
+
+Sai vị trí local có thể đổi đáp án dù Q và phản hồi giữ nguyên. Ta có thể
+chặn tác động này nếu biết một cận \emph{sai số điểm xếp hạng}, thay vì
+coi sai số GPS Euclid là sai số đường. Các kết quả sau là điều kiện đủ
+trên graph công khai, không là bảo đảm mới của Geo-I hoặc kết quả
+benchmark. Giữ cùng category, catalogue/version, trạng thái dịch vụ và
+tie-break theo ID; đích detour phải là cùng một đích local đã biết.
+
+\subsection{Từ khoảng cách đường tới sai số điểm}
+\label{sec:formal-ranking-score-error}
+
+Gọi $v$ là trạng thái ánh xạ từ vị trí thật, $\hat v$ từ vị trí local ước
+lượng. Đặt
+\begin{equation}
+ d_+=D_G(v,\hat v),\quad d_-=D_G(\hat v,v),\quad
+ \rho=\max(d_+,d_-),\quad b_D=d_++d_-\leq2\rho.
+ \label{eq:formal-ranking-road-error}
+\end{equation}
+Giả sử hai khoảng cách đều hữu hạn. Khi đó một POI tới được từ $v$ cũng
+tới được từ $\hat v$, và ngược lại, do nối đường qua trạng thái kia.
+Vì thế miền tới được chung được giữ; không lấy hiệu $\infty-\infty$.
+Với mỗi POI $p$ trong miền này, bất đẳng thức tam giác có hướng cho
+\begin{equation}
+ -d_+\leq e_p:=D_G(\hat v,p)-D_G(v,p)\leq d_-.
+ \label{eq:formal-ranking-directed-interval}
+\end{equation}
+Thật vậy, $D_G(v,p)\leq d_++D_G(\hat v,p)$ cho cận dưới;
+$D_G(\hat v,p)\leq d_-+D_G(v,p)$ cho cận trên. Do đó nearest có sai
+số điểm không quá $\rho$. Tương tự, fastest có cận $\tau$ giây, với
+$\tau=\max(T_G(v,\hat v),T_G(\hat v,v))$; đặt
+$b_T=T_G(v,\hat v)+T_G(\hat v,v)\leq2\tau$. Không đổi mét thành giây
+nếu chưa có giả định tốc độ thích hợp.
+
+Đối với detour, giữ đích $a$ tới được và chỉ xét POI có đường $p\to a$.
+Với $s_v(p)=D_G(v,p)+D_G(p,a)-D_G(v,a)$, ta có
+\begin{equation}
+ s_{\hat v}(p)-s_v(p)=e_p-e_a,\qquad
+ |s_{\hat v}(p)-s_v(p)|\leq b_D\leq2\rho.
+ \label{eq:formal-ranking-detour-error}
+\end{equation}
+Đích không đổi nên $D_G(p,a)$ không đổi. Hơn nữa, khi so hai POI, số
+hạng $e_a$ triệt tiêu: sai số của \emph{hiệu hai điểm} không quá $b_D$,
+chặt hơn cách cộng hai cận $2\rho$. Nearest cũng có cận hiệu hai điểm
+$b_D$, còn fastest có cận $b_T$. Những cận này dùng khoảng cách lý
+tưởng; clamp detour về0 trong mã không đổi điểm lý tưởng vì bất đẳng
+thức tam giác bảo đảm detour không âm. Sai số float cần cận riêng nếu
+muốn chứng nhận executable.\footnote{Bốn điểm số, lọc hữu hạn và
+tie-break: \path{benchmark/query_purpose.py}, lớp
+\texttt{MultiPurposeRoadRanking}; trọng số graph có hướng:
+\path{evaluation/lane_travel.py}.}
+
+\subsection{Độ tách đủ lớn giữ tập top-$k$ và chặn mất Recall}
+\label{sec:formal-ranking-gap}
+
+Xét miền POI hợp điều kiện chung $E$ hữu hạn; mọi điểm $s(p),\hat s(p)$
+đều hữu hạn trên $E$. Đặt $R=\operatorname{Top}_k(E)$ theo điểm thật,
+$r_R=|R|=\min(k,|E|)>0$. Giả sử
+$|\hat s(p)-s(p)|\leq\eta_s$ cho mọi $p\in E$. Nếu
+\begin{equation}
+ \gamma:=\min_{q\in E\setminus R}s(q)-\max_{p\in R}s(p)
+ >2\eta_s,
+ \label{eq:formal-ranking-gap-condition}
+\end{equation}
+thì tập top-$k$ theo điểm ước lượng vẫn là $R$. Quy ước min trên tập
+rỗng bằng $+\infty$: nếu $|E|\leq k$ thì tất cả POI được chọn, không
+cần độ tách. Chứng minh: với mọi $p\in R,q\notin R$,
+$\hat s(q)-\hat s(p)\geq s(q)-s(p)-2\eta_s>0$; mọi thành viên $R$
+đứng trước mọi POI ngoài $R$. Điều kiện này giữ \emph{tập} top-$k$,
+không giữ thứ tự giữa các POI trong tập. Tie ở biên không cho một độ
+tách dương; điều kiện là đủ, không phải cần.
+
+Có thể dùng trực tiếp cận sai số của hiệu điểm $b$ thay $2\eta_s$:
+nearest và detour dùng $b=b_D$, fastest dùng $b=b_T$. Đặc biệt detour
+chỉ cần $\gamma>b_D$ (với $b_D\leq2\rho$), thay vì điều kiện bảo thủ
+$\gamma>2\eta_s$ với $\eta_s=2\rho$.
+
+Không cần toàn bộ $R$ đều ổn định để có cận Recall. Đặt
+\begin{equation}
+ \begin{split}
+ G_b&=\{p\in R:\min_{q\in E\setminus R}[s(q)-s(p)]>b\},\\
+ \frac{|A\cap G_b|}{r_R}&\leq
+ \operatorname{Recall}@k(\hat P(A))\leq\frac{|A\cap R|}{r_R},
+ \end{split}
+ \label{eq:formal-ranking-partial-recall}
+\end{equation}
+trong đó $A$ là pool nhận hợp lệ và
+$\hat P(A)=\operatorname{Top}_k(A\cap E)$ theo điểm ước lượng.
+Mỗi $p\in A\cap G_b$ đứng trước mọi POI ngoài $R$; chỉ tối đa $r_R-1$
+POI khác thuộc $R$ có thể đứng trước nó, nên local top-$k$ vẫn chọn $p$.
+Chiều trên do đáp án là tập con của $A$. Nếu $G_b=R$, thu hồi reference
+và Recall sau xếp hạng lại bằng nhau như trường hợp vị trí đúng. Nếu
+pool chỉ phủ một phần $G_b$, cận chỉ bảo đảm phần đó, không gán điểm cho
+POI chưa nhận. Với $r_R=0$, Recall là N/A; với reference có nghĩa nhưng
+đáp án rỗng, Recall bằng0. Không đổi mẫu số thành reference của $\hat v$.
+
+\subsection{Within-radius cần kiểm tra cả biên miền}
+\label{sec:formal-ranking-radius-band}
+
+Within-radius dùng khoảng cách đường với điều kiện $D_G(v,p)\leq r$.
+Sai số nhỏ của khoảng cách vẫn có thể đổi điểm hữu hạn thành $+\infty$
+ở ngưỡng; vì vậy không áp cận điểm hữu hạn cho score đã lọc bán kính.
+Trên miền tới được chung $U$ của category, đặt
+\begin{equation}
+ E=\{p\in U:D_G(v,p)\leq r\},\qquad
+ B_\rho=\{p\in U:r-\rho\leq D_G(v,p)\leq r+\rho\}.
+ \label{eq:formal-ranking-radius-band}
+\end{equation}
+Ngoài dải $B_\rho$, membership không đổi: điểm dưới $r-\rho$ chắc chắn
+ở trong cả hai miền; điểm trên $r+\rho$ chắc chắn ở ngoài. Nếu không
+có POI trong dải, hai miền trùng nhau và các cận top-$k$ ở trên áp dụng
+với điểm khoảng cách. Đây cũng chỉ là điều kiện đủ bảo thủ.
+
+Nếu dải không rỗng, miền ước lượng nằm trong $C=E\cup B_\rho$.
+Ta vẫn có cận dưới bằng cách thay $G_b$ trong
+(\ref{eq:formal-ranking-partial-recall}) bằng
+\begin{equation}
+ G_{r}=\{p\in R:D_G(v,p)+\rho\leq r,\quad
+ \min_{q\in C\setminus R}[D_G(v,q)-D_G(v,p)]>b_D\}.
+ \label{eq:formal-ranking-radius-stable}
+\end{equation}
+Điều kiện đầu giữ $p$ trong miền ước lượng; điều kiện sau giữ nó đứng
+trước mọi POI ngoài reference có thể được thêm vào miền. Chứng minh
+đếm hạng như trên cho $\operatorname{Recall}@k\geq|A\cap G_r|/r_R$.
+POI trong dải có thể bị thêm hoặc bỏ, nên phải báo riêng câu trả lời
+ngoài miền thật; cận Recall không biến các câu trả lời đó thành hợp lệ.
+
+\subsection{Điều các cận này không bảo đảm}
+\label{sec:formal-ranking-robustness-limits}
+
+Sai số Euclid15 m không kéo theo $\rho\leq15$ m. Hai làn ngược chiều
+cách nhau vài mét có thể cần một vòng đường rất dài, hoặc không có
+đường quay lại; phép chọn trạng thái gần GPS nhất có thể chuyển giữa
+chúng. Khi $\rho$ hoặc $\tau$ vô hạn, các cận trên không có nội dung.
+Trong diagnostic,15 m là độ lệch chuẩn Gaussian \emph{mỗi trục}, không
+là trần sai số tọa độ. Cũng không suy cận đường từ số đó hoặc từ số
+fix được giữ lại. Các đại lượng dùng vị trí thật ở đây là điều kiện toán
+học/hậu kiểm; thiết bị chưa có bộ chứng nhận tự động cho chúng.
+
+Khi độ tách và miền đủ ổn định để $G_b=R$, ta phục hồi được tính
+đơn điệu Recall theo pool lồng nhau. Nếu chỉ một phần reference ổn
+định, cận dưới của nó có thể tăng theo pool, nhưng Recall thực sau
+xếp hạng sai vẫn có thể giảm như phản ví dụ ở
+Mục~\ref{sec:formal-service-depth-monotonicity}. Thay đích, graph,
+catalogue, availability hoặc đồng hồ hiệu lực không thuộc phép so sánh
+giữ nguyên ở đây. Các kết quả phân tích giải thích khả năng mất utility;
+chúng không sửa cơ chế, không chứng minh robustness cho dữ liệu thực
+và không bổ sung một bảo đảm riêng tư.

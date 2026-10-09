@@ -1,0 +1,47 @@
+{
+  "schema": "public-array-footprint-accounting-v1",
+  "as_of": "2026-10-07",
+  "source_sha256": {
+    "artifacts/benchmarks/dynamic_provider_status_20261006_v1/public_reply60.npz": "ed341414e02173a430ea84eba0447466c3092b12a3addb8e2fb977c473119f94",
+    "artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/recommended_configuration.json": "d50d6eb4594ced9d94b937d1d5be5acc469db08ff7514ef6d2c6d48ed538b382",
+    "benchmark/public_poi_context.py": "98aa1301ce921630dbb77ef1bb7a19c6b70241e1689cccaa132192019b88ae86",
+    "benchmark/query_purpose.py": "110ce445bb1a89283728b263c1994eda2cf601b3c6ae1eab49e31b2b6bad4443",
+    "experiments/qplanner_study_20261006_v2.py": "a3e177d4c3c704ce94878f8156b19f0e6a950a5b8a75ec634b9bfbdf28389102",
+    "experiments/audit_public_resource_footprint_20261007.py": "e23a9150063940d2117b386800f7a5f45a5985ce4bfc0147564a2b5d937027b1"
+  },
+  "archive_bytes_on_disk": 1707502,
+  "arrays": {
+    "signatures": {
+      "shape": [
+        66189,
+        6,
+        60
+      ],
+      "dtype": "int32",
+      "itemsize": 4,
+      "payload_bytes": 95312160
+    },
+    "access": {
+      "shape": [
+        66189
+      ],
+      "dtype": "int32",
+      "itemsize": 4,
+      "payload_bytes": 264756
+    }
+  },
+  "signature_prefix_storage_if_materialized": {
+    "5": 7942680,
+    "10": 15885360,
+    "20": 31770720,
+    "30": 47656080,
+    "60": 95312160
+  },
+  "distance_cache_storage_if_full_float64": {
+    "ranking_default_256_entries": 135555072,
+    "offline_evaluator_4096_entries": 2168881152
+  },
+  "scope": "Exact retained array/archive sizes and analytic prefix/full-cache payloads only. Excludes Python/NetworkX objects, graph matrices, temporary arrays, OS memory and peak process RSS. L60 is a provider/evaluator fixture, not required current client L10 context; local reply L30 is not a full-map client table. No CPU, latency, network or battery measurement.",
+  "model_or_private_state_modified": false,
+  "private_keys_read": false
+}

@@ -1,0 +1,97 @@
+{
+  "status": "pass",
+  "gates": {
+    "no_actual_key_or_database_files": true,
+    "no_actual_private_state_paths": true,
+    "all_selected_files_regular_and_decodable": true,
+    "selected_files_stable_during_scan": true,
+    "git_each_file_within_100MiB": true,
+    "no_private_key_or_SHA256_digest_bytes": true,
+    "private32byte_reference_set_complete": true
+  },
+  "selected_inventory_file_count": 411,
+  "scanned_regular_file_count": 411,
+  "selected_file_bytes": 64731388,
+  "gzip_file_count": 146,
+  "gzip_uncompressed_bytes": 1443334885,
+  "actual_private_key_database_filename_count": 0,
+  "actual_private_storage_path_count": 0,
+  "sqlite_magic_header_count": 0,
+  "non_secret_private_storage_path_reference_file_count": 0,
+  "path_reference_scope": "allowed non-secret reproduction/provenance text; not actual key/state files",
+  "decoding_or_nonregular_errors": 0,
+  "files_changed_during_scan": 0,
+  "files_over_git_100MiB_limit": 0,
+  "largest_new_files": [
+    {
+      "path": "artifacts/benchmarks/s8_companion_inference_20261007_v1/source_snapshot/artifacts/datasets/research_loop_expanded_v1/dataset.json",
+      "bytes": 25219857,
+      "MiB": 24.05152988433838
+    },
+    {
+      "path": "artifacts/benchmarks/local_gps_robustness_20261007_v1/readout.json",
+      "bytes": 3589652,
+      "MiB": 3.423358917236328
+    },
+    {
+      "path": "artifacts/benchmarks/dynamic_provider_status_20261006_v1/readout.json",
+      "bytes": 2218980,
+      "MiB": 2.1161842346191406
+    },
+    {
+      "path": "artifacts/benchmarks/dynamic_provider_status_20261006_v1/public_reply60.npz",
+      "bytes": 1707502,
+      "MiB": 1.6284008026123047
+    },
+    {
+      "path": "artifacts/benchmarks/local_gps_robustness_20261007_v1/public_reply60.npz",
+      "bytes": 1707502,
+      "MiB": 1.6284008026123047
+    },
+    {
+      "path": "artifacts/benchmarks/dynamic_provider_status_20261006_v1/protocol.json",
+      "bytes": 1485052,
+      "MiB": 1.4162559509277344
+    },
+    {
+      "path": "artifacts/benchmarks/local_gps_robustness_20261007_v1/protocol.json",
+      "bytes": 1115488,
+      "MiB": 1.063812255859375
+    },
+    {
+      "path": "artifacts/benchmarks/s8_companion_inference_20261007_v1/source_snapshot/artifacts/benchmarks/identity_future_20261005/linkage_results.json",
+      "bytes": 976975,
+      "MiB": 0.9317159652709961
+    },
+    {
+      "path": "artifacts/benchmarks/s8_companion_inference_20261007_v1/source_snapshot/artifacts/benchmarks/identity_future_20261005/linkage_public_transcripts.json",
+      "bytes": 755274,
+      "MiB": 0.7202854156494141
+    },
+    {
+      "path": "artifacts/reports/thesis_review_20261006/reviewed.pdf",
+      "bytes": 418215,
+      "MiB": 0.39884090423583984
+    }
+  ],
+  "private_key_or_sha256_digest_matching_file_count": 0,
+  "private_key_or_sha256_digest_matching_gzip_expanded_file_count": 0,
+  "schema": "qplanner-sanitized-public-boundary-audit-v2",
+  "completed_utc": "2026-10-07T03:04:04.292216+00:00",
+  "private_reference_counts": {
+    "private_workdir_count": 11,
+    "private_key_file_count": 217,
+    "distinct_32byte_private_key_count": 141,
+    "private_non32byte_key_file_count": 0,
+    "private_symlink_key_files_not_read": 0,
+    "encoding_variant_count": 889,
+    "sha256_digest_encoding_variant_count": 909,
+    "combined_key_material_and_digest_variant_count": 1798
+  },
+  "new_visible_files_created_during_scan": 0,
+  "inventory_scope": "Git NEW staged additions and untracked files excluding ignored; existing tracked modifications excluded",
+  "temporary_private_key_bytes_or_digests_exported": false,
+  "scanner_source_sha256": "688f1e41374521206e89521f2611fbf48a288816100dd93e5c40436814c9a5d8",
+  "original_scanner_source_sha256": "d36f4fd1edd2827ecb576b8dcacb25c7486e7ae6d0359505d94d841e44d9d31b",
+  "limitations": "exact32byte/raw/hex/base64 key material and SHA256digest variants plus gzip expansion; not proof against encrypted/fragmented/arbitrary encodings or unrelated secrets"
+}

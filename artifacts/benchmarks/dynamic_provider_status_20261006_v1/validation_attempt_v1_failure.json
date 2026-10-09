@@ -1,0 +1,15 @@
+{
+  "schema": "dynamic-independent-verification-attempt-v1-failure",
+  "status": "failed",
+  "created_utc": "2026-10-06T09:12:41.020144+00:00",
+  "verifier_sha256": "2235850b2722b9afe08ac9f7e0d777f22db1c2b1f51ca9254ac8398e1d06743f",
+  "verification_protocol_sha256": "4aa4e58869b2ff0e4b716a5bba814d3bb5201a972e111d8083d58a3553aa36e4",
+  "workload_protocol_sha256": "5d944d4cd99e6040fbdf144ba0f1ed07bb8db803511d2cfb1dedaa725aa05208",
+  "readout_sha256": "d0871bcf1facce80fce0985c48ab7c2242d035f96beba4d27bb586f37ca85289",
+  "failed_key": "freshqp-037--draw1.json.gz/rows/2/arm",
+  "expected_serialization_arm": "geoi_l30_current",
+  "actual_serialization_arm": "raw_l20_current",
+  "reason": "Independent checker emitted declared ARMS order while production rows interleave Raw within depth loop; no completed arithmetic certificate",
+  "production_source_or_results_changed": false,
+  "repair_policy": "New checker version; compare unique public event/arm keys; preserve original declaration/source/failure"
+}

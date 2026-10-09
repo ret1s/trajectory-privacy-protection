@@ -1,0 +1,294 @@
+% Service properties of the CURRENT legacy_l10 Q planner and local ranking.
+% Additive proof module; no executable or sealed empirical evidence is changed.
+% Intended for the method chapter, before empirical evaluation.
+\section{Tính chất của bước chọn Q và phục hồi dịch vụ}
+\label{sec:formal-current-service}
+
+Phần này tách ba câu hỏi: Q có thể di chuyển theo mô hình đường hay không;
+nhu cầu riêng có làm đổi bản tin mạng hay không; và tập POI nhận về có đủ
+để trả đúng top-$k$ hay không. Các tính chất này không thay thế định lý
+Geo-I hoặc chứng minh phương pháp vượt đối chứng. Chúng áp dụng cho cấu
+hình hiện tại: $K=5$, bảng chọn Q có $L_{\mathrm{plan}}=10$, phản hồi
+có $L=30$ và đáp án local có $k=5$.
+
+\subsection{Khả thi theo đường có hướng}
+\label{sec:formal-service-reachability}
+
+Giữ graph công khai $G=(V,E)$ cố định. Mỗi cạnh có độ dài không âm và tốc
+độ dương; $T_G(v,w)$ là thời gian đường đi ngắn nhất có hướng, bằng
+$+\infty$ khi không tới được. Cạnh nối hai trạng thái trùng tọa độ có thể
+có chi phí 0. Miền $V_c\subseteq V$ là thành phần liên thông mạnh công
+khai không rỗng được chọn trước chuyến. Gọi $v_{t,j}$ là \emph{trạng thái
+làn--độ tiến nội bộ} của track $j$, còn $g(v_{t,j})$ là tọa độ Q gửi đi.
+Với lịch công khai tăng nghiêm ngặt, miền chọn là
+\begin{equation}
+ \mathcal A_{t,j}=\begin{cases}
+ V_c,&\text{sự kiện đầu},\\
+ \{v\in V_c:T_G(v_{t-1,j},v)\leq\Delta t\},&\text{các sự kiện sau},
+ \end{cases}
+ \qquad \Delta t=t-t_{\mathrm{prev}}>0.
+ \label{eq:formal-service-buckets}
+\end{equation}
+
+\noindent\textbf{Tính chất 1 (khả thi từng track).}
+Nếu mọi bước chọn và thay trạng thái giữ $v_{t,j}\in\mathcal A_{t,j}$,
+mỗi track có một đường đi trong $G$ giữa hai sự kiện liên tiếp với thời
+gian không quá $\Delta t$.
+
+\noindent\emph{Chứng minh.}
+Miền đầu không rỗng. Ở bước sau, trạng thái trước vẫn thuộc $V_c$ và
+$T_G(v_{t-1,j},v_{t-1,j})=0$, nên miền chọn không rỗng. Greedy chọn trong
+miền; gộp trạng thái chỉ lấy tập con của miền; thay một track vẫn dùng
+miền của track đó. Bước tiến tới mục tiêu chọn một trạng thái tới được
+có cùng signature POI; bước slack cũng chỉ xét trạng thái tới được.
+Quy nạp cho tính chất. Nối các đường giữa sự kiện và cho phép chờ bù thời
+gian tạo một lộ trình theo mô hình graph. \hfill$\square$
+
+Đây là tính chất của \textbf{trạng thái nội bộ}, không phải chứng minh
+mọi phép suy track từ tọa độ đều khả thi. Hai làn khác nhau có thể trùng
+tọa độ; phép truy hồi POI bằng trạng thái gần tọa độ nhất có thể chọn một
+làn khác. Vì vậy chỉ khẳng định tồn tại cách gán trạng thái khả thi cho
+chuỗi tọa độ đã sinh. Xáo thứ tự Q không xóa khả năng đối thủ nối track
+bằng hình học. Các track cũng có thể trùng trạng thái; không có bảo đảm
+tránh va chạm hoặc $K$ vị trí khác nhau.
+
+Graph dùng tốc độ free-flow và danh mục trạng thái rời rạc công khai;
+vòng hiện tại dùng khoảng chia không quá40 m và tốc độ không quá8 m/s.
+Điều này không xác nhận đèn tín hiệu, tắc đường, gia tốc hoặc đổi làn
+trong giao thông thật. Phép tính đường ngắn nhất lý tưởng cho tính chất
+trên; kiểm tra SciPy/float chỉ xác nhận mô hình số đang chạy, chưa chứng
+nhận sai số đối với đường liên tục.\footnote{Miền làn công khai:
+\path{data/lane_states.py}; graph có hướng và phép tới được:
+\path{evaluation/lane_travel.py}; các bước giữ miền:
+\path{benchmark/engines/quotient_cover.py},
+\path{benchmark/engines/progress_cover.py},
+\path{benchmark/engines/slack_progress.py}.}
+
+\subsection{Mục tiêu độ phủ và ý nghĩa chính xác của slack}
+\label{sec:formal-service-cover}
+
+Tại một sự kiện và lịch sử đã bảo vệ cố định, gọi $S_{10}(v)$ là hợp các
+ID POI trong signature nearest của bộ chọn tại trạng thái $v$. Bảng này
+theo phép ánh xạ tọa độ của dịch vụ, không được lấy trực tiếp từ GPS thật.
+Trọng số $w_t(p)\geq0$ được tính từ belief trên lưới công khai. Trong cấu
+hình hiện tại, mô hình gốc tạo trọng số từ \textbf{reference nearest
+top5}; wrapper giữ các trọng số đó và dùng signature top10 để tính độ
+phủ. Không đồng nhất hai độ sâu này với phản hồi $L=30$.
+
+Với một lựa chọn trạng thái cho mỗi track, đặt
+\begin{equation}
+ F_t(Q)=\sum_p w_t(p)\,
+ \mathbf1\{p\in\textstyle\bigcup_{j=1}^K S_{10}(v_{t,j})\}.
+ \label{eq:formal-service-cover}
+\end{equation}
+Đây là điểm độ phủ nearest theo belief xấp xỉ. Nó không phải Recall thật
+của bốn purpose, cũng không là kỳ vọng đã hiệu chuẩn cho một người dùng.
+Trạng thái lưới không có reference đóng góp khối trọng số 0; không tạo
+POI hoặc điểm số giả để thay reference rỗng.
+
+\noindent\textbf{Tính chất 2 (độ phủ có lợi ích biên giảm dần).}
+Xem mỗi phần tử chọn là cặp có nhãn $(j,v)$, với
+$v\in\mathcal A_{t,j}$. Khi đó $F_t(\varnothing)=0$, $F_t$ không giảm
+và là hàm submodular. Cụ thể, nếu $A\subseteq B$ thì
+\[
+ \Delta(e\mid A)=\sum_{p\in S_{10}(e)\setminus S_{10}(A)}w_t(p)
+ \ \geq\
+ \Delta(e\mid B)\geq0.
+\]
+Mở rộng tập chỉ thêm POI; một POI đã được phủ không tạo lợi ích lần hai.
+Ràng buộc lấy không quá một phần tử mỗi nhãn tạo một matroid phân hoạch
+(partition matroid). Vì mỗi miền không rỗng và $F_t$ không giảm, có thể hoàn
+thành lựa chọn thành đúng $K$ phần tử, một phần tử cho mỗi track. Hai nhãn
+vẫn có thể chọn cùng trạng thái đường.
+
+\noindent\textbf{Hệ quả (cận greedy kế thừa).}
+Với oracle lợi ích biên chính xác trên toàn bộ các miền không rỗng,
+greedy toàn cục đang dùng đạt $F_t(Q_{\mathrm g})\geq F_t(Q^*)/2$, trong
+đó $Q^*$ tối ưu \emph{cho cùng sự kiện, belief và miền chọn}.
+Đây là cận greedy chuẩn dưới ràng buộc matroid~\cite{calinescu2011matroid}, không là đóng góp
+nguyên lý mới. Có thể chứng minh trực tiếp như sau. Gọi $a_i$ là phần tử
+greedy chọn ở bước $i$, $S_i=\{a_1,\ldots,a_i\}$ và $o_i$ là phần tử
+của $Q^*$ thuộc cùng track với $a_i$. Khi chọn $a_i$, track đó chưa được
+chọn, nên $o_i$ còn khả thi. Greedy cho
+$\Delta(o_i\mid S_{i-1})\leq\Delta(a_i\mid S_{i-1})$. Do tính không
+giảm và submodular,
+\begin{equation}
+ \begin{split}
+ F_t(Q^*)&\leq F_t(S_K\cup Q^*)\\
+ &\leq F_t(S_K)+\sum_{i=1}^K\Delta(o_i\mid S_K)\\
+ &\leq F_t(S_K)+\sum_{i=1}^K\Delta(o_i\mid S_{i-1})
+ \leq2F_t(S_K).
+ \end{split}
+ \label{eq:formal-service-greedy-half}
+\end{equation}
+
+Gộp những \emph{signature có cùng thứ tự} giữ độ phủ và đại diện có
+tie-break công khai tốt nhất tại bước hiện tại. Thay một track được nhận
+chỉ khi toàn mục tiêu tăng; tiến tới mục tiêu giữ signature nên giữ
+$F_t$. Giới hạn tối đa3 lần thay không chứng minh đã tới tối ưu cục bộ.
+Gọi $Q_{\mathrm{pre}}$ là lựa chọn trước slack và
+$\delta_F=\texttt{utility\_slack}$. Mỗi thay đổi slack được kiểm tra lại
+với cùng floor $F_t(Q_{\mathrm{pre}})-\delta_F$, do đó trong số học lý
+tưởng
+\begin{equation}
+ F_t(Q_{\mathrm{final}})\geq F_t(Q_{\mathrm{pre}})-\delta_F
+ \geq\tfrac12F_t(Q^*)-\delta_F.
+ \label{eq:formal-service-slack-floor}
+\end{equation}
+Ở bước đầu hoặc khi slack bằng0, bước slack không đổi lựa chọn. Giá trị
+hiện tại $\delta_F=0{,}03$ là mất tối đa0,03 \emph{điểm surrogate cùng
+bước}, không phải3\% sai số Recall hay xác suất lộ vị trí. Mã chấp nhận
+floor với tolerance $10^{-12}$; đó là kiểm tra giá trị float ghi nhận,
+không là chứng chỉ sai số $10^{-12}$ so với số thực. Cận $1/2$ cần oracle
+chính xác, không tự áp như chứng chỉ executable. Trạng thái sau slack
+làm đổi miền bước sau, nên không suy cận độ phủ cho toàn chuyến hoặc
+chất lượng người dùng.\footnote{Trọng số reference5 được giữ trong
+\path{benchmark/response_aware_belief.py}; nguồn resource:
+\path{experiments/future_sumo_eval.py}, hàm \texttt{native\_resources}.
+Greedy, độ phủ và full-action guard:
+\path{benchmark/engines/service_cover.py},
+\path{benchmark/engines/fair_cover.py}; factory active:
+\path{benchmark/engines/public_service_planner.py}.}
+
+\subsection{Không thêm kênh request theo nhu cầu riêng}
+\label{sec:formal-service-noninterference}
+
+Gọi $\psi$ là chuỗi nhu cầu local: purpose, category, bán kính, đích và
+top-$k$. Giữ cùng trace vị trí $X$, ngữ cảnh công khai $\mathcal C$, lịch
+mở/đóng, admission, sự kiện, mọi loại được request và $L$ cố định. Giữ
+cùng chiến lược máy chủ. Giả sử $\psi$ chỉ đi vào local ranking, không
+đổi Q, lịch đọc/gửi, expiry, reset hoặc retry. Với
+$\mathsf W(X,\psi;\mathcal C)$ là transcript \emph{mạng logic}, ta có
+\begin{equation}
+ \mathsf W(X,\psi;\mathcal C)
+ \overset{\mathrm d}{=}
+ \mathsf W(X,\psi';\mathcal C)
+ \quad\text{cho mọi }\psi,\psi'.
+ \label{eq:current-purpose-noninterference}
+\end{equation}
+
+\noindent\emph{Chứng minh.}
+Ghép cùng randomness của REM, planner, thứ tự Q và máy chủ. Ở sự kiện
+đầu, các đầu vào tạo bản tin giống nhau. Nếu các prefix mạng giống nhau,
+lịch sử dùng cho sự kiện tiếp theo giống nhau; nhu cầu local không sửa
+chúng. Mỗi Q request mọi category công khai với cùng $L$, nên cả request
+và response tiếp theo giống nhau. Quy nạp cho bình đẳng từng bản tin
+trên cùng randomness, mạnh hơn bình đẳng phân bố. \hfill$\square$
+
+API mạng không nhận \texttt{QuerySpec}; hàm trả lời local không gọi GPS
+supplier của Geo-I, không fetch và không tiến đồng hồ cache. Điều kiện
+này bảo vệ \emph{nội dung request có điều kiện theo cùng vị trí/lịch}.
+Nó không nói intent độc lập với tuyến tới bệnh viện, giờ bật ứng dụng,
+account/IP, click hoặc đặt chỗ. Logical-clock proof cũng không chứng
+minh latency thực độc lập nhu cầu nếu CPU/cache contention hay lỗi local
+ảnh hưởng packet. Nếu thiếu đáp án làm ứng dụng gửi request mới theo
+nhu cầu thì điều kiện đã bị phá.\footnote{Ranh giới API:
+\path{benchmark/query_purpose.py},
+\path{benchmark/budgeted_geoi_lbs.py}; kiểm tra local scope chung cho
+hai cách dùng cache: \path{benchmark/versioned_static_geoi_lbs.py}.}
+
+\subsection{Khi nào local top-$k$ là đáp án chính xác?}
+\label{sec:formal-service-local-exactness}
+
+Giữ vị trí local đúng trong mô hình: $v$ là trạng thái gần GPS hiện tại
+theo phép ánh xạ công khai. Giữ một catalogue/version và nhu cầu $\psi$.
+Với category đã chọn, các điểm số hiện thực là $D_G(v,p)$ cho nearest,
+$T_G(v,p)$ cho fastest, $D_G(v,p)$ với điều kiện $D_G(v,p)\leq r$ cho
+within-radius, và
+$D_G(v,p)+D_G(p,a)-D_G(v,a)$ cho detour. Chỉ nhận điểm số hữu hạn.
+Nếu đích $a$ không tới được thì detour có reference rỗng. Bán kính là
+khoảng cách đường có hướng, còn fastest dùng tốc độ free-flow, không
+phải thời gian giao thông đo thực. Tie được phá bằng ID POI công khai.
+
+Gọi $E_\psi(v)$ là miền POI hợp điều kiện và $\prec$ là thứ tự toàn phần
+theo điểm số rồi ID. Đặt
+\begin{equation}
+ R=\operatorname{Top}_k(E_\psi(v)),\quad
+ r_R=|R|=\min(k,|E_\psi(v)|),\quad
+ P(A)=\operatorname{Top}_k(A\cap E_\psi(v)),
+ \label{eq:formal-service-reference}
+\end{equation}
+trong đó $A$ là tập ID nhận hợp lệ. Với dịch vụ tĩnh hiện tại, tính hợp lệ
+yêu cầu đúng catalogue/version. Nếu xét availability động, phải bổ sung
+trạng thái \emph{hiện tại đã biết}; chỉ có metadata không đủ xác nhận POI
+đang hoạt động. Detour cần đích local đã biết; dùng endpoint thật trong
+evaluator không chứng minh thiết bị suy được đích từ quá khứ.
+
+\noindent\textbf{Tính chất 3 (thu hồi reference).}
+Khi $r_R>0$, nếu đáp án và reference dùng \emph{cùng thứ tự và miền đúng},
+\begin{equation}
+ R\cap P(A)=R\cap A,\qquad
+ \operatorname{Recall}@k(A)=\frac{|R\cap A|}{r_R}.
+ \label{eq:formal-service-recall-identity}
+\end{equation}
+Một $p\in R\cap A$ có hạng toàn miền không quá $k$; bỏ POI ngoài $A$
+không thể làm hạng đó lớn hơn. Do đó $p$ vẫn nằm trong $P(A)$. Chiều
+ngược hiển nhiên vì $P(A)\subseteq A$. Đặc biệt, $R\subseteq A$ là điều
+kiện cần và đủ cho $P(A)=R$ và Recall bằng1. Không cần tải toàn catalogue,
+nhưng không có bảo đảm bộ chọn Q luôn thu hồi đủ $R$.
+
+Reference có thể ít hơn5 POI. Khi $r_R=0$, Recall là N/A và số reference
+rỗng phải được báo riêng. Khi reference có nghĩa nhưng câu trả lời rỗng,
+Recall bằng0; không đổi mẫu số thành kích thước reference của vị trí
+ước lượng. Completion đủ số lượng cũng không đồng nghĩa Recall đúng:
+có thể trả5 POI hợp điều kiện nhưng cả5 đều ngoài reference top5.
+\footnote{Điểm số và tie-break:
+\path{benchmark/query_purpose.py}, lớp \texttt{MultiPurposeRoadRanking};
+reference/mẫu số của vòng hiện tại:
+\path{experiments/qplanner_study_20261006_v2.py},
+lớp \texttt{UtilityEvaluator}.}
+
+\subsection{Tăng L: điều kiện đơn điệu và phản ví dụ}
+\label{sec:formal-service-depth-monotonicity}
+
+Giữ \emph{đúng cùng Q}, graph, phép truy cập tọa độ, catalogue tĩnh và
+thứ tự dịch vụ. Với mỗi Q/category, top20 là prefix của top30, nên hợp
+ID sau khử trùng thỏa $A_{20}\subseteq A_{30}$; có thể bằng nhau khi ít
+POI. Nếu giữ cùng reference và local ranking đúng như Tính chất 3,
+\begin{equation}
+ \operatorname{Recall}@k(A_{30})-
+ \operatorname{Recall}@k(A_{20})
+ =\frac{|R\cap(A_{30}\setminus A_{20})|}{r_R}\geq0.
+ \label{eq:formal-service-depth-monotonicity}
+\end{equation}
+Do đó các trung bình với cùng tập reference có nghĩa và cùng trọng số
+không âm cũng không giảm. Không suy tăng Recall nghiêm ngặt, tăng
+privacy hoặc ưu thế tại cùng bandwidth; tăng $L$ có giá phản hồi. Thay
+$L_{\mathrm{plan}}$ làm Q khác đi thì lập luận giữ-cùng-Q không còn áp dụng.
+
+\textbf{Sai vị trí local có thể phá tính đơn điệu, dù sai giống nhau ở
+hai độ sâu.} Trên đường hai chiều, vị trí thật ở0; năm POI $a_1,\ldots,a_5$
+ở1,2,3,4,5, còn $b$ ở10. Với $k=5$, reference thật là năm $a_i$.
+Nếu pool nhỏ chứa chúng, local top5 trả cả năm dù ước lượng vị trí ở10.
+Khi pool lớn thêm $b$, local ranking sai đưa $b$ lên đầu, đẩy một $a_i$
+ra: Recall giảm từ1 xuống$4/5$. Đây là phản ví dụ về tập ứng viên lồng
+nhau. Để có đúng prefix20/30, trên một graph có hướng có thể thêm15 POI
+xa cả vị trí thật và vị trí ước lượng, nhưng nằm sau năm $a_i$ và trước
+$b$ trong thứ tự từ Q. Chẳng hạn, ba trạng thái nguồn có các cạnh trực
+tiếp tới POI với chi phí cho đúng ba thứ tự đó; các cạnh quay lại đủ dài
+giữ những thứ tự và làm graph liên thông mạnh. Pool20 có năm $a_i$ và15
+POI bổ sung; pool30 thêm $b$. Thu hồi thêm reference vẫn không giảm,
+nhưng Recall \emph{sau xếp hạng sai} có thể giảm.
+
+\textbf{Cache không tự phá tính đơn điệu.} Nếu hai cache bắt đầu giống
+nhau, cùng lịch reset/expiry/version và cùng quy tắc hiệu lực, hợp các
+phản hồi prefix giữ $A_{20}(t)\subseteq A_{30}(t)$ bằng quy nạp. Với
+availability, trạng thái của ID chung còn phải nhất quán ở cùng epoch.
+Ngược lại, so cache tích lũy L20 giữ POI $a$ từ quá khứ với L30 current-only
+không còn $a$ thì các pool không lồng nhau. Eviction khác nhau cũng có
+thể phá điều kiện này. Trạng thái cũ bị hết hạn trở thành unknown; không
+được xem unknown là đang hoạt động hoặc là chắc chắn không hoạt động.
+
+\textbf{Khác đồng hồ hoặc phiên bản không là so prefix.} Nếu phản hồi
+L20 lấy trước cập nhật catalogue còn L30 lấy sau khi POI $a$ bị bỏ,
+$a$ có thể nằm ở pool20 mà không có ở pool30. Reference hiện tại cũng
+có thể đổi khi người dùng di chuyển hoặc availability đổi. Vì thế phải
+giữ cùng thời điểm, miền, catalogue và chính sách cache khi kiểm tra
+độ sâu; không lấy số liệu hai trạng thái dịch vụ khác nhau để suy một
+bất đẳng thức từng event.
+
+Các chứng minh trên giải thích điều kiện thiết kế và cách đọc phép đo.
+Chúng không chứng minh posterior chính xác, GPS local không sai, dịch vụ
+động có đủ trạng thái hiện hành hoặc mọi scenario đã được bảo vệ. Những
+điểm đó được đánh giá riêng bằng benchmark và các diagnostic có phạm vi
+nguồn, mẫu số và chi phí được ghi rõ.

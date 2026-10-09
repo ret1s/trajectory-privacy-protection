@@ -5,6 +5,26 @@ tạm nhắm research article thông thường. **Đúng chủ đề, nhưng evi
 chưa đủ để chốt manuscript.** Giữ Geo-I, mạng đường, protected belief và luồng
 Z → Q → POI → lọc local. Các kết quả trước được giữ nguyên.
 
+**Cập nhật sau các vòng thực nghiệm cùng ngày:** đây là kế hoạch JISA ban đầu,
+không phải trạng thái đã chạy của mọi bước bên dưới. Hai vòng planner
+mean/risk-aware đã chạy và đều không qua gate; không chọn một planner mới.
+L30 giữ nguyên Q của Geo-I/REM đã được chọn trước và xác nhận trên 24 nhóm
+tuyến mới: gain utility +2,974 pp, CI95% [2,308;3,646], thêm31,102% reply
+JSON bytes. [Kết quả và phạm vi](../../research/2026-10-06_geo_i_response_depth.md).
+Đối chứng full-static-catalogue đã chạy và cho thấy local-only giải quyết
+mọi reference không rỗng trong contract bulk của catalogue nhỏ hiện tại.
+[Application gate](../../research/2026-10-06_jisa_static_catalogue_gate.md).
+Chẩn đoán trạng thái khả dụng tổng hợp đã kiểm chứng toàn bộ 72 lượt phát lại:
+L30 current-only 91,44%, cache còn hiệu lực 91,78%; full-current bulk vẫn
+100% với ít byte hơn. Đây là một thế giới trạng thái trên cohort đã xem,
+không phải xác nhận mới hay lời giải cho application gate.
+[Dynamic contract và audit](../../../artifacts/benchmarks/dynamic_provider_status_20261006_v1/README.md).
+Những dòng ``chưa chạy'' trong các mục kế hoạch phía dưới phản ánh checkpoint
+ban đầu; không dùng chúng để thay trạng thái trong các artifact mới.
+Luận văn hiện tại tổng hợp bằng chứng này tại
+[nguồn thesis](../../../thesis/README.md). Real mobility, bằng chứng novelty và
+faithful SOTA reproduction vẫn chưa được giải quyết bởi utility confirmation.
+
 ## 1. Tạp chí trong ảnh và yêu cầu thực tế
 
 Ảnh là **Journal of Information Security and Applications (JISA)** của Elsevier,
@@ -253,3 +273,14 @@ Trước nộp: đọc lại current Guide for Authors, lập data/code availabi
 license, mô tả AI hỗ trợ và kiểm tra toàn bộ citations/tables. Các bước này
 được đặt sau khi phương pháp và evidence ổn định; không dùng viết đẹp để bù
 cho novelty hoặc confirmation còn thiếu.
+
+## 8. Bổ sung cho thesis ngày 07/10
+
+[Bản luận văn, chứng minh lý tưởng và review mới](../../reviews/2026-10-07_thesis_formal_completion_v2.md)
+giữ nguyên kết quả xác nhận L30 và nền tảng Geo-I. Phép thử GPS local 60 s
+trên các Q đã khóa cho thấy gain L30 vẫn dương, nhưng ngoại suy hai fix chưa
+cải thiện Recall nên chưa được chọn. Audit dung lượng phân biệt file nén,
+payload mảng và cache nếu đầy, chưa đo RAM trên thiết bị. S8 được bổ sung
+diagnostic từ cặp đồng hành SUMO lịch sử, với giới hạn seed tái tạo và bank
+hữu hạn nêu rõ. Các phân tích này dùng cohort đã xem; chúng giúp làm chặt
+thesis, chưa thay thế các gate dữ liệu thật, novelty và confirmation ở trên.

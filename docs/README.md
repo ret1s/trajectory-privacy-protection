@@ -23,6 +23,9 @@ Use this page instead of searching the repository by filename.
   — preserved failed trials and separation of development from fresh evaluation.
 - [`research/2026-10-06_jisa_static_catalogue_gate.md`](research/2026-10-06_jisa_static_catalogue_gate.md)
   — full-catalogue local retrieval control and the remote-service assumption.
+- [`../artifacts/benchmarks/dynamic_provider_status_20261006_v1/README.md`](../artifacts/benchmarks/dynamic_provider_status_20261006_v1/README.md)
+  — independently checked synthetic availability, safe cache expiry and the
+  retained current-bulk control; secondary evidence on already-inspected data.
 - [`research/2026-10-05_method_refinement.md`](research/2026-10-05_method_refinement.md)
   — preceding Geo-I architecture, persistent linked-trip accounting, purpose
   refinement and endpoint generalization/attacker limits.
@@ -44,6 +47,9 @@ Use this page instead of searching the repository by filename.
 ## Thesis and study material
 
 - Canonical LaTeX source: [`../thesis/main.tex`](../thesis/main.tex)
+- Current thesis scope and rebuild guide: [`../thesis/README.md`](../thesis/README.md)
+- Reviewed thesis PDF: [`../artifacts/reports/graduation_thesis.pdf`](../artifacts/reports/graduation_thesis.pdf)
+- Formal proofs and current review: [`reviews/2026-10-07_thesis_formal_completion_v2.md`](reviews/2026-10-07_thesis_formal_completion_v2.md)
 - Foundation guide source:
   [`study_guides/location_trajectory_privacy_foundations.tex`](study_guides/location_trajectory_privacy_foundations.tex)
 - Generated artifacts: [`../artifacts/`](../artifacts/)

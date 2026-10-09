@@ -1,0 +1,249 @@
+% Current method chapter, 06 October 2026.
+% Dependencies: the existing main.tex preamble (amsmath, TikZ, natbib, hyperref).
+% Source/evidence are read-only. This chapter distinguishes specification,
+% executable simulation, and empirical confirmation.
+\chapter{Phương pháp dựa trên Geo-I và truy hồi POI tại thiết bị}
+\label{ch:method}
+\label{ch:current-method}
+
+\section{Phạm vi và cấu hình hiện tại}
+\label{sec:current-method-scope}
+
+Phương pháp chạy ở thiết bị: bảo vệ những lần đọc vị trí bằng Geo-I, dùng lịch sử đã bảo vệ để chọn các tọa độ truy vấn khả thi trên đường, rồi phục hồi câu trả lời bằng xếp hạng cục bộ. Geo-I là nền tảng riêng tư; REM là cơ chế lấy mẫu điểm tham chiếu trên một miền đường công khai cố định. Tập truy vấn giả và bước lấy POI giúp giữ chất lượng dịch vụ, nhưng không tự tạo thêm một bảo đảm riêng tư mới.
+
+Cấu hình được xác nhận trong vòng mới mang tên \textbf{Geo-I / REM, $L=30$}. Nó giữ bộ chọn \texttt{legacy\_l10}: chữ ``10'' chỉ độ sâu bảng POI mà bộ chọn dùng, còn $L=30$ là số POI tối đa máy chủ trả \emph{cho mỗi loại tại mỗi tọa độ truy vấn}. Vẫn gửi $K=5$ tọa độ và trả tối đa $k=5$ POI tại thiết bị. $L$ không phải các mã cấu hình 30/67 trong tài liệu lịch sử. Hai vòng thay mục tiêu bộ chọn Q đã không qua điều kiện chọn; cấu hình được giữ chỉ tăng độ sâu phản hồi, không thay cơ chế Geo-I hay Q đã sinh. Các kết quả thực nghiệm được trình bày riêng, thay vì suy chất lượng bảo vệ từ tên cấu hình.\footnote{Cấu hình đã chốt: \path{artifacts/benchmarks/qplanner_response_depth_generalization_20261006_v1/recommended_configuration.json}. Lịch sử giữ cả thử nghiệm thất bại: \path{docs/reviews/2026-10-06_qplanner_iteration_log.md}.}
+
+\section{Luồng xử lý và ranh giới quan sát}
+\label{sec:current-method-flow}
+
+Gọi $\mathcal C$ là ngữ cảnh công khai: phép chiếu tọa độ, mạng đường có hướng, miền trạng thái, danh mục và phiên bản POI, prior, tham số, lịch gửi và chính sách cấp phiên. Tại sự kiện công khai $t$, thiết bị có vị trí thật $x_t$ và nhu cầu riêng $u_t$ gồm mục đích, loại POI, bán kính hoặc đích đến. Hai đầu vào này có đường xử lý khác nhau. $x_t$ chỉ đi vào cơ chế bảo vệ khi lịch đọc và bộ lọc ngân sách cho phép; $u_t$ chỉ đi vào xếp hạng sau khi nhận phản hồi.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+ font=\small,
+ b/.style={draw=reportblue,rounded corners,align=center,text width=37mm,minimum height=13mm,fill=white},
+ input/.style={b,font=\footnotesize,text width=29mm,minimum height=13mm},
+ a/.style={-{Latex[length=2mm]},thick,draw=reportblue},
+ local/.style={a,draw=reportgreen},
+ pub/.style={a,dashed,draw=black!55}]
+\filldraw[rounded corners,fill=green!3,draw=reportgreen] (-.3,.95) rectangle (10.45,-10.05);
+\filldraw[rounded corners,fill=orange!8,draw=orange!70!black,line width=1pt] (-.05,-1.4) rectangle (10.2,-7.6);
+\filldraw[rounded corners,fill=red!4,draw=reportred] (10.9,.95) rectangle (15.15,-10.05);
+\node[font=\small\bfseries,text=reportgreen] at (5.0,.6) {THIẾT BỊ: VÙNG TIN CẬY};
+\node[font=\small\bfseries,text=reportred,align=center] at (13.0,.45) {MÁY CHỦ\\VÙNG QUAN SÁT};
+\node[font=\small\bfseries,text=orange!70!black,align=center,text width=43mm] at (7.7,-2.35) {PHƯƠNG PHÁP\\CỦA LUẬN VĂN};
+\node[input,fill=green!8] (gps) at (1.7,-.35) {Đầu vào riêng:\\GPS thật $x_t$};
+\node[input,fill=reportgray] (public) at (5.2,-.35) {Đầu vào công khai:\\bản đồ, POI, prior, lịch};
+\node[input,fill=green!8] (privatequery) at (8.6,-.35) {Đầu vào riêng $u_t$:\\mục đích, loại,\\bán kính, đích};
+\node[b,fill=orange!15] (filter) at (2.2,-2.95) {1. Lịch và cap\\2. REM / tái dùng neo $Z$};
+\node[b,fill=reportlight] (belief) at (2.2,-4.75) {3. Ước lượng từ lịch sử\\$Z$ và nhánh đã bảo vệ};
+\node[b,fill=reportlight] (planner) at (2.2,-6.65) {4. Chọn $K=5$ Q\\theo đường có thể tới};
+\node[b,fill=reportlight] (rank) at (7.85,-6.65) {6. Hợp POI đã nhận\\xếp hạng bằng $x_t,u_t$};
+\node[b,draw=reportred,fill=red!8] (server) at (13.0,-6.65) {5. Lấy ứng viên mọi loại\\$L=30$ mỗi loại / mỗi Q};
+\node[b,fill=green!8] (answer) at (7.85,-9.05) {Đầu ra cục bộ:\\tối đa $k=5$ POI phù hợp};
+\node[align=center,font=\scriptsize,text width=43mm] at (2.2,-9.05) {Bản tin: tọa độ Q, thời điểm,\\mọi loại POI và $L$ cố định.\\Không gửi $Z$ hay nhu cầu thật.};
+\node[align=center,font=\scriptsize,text width=38mm] at (13.0,-2.75) {Có thể lưu tọa độ, thứ tự,\\thời điểm và kích thước\\request / response.};
+\draw[a] (gps)--(filter);
+\draw[a] (filter)--(belief);
+\draw[a] (belief)--(planner);
+\draw[a] (planner.south)--(2.2,-7.95)--node[pos=.33,above,font=\scriptsize,fill=green!3]{Q gửi ra}(13.0,-7.95)--(server.south);
+\draw[a] (server.west)--(rank.east);
+\draw[local] (privatequery.south)--(8.6,-1.15)--(10.0,-1.15)--(10.0,-5.55)--(rank.north);
+\draw[local] (gps.east)--(3.55,-.35)--(3.55,-1.15)--(4.65,-1.15)--(4.65,-5.55)--(rank.north west);
+\node[font=\scriptsize,fill=orange!8,rotate=90] at (4.65,-3.5) {GPS dùng local};
+\draw[local,preaction={draw=white,line width=3pt}] (rank)--(answer);
+\draw[pub] (public.south)--(5.2,-4.75)--(belief.east);
+\draw[pub] (5.2,-4.75)--(5.2,-5.65)--(planner.north east);
+\end{tikzpicture}}
+\caption{Luồng hiện tại. Vùng cam là phương pháp tại thiết bị. Điểm tham chiếu $Z$ phục vụ nội bộ; Q là tọa độ gửi ra, còn POI là kết quả dịch vụ. Nhu cầu thật không chọn Q hoặc kích hoạt truy vấn mạng.}
+\label{fig:current-method-flow}
+\end{figure}
+
+Ba ký hiệu cần phân biệt: \textbf{$Z_t$} là điểm tham chiếu đã bảo vệ, có thể giữ lại qua nhiều lần gửi; \textbf{$Q_t=(q_{t,1},\ldots,q_{t,K})$} là các tọa độ truy vấn từ trạng thái đã bảo vệ; \textbf{$P_t$} là các POI do dịch vụ trả về. Q không phải năm mẫu REM độc lập quanh GPS, không buộc chứa GPS thật và cũng không buộc mọi tọa độ khác nhau. Cơ chế không cam kết GPS thật không bao giờ trùng ngẫu nhiên với một Q.
+
+Đối thủ có thể thấy tọa độ Q, thứ tự trong bản tin, các mốc công khai, loại POI công khai, $L$, phản hồi và kích thước. Quan sát còn có thể chứa giờ mở/đóng phiên theo giao thức đánh giá. GPS, $Z$, nhánh giữ/tạo mới, số dư, khóa ngẫu nhiên, $u_t$ và câu trả lời sau xếp hạng nằm ngoài quan sát này. Account/IP, click, đặt chỗ và điều hướng tiếp theo không được ẩn bởi cơ chế tọa độ. Nếu ứng dụng công bố các thông tin đó hoặc tải bản đồ theo GPS thật, phải bổ sung chúng vào mô hình đe dọa.
+
+Adapter có thể xáo thứ tự Q và bỏ ID cố định, nhưng vẫn có thể nối Q bằng hình học. Vòng xác nhận L30 giữ quan sát slot có thứ tự và cả đối thủ nối bằng Hungarian; không quy kết kết quả đó cho khả năng ``không thể theo dõi'' của việc xáo thứ tự.\footnote{Ranh giới API: \path{benchmark/geoi_lbs.py}, \path{benchmark/budgeted_geoi_lbs.py}, \path{benchmark/query_purpose.py}, \path{benchmark/query_order.py}. Hợp đồng vòng L30: \path{experiments/qplanner_study_20261006_v2.py}, hàm \texttt{run\_family}.}
+
+\section{REM và phép thử tái sử dụng có nhiễu}
+\label{sec:current-rem}
+
+Miền $V$ chứa các trạng thái làn--độ tiến được dựng từ bản đồ công khai trước khi xử lý chuyến. Một trạng thái $v$ có tọa độ $g(v)$. GPS được đưa qua phép chiếu cố định $\Pi$; cơ chế dùng $x=\Pi(\mathrm{GPS})$ liên tục, không làm tròn GPS thành nút đường trước khi lấy mẫu. Khoảng cách riêng tư là $d_E(x,x')=\|x-x'\|_2$ tính bằng mét trong hệ phẳng này. Khoảng cách đường có hướng dùng cho dịch vụ là đại lượng khác, có thể bất đối xứng hoặc vô hạn.
+
+Với $u>0$ theo đơn vị $\mathrm m^{-1}$, kernel REM lý tưởng là
+\begin{equation}
+ R_u(v\mid x)=\frac{\exp[-u\,d_E(x,g(v))/2]}
+ {\sum_{w\in V}\exp[-u\,d_E(x,g(w))/2]},\qquad v\in V.
+ \label{eq:current-rem}
+\end{equation}
+Toàn bộ $V$ giữ cố định, không cắt bằng bán kính quanh GPS thật. REM sử dụng điểm số Euclid trên miền đường; không đồng nhất nó với GEM dùng khoảng cách đồ thị của Takagi và cộng sự.\footnote{S. Takagi và cộng sự, \emph{Geo-Graph-Indistinguishability}, bản đầy đủ: \url{https://arxiv.org/abs/2010.13449}. Mã REM và giới hạn số học: \path{core/mechanisms.py}.} Geo-I và các tính chất hậu xử lý là nền tảng kế thừa~\cite{andres2013geoi}.
+
+Lần đọc đầu tạo $Z$ bằng REM. Những lần đọc sau lấy $h=Z$ cuối cùng làm tham chiếu, không lấy GPS cũ làm tham chiếu, rồi thử
+\begin{equation}
+ d_E(x_t,h)+\eta_t\leq\theta,
+ \qquad \eta_t\sim\operatorname{Lap}(1/u).
+ \label{eq:current-reuse}
+\end{equation}
+Nếu đạt, giữ $Z_t=h$; nếu không, lấy $Z_t$ mới bằng (\ref{eq:current-rem}). Ngưỡng $\theta=200$ m là công khai. Quyết định không phải ``ra ngoài200 m thì chắc chắn tạo mới'': nhiễu làm cả hai nhánh có xác suất. Tái sử dụng vẫn tốn ngân sách phép thử; đây là cách khởi tạo cụ thể của cơ chế dự đoán có kiểm tra riêng tư~\cite{chatzikokolakis2014predictive}, không phải primitive mới. Nó hạn chế số mẫu mới trong một chân trời hữu hạn, không ngăn tấn công trung bình vô hạn hay ghi nhớ bền vững mỗi lần quay về nhà.
+
+\section{Bộ lọc ngân sách qua các phiên liên kết}
+\label{sec:current-budget}
+
+Chính sách công khai dành trước $N$ slot trong một epoch cho cùng chủ thể được quản lý bằng một sổ. $C$ là cap hiệu lực của cả epoch; $H$ điều khiển cách chia chi phí trong engine. Đặt
+\begin{equation}
+ U=2H-1,\qquad u=\frac{C}{N U},\qquad
+ C_{\mathrm{session}}=Uu=\frac{C}{N},\qquad
+ B_{\mathrm{session}}=2Hu.
+ \label{eq:current-budget}
+\end{equation}
+$B_{\mathrm{session}}$ là tham số danh nghĩa mà engine nhận; $C_{\mathrm{session}}$ là cap hiệu lực. Không hoán đổi hai con số này khi so sánh. Mỗi đơn vị trong bộ lọc có giá $u$. Trước khi gọi GPS supplier, cần còn1 đơn vị nếu chưa có neo và2 đơn vị nếu đã có neo. Chi phí thực trên nhánh đã bảo vệ là1 cho lần đầu,1 cho giữ neo và2 cho thử rồi tạo mới. Không đủ dự toán thì không gọi supplier; bộ chọn tiếp tục từ lịch sử đã bảo vệ.\footnote{Bộ lọc và cap khớp: \path{benchmark/engines/filtered_cover.py}, \path{benchmark/engines/matched_filter.py}. Lịch đọc: \path{benchmark/engines/paced_guard.py}. Cấp phiên và supplier: \path{core/session_budget.py}.}
+
+\begin{table}[htbp]\centering\small
+\caption{Tham số của cấu hình Geo-I / REM được giữ trong vòng L30.}
+\label{tab:current-method-config}
+\begin{tabularx}{\textwidth}{P{4.6cm}Y}\toprule
+Đại lượng & Giá trị và ý nghĩa\\\midrule
+Epoch / slot & $[0,12000)$ s; $N=8$ slot công khai; không tự reset theo GPS.\\
+$C$, $H$, $U$ & $0{,}23\,\mathrm m^{-1}$; $H=12$; $U=23$ đơn vị mỗi phiên.\\
+$u$ & $0{,}00125\,\mathrm m^{-1}$ cho REM và phép thử tái dùng.\\
+Cap phiên / ngân sách danh nghĩa & $0{,}02875\,\mathrm m^{-1}$ / $0{,}03\,\mathrm m^{-1}$.\\
+Cap epoch / danh nghĩa & $0{,}23\,\mathrm m^{-1}$ / $0{,}24\,\mathrm m^{-1}$.\\
+Lịch đọc riêng tư & Ít nhất60 s giữa hai lần supplier được phép đọc.\\
+Bộ chọn / chuyển động & Bảng nearest $L_{\mathrm{plan}}=10$; slack $\sigma=0{,}03$; tối đa3 lần thay một track.\\
+Truy hồi / đáp án & $K=5$ Q; $L=30$ mỗi loại mỗi Q; local $k=5$.\\\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{$H$ không phải số lần đọc tối đa của bộ lọc hiện tại.} Sau lần đầu, nhánh giữ chỉ tốn1 đơn vị nhưng vẫn phải dự toán2. Với $H\geq2$, một chuỗi liên tục giữ có thể có tới $U-1=2H-2$ lần đọc: $H=12$ cho tối đa22 lần, nếu lịch có đủ sự kiện. Vòng mô phỏng600 s với khoảng60 s có không quá11 lần đọc cho cơ chế. Khi cần một ceiling đúng12 lần đọc, phải khai báo thêm ràng buộc công khai; đó chưa phải cấu hình hiện tại.
+
+Ví dụ, tạo neo đầu tiêu $u=0{,}00125$; một lần giữ làm tổng thành $2u$; một lần thử rồi tạo mới làm tổng thành $4u=0{,}005$. Không lấy số lần tạo neo mới nhân $u$ để bỏ chi phí thử. Slot được dành trước khi engine đọc GPS, không hoàn lại phần dư từ nhánh bí mật. Phiên vượt8 slot bị từ chối, không đọc GPS hoặc gửi Q; phiên đã nhận nhưng hết cap vẫn gửi Q dự đoán. Đây là hai trạng thái khác nhau.
+
+Sổ SQLite giữ reservation qua khởi động lại; lỗi hoặc crash không trả lại slot. Các luồng RNG được tách theo epoch, slot và chức năng bằng khóa riêng, rồi dùng PRNG của simulator. Đây là invariant vận hành dưới giả định thiết bị tin cậy, không là cơ chế chống chủ thiết bị xóa/rollback sổ. Nhiều epoch, ledger hay thiết bị của cùng người phải cộng cap hoặc dùng bộ quản lý chung. Ngân sách tọa độ không ẩn danh account/IP và không tự giải quyết S4.
+
+\section{Ước lượng từ thông tin đã bảo vệ và chọn Q}
+\label{sec:current-belief-planner}
+
+Layer ước lượng dùng phân bố $b_t(\ell)$ trên một lưới trạng thái đường công khai để biểu diễn các vị trí còn có thể phù hợp với lịch sử neo. Nó không đọc thêm GPS để ``sửa'' ước lượng. Khi có lần đọc được phép, phân bố dự đoán được cập nhật bằng likelihood của REM/tái sử dụng; giữa các lần đọc chỉ áp dụng mô hình chuyển tiếp công khai:
+\[
+ \bar b_t=b_{t-1}T_{\Delta t},\qquad
+ b_t(\ell)\ \propto\ \bar b_t(\ell)\,\mathcal L(Z_t\mid \ell,Z_{\mathrm{prev}}).
+\]
+$\mathcal L$ giữ mẫu số REM trên toàn miền, bội số của các trạng thái trùng tọa độ và khối xác suất tái sử dụng. Tuy nhiên, lưới hữu hạn, prior theo ô và mô hình chuyển tiếp là xấp xỉ; bộ lọc không điều kiện hóa đầy đủ mọi thông tin trong lịch sử nhánh. Vì vậy $b_t$ là \emph{ước lượng phục vụ utility}, không phải posterior của người dùng hoặc đối thủ đã được hiệu chuẩn. Bayesian remapping để cải thiện utility là hướng kế thừa~\cite{chatzikokolakis2017utility}.\footnote{Likelihood và chuyển tiếp: \path{benchmark/anchor_belief.py}; cờ cập nhật theo lần đọc: lớp \texttt{\_FilterBelief} trong \path{benchmark/engines/filtered_cover.py}; prior/lưới vòng hiện tại: \path{experiments/future_sumo_eval.py}.}
+
+Mỗi track giả $j$ giữ trạng thái đường trước $q_{t-1,j}$. Miền khả thi là
+\begin{equation}
+ \mathcal A_{t,j}=\{v\in V_c:T_G(q_{t-1,j},v)\leq t-t_{\mathrm{prev}}\},
+ \label{eq:current-feasible}
+\end{equation}
+trong đó $V_c$ là miền đường công khai có thể duy trì chuyển động; lần đầu dùng $V_c$. $T_G$ lấy đường đi có hướng với tốc độ free-flow công khai. Catalogue hiện tại chia trạng thái không quá40 m, tốc độ không quá8 m/s. Không nối hai làn chỉ vì tọa độ gần nhau. Ràng buộc này loại bước nhảy không có đường nối theo mô hình, nhưng chưa chứng minh phát lại đúng đèn tín hiệu, hàng xe, gia tốc hoặc đổi làn trong giao thông thật.
+
+Từ $b_t$, bộ chọn giữ trọng số không âm $w_t(p)$ cho POI thuộc các reference nearest top5 công khai. Với $S_{10}(v)$ là hợp POI trả theo bảng planner tại $v$, mục tiêu hiện tại là
+\begin{equation}
+ F_t(Q)=\sum_p w_t(p)\,\mathbf1\{p\in\bigcup_{q\in Q}S_{10}(q)\},
+ \qquad q_j\in\mathcal A_{t,j}.
+ \label{eq:current-cover}
+\end{equation}
+Đây là surrogate độ phủ nearest theo belief, không phải Recall thật của bốn purpose. Mỗi trạng thái ước lượng chia trọng số đều giữa các loại có reference, rồi giữa các POI trong reference; các trạng thái không có reference không được gán đáp án giả.
+
+Greedy xét lợi ích biên trên mọi track chưa chọn, sau đó thực hiện tối đa3 lần thay một track nếu toàn mục tiêu tăng. Các trạng thái có cùng \emph{thứ tự} signature POI được gộp bằng tie-break công khai để giảm số phép tính. Bước tiến tới mục tiêu chọn đại diện trong miền tới được; bước slack cho phép mất tối đa $\sigma=0{,}03$ điểm của $F_t$ ở \emph{cùng sự kiện và lịch sử}. Slack không là0,03 xác suất lộ GPS hay3\% trần sai số Recall. Không có ràng buộc $K$ tọa độ phải khác nhau.\footnote{Mã chọn: \path{benchmark/engines/service_cover.py}, \path{benchmark/engines/fair_cover.py}, \path{benchmark/engines/quotient_cover.py}, \path{benchmark/engines/progress_cover.py}, \path{benchmark/engines/slack_progress.py}. Factory control hiện tại: \path{benchmark/engines/public_service_planner.py}.}
+
+Trong số học chính xác, (\ref{eq:current-cover}) là hàm phủ đơn điệu với lợi ích biên giảm dần (submodular); ràng buộc một trạng thái cho mỗi track là partition matroid trên cặp có nhãn $(j,v)$. Greedy toàn cục có cận kế thừa $1/2$, không mặc nhiên có cận $1-1/e$ của bài toán chỉ giới hạn số phần tử~\cite{calinescu2011matroid}. Nếu thay điểm chỉ cải thiện và bước slack kiểm tra toàn mục tiêu, ta có cận surrogate một bước
+\[
+ F_t(Q_{\mathrm{final}})\geq\tfrac12\max_{Q:\,q_j\in\mathcal A_{t,j}\ \forall j}F_t(Q)-\sigma.
+\]
+Cận này yêu cầu oracle/tie chính xác; không là chứng chỉ tối ưu của mã float, utility người dùng, privacy hay toàn quỹ đạo. Các vòng tối ưu nhiều purpose/risk không qua gate vẫn là thử nghiệm phát triển, không được nhận làm cải tiến đã xác nhận của cấu hình hiện tại.
+
+\section{Truy hồi cố định và xếp hạng mục đích riêng tư}
+\label{sec:current-local-purpose}
+
+Mỗi Q gửi cùng danh sách \emph{mọi loại POI công khai} và $L$ cố định. Máy chủ lấy tối đa $L$ POI theo khoảng cách đường cho mỗi loại tại Q. Nó không nhận bốn truy vấn theo bốn mục đích riêng: bốn mục đích được thực hiện \emph{trên cùng ứng viên đã nhận tại thiết bị}. Sau khi hợp và bỏ trùng POI, local ranking dùng trạng thái ứng dụng tại GPS thật, category và nhu cầu thật:
+\begin{table}[H]\centering\small
+\caption{Bốn purpose hiện thực ở local ranking. $D_G$ là khoảng cách đường, $T_G$ là thời gian free-flow; $a$ là đích riêng.}
+\begin{tabularx}{\textwidth}{P{3.3cm}Y}\toprule
+Mục đích & Điều kiện / điểm xếp hạng của POI $p$\\\midrule
+Gần nhất & $D_G(x,p)$.\\
+Đến nhanh nhất & $T_G(x,p)$; chưa gồm congestion thời gian thực.\\
+Trong bán kính $r$ & Chỉ giữ $D_G(x,p)\leq r$, rồi xếp theo $D_G$.\\
+Ít vòng tới đích & $D_G(x,p)+D_G(p,a)-D_G(x,a)$; cần các đường đi hữu hạn.\\\bottomrule
+\end{tabularx}
+\end{table}
+Tie được phá bằng ID POI công khai. Có thể trả ít hơn5 hoặc rỗng nếu không có ứng viên hợp điều kiện. Bốn purpose không bao phủ mọi nhu cầu LBS như giá, giờ mở cửa, công suất hay chỗ trống; những nhu cầu đó cần dữ liệu và giao thức bổ sung.
+
+Trong dịch vụ tĩnh, phản hồi $L=20$ là prefix của cùng thứ tự khi $L=30$. Giữ nguyên Q, ranking và catalogue thì pool lớn chứa pool nhỏ; reference Recall từ pool lớn không thấp hơn. Đây là tính chất thu hồi ứng viên, không là privacy tăng hoặc thuật toán Q mới. Nó phải được đọc cùng chi phí phản hồi và đối chứng được cấp cùng $L$/bandwidth.
+
+Client chỉ dùng POI đã nhận còn hiệu lực. API có cache theo epoch phản hồi; thử nghiệm L30 còn báo riêng cumulative cache của cùng phiên bản catalogue trong public epoch. Hai chính sách này không được coi là cùng TTL dịch vụ động. Khi một POI đổi trạng thái mà không có thông tin mới, trạng thái phải là chưa biết, không suy nó vẫn khả dụng. Lọc phản hồi/cache chỉ giữ lập luận hậu xử lý cho mạng khi đáp án thiếu không kích hoạt request hoặc thay lịch theo nhu cầu riêng; thiết bị có thể không trả đáp án và chờ lần refresh công khai. Lợi ích cache là hậu xử lý cục bộ có thể áp cho các phương pháp khác; current replies là phép đo chính.
+
+\textbf{Ranh giới sensor của thực nghiệm.} Lịch60 s giới hạn supplier của Geo-I, không mọi lần ứng dụng có thể đọc vị trí cục bộ. UtilityEvaluator xếp hạng bằng GPS ground truth synthetic tại \emph{mỗi public event} và dùng đích thật làm local oracle. Việc replay L30 không đọc thêm supplier cho Q là đúng, nhưng không chứng minh utility đó đạt bằng sensor fix60 s hoặc tiêu thụ năng lượng GPS tương ứng. Một triển khai phải đo chất lượng khi vị trí local cũ, chi phí định vị và dữ liệu đích có sẵn thực tế.
+
+\input{current_algorithm}
+
+\section{Bảo đảm lý tưởng và giới hạn của mã thực thi}
+\label{sec:current-ideal-claim}
+
+\subsection{REM và hợp thành dưới cap cố định}
+
+\noindent\textbf{Mệnh đề1 (REM lý tưởng).} Với miền $V$ và phép chiếu cố định, (\ref{eq:current-rem}) thỏa $u$-Geo-I theo $d_E$. Thật vậy, bất đẳng thức tam giác chặn tỷ số số hạng mũ bởi $e^{u d_E(x,x')/2}$ và tỷ số chuẩn hóa bởi cùng hệ số. Do đó
+\[
+ R_u(v\mid x)\leq e^{u d_E(x,x')}R_u(v\mid x').
+\]
+Ánh xạ trạng thái sang tọa độ, kể cả nhiều trạng thái trùng tọa độ, giữ cận bằng cách cộng các xác suất. Loại đầu ra theo khoảng cách tới GPS hoặc QoS thật không nằm trong lập luận này.
+
+\noindent\textbf{Mệnh đề2 (transcript lý tưởng theo public epoch).} Giữ cùng $\mathcal C$, lịch, số slot và sự kiện giữa hai trace $X,X'$. Giả sử các kernel dùng số học thực và randomness độc lập lý tưởng; mỗi bộ lọc dành đủ phí trước đọc như trên; mọi quyết định mạng sau đó chỉ đọc trạng thái đã bảo vệ và công khai. Với
+\[
+ D_\infty(X,X')=\max_{s,t}d_E(x_{s,t},x'_{s,t}),
+\]
+quan sát máy chủ $\mathsf V$ thỏa, với mọi biến cố $A$,
+\begin{equation}
+ \Pr[\mathsf V(X)\in A]\leq
+ e^{C D_\infty(X,X')}\Pr[\mathsf V(X')\in A].
+ \label{eq:current-transcript-bound}
+\end{equation}
+
+Để thấy vì sao có thể tính1 đơn vị cho nhánh giữ, xét transcript mở rộng $e$ gồm cả nhánh kiểm tra và neo nội bộ. Khi điều kiện theo cùng $e$, tham chiếu, pacing và quyết định dừng dùng ngân sách giống nhau dưới $X,X'$. Hàm $d_E(x,h)$ là1-Lipschitz; cả xác suất đạt và không đạt của phép thử Laplace có tỷ số không quá $e^{u d_E(x,x')}$. Nhánh giữ cần1 hệ số; nhánh làm mới cần thêm hệ số REM. Nếu $c_{s,t}(e)$ là số đơn vị0/1/2 đã dùng trên đường đó thì
+\[
+ \frac{p_X(e)}{p_{X'}(e)}
+ \leq\exp\!\left(\sum_{s,t}c_{s,t}(e)u\,d_E(x_{s,t},x'_{s,t})\right)
+ \leq e^{N Uu D_\infty(X,X')}.
+\]
+Mọi đường khả thi có tổng không quá $NU$; lấy biên bỏ các nhánh và hậu xử lý thành Q/phản hồi cho (\ref{eq:current-transcript-bound}). Lập luận này là áp dụng bounded predictive composition~\cite{chatzikokolakis2014predictive}, không suy cap bằng cách đếm resample sau khi chạy một cơ chế không có bộ lọc. Local ranking đọc GPS thật không phải hậu xử lý riêng tư nếu công bố nó; nó được phép ở đây vì đáp án local nằm ngoài $\mathsf V$.
+
+Hệ số $C$ không là xác suất attacker đoán đúng. Chẳng hạn $C=0{,}23\,\mathrm m^{-1}$ và $D_\infty=100$ m cho chặn $e^{23}$, rất lỏng. Cap hữu hạn vẫn cần thí nghiệm Hit/MAE và utility để đánh giá mức bảo vệ thực dụng. Đây là cận một public epoch cho các tọa độ; nó không là bảo đảm cho thời điểm hoạt động bí mật, định danh, mọi rolling window hoặc tổng lịch sử qua nhiều epoch.
+
+\subsection{Điều kiện không thêm kênh nội dung truy vấn cho S7}
+
+\noindent\textbf{Mệnh đề3 (không can thiệp có điều kiện).} Giữ \emph{cùng} $X$, $\mathcal C$, activation, lịch và chiến lược máy chủ. Nếu $u$ không đi vào planner, request, expiry hoặc retry thì với hai chuỗi nhu cầu $u,u'$,
+\begin{equation}
+ \mathsf V(X,u;\mathcal C)\overset{d}{=}\mathsf V(X,u';\mathcal C).
+ \label{eq:current-purpose-noninterference}
+\end{equation}
+Ghép cùng randomness cho hai lần chạy cho cùng Q và request từng bước; máy chủ nhận cùng transcript, trong khi đáp án local có thể khác. Các API hiện thực kiểm tra được ranh giới này. Nó nói việc đổi purpose/category/radius/destination không \emph{thêm} một kênh request khi điều kiện theo cùng vị trí/lịch, không nói purpose độc lập với vị trí quan sát. Một tuyến đặc trưng tới bệnh viện, account hoặc việc bật ứng dụng vẫn có thể giúp suy intent. Click và lỗi/retry theo nhu cầu thật phá điều kiện nếu được gửi ra mạng. S7 vì vậy được bảo vệ ở kênh nội dung có điều kiện, chưa được giải quyết hoàn toàn ở suy luận intent tương quan.
+
+\subsection{Số học hữu hạn, ngẫu nhiên và thời gian mạng}
+
+Các mệnh đề trên là \textbf{đặc tả kernel lý tưởng}. Mã simulator dùng float64, Gumbel-max/Laplace và NumPy PRNG. Khoảng randomness hữu hạn có thể tạo đầu ra xác suất0 phụ thuộc input, dù xác suất lý tưởng dương; chạy Monte Carlo hoặc tính trong log-domain không sửa chứng minh pure Geo-I.\footnote{Nguồn hiện thực: \path{core/mechanisms.py}; kiểm tra phản ví dụ: \path{tests/test_sampler_support.py}. Vấn đề số học hữu hạn được phân tích bởi I. Mironov, CCS2012: \url{https://www.microsoft.com/en-us/research/publication/on-significance-of-the-least-significant-bits-for-differential-privacy/}.} Tách luồng bằng khóa riêng giảm lỗi dùng lại seed giữa phiên nhưng không biến PRNG simulator thành randomness độc lập lý tưởng hoặc chứng chỉ bảo mật mật mã. Một adapter triển khai cần entropy phù hợp và sampler có chứng minh, hoặc một cận approximate với sai số được chứng nhận; hiện chưa có chứng chỉ đó.
+
+Tương tự, lịch logic công khai không chứng minh thời điểm packet thực độc lập nhánh riêng tư. Tính toán, lỗi, retry, CPU contention và việc dùng local GPS có thể ảnh hưởng latency. Cần mô hình hoặc padding nếu đưa thời gian mạng thực vào quan sát. Kiểm tra nhân quả, hash, cap và replay xác nhận các invariant trong phạm vi đã công bố; chúng không thay thế các giả định xác suất của định lý.
+
+\section{S9--S10, chức năng từng thành phần và giới hạn đóng góp}
+\label{sec:current-endpoints-contribution}
+
+Cấu hình hiện tại không warmup, không giữ truy vấn để gửi muộn và không bỏ phần cuối bằng holdback. Nó xử lý Q ngay tại các mốc đầu/cuối được khai báo. Không biết GPS tương lai để nhận diện ``60 s cuối''. Khi ứng dụng kết thúc, tín hiệu đóng phiên vẫn có thể quan sát được; mô hình bảo vệ tọa độ không tự che điều đó. Điểm đầu/cuối là thuộc tính của cả hành trình; (\ref{eq:current-transcript-bound}) không tự trở thành theorem riêng tư của nhà/nơi làm việc ẩn ngoài input đã đọc. Tấn công từ phần tuyến còn lại và siêu dữ liệu vẫn phải được đánh giá~\cite{dhondt2022endpoint}.
+
+Thử nghiệm \texttt{GeoI-Endpoint20} tăng nhiễu ở các lần đọc được phép và gửi không delay là \emph{cấu hình riêng} đã có evidence endpoint. Nó không dùng detector biết trước điểm cuối, và không được tự gộp vào mô hình L30 hoặc chuyển số privacy từ cohort endpoint sang cohort mới. Việc xáo Q cũng không loại khả năng nối bằng Hungarian/ước lượng vận tốc. Chương thực nghiệm giữ các bank hữu hạn, protocol và cohort tách biệt.\footnote{Evidence endpoint không delay: \path{docs/research/2026-10-05_endpoint_noise.md}; tổng quát hóa và thứ tự: \path{docs/research/2026-10-05_endpoint_generalization.md}, \path{docs/research/2026-10-05_endpoint_order.md}; audit lý thuyết: \path{docs/research/2026-10-06_jisa_formal_audit.md}.}
+
+\begin{table}[htbp]\centering\small
+\caption{Vai trò theo kịch bản; ``hỗ trợ'' không là tuyên bố đã giải quyết hoàn toàn.}
+\begin{tabularx}{\textwidth}{P{2.0cm}P{4.2cm}Y}\toprule
+Kịch bản & Thành phần liên quan & Phạm vi thực tế\\\midrule
+S1--S3 & REM, noisy reuse, bộ lọc; belief và miền đường & Cận tọa độ lý tưởng; chống suy luận từng điểm/chuỗi phải chấm attacker. Reuse chỉ giảm mẫu mới hữu hạn.\\
+S4 & Sổ chung qua phiên & Chặn việc tự cấp lại cap trong epoch; không xóa account/IP hay tính nhận dạng quỹ đạo.\\
+S5--S6 & Lịch sử đã bảo vệ, Q và ngân sách & Không nhận tương lai; attacker có thể dự đoán tuyến/đích từ hình học và routine.\\
+S7 & Request mọi loại cố định; local ranking & Không thêm kênh purpose khi cùng $X$/lịch; intent tương quan và click vẫn là giới hạn.\\
+S8 & Phân tích quan sát nhiều người & Chưa có cơ chế riêng chứng minh chống suy luận đồng hành.\\
+S9--S10 & Nhiễu, cap, full-window attacker & Gửi không delay; không theorem endpoint hoặc che giờ đầu/cuối. Evidence Endpoint20 tách khỏi L30.\\\bottomrule
+\end{tabularx}
+\end{table}
+
+Đóng góp của luận văn nằm ở \textbf{hợp đồng đầu vào--đầu ra rõ ràng, tích hợp Geo-I với truy vấn có hướng và phục hồi nhiều purpose cục bộ, quản lý cap qua phiên, cùng thực nghiệm có nguồn và phép kiểm tra độc lập}. Geo-I, predictive reuse, Bayesian recovery, greedy/matroid, cache và dummies đều có tiền lệ; sự kết hợp không tự xác lập tính mới nguyên lý. Tăng $L$ là điều chỉnh utility/cost của dịch vụ tĩnh, không thuật toán Q mới, privacy tăng hay ưu thế trước comparator cùng chi phí. Vòng xác nhận trên các family synthetic mới cùng bản đồ không thay thế đánh giá dữ liệu thực, chuyển đô thị, dịch vụ động, tài nguyên điện thoại hoặc kiểm chứng sampler.

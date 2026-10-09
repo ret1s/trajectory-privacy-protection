@@ -1,0 +1,185 @@
+% Companion to current_formal_privacy.tex; insert after its ideal-kernel proof.
+% Consequences of inherited metric privacy, not a new privacy primitive.
+% No executable sampler certificate or empirical attacker score is claimed.
+\section{Từ cận riêng tư đến khả năng suy luận của đối thủ}
+\label{sec:formal-inference}
+
+Phần này diễn giải cận riêng tư theo bài toán chọn giữa các giả thuyết về
+tọa độ/trace, rồi hợp thành qua nhiều epoch. Đây là hệ quả của Geo-I và
+chứng minh trước, phân biệt prior với thông tin thêm do
+quan sát~\cite{andres2013geoi,chatzikokolakis2014predictive}, không thay
+Hit100, MAE hoặc độ chính xác identity trong benchmark.
+
+\subsection{Điều kiện để so hai giả thuyết}
+\label{sec:formal-inference-hypotheses}
+
+Gọi $P,Q$ là hai phân phối của \emph{toàn quan sát được bảo vệ} dưới
+hai giả thuyết có cùng ngữ cảnh và lịch công khai. Giả sử với mọi biến cố
+đo được $A$,
+\begin{equation}
+ P(A)\leq e^\alpha Q(A),\qquad Q(A)\leq e^\alpha P(A),
+ \quad 0\leq\alpha<\infty.
+ \label{eq:formal-inference-likelihood}
+\end{equation}
+Trong cơ chế lý tưởng hiện tại, có thể lấy $\alpha=C D_\infty(X,X')$
+cho hai trace trong một epoch, hoặc $\alpha=2ur$ nếu chúng chỉ khác một
+mẫu GPS cách nhau $r$ theo (\ref{eq:formal-single-coordinate}). Riêng một
+đầu ra của kernel REM, không kèm kết quả phép thử, có $\alpha=ur$.
+
+Giả thuyết cũng có thể là một phân phối trên nhiều trace. Để dùng cùng
+$\alpha$, phải chặn tỷ số cho \emph{mọi cặp trace giữa hai support} rồi
+lấy tích phân; chỉ gần nhau ở vị trí hiện tại chưa đủ. Chẳng hạn, hai nhóm
+``ở nhà'' và ``đi làm'' có thể khác cả tuyến tương lai. Cận một mẫu GPS
+không tự áp dụng cho hai nhóm đó. Tri thức phụ được đưa vào prior và ngữ
+cảnh chung; nó không được tiết lộ coins/khóa của cơ chế hoặc thêm một kênh
+raw GPS nằm ngoài observation đã khai báo.
+
+\subsection{Phân biệt hai ứng viên: total variation và Bayes}
+\label{sec:formal-inference-binary}
+
+Đặt $k=e^\alpha$. Với measure chung $\mu=P+Q$, gọi $f_0,f_1$ là mật độ
+của $P,Q$. Bất đẳng thức (\ref{eq:formal-inference-likelihood}) cho
+$k^{-1}\leq f_0/f_1\leq k$ gần như khắp nơi. Do đó
+\begin{equation}
+ \operatorname{TV}(P,Q)
+ =\frac12\int|f_0-f_1|\,d\mu
+ \leq\frac{k-1}{k+1}=\tanh(\alpha/2).
+ \label{eq:formal-inference-tv}
+\end{equation}
+Thật vậy, $|f_0-f_1|\leq (k-1)(f_0+f_1)/(k+1)$ và tích phân của
+$f_0+f_1$ bằng 2. Total variation là lợi thế lớn nhất khi chọn một event
+để phân biệt hai phân phối; cận áp dụng cả cho đối thủ mạnh hơn bank
+attacker hữu hạn của thí nghiệm.
+
+Với prior $1/2$--$1/2$, xác suất chọn đúng tối ưu theo Bayes là
+\begin{equation}
+ S^*_{1/2}=\frac{1+\operatorname{TV}(P,Q)}2
+ \leq\frac{k}{k+1}.
+ \label{eq:formal-inference-balanced-success}
+\end{equation}
+Nếu prior của giả thuyết thứ nhất là $p\in[0,1]$, cận cho \emph{thành công
+trung bình} của quyết định MAP tối ưu là
+\begin{equation}
+ S^*_p\leq\max\left\{p,1-p,\frac{k}{k+1}\right\}.
+ \label{eq:formal-inference-prior-success}
+\end{equation}
+Để thấy cận này, cho $A$ là event đối thủ chọn giả thuyết thứ nhất,
+$a=P(A),b=Q(A)$. Thành công bằng $pa+(1-p)(1-b)$. Hai cận cho $A$ và
+$A^c$ giới hạn $(a,b)$ trong đa giác có các đỉnh $(0,0),(1,1)$,
+$(k/(k+1),1/(k+1))$ và $(1/(k+1),k/(k+1))$. Cực đại của hàm tuyến tính
+ở một đỉnh cho (\ref{eq:formal-inference-prior-success}); khi $k=1$ đa
+giác thu thành đoạn $a=b$ và kết quả vẫn đúng. Randomization của quyết
+định không cải thiện cực đại này.
+
+Đây là cận theo trung bình quan sát, không phải cận posterior tại riêng
+một event bất kỳ. Prior mạnh đã cho phép đoán đúng nhiều trước khi thấy
+request. Ví dụ, hai trace chỉ khác một mẫu cách 100 m, $u=0{,}00125$
+$\mathrm m^{-1}$, cho $\alpha=0{,}25$: prior cân bằng có
+$S^*\leq56{,}22\%$; prior 90\%--10\% cho cận 90\%, bằng cách luôn chọn
+ứng viên phổ biến hơn. Hai tuyến thay đổi ở nhiều thời điểm không dùng
+ví dụ này. Cận epoch $\alpha=23$ tại $D_\infty=100$ m lại gần 100\%,
+nên không chứng minh khả năng chống tấn công mạnh ở thang đó.
+
+\subsection{Nhiều ứng viên không đồng nghĩa nhiều điểm Q}
+\label{sec:formal-inference-multiple}
+
+Xét $M\geq2$ giả thuyết và phân phối quan sát $P_1,\ldots,P_M$.
+Giả sử \emph{mọi cặp} thỏa (\ref{eq:formal-inference-likelihood}) với
+cùng $\alpha$. Với prior $\pi_j>0$ và event quan sát $A$ có xác suất
+dương, $P_i(A)\geq P_j(A)/k$ cho $i\ne j$, nên
+\begin{equation}
+ \Pr[H=j\mid A]
+ =\frac{\pi_jP_j(A)}{\sum_i\pi_iP_i(A)}
+ \leq\frac{k\pi_j}{k\pi_j+1-\pi_j}.
+ \label{eq:formal-inference-multi-posterior}
+\end{equation}
+Với prior đều $1/M$, posterior lớn nhất bị chặn bởi $k/(k+M-1)$.
+Thành công Bayes trung bình cũng có cận này: chia quan sát thành các vùng
+quyết định $A_j$ rời nhau rồi cộng
+$P_j(A_j)\leq[k/(k+M-1)]\sum_iP_i(A_j)$.
+Điều kiện đường kính của tập trace phải đủ để có \emph{all-pair bound}. Các trace
+cùng nằm trong bán kính $r$ quanh một tâm chỉ cho đường kính tối đa $2r$,
+không tự cho $\alpha=Cr$.
+
+$M$ đếm các giả thuyết về secret được so sánh, còn $K$ đếm điểm Q mà
+client gửi. Sinh $K=5$ không chứng minh có năm identity hoặc năm trace
+cùng prior; do đó không suy $1/K$-anonymity từ công thức trên. Các kết quả
+này bảo vệ phân biệt tọa độ theo metric đã chọn, không tự bảo vệ metadata,
+hoạt động, giờ mở ứng dụng hoặc thuộc tính tương quan với cả trace.
+
+\subsection{Hợp thành qua hữu hạn epoch: reset không xóa quan sát cũ}
+\label{sec:formal-inference-epochs}
+
+Xét $J$ epoch với danh sách sự kiện và chiều của secret cố định khi so
+sánh. Mỗi epoch có cap công khai $C_e$, metric công khai $D_e$ và input
+$X_e$. Giữ cùng lịch mở/đóng, các phiên bản graph/phép chiếu và chiến
+lược máy chủ. Gọi $h$ là \emph{cùng lịch sử mở rộng đã bảo vệ} trước epoch:
+nó có thể chứa neo, nhánh, sổ chi phí và trạng thái hậu xử lý, nhưng không
+chứa raw GPS hoặc randomness của các lần lấy mẫu mới. Giả sử kernel epoch
+thỏa đều theo mọi prefix khả thi $h$:
+\begin{equation}
+ M_e(z\mid h;X_e)
+ \leq e^{C_eD_e(X_e,X'_e)}M_e(z\mid h;X'_e).
+ \label{eq:formal-inference-epoch-conditional}
+\end{equation}
+Đây là điều kiện theo lịch sử đầy đủ của proof, không tự suy từ một
+guarantee cho engine mới khởi tạo hoặc chỉ từ history máy chủ nhìn thấy.
+Trạng thái/param được giữ qua epoch phải là hàm của lịch sử đã bảo vệ và
+quy tắc công khai; cần kiểm lại kernel conditional nếu đổi cách khởi tạo.
+Randomness mới độc lập qua epoch và với randomness hậu xử lý, theo cùng
+giả định lý tưởng của phần trước.
+
+\noindent\textbf{Hệ quả (nhiều epoch).} Đặt
+$\alpha_{1:J}=\sum_{e=1}^J C_eD_e(X_e,X'_e)$. Với mọi event $A$ của
+toàn quan sát đến hết epoch $J$,
+\begin{equation}
+ \Pr[\mathsf O_{1:J}(X)\in A]
+ \leq e^{\alpha_{1:J}}\Pr[\mathsf O_{1:J}(X')\in A].
+ \label{eq:formal-inference-epoch-composition}
+\end{equation}
+\emph{Chứng minh.} Trên cùng run mở rộng, áp chain rule qua các epoch.
+Mỗi prefix $h$ là cùng nhau khi so xác suất; nhân
+(\ref{eq:formal-inference-epoch-conditional}) cho hệ số
+$\exp(\sum_e C_eD_e)$. Cộng các run rồi hậu xử lý cho cận quan sát.
+Không cần giả định các tuyến độc lập về thống kê. Nếu
+$D_e\leq r$ cho mọi epoch, có cận $\exp(r\sum_e C_e)$, thay vì cận của
+epoch mới nhất. Hai epoch có $C_e=0{,}23\,\mathrm m^{-1}$ vẫn trả tổng
+$0{,}46\,\mathrm m^{-1}$ khi dùng cùng khoảng cách lớn nhất.
+
+Sổ mới không thu hồi thông tin đối thủ đã lưu. Đọc lại raw input, giữ raw
+velocity để chọn Q hoặc mở epoch theo nhu cầu riêng phải kiểm lại
+accounting/observation, không được miễn phí bởi câu ``reset''.
+Các hệ quả dùng $\alpha_{1:J}$ thích hợp và vẫn là lý thuyết kernel lý
+tưởng; float/PRNG và kênh ngoài observation chưa có chứng chỉ riêng tư
+hay tham số approximate $\delta$ đã được chứng nhận.
+
+\subsection{Khi nào cận GPS có thể chuyển sang vị trí thật?}
+\label{sec:formal-inference-sensor}
+
+Đây là một hệ quả \emph{có điều kiện}, không là thuộc tính đã chứng nhận
+của GPS thực. Trong cùng ngữ cảnh/lịch công khai, gọi $S_Y$ là phân phối
+chuỗi tọa độ đo $X$ khi chuỗi vị trí thật là $Y$. Giả sử mọi mẫu hợp lệ,
+randomness cơ chế độc lập sensor, và tồn tại coupling $\Gamma_{Y,Y'}$
+của $S_Y,S_{Y'}$ sao cho
+$D_\infty(X,X')\leq aD_\infty(Y,Y')$ gần như chắc chắn, với hằng số
+công khai $a\geq0$. Cả hai metric dùng cùng phép chiếu cố định. Lấy tích
+phân kernel $K_X$ của epoch theo coupling cho
+\begin{equation}
+ \begin{split}
+ \Pr[\mathsf O(Y)\in A]
+ &=\int K_X(A)\,d\Gamma_{Y,Y'}(X,X')\\
+ &\leq e^{CaD_\infty(Y,Y')}
+       \int K_{X'}(A)\,d\Gamma_{Y,Y'}(X,X')
+ =e^{CaD_\infty(Y,Y')}\Pr[\mathsf O(Y')\in A].
+ \end{split}
+ \label{eq:formal-inference-sensor-coupling}
+\end{equation}
+
+Nhiễu cộng chung $\xi$ trong mặt phẳng chiếu, có luật độc lập $Y$, cho
+$X_t=Y_t+\xi_t$, $X'_t=Y'_t+\xi_t$ và $a=1$ khi mẫu hợp lệ. Clip vào
+cùng hình chữ nhật công khai không tăng khoảng cách; không mặc định
+map-matching lên tập đường không lồi có tính chất đó. Sensor sai theo vị
+trí, gửi raw accuracy/heading hoặc clock phụ thuộc sensor cần kiểm lại.
+Diagnostic local-GPS chỉ perturb tọa độ ranking local, không là bằng
+chứng coupling của nguồn GPS bảo vệ. Claim mặc định vẫn cho tọa độ đo
+đầu vào, chưa chứng nhận sensor/float.

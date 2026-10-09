@@ -1,0 +1,57 @@
+\subsection{Trình tự xử lý một sự kiện công khai}
+\label{sec:current-execution-order}
+
+Các thành phần trên được gọi theo một thứ tự cố định. Trạng thái giữa hai
+sự kiện gồm slot đã dành, số đơn vị đã chi, thời điểm đọc riêng tư gần nhất,
+neo $Z$, phân bố $b$ và vị trí trước của từng track Q. Với một thời điểm gửi
+công khai $t$, có thể đọc thuật toán theo bảy bước sau.
+
+\begin{enumerate}
+  \item \textbf{Kiểm tra phiên và thời gian.} Phiên phải được dành slot trước
+  khi chạy engine; clock phải tăng và nằm trong epoch đã khai báo. Không còn
+  slot thì không gọi GPS supplier và không gửi Q.
+  \item \textbf{Quyết định có quan sát GPS cho cơ chế bảo vệ.} Đặt dự toán
+  $a=1$ nếu chưa có neo, ngược lại $a=2$. Chỉ gọi supplier khi đã qua ít nhất
+  60 s từ lần đọc riêng tư gần nhất và $\mathrm{spent}+a\le U$. Lần đầu được
+  phép đọc ngay. Quyết định này không dùng GPS mới hoặc purpose thật.
+  \item \textbf{Bảo vệ quan sát được phép.} Lần đầu lấy mẫu REM để tạo $Z$ và
+  chi một đơn vị. Các lần sau thử $d_E(x_t,Z)+\eta\le200$ m, với
+  $\eta\sim\operatorname{Lap}(1/u)$. Giữ neo thì chi một đơn vị; thử không
+  đạt rồi tạo neo mới thì chi hai đơn vị. Nếu bước 2 không cho phép đọc, giữ
+  neo và không chi thêm. Cập nhật thời điểm đọc chỉ khi đã đọc.
+  \item \textbf{Cập nhật ước lượng.} Dự đoán $b$ theo khoảng thời gian đã qua.
+  Cập nhật likelihood khi bước 3 đã đọc riêng tư, kể cả phép thử có nhiễu
+  cho kết quả giữ nguyên $Z$. Event không đọc GPS chỉ dự đoán; không coi
+  một neo lặp lại ở event đó là một phép đo độc lập.
+  \item \textbf{Chọn và gửi Q.} Từ $b$, graph và lịch sử Q, lập miền tới được
+  của từng track, chọn phủ POI, cải thiện hữu hạn rồi áp dụng slack. Gửi
+  $K=5$ Q theo clock công khai, cùng mọi category và $L=30$; không gửi $Z$
+  hoặc purpose. Hết cap ở một phiên đã nhận vẫn tiếp tục bước này bằng lịch
+  sử đã bảo vệ.
+  \item \textbf{Nhận dữ liệu dịch vụ.} Hợp phản hồi và bỏ trùng ID. Khi có
+  trạng thái động, chỉ dùng bit nhận được còn hiệu lực; thông tin hết hạn
+  trở thành chưa biết. Thiếu đáp án không kích hoạt request theo nhu cầu
+  riêng; lần gửi sau vẫn theo clock đã định.
+  \item \textbf{Trả lời tại thiết bị.} Xếp hạng ứng viên theo vị trí local
+  $\hat x_t^{\mathrm{local}}$ và purpose, radius hoặc đích người dùng đã có.
+  Trả tối đa năm POI phù hợp. Bước này không cập nhật $Z$, $b$, Q hoặc sổ
+  ngân sách, và kết quả local không được gửi lại nhà cung cấp.
+\end{enumerate}
+
+Có hai nguồn vị trí cần phân biệt. $x_t$ ở bước 3 là quan sát đi vào cơ chế
+riêng tư, còn $\hat x_t^{\mathrm{local}}$ ở bước 7 phục vụ người dùng tại
+thiết bị. Vòng xác nhận tĩnh đã giả định vị trí local chính xác ở mỗi event.
+Phép thử local sensor ở Chương~\ref{ch:experiments} chỉ thay bước xếp hạng
+bằng vị trí giữ lại hoặc ước lượng từ fix cũ; không chấm lại Geo-I với GPS
+đầu vào nhiễu. Giới hạn supplier và số fix của mô hình local không được cộng
+hoặc đồng nhất thành một phép đo GNSS của điện thoại.
+
+\textbf{Nguồn chi phí tính toán.} REM phải xét toàn miền đường cố định;
+không dùng bán kính riêng quanh GPS để giảm việc này. Với $|V|$ trạng thái,
+lấy mẫu neo dùng một lượt tính điểm trên $|V|$; emission belief tính trên
+lưới hữu hạn, còn dự đoán dùng ma trận chuyển tiếp thưa. Bộ chọn Q xét các
+miền tới được và signature POI, kèm một số lần thay track đã giới hạn.
+Local ranking lấy chi phí đường có hướng và sắp các ứng viên theo từng mục
+đích. Mã có cache cho context, transition và đường đi, nên chi phí lần đầu
+và lần có cache khác nhau. Những mô tả này chỉ chỉ ra nơi phát sinh chi phí;
+chưa là benchmark latency, CPU/RAM hay năng lượng trên thiết bị thực.

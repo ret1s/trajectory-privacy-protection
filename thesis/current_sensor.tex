@@ -1,0 +1,44 @@
+\input{current_extensions_generated/sensor_rows}
+\section{Nhạy cảm của xếp hạng cục bộ với GPS cập nhật mỗi 60 giây}
+\label{sec:current-local-gps}
+
+Kết quả L30 trước đó giả định bộ xếp hạng có GPS đúng tại mỗi sự kiện. Thử nghiệm này kiểm tra khoảng cách giữa giả định đó và một nguồn vị trí cục bộ thưa hơn. Nó phát lại \SensorEvents{} sự kiện của \SensorFamilyCount{} nhóm tuyến đã xem, mỗi nhóm \SensorDrawCount{} lượt sinh (draw); đây là \textbf{chẩn đoán phụ}, không phải xác nhận mới. Catalogue và phản hồi tĩnh được giữ nguyên. Mọi tọa độ Q, lịch mạng, neo Geo-I, sổ ngân sách và chi phí của từng mức L20/L30 đều giống nguồn đã chốt.\footnote{Protocol, bảng nhiễu, kết quả và kiểm chứng độc lập: \path{artifacts/benchmarks/local_gps_robustness_20261007_v1/}.}
+
+\textbf{Hai đồng hồ GPS khác nhau.} Bộ cung cấp GPS cho Geo-I (supplier) đã chạy trước trên GPS tổng hợp chính xác; thử nghiệm không làm nhiễu đầu vào của cơ chế đó. Riêng bộ xếp hạng cục bộ nhận 11 fix tại các mốc công khai $0,60,\ldots,600$ s, độc lập với cap và quyết định đọc của supplier. Tổng cộng \SensorVirtualFixes{} fix ảo không phải tổng số lần GNSS của điện thoại, cũng không chứng minh tiết kiệm pin. GPS đúng tại mọi sự kiện chỉ là đối chứng lý tưởng (oracle).
+
+Giữ fix dùng tọa độ đo gần nhất. Ngoại suy dùng đúng hai fix quá khứ: lấy vận tốc từ hiệu tọa độ phẳng chia thời gian, chặn độ lớn ở 8 m/s rồi kéo tới sự kiện hiện tại. Khi chỉ có một fix, nó giữ fix đó. Ước lượng được snap tới đỉnh gần nhất của graph công khai; không nhận heading SUMO, làn thật, tuyến thật hoặc fix tương lai. Mỗi fix có nhiễu Gaussian tổng hợp với độ lệch chuẩn từng trục $\sigma\in\{0,5,15\}$ m; đây không phải mô hình sai số GPS đã đo. Cùng offset được dùng cho giữ/ngoại suy và L20/L30. Trạng thái logic cần một hoặc hai fix; evaluator vẫn nạp tape và graph đầy đủ, nên đây không phải phép đo bộ nhớ thiết bị.
+
+Đáp án chuẩn luôn xếp từ GPS thật \emph{tại sự kiện}, còn đáp án thiết bị xếp từ vị trí ước lượng trên đúng tập POI đã nhận. Reference rỗng giữ N/A; reference có đáp án nhưng vị trí ước lượng không có đường tới hoặc không trả được POI thì Recall bằng 0. Cả hai mức L đã khôi phục toàn bộ sáu chỉ số/mẫu số của đối chứng GPS lý tưởng trước khi chấm các cấu hình mới.
+
+\begin{table}[H]\centering\small
+\caption{Sai số vị trí trung bình theo sự kiện và Recall@5 trung bình theo nhóm/mục đích. Sai số sau snap so với GPS thật, không phải khoảng cách tới GPS đo. $\sigma$ là độ lệch chuẩn từng trục.}
+\label{tab:current-local-gps}
+\begin{tabularx}{\textwidth}{P{4.0cm}Y Y Y Y}\toprule
+Vị trí cục bộ & Trước snap (m) & Sau snap (m) & Recall4 L20 (\%) & Recall4 L30 (\%)\\\midrule
+\SensorRowsSeven
+\bottomrule\end{tabularx}
+\end{table}
+
+L30 tăng Recall từ \SensorMinNonOracleGain{} đến \SensorMaxNonOracleGain{} điểm phần trăm so L20 trong sáu biến thể GPS thưa/nhiễu, nhưng không phục hồi hoàn toàn chất lượng của oracle. Giữ fix 60 s làm Recall giảm, và nhiễu 5/15 m làm giảm thêm. \textbf{Ngoại suy giảm sai số vị trí trung bình nhưng cho Recall thấp hơn giữ fix ở cả ba mức nhiễu}, tại cả L20 và L30. Do đó không nhận nó làm cải tiến đã đạt. Khoảng cách Euclid trung bình nhỏ hơn chưa đủ để bảo đảm thứ tự POI và điều kiện đường/bán kính đúng; nguyên nhân theo từng kiểu rẽ hoặc nhầm làn còn cần kiểm tra riêng.
+
+Detour vẫn giả định thiết bị biết đích thật từ trước. Đích được lấy từ nguồn evaluator, không cung cấp cho bộ ước lượng vị trí hoặc planner Q. Bảng dưới bỏ purpose detour để tránh quy lợi ích của oracle đích cho khả năng ước lượng GPS; kết luận ngoại suy kém hơn giữ fix vẫn còn.
+
+\begin{table}[H]\centering\small
+\caption{Recall@5 của ba mục đích không dùng đích: gần nhất, đến nhanh nhất và trong bán kính.}
+\label{tab:current-local-gps-three}
+\begin{tabularx}{\textwidth}{P{7.0cm}Y Y}\toprule
+Vị trí cục bộ & Recall3 L20 (\%) & Recall3 L30 (\%)\\\midrule
+\SensorThreePurposeRows
+\bottomrule\end{tabularx}
+\end{table}
+
+\begin{table}[H]\centering\small
+\caption{Điều kiện bán kính đường thật tại L30. Đếm theo POI hoặc category--event, có lặp qua draw; không phải tỷ lệ người dùng bị lỗi.}
+\label{tab:current-local-gps-domain}
+\begin{tabularx}{\textwidth}{P{3.6cm}Y Y Y}\toprule
+Vị trí cục bộ & Recall bán kính (\%) & Ngoài miền thật / POI trả & Đáp án rỗng / reference có đáp án\\\midrule
+\SensorSafetyRows
+\bottomrule\end{tabularx}
+\end{table}
+
+Các POI ngoài điều kiện thật không được tính thành completion hợp lệ. Reference-empty giữ N/A; sự kiện không trả được đáp án vẫn nằm trong mẫu số reference thật có đáp án. Đây là bằng chứng độ nhạy trên tuyến tổng hợp cùng bản đồ và trạng thái POI tĩnh. Nó chưa đánh giá GPS thực, năng lượng, sai số hướng/làn có tương quan hoặc GPS sai đồng thời với trạng thái dịch vụ thay đổi; không làm tăng bảo đảm riêng tư của Geo-I.

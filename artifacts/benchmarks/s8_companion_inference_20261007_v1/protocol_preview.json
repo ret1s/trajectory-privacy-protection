@@ -1,0 +1,23 @@
+{
+  "schema": "historical-frozen-S8-location-diagnostic-v1",
+  "pair_count": 22,
+  "split_pair_counts": {
+    "train": 12,
+    "selection": 5,
+    "test": 5
+  },
+  "split_target_event_counts": {
+    "train": 100,
+    "selection": 44,
+    "test": 41
+  },
+  "views": [
+    "target_only",
+    "joint_protected_partner",
+    "joint_public_raw_partner",
+    "joint_unrelated_protected_partner",
+    "raw_target_positive_control"
+  ],
+  "observer": "Target and partner account association + first-visible common-clock offsets explicitly granted; only causal public events enter features. No route/labels/proximity oracle.",
+  "scope": "Previously inspected12-family6/3/3 synthetic development; legacy per-session cap, reconstructed map, one retained draw; NOT current-model/fullS8/group-privacy/real-person confirmation"
+}

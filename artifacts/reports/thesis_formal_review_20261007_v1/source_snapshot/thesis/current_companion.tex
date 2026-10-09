@@ -1,0 +1,70 @@
+% Narrow historical S8 diagnostic. Generated rows are sourced from the sealed
+% 07/10 readout; no current GeoI-Epoch8 or group-privacy claim.
+\input{current_extensions_generated/s8_rows}
+\subsection{S8: chẩn đoán suy luận từ người đồng hành}
+\label{sec:current-companion-diagnostic}
+
+Phép thử này bổ sung một phép đo hẹp cho S8: attacker định vị mục tiêu khi chỉ
+thấy transcript mục tiêu và khi thấy thêm transcript một người đồng hành.
+Dữ liệu là cặp xe SUMO thực sự xuất hiện đồng thời, gồm đồng hành một phần
+rồi tách và đi chung toàn tuyến. Không tạo người đồng hành bằng cách ghép các
+chuyến lịch sử nối tiếp của cohort native mới. Tên tài khoản liên kết và
+độ lệch giữa lần xuất hiện công khai đầu tiên được cấp rõ cho attacker;
+nhãn quan hệ và thời điểm GPS thật ở gần nhau không đi vào feature.
+
+\textbf{Đây là chẩn đoán attacker thống kê trên mô hình lịch sử, không phải
+xác nhận riêng tư cho cấu hình hiện tại.} Các Q là bản đã khóa của GeoI-Slack
+trên mạng công khai tái dựng, $B=0{,}24\,\mathrm m^{-1}$, H=12, cap không
+quá $0{,}23\,\mathrm m^{-1}$ mỗi phiên và đọc bảo vệ mỗi 60 giây.
+Hạt giống tổng hợp cũ có thể tái tạo theo mã phiên;
+bank này không khai thác việc khôi phục RNG. Vì vậy kết quả không xác nhận
+bảo vệ trước attacker biết trạng thái ngẫu nhiên, GeoI-Epoch8/L30 hoặc
+quyền riêng tư cấp nhóm.
+
+Thí nghiệm giữ 22 cặp đã đạt điều kiện, chia 6/3/3 family để học/chọn/đánh
+giá. Phần đánh giá có ba family, năm cặp và 41 pair-event, nhưng chỉ
+\textbf{24 event mục tiêu duy nhất}: cùng quỹ đạo mục tiêu được dùng với
+hai loại đồng hành. Các case có cùng trọng số bên trong family rồi các
+family có trọng số đều. Không dùng 41 event như 41 subject độc lập hoặc
+tính CI theo từng tick. Đây là cohort đã xem, một draw được giữ lại.
+
+Tại mỗi tick mục tiêu, cả hai prefix đều dừng ở cùng mốc công khai. Không
+lấy mẫu người đồng hành ở tương lai chỉ vì nó gần nhất về thời gian.
+Năm pair-event đầu chưa có quan sát đồng hành vẫn được giữ với cờ missing.
+Raw phụ trợ là transcript một tọa độ đã được cấp \emph{công khai} trong
+control, cùng lịch 60 giây; không cấp thêm GPS riêng của evaluator.
+
+\begin{table}[htbp]
+\centering\small
+\caption{S8 lịch sử: attacker được chọn bằng MAE trên selection; MAE thấp
+và Hit100 cao nghĩa định vị tốt hơn.}
+\label{tab:current-companion-diagnostic}
+\begin{tabularx}{\textwidth}{Y P{3.9cm}rr}
+\toprule Quan sát & Attacker được chọn & MAE (m) & Hit100 (\%) \\\midrule
+\EvalSCompanionRows
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Bank giữ ExtraTrees, kNN và các heuristic hình học công khai; chỉ học trên
+train, chọn trên selection và lưu lựa chọn trước dự đoán test. Bank joint
+cũng được phép bỏ qua người đồng hành. Cả joint protected và control đối
+tác không liên quan đều chọn centroid của tập Q mới nhất, nên chưa thấy
+gain thêm trong bank này. \textbf{Kết quả bằng nhau không chứng minh hai
+transcript độc lập hoặc S8 đã được bảo vệ đầy đủ.} Các model học khái quát
+hoá kém sang ba nhóm tuyến; chưa có decoder joint mobility biết cơ chế đầy
+đủ hay phép thử khôi phục seed.
+
+Raw phụ trợ giảm MAE từ 664,27 xuống 594,33 m nhưng Hit100 cũng giảm;
+không có cải thiện đồng đều mọi metric. Raw mục tiêu đạt lỗi 0, xác nhận
+target và đồng hồ của control. Geo-I giới hạn thay đổi của phân phối output,
+không bảo đảm sai số tuyệt đối lớn khi thông tin phụ đã định vị người dùng.
+Các công bố độc lập về cùng vị trí phải xét hợp thành trong mô hình lý
+tưởng.~\citep{andres2013geoi,olteanu2017interdependent}
+
+Checker riêng đã PASS ancestry, prefix nhân quả, feature, phép học/chọn và
+mẫu số family; toàn bank và dự đoán được giữ ở
+\path{artifacts/benchmarks/s8_companion_inference_20261007_v1/}.
+Không đổi Q, GPS hay label để đạt kết quả. Cần dữ liệu đồng hành trên mạng
+native hiện tại, nhiều family và attacker joint mạnh hơn trước khi kết luận
+cho mô hình chính hoặc thêm cơ chế phối hợp công bố.
