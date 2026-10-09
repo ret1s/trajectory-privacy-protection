@@ -17,6 +17,7 @@ import multistep_focus_visuals
 import compact_policy_visuals
 import compact_benchmark_visuals
 import compact_sample_visuals
+import summary_visuals
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -363,6 +364,13 @@ def main():
                  ink=INK,teal=TEAL,blue=BLUE,gray=GRAY,orange=ORANGE)
     utility_helpers={key:value for key,value in helpers.items() if key!='math_text'}
     views={
+        'summary_overview':lambda:summary_visuals.overview(content,**helpers),
+        'summary_budget':lambda:summary_visuals.budget(multistep,**helpers),
+        'summary_service':lambda:summary_visuals.service(utility,**helpers),
+        'summary_endpoints':lambda:summary_visuals.endpoints(endpoint_focus,**helpers),
+        'summary_walkthrough':lambda:summary_visuals.walkthrough(multistep,**helpers),
+        'summary_evidence':lambda:summary_visuals.evidence(benchmarks,**helpers),
+        'summary_scope':lambda:summary_visuals.scope(content,**helpers),
         'compact_cover':lambda:compact_policy_visuals.cover(content,**helpers),
         'compact_endpoint_policy':lambda:compact_policy_visuals.endpoint_policy(endpoint_focus,**helpers),
         'compact_location_policy':lambda:compact_policy_visuals.location_policy(content,**helpers),

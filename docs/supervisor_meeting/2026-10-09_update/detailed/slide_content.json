@@ -1,0 +1,438 @@
+{
+  "schema": "supervisor-slide-content-v6",
+  "prepared_date": "2026-10-09",
+  "meeting_date": null,
+  "language": "vi",
+  "slide_count": 18,
+  "fresh": {
+    "before": 89.71435972875352,
+    "after": 92.68804092621681,
+    "gain_pp": 2.9736811974632937,
+    "ci_pp": [
+      2.3078530151675904,
+      3.646377214822845
+    ],
+    "purposes": [
+      {
+        "label": "Gần nhất",
+        "before": 92.4493709582599,
+        "after": 94.67964726631398,
+        "gain_pp": 2.230276308054076
+      },
+      {
+        "label": "Nhanh nhất",
+        "before": 92.44863756613762,
+        "after": 94.67799088771316,
+        "gain_pp": 2.2293533215755357
+      },
+      {
+        "label": "Trong bán kính",
+        "before": 81.69384397086344,
+        "after": 86.87856582126925,
+        "gain_pp": 5.184721850405816
+      },
+      {
+        "label": "Ít vòng tới đích",
+        "before": 92.26558641975315,
+        "after": 94.51595972957088,
+        "gain_pp": 2.2503733098177476
+      }
+    ],
+    "reply_before": 494713236,
+    "reply_after": 648578577,
+    "reply_growth_pct": 31.10192527777851,
+    "requests": 90570
+  },
+  "sensor": {
+    "hold20": [
+      86.74441143834368,
+      84.52992252952768,
+      82.77389609665185
+    ],
+    "hold30": [
+      89.35305864109495,
+      86.93015290393845,
+      85.02305869365233
+    ],
+    "velocity30": [
+      88.28491127418805,
+      86.12958342895836,
+      84.77193501854093
+    ],
+    "oracle30": 92.68804092621679,
+    "gain_range_pp": [
+      2.236058259926832,
+      2.6086472027512797
+    ]
+  },
+  "dynamic": {
+    "l20_current": 87.84713874299136,
+    "l20_cached": 88.37199144595542,
+    "l30_current": 91.43633581829516,
+    "l30_cached": 91.7806009374265,
+    "bulk": 100.0,
+    "l30_total_JSON_bytes": 1023954908,
+    "bulk_total_JSON_bytes": 126891360
+  },
+  "endpoint": {
+    "s9_before": 789.9478768232433,
+    "s9_after": 1406.7251356531292,
+    "s10_before": 757.7420954761819,
+    "s10_after": 1337.1553367898873,
+    "s10_hit500_before": 12.5,
+    "s10_hit500_after": 4.464285714285714
+  },
+  "slides": [
+    {
+      "title": "Bảo vệ riêng tư vị trí bằng Geo-I/REM",
+      "view": "compact_cover",
+      "footer": "Geo-I/REM tại thiết bị · Bảo vệ theo kịch bản · Đánh giá thực nghiệm",
+      "notes": "Lời trình bày\n\nThưa thầy/cô, em xin cập nhật phương pháp bảo vệ riêng tư vị trí trên nền Geo-I/REM. Mục tiêu là hạn chế thông tin vị trí gửi ra ngoài, đồng thời giữ chất lượng tìm địa điểm. Em tập trung vào bốn nội dung: bảo vệ điểm đầu/cuối, các kịch bản còn lại, kết quả benchmark và kiến trúc cùng ví dụ nhiều bước.\n\nEm phân biệt chính sách delay trước đây với mô hình hiện tại gửi đúng lịch. Endpoint20 cũng là cấu hình L20 được đo riêng. Các kết quả sử dụng dữ liệu mô phỏng, với phạm vi và chi phí cụ thể.\n\nChỉ vào hình\n\nChỉ tên Geo-I/REM và bốn nội dung sẽ trình bày.\n\nChuyển ý\n\nEm bắt đầu với thay đổi ở cơ chế bảo vệ điểm đầu và điểm cuối.\n\nNếu được hỏi\n\nL30 hiện tại không tự bao gồm Endpoint20 hay chính sách delay. Các cấu hình dùng chung nền Geo-I nhưng có giao thức và bằng chứng riêng.",
+      "sources": [
+        "thesis/current_method.tex",
+        "thesis/current_algorithm.tex",
+        "thesis/current_formal_privacy.tex",
+        "thesis/current_formal_service.tex"
+      ],
+      "previous_slide_numbers": [
+        1
+      ]
+    },
+    {
+      "title": "S9–S10: chính sách bảo vệ và ví dụ delay",
+      "view": "compact_endpoint_policy",
+      "footer": "Delay lịch sử khác Endpoint20 gửi ngay; Endpoint20 L20 được đo riêng với L30.",
+      "notes": "Lời trình bày\n\nBản delay trước đây bỏ 60 giây đầu trước khi gọi Geo-I, rồi giữ mỗi tập Q thêm 60 giây. Khi kết thúc thật, thiết bị hủy phần chưa gửi; không xóa dữ liệu đã công bố. Cách này giảm dữ liệu trực tiếp ở hai biên nhưng làm chậm dịch vụ. Endpoint20 gửi ngay, dùng epsilon và ngân sách bằng một phần tư đối chứng L20 lịch sử, áp dụng nhiễu mạnh hơn ở mọi lần đọc được phép.\n\nTrong timeline, các mốc 0, 20 và 40 giây chưa gọi Geo-I. Q tạo tại 60 giây được công bố tại 120 giây; Q tạo tại 320 giây được gửi tại 380 giây. Khi đóng ở 384 giây, bốn tập Q còn lại bị hủy. Mẫu công bố 14/21 mốc, Recall 71,43%; đây là minh họa dịch vụ, chưa chấm attacker. Giờ mở/đóng vẫn quan sát được. L30 hiện tại gửi ngay, không tự tích hợp Endpoint20.\n\nChỉ vào hình\n\nSo hai chính sách, rồi đi qua dòng 60→120 và dòng đóng 384 giây trên timeline.\n\nChuyển ý\n\nSau đầu/cuối, em trình bày các thành phần hỗ trợ bảo vệ vị trí và liên kết phiên.\n\nNếu được hỏi\n\nĐối chứng L20 lịch sử dùng u = 0,01/m, Endpoint20 dùng u = 0,0025/m; không phải một phần tư u = 0,00125/m của Epoch8 hiện tại. Q(60) là cả tập năm tọa độ tạo tại 60 giây. Thời điểm nguồn là chú thích evaluator; máy chủ thấy thời điểm công bố. Delay không cần biết trước điểm cuối nhưng chưa bảo đảm attacker không suy endpoint từ dữ liệu còn lại.",
+      "sources": [
+        "docs/supervisor_meeting/2026-10-09_update/endpoint_focus.json",
+        "thesis/current_method.tex",
+        "thesis/current_algorithm.tex",
+        "thesis/current_formal_privacy.tex",
+        "thesis/current_formal_service.tex"
+      ],
+      "previous_slide_numbers": [
+        2,
+        3
+      ]
+    },
+    {
+      "title": "S1–S6: cơ chế bảo vệ vị trí và liên kết",
+      "view": "compact_location_policy",
+      "footer": "Geo-I/REM giữ nguyên nền tảng. S4–S6 có phạm vi đánh giá mô phỏng hữu hạn.",
+      "notes": "Lời trình bày\n\nVới S1, REM lấy mẫu tham chiếu Z trên toàn miền đường công khai cố định; máy chủ nhận Q chọn từ trạng thái đã bảo vệ. Với S2, phép kiểm tra tái sử dụng có nhiễu quyết định giữ Z hoặc tạo mới. Ngân sách tính cả quyết định này để kiểm soát thông tin tích lũy. Với S3, ước lượng b và Q dùng lịch sử đã bảo vệ; Q phải chuyển động khả thi trên đường có hướng. Ràng buộc đường hỗ trợ utility, không tự chứng minh privacy.\n\nVới S4, sổ ngân sách chung quản lý tám phiên công khai trong một epoch, cap hiệu lực 0,23/m; đổi chuyến không tự cấp lại ngân sách. Cơ chế này chưa ẩn tài khoản, IP hoặc danh tính người và xe. Với S5–S6, bộ chọn Q chỉ dùng tiền tố đã bảo vệ. Phép thử dự đoán cạnh và đích dùng hai lựa chọn công khai, chưa bao phủ mọi tương lai.\n\nChỉ vào hình\n\nĐi từ REM và phép thử giữ Z sang b/Q, rồi chỉ cap liên phiên và bài toán hai lựa chọn.\n\nChuyển ý\n\nTiếp theo, em tách mục đích tìm địa điểm khỏi thông tin gửi ra ngoài và xét người đồng hành.\n\nNếu được hỏi\n\nH bằng 12 cho tối đa 23 đơn vị chi phí mỗi phiên, không phải giới hạn cứng 12 lần đọc GPS. Nhiều epoch hoặc thiết bị liên kết vẫn cần hợp thành ngân sách. Benchmark S1–S3 thuộc cấu hình lịch sử. Cận Geo-I giả định kernel lý tưởng; bộ lấy mẫu số thực trong simulator chưa có chứng nhận tương ứng. b là trọng số trên lưới công khai, chưa phải posterior đã hiệu chuẩn.",
+      "sources": [
+        "thesis/current_method.tex",
+        "thesis/current_algorithm.tex",
+        "thesis/current_formal_privacy.tex",
+        "thesis/current_formal_service.tex",
+        "docs/supervisor_meeting/2026-10-09_update/benchmark_evidence.json",
+        "docs/supervisor_meeting/2026-10-09_update/algorithm_scope.json"
+      ],
+      "previous_slide_numbers": [
+        4,
+        5
+      ]
+    },
+    {
+      "title": "S7–S8: nội dung truy vấn và người đồng hành",
+      "view": "compact_content_policy",
+      "footer": "S7 có điều kiện cùng trạng thái/lịch; S8 mới có diagnostic lịch sử.",
+      "notes": "Lời trình bày\n\nVới S7, mỗi Q yêu cầu mọi loại POI công khai ở độ sâu L cố định. Thiết bị hợp phản hồi, rồi xếp hạng cục bộ theo gần nhất, nhanh nhất, bán kính hoặc ít đi vòng tới đích. Đổi mục đích không cần gửi thêm truy vấn. Tính chất này có điều kiện: cùng trạng thái đã bảo vệ và lịch công khai thì Q và payload giữ nguyên. Nó bỏ kênh gửi trực tiếp loại POI, bán kính hay đích; ý định tương quan với tuyến đường hoặc click vẫn có thể bị suy luận.\n\nS8 xét attacker quan sát thêm người đồng hành để suy vị trí mục tiêu. Diagnostic lịch sử so quan sát mục tiêu riêng với quan sát kết hợp người đồng hành và người không liên quan, trên ba nhóm và 24 mốc mục tiêu duy nhất. Đây chưa phải cơ chế bảo vệ nhóm được xác nhận cho Epoch8/L30. Em giữ cả trường hợp quan sát đồng hành không cải thiện attacker trong bank đã thử.\n\nChỉ vào hình\n\nChỉ phản hồi chung và bảng bốn cách xếp hạng, rồi phần diagnostic người đồng hành.\n\nChuyển ý\n\nTrước khi đọc kết quả, em thống nhất quyền quan sát của attacker và ý nghĩa các thước đo.\n\nNếu được hỏi\n\nĐích đi vòng phải đã biết ở thiết bị. Retry do nhu cầu riêng hoặc thiếu đáp án có thể làm request thay đổi, nên nằm ngoài tính chất này. RNG của dữ liệu S8 lịch sử có thể tái lập công khai, nhưng bank không khai thác RNG; kết quả không chứng minh an toàn trước attacker biết toàn bộ cơ chế sinh nhiễu.",
+      "sources": [
+        "thesis/current_method.tex",
+        "thesis/current_algorithm.tex",
+        "thesis/current_formal_privacy.tex",
+        "thesis/current_formal_service.tex",
+        "benchmark/query_purpose.py",
+        "benchmark/budgeted_geoi_lbs.py",
+        "docs/supervisor_meeting/2026-10-09_update/benchmark_evidence.json",
+        "docs/supervisor_meeting/2026-10-09_update/algorithm_scope.json",
+        "thesis/current_companion.tex",
+        "artifacts/benchmarks/s8_companion_inference_20261007_v1/readout.json"
+      ],
+      "previous_slide_numbers": [
+        6,
+        7
+      ]
+    },
+    {
+      "title": "Giao thức đánh giá và thước đo",
+      "view": "compact_protocol",
+      "footer": "Attacker, dữ liệu và cấu hình được tách theo từng phép thử; byte chưa gồm HTTP/TLS.",
+      "notes": "Lời trình bày\n\nAttacker chỉ nhận quan sát công khai được phép, như Q và thời điểm gửi. GPS thật, Z và nhánh ngân sách được giữ cho evaluator. Mô hình học dùng shadow transcript từng phương pháp; chọn trên tập chọn, rồi khóa khi chấm. Mỗi thước đo có thể chọn một decoder khác nhau.\n\nHit100 và Hit500 là tỷ lệ đoán trong bán kính 100 và 500 mét; thấp hơn thuận lợi cho bảo vệ. MAE là sai số trung bình theo mét; cao hơn nghĩa attacker sai xa hơn. Recall@5 đo chất lượng tìm POI. Em đọc các chỉ số này cùng chi phí và phạm vi dữ liệu.\n\nChỉ vào hình\n\nChỉ quyền quan sát bên trái, rồi đối chiếu đơn vị của Hit, MAE và Recall bên phải.\n\nChuyển ý\n\nEm bắt đầu các bảng bằng kết quả lịch sử cho vị trí và quỹ đạo.\n\nNếu được hỏi\n\nỞ S4, decoder liên kết người là kNN15, còn MAE S10 dùng centroid_ols3_120s. Decoder khác nhau theo tác vụ. Byte là JSON ứng dụng; chưa đo độ trễ mạng hay năng lượng thiết bị.",
+      "sources": [
+        "docs/supervisor_meeting/2026-10-09_update/benchmark_evidence.json",
+        "docs/supervisor_meeting/2026-10-09_update/algorithm_scope.json",
+        "thesis/current_evaluation.tex"
+      ],
+      "previous_slide_numbers": [
+        8
+      ]
+    },
+    {
+      "title": "Benchmark S1–S3: vị trí và quỹ đạo",
+      "view": "compact_location_results",
+      "footer": "Phép thử lịch sử trên các bản triển khai/adaptation; không gán điểm số cho L30 hiện tại.",
+      "notes": "Lời trình bày\n\nBảng này so pipeline đề xuất trước đây với các bản thích nghi DLS, Semantic và TransProtect. Ở S1, Hit100 của pipeline là 33,33%, nghĩa khoảng một phần ba dự đoán nằm trong 100 mét; MAE tương ứng khoảng 299 mét. S2 và S3 có Hit100 thấp hơn, nhưng utility của S3 còn khoảng 87,67%.\n\nCác thước đo chưa đồng loạt cho một thứ hạng. Ví dụ DLS có MAE cao hơn ở S1 dù Hit100 cũng cao hơn. Em giữ kết quả này như bằng chứng theo metric của các bản triển khai lịch sử, chưa coi là xác nhận L30 hoặc vượt paper nguyên bản.\n\nChỉ vào hình\n\nChỉ ba hàng S1 trước, rồi đối chiếu Hit100 và Recall của S3.\n\nChuyển ý\n\nBảng tiếp theo chuyển từ định vị sang liên kết danh tính và quan sát đồng hành.\n\nNếu được hỏi\n\nMỗi hàng gộp 12 ô record × lượt nhiễu, không phải 12 điểm GPS độc lập. EIE bằng MAE khi cùng decoder và cách gộp; entropy hoặc ASR thiếu contract phù hợp được giữ N/A.",
+      "sources": [
+        "docs/supervisor_meeting/2026-10-09_update/benchmark_tables.json",
+        "docs/supervisor_meeting/2026-10-09_update/benchmark_evidence.json",
+        "docs/supervisor_meeting/2026-10-09_update/algorithm_scope.json"
+      ],
+      "previous_slide_numbers": [
+        9
+      ]
+    },
+    {
+      "title": "Benchmark S4 và S8: liên kết, đồng hành",
+      "view": "compact_linkage_results",
+      "footer": "Hai diagnostic lịch sử khác nhau; chưa xác nhận đồng thời trên mô hình hiện tại.",
+      "notes": "Lời trình bày\n\nVới S4, mỗi tác vụ có 45 cặp trong ba nhóm kiểm tra. Balanced accuracy liên kết người giảm từ 69,44% xuống 43,06%; liên kết xe giảm từ 62,50% xuống 52,78%. Tuy nhiên, AUC người vẫn đạt 0,861 ở một nhóm đã bảo vệ. Điểm trung bình thấp chưa chứng minh danh tính được ẩn hoàn toàn.\n\nVới S8, quan sát đồng hành đã bảo vệ cho cùng kết quả với chỉ nhìn mục tiêu trong bank này. Quan sát GPS thật của người đồng hành giảm MAE từ khoảng 664 xuống 594 mét. Hai diagnostic thuộc dữ liệu lịch sử, chưa xác nhận cho mô hình hiện tại.\n\nChỉ vào hình\n\nSo hai cặp hàng người/xe, rồi chỉ hàng đồng hành GPS thật ở bảng bên phải.\n\nChuyển ý\n\nVới suy luận tương lai, em có thêm pilot trên mạng native để so REM với Planar.\n\nNếu được hỏi\n\nBA cân bằng hai lớp. BA dưới 50% hoặc AUC dưới 0,5 chưa tự chứng minh privacy tốt hơn ngẫu nhiên. S8 có 41 quan sát cặp nhưng chỉ 24 mốc mục tiêu duy nhất.",
+      "sources": [
+        "docs/supervisor_meeting/2026-10-09_update/benchmark_tables.json",
+        "docs/supervisor_meeting/2026-10-09_update/benchmark_evidence.json",
+        "docs/supervisor_meeting/2026-10-09_update/algorithm_scope.json"
+      ],
+      "previous_slide_numbers": [
+        10
+      ]
+    },
+    {
+      "title": "Benchmark S5–S6: cạnh và đích tương lai",
+      "view": "compact_future_results",
+      "footer": "Pilot riêng: 6 nhóm, 12 phiên; L20; hai lựa chọn công khai; khác tập L30.",
+      "notes": "Lời trình bày\n\nREM và Planar dùng cùng mạng, ngân sách, K5 và L20; GPS thật là đối chứng chưa bảo vệ. GPS thật đạt 100% khi dự đoán nhánh; hai cơ chế bảo vệ đều đạt 50%. S5 và S6 cùng phụ thuộc lựa chọn nhánh này, nên chưa phải hai bằng chứng độc lập.\n\nVề dịch vụ, Planar đạt Recall 97%, cao hơn REM 94,69%. REM có MAE đích khoảng 615 mét, so với 502 mét của Planar, nhưng riêng MAE chưa xác lập ưu thế chung. Đây là pilot sáu nhóm kiểm tra, 12 phiên và hai ứng viên công khai; em giữ cả kết quả chưa thuận lợi.\n\nChỉ vào hình\n\nSo các cột S5/S6, rồi chỉ Recall của REM và Planar.\n\nChuyển ý\n\nEm quay lại đầu/cuối để đối chiếu rõ chất lượng và chi phí của delay.\n\nNếu được hỏi\n\nDecoder được chọn cho REM là motion, cho Planar là curve_mean_0.02. Pilot chấm tìm gần nhất theo category, khác benchmark bốn mục đích của L30.",
+      "sources": [
+        "docs/supervisor_meeting/2026-10-09_update/benchmark_evidence.json",
+        "docs/supervisor_meeting/2026-10-09_update/algorithm_scope.json",
+        "thesis/current_evaluation_generated/matched_anchor.tex"
+      ],
+      "previous_slide_numbers": [
+        11
+      ]
+    },
+    {
+      "title": "Delay và nhiễu: chất lượng, chi phí dịch vụ",
+      "view": "compact_delay_results",
+      "footer": "Thăm dò 4 nhóm riêng; khác L/ngân sách, nên không phải ablation chỉ thay delay.",
+      "notes": "Lời trình bày\n\nĐây là vòng thăm dò riêng trên bốn nhóm, với 170 mốc đầu vào cho mỗi phương pháp. Delay 60 giây ở L10 công bố 122 mốc, Recall 78,08% và MAE đầu/cuối khoảng 1.179 mét. Endpoint20 công bố đủ 170 mốc, Recall 96,11% và MAE khoảng 1.852/2.297 mét.\n\nTuy nhiên, hai hàng khác cả L, ngân sách và lưu lượng. Endpoint20 dùng gần 6.951 byte mỗi mốc, so với 3.247 byte của delay. Vì vậy, đây là đối chiếu đánh đổi dịch vụ và suy luận trong bank hữu hạn, chưa tách riêng tác dụng của delay hay chứng minh ưu thế ở cùng chi phí.\n\nChỉ vào hình\n\nChỉ 122/170 so với 170/170, rồi đối chiếu Recall và byte của hai hàng.\n\nChuyển ý\n\nVòng endpoint sau dùng nhiều nhóm hơn và kiểm tra kỹ cách lựa chọn attacker.\n\nNếu được hỏi\n\nCap hiệu lực của delay là 0,23/m, Endpoint20 là 0,0575/m. Không ghép hàng delay của bốn nhóm vào bảng 28 nhóm sau, vì khác cohort và selector.",
+      "sources": [
+        "docs/supervisor_meeting/2026-10-09_update/endpoint_focus.json"
+      ],
+      "previous_slide_numbers": [
+        12
+      ]
+    },
+    {
+      "title": "Benchmark S9–S10: kết quả được kiểm tra lại",
+      "view": "compact_endpoint_results",
+      "footer": "28 nhóm/112 quan sát mỗi kịch bản; CI 95% thăm dò; Endpoint20 riêng ở L20.",
+      "notes": "Lời trình bày\n\nVòng này dùng 28 nhóm đã khảo sát và chọn attacker bằng cross-fit theo nhóm. So cùng L20, Endpoint20 có MAE đầu/cuối cao hơn đối chứng. Với S10, MAE tăng từ khoảng 758 lên 1.337 mét; chênh lệch 579 mét có CI 95% thăm dò từ 468 đến 696 mét.\n\nHit100 của cả hai bằng 0. Hit500 giảm từ 12,50% xuống 4,46%, nhưng khoảng chênh lệch chạm 0 nên chưa chắc chắn ngoài mẫu. Recall giảm từ 98,94% xuống 96,64%. Em giữ cả lỗi chọn attacker trước đây; kết quả này là diagnostic phát triển, chưa xác nhận ưu thế trước mọi đối thủ.\n\nChỉ vào hình\n\nChỉ cặp hàng S10, khoảng chênh MAE và khoảng Hit500 chạm 0.\n\nChuyển ý\n\nKết quả chính cho cấu hình hiện tại là phép thử tăng độ sâu phản hồi trên tập mới.\n\nNếu được hỏi\n\nMAE chọn centroid_ols3_120s ở S10 cho cả hai cấu hình. Xáo Q loại nhãn slot nhưng không có lợi ích MAE Endpoint20 đo được; attacker vẫn nối điểm bằng hình học và Hungarian assignment. Bank mở rộng cũ có learner thắng selection nhưng tổng quát hóa kém, nên MAE lớn đó không được coi là defense tốt lên.",
+      "sources": [
+        "docs/supervisor_meeting/2026-10-09_update/benchmark_tables.json",
+        "docs/supervisor_meeting/2026-10-09_update/benchmark_evidence.json",
+        "docs/supervisor_meeting/2026-10-09_update/algorithm_scope.json"
+      ],
+      "previous_slide_numbers": [
+        13
+      ]
+    },
+    {
+      "title": "Benchmark dịch vụ: bốn mục đích truy vấn",
+      "view": "compact_utility_results",
+      "footer": "Tập kiểm tra mới: 24 nhóm × 3 lượt nhiễu × 8 chuyến, cùng bản đồ; CI theo nhóm.",
+      "notes": "Lời trình bày\n\nSau khi khóa L30, em đánh giá trên 24 nhóm mới, mỗi nhóm có ba lượt nhiễu và tám chuyến. Recall trung bình bốn mục đích tăng từ 89,71% ở L20 lên 92,69%, tức 2,97 điểm phần trăm. Khoảng 95% theo nhóm là 2,31 đến 3,65 điểm, nằm trên 0. Các mục đích đều có mức tăng dương.\n\nĐánh đổi là byte phản hồi tăng 31,10%. Năm Q, Z, lịch, ngân sách và 90.570 request giữ nguyên. Kết quả xác nhận lấy thêm ứng viên cải thiện utility trong mô phỏng cùng bản đồ. Nó không tăng cận privacy và chưa chứng minh ưu thế ở cùng chi phí.\n\nChỉ vào hình\n\nChỉ hàng trung bình bốn mục đích, CI, rồi chuyển xuống mức tăng byte phản hồi.\n\nChuyển ý\n\nEm tiếp tục kiểm tra giả định vị trí cục bộ có chính xác ở mọi mốc hay không.\n\nNếu được hỏi\n\nCI lấy mẫu lại theo 24 nhóm, giữ các chuyến và lượt nhiễu bên trong. Tham chiếu rỗng giữ N/A. CI từng mục đích là thăm dò; chỉ macro bốn mục đích là chỉ tiêu chính.",
+      "sources": [
+        "docs/supervisor_meeting/2026-10-09_update/benchmark_tables.json",
+        "docs/supervisor_meeting/2026-10-09_update/benchmark_evidence.json",
+        "docs/supervisor_meeting/2026-10-09_update/algorithm_scope.json"
+      ],
+      "previous_slide_numbers": [
+        14
+      ]
+    },
+    {
+      "title": "Độ nhạy: GPS cục bộ và trạng thái POI",
+      "view": "compact_sensitivity_results",
+      "footer": "Diagnostic: 72 khối family × draw; GPS/status không làm đổi Q và ngân sách.",
+      "notes": "Lời trình bày\n\nHai diagnostic này giữ nguyên Q và ngân sách. Với GPS, thiết bị có mẫu cục bộ mỗi 60 giây, riêng với lịch đọc cho Geo-I, và nhiễu Gaussian 0, 5 hoặc 15 mét mỗi trục. Giữ vị trí gần nhất cho L30 Recall 89,35% khi không thêm nhiễu, còn 85,02% ở mức 15 mét. Ngoại suy hai mẫu giảm sai số vị trí nhưng Recall thấp hơn cách giữ ở cả ba mức; em chưa chọn nó làm phương án tốt hơn.\n\nVới POI, trạng thái thay đổi mỗi 60 giây; chưa biết không được coi là khả dụng. L30 dùng phản hồi hiện tại đạt Recall 91,44%; gộp hợp lệ trong epoch đạt 91,78%. Đối chứng tải toàn danh mục đạt 100%, dùng 126,89 MB JSON, thấp hơn 1.023,95 MB của L30. Đây là hạn chế thực dụng với danh mục nhỏ. Cả hai dùng 72 khối dữ liệu đã khảo sát, chưa chứng minh tính cần thiết của truy vấn qua Q trong triển khai thật.\n\nChỉ vào hình\n\nSo giữ GPS với ngoại suy, rồi đối chiếu L30 hiện tại/cache và hàng tải toàn danh mục.\n\nChuyển ý\n\nSau kết quả và các kiểm tra độ nhạy, em tổng hợp kiến trúc hiện tại cùng phần đã thay đổi.\n\nNếu được hỏi\n\nSai số Euclid 15 mét không bảo đảm sai số đường nhỏ sau map matching trên đường có hướng; diagnostic chưa đo GPS thực hay pin. World trạng thái là fixture công khai theo hash, không phải bằng chứng trạng thái khó dự đoán. Cache hết epoch phải hủy status cũ; dùng status hết hạn có thể trả POI không còn khả dụng.",
+      "sources": [
+        "docs/supervisor_meeting/2026-10-09_update/benchmark_evidence.json",
+        "docs/supervisor_meeting/2026-10-09_update/algorithm_scope.json",
+        "thesis/current_sensor.tex",
+        "thesis/current_dynamic.tex"
+      ],
+      "previous_slide_numbers": [
+        15,
+        16
+      ]
+    },
+    {
+      "title": "Kiến trúc phương pháp hiện tại",
+      "view": "compact_architecture",
+      "footer": "Khung là phương pháp tại thiết bị; chỉ Q và yêu cầu chung gửi đến máy chủ.",
+      "notes": "Lời trình bày\n\nMô hình có bốn tầng. Tầng một kiểm tra phiên, lịch và ngân sách trước khi đọc GPS, rồi giữ hoặc tạo Z bằng Geo-I/REM. Tầng hai dùng lịch sử đã bảo vệ để cập nhật b và chọn năm Q đi được trên mạng đường. Tầng ba gửi Q, nhận tối đa 30 POI mỗi loại tại mỗi Q.\n\nTầng cuối hợp phản hồi và xếp hạng theo vị trí cùng mục đích tại thiết bị. Z giữ nội bộ, Q gửi máy chủ, còn POI là kết quả dịch vụ. GPS local không sửa Q; phiên bị từ chối không đọc GPS bảo vệ hay gửi Q.\n\nChỉ vào hình\n\nĐi qua bốn tầng, rồi chỉ riêng nhánh GPS/mục đích cục bộ vào tầng cuối.\n\nChuyển ý\n\nEm đối chiếu kiến trúc này với bản trước để chỉ rõ phần giữ và phần cập nhật.\n\nNếu được hỏi\n\nPhiên đã nhận mà hết ngân sách đọc vẫn có thể gửi Q từ lịch sử đã bảo vệ. Đây khác với phiên không được nhận. Mô hình hiện tại không có hàng đợi delay.",
+      "sources": [
+        "thesis/current_method.tex",
+        "thesis/current_algorithm.tex",
+        "thesis/current_formal_privacy.tex",
+        "thesis/current_formal_service.tex"
+      ],
+      "previous_slide_numbers": [
+        17
+      ]
+    },
+    {
+      "title": "Thành phần giữ nguyên và phần được cập nhật",
+      "view": "compact_changes",
+      "footer": "L30 xác nhận utility so với L20 trên cùng Q; Endpoint20 là nhánh L20 được đo riêng.",
+      "notes": "Lời trình bày\n\nNền REM, phép thử tái sử dụng, lịch đọc GPS, ước lượng b và bộ chọn Q theo đường vẫn giữ nguyên. Em bổ sung sổ ngân sách bền vững và cap chung cho tám phiên. Dịch vụ mở rộng xếp hạng cục bộ thành bốn mục đích và dùng phản hồi L30.\n\nLợi ích đã xác nhận là L20 lên L30 trên cùng Q; bộ chọn Q vẫn tính độ phủ bằng danh sách công khai L10. Cache đã có, còn kiểm tra GPS thưa và trạng thái POI làm rõ giới hạn sử dụng. Mô hình hiện tại gửi ngay. Endpoint20 L20 là nhánh lịch sử, đo riêng.\n\nChỉ vào hình\n\nĐọc cột trước và hiện tại, nhấn ngân sách liên phiên và tầng truy hồi/xếp hạng.\n\nChuyển ý\n\nEm dùng một chuyến chuyển động để cho thấy các thành phần kích hoạt theo từng mốc.\n\nNếu được hỏi\n\nMạng native hiện tại khác mạng minh họa tái dựng trước đây. Chứng minh và kiểm tra nguồn giúp xác định phạm vi, không phải những component chạy thêm trong thuật toán.",
+      "sources": [
+        "thesis/current_method.tex",
+        "thesis/current_algorithm.tex",
+        "thesis/current_formal_privacy.tex",
+        "thesis/current_formal_service.tex",
+        "docs/supervisor_meeting/2026-09-26_brief/walkthrough/build_walkthrough.py"
+      ],
+      "previous_slide_numbers": [
+        18
+      ]
+    },
+    {
+      "title": "Ví dụ chuyển động: thành phần kích hoạt theo thời gian",
+      "view": "compact_timeline",
+      "footer": "Một mẫu TRAIN cố định; chỉ trích đầu ra đã lưu, không lấy lại nhiễu hay thay kết quả.",
+      "notes": "Lời trình bày\n\nĐây là chuyến đầu của một nhóm TRAIN cố định. Tại 0 giây, thiết bị đọc GPS, tạo Z và chi một đơn vị. Tại 20 giây, chưa đến lịch nên không đọc mới; Z giữ nguyên, b chỉ dự đoán và một Q di chuyển. Tại 60 giây, phép thử dẫn tới tạo Z mới, tổng chi phí lên ba đơn vị.\n\nCác mốc sau tiếp tục kiểm tra lịch/ngân sách, rồi xử lý b, Q và POI. Đến 600 giây đã dùng 21/23 đơn vị. Tổng này bao gồm cả các lần đọc không hiển thị giữa 300 và 600 giây; mẫu chưa có nhánh hết ngân sách.\n\nChỉ vào hình\n\nĐi qua 0, 20, 60 và 600 giây, chỉ cột chi phí cùng chú thích các lần đọc ở giữa.\n\nChuyển ý\n\nBa bản đồ tiếp theo cho thấy GPS, Z và Q của chính chuyến này chuyển động ra sao.\n\nNếu được hỏi\n\nMẫu có 11 lần đọc bảo vệ ở 0, 60,…, 600 giây, đều tạo Z mới. Tại 20 giây chỉ Q1 di chuyển khoảng 155 mét. Một đơn vị là 0,00125/m; 21 đơn vị là 0,02625/m. Trước lần đọc sau khi đã có Z phải dự toán hai đơn vị, dù nhánh giữ chỉ chi một. Mẫu chỉ dùng phản hồi POI tĩnh hiện tại, không có status hay cache. Bán kính tại 240 giây có tham chiếu rỗng, giữ N/A.",
+      "sources": [
+        "docs/supervisor_meeting/2026-10-09_update/multistep_sample.json"
+      ],
+      "previous_slide_numbers": [
+        19
+      ]
+    },
+    {
+      "title": "Ví dụ chuyển động: GPS, Z và tập Q",
+      "view": "compact_maps",
+      "footer": "Bản đồ mẫu SUMO; số Q là ký hiệu nội bộ, không phải ID ổn định tại máy chủ. © OpenStreetMap contributors.",
+      "notes": "Lời trình bày\n\nBa bản đồ giữ cùng tỷ lệ và vùng nhìn ở 0, 120 và 600 giây. GPS là vị trí local để phân tích, Z là tham chiếu nội bộ, Q là tập tọa độ công bố. Z đổi sau các lần đọc và tạo mới. Q phụ thuộc trạng thái đã bảo vệ và đường; từng Q có thể đứng yên.\n\nMàu cam là 12 vùng có trọng số b cao nhất, chỉ chiếm một phần phân bố. Đây chưa phải vùng tin cậy đã hiệu chuẩn. Nhãn 1–5 theo dõi Q nội bộ, máy chủ không nhận ID ổn định. Khoảng cách không thay cho đánh giá attacker.\n\nChỉ vào hình\n\nGiữ cùng màu GPS/Z/Q khi đi qua ba mốc, rồi chỉ chú thích b và nhãn nội bộ.\n\nChuyển ý\n\nĐể phân biệt giữ Z với không đọc GPS, em dùng thêm một nhánh giữ thực tế.\n\nNếu được hỏi\n\nKhi không đọc mới, b chỉ dự đoán chuyển động. Khi có lần đọc và giữ Z, b còn cập nhật theo likelihood của nhánh giữ; không coi Z cũ như một mẫu REM mới độc lập.",
+      "sources": [
+        "docs/supervisor_meeting/2026-10-09_update/multistep_sample.json"
+      ],
+      "previous_slide_numbers": [
+        20
+      ]
+    },
+    {
+      "title": "Ví dụ tái sử dụng: đọc GPS nhưng giữ Z",
+      "view": "compact_reuse",
+      "footer": "Nhánh giữ đầu tiên trong cùng family; giá trị nhiễu Laplace ban đầu không được lưu.",
+      "notes": "Lời trình bày\n\nĐây là chuyến thứ sáu, tách khỏi chuyến vừa xem. Tại 60 giây, thiết bị đã đọc GPS; khoảng cách tới Z khoảng 1.204 mét, nhưng phép thử có nhiễu vẫn dẫn tới giữ Z. Ngưỡng 200 mét áp dụng cho khoảng cách sau khi thêm nhiễu, không áp trực tiếp vào khoảng cách thật.\n\nĐọc rồi giữ chi một đơn vị, nên tổng đến đây là hai. b cập nhật từ quan sát giữ và Q vẫn có thể thay đổi. Đây khác mốc không đọc mới, chi phí bằng 0. Nhiễu cụ thể không được lưu; em chỉ nêu điều kiện suy ra từ nhánh đã ghi nhận.\n\nChỉ vào hình\n\nChỉ phép thử có nhiễu, hai Z trùng nhau và chi phí cộng một đơn vị.\n\nChuyển ý\n\nCuối cùng, em theo chính các Q đã tạo để minh họa câu trả lời cho nhiều nhu cầu.\n\nNếu được hỏi\n\nNhánh lưu suy ra nhiễu nhỏ hơn hoặc bằng khoảng −1.004 mét; không xác định giá trị thực tế. Trước khi đọc vẫn phải dự toán hai đơn vị cho trường hợp cần tạo mới.",
+      "sources": [
+        "docs/supervisor_meeting/2026-10-09_update/multistep_sample.json"
+      ],
+      "previous_slide_numbers": [
+        21
+      ]
+    },
+    {
+      "title": "Ví dụ dịch vụ: cùng Q, các câu trả lời khác nhau",
+      "view": "compact_utility_sample",
+      "footer": "L30: 420 bản ghi/252 POI; đích detour là đích chuẩn trong đánh giá local. © OpenStreetMap contributors.",
+      "notes": "Lời trình bày\n\nTại 60 giây, năm Q nhận 420 bản ghi; bỏ trùng còn 252 POI. Tìm café gần nhất trả năm địa điểm theo khoảng cách đường. Với bán kính 1.000 mét, chỉ P167 phù hợp; tìm ít đi vòng cho danh sách khác. Các nhu cầu dùng cùng tập ứng viên, không gửi thêm request.\n\nĐi vòng giả định đích đã biết ở local. Em giữ nền Geo-I và làm rõ đánh đổi bảo vệ, utility, chi phí. L30 có cải thiện utility được xác nhận trong mô phỏng; S8 và bảo vệ danh tính vẫn cần thêm bằng chứng. Em xin ý kiến thầy/cô về ưu tiên tiếp theo.\n\nChỉ vào hình\n\nChỉ phép gộp 420 thành 252, rồi đối chiếu gần nhất, bán kính và ít đi vòng.\n\nChuyển ý\n\nEm xin dừng phần trình bày tại đây và trao đổi về hướng hoàn thiện tiếp theo.\n\nNếu được hỏi\n\nĐích detour của benchmark lấy từ đáp án chuẩn để đánh giá local, không vào bộ chọn Q. Triển khai cần đích người dùng đã khai báo. Kết quả một mẫu không thay cho Recall trung bình.",
+      "sources": [
+        "docs/supervisor_meeting/2026-10-09_update/utility_sample.json",
+        "docs/supervisor_meeting/2026-10-09_update/sample_walkthrough.json"
+      ],
+      "previous_slide_numbers": [
+        22
+      ]
+    }
+  ],
+  "input_evidence_sha256": {
+    "benchmark_evidence.json": "7265df0846c4a5f04e4759467b0e42ffd71672dfe9449c25e918271f86fbc1cf",
+    "algorithm_scope.json": "27d3836e535abd4549efec81b6fd7e5f320fa7fc0ab857d94aa7aada7e41c05d",
+    "benchmark_tables.json": "baac1f839fce3cc5dafae9628314e7ed9b69b4a64ffce043382f575e2f4144db",
+    "endpoint_focus.json": "73c3f8976742ea428732d91d6a4488bea89cab29c897f4a910f39b9d58a889e2",
+    "multistep_sample.json": "be6f05846a014dc8ce1fdf216e196993a3152caed6bbde5e3f49764cfc5b02a0"
+  },
+  "matched_baseline": {
+    "rows": [
+      {
+        "method": "raw",
+        "current_recall5": 1.0,
+        "static_cache_recall5": 1.0,
+        "reference_defined_windows": 1402,
+        "total_windows": 1510,
+        "cost": {
+          "request_count": 1510,
+          "request_bytes_total": 203489,
+          "reply_bytes_total": 7658607
+        },
+        "S5_selected_attacker": "candidate_trees",
+        "S5_exact_candidate_edge_accuracy": 1.0,
+        "S6_selected_attacker": "candidate_trees",
+        "S6_destination_hit100": 1.0,
+        "S6_destination_mae_m": 4.989157333134833,
+        "test_queries": 12,
+        "test_families": 6
+      },
+      {
+        "method": "rem_epoch8",
+        "current_recall5": 0.9469331420622501,
+        "static_cache_recall5": 0.9990520282186949,
+        "reference_defined_windows": 1402,
+        "total_windows": 1510,
+        "cost": {
+          "request_count": 7550,
+          "request_bytes_total": 1140292,
+          "reply_bytes_total": 41235772
+        },
+        "S5_selected_attacker": "motion",
+        "S5_exact_candidate_edge_accuracy": 0.5,
+        "S6_selected_attacker": "motion",
+        "S6_destination_hit100": 0.5,
+        "S6_destination_mae_m": 614.9294973771806,
+        "test_queries": 12,
+        "test_families": 6
+      },
+      {
+        "method": "planar_epoch8",
+        "current_recall5": 0.9699903122438335,
+        "static_cache_recall5": 0.9935185185185184,
+        "reference_defined_windows": 1402,
+        "total_windows": 1510,
+        "cost": {
+          "request_count": 7550,
+          "request_bytes_total": 1140457,
+          "reply_bytes_total": 41224091
+        },
+        "S5_selected_attacker": "curve_mean_0.02",
+        "S5_exact_candidate_edge_accuracy": 0.5,
+        "S6_selected_attacker": "curve_mean_0.02",
+        "S6_destination_hit100": 0.5,
+        "S6_destination_mae_m": 501.6545025906498,
+        "test_queries": 12,
+        "test_families": 6
+      }
+    ]
+  },
+  "sample_scope": "Frozen illustrative samples; protection outputs and benchmark scores unchanged; private evaluator positions are only included for local analysis.",
+  "focus": "Scenario mechanisms; delay history versus no-delay Endpoint20; protocol-separated detailed results; method changes; frozen multi-step movement examples",
+  "delay_status": "Historical comparison; current Endpoint20 and current L30 have zero publication delay. No new delay model evaluated by this deck.",
+  "layout": {
+    "style": "compact scientific document in slide format",
+    "title_svg_px": 32,
+    "body_svg_px": [
+      20,
+      22
+    ],
+    "panel_svg_px": [
+      22,
+      24
+    ],
+    "footer_svg_px": 15,
+    "previous_slide_count": 22,
+    "slide_count": 18,
+    "source_mapping": "previous_slide_numbers preserves all 22 source slide subjects"
+  }
+}
