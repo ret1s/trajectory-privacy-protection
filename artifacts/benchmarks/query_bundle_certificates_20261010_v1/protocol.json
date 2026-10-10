@@ -1,0 +1,47 @@
+{
+  "schema": "query-bundle-certificate-audit-v1",
+  "configuration": {
+    "minimum_public_coverage": [
+      0.0,
+      0.75,
+      0.8,
+      0.9
+    ],
+    "modes": [
+      "fixed5",
+      "dynamic_3_5_7"
+    ],
+    "beta_rules": [
+      "literal_beta2",
+      "public_epsilon1_calibration"
+    ],
+    "cost_weight": 0.25,
+    "public_epsilon_target": 1.0,
+    "belief_cases": [
+      "matched_uniform",
+      "matched_skewed80",
+      "uniform_client_skewed80_truth"
+    ],
+    "scope": "one fresh REM, static native map, 36 public prior states; nearest-reference proxy",
+    "floor_policy": "all public proxy states; strict >= comparison, no current-GPS/Z pruning",
+    "design_status": "development after inspection of PUBLIC coverage geometry; no private holdout selection"
+  },
+  "source_sha256": {
+    "artifacts/datasets/future_controlled_20261005_v1/public_native.net.xml.gz": "243924810d6c26e1df068f1e2e85198097370f39cf96d8ed759a3bd72a64f395",
+    "artifacts/benchmarks/research_loop/resources.json": "82b03a2dad35c898483437ab63da9437076594e913f5beb6b0d18360ffe9b8b1",
+    "experiments/query_bundle_audit_20261010.py": "b2540f7dc9c54d98096908ce21ac76dc7e2b9a90f4e740b81e6a8b6c5eac0253",
+    "benchmark/probabilistic_query_bundle.py": "905f076a08408e4a0cccf61f3a9c2b4c59c339af91abf724a8c22f393181a3bf",
+    "benchmark/public_poi_context.py": "98aa1301ce921630dbb77ef1bb7a19c6b70241e1689cccaa132192019b88ae86",
+    "data/lane_states.py": "72ec66d395686a3d5596fdd4a59c757da1bc8e13f3899903f6a427b2bde14664",
+    "core/road_network.py": "7e69c17f17eee24104bd9efc0b3b74b4b502a9c131a90cc99736da390c91108d",
+    "data/sumo_demo.py": "28dbca9b080687ac443e658e78e9aecce45404b788c035b0435cb89196b0cb4e",
+    "evaluation/lane_travel.py": "111e1bc109dd53e29922d44bfbc16bded8f1409e467e43faba3723026dc45bde",
+    "evaluation/scenario_metrics.py": "b212d35ccb4d633e23f24c5d3d80a48a775361117952e2cee820d7b28fdb8e02",
+    "benchmark/query_bundle_bounds.py": "6ad1f8ac2f4d26b8eb02c2f93844242c31ad1f23b1d3a14ac15aec62fefec7bf",
+    "experiments/query_bundle_certificate_audit_20261010.py": "0f75504d367f8af72021995585d9995ebec6cc24d15acec51fe985b06512ca6f",
+    "tests/test_query_bundle_bounds.py": "932580744976a80a6ad0d7b9f52f34b57f4deebc47b1447635a6d3d6ac18bb74",
+    "tests/test_probabilistic_query_bundle.py": "045d42606c8020b2a8e9319aa3b37fbb0509c68d1f696eff17196ef2087f44d0"
+  },
+  "baseline_audit_protocol_sha256": "598ccfaeee71479ca1eaba9c5fe6bf8237b8c329b2623864f554536f6137c9c5",
+  "limits": "float diagnostic of ideal-real proofs; no moving-trajectory/all-purpose/native-identity claim"
+}

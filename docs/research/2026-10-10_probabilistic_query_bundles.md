@@ -4,6 +4,10 @@ Trạng thái: **cơ chế phát triển opt-in**, đã có mã kernel và kiể
 chưa thay thế planner K5 của benchmark quỹ đạo đã công bố. Geo-I/REM,
 noisy reuse, ngân sách GPS từng phiên và xử lý nhu cầu tại thiết bị được giữ nguyên.
 
+Phần hoàn thiện tiếp theo: [privacy theo score oscillation, utility bridge và
+coverage floor công khai](2026-10-10_query_bundle_privacy_utility.md). Cận β và
+cận regret dưới đây vẫn đúng nhưng bảo thủ hơn các cận trong phần bổ sung.
+
 ## 1. Điều chỉnh nào có ý nghĩa về toán học?
 
 Planner cũ tối ưu độ phủ POI từ phân bố ước lượng `b` rồi chọn năm Q gần như
