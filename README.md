@@ -42,6 +42,13 @@ it against explicit attacker, utility, and output-contract assumptions.
 - Q-bundle proof completion (10/10): [`privacy and actual-utility certificates`](docs/research/2026-10-10_query_bundle_privacy_utility.md).
   Tighter public score-oscillation privacy, belief/proxy error allowances and
   public coverage floors, with explicit static diagnostic and infeasibility.
+- Multistep Geo-I prototype (10/10): [`whole-session privacy and utility proof`](docs/research/2026-10-10_multistep_privacy_utility.md).
+  Public road-valid Q segments, a persistent telescoping Q budget and explicit
+  actual-utility certificate status; the per-session Geo-I cap remains .23/m.
+  The [`fresh native readout`](docs/research/2026-10-10_multistep_results.md)
+  retains all frontier arms: Gamma1 macro Recall is 86.75% versus 99.79% for the
+  matched baseline. The prototype misses the utility gate and remains opt-in;
+  the existing engine and historical benchmarks are preserved.
 - Latest method development (06/10): [`refinement and limits`](docs/research/2026-10-06_method_refinement.md).
   The Geo-I backbone stays unchanged; new runs are development evidence.
 - Follow-up experiments (06/10): [`public POI Q planner`](docs/research/2026-10-06_geo_i_public_service_planner.md),

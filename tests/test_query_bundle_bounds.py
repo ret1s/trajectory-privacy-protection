@@ -48,7 +48,7 @@ def test_public_calibration_and_floor_are_belief_independent():
     assert public_floor_indices(model, minimum_coverage=.8).tolist() == [1, 2]
     with pytest.raises(ValueError, match='No public bundle'):
         public_floor_indices(model, minimum_coverage=.95)
-    assert calibrated_beta(kernel(np.ones((3, 3))), epsilon_target=1.) == 0
+    assert calibrated_beta(kernel(np.ones((3, 3))), epsilon_target=1.) == 40
 
 
 def test_utility_bridge_under_belief_error_and_wrong_purpose():

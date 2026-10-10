@@ -5,6 +5,8 @@ Utility certificates depend on protected belief and MUST stay local. Numerical
 values are float diagnostics, not certified finite-precision DP sampling. Belief
 error bounds are caller assumptions, never silently inferred from model scores.
 """
+from fractions import Fraction
+
 import numpy as np
 
 from benchmark.probabilistic_query_bundle import ProbabilisticQueryBundle
@@ -41,13 +43,31 @@ def calibrated_beta(kernel, *, epsilon_target):
     """PUBLIC calibration from score geometry, not from attacker test scores.
 
     The underlying prototype caps beta at40 for float support. If kappa=0,
-    beta0 suffices: scores differ only by action-independent belief offsets.
+    beta40 improves the public objective without spending privacy: scores differ
+    only by action-independent belief offsets. Tiny nonzero kappa is NOT zero.
     """
     if (isinstance(epsilon_target, (bool, np.bool_)) or not np.isfinite(epsilon_target)
             or epsilon_target < 0):
         raise ValueError('Finite nonnegative public privacy target required')
-    kappa = public_privacy_certificate(kernel)['score_oscillation']
-    return 0. if kappa == 0 else min(40., 2.*float(epsilon_target)/kappa)
+    if not isinstance(kernel, ProbabilisticQueryBundle):
+        raise ValueError('A fixed public bundle kernel required')
+    # Float subtraction can erase a tiny positive oscillation (e.g. 1-1e-20).
+    # Certify ZERO and the ideal-table calibration using exact binary rationals;
+    # this does not certify rounding of scores, logsumexp or the sampler.
+    rows = [[Fraction.from_float(float(v)) for v in row] for row in kernel.coverage]
+    kappa = Fraction(0)
+    for a in range(len(kernel.bundles)):
+        for c in range(a):
+            differences = [row[a]-row[c] for row in rows]
+            kappa = max(kappa, max(differences)-min(differences))
+    kappa /= Fraction(1)+Fraction.from_float(kernel.cost_weight)
+    if not kappa:
+        return 40.
+    exact_beta = min(Fraction(40), 2*Fraction.from_float(float(epsilon_target))/kappa)
+    beta = float(exact_beta)
+    if Fraction.from_float(beta) > exact_beta:
+        beta = float(np.nextafter(beta, 0.))
+    return beta
 
 
 def public_floor_indices(kernel, *, minimum_coverage):

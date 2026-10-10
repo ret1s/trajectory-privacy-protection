@@ -165,3 +165,13 @@ Current evidence and reviewer handoff:
 - [`Previous 07/10 thesis review`](../docs/reviews/2026-10-07_thesis_completion.md); its exact PDF/source bytes are retained under `artifacts/reports/thesis_review_20261007/`.
 - [`Previous review`](../docs/reviews/2026-10-06_thesis_completion.md); its exact
   reviewed PDF/source bytes are retained under `artifacts/reports/thesis_review_20261006/`.
+
+The 10/10 opt-in extension is documented separately in
+[`whole-session Q-segment proofs`](../docs/research/2026-10-10_multistep_privacy_utility.md)
+and [`fresh native readout`](../docs/research/2026-10-10_multistep_results.md).
+It keeps Geo-I at .23/m per session and adds a dimensionless telescoping
+Q-selection cap. Public support, directed movement and persistent accounting
+are implemented and audited. Gamma1's actual macro Recall is 86.75% against
+99.79% for the matched L30 baseline, so the extension is **not** adopted into
+the canonical method or relabelled as a confirmed thesis improvement. The
+existing PDF and historical tables remain the earlier reviewed manuscript.
