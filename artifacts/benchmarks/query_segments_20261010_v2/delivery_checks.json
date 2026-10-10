@@ -5,10 +5,14 @@
       "skipped": 9,
       "runtime_warnings": "treated as errors"
     },
-    "git_diff_check": "pass",
+    "git_diff_check": "pass for authored files; two inherited snapshot EOF-blank-line findings retained byte-for-byte to preserve source hashes",
     "native_FCD_integrity": "pass",
     "independent_public_support_audit": "pass",
-    "frozen_source_replay": "pass"
+    "frozen_source_replay": "pass",
+    "preserved_snapshot_whitespace": [
+      "artifacts/benchmarks/query_segments_20261010_v1/source_snapshot/experiments/scenario_v2_checks.py:225",
+      "artifacts/benchmarks/query_segments_20261010_v2/source_snapshot/experiments/scenario_v2_checks.py:225"
+    ]
   },
   "sampler_certified_pure_DP": false,
   "prototype_promoted": false,
