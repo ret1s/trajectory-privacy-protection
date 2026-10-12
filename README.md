@@ -56,6 +56,14 @@ it against explicit attacker, utility, and output-contract assumptions.
   motion constraint that preserves returned POIs; Geo-I remains .23/m per session.
   Both frozen iterations and their controls are retained; canonical adoption
   depends on the declared per-purpose utility gate.
+- Balanced Geo-I candidate (12/10): [`mathematical privacy/utility guarantees`](docs/research/2026-10-12_balanced_cache_proof.md),
+  [`paired out-of-sample report`](docs/research/2026-10-12_balanced_cache_results.md),
+  and [`configuration`](artifacts/benchmarks/cache_balance_20261012_v2/balanced_candidate.json).
+  Public exploration plus local static-metadata session cache achieves95.55%
+  service Recall against92.57% for the matched pool guard. Gamma1 bounds logical-
+  wire inference; actual-cache nondegradation needs no calibrated belief.
+  The original -2pp gate remains unmet; this is a research candidate, with
+  all controls, cache contracts and retained data-supply failures reported.
 - Latest method development (06/10): [`refinement and limits`](docs/research/2026-10-06_method_refinement.md).
   The Geo-I backbone stays unchanged; new runs are development evidence.
 - Follow-up experiments (06/10): [`public POI Q planner`](docs/research/2026-10-06_geo_i_public_service_planner.md),

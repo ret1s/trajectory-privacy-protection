@@ -1,0 +1,760 @@
+{
+  "POI_coverage": {
+    "baseline": {
+      "maximum_new_POIs": 107,
+      "mean_final_POIs": 266.6333333333333,
+      "mean_initial_POIs": 223.68333333333334,
+      "mean_new_POIs": 42.95,
+      "minimum_new_POIs": 1
+    },
+    "cache_explore_g0": {
+      "maximum_new_POIs": 98,
+      "mean_final_POIs": 356.3,
+      "mean_initial_POIs": 279.69166666666666,
+      "mean_new_POIs": 76.60833333333333,
+      "minimum_new_POIs": 49
+    },
+    "cache_explore_g1": {
+      "maximum_new_POIs": 106,
+      "mean_final_POIs": 355.75,
+      "mean_initial_POIs": 279.81666666666666,
+      "mean_new_POIs": 75.93333333333334,
+      "minimum_new_POIs": 45
+    },
+    "cache_explore_prior_g1": {
+      "maximum_new_POIs": 107,
+      "mean_final_POIs": 355.34166666666664,
+      "mean_initial_POIs": 279.7083333333333,
+      "mean_new_POIs": 75.63333333333334,
+      "minimum_new_POIs": 47
+    },
+    "finite_dominance_g1": {
+      "maximum_new_POIs": 0,
+      "mean_final_POIs": 279.81666666666666,
+      "mean_initial_POIs": 279.81666666666666,
+      "mean_new_POIs": 0.0,
+      "minimum_new_POIs": 0
+    },
+    "finite_static_g1": {
+      "maximum_new_POIs": 0,
+      "mean_final_POIs": 279.81666666666666,
+      "mean_initial_POIs": 279.81666666666666,
+      "mean_new_POIs": 0.0,
+      "minimum_new_POIs": 0
+    },
+    "legacy_segment_g1": {
+      "maximum_new_POIs": 92,
+      "mean_final_POIs": 264.175,
+      "mean_initial_POIs": 237.28333333333333,
+      "mean_new_POIs": 26.891666666666666,
+      "minimum_new_POIs": 0
+    }
+  },
+  "all_recorded_results_retained": true,
+  "cache": "session",
+  "comparisons": [
+    {
+      "control": "baseline",
+      "metrics": {
+        "fastest_travel": {
+          "delta": -0.028639214869988855,
+          "paired95": [
+            -0.04098026665754046,
+            -0.01798042691334966
+          ]
+        },
+        "macro": {
+          "delta": -0.04447304282956361,
+          "paired95": [
+            -0.06664906532364302,
+            -0.025527823371303084
+          ]
+        },
+        "minimum_detour": {
+          "delta": -0.030886143521696007,
+          "paired95": [
+            -0.04481112255014107,
+            -0.018799259322809424
+          ]
+        },
+        "nearest_distance": {
+          "delta": -0.028665802801124646,
+          "paired95": [
+            -0.04106479069700571,
+            -0.017980419568617297
+          ]
+        },
+        "within_radius": {
+          "delta": -0.08970101012544493,
+          "paired95": [
+            -0.14397025660947227,
+            -0.04470519798820313
+          ]
+        }
+      }
+    },
+    {
+      "control": "legacy_segment_g1",
+      "metrics": {
+        "fastest_travel": {
+          "delta": 0.07271809166976081,
+          "paired95": [
+            0.033988563079686916,
+            0.11372244506452735
+          ]
+        },
+        "macro": {
+          "delta": 0.1006882722684382,
+          "paired95": [
+            0.04857794061579414,
+            0.15631325848656108
+          ]
+        },
+        "minimum_detour": {
+          "delta": 0.07883478790288198,
+          "paired95": [
+            0.03621677071183271,
+            0.12406839328822733
+          ]
+        },
+        "nearest_distance": {
+          "delta": 0.07264670087124152,
+          "paired95": [
+            0.03388209954331392,
+            0.11371480607406238
+          ]
+        },
+        "within_radius": {
+          "delta": 0.17855350862986852,
+          "paired95": [
+            0.08793915419473088,
+            0.2748763865652558
+          ]
+        }
+      }
+    },
+    {
+      "control": "finite_dominance_g1",
+      "metrics": {
+        "fastest_travel": {
+          "delta": 0.022912061363207274,
+          "paired95": [
+            0.015899986779481713,
+            0.0303178800164521
+          ]
+        },
+        "macro": {
+          "delta": 0.029795564199837254,
+          "paired95": [
+            0.020767552204575185,
+            0.03903772363572993
+          ]
+        },
+        "minimum_detour": {
+          "delta": 0.027113307654898815,
+          "paired95": [
+            0.018063128443429288,
+            0.03648913346847636
+          ]
+        },
+        "nearest_distance": {
+          "delta": 0.022911914468560123,
+          "paired95": [
+            0.015900163600006522,
+            0.030300035989188467
+          ]
+        },
+        "within_radius": {
+          "delta": 0.046244973312682826,
+          "paired95": [
+            0.03144540461336872,
+            0.06174842750506793
+          ]
+        }
+      }
+    },
+    {
+      "control": "finite_static_g1",
+      "metrics": {
+        "fastest_travel": {
+          "delta": 0.022912061363207274,
+          "paired95": [
+            0.015899986779481713,
+            0.0303178800164521
+          ]
+        },
+        "macro": {
+          "delta": 0.029795564199837254,
+          "paired95": [
+            0.020767552204575185,
+            0.03903772363572993
+          ]
+        },
+        "minimum_detour": {
+          "delta": 0.027113307654898815,
+          "paired95": [
+            0.018063128443429288,
+            0.03648913346847636
+          ]
+        },
+        "nearest_distance": {
+          "delta": 0.022911914468560123,
+          "paired95": [
+            0.015900163600006522,
+            0.030300035989188467
+          ]
+        },
+        "within_radius": {
+          "delta": 0.046244973312682826,
+          "paired95": [
+            0.03144540461336872,
+            0.06174842750506793
+          ]
+        }
+      }
+    },
+    {
+      "control": "cache_explore_g0",
+      "metrics": {
+        "fastest_travel": {
+          "delta": -0.0035089411958849903,
+          "paired95": [
+            -0.007798683542673885,
+            0.00011372685159133181
+          ]
+        },
+        "macro": {
+          "delta": -0.00511531169171211,
+          "paired95": [
+            -0.011863043622456663,
+            0.0002565380810757656
+          ]
+        },
+        "minimum_detour": {
+          "delta": -0.003001851497637803,
+          "paired95": [
+            -0.007249174342693308,
+            0.0005914073819873189
+          ]
+        },
+        "nearest_distance": {
+          "delta": -0.0035180486640088602,
+          "paired95": [
+            -0.007816396380515924,
+            0.00010814297974847943
+          ]
+        },
+        "within_radius": {
+          "delta": -0.010432405409316847,
+          "paired95": [
+            -0.0250446248328832,
+            0.0007641078635154403
+          ]
+        }
+      }
+    },
+    {
+      "control": "cache_explore_prior_g1",
+      "metrics": {
+        "fastest_travel": {
+          "delta": 0.0010777879041321658,
+          "paired95": [
+            -0.003037171846734521,
+            0.004735868031724215
+          ]
+        },
+        "macro": {
+          "delta": 0.0005156317144995482,
+          "paired95": [
+            -0.004568527033534728,
+            0.005218265742513531
+          ]
+        },
+        "minimum_detour": {
+          "delta": 0.0008818585735841988,
+          "paired95": [
+            -0.0034962729390055885,
+            0.00505547929535572
+          ]
+        },
+        "nearest_distance": {
+          "delta": 0.001095562156438401,
+          "paired95": [
+            -0.0029616533086300667,
+            0.004738180919197933
+          ]
+        },
+        "within_radius": {
+          "delta": -0.0009926817761566175,
+          "paired95": [
+            -0.00987122490170724,
+            0.0076411099455498425
+          ]
+        }
+      }
+    }
+  ],
+  "confirmed_belief_actual_utility_advantage": false,
+  "periods": [
+    {
+      "means": {
+        "baseline": 0.9999305555555555,
+        "cache_explore_g1": 0.9106597222222221,
+        "finite_dominance_g1": 0.9096527777777779
+      },
+      "window": [
+        0,
+        60
+      ]
+    },
+    {
+      "means": {
+        "baseline": 0.9999061493558777,
+        "cache_explore_g1": 0.9532162619611666,
+        "finite_dominance_g1": 0.9263443780580329
+      },
+      "window": [
+        80,
+        300
+      ]
+    },
+    {
+      "means": {
+        "baseline": 1.0,
+        "cache_explore_g1": 0.9685151549418192,
+        "finite_dominance_g1": 0.9285421566801476
+      },
+      "window": [
+        320,
+        600
+      ]
+    }
+  ],
+  "primary": "cache_explore_g1",
+  "primary_mean_recall_paired_family95": {
+    "fastest_travel": [
+      0.958943633711009,
+      0.9819662024327003
+    ],
+    "macro": [
+      0.933294545006308,
+      0.974442527112292
+    ],
+    "minimum_detour": [
+      0.9551255052238236,
+      0.9811568910623047
+    ],
+    "nearest_distance": [
+      0.9589082321010435,
+      0.9819478761534354
+    ],
+    "within_radius": [
+      0.8559458090645403,
+      0.955275969620083
+    ]
+  },
+  "same_wire_cache_deltas": {
+    "current": {
+      "delta": 0.07607098138381571,
+      "paired95": [
+        0.05569534659390564,
+        0.09877627778246813
+      ]
+    },
+    "known": {
+      "delta": 0.07103230647639915,
+      "paired95": [
+        0.050934861675138415,
+        0.09370283457454329
+      ]
+    }
+  },
+  "schema": "balanced-cache-secondary-no-tuning-v1",
+  "shared_prefix_pair_certificates": [
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-001",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 99,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-002",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 112,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-003",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 113,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-004",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 170,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-005",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 131,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-006",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 139,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-007",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 99,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-008",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 132,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-009",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 149,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-010",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 99,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-011",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 148,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-012",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 92,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-013",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 163,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-014",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 146,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-015",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 164,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-016",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 106,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-017",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 128,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-018",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 104,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-019",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 116,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-020",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 112,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-021",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 101,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-022",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 129,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-023",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 114,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-024",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 143,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-025",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 128,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-026",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 111,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "16896832069/15054336000",
+      "family_id": "cache-027",
+      "first_affected_selection": 5,
+      "first_different_native_GPS_s": 197,
+      "illustrative_equal_prior_posterior_cap": 0.5288330001742197,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-028",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 98,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-029",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 124,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-030",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 107,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-031",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 132,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-032",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 108,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-033",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 128,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-034",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 96,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-035",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 99,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-036",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 128,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-037",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 126,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-038",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 130,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-039",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 146,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-040",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 150,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-041",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 138,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-042",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 93,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-043",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 126,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "1537611718279/1204346880000",
+      "family_id": "cache-044",
+      "first_affected_selection": 3,
+      "first_different_native_GPS_s": 110,
+      "illustrative_equal_prior_posterior_cap": 0.5607713111511193,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "16896832069/15054336000",
+      "family_id": "cache-045",
+      "first_affected_selection": 5,
+      "first_different_native_GPS_s": 190,
+      "illustrative_equal_prior_posterior_cap": 0.5288330001742197,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-046",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 143,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-047",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 137,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    },
+    {
+      "exact_conditional_pair_ratio": "118277824483/100362240000",
+      "family_id": "cache-048",
+      "first_affected_selection": 4,
+      "first_different_native_GPS_s": 137,
+      "illustrative_equal_prior_posterior_cap": 0.540970497619829,
+      "scope": "fixed shared-prefix pair; causal protected producer; ideal uniform Q bits; NOT inferred from attacker score"
+    }
+  ],
+  "shared_prefix_scope": "evaluator-only conditional pair proof; not a generic wire-specific posterior estimate"
+}

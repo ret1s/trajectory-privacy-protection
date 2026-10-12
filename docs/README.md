@@ -57,6 +57,8 @@ Use this page instead of searching the repository by filename.
 ## Finite Q extension (12/10)
 
 - [Exact finite privacy and POI-pool utility](research/2026-10-12_finite_privacy_utility.md).
+- [Balanced candidate: guarantees and assumptions](research/2026-10-12_balanced_cache_proof.md).
+- [Balanced candidate: paired results](research/2026-10-12_balanced_cache_results.md).
 - [Retained paired benchmark progress](research/2026-10-12_finite_progress_results.md).
 
 ## Evidence and history

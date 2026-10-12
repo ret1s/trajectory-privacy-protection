@@ -1,0 +1,39 @@
+{
+  "schema": "balanced-geoi-research-candidate-v1",
+  "status": "balanced research candidate; old -2pp gate NOT passed; not production promoted",
+  "backbone": "unchanged paced Geo-I/REM noisy reuse",
+  "effective_Cs_per_m": 0.23,
+  "nominal_B_per_m": 0.24,
+  "H": 12,
+  "u_per_m": 0.01,
+  "theta_m": 200.0,
+  "slack": 0.03,
+  "K": 5,
+  "L_per_category": 30,
+  "protected_GPS_cadence_s": 60,
+  "query_cadence_s": 20,
+  "joint_frames": 3,
+  "Gamma_Q": 1.0,
+  "allocation": "Gamma/[j(j+1)]",
+  "public_novelty_eta": 4,
+  "public_goal_beam": 24,
+  "score_resolution": 65536,
+  "protected_score_weights": {
+    "public_defined_purpose_coverage": 0.9,
+    "geometric_proximity": 0.1
+  },
+  "cache": "all received static metadata valid until public session close; local full sorted answer",
+  "dynamic_status_freshness": "not covered by session-cache invariant",
+  "classes": [
+    "CacheExplorePolicy",
+    "SessionCoverClient",
+    "PersistentQueryBudget"
+  ],
+  "default_source": "fresh secrets.randbelow; uniform independent bits assumed",
+  "core_engine_changed": false,
+  "prior_evidence_replaced": false,
+  "benchmark_primary": "cache_explore_g1",
+  "empirical_service_macro_recall": 0.9554817428735539,
+  "results": "artifacts/benchmarks/cache_balance_20261012_v2/results.json",
+  "proof": "docs/research/2026-10-12_balanced_cache_proof.md"
+}

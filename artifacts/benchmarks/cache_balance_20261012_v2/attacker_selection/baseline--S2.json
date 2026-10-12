@@ -1,0 +1,835 @@
+{
+  "before_test_predictions": true,
+  "fit_split": "train",
+  "model_sha256": "6577fadfbc7ed4828f4819dfd97ed9e6550b26b57cb99aa80d15eeff0b8f242d",
+  "selected": {
+    "hit100": "shadow_knn1",
+    "hit200": "median",
+    "hit50": "centroid",
+    "hit500": "shadow_knn5",
+    "mae": "shadow_knn5"
+  },
+  "selection_split": "selection",
+  "selection_statistics": {
+    "centroid": {
+      "hit100": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.5,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0625,
+        "objective": 0.0,
+        "se": 0.0625
+      },
+      "hit200": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.5,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.5,
+          "cache-027": 0.5,
+          "cache-028": 0.0
+        },
+        "mean": 0.1875,
+        "objective": 0.09600936816107503,
+        "se": 0.09149063183892497
+      },
+      "hit50": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.5,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0625,
+        "objective": 0.0,
+        "se": 0.0625
+      },
+      "hit500": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 1.0,
+          "cache-022": 0.5,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.5,
+          "cache-026": 0.5,
+          "cache-027": 1.0,
+          "cache-028": 1.0
+        },
+        "mean": 0.5625,
+        "objective": 0.4149757889119794,
+        "se": 0.14752421108802058
+      },
+      "mae": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 302.01265018163633,
+          "cache-022": 341.8969414358414,
+          "cache-023": 1967.9321903691525,
+          "cache-024": 1489.6419053337152,
+          "cache-025": 546.3369881681031,
+          "cache-026": 338.4034603779246,
+          "cache-027": 304.21110678285913,
+          "cache-028": 276.6105963470216
+        },
+        "mean": 695.8807298745317,
+        "objective": 927.6423906962257,
+        "se": 231.76166082169402
+      }
+    },
+    "median": {
+      "hit100": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.5,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0625,
+        "objective": 0.0,
+        "se": 0.0625
+      },
+      "hit200": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.5,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.5,
+          "cache-026": 0.5,
+          "cache-027": 0.5,
+          "cache-028": 0.0
+        },
+        "mean": 0.25,
+        "objective": 0.1555088817476932,
+        "se": 0.0944911182523068
+      },
+      "hit50": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit500": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 1.0,
+          "cache-022": 0.5,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.5,
+          "cache-026": 0.5,
+          "cache-027": 0.5,
+          "cache-028": 0.5
+        },
+        "mean": 0.4375,
+        "objective": 0.32420912910312927,
+        "se": 0.1132908708968707
+      },
+      "mae": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 462.9200852065354,
+          "cache-022": 595.9541288573444,
+          "cache-023": 2116.5257225076975,
+          "cache-024": 1585.3696210376088,
+          "cache-025": 515.2766127997668,
+          "cache-026": 420.61500675180224,
+          "cache-027": 374.47482109383895,
+          "cache-028": 504.50609283876906
+        },
+        "mean": 821.9552613866704,
+        "objective": 1053.210973498111,
+        "se": 231.25571211144052
+      }
+    },
+    "query_prior": {
+      "hit100": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit200": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.5
+        },
+        "mean": 0.0625,
+        "objective": 0.0,
+        "se": 0.0625
+      },
+      "hit50": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit500": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.5,
+          "cache-022": 0.5,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.5,
+          "cache-027": 0.5,
+          "cache-028": 0.5
+        },
+        "mean": 0.3125,
+        "objective": 0.22100936816107503,
+        "se": 0.09149063183892497
+      },
+      "mae": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 534.5961209899071,
+          "cache-022": 928.5393703838706,
+          "cache-023": 2351.736177388717,
+          "cache-024": 1164.133263545034,
+          "cache-025": 1350.9131630130948,
+          "cache-026": 529.4029039517459,
+          "cache-027": 414.5969044301878,
+          "cache-028": 481.80602362524945
+        },
+        "mean": 969.4654909159759,
+        "objective": 1201.852269028491,
+        "se": 232.38677811251515
+      }
+    },
+    "shadow_knn1": {
+      "hit100": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.5,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.5,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.125,
+        "objective": 0.043168291161502864,
+        "se": 0.08183170883849714
+      },
+      "hit200": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.5,
+          "cache-022": 0.5,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.5,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.1875,
+        "objective": 0.09600936816107503,
+        "se": 0.09149063183892497
+      },
+      "hit50": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.5,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0625,
+        "objective": 0.0,
+        "se": 0.0625
+      },
+      "hit500": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.5,
+          "cache-022": 0.5,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 1.0,
+          "cache-027": 0.5,
+          "cache-028": 0.5
+        },
+        "mean": 0.375,
+        "objective": 0.25,
+        "se": 0.125
+      },
+      "mae": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 375.17678583327904,
+          "cache-022": 605.7179516641552,
+          "cache-023": 900.9289396686597,
+          "cache-024": 1212.5333583515423,
+          "cache-025": 1220.1127971368455,
+          "cache-026": 239.64321983832718,
+          "cache-027": 680.6227860386985,
+          "cache-028": 641.6951829871549
+        },
+        "mean": 734.5538776898328,
+        "objective": 860.9129860241461,
+        "se": 126.3591083343133
+      }
+    },
+    "shadow_knn5": {
+      "hit100": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit200": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.5,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0625,
+        "objective": 0.0,
+        "se": 0.0625
+      },
+      "hit50": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit500": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 1.0,
+          "cache-022": 1.0,
+          "cache-023": 0.0,
+          "cache-024": 0.5,
+          "cache-025": 0.5,
+          "cache-026": 0.5,
+          "cache-027": 1.0,
+          "cache-028": 0.5
+        },
+        "mean": 0.625,
+        "objective": 0.5,
+        "se": 0.125
+      },
+      "mae": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 469.4404926886878,
+          "cache-022": 422.3351200150188,
+          "cache-023": 1407.164874435759,
+          "cache-024": 711.6073562434899,
+          "cache-025": 396.54860730079906,
+          "cache-026": 360.9178179270351,
+          "cache-027": 378.2240776668417,
+          "cache-028": 482.3834051977428
+        },
+        "mean": 578.5777189344218,
+        "objective": 703.2545583524607,
+        "se": 124.67683941803885
+      }
+    },
+    "shadow_prior_hit100": {
+      "hit100": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit200": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit50": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit500": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "mae": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 2629.416312012222,
+          "cache-022": 2466.535393326636,
+          "cache-023": 4459.349978764712,
+          "cache-024": 3648.93769685481,
+          "cache-025": 4024.5911923520107,
+          "cache-026": 997.9922560980059,
+          "cache-027": 3181.0904189912735,
+          "cache-028": 1407.573837980614
+        },
+        "mean": 2851.935885797536,
+        "objective": 3283.3743505250886,
+        "se": 431.4384647275527
+      }
+    },
+    "shadow_prior_median": {
+      "hit100": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit200": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.5,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0625,
+        "objective": 0.0,
+        "se": 0.0625
+      },
+      "hit50": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit500": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.5,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0625,
+        "objective": 0.0,
+        "se": 0.0625
+      },
+      "mae": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 1014.0200926280341,
+          "cache-022": 693.5641584280388,
+          "cache-023": 3230.8416314685155,
+          "cache-024": 2558.340910759326,
+          "cache-025": 2198.550253304141,
+          "cache-026": 1780.1865471425392,
+          "cache-027": 958.4944691974106,
+          "cache-028": 1178.2873110355779
+        },
+        "mean": 1701.5356717454479,
+        "objective": 2018.9100763019972,
+        "se": 317.3744045565492
+      }
+    },
+    "shadow_tree": {
+      "hit100": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.5,
+          "cache-028": 0.0
+        },
+        "mean": 0.0625,
+        "objective": 0.0,
+        "se": 0.0625
+      },
+      "hit200": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.5,
+          "cache-028": 0.0
+        },
+        "mean": 0.0625,
+        "objective": 0.0,
+        "se": 0.0625
+      },
+      "hit50": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit500": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.5,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.5,
+          "cache-025": 0.0,
+          "cache-026": 1.0,
+          "cache-027": 0.5,
+          "cache-028": 0.5
+        },
+        "mean": 0.375,
+        "objective": 0.25,
+        "se": 0.125
+      },
+      "mae": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 479.98668471284236,
+          "cache-022": 540.5772546463072,
+          "cache-023": 1162.8342173653689,
+          "cache-024": 643.114647417304,
+          "cache-025": 755.8388789714938,
+          "cache-026": 384.1043648965717,
+          "cache-027": 308.43584972427465,
+          "cache-028": 848.4247649741767
+        },
+        "mean": 640.4145828385424,
+        "objective": 738.7153220594375,
+        "se": 98.30073922089514
+      }
+    },
+    "viterbi_history": {
+      "hit100": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit200": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit50": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit500": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.5,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0625,
+        "objective": 0.0,
+        "se": 0.0625
+      },
+      "mae": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 1073.0110429405981,
+          "cache-022": 1207.9816536959586,
+          "cache-023": 3152.0115492971304,
+          "cache-024": 1960.55766633868,
+          "cache-025": 1101.280589506984,
+          "cache-026": 820.1772622949953,
+          "cache-027": 1809.1480267404722,
+          "cache-028": 1167.2026857333526
+        },
+        "mean": 1536.4213095685213,
+        "objective": 1804.5397665503926,
+        "se": 268.1184569818713
+      }
+    },
+    "viterbi_motion": {
+      "hit100": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit200": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit50": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit500": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 0.0,
+          "cache-022": 0.0,
+          "cache-023": 0.0,
+          "cache-024": 0.0,
+          "cache-025": 0.0,
+          "cache-026": 0.0,
+          "cache-027": 0.0,
+          "cache-028": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "mae": {
+        "families": 8,
+        "family_values": {
+          "cache-021": 1027.444338663429,
+          "cache-022": 1484.5770934474208,
+          "cache-023": 2738.8547222407587,
+          "cache-024": 1738.331648680357,
+          "cache-025": 2105.9697306792377,
+          "cache-026": 870.9365079484987,
+          "cache-027": 1066.957542764285,
+          "cache-028": 1147.5708664310619
+        },
+        "mean": 1522.580306356881,
+        "objective": 1749.582627391889,
+        "se": 227.00232103500804
+      }
+    }
+  }
+}

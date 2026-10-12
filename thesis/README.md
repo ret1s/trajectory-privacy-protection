@@ -184,3 +184,13 @@ The actual-utility theorem compares against the **same sampled initial pool**,
 not against the canonical baseline. Full manuscript integration remains subject
 to the frozen gate and the retained limitations; historical thesis tables are
 not replaced by newer results from a different cohort.
+
+
+The [balanced Geo-I follow-up](../docs/research/2026-10-12_balanced_cache_results.md)
+now separates mathematical guarantees from service trade-offs and provides
+[an explicit research configuration](../artifacts/benchmarks/cache_balance_20261012_v2/balanced_candidate.json).
+Public exploration and valid static-metadata session caching give95.55% Recall
+on a fresh48-family cohort; the matched pool guard gives92.57%. Exact-Q privacy,
+causal late-change bounds, same-prefix utility distortion and cache monotonicity
+are documented with assumptions. The -2pp baseline gate still fails; no automatic
+canonical adoption or replacement of historical manuscript tables is made.

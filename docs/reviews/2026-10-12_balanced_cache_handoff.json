@@ -1,0 +1,74 @@
+{
+  "schema": "balanced-cache-handoff-v1",
+  "created_utc": "2026-10-12T14:39:08.762508+00:00",
+  "status": "balanced research candidate; not canonical production promotion",
+  "core": "Geo-I/REM retained; Cs=0.23 per metre per session; no eight-session cap",
+  "candidate": "cache_explore_g1 with identical all-arm static session-cache contract",
+  "tests": {
+    "passed": 1075,
+    "skipped": 9,
+    "command": "python -m pytest -o addopts='' -q"
+  },
+  "independent_verification": {
+    "status": "pass",
+    "exact_selection_decisions": 7920,
+    "cache_masks_rebuilt": 114576,
+    "actual_utility_recomputed": 114576,
+    "matched_initial_utility_checks": 21241
+  },
+  "frozen_source_replay": {
+    "status": "pass",
+    "command": "python experiments/replay_balanced_cache_evidence.py --output artifacts/benchmarks/cache_balance_20261012_v2",
+    "scope": "independent verification from frozen sources; no private keys, resampling or refitting"
+  },
+  "mathematics": {
+    "Q_global_ratio_upper_gamma1": "10763282027953/4415938560000",
+    "scope": "ideal independent uniform bits, common public augmented support and logical clock; conditional Geo-I bound only for certified upstream",
+    "late_prefix": "only affected causal selections compose; shared-prefix assumption required",
+    "actual_cache": "static valid metadata union dominates matched initial pool at identical GPS/request",
+    "same_prefix_utility_shift": "at most alpha/4 for bounded [0,1] utility; first Gamma1 selection at most 5pp; not whole-policy comparison",
+    "actual_belief_calibration": "unknown; no actual-gain lower bound assumed"
+  },
+  "benchmark": {
+    "macro_recall_percent": 95.548,
+    "family95_interval_percent": [
+      93.329,
+      97.444
+    ],
+    "delta_vs_old_guard_pp": 2.98,
+    "strict_minus2pp_gate_pass": false,
+    "predeclared_balanced_mean_readiness_pass": true,
+    "confirmed_actual_belief_advantage": false
+  },
+  "retained_corrections": [
+    "v1 public eligibility 49/60 failed before defense evaluation; separate v2 freeze requested 48 groups",
+    "native verifier corrected only expected archive count using frozen split counts; frozen sources unchanged",
+    "inherited EOF blanks in immutable source snapshots retained"
+  ],
+  "noncertifications": [
+    "PCG information-theoretic entropy",
+    "upstream floating-point Geo-I implementation",
+    "hardware/network/account anonymity",
+    "dynamic POI validity",
+    "population generalization beyond synthetic map/generator"
+  ],
+  "files_sha256": {
+    "benchmark/cache_exploration.py": "c94fffdb85d8c8727adeb0905135714d5908046d688c1de30091e7c3eeb3e180",
+    "benchmark/session_poi_cache.py": "d580d77f7f5b5036bec743d27ce57bba107c47fb88f03ccdae628a248d329da1",
+    "benchmark/conditional_gain.py": "d910da2c77569cb3c5f05524f210dfd028a378cc107192323cd398f28efdcbc5",
+    "benchmark/late_prefix_bounds.py": "3205ee26771dd63e3936eb208e351fcdcecba37f8945ebcf51a7aba4c0dd98be",
+    "experiments/replay_balanced_cache_evidence.py": "ed58020d16dd255126e44a382558ddbaecb72de0e5cd33ae8110a9279cf623bc",
+    "experiments/readout_balanced_cache_20261012.py": "fbf8e280cd10ffac8aa5ed794b8ec65018a956ac619c08e315900d15647d9403",
+    "experiments/verify_cache_native_20261012_v2_corrected.py": "f69a616d325098d213d9ec8de456e517b0720b8d6a469bc1d33e85f995c8bb6c",
+    "docs/research/2026-10-12_balanced_cache_proof.md": "b0cda62999855f7fd0bf289841d1255364423718788e826635675913362724b7",
+    "docs/research/2026-10-12_balanced_cache_results.md": "1c00bf2bca4070bd9ab42cc2d8a0e136c777fd5077bad6f7db25138c660ebaf2",
+    "artifacts/benchmarks/cache_balance_20261012_v2/protocol.json": "b40d7ff4775b05b2e1557592c6b1fbfde56d99182042e0efa1ba757011bf83d8",
+    "artifacts/benchmarks/cache_balance_20261012_v2/results.json": "80867f0876f6aa80088868c4355972db429f647c88b4e5adf8324a6fcc859c3c",
+    "artifacts/benchmarks/cache_balance_20261012_v2/balanced_candidate.json": "3bcb55d872fb4e10b169a4c68fe10fe999116946c2ff23da407ba3414b9c5818",
+    "artifacts/benchmarks/cache_balance_20261012_v2/independent_validation.json": "c37d53be7130e86e48f4e39477714c74b1a24dc949fa03d017fa187765652435",
+    "artifacts/benchmarks/cache_balance_20261012_v2/secondary_readout.json": "d3d3fdd02602985022d3bdb55054229d7a982014d692dc762eab47afa1486834",
+    "artifacts/datasets/cache_fresh_native_20261012_v2/dataset.json.gz": "204749a08fe2e724d1023fd4282732c41afc21a0ce8a8e11a6544d9fd08610b1",
+    "artifacts/datasets/cache_fresh_native_20261012_v2/validation.json": "c7ec03dc16b9736f918c15bdbc01bfd1c21db054e9f1860790e73ef76b02e462",
+    "artifacts/datasets/cache_fresh_native_20261012_v2/native_verifier_correction.json": "446b890fdb97012c8083c80a8032d4f5efb7dd01cfbccd2c28af00abe3bdcbf2"
+  }
+}
