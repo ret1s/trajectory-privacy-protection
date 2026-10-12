@@ -54,6 +54,11 @@ Use this page instead of searching the repository by filename.
   [`study_guides/location_trajectory_privacy_foundations.tex`](study_guides/location_trajectory_privacy_foundations.tex)
 - Generated artifacts: [`../artifacts/`](../artifacts/)
 
+## Finite Q extension (12/10)
+
+- [Exact finite privacy and POI-pool utility](research/2026-10-12_finite_privacy_utility.md).
+- [Retained paired benchmark progress](research/2026-10-12_finite_progress_results.md).
+
 ## Evidence and history
 
 - [`reproduction/`](reproduction/) — source-to-code notes for paper comparators.

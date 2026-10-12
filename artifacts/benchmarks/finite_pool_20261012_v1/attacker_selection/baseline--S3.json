@@ -1,0 +1,1035 @@
+{
+  "before_test_predictions": true,
+  "fit_split": "train",
+  "model_sha256": "a981a9080c033dc18a601ab621fa749896ef6859043cddbb08e2fec02057dea2",
+  "selected": {
+    "hit100": "shadow_knn1",
+    "hit200": "shadow_tree",
+    "hit50": "shadow_knn1",
+    "hit500": "shadow_tree",
+    "mae": "shadow_tree"
+  },
+  "selection_split": "selection",
+  "selection_statistics": {
+    "centroid": {
+      "hit100": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.06451612903225806,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.0,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.016129032258064516,
+          "finitepool-033": 0.016129032258064516,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.008064516129032258,
+        "objective": 0.0026274204640061123,
+        "se": 0.0054370956650261456
+      },
+      "hit200": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.27419354838709675,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.03225806451612903,
+          "finitepool-029": 0.016129032258064516,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0967741935483871,
+          "finitepool-033": 0.16129032258064516,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.04838709677419354,
+        "objective": 0.023195872131277308,
+        "se": 0.025191224642916232
+      },
+      "hit50": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.03225806451612903,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.0,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.0026881720430107525,
+        "objective": 0.0,
+        "se": 0.0026881720430107525
+      },
+      "hit500": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.532258064516129,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.27419354838709675,
+          "finitepool-029": 0.3709677419354839,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.16129032258064516,
+          "finitepool-032": 0.6129032258064516,
+          "finitepool-033": 0.41935483870967744,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.24193548387096775,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.2177419354838709,
+        "objective": 0.15242131593641672,
+        "se": 0.06532061954745419
+      },
+      "mae": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 505.43625343390346,
+          "finitepool-026": 1282.5553249640866,
+          "finitepool-027": 1243.7684481515828,
+          "finitepool-028": 654.253280935942,
+          "finitepool-029": 609.4452982469669,
+          "finitepool-030": 1274.5772617910834,
+          "finitepool-031": 1031.2070560349873,
+          "finitepool-032": 459.5459738404767,
+          "finitepool-033": 599.9444012266507,
+          "finitepool-034": 1609.4090369651387,
+          "finitepool-035": 902.4015164348715,
+          "finitepool-036": 1266.5726352952931
+        },
+        "mean": 953.2597072767486,
+        "objective": 1063.705744230296,
+        "se": 110.44603695354736
+      }
+    },
+    "median": {
+      "hit100": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.08064516129032258,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.016129032258064516,
+          "finitepool-029": 0.016129032258064516,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.016129032258064516,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.01075268817204301,
+        "objective": 0.004069015478407944,
+        "se": 0.006683672693635066
+      },
+      "hit200": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.1935483870967742,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.08064516129032258,
+          "finitepool-029": 0.03225806451612903,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.016129032258064516,
+          "finitepool-032": 0.0967741935483871,
+          "finitepool-033": 0.03225806451612903,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.03763440860215053,
+        "objective": 0.02051738904414715,
+        "se": 0.01711701955800338
+      },
+      "hit50": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.03225806451612903,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.016129032258064516,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.016129032258064516,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.005376344086021505,
+        "objective": 0.0023436770171087833,
+        "se": 0.0030326670689127216
+      },
+      "hit500": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.532258064516129,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.20967741935483872,
+          "finitepool-029": 0.1935483870967742,
+          "finitepool-030": 0.06451612903225806,
+          "finitepool-031": 0.20967741935483872,
+          "finitepool-032": 0.5161290322580645,
+          "finitepool-033": 0.12903225806451613,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0967741935483871,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.16263440860215053,
+        "objective": 0.10842832510484014,
+        "se": 0.05420608349731039
+      },
+      "mae": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 534.9525842705999,
+          "finitepool-026": 1056.267679932684,
+          "finitepool-027": 1287.7079328924092,
+          "finitepool-028": 719.3881926520583,
+          "finitepool-029": 729.2082247711963,
+          "finitepool-030": 1415.3048806956376,
+          "finitepool-031": 1048.4826081121732,
+          "finitepool-032": 603.9603733465998,
+          "finitepool-033": 854.2881575333906,
+          "finitepool-034": 1486.2007758477944,
+          "finitepool-035": 977.3909039505744,
+          "finitepool-036": 1465.1597924139426
+        },
+        "mean": 1014.8593422015883,
+        "objective": 1112.475497135898,
+        "se": 97.6161549343097
+      }
+    },
+    "query_prior": {
+      "hit100": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.03225806451612903,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.016129032258064516,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.04838709677419355,
+          "finitepool-032": 0.03225806451612903,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.01075268817204301,
+        "objective": 0.0057563420576097575,
+        "se": 0.004996346114433252
+      },
+      "hit200": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.03225806451612903,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.016129032258064516,
+          "finitepool-028": 0.03225806451612903,
+          "finitepool-029": 0.04838709677419355,
+          "finitepool-030": 0.03225806451612903,
+          "finitepool-031": 0.04838709677419355,
+          "finitepool-032": 0.03225806451612903,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.020161290322580645,
+        "objective": 0.01450218173171583,
+        "se": 0.005659108590864815
+      },
+      "hit50": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.0,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.016129032258064516,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.0013440860215053762,
+        "objective": 0.0,
+        "se": 0.0013440860215053762
+      },
+      "hit500": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.08064516129032258,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.06451612903225806,
+          "finitepool-028": 0.14516129032258066,
+          "finitepool-029": 0.08064516129032258,
+          "finitepool-030": 0.11290322580645161,
+          "finitepool-031": 0.24193548387096775,
+          "finitepool-032": 0.08064516129032258,
+          "finitepool-033": 0.03225806451612903,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.016129032258064516,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.07123655913978494,
+        "objective": 0.05056049808525837,
+        "se": 0.020676061054526566
+      },
+      "mae": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 1225.1156908128498,
+          "finitepool-026": 1814.8697554263936,
+          "finitepool-027": 1468.513589040566,
+          "finitepool-028": 1168.9771054108876,
+          "finitepool-029": 1316.2718003381142,
+          "finitepool-030": 1714.5713603798706,
+          "finitepool-031": 1290.6341112914379,
+          "finitepool-032": 1163.9134778580346,
+          "finitepool-033": 1555.6517403883295,
+          "finitepool-034": 2353.437573462609,
+          "finitepool-035": 1945.1444847792932,
+          "finitepool-036": 1304.0124694269875
+        },
+        "mean": 1526.7594298846143,
+        "objective": 1632.6925766960708,
+        "se": 105.9331468114564
+      }
+    },
+    "shadow_knn1": {
+      "hit100": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.016129032258064516,
+          "finitepool-027": 0.016129032258064516,
+          "finitepool-028": 0.0,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.016129032258064516,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.03225806451612903,
+          "finitepool-033": 0.2903225806451613,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.04838709677419355,
+          "finitepool-036": 0.04838709677419355
+        },
+        "mean": 0.038978494623655914,
+        "objective": 0.015533044339023274,
+        "se": 0.02344545028463264
+      },
+      "hit200": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.03225806451612903,
+          "finitepool-027": 0.03225806451612903,
+          "finitepool-028": 0.016129032258064516,
+          "finitepool-029": 0.016129032258064516,
+          "finitepool-030": 0.0967741935483871,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.08064516129032258,
+          "finitepool-033": 0.3548387096774194,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.12903225806451613,
+          "finitepool-036": 0.16129032258064516
+        },
+        "mean": 0.07661290322580645,
+        "objective": 0.046890666145838734,
+        "se": 0.02972223707996772
+      },
+      "hit50": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.0,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.016129032258064516,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.016129032258064516,
+          "finitepool-033": 0.25806451612903225,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.04838709677419355,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.028225806451612902,
+        "objective": 0.006923767997408153,
+        "se": 0.02130203845420475
+      },
+      "hit500": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.14516129032258066,
+          "finitepool-026": 0.22580645161290322,
+          "finitepool-027": 0.25806451612903225,
+          "finitepool-028": 0.06451612903225806,
+          "finitepool-029": 0.24193548387096775,
+          "finitepool-030": 0.3548387096774194,
+          "finitepool-031": 0.20967741935483872,
+          "finitepool-032": 0.6129032258064516,
+          "finitepool-033": 0.41935483870967744,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.43548387096774194,
+          "finitepool-036": 0.3064516129032258
+        },
+        "mean": 0.27284946236559143,
+        "objective": 0.22415953619886797,
+        "se": 0.048689926166723456
+      },
+      "mae": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 1056.8763085493808,
+          "finitepool-026": 982.869644057868,
+          "finitepool-027": 735.6676543042869,
+          "finitepool-028": 1121.8388343816312,
+          "finitepool-029": 674.2723575800316,
+          "finitepool-030": 871.3792035160903,
+          "finitepool-031": 939.034332491253,
+          "finitepool-032": 512.1590352714768,
+          "finitepool-033": 677.5847561789225,
+          "finitepool-034": 1089.7753992967973,
+          "finitepool-035": 588.6878062026716,
+          "finitepool-036": 918.7783731292561
+        },
+        "mean": 847.4103087466389,
+        "objective": 906.5054168995333,
+        "se": 59.0951081528945
+      }
+    },
+    "shadow_knn5": {
+      "hit100": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.03225806451612903,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.0,
+          "finitepool-029": 0.016129032258064516,
+          "finitepool-030": 0.016129032258064516,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.016129032258064516,
+          "finitepool-033": 0.25806451612903225,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.06451612903225806,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.033602150537634407,
+        "objective": 0.01245486922511244,
+        "se": 0.021147281312521967
+      },
+      "hit200": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.04838709677419355,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.016129032258064516,
+          "finitepool-029": 0.04838709677419355,
+          "finitepool-030": 0.0967741935483871,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.06451612903225806,
+          "finitepool-033": 0.3709677419354839,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.14516129032258066,
+          "finitepool-036": 0.0967741935483871
+        },
+        "mean": 0.0739247311827957,
+        "objective": 0.04365497640999993,
+        "se": 0.030269754772795775
+      },
+      "hit50": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.0,
+          "finitepool-029": 0.016129032258064516,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0,
+          "finitepool-033": 0.20967741935483872,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.016129032258064516,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.020161290322580645,
+        "objective": 0.0028392120957321694,
+        "se": 0.017322078226848475
+      },
+      "hit500": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.24193548387096775,
+          "finitepool-026": 0.24193548387096775,
+          "finitepool-027": 0.22580645161290322,
+          "finitepool-028": 0.1774193548387097,
+          "finitepool-029": 0.3387096774193548,
+          "finitepool-030": 0.3709677419354839,
+          "finitepool-031": 0.20967741935483872,
+          "finitepool-032": 0.5161290322580645,
+          "finitepool-033": 0.4032258064516129,
+          "finitepool-034": 0.016129032258064516,
+          "finitepool-035": 0.43548387096774194,
+          "finitepool-036": 0.12903225806451613
+        },
+        "mean": 0.2755376344086022,
+        "objective": 0.23468296649785242,
+        "se": 0.040854667910749765
+      },
+      "mae": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 1025.4968998195125,
+          "finitepool-026": 931.6858437755297,
+          "finitepool-027": 703.5591158559007,
+          "finitepool-028": 987.3336268402425,
+          "finitepool-029": 623.5502509052544,
+          "finitepool-030": 838.6536120494401,
+          "finitepool-031": 902.5001335729618,
+          "finitepool-032": 550.6408848344837,
+          "finitepool-033": 688.812107466364,
+          "finitepool-034": 1104.3001559944228,
+          "finitepool-035": 575.8236154612628,
+          "finitepool-036": 956.0840208989008
+        },
+        "mean": 824.0366889561897,
+        "objective": 878.4303900519953,
+        "se": 54.39370109580573
+      }
+    },
+    "shadow_prior_hit100": {
+      "hit100": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.0,
+          "finitepool-029": 0.016129032258064516,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.0013440860215053762,
+        "objective": 0.0,
+        "se": 0.0013440860215053762
+      },
+      "hit200": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.0,
+          "finitepool-029": 0.04838709677419355,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.004032258064516129,
+        "objective": 0.0,
+        "se": 0.004032258064516129
+      },
+      "hit50": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.0,
+          "finitepool-029": 0.016129032258064516,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.0013440860215053762,
+        "objective": 0.0,
+        "se": 0.0013440860215053762
+      },
+      "hit500": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.3387096774193548,
+          "finitepool-028": 0.0,
+          "finitepool-029": 0.3387096774193548,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.4032258064516129
+        },
+        "mean": 0.0900537634408602,
+        "objective": 0.042801749019695405,
+        "se": 0.0472520144211648
+      },
+      "mae": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 1746.5015117591252,
+          "finitepool-026": 5308.851839911393,
+          "finitepool-027": 1023.2702350453335,
+          "finitepool-028": 1418.7056521079705,
+          "finitepool-029": 512.2432406850754,
+          "finitepool-030": 3241.07326062645,
+          "finitepool-031": 2289.4227683722297,
+          "finitepool-032": 1490.90697529465,
+          "finitepool-033": 1651.3508220871927,
+          "finitepool-034": 4668.8780287110085,
+          "finitepool-035": 4335.013396105476,
+          "finitepool-036": 687.9520419490445
+        },
+        "mean": 2364.5141477212455,
+        "objective": 2835.047913081299,
+        "se": 470.5337653600537
+      }
+    },
+    "shadow_prior_median": {
+      "hit100": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.3064516129032258,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.0,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.025537634408602152,
+        "objective": -6.938893903907228e-18,
+        "se": 0.02553763440860216
+      },
+      "hit200": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.3225806451612903,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.0,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.026881720430107527,
+        "objective": -6.938893903907228e-18,
+        "se": 0.026881720430107534
+      },
+      "hit50": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.0,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.0,
+        "objective": 0.0,
+        "se": 0.0
+      },
+      "hit500": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.43548387096774194,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.0,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.06451612903225806,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.041666666666666664,
+        "objective": 0.005466968082095458,
+        "se": 0.036199698584571206
+      },
+      "mae": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 466.7730995337096,
+          "finitepool-026": 3474.9864084793257,
+          "finitepool-027": 2635.4996539806257,
+          "finitepool-028": 1345.8382592268445,
+          "finitepool-029": 1832.311073427951,
+          "finitepool-030": 1329.4045719928936,
+          "finitepool-031": 1551.320891660464,
+          "finitepool-032": 784.1588853873175,
+          "finitepool-033": 1443.8989846902696,
+          "finitepool-034": 3955.5565136924597,
+          "finitepool-035": 2305.366940645725,
+          "finitepool-036": 2643.4870018915644
+        },
+        "mean": 1980.7168570507627,
+        "objective": 2284.1301343304494,
+        "se": 303.41327727968655
+      }
+    },
+    "shadow_tree": {
+      "hit100": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.04838709677419355,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.11290322580645161,
+          "finitepool-029": 0.03225806451612903,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.016129032258064516,
+          "finitepool-033": 0.0967741935483871,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.025537634408602145,
+        "objective": 0.013883407310242719,
+        "se": 0.011654227098359426
+      },
+      "hit200": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.06451612903225806,
+          "finitepool-026": 0.08064516129032258,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.27419354838709675,
+          "finitepool-029": 0.08064516129032258,
+          "finitepool-030": 0.06451612903225806,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0967741935483871,
+          "finitepool-033": 0.25806451612903225,
+          "finitepool-034": 0.04838709677419355,
+          "finitepool-035": 0.20967741935483872,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.09811827956989246,
+        "objective": 0.07014966122757416,
+        "se": 0.027968618342318296
+      },
+      "hit50": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.03225806451612903,
+          "finitepool-029": 0.016129032258064516,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.016129032258064516,
+          "finitepool-033": 0.03225806451612903,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.008064516129032258,
+        "objective": 0.004350272689743239,
+        "se": 0.0037142434392890187
+      },
+      "hit500": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.3709677419354839,
+          "finitepool-026": 0.16129032258064516,
+          "finitepool-027": 0.4838709677419355,
+          "finitepool-028": 0.43548387096774194,
+          "finitepool-029": 0.532258064516129,
+          "finitepool-030": 0.43548387096774194,
+          "finitepool-031": 0.08064516129032258,
+          "finitepool-032": 0.6774193548387096,
+          "finitepool-033": 0.41935483870967744,
+          "finitepool-034": 0.0967741935483871,
+          "finitepool-035": 0.5,
+          "finitepool-036": 0.2903225806451613
+        },
+        "mean": 0.37365591397849457,
+        "objective": 0.32072367857021145,
+        "se": 0.05293223540828314
+      },
+      "mae": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 607.3637012279114,
+          "finitepool-026": 918.071746754248,
+          "finitepool-027": 515.743075548923,
+          "finitepool-028": 522.5878375351826,
+          "finitepool-029": 467.2531409806268,
+          "finitepool-030": 694.107084032617,
+          "finitepool-031": 781.6668080866081,
+          "finitepool-032": 427.44270310844576,
+          "finitepool-033": 588.2858043356412,
+          "finitepool-034": 966.3204333180385,
+          "finitepool-035": 486.11017691111533,
+          "finitepool-036": 626.8421266934014
+        },
+        "mean": 633.4828865443966,
+        "objective": 684.0956831378169,
+        "se": 50.61279659342027
+      }
+    },
+    "viterbi_history": {
+      "hit100": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.03225806451612903,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.016129032258064516,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.004032258064516129,
+        "objective": 0.0011381428928819615,
+        "se": 0.0028941151716341674
+      },
+      "hit200": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.016129032258064516,
+          "finitepool-028": 0.06451612903225806,
+          "finitepool-029": 0.016129032258064516,
+          "finitepool-030": 0.016129032258064516,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.016129032258064516,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.01075268817204301,
+        "objective": 0.005376344086021505,
+        "se": 0.005376344086021505
+      },
+      "hit50": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.016129032258064516,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.0013440860215053762,
+        "objective": 0.0,
+        "se": 0.0013440860215053762
+      },
+      "hit500": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.08064516129032258,
+          "finitepool-028": 0.22580645161290322,
+          "finitepool-029": 0.0967741935483871,
+          "finitepool-030": 0.08064516129032258,
+          "finitepool-031": 0.06451612903225806,
+          "finitepool-032": 0.03225806451612903,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.04838709677419354,
+        "objective": 0.028833700140862634,
+        "se": 0.019553396633330906
+      },
+      "mae": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 1251.5348382127843,
+          "finitepool-026": 2299.4048765769166,
+          "finitepool-027": 1052.0382114908648,
+          "finitepool-028": 1254.1476233530443,
+          "finitepool-029": 1300.837515734398,
+          "finitepool-030": 1764.2544107902695,
+          "finitepool-031": 1429.3061608561188,
+          "finitepool-032": 1204.5922734298479,
+          "finitepool-033": 1461.1507419924405,
+          "finitepool-034": 1505.843149394165,
+          "finitepool-035": 1905.7034114528294,
+          "finitepool-036": 1001.184393102185
+        },
+        "mean": 1452.4998005321556,
+        "objective": 1560.9159505281327,
+        "se": 108.4161499959771
+      }
+    },
+    "viterbi_motion": {
+      "hit100": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.03225806451612903,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0,
+          "finitepool-033": 0.016129032258064516,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.004032258064516129,
+        "objective": 0.0011381428928819615,
+        "se": 0.0028941151716341674
+      },
+      "hit200": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.08064516129032258,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.016129032258064516,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0,
+          "finitepool-033": 0.04838709677419355,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.012096774193548385,
+        "objective": 0.004635198122789818,
+        "se": 0.007461576070758567
+      },
+      "hit50": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.016129032258064516,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.0,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0,
+          "finitepool-033": 0.0,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.0013440860215053762,
+        "objective": 0.0,
+        "se": 0.0013440860215053762
+      },
+      "hit500": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 0.0,
+          "finitepool-026": 0.0,
+          "finitepool-027": 0.0,
+          "finitepool-028": 0.20967741935483872,
+          "finitepool-029": 0.0,
+          "finitepool-030": 0.11290322580645161,
+          "finitepool-031": 0.0,
+          "finitepool-032": 0.0,
+          "finitepool-033": 0.25806451612903225,
+          "finitepool-034": 0.0,
+          "finitepool-035": 0.0,
+          "finitepool-036": 0.0
+        },
+        "mean": 0.04838709677419354,
+        "objective": 0.02152982539000849,
+        "se": 0.02685727138418505
+      },
+      "mae": {
+        "families": 12,
+        "family_values": {
+          "finitepool-025": 1444.7222632824355,
+          "finitepool-026": 1938.196243858271,
+          "finitepool-027": 2548.9743747077864,
+          "finitepool-028": 1173.3020949667086,
+          "finitepool-029": 1419.39807509188,
+          "finitepool-030": 1696.3187254895574,
+          "finitepool-031": 1707.0224852865244,
+          "finitepool-032": 1073.1285936900151,
+          "finitepool-033": 658.0362199828996,
+          "finitepool-034": 1855.3184309064602,
+          "finitepool-035": 2313.155977108655,
+          "finitepool-036": 883.6816555185335
+        },
+        "mean": 1559.2712616574772,
+        "objective": 1722.2532671947974,
+        "se": 162.9820055373201
+      }
+    }
+  }
+}

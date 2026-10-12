@@ -175,3 +175,12 @@ are implemented and audited. Gamma1's actual macro Recall is 86.75% against
 99.79% for the matched L30 baseline, so the extension is **not** adopted into
 the canonical method or relabelled as a confirmed thesis improvement. The
 existing PDF and historical tables remain the earlier reviewed manuscript.
+
+The 12/10 follow-up has a separate
+[finite-probability privacy/utility proof](../docs/research/2026-10-12_finite_privacy_utility.md)
+and [paired benchmark record](../docs/research/2026-10-12_finite_progress_results.md).
+It preserves the Geo-I backbone and adds a public POI-preserving motion library.
+The actual-utility theorem compares against the **same sampled initial pool**,
+not against the canonical baseline. Full manuscript integration remains subject
+to the frozen gate and the retained limitations; historical thesis tables are
+not replaced by newer results from a different cohort.

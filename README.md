@@ -5,8 +5,9 @@ assess the existing Geo-I model for separate **person** and **physical-vehicle**
 identity targets before selecting additional protection.
 [Policy and S4–S6 assessment](docs/research/2026-10-10_session_cap_identity.md)
 and [six-page method report](docs/supervisor_meeting/2026-10-09_update/report_explained.pdf).
-Saved benchmarks retain their original configurations; no new per-session
-L30 result or additional identity layer is claimed.
+Historical benchmarks retain their original configurations. The 12/10 finite-Q
+experiments below are separate opt-in evidence, with no added identity layer
+or automatic replacement of the reviewed thesis tables.
 
 Research code and thesis artifacts for **“Bảo vệ tính riêng tư về quỹ đạo cho
 người dùng dịch vụ dựa trên vị trí.”** The active system studies road-aware,
@@ -49,6 +50,12 @@ it against explicit attacker, utility, and output-contract assumptions.
   retains all frontier arms: Gamma1 macro Recall is 86.75% versus 99.79% for the
   matched baseline. The prototype misses the utility gate and remains opt-in;
   the existing engine and historical benchmarks are preserved.
+- Finite Q / monotone POI-pool extension (12/10): [`exact privacy and utility analysis`](docs/research/2026-10-12_finite_privacy_utility.md)
+  and [`paired native benchmark readout`](docs/research/2026-10-12_finite_progress_results.md).
+  Integer probability sampling, augmented-transcript composition and a public
+  motion constraint that preserves returned POIs; Geo-I remains .23/m per session.
+  Both frozen iterations and their controls are retained; canonical adoption
+  depends on the declared per-purpose utility gate.
 - Latest method development (06/10): [`refinement and limits`](docs/research/2026-10-06_method_refinement.md).
   The Geo-I backbone stays unchanged; new runs are development evidence.
 - Follow-up experiments (06/10): [`public POI Q planner`](docs/research/2026-10-06_geo_i_public_service_planner.md),
