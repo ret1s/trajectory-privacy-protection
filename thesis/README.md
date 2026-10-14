@@ -197,6 +197,15 @@ canonical adoption or replacement of historical manuscript tables is made.
 
 ## Main research reference after the reviewed thesis build
 
+The [unified mathematical foundation](../docs/research/2026-10-14_geoi_bq_mathematical_foundation.md)
+is the current exposition to integrate before the new benchmark: normalized
+REM/private reuse, exact integer Q, whole-session and public-stopping privacy,
+posterior/average inference, payload noninterference, local sorted answers,
+adaptive-path utility and history-conditional reference-floor transfer.
+Its [supplement receipt](../docs/reviews/2026-10-14_mathematical_completion.json)
+recomputes rational bounds and authenticates the existing main release.
+This source supplement has not silently replaced the reviewed thesis PDF.
+
 [GeoI-BQ v1](../docs/research/2026-10-14_main_model.md) and its
 [full-session utility/inference proof](../docs/research/2026-10-14_whole_session_utility.md)
 provide the current versioned specification; [manifest](../configs/geo_i_bq_v1.json).

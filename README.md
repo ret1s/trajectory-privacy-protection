@@ -5,6 +5,9 @@ bounded joint Q, public targeted exploration and exact public L60 design.
 [Method, scope and full benchmark](docs/research/2026-10-14_main_model.md),
 [whole-session utility/inference proofs](docs/research/2026-10-14_whole_session_utility.md),
 and [pinned executable manifest](configs/geo_i_bq_v1.json).
+The [unified mathematical foundation](docs/research/2026-10-14_geoi_bq_mathematical_foundation.md)
+gives the end-to-end theorem/proof chain and conditional transfer from public
+reference coverage to actual service utility, with exact finite oracles.
 Mean Recall99.595%; the prespecified−2pp gate passes on new stochastic draws
 of reused native geometry. Bare Geo-I Z is retained as a controlled K1 ablation;
 all L30 failures, Γ0 controls and the higher data cost remain reported. This is

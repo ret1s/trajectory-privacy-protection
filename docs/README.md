@@ -4,6 +4,10 @@ Use this page instead of searching the repository by filename.
 
 ## Current research definition
 
+- [Unified mathematical foundation for GeoI-BQ](research/2026-10-14_geoi_bq_mathematical_foundation.md):
+  Geo-I → finite Q → whole-session transcript → posterior/attacker bounds →
+  cache/local ranking and actual utility; conditional public-reference transfer
+  with a selection-bias counterexample and exact verification receipt.
 - [GeoI-BQ main research reference (14/10)](research/2026-10-14_main_model.md):
   L60 selected from exact public references,99.595% Recall and a passed−2pp
   replication gate; bare-Z Geo-I comparison, cost and stale-local-GPS readouts.
