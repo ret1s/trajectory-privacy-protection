@@ -4,6 +4,13 @@ Use this page instead of searching the repository by filename.
 
 ## Current research definition
 
+- [GeoI-BQ main research reference (14/10)](research/2026-10-14_main_model.md):
+  L60 selected from exact public references,99.595% Recall and a passed−2pp
+  replication gate; bare-Z Geo-I comparison, cost and stale-local-GPS readouts.
+- [Full-session utility, inference and cost proofs](research/2026-10-14_whole_session_utility.md):
+  exact adaptive χ²/TV, prior-relative attacker bounds, event-sensitive Geo-I
+  and conditional retrieval-volume limits.
+
 - [`publication/jisa_20261006/`](publication/jisa_20261006/README.md)
   — JISA fit and gaps, proposed risk-aware Q selection, matched Geo-I controls,
   draft study design and executable confirmation preflight.

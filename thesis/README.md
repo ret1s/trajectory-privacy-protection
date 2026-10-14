@@ -194,3 +194,15 @@ on a fresh48-family cohort; the matched pool guard gives92.57%. Exact-Q privacy,
 causal late-change bounds, same-prefix utility distortion and cache monotonicity
 are documented with assumptions. The -2pp baseline gate still fails; no automatic
 canonical adoption or replacement of historical manuscript tables is made.
+
+## Main research reference after the reviewed thesis build
+
+[GeoI-BQ v1](../docs/research/2026-10-14_main_model.md) and its
+[full-session utility/inference proof](../docs/research/2026-10-14_whole_session_utility.md)
+provide the current versioned specification; [manifest](../configs/geo_i_bq_v1.json).
+L60 was selected from public semantic reference counts; the−2pp gate passes
+on new stochastic draws of reused native GPS. Bare Geo-I Z is a controlled
+post-hoc K1 comparison; Γ0 remains an explicitly better-Recall control.
+Data cost, static-catalogue assumptions and the lack of untouched-geometry
+confirmation are retained. Existing reviewed PDF/tables are historical and
+have not been silently relabelled with these new protocol results.

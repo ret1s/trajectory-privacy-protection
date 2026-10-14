@@ -1,0 +1,271 @@
+{
+  "schema": "public-depth-design-v1",
+  "source_sha256": {
+    "experiments/public_depth_design_20261014.py": "d74b4be602b672c664ab5542535d8282d766c88416ddae7e2ebdd2cf49e5c0f0",
+    "benchmark/exact_public_reference.py": "aa15123f27082d41cac7223571772e255852180e2cc7959dbf1fce0c126bb3d4"
+  },
+  "public_inputs_sha256": {
+    "artifacts/datasets/future_controlled_20261005_v1/public_native.net.xml.gz": "243924810d6c26e1df068f1e2e85198097370f39cf96d8ed759a3bd72a64f395",
+    "artifacts/benchmarks/research_loop/resources.json": "82b03a2dad35c898483437ab63da9437076594e913f5beb6b0d18360ffe9b8b1"
+  },
+  "candidates": [
+    30,
+    40,
+    50,
+    60
+  ],
+  "K": 5,
+  "beam_width": 24,
+  "exact_public_mean_floor": "99/100",
+  "selected_L": 60,
+  "latent_states": [
+    2980,
+    9590,
+    16421,
+    28436,
+    43916,
+    44816,
+    44853,
+    46256,
+    46981,
+    47794,
+    48695,
+    49108,
+    49722,
+    50556,
+    50808,
+    50995,
+    51378,
+    53607,
+    54555,
+    55328,
+    57869,
+    58394,
+    58830,
+    59704,
+    60361,
+    61199,
+    61398,
+    61527,
+    61643,
+    61820,
+    62085,
+    62124,
+    63162,
+    64768,
+    64839,
+    65346
+  ],
+  "destinations": [
+    36565,
+    44529,
+    46172,
+    49783,
+    54732,
+    59198,
+    59847,
+    65075,
+    65687
+  ],
+  "rows": [
+    {
+      "L": 30,
+      "exact_best_public_mean_recall": "4049/4320",
+      "qualified_initial_goals": [],
+      "reply_sha256": "99be0829c07c4d3793141aa336caccc1baa526517d75ab9769d6b820b13d2c0e"
+    },
+    {
+      "L": 40,
+      "exact_best_public_mean_recall": "6263/6480",
+      "qualified_initial_goals": [],
+      "reply_sha256": "182d0da8d85a68425c3afc71595bb2f24cf3650b2d88d450116f3c724e70ee58"
+    },
+    {
+      "L": 50,
+      "exact_best_public_mean_recall": "51011/51840",
+      "qualified_initial_goals": [],
+      "reply_sha256": "979e68ee635153c4131051979a659eaa212c78d2c467a71d57be47ada38a14bd"
+    },
+    {
+      "L": 60,
+      "exact_best_public_mean_recall": "103007/103680",
+      "qualified_initial_goals": [
+        [
+          2138,
+          4604,
+          18030,
+          35024,
+          36988
+        ],
+        [
+          2138,
+          4604,
+          18030,
+          35024,
+          36993
+        ],
+        [
+          2138,
+          4604,
+          18030,
+          34987,
+          36988
+        ],
+        [
+          2138,
+          4604,
+          18030,
+          34987,
+          36993
+        ],
+        [
+          4604,
+          16238,
+          18030,
+          35024,
+          36988
+        ],
+        [
+          4604,
+          16238,
+          18030,
+          35024,
+          36993
+        ],
+        [
+          4604,
+          16305,
+          18030,
+          35024,
+          36988
+        ],
+        [
+          4604,
+          16305,
+          18030,
+          35024,
+          36993
+        ],
+        [
+          4604,
+          16453,
+          18030,
+          35024,
+          36988
+        ],
+        [
+          4604,
+          16453,
+          18030,
+          35024,
+          36993
+        ],
+        [
+          4604,
+          16454,
+          18030,
+          35024,
+          36988
+        ],
+        [
+          4604,
+          16454,
+          18030,
+          35024,
+          36993
+        ],
+        [
+          4604,
+          5355,
+          18030,
+          35024,
+          36993
+        ],
+        [
+          4604,
+          5396,
+          18030,
+          35024,
+          36988
+        ],
+        [
+          4604,
+          5396,
+          18030,
+          35024,
+          36993
+        ],
+        [
+          4604,
+          13528,
+          18030,
+          35024,
+          36993
+        ],
+        [
+          4604,
+          13613,
+          18030,
+          35024,
+          36988
+        ],
+        [
+          4604,
+          13613,
+          18030,
+          35024,
+          36993
+        ],
+        [
+          4604,
+          17497,
+          18030,
+          35024,
+          36988
+        ],
+        [
+          4604,
+          17497,
+          18030,
+          35024,
+          36993
+        ],
+        [
+          4604,
+          18030,
+          35024,
+          36685,
+          36988
+        ],
+        [
+          4604,
+          18030,
+          35024,
+          36685,
+          36993
+        ],
+        [
+          4604,
+          18030,
+          35024,
+          36688,
+          36988
+        ],
+        [
+          4604,
+          18030,
+          35024,
+          36688,
+          36993
+        ]
+      ],
+      "reply_sha256": "cce8c2027687f6a7661b670eb793182563c4f671b2108a55d5f50741e77f9178"
+    }
+  ],
+  "reference_domain": "equal public states/defined purposes/defined destinations/defined categories; k5 reference",
+  "selector": "smallest declared L with at least one beam goal at exact PUBLIC mean floor; fixed before new private draws",
+  "private_GPS_or_benchmark_results_read": false,
+  "actual_private_GPS_QoS_certified": false,
+  "limited_to_beam": true,
+  "globally_optimal_response_depth_claimed": false
+}

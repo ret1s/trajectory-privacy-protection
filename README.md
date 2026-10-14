@@ -1,5 +1,15 @@
 # Trajectory Privacy Protection
 
+Latest research reference (14/10): **GeoI-BQ v1**, unchanged Geo-I/REM plus
+bounded joint Q, public targeted exploration and exact public L60 design.
+[Method, scope and full benchmark](docs/research/2026-10-14_main_model.md),
+[whole-session utility/inference proofs](docs/research/2026-10-14_whole_session_utility.md),
+and [pinned executable manifest](configs/geo_i_bq_v1.json).
+Mean Recall99.595%; the prespecified−2pp gate passes on new stochastic draws
+of reused native geometry. Bare Geo-I Z is retained as a controlled K1 ablation;
+all L30 failures, Γ0 controls and the higher data cost remain reported. This is
+a scoped research reference, with no production/hardware or fresh-city claim.
+
 Working design decision (10/10): retain the **0.23 m⁻¹ per-session cap** and
 assess the existing Geo-I model for separate **person** and **physical-vehicle**
 identity targets before selecting additional protection.
