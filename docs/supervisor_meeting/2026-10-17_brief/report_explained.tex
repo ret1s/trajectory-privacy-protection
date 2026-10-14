@@ -1,0 +1,316 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\usepackage[margin=1.8cm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,booktabs,tabularx,array,ragged2e,enumitem,microtype,xcolor,tikz,fancyhdr,graphicx,titlesec}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds}
+\usepackage[hidelinks,unicode]{hyperref}
+\definecolor{ink}{HTML}{183A45}\definecolor{teal}{HTML}{087F7A}
+\definecolor{blue}{HTML}{405F8A}\definecolor{gray}{HTML}{56656B}\definecolor{orange}{HTML}{976440}
+\newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\setlength{\parindent}{0pt}\setlength{\parskip}{5pt}\setlength{\emergencystretch}{2em}
+\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.17}
+\setlist{nosep,leftmargin=1.4em,topsep=3pt}
+\titleformat{\section}{\large\bfseries\color{ink}}{\thesection}{.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{ink}}{\thesubsection}{.6em}{}
+\titlespacing*{\section}{0pt}{8pt}{6pt}\titlespacing*{\subsection}{0pt}{7pt}{4pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\color{gray}GEOI-BQ: BẢO VỆ QUỸ ĐẠO VÀ TRUY VẤN}
+\fancyhead[R]{\small\color{gray}17/10/2026}\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{.3pt}
+\newcommand{\key}[1]{\par\smallskip\noindent\textcolor{teal}{\textbf{#1}}\par\smallskip}
+\newcommand{\source}[1]{\par{\footnotesize\color{gray}Nguồn: #1}\par}
+\hypersetup{pdftitle={GeoI-BQ: bảo vệ quỹ đạo và truy vấn dịch vụ vị trí},pdfauthor={}}
+\input{report_tables}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries\color{ink}GeoI-BQ: bảo vệ quỹ đạo và truy vấn}\\[3pt]
+{\large Geo-I trên mạng đường, riêng tư cả phiên và chất lượng dịch vụ}
+\end{center}
+
+\section{Phương pháp hiện tại và những cơ chế đã bổ sung}
+\textbf{Vấn đề:} nhiều truy vấn liên tiếp có thể tiết lộ quỹ đạo, vị trí đầu/cuối và nhu cầu người dùng.
+Mục tiêu là có một cận riêng tư cho \emph{toàn transcript} (mọi bản tin máy chủ thấy), đồng thời trả kết quả POI phù hợp.
+Geo-I/REM vẫn là nền tảng; phần mở rộng là kernel chọn Q có giới hạn tiết lộ cả phiên,
+khám phá dựa trên dữ liệu công khai và xử lý nhu cầu tại thiết bị.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex,
+ box/.style={draw=ink!60,fill=white,rounded corners=2pt,text width=8.1cm,align=center,inner sep=6pt,font=\small},
+ ext/.style={draw=blue!65,fill=blue!4,rounded corners=2pt,text width=3.1cm,align=center,inner sep=6pt,font=\small},
+ flow/.style={->,draw=ink,line width=.8pt},pub/.style={->,draw=gray,dashed},net/.style={->,draw=blue,line width=.8pt}]
+\node[ext,text width=7.9cm] (gps) at (0,.35) {\textbf{Đầu vào: GPS thật}\\Chỉ vào Geo-I khi lịch và dự toán cho phép};
+\node[box] (gi) at (0,-1.45) {\textbf{1. Geo-I/REM + noisy reuse + cap từng phiên}\\Giữ hoặc tạo Z; cập nhật belief b từ lịch sử đã bảo vệ};
+\node[box,draw=teal,line width=1pt] (q) at (0,-3.25) {\textbf{2. Chọn chung một đoạn gồm ba khung Q}\\Support đi được trên đường; masses từ POI còn thiếu\\Belief chỉ nghiêng xác suất bị chặn; ledger cap $\Gamma_Q=1$};
+\node[box] (send) at (0,-5.05) {\textbf{3. Gửi 5 Q mỗi 20 s theo khung đã chọn}\\Mọi loại POI; $L=60$ mỗi loại mỗi Q; không gửi Z hoặc GPS};
+\node[box] (cache) at (0,-6.6) {\textbf{4. Gộp ID và cache metadata còn hợp lệ cả phiên}\\Lọc và sắp xếp theo GPS + nhu cầu $\psi$ ở local};
+\node[ext] (server) at (6.65,-5.05) {\textbf{Máy chủ POI}\\Nhận Q, trả top-L\\Ngoài mô hình};
+\node[ext] (context) at (6.65,-2.0) {\textbf{Dữ liệu công khai}\\Bản đồ, POI, clock\\Reply signatures};
+\node[ext] (request) at (6.65,-7.0) {\textbf{Nhu cầu riêng $\psi$}\\Loại, tiêu chí, bán kính, đích};
+\node[ext,text width=7.9cm,draw=teal] (out) at (0,-8.05) {\textbf{Đầu ra local: danh sách phù hợp đã sắp xếp}\\Không giới hạn ứng dụng ở top-5; Recall@5 chỉ là metric};
+\draw[flow] (gps)--(gi);\draw[flow] (gi)--(q);\draw[flow] (q)--(send);
+\draw[flow] (send)--(cache);\draw[flow] (cache)--(out);
+\draw[net] (send.east)--node[above,font=\footnotesize]{request chung}(server.west);
+\draw[net] (server.south)--(6.65,-6.05)--(cache.east);
+\draw[pub] (context.west)--(4.65,-2)--(4.65,-3.25)--(q.east);
+\draw[pub] (cache.west)--(-4.7,-6.6)--(-4.7,-3.25)--(q.west);
+\draw[flow,draw=teal] (gps.west)--(-5.6,.35)--(-5.6,-6.6)--node[above,font=\footnotesize]{GPS local}(cache.west);
+\draw[flow] (request.west)--(cache.south east);
+\begin{scope}[on background layer]
+\node[fit=(gi)(q)(send)(cache),draw=teal,fill=teal!2,rounded corners=4pt,inner xsep=10pt,inner ysep=12pt] {};
+\end{scope}
+\node[anchor=south west,text=teal,font=\footnotesize\bfseries] at (-4.35,-.74) {MÔ HÌNH TẠI THIẾT BỊ};
+\end{tikzpicture}
+\end{center}
+
+\begin{tabularx}{\linewidth}{@{}P{3.25cm}Y Y@{}}\toprule
+\textbf{Thành phần} & \textbf{Bản report trước} & \textbf{GeoI-BQ hiện tại}\\\midrule
+Geo-I, cap tọa độ & REM, test giữ/làm mới; cap phiên & Giữ nguyên $C_s=0{,}23\,\mathrm m^{-1}$\\
+Chọn Q & Chủ yếu tối ưu điểm phủ, cập nhật theo bước & Lấy mẫu có cận; ba khung chung; cap Q toàn phiên\\
+Truy hồi và cache & L30; phản hồi theo epoch & L60 chọn từ bảng công khai; cache metadata ổn định\\
+Lập luận & Cận Geo-I và suy luận có điều kiện & Thêm whole-session Q, posterior/TV/information và utility\\\bottomrule
+\end{tabularx}
+\source{Cấu hình GeoI-BQ v1; report09/10 để đối chiếu cấu trúc. Các số benchmark lịch sử giữ đúng cấu hình riêng.}
+
+\clearpage
+\section{Chứng minh riêng tư: từ GPS đến transcript cả phiên}
+\subsection{Hai ngân sách có ý nghĩa khác nhau}
+Geo-I dùng $u=0{,}01\,\mathrm m^{-1}$, cap 23 đơn vị, nên $C_s=0{,}23\,\mathrm m^{-1}$.
+Đọc đầu tốn1u; test rồi giữ Z tốn1u; test rồi tạo Z tốn2u.
+Dự toán nhánh đắt nhất trước GPS; hai private reads cách ít nhất 60 s.
+Không đọc mới thì vẫn dự đoán belief và phục vụ bằng Q đã bảo vệ.
+
+Kernel REM dùng miền đường V cố định:
+\[
+R_u(v\mid x)=\frac{e^{-u\|x-a_v\|/2}}{\sum_{w\in V}e^{-u\|x-a_w\|/2}}.
+\]
+Bất đẳng thức tam giác chặn cả score lẫn normalizer, cho tỷ số$\le e^{u\|x-x'\|}$.
+Noisy test cũng có cận 1u; nhánh fresh có cận 2u. Tổng chi phí trên mọi lịch sử không vượt 23u,
+nên extended protected history E có cận$C_sD_\infty$ trong mô hình lý tưởng.
+
+Ngân sách Q $\Gamma_Q$ không có đơn vị mét. Ở lần chọn đoạn thứ j:
+\[
+\varepsilon_{Q,j}=\frac{\Gamma_Q}{j(j+1)},\qquad
+\sum_{j=1}^{n}\varepsilon_{Q,j}=\Gamma_Q\frac{n}{n+1}\le\Gamma_Q.
+\]
+Với $\Gamma_Q=1$, ba lần đầu nhận $1/2,1/6,1/12$; tổng là$3/4$.
+Không cần biết trước chuyến dài bao lâu. Các lần gửi20/40s chỉ công bố phần còn lại của đoạn,
+không nhận thêm allowance. Restart Q dùng lại đoạn đã commit.
+
+\subsection{Vì sao chọn nhiều Q vẫn có một cận xác suất?}
+Ở cùng lịch sử tăng cường đã cố định, $w_a>0$ là trọng số nền công khai của đoạn a,
+$z_a\in[0,1]$ là điểm đã lượng tử hóa từ belief. Đặt:
+\[
+\mu=\sum_a w_a z_a,\qquad \alpha_j=\frac{\varepsilon_{Q,j}}{2+\varepsilon_{Q,j}},
+\qquad p_a=w_a[1+\alpha_j(z_a-\mu)].
+\]
+$\sum_a p_a=1$ và mọi đoạn giữ xác suất dương. Với mọi hai private score vectors:
+\[
+\frac{p_a}{p'_a}\le\frac{1+\alpha_j}{1-\alpha_j}=1+\varepsilon_{Q,j}.
+\]
+Belief có thể sai hoặc ngẫu nhiên; cận chỉ cần điểm số bị chặn và tập ứng viên/trọng số nền chung.
+Kernel Q lấy mẫu bằng integer weights với tổng công khai, tránh PMF softmax float.
+Trong mã, allowance của kernel được làm tròn xuống; dùng allowance danh nghĩa ở trên vẫn là cận an toàn.
+
+\subsection{Định lý end-to-end cho cả phiên}
+Gọi O là mọi Q có thứ tự, lịch công khai, phản hồi và retry logic máy chủ thấy. Chain rule cho:
+\[
+\boxed{\Pr[O\in A\mid X,C]\le R_n\Pr[O\in A\mid X',C],\quad
+R_n=\prod_{j=1}^{n}(1+\varepsilon_{Q,j})\le e^{\Gamma_Q}.}
+\]
+Tại $\Gamma_Q=1$, cận hữu tỷ cho mọi thời lượng cho $R_\infty<2{,}437372$.
+Thứ tự Q thuộc action chung; replies có cùng conditional provider law;
+cache và retry không lấy mẫu lại. Lane giả có thể trùng tọa độ: chứng minh trên lịch sử tăng cường,
+rồi chiếu xuống wire, nên không cần máy chủ biết lane hay Z.
+
+Trong \textbf{Geo-I lý tưởng}, cap upstream đồng thời cho cận không gian. Với $D_\infty$
+là khoảng cách lớn nhất giữa hai trace trên cùng lịch potential reads:
+\[
+\boxed{\log LR_{\rm wire}\le\min\{C_sD_\infty(X,X'),\log R_n\}.}
+\]
+Cận Geo-I hữu ích khi hai trace gần nhau; Q thêm cận toàn cục khi chúng xa nhau.
+Hai ngân sách khác đơn vị, nên không cộng $C_s$ với $\Gamma_Q$.
+Ví dụ chỉ GPS đầu khác10m: cận Geo-I cho$\log LR\le0{,}1$;
+chỉ một scheduled GPS sau khác10m: $\le0{,}2$, chặt hơn cận Q toàn cục ở hai phép so sánh này.
+
+\key{Thông tin được bảo vệ là toàn phân phối transcript, không phải lời khẳng định ``không thể suy ra Z''.}
+GPS chỉ đi vào utility local không tạo thêm privacy release. Q cap không cần REM float đúng PMF lý tưởng;
+phần minimum theo khoảng cách vẫn cần ideal Geo-I, common clock và trusted upstream restore.
+\source{Bản chứng minh thống nhất14/10; \texttt{FiniteCenteredKernel}, \texttt{finite\_session\_bounds}; Geo-I [1], private prediction [2].}
+
+\clearpage
+\section{Suy luận theo scenario và bảo đảm chất lượng dịch vụ}
+\subsection{Từ likelihood sang mức attacker học thêm}
+Với sự kiện về mục tiêu riêng tư Y có prior $\pi$, cùng ngữ cảnh công khai và Y đi vào wire qua private inputs,
+Bayes cho posterior odds bằng prior odds nhân likelihood ratio. Với $R=R_\infty$:
+\[
+\frac{\pi}{\pi+R(1-\pi)}\le\Pr[Y\in A\mid O]\le
+\frac{R\pi}{1-\pi+R\pi}.
+\]
+Trong cấu hình$\Gamma_Q=1$, prior 50/50 cho posterior từng transcript không quá khoảng 70,91\%.
+Đây không phải accuracy trung bình. So với \emph{cùng bộ chọn Q nền công khai} $W$ có $\Gamma=0$,
+cận có điều kiện$\chi^2(p_j\Vert w_j\mid H)\le\alpha_j^2/4$ được hợp thành
+bằng kỳ vọng lặp (không cần các bước độc lập), cho:
+\[
+TV(P_\Gamma,W)\le\delta_\infty
+=\tfrac12\sqrt{\prod_j(1+\alpha_j^2/4)-1}<0{,}0553.
+\]
+Suy ra \textbf{mọi attacker} với reward trong [0,1] chỉ tăng expected success so với best prior tối đa 5,53pp;
+additional information của logical Q một phiên nhỏ hơn 0,018 bit.
+Ví dụ có điều kiện: hai lựa chọn prior đều cho average success$\le55{,}53\%$;
+20 identity candidates prior đều cho$\le10{,}53\%$. Không giả định prior thực tế luôn đều.
+
+\begin{tabularx}{\linewidth}{@{}P{1.5cm}P{4.0cm}Y@{}}\toprule
+\textbf{Scenario} & \textbf{Mục tiêu} & \textbf{Trạng thái bảo đảm}\\\midrule
+S1--S3 & Vị trí, nơi dừng, trace quá khứ & Cận whole transcript + benchmark định vị. S2 là tọa độ dừng proxy.\\
+S9--S10 & Tọa độ đầu/cuối & Cận transcript; event-bound cho scheduled inputs; benchmark endpoint.\\
+S4--S6 & Identity người/xe; next edge; planned destination & Hệ quả suy luận có điều kiện, không là benchmark identity/future mới.\\
+S7 & Loại và mục đích truy vấn & Cùng GPS/clock, đổi nhu cầu $\psi$ không đổi request; nhu cầu giữ local.\\
+S8 & Quan hệ đồng hành & Mở rộng cần joint transcript/accounting; chưa nhận claim single-user.\\\bottomrule
+\end{tabularx}
+Identity có ID trực tiếp hoặc future action được tạo từ chính Q không tự thỏa target model trên.
+S9/S10 bảo vệ tọa độ trong cùng lịch mở/đóng; không gán một cơ chế delay mới cho release này.
+
+\subsection{Utility: bảo đảm được điều gì?}
+Với reference top-k $T_t$ ở cùng GPS/nhu cầu, local ranking chính xác và cache hợp lệ:
+\[
+\operatorname{Recall@k}(U_t)=\frac{|T_t\cap U_t|}{|T_t|},\qquad
+U_t\supseteq U_0\Rightarrow\operatorname{Recall@k}(U_t)\ge\operatorname{Recall@k}(U_0).
+\]
+Cache không làm mất POI đã nhận; trả \textbf{toàn danh sách phù hợp đã sắp xếp}.
+Với utility cả phiên $h\in[0,1]$, $|\mathbb E_{P_\Gamma}h-\mathbb E_Wh|\le5{,}53$pp,
+không cần belief calibrated hay các tick độc lập. Cận so với cùng planner$\Gamma=0$, không với mọi baseline.
+
+Public-reference floor$c$ chuyển sang actual utility chỉ khi có history-conditional
+TV error$\tau$ và uniform proxy error$\nu$: $\mathbb E r\ge\max(0,c-\tau-\nu)$.
+Chưa chứng nhận các errors bằng0 cho actual cohort; mean benchmark không phải worst-case theorem.
+
+\subsection{Những điểm đã siết sau rà soát}
+Đã làm rõ hidden-state marginalization, wire projection, covariance theo local state và
+floor của \emph{received cache} thay vì predicted pool. \textbf{57 tests đạt}, gồm8 oracle/ phản ví dụ đối kháng.
+Hai điều kiện triển khai còn mở: sampler Geo-I float chưa certified; timestamp không xác thực full upstream restore.
+Q ledger được persist; cận Q vẫn riêng biệt với hai điều kiện đó.
+\source{Chứng minh và adversarial audit14/10; certificate hữu tỷ, không phải xác suất lấy từ attacker benchmark.}
+
+\clearpage
+\section{Ví dụ nhiều bước: khi nào từng thành phần được kích hoạt?}
+Sample \texttt{cache-001\_day7--draw1}, \textbf{TRAIN}, là trip đầu của family đầu theo thứ tự cố định.
+Đọc trực tiếp log GeoI-BQ đã lưu, không dựng lại GPS/Z/Q hoặc chọn sample theo score.
+Cấu hình đúng bản chính: cap 23u, $u=0{,}01/\mathrm m$, $\Gamma_Q=1$, K5/L60.
+
+\begin{center}\includegraphics[width=\linewidth]{report_figures/sample_paths.pdf}\end{center}
+{\footnotesize GPS và Z ở panel trái giữ nội bộ; máy chủ thấy các Q ở panel phải.
+Panel trái phóng to GPS/Z; hai panel có tỉ lệ khác nhau.
+Các đường màu nối vị trí ở mốc20s, không mô tả đầy đủ hình học lane ở giữa; directed transitions đã được audit.
+Dữ liệu mạng đường: © OpenStreetMap contributors.}
+
+\begin{tabularx}{\linewidth}{@{}rP{2.1cm}P{1.6cm}YP{1.9cm}r@{}}\toprule
+\textbf{t(s)} & \textbf{Geo-I} & \textbf{Chi phí GI} & \textbf{Cơ chế Q} & \textbf{Đã dành Q} & \textbf{Cache}\\\midrule
+\TimelineRows
+\bottomrule\end{tabularx}
+Đã dành Q là phần allowance đã reserve, không phải số request. Cache là số POI unique đã nhận, catalogue có 418 POI.
+
+\subsection{Đọc luồng tại 60 s}
+\begin{enumerate}
+\item \textbf{Geo-I:} đủ 60 s, còn dự toán2u; test rồi tạo Z mới trong log. Tổng chi tăng1u$\to$3u.
+Không lưu giá trị nhiễu test nên không dựng một con số nhiễu để giải thích nhánh.
+\item \textbf{Belief và đoạn Q:} cập nhật từ thông tin đã bảo vệ. Library công khai có 53 đoạn;
+chọn một đoạn với allowance$1/6$, tổng Q reservation$2/3$.
+\item \textbf{Gửi và cache:} gửi khung đầu ở60s;80/100s gửi phần đã chọn, không lấy mẫu Q lại.
+Tại 60 s nhận 377 POI unique trong khung; hợp với cache trước đó được 385, không phải381+377.
+\item \textbf{Nhu cầu local:} cùng phản hồi được lọc/sắp xếp theo gần nhất, nhanh nhất, bán kính hoặc ít đi vòng.
+Đổi nhu cầu không thêm network request; k5 chỉ được dùng khi tính Recall.
+\end{enumerate}
+Tại 300 s có \emph{đọc GPS nhưng giữ Z}: vẫn tốn1u và vẫn chọn đoạn Q mới.
+Điều này khác 20/40 s: không đọc GPS, không chi thêm Geo-I; chỉ gửi khung đã chọn.
+
+\source{\texttt{main\_depth\_20261014\_v1/families/cache-001.json.gz}; sample này minh họa cơ chế, không đại diện các TEST scores.}
+
+\clearpage
+\section{Benchmark hiện tại: privacy, utility và chi phí}
+\textbf{Giao thức:}20 TRAIN/8 SELECTION/20 TEST families;120 TEST trip-draws,
+ba draws/trip, hai phiên/family, cửa sổ0--600s và31 query ticks.
+GPS native SUMO đã dùng ở nghiên cứu trước; đây là lượt defense randomness mới trên geometry đã dùng.
+Các K5 arms dùng cùng Geo-I realization, L60, cadence/cache và local GPS hiện tại.
+K1 gửi Z là controlled post-hoc ablation có chi phí riêng.
+
+\subsection{Chất lượng dịch vụ: Recall@5(\%)}
+\begin{tabularx}{\linewidth}{@{}Yrrrrr@{}}\toprule
+\textbf{Phương án} & \textbf{Macro} & \textbf{Gần nhất} & \textbf{Nhanh} & \textbf{Bán kính} & \textbf{Ít vòng}\\\midrule
+\UtilityRows
+\bottomrule\end{tabularx}
+\textbf{GeoI-BQ: 99,595\%}, family-bootstrap, CI 95\%: [99,225;99,902]\%.
+So với K5 baseline 100\%: $\Delta=-0{,}405$pp, CI[$-0{,}775$;$-0{,}098$]pp.
+Tiêu chí chốt trước: lower CI không thấp hơn baseline quá 2pp ở macro và từng purpose,
+mean mỗi draw cũng không thấp hơn 2pp: \textbf{đạt}. Purpose yếu nhất có lower CI$-1{,}331$pp.
+
+\subsection{Định vị của attacker: Hit100(\%) / MAE(m)}
+Hit100 là tỷ lệ đoán trong 100 m; MAE là lỗi khoảng cách trung bình.
+Hit thấp/MAE cao thể hiện privacy tốt hơn trước bank được kiểm tra.
+TRAIN fit \textbf{ExtraTrees64, kNN1/kNN5} và các hình học công khai;
+endpoint có thêm \textbf{ordered-track/sequence models}. Chọn attacker riêng từng loss trên SELECTION trước TEST.
+
+\begin{tabularx}{\linewidth}{@{}P{1cm}YYY@{}}\toprule
+\textbf{Case} & \textbf{Geo-I: gửi Z, K1} & \textbf{Geo-I + Service-cover,K5} & \textbf{GeoI-BQ,K5}\\\midrule
+\AttackRows
+\bottomrule\end{tabularx}
+Ví dụ S10: gửi Z cho Hit10035\%, MAE246,8m; GeoI-BQ cho0\%,2124,2m.
+Baseline K5 cũng có endpoint Hit100=0\%, nên MAE và bare-Z comparator giúp phân biệt thêm.
+0\% trên finite sample không có nghĩa xác suất tấn công bằng0.
+
+\subsection{Chi phí trả thêm cho kênh Q}
+\begin{tabularx}{\linewidth}{@{}Yrr@{}}\toprule
+\textbf{Phương án} & \textbf{Point requests/phiên} & \textbf{Reply KB/phiên}\\\midrule
+\CostRows
+\bottomrule\end{tabularx}
+KB là1000 bytes của JSON POI indices, chưa gồm metadata đầy đủ, HTTP/TLS, latency hoặc pin.
+GeoI-BQ dùng5 lần số point requests của K1. Không coi hai output contracts là cùng chi phí.
+\source{Main-depth và bare-Geo-I artifacts14/10; independent audits đã đạt. Không chạy lại benchmark khi viết report.}
+
+\clearpage
+\section{Diễn giải kết quả và đóng góp nghiên cứu}
+\subsection{Utility tốt đến từ đâu?}
+L60 được chọn \textbf{trước private defense draws}, bằng exact public reference masses
+trên 36 public states, bốn purpose và chín destination prototypes.
+Trong frontier thử L30/40/50/60, L60 là mức nhỏ nhất đạt mean public-reference 99\%;
+không phải minimum toàn bộ mọi thư viện ứng viên. K5$\times$L60 cho tối đa300 bản ghi
+\emph{mỗi loại mỗi khung} trước bỏ trùng; không phải300 POI unique tổng cộng.
+
+\begin{tabularx}{\linewidth}{@{}P{5.0cm}Y@{}}\toprule
+\textbf{Phép so sánh / kiểm soát} & \textbf{Kết quả và ý nghĩa}\\\midrule
+Cùng Q stream, L60 so với truncate L30 & Recall99,595\% so với94,170\%; gain5,425pp, CI[3,486;7,527]pp. Chỉ là reply-depth effect, không phải chạy lại policy L30.\\
+Cache ở đầu/cuối phiên & Trung bình380,20$\to$415,875 trên418 POI. Gần đầy catalogue giải thích utility cao trong contract metadata ổn định.\\
+So với giữ initial Q & Gain1,218pp, CI[0,302;2,412]pp. Khám phá/cache giúp bổ sung POI.\\
+So với khám phá lân cận & Gain0,033pp, CI[$-0,109$;0,178]pp. Chưa xác nhận gain riêng của long-range goals ở L60.\\
+So với nền công khai $\Gamma=0$ & Nền công khai99,711\% cao hơn99,595\%. Chưa có actual-utility gain từ private belief trong static catalogue này.\\
+Giữ local GPS60s thay vì current fix20s & Cùng wire, GeoI-BQ95,348\%, baseline95,625\%. Không gán99,595\% cho ranking bằng GPS cũ.\\\bottomrule
+\end{tabularx}
+
+\subsection{Những đóng góp có thể trình bày rõ}
+\begin{enumerate}
+\item \textbf{Đặc tả bài toán end-to-end:} tách GPS/Z/belief, public queries và nhu cầu local;
+gắn mục tiêu S1--S10 với loại inference/metric phù hợp thay vì một score privacy cho mọi secret.
+\item \textbf{Mở rộng Geo-I thành mô hình continuous queries có cận cả phiên:}
+joint Q segments, support chung đi được trên đường, integer PMF và allowance có tổng hữu hạn.
+Geo-I là spatial backbone; Q thêm global disclosure profile.
+\item \textbf{Privacy và utility được nối bằng công thức:} posterior odds, prior-relative attacker gain,
+information bound, cache monotonicity và whole-path utility distortion; không cần fit một identity attacker để có likelihood cap.
+\item \textbf{Trade-off thực nghiệm có kiểm soát:} duy trì utility cao và giảm dấu hiệu định vị so với bare Z,
+đồng thời giữ Γ0 control, costs và các kết quả chưa đạt gate để diễn giải đúng nguyên nhân.
+\end{enumerate}
+Geo-I, Bayes và composition là nền tảng kế thừa [1--3]; đóng góp của đề tài nằm ở cơ chế kết hợp,
+đặc tả và chứng minh cho pipeline này. Không cần mọi benchmark đều tối ưu để lập luận có giá trị.
+
+\subsection{Bước hoàn thiện tiếp theo}
+Giữ cấu hình nghiên cứu đã chốt; đưa chuỗi định lý trước phần thực nghiệm trong thesis.
+Ưu tiên exact/verified Geo-I sampling và authenticated full upstream checkpoint nếu mở rộng thành implementation được chứng nhận.
+Catalogue lớn hơn, dữ liệu geometry mới và metadata động là các hướng kiểm chứng tiếp theo;
+chưa dùng nghiên cứu hiện tại để cam kết QoS cho mọi city hoặc mọi phiên liên kết.
+
+\source{Chi tiết phương pháp/nguồn: \texttt{2026-10-14\_main\_model.md}, mathematical foundation và adversarial audit.}
+{\footnotesize
+[1] Andrés et al., \emph{Geo-Indistinguishability}, CCS2013, \href{https://arxiv.org/abs/1212.1984}{arXiv1212.1984}.
+[2] Chatzikokolakis et al., \emph{A Predictive Differentially-Private Mechanism for Mobility Traces}, PETS2014.
+[3] Rogers et al., \emph{Privacy Odometers and Filters}, NeurIPS2016, \href{https://arxiv.org/abs/1605.08294}{arXiv1605.08294}.}
+\end{document}

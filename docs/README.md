@@ -4,6 +4,9 @@ Use this page instead of searching the repository by filename.
 
 ## Current research definition
 
+- [Report GVHD 17/10: GeoI-BQ](supervisor_meeting/2026-10-17_brief/README.md):
+  six-page scientific report, architecture, whole-session privacy/utility,
+  retained multistep sample, matched benchmark and presentation script.
 - [Unified mathematical foundation for GeoI-BQ](research/2026-10-14_geoi_bq_mathematical_foundation.md):
   Geo-I → finite Q → whole-session transcript → posterior/attacker bounds →
   cache/local ranking and actual utility; conditional public-reference transfer
