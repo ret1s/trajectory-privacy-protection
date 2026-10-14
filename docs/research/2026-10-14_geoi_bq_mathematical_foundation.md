@@ -20,7 +20,7 @@ hiểu là ngân sách chung cho mọi phiên của một người dùng.
 | Ký hiệu | Ý nghĩa |
 |---|---|
 | \(C\) | Ngữ cảnh công khai cố định: bản đồ, catalogue, cấu hình, lịch và provider law |
-| \(X=(x_0,x_1,\ldots)\) | GPS ở những mốc được đưa vào cơ chế bảo vệ |
+| \(X=(x_0,x_1,\ldots)\) | Tọa độ GPS theo phép chiếu mét cố định ở mọi mốc có thể đọc theo lịch công khai, kể cả mốc bị bỏ qua do cap |
 | \(E\) | Lịch sử nội bộ đã bảo vệ: nhánh noisy test và các neo REM \(Z\) |
 | \(B_j\) | Belief được tính từ lịch sử đã bảo vệ; không cần là posterior đúng |
 | \(H_{j-1}\) | Lịch sử phân tích gồm các đoạn Q đã chọn, nhãn lane giả và phản hồi trước bước \(j\) |
@@ -39,12 +39,19 @@ Các định lý dùng sáu giả thiết:
    và masses chỉ phụ thuộc bản đồ, các Q đã chọn và phản hồi công khai.
    GPS, Z, belief và nhu cầu không loại ứng viên. Có đoạn đứng yên khả thi.
 2. **Geo-I lý tưởng.** REM và noisy test dùng các kernel xác suất được đặc
-   tả ở Mệnh đề 1. Belief và Q chỉ đọc thông tin đã bảo vệ từ upstream.
+   tả ở Mệnh đề 1. Belief và Q chỉ đọc thông tin đã bảo vệ từ upstream;
+   không có đường trực tiếp GPS → support/masses/request. Upstream history
+   được tạo từ input và clock trước khi xét hậu xử lý Q.
 3. **Kernel Q bị chặn.** Mọi điểm số vào kernel nằm trong \([0,1]\);
-   lấy mẫu PMF hữu hạn bằng bit đều độc lập. Privacy không cần độ chính xác
+   lấy mẫu PMF hữu hạn bằng bit đều mới, độc lập với private inputs/targets
+   và upstream randomness. Privacy không cần độ chính xác
    của phép tính belief/điểm số trước lượng tử hóa.
 4. **Ledger và clock.** Commit trước khi gửi, không rollback/reset allowance,
    retry dùng lại Q đã chọn. Khung thứ hai và thứ ba của đoạn không lấy mẫu lại.
+   Q ledger được persist trong mã. Geo-I upstream phải được caller phục hồi
+   đầy đủ, gồm history, chi phí và RNG state; timestamp/config tương thích
+   chỉ là điều kiện cần, không xác thực việc phục hồi đầy đủ. Cận Geo-I
+   qua restart vẫn dùng giả thiết trusted restore này.
 5. **Transcript chung.** Tại cùng Q/history, provider có cùng conditional law.
    Request thật, GPS local, belief, nhánh fresh/reuse và diagnostics không
    đi vào bản tin hoặc quyết định gửi riêng. Clock/mở/đóng phiên được giữ cùng
@@ -52,6 +59,22 @@ Các định lý dùng sáu giả thiết:
 6. **Utility.** Catalogue xét trong chứng minh cache có metadata ổn định còn
    hợp lệ. Lọc và sắp xếp dùng cùng GPS/nhu cầu tại thời điểm đánh giá, cùng
    quy tắc tính điểm và xử lý tie. Utility được chuẩn hóa trong \([0,1]\).
+   Muốn áp dụng floor tính từ reply signatures, batch đã nhận phải đầy đủ
+   và khớp những signatures đó. Tính đơn điệu cache không cần điều kiện
+   đầy đủ này, nhưng floor initial pool cần nó.
+
+Trong phép so sánh Geo-I, \(X,X'\) là hai input traces được ấn định trước
+trên **cùng** lịch có thể đọc; không đánh chỉ số theo số lần đọc thực tế
+vì số lần đó có thể khác giữa hai lịch sử. Tọa độ \(x_i=\Pi(\mathrm{GPS}_i)\)
+dùng phép chiếu \(\Pi\) công khai cố định, khoảng cách tính bằng mét.
+Quỹ đạo tương tác do Q tác động cần một input-policy model riêng, không
+được chứng minh bằng cách giữ toàn bộ \(E\) cố định trong (9).
+
+Các không gian reply/history được giả sử standard Borel (trong simulator,
+IDs và các action là hữu hạn); các conditional kernels được xác định ở
+những history có xác suất dương, hoặc gần như chắc chắn. \(C\) là context
+trước kênh, không chứa private RNG/state và không phải kết quả lọc sau khi
+nhìn transcript. W bên dưới luôn là cùng một common reference law tại C.
 
 Các giả thiết này xác định bài toán toán học. Chứng chỉ integer của PMF Q
 và invariant ledger là các bảo đảm của mã; sampler Geo-I dùng float và thời
@@ -101,7 +124,10 @@ rộng cho \(\log LR\le u\sum_i c_i d_i\), từ đó
 \tag{3}
 \]
 
-TopSum lấy các phần tử lớn nhất, tối đa số lượng đang có. Đây là cận trên
+Với trace hữu hạn, TopSum lấy các phần tử lớn nhất, tối đa số lượng đang
+có. Với sequence vô hạn, TopSum là **supremum của các tổng trên những tập
+chỉ số hữu hạn có số phần tử bị chặn**; không giả định tồn tại phần tử
+lớn nhất. \(D_\infty=\sup_i d_i\), là max ở trace hữu hạn. Đây là cận trên
 của mọi phân bổ chi phí khả thi, không cần các GPS độc lập. Tại cùng
 extended history, quyết định pacing/cap giống nhau, nên các event không đọc
 GPS có kernel giống nhau. Cộng các history tương thích bảo toàn cận.
@@ -158,7 +184,7 @@ gửi riêng từng khung sau đó là hậu xử lý của output đó.
 
 Điểm raw hiện tại được chuẩn hóa min–max trước khi lượng tử hóa. Vì vậy
 không mặc định \(|z_a-v_a|\le1/S\) với raw score \(v\). Privacy chỉ dùng
-\(z\in[0,1]\); utility sẽ dùng covariance thực sự ở Mệnh đề 7.
+\(z\in[0,1]\); utility sẽ dùng covariance thực sự ở Mệnh đề 5.
 
 ## 4. Định lý 1 — Privacy end-to-end của cả phiên
 
@@ -184,6 +210,13 @@ Provider responses có cùng conditional law nên không thêm factor.
 Cache là hàm của các replies; retry lặp bản tin đã commit; nhãn lane giả
 và các khung chưa gửi chỉ được bỏ đi khi chiếu xuống wire. Tích phân/cộng
 trên các history cùng tạo một wire cũng bảo toàn tỷ số.
+
+**Tách hai mức giả thiết.** Với giả thiết 1,3,4,5, ta đã có
+\(\Pr_X(O_n\in A)\le R_n\Pr_{X'}(O_n\in A)\) cho mọi private score
+generator, kể cả một upstream không thỏa Geo-I. Vì vậy cận Q toàn phiên
+không dựa vào REM float chính xác hay belief calibrated. Để thêm cận G
+và lấy minimum ở (8), phải có cả giả thiết Geo-I lý tưởng và postprocessing
+ở giả thiết 2. Có Q bounded không tự chứng nhận cận Geo-I của mã float.
 
 Mặt khác, cả Q process là hậu xử lý của \(E\) và public context; (3) cũng
 chặn tỷ số wire. Hai cận cùng đúng cho **cùng output event**, nên lấy cận
@@ -235,6 +268,12 @@ Quy tắc chi phí dự toán là một privacy filter; cách quản lý này li
 ấn định trước, nên (7)–(10) được chứng minh trực tiếp bằng tích kernel.
 Ledger bền vững làm invariant này có nghĩa qua restart.
 
+Một phép dừng/chiếu của transcript khác với **chỉ giữ những phiên có một
+sự kiện tốt** rồi chuẩn hóa lại phân phối. Trong trường hợp thứ hai,
+normalizer phụ thuộc input; cận của law đã conditioning không tự giữ cùng
+R hay \(\delta\). Các cận average/info dưới đây áp cho toàn law đã khai
+báo, không áp tự động cho một subgroup chọn từ chính output.
+
 ## 5. Định lý 2 — Giới hạn suy luận của mọi attacker
 
 ### 5.1 Posterior odds và posterior của một mục tiêu
@@ -262,6 +301,11 @@ Bayes cho posterior odds bằng prior odds nhân likelihood ratio. Do đó
 \tag{12}
 \]
 
+Ở observation space liên tục, (11) dùng likelihood densities đối với một
+dominating measure chung, không dùng xác suất \(\Pr[O=o]=0\). Cận posterior
+đúng gần như chắc chắn; ở transcript rời rạc, đúng cho mỗi outcome có xác
+suất dương. Với target liên tục, thay tổng theo y bằng tích phân theo prior.
+
 Cận áp cho identity **người và phương tiện** nếu observation chỉ có kênh
 trajectory đã mô hình hóa. Khi mọi pair giữa hai target classes còn thỏa
 \(G(X,X')\le g_A\), có thể thay \(R_n\) bằng
@@ -285,7 +329,9 @@ lập với target riêng được mô hình hóa ở trên. Từ (4),
 \tag{13}
 \]
 
-Đặt \(L_n=dP_n/dW_n\). Tower property, không giả sử độc lập, cho
+Ở bước này, \(P_n,W_n\) là laws của **augmented history** \(H_n\), không
+phải chỉ tọa độ wire. Hai lane giả cùng tọa độ có thể dẫn đến support tiếp
+theo khác nhau. Đặt \(L_n=dP_n/dW_n\). Tower property, không giả sử độc lập, cho
 \(\mathbb E_W[L_n^2]\le\prod_{j\le n}(1+\alpha_j^2/4)\). Bởi
 \(TV=\tfrac12\mathbb E_W|L_n-1|\), Cauchy–Schwarz cho
 
@@ -294,6 +340,13 @@ lập với target riêng được mô hình hóa ở trên. Từ (4),
 :=\frac12\sqrt{\prod_{j\le n}(1+\alpha_j^2/4)-1}.}
 \tag{14}
 \]
+
+Với wire \(O=f(H_n)\), likelihood ratio là
+\(dP_O/dW_O=\mathbb E_W[L_n\mid O]\). Jensen cho
+\(\chi^2(P_O\Vert W_O)\le\chi^2(P_n\Vert W_n)\), và projection cũng
+không tăng TV/KL. Không viết kernel wire dưới dạng (4) với một public mass
+được suy trực tiếp từ coordinates khi các nhãn lane bị alias. Oracle duyệt
+joint hidden-state/history và wire projection kiểm tra đúng bước này.
 
 Với mọi prior \(\pi_y\), mỗi law \(P_{O\mid Y=y,C}\) và các hỗn hợp
 private states thỏa cùng (14). Vì
@@ -405,7 +458,8 @@ khác nhau. Nếu \(\mathbb E_Wh\ge c\) đã được chứng nhận đúng mi�
 
 ## 9. Mệnh đề 5 — Khi nào điểm belief cải thiện utility thật?
 
-Tại một history cố định, gọi \(v_a\) là raw planning score đã tính,
+Tại một **local state cố định** \(S_j=(H_{j-1},E_{\le j})\) đủ để xác
+định score vectors, gọi \(v_a\) là raw planning score đã tính,
 \(z_a\) là điểm thực sự đưa vào kernel, và \(r_a\in[0,1]\) là
 conditional expected actual utility của action. Từ (4), chính xác
 
@@ -433,6 +487,13 @@ Nếu quantizer đơn điệu, \(\operatorname{Cov}_w(z,v)\ge0\), vì
 (z_a-z_b)(v_a-v_b)\ge0.
 \tag{23}
 \]
+
+Nếu chỉ điều kiện theo public H, score vẫn có thể ngẫu nhiên. Khi đó lấy
+kỳ vọng của (21)–(22) qua **cùng law của local state** cho hai counterfactual
+kernels ở prefix này. Không thay covariance bằng covariance của hai score
+vectors đã lấy trung bình: \(\mathbb E\operatorname{Cov}(z,v)\) thường
+khác \(\operatorname{Cov}(\mathbb E z,\mathbb E v)\). Cũng không thay
+law đó bằng private-state posterior của một whole W run khác.
 
 **Tiêu chí utility có điều kiện:** adaptation không giảm utility tại
 prefix này nếu \(\operatorname{Cov}_w(z,v)\ge\eta D_z\). Khi không có
@@ -462,6 +523,13 @@ sampled history \(H_t\) đang xét,
 \qquad g_t\in[0,1].
 \tag{24}
 \]
+
+Trong release, initial goals có floor99% trên public reference mixture,
+nhưng điều này chuyển sang \(U_0\) sau khi nhận đủ batch đúng reply
+signatures. Một server trả thiếu/different POIs vẫn có thể giữ privacy
+(common response law), trong khi không giữ floor99%. Khi đó phải tính
+floor từ **cache thật đã nhận** hoặc dùng cận thấp hơn; không tiếp tục gán
+cho cache floor của predicted pool. Cache inclusion (19) vẫn đúng.
 
 Giả sử law của actual service case, **điều kiện theo history/cache này**,
 là \(\rho_t(\cdot\mid H_t)\), với
@@ -525,13 +593,16 @@ chứng nhận. Với cấu hình chính, (24) được chứng nhận trên pub
 | S6 | Future destination đã dự định | Cùng inference bounds; không cần giải một bài toán dự đoán để chứng minh likelihood cap |
 | S7 | Nội dung nhu cầu truy vấn | (17) bảo vệ payload trực tiếp; phần intent tương quan vị trí chịu inference bounds |
 | S8 | Suy luận từ người đồng hành | Cần joint observation model; không gán định lý single-user cho joint transcript |
-| S9–S10 | Điểm đầu và cuối chuyến | Là các private GPS inputs của (8); chỉ đổi endpoint có cận event-sensitive (3) |
+| S9–S10 | Điểm đầu và cuối chuyến | Toàn Q transcript có cận suy luận; (3) áp trực tiếp cho endpoint nếu nó là scheduled private input, giữ cùng lịch mở/đóng |
 
 S1–S3 và S9–S10 là trọng tâm thực nghiệm. Với S4–S6, đóng góp lý thuyết
 là một cận suy luận độc lập thuật toán attacker; không chuyển cận đó thành
 khẳng định attacker không thể biết danh tính hoặc tương lai. S9–S10 nhận
 bảo đảm từ whole-session mechanism hiện tại, không cần gán cho nó một cơ
 chế delay mới chưa tồn tại trong release.
+Vị trí endpoint không được đọc riêng vẫn có thể tương quan với những GPS
+đã đọc; phải dùng target-mixture bound cho suy luận đó. Thời điểm mở/đóng
+thay theo bí mật không nằm trong phép so sánh giữ clock cố định.
 
 ## 12. Bảng nối định lý với mã và kiểm chứng
 
@@ -553,6 +624,10 @@ có thể tái lập bằng:
 ```sh
 /private/tmp/trajectory-query-segment-venv/bin/python -m experiments.verify_geoi_bq_mathematics_20261014 --check
 ```
+
+[Rà soát đối kháng và các điều kiện còn mở](../reviews/2026-10-14_mathematical_adversarial_audit.md)
+ghi riêng các phản ví dụ, đặc biệt upstream restore và sự khác nhau giữa
+chứng minh kernel lý tưởng với chứng nhận toàn chương trình.
 
 Chứng minh kernel không dựa vào việc benchmark đẹp. Benchmark hiện tại
 99,595% Recall xác nhận một lựa chọn cấu hình có chất lượng dịch vụ tốt

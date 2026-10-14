@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT/'docs/reviews/2026-10-14_mathematical_completion.json'
 SOURCES = (
     'docs/research/2026-10-14_geoi_bq_mathematical_foundation.md',
+    'docs/reviews/2026-10-14_mathematical_adversarial_audit.md',
     'benchmark/reference_utility_transfer.py',
     'benchmark/conditional_gain.py',
     'benchmark/finite_query_kernel.py',
@@ -40,6 +41,7 @@ SOURCES = (
     'tests/test_bounded_inference.py',
     'tests/test_geo_i_event_bound.py',
     'tests/test_finite_session_bounds.py',
+    'tests/test_geoi_bq_adversarial_proof_audit.py',
 )
 
 
@@ -72,7 +74,8 @@ def certificate():
             [F(99, 100)], conditional_tv_bounds=[F(1, 10)],
             proxy_error_bounds=[F(1, 20)], recall_threshold=F(4, 5)),
         finite_oracle_files=['tests/test_geoi_bq_proof_chain.py',
-                             'tests/test_reference_utility_transfer.py'],
+                             'tests/test_reference_utility_transfer.py',
+                             'tests/test_geoi_bq_adversarial_proof_audit.py'],
         reproducible_checks='pytest the two oracle files and the existing kernel/path/inference/ledger tests',
     )
 

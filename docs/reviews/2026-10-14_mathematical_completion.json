@@ -5,7 +5,8 @@
   "benchmark_or_algorithm_changed": false,
   "main_release_pinned_file_count": 108,
   "sources_sha256": {
-    "docs/research/2026-10-14_geoi_bq_mathematical_foundation.md": "570a1cf9d5c16c61221382b8f1bd6c7cdc28de0919c0716092fa7c02c6cd0ff4",
+    "docs/research/2026-10-14_geoi_bq_mathematical_foundation.md": "b7d3acc4dbd7d5609843461499456178ec6558c99a6453bb1617a852ccd0c2f8",
+    "docs/reviews/2026-10-14_mathematical_adversarial_audit.md": "19dc30c53f928d7a297b2c5ffaac89e114ed80d32d27fe063488dbe04062b8d2",
     "benchmark/reference_utility_transfer.py": "e52f093681e7e01bead0ce21503ebed0739995255545c3590b106cfa42a6f415",
     "benchmark/conditional_gain.py": "d910da2c77569cb3c5f05524f210dfd028a378cc107192323cd398f28efdcbc5",
     "benchmark/finite_query_kernel.py": "de03b165eb84be56b0efeccf1d0179de1064568dbd8d8501a048222748fab5f8",
@@ -16,14 +17,15 @@
     "benchmark/geo_i_event_bound.py": "3f575094defa59f5a8198fb1da93f8cab98ebbb5c147260a34692b02676420d6",
     "core/bounded_query_session.py": "28bc747ebb024a0c6418d28fd065e4fea69520b1992e719d242ae4e22ce2fa50",
     "configs/geo_i_bq_v1.json": "14d5de2fc6a1322707755def5e978bfc284db6971699de45e73e89882b15a24e",
-    "experiments/verify_geoi_bq_mathematics_20261014.py": "b84a629f132445e10e7305c31c06a95f46ee6aae0b3df6e5a8a9ad9d696862c9",
+    "experiments/verify_geoi_bq_mathematics_20261014.py": "770b37a60e09552a1fa1bb3d7f145ae31fa3dda3f2867342eaa235ea53d5350e",
     "tests/test_geoi_bq_proof_chain.py": "43fe7a9867ce26c34bc62065985ba00ed2f575a617bf6e9e062a6fba59e14211",
     "tests/test_reference_utility_transfer.py": "6affa8954bcf5c3f103fe2ed92ed670c732342917dc827ba62b967a262c25786",
     "tests/test_conditional_gain.py": "203b7139406244146aec88ae0d931de6fa236f8e51590c91e316af5903a48d52",
     "tests/test_whole_path_chi_square.py": "fc47442ddf7bdb332093eb6392914ce03acde95b0739f184beb12cd088021b25",
     "tests/test_bounded_inference.py": "f1c64d688b7580bc9e1d424454e81be053dd0dae5667b34a126ad83d296e6f85",
     "tests/test_geo_i_event_bound.py": "4a09661df0eae8bc18e20b8d0e61c50fddd420f4ea40b305d04ca9cf78184a21",
-    "tests/test_finite_session_bounds.py": "f3aebe2e92e08cbf79ba2836b4f781be4171d7bc77eb37e33fa896b0c413814e"
+    "tests/test_finite_session_bounds.py": "f3aebe2e92e08cbf79ba2836b4f781be4171d7bc77eb37e33fa896b0c413814e",
+    "tests/test_geoi_bq_adversarial_proof_audit.py": "f75eb1625f953705dc066c37de09e4167b9abcc484565a76ff17102e3a138118"
   },
   "single_session_gamma1": {
     "all_duration_likelihood_ratio_upper": "10763282027953/4415938560000",
@@ -71,7 +73,8 @@
   },
   "finite_oracle_files": [
     "tests/test_geoi_bq_proof_chain.py",
-    "tests/test_reference_utility_transfer.py"
+    "tests/test_reference_utility_transfer.py",
+    "tests/test_geoi_bq_adversarial_proof_audit.py"
   ],
   "reproducible_checks": "pytest the two oracle files and the existing kernel/path/inference/ledger tests"
 }
