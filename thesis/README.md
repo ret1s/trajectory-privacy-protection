@@ -1,5 +1,10 @@
 # Graduation thesis
 
+The proposed [writing brief, 27/10/2026](WRITING_BRIEF.md) sets out the target
+argument, seven-chapter structure and drafting order for integrating GeoI-BQ v1.
+It is for review before manuscript edits; the current `main.tex` and reviewed
+PDF have not been reorganized or replaced by this brief.
+
 [`main.tex`](main.tex) is the single canonical source. The reviewed PDF is
 [`../artifacts/reports/graduation_thesis.pdf`](../artifacts/reports/graduation_thesis.pdf).
 The 07/10/2026 revision brings the active thesis up to the current Geo-I research
