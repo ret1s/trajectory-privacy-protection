@@ -1,0 +1,81 @@
+{
+  "schema": "geoi-bq-review-report-v1",
+  "prepared_date": "2026-10-27",
+  "main_release_pins_verified": 108,
+  "main_release_changed": false,
+  "benchmark_rescored": false,
+  "models_fitted": false,
+  "new_private_samples": false,
+  "sources_sha256": {
+    "configs/geo_i_bq_v1.json": "14d5de2fc6a1322707755def5e978bfc284db6971699de45e73e89882b15a24e",
+    "thesis/WRITING_BRIEF.md": "af71a9cfe9c80b28a05f20a03f4ef0fe7255734926d677aff1e318b91e0b5f8a",
+    "docs/research/2026-10-14_geoi_bq_mathematical_foundation.md": "b7d3acc4dbd7d5609843461499456178ec6558c99a6453bb1617a852ccd0c2f8",
+    "docs/reviews/2026-10-14_mathematical_adversarial_audit.md": "19dc30c53f928d7a297b2c5ffaac89e114ed80d32d27fe063488dbe04062b8d2",
+    "docs/reviews/2026-10-14_mathematical_completion.json": "e1bf8e9116e09a95db618eaf279416b8e57bdc6cdfb6cd82820268ebc2ac6ad7",
+    "artifacts/benchmarks/main_depth_20261014_v1/results.json": "f12e7c9820a003c4194483e251ff87409bd55007c507378432d52bcdd894fe15",
+    "artifacts/benchmarks/main_depth_20261014_v1/protocol.json": "0b5c11d2f074f22a4cbace24d9de69f550c6302843a5aa5c2cb75c42dafd3a9c",
+    "artifacts/benchmarks/main_depth_20261014_v1/release_readout.json": "5b1592835d56c50c18ceebf9f1f9c74d4568d3cf4973107352fef636e71bccf6",
+    "artifacts/benchmarks/main_depth_20261014_v1/independent_validation.json": "8a6972bf22c89071755af1e8822c6117a5efc03a8ffcf65756dcfd9926b74b54",
+    "artifacts/benchmarks/geo_i_anchor_comparator_20261014_v1/results.json": "c052e5d413f81b1b02c104829da979a716bf63c1f5f0b81e5af84b541658b0b9",
+    "artifacts/benchmarks/public_depth_design_20261014_v1/certificate.json": "1ce67db5d348b7e2fd1ca130192c7f6692c652f40bfe93cead439115a0824193",
+    "artifacts/benchmarks/continual_geoi_20261017_v1/results.json": "fb3c2035eff2dd1b6a7663b3554ffaac55a7e9f6c5b82028bc40db8058be19f9",
+    "artifacts/benchmarks/continual_geoi_20261017_v1/protocol.json": "a255ce8f802521379d4f29ef6e988e8653a66073fc3105dd850d308a50d330bb",
+    "artifacts/benchmarks/continual_geoi_20261017_v1/validation.json": "9b2ad7d17064e309b9b869b2dcac3465b4d29bcfa8646061a56021ee5f8a9950",
+    "artifacts/benchmarks/paper_benchmark/results.json": "2df043bfb73c3b2f630046381daf5b4bc9f6941fb5be925b0967d6de98f27538",
+    "artifacts/benchmarks/native_metrics_20261005/readout.json": "eaad087e3093c9524f5bccc539125fc7dba586c4124a3bcd378a5cb85c4450ee",
+    "artifacts/benchmarks/native_metrics_20261005/verification.json": "c45056c8d3f3e77bcfe3aa7d9a357b437369138d821f160d7c2072cf5ac51087",
+    "benchmark/finite_query_kernel.py": "de03b165eb84be56b0efeccf1d0179de1064568dbd8d8501a048222748fab5f8",
+    "benchmark/anchor_belief.py": "9a4d99261ce43c3ebc6d0ce118e974ea3778ca82d0a02ac36b428e669d43dc61"
+  },
+  "main_methods": [
+    "geo_i_Z_k1",
+    "baseline",
+    "finite_static_g1",
+    "cache_explore_g1",
+    "cache_target_g0",
+    "cache_target_g1"
+  ],
+  "main_privacy_cells": 30,
+  "main_utility_purposes": [
+    "macro",
+    "nearest_distance",
+    "fastest_travel",
+    "within_radius",
+    "minimum_detour"
+  ],
+  "main_cache_views": [
+    "current",
+    "known",
+    "session"
+  ],
+  "historical_results_separate": true,
+  "continual_pilot_separate": true,
+  "all_duration_ratio_upper_exact": "10763282027953/4415938560000",
+  "illustrative_belief": [
+    0.45543281682500214,
+    0.4174995738206993,
+    0.12706760935429848
+  ],
+  "derived_tables": [
+    "attack_selection.tex",
+    "belief_example.tex",
+    "cache.tex",
+    "comparisons.tex",
+    "cost.tex",
+    "coverage.tex",
+    "depth_design.tex",
+    "depth_sensitivity.tex",
+    "gate.tex",
+    "historical.tex",
+    "local_gps.tex",
+    "native_metrics.tex",
+    "pilot_cost.tex",
+    "pilot_gate.tex",
+    "pilot_privacy.tex",
+    "pilot_purposes.tex",
+    "pilot_utility.tex",
+    "privacy.tex",
+    "sample.tex",
+    "utility.tex"
+  ]
+}

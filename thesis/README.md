@@ -4,6 +4,9 @@ The proposed [writing brief, 27/10/2026](WRITING_BRIEF.md) sets out the target
 argument, seven-chapter structure and drafting order for integrating GeoI-BQ v1.
 It is for review before manuscript edits; the current `main.tex` and reviewed
 PDF have not been reorganized or replaced by this brief.
+The accompanying [27/10 review report](../docs/supervisor_meeting/2026-10-27_brief/README.md)
+collects the current method, privacy/utility proofs and complete main benchmark
+comparisons, with historical evidence and the continual pilot kept separate.
 
 [`main.tex`](main.tex) is the single canonical source. The reviewed PDF is
 [`../artifacts/reports/graduation_thesis.pdf`](../artifacts/reports/graduation_thesis.pdf).
