@@ -10,6 +10,8 @@ Method → Experiments and Analysis → Summary**, rồi References và bốn ph
 
 ## Thứ tự đọc
 
+- Trang i: mục lục có liên kết tới các phần, tiểu mục, References và phụ lục.
+  PDF có tổng cộng 19 trang; nội dung vẫn đánh số 1–18 như dưới đây.
 - Trang 1: motivation, vấn đề và đóng góp, scenario overview.
 - Trang 2: tám paper/context trong cửa sổ 28/10/2023–28/10/2026;
   output, scenario, metrics và fidelity. Geo-I/predictive là nguồn nền tảng riêng.

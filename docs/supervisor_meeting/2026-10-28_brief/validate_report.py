@@ -58,6 +58,7 @@ def main():
     assert all(lo <= date.fromisoformat(p['first_public_date']) <= hi for p in literature['papers'])
 
     expected = [
+        ['Mục lục', 'Introduction', 'Mệnh đề 1', 'References', 'Phụ lục D'],
         ['Introduction', 'Đóng góp chính'], ['Related Work', 'TransProtect', 'SoK'],
         ['Proposed Method', 'System architecture', 'THIẾT BỊ TIN CẬY'],
         ['Model architecture', 'MÔ HÌNH GEOI-BQ', 'L60'],
@@ -73,7 +74,8 @@ def main():
     ]
     full = []
     with pdfplumber.open(HERE/'report_explained.pdf') as pdf:
-        assert len(pdf.pages) == len(expected) == 18
+        assert len(pdf.pages) == len(expected) == 19
+        assert len(pdf.pages[0].annots) >= 36, 'Missing table-of-contents links'
         for index, (page, terms) in enumerate(zip(pdf.pages, expected), 1):
             text = page.extract_text() or ''
             full.append(text)
@@ -93,7 +95,7 @@ def main():
         assert bad not in log, bad
     renders = []
     if args.visual_reviewed:
-        renders = [build.ROOT/'build/paper_report_20261028'/f'qa-{i:02d}.png' for i in range(1, 19)]
+        renders = [build.ROOT/'build/paper_report_20261028'/f'qa-{i:02d}.png' for i in range(1, 20)]
         for path in renders:
             assert path.exists() and path.stat().st_mtime >= (HERE/'report_explained.pdf').stat().st_mtime, path
     files = [HERE/n for n in ('report_explained.pdf', 'report_explained.tex', 'README.md', 'build_report.py',
@@ -101,19 +103,20 @@ def main():
         'report_constants.tex', 'report_sources.json', 'figures/tradeoff.pdf')]
     files += sections + sorted((HERE/'tables').glob('*.tex'))
     result = dict(schema='paper-comparison-report-validation-v1', date='2026-10-28',
-        page_count=18, main_pages=14, appendix_pages=4, main_sections=5, generated_tables=14,
+        page_count=19, contents_pages=1, main_pages=14, appendix_pages=4,
+        linked_table_of_contents=True, body_page_numbers_unchanged=True, main_sections=5, generated_tables=14,
         citations=10, architecture_figures=2, scientific_tradeoff_figures=1,
         main_privacy_cells=30, main_release_pins_verified=108, source_tables_reproducible=True,
         all_arms_complete=True, own_model_resampled=False, report_fits_attackers=False,
         adaptations_not_official_reproductions=True, old_ablation_separate=True,
         text_bounds_verified=True, no_missing_glyphs_or_overfull_boxes=True,
         visual_qa_completed=args.visual_reviewed,
-        visual_qa_scope='all 18 final pages, diagrams/arrows, tables, formulas and page breaks',
+        visual_qa_scope='linked contents page and unchanged 18 body pages; final page renders',
         implementation_certified_by_report=False, benchmark_sha256=sources['benchmark_sha256'],
         files_sha256={str(p.relative_to(HERE)):digest(p) for p in files},
         rendered_pages_sha256={p.name:digest(p) for p in renders})
     (HERE/'report_manifest.json').write_text(json.dumps(result, ensure_ascii=False, indent=2)+'\n')
-    print('PASS:18 pages;14 tables;30 main privacy cells;108 pins; sources/citations/layout')
+    print('PASS:19 pages;linked contents;14 tables;30 main privacy cells;108 pins; sources/citations/layout')
 
 
 if __name__ == '__main__':

@@ -21,6 +21,8 @@
 \fancyhead[R]{\small\color{gray}28/10/2026}\fancyfoot[C]{\small\thepage}
 \renewcommand{\headrulewidth}{.3pt}
 \renewcommand{\refname}{References}
+\renewcommand{\contentsname}{Mục lục}
+\setcounter{tocdepth}{3}
 \captionsetup{font=small,labelfont=bf}
 \newcommand{\key}[1]{\par\smallskip\textcolor{teal}{\textbf{#1}}\par\smallskip}
 \newcommand{\claim}[1]{\par\textbf{Ý nghĩa.} #1\par}
@@ -28,6 +30,10 @@
 \hypersetup{pdftitle={GeoI-BQ: phương pháp Geo-I và đánh giá đối chiếu paper adaptations},pdfauthor={}}
 \input{report_constants}
 \begin{document}
+\pagenumbering{roman}
+{\setlength{\parskip}{0pt}\tableofcontents}
+\clearpage
+\pagenumbering{arabic}
 \begin{center}
 {\LARGE\bfseries\color{ink}Bảo vệ quỹ đạo cho người dùng dịch vụ vị trí}\\[4pt]
 {\large Phương pháp dựa trên Geo-I với cận tiết lộ toàn transcript}\\[3pt]
@@ -44,6 +50,7 @@
 \clearpage
 \input{sections/summary}
 \begin{small}\begin{thebibliography}{99}
+\addcontentsline{toc}{section}{References}
 \input{references}
 \end{thebibliography}\end{small}
 \clearpage

@@ -1,4 +1,5 @@
 \section*{Phụ lục A. Khoảng tin cậy privacy đầy đủ}
+\addcontentsline{toc}{section}{Phụ lục A. Khoảng tin cậy privacy đầy đủ}
 Mỗi hàng là một method/task; CI95\% percentile bootstrap 10.000 lần theo family.
 MAE và Hit được chọn attacker riêng theo loss trên SELECTION. Mẫu số TEST là 20 family, 120 trip-draw/arm;
 S1/S3 trung bình 31 targets/trip, các task còn lại một target/trip. Dấu * là adaptation.
@@ -7,6 +8,7 @@ CI [0;0] khi không thấy hit trong mẫu chỉ là kết quả bootstrap thự
 
 \clearpage
 \section*{Phụ lục B. Chênh lệch utility theo purpose}
+\addcontentsline{toc}{section}{Phụ lục B. Chênh lệch utility theo purpose}
 Đơn vị điểm phần trăm: GeoI-BQ trừ đối chứng, cùng session cache. Tất cả controls/purposes được giữ,
 không chỉ các chênh lệch có lợi. Bootstrap ghép family dùng cùng draw/trip workload.
 \begin{small}\input{tables/purpose_deltas}\end{small}
@@ -15,6 +17,7 @@ CI tuyệt đối từng purpose và chênh lệch so với TransProtect*:
 
 \clearpage
 \section*{Phụ lục C. Bằng chứng giải thích nội bộ, tách khỏi trial mới}
+\addcontentsline{toc}{section}{Phụ lục C. Bằng chứng giải thích nội bộ, tách khỏi trial mới}
 Các bảng này thuộc \texttt{main\_depth\_20261014\_v1}, không phải các phương pháp từ paper.
 Mục đích là giải thích thiết kế và response depth; không ghép privacy scores/CI lịch sử thành phép
 so sánh trực tiếp với ba adaptation ở Phần 4. GeoI-BQ được phát lại từ nguồn này nên utility khớp đúng.
@@ -30,6 +33,7 @@ App trả danh sách phù hợp đã sắp xếp; Recall@5 là phép đo, không
 
 \clearpage
 \section*{Phụ lục D. Tái lập, fidelity và nguồn số liệu}
+\addcontentsline{toc}{section}{Phụ lục D. Tái lập, fidelity và nguồn số liệu}
 \textbf{Artifact chính:} \texttt{artifacts/benchmarks/paper\_comparison\_20261028\_v1/}.
 Protocol chốt nguồn và cấu hình trước generation; source snapshot, families, predictions, models,
 selection logs, native metrics, failures và bảng kết quả được lưu cùng phiên bản. Khoá randomness riêng
