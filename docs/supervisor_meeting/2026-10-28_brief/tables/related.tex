@@ -1,0 +1,12 @@
+\par\smallskip\noindent\begin{tabularx}{\linewidth}{@{}P{2.75cm}P{2.15cm}P{1.6cm}P{2.4cm}P{2.5cm}Y@{}}\toprule
+\textbf{Paper / cơ chế} & \textbf{Output} & \textbf{Scenario} & \textbf{Privacy} & \textbf{Utility / cost} & \textbf{Tái lập trong bản này} \\
+\midrule
+\textbf{TransProtect} 2024\cite{transprotect}\newline Học chuyển động + chọn miền + obfuscation & Một tọa độ thay thế/mốc & F: S1, S3\newline P: S2 & EIE; tấn công VehiTrack & Travel-cost distortion $\Delta$c; chi phí vận hành chưa có contract chung & Chạy Markov adaptation; không có checkpoint Transformer gốc \\
+\textbf{Semantic correlation} 2026\cite{semantic}\newline Tương quan ngữ nghĩa và thời gian & GPS thật + K-1 dummy & F: S1\newline P: S2, S3 & Anonymity success rate (ASR) & DER là chất lượng dummy; thời gian sinh & Chạy OSM/empirical adaptation; không tái lập AMap/LSTM \\
+\textbf{Fake queries} 2026\cite{fake}\newline Chèn query toàn giả giữa query thật & Real+dummy sets và fake packets & F: S1, S3\newline P: S2 & ASR; số đường khó phân biệt & Thời gian/RSS; chưa đo Recall POI chung & Chạy road/history adaptation, giữ fake timing và mọi chi phí \\
+\textbf{EV querying} 2024\cite{ev}\newline Approximate Geo-I + dummy + Edge & Vị trí nhiễu và dummy; chọn trạm sạc local & P: S1, S2, S3 & ($\varepsilon$,$\delta$)-AGeoI; IBU/Wasserstein & Cost of Privacy (CoP), tỷ lệ CoP=0 & Khảo sát; chưa có adaptation cùng dịch vụ và giả định Edge \\
+\textbf{CPCROK} 2025\cite{cpcrok}\newline Mix-zone, đổi pseudonym và beacon giả & Beacon thật + tuyến beacon giả & P: S4 & Tỷ lệ khớp lại quỹ đạo $\rho$ & Số tuyến giả $\psi$; truyền thông VANET & Khác hợp đồng POI online; không đưa vào bảng score chính \\
+\textbf{DP-FETC} 2025\cite{dpfetc}\newline Thống kê DP, tổng hợp trace và chỉnh OD & Bộ dữ liệu quỹ đạo offline & P: S3, S8, S9, S10 & $\varepsilon$-DP; mutual information & JSD phân bố; độ phức tạp & Offline publishing; không chấm bằng request POI online \\
+\textbf{PTPPM} 2025\cite{ptppm}\newline Personalized budget, PLS, Permute-and-Flip & Vị trí đã perturb trên mạng đường & CX: S1, S3 & Geo-I + distortion privacy/EIE bound & Perturbation distance/QoS & Preprint liên quan; chưa có comparator đã audit trong repo \\
+\textbf{SoK trajectory generation} 2024\cite{sok}\newline Systematization và unit of privacy & Khảo sát phát hành dữ liệu tổng hợp & Không áp dụng & Formal privacy, reconstruction/correlation threats & Mục tiêu và utility của dữ liệu tổng hợp & Nguồn bối cảnh; không là một model đối chứng online \\
+\bottomrule\end{tabularx}\par\smallskip

@@ -1,5 +1,11 @@
 # Graduation thesis
 
+The [28/10 paper-style draft](../docs/supervisor_meeting/2026-10-28_brief/README.md)
+implements the agreed five-section article outline in Vietnamese, with system/model
+diagrams, the final GeoI-BQ proofs and a new matched comparison against three
+audited paper adaptations. It keeps the canonical thesis and earlier reports
+unchanged. Its main comparison is not the internal planner ablation table.
+
 The proposed [writing brief, 27/10/2026](WRITING_BRIEF.md) sets out the target
 argument, seven-chapter structure and drafting order for integrating GeoI-BQ v1.
 It is for review before manuscript edits; the current `main.tex` and reviewed

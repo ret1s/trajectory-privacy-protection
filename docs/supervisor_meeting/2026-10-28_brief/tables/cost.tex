@@ -1,0 +1,10 @@
+\par\smallskip\noindent\begin{tabularx}{\linewidth}{@{}P{3.6cm}XXXXX@{}}\toprule
+\textbf{Phương pháp} & \textbf{Packet} & \textbf{Query điểm} & \textbf{Request KB} & \textbf{Reply KB} & \textbf{Sinh / tick ms} \\
+\midrule
+Raw GPS & 31{,}00 & 31{,}00 & 5{,}846 & 16{,}843 & <0{,}001 \\
+Geo-I/REM Z (K1) & 31{,}00 & 31{,}00 & 6{,}352 & 16{,}921 & -- \\
+TransProtect* & 31{,}00 & 31{,}00 & 6{,}351 & 16{,}847 & 3{,}287 \\
+Semantic correlation* & 31{,}00 & 155{,}00 & 31{,}754 & 84{,}770 & 0{,}993 \\
+Fake-query insertion* & 38{,}04 & 190{,}21 & 39{,}418 & 104{,}033 & 0{,}759 \\
+\textbf{GeoI-BQ v1} & 31{,}00 & 155{,}00 & 31{,}756 & 82{,}557 & -- \\
+\bottomrule\end{tabularx}\par\smallskip

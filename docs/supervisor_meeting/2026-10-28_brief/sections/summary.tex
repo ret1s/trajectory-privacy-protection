@@ -1,0 +1,23 @@
+\section{Summary}
+\textbf{RQ1 -- privacy.} Phương pháp nối REM, noisy reuse và cap thành cận không gian cho lịch sử đã bảo vệ;
+kernel chọn đoạn có common support và cận riêng cho toàn transcript. Hậu xử lý dẫn tới cận minimum giữa
+hai nhánh, cùng diễn giải posterior odds. Kết quả lý thuyết phân biệt kernel lý tưởng với mã hiện tại:
+float sampler Geo-I và full upstream restore chưa được chứng nhận; fresh uniform bits và trusted ledger
+vẫn là giả thiết của cận Q. Năm Q hoặc Z không công bố không tự tạo anonymity cho người/xe.
+
+\textbf{RQ2 -- utility.} Private adaptation tăng kỳ vọng score lập kế hoạch; tăng actual utility cần proxy phù hợp.
+Union/cache và ranking bảo toàn POI đã có dưới cùng GPS/request/order. Cận theo matched public-base
+và cận chuyển có điều kiện không được phát biểu thành floor phổ quát. Thực nghiệm hiện tại đạt
+\PrimaryRecall\% Recall với CI \PrimaryCI\%, giảm khoảng 0,4 pp so với ba adaptation gần 100\%.
+
+\textbf{RQ3 -- đánh đổi và đối chiếu.} Trên cohort đã xem, GeoI-BQ có Hit100 thấp hơn ba adaptation trong
+bank kiểm thử cho S1--S3/S9--S10. Chi phí 155 point queries/phiên cao hơn singleton controls, nhưng không
+cần fake packets phụ. Benchmark được tổ chức theo output contract, bảo lưu metrics gốc khi dùng được,
+N/A, failures và CIs; các kết quả không là xác nhận vượt mọi implementation chính thức của paper.
+
+Đóng góp thực sự là đặc tả bài toán/đánh giá, thiết kế kênh Q có cận toàn phiên và phép đối chiếu tái lập,
+không phải một metric MAE/Recall mới hay tuyên bố bảo vệ hoàn toàn mọi scenario.
+Các bước tiếp theo gồm chứng nhận sampler/restore, phân tích nhiều phiên và side channels,
+đánh giá độc lập trên thành phố/catalogue động, tái lập predictor gốc và calibration utility thực địa.
+S4--S6/S8 cần mô hình target/dữ liệu bổ sung khi trở thành thực nghiệm chính. Các hướng này không
+thay đổi kết luận có điều kiện và bằng chứng hiện đã được báo cáo.

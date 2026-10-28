@@ -1,0 +1,212 @@
+{
+  "schema": "recent-literature-evidence-v1",
+  "window": [
+    "2023-10-28",
+    "2026-10-28"
+  ],
+  "date_rule": "first public release with evidence, not a later issue year",
+  "checked_on": "2026-10-28",
+  "coverage_rule": "F: directly considers/evaluates task under paper assumptions; P: partial or different setting; CX: insufficient task-level evidence; not a security certificate",
+  "prior_fulltext_audit": "docs/research/2026-10-06_report_evidence.md",
+  "papers": [
+    {
+      "key": "transprotect",
+      "name": "TransProtect",
+      "year": 2024,
+      "first_public_date": "2024-09-14",
+      "authors": "S. Yadav, C. Yu, X. Xie, Y. Huang và C. Qiu",
+      "title": "Protecting Vehicle Location Privacy with Contextually-Driven Synthetic Location Generation",
+      "venue": "ACM SIGSPATIAL 2024",
+      "doi": "10.1145/3678717.3691211",
+      "url": "https://arxiv.org/abs/2409.09495",
+      "mechanism": "Học chuyển động + chọn miền + obfuscation",
+      "output": "Một tọa độ thay thế/mốc",
+      "direct": [
+        "S1",
+        "S3"
+      ],
+      "partial": [
+        "S2"
+      ],
+      "privacy": "EIE; tấn công VehiTrack",
+      "utility": "Travel-cost distortion Δc; chi phí vận hành chưa có contract chung",
+      "implementation": "Chạy Markov adaptation; không có checkpoint Transformer gốc",
+      "evidence": "Paper §§3.1,4.4 Eq.13,5.1.4; docs/reproduction/transprotect.md"
+    },
+    {
+      "key": "semantic",
+      "name": "Semantic correlation",
+      "year": 2026,
+      "first_public_date": "2026-06-04",
+      "authors": "H. Liu, H. Peng và N. Zhou",
+      "title": "A dummy-based location privacy protection scheme with semantic correlation of moving paths",
+      "venue": "Journal of King Saud University Computer and Information Sciences 38:478",
+      "doi": "10.1007/s44443-026-00899-w",
+      "url": "https://link.springer.com/article/10.1007/s44443-026-00899-w",
+      "mechanism": "Tương quan ngữ nghĩa và thời gian",
+      "output": "GPS thật + K−1 dummy",
+      "direct": [
+        "S1"
+      ],
+      "partial": [
+        "S2",
+        "S3"
+      ],
+      "privacy": "Anonymity success rate (ASR)",
+      "utility": "DER là chất lượng dummy; thời gian sinh",
+      "implementation": "Chạy OSM/empirical adaptation; không tái lập AMap/LSTM",
+      "evidence": "Paper §§3.2,4,6.3–6.5; docs/reproduction/semantic_correlation.md"
+    },
+    {
+      "key": "fake",
+      "name": "Fake queries",
+      "year": 2026,
+      "first_public_date": "2026-01-03",
+      "authors": "H. Liu, S. Hu và N. Zhou",
+      "title": "Location privacy protection in continuous LBSs: enhancing anonymity via fake queries",
+      "venue": "Journal of King Saud University Computer and Information Sciences 38:53",
+      "doi": "10.1007/s44443-025-00438-z",
+      "url": "https://link.springer.com/article/10.1007/s44443-025-00438-z",
+      "mechanism": "Chèn query toàn giả giữa query thật",
+      "output": "Real+dummy sets và fake packets",
+      "direct": [
+        "S1",
+        "S3"
+      ],
+      "partial": [
+        "S2"
+      ],
+      "privacy": "ASR; số đường khó phân biệt",
+      "utility": "Thời gian/RSS; chưa đo Recall POI chung",
+      "implementation": "Chạy road/history adaptation, giữ fake timing và mọi chi phí",
+      "evidence": "Paper §§3–5,6.3–6.6; docs/reproduction/fake_queries.md"
+    },
+    {
+      "key": "ev",
+      "name": "EV querying",
+      "year": 2024,
+      "first_public_date": "2024-01-30",
+      "authors": "U. I. Atmaca, S. Biswas, C. Maple và C. Palamidessi",
+      "title": "A privacy-preserving querying mechanism with high utility for electric vehicles",
+      "venue": "IEEE Open Journal of Vehicular Technology 5:262–277",
+      "doi": "10.1109/OJVT.2024.3360302",
+      "url": "https://wrap.warwick.ac.uk/id/eprint/183198/",
+      "mechanism": "Approximate Geo-I + dummy + Edge",
+      "output": "Vị trí nhiễu và dummy; chọn trạm sạc local",
+      "direct": [],
+      "partial": [
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "privacy": "(ε,δ)-AGeoI; IBU/Wasserstein",
+      "utility": "Cost of Privacy (CoP), tỷ lệ CoP=0",
+      "implementation": "Khảo sát; chưa có adaptation cùng dịch vụ và giả định Edge",
+      "evidence": "Published PDF §§V.C–E,VI Def.6.1,VII; audit06/10"
+    },
+    {
+      "key": "cpcrok",
+      "name": "CPCROK",
+      "year": 2025,
+      "first_public_date": "2025-04-09",
+      "authors": "J. Wang, H. Li, Y. Sun, C. Phillips, A. Mylonas và D. Gritzalis",
+      "title": "CPCROK: A Communication-Efficient and Privacy-Preserving Scheme for Low-Density Vehicular Ad Hoc Networks",
+      "venue": "Future Internet 17(4):165",
+      "doi": "10.3390/fi17040165",
+      "url": "https://uhra.herts.ac.uk/id/eprint/25705/",
+      "mechanism": "Mix-zone, đổi pseudonym và beacon giả",
+      "output": "Beacon thật + tuyến beacon giả",
+      "direct": [],
+      "partial": [
+        "S4"
+      ],
+      "privacy": "Tỷ lệ khớp lại quỹ đạo ρ",
+      "utility": "Số tuyến giả ψ; truyền thông VANET",
+      "implementation": "Khác hợp đồng POI online; không đưa vào bảng score chính",
+      "evidence": "Paper §§3.2,5.4; audit06/10"
+    },
+    {
+      "key": "dpfetc",
+      "name": "DP-FETC",
+      "year": 2025,
+      "first_public_date": "2025-11-12",
+      "authors": "B. Yue, S. Li, A. Liu và X. Li",
+      "title": "DP-FETC: a differentially private trajectory publishing method based on feature extraction and trajectory correlation",
+      "venue": "Electronic Research Archive 33(11):6631–6651",
+      "doi": "10.3934/era.2025293",
+      "url": "https://www.aimspress.com/article/doi/10.3934/era.2025293",
+      "mechanism": "Thống kê DP, tổng hợp trace và chỉnh OD",
+      "output": "Bộ dữ liệu quỹ đạo offline",
+      "direct": [],
+      "partial": [
+        "S3",
+        "S8",
+        "S9",
+        "S10"
+      ],
+      "privacy": "ε-DP; mutual information",
+      "utility": "JSD phân bố; độ phức tạp",
+      "implementation": "Offline publishing; không chấm bằng request POI online",
+      "evidence": "Paper §§4.3–4.4,5.2 Eqs.19–21; audit06/10"
+    },
+    {
+      "key": "ptppm",
+      "name": "PTPPM",
+      "year": 2025,
+      "first_public_date": "2025-11-26",
+      "authors": "M. Min và cộng sự",
+      "title": "Road Network-Aware Personalized Trajectory Protection with Differential Privacy under Spatiotemporal Correlations",
+      "venue": "arXiv:2511.21020, preprint",
+      "doi": "10.48550/arXiv.2511.21020",
+      "url": "https://arxiv.org/abs/2511.21020",
+      "mechanism": "Personalized budget, PLS, Permute-and-Flip",
+      "output": "Vị trí đã perturb trên mạng đường",
+      "direct": [],
+      "partial": [],
+      "uncertain": [
+        "S1",
+        "S3"
+      ],
+      "privacy": "Geo-I + distortion privacy/EIE bound",
+      "utility": "Perturbation distance/QoS",
+      "implementation": "Preprint liên quan; chưa có comparator đã audit trong repo",
+      "evidence": "Primary abstract/version metadata; no direct S1–S10 evaluation equivalence asserted"
+    },
+    {
+      "key": "sok",
+      "name": "SoK trajectory generation",
+      "year": 2024,
+      "first_public_date": "2024-03-12",
+      "authors": "E. Buchholz, A. Abuadbba, S. Wang, S. Nepal và S. S. Kanhere",
+      "title": "SoK: Can Trajectory Generation Combine Privacy and Utility?",
+      "venue": "Proceedings on Privacy Enhancing Technologies 2024(3):75–93",
+      "doi": "10.56553/popets-2024-0068",
+      "url": "https://petsymposium.org/popets/2024/popets-2024-0068.pdf",
+      "mechanism": "Systematization và unit of privacy",
+      "output": "Khảo sát phát hành dữ liệu tổng hợp",
+      "direct": [],
+      "partial": [],
+      "privacy": "Formal privacy, reconstruction/correlation threats",
+      "utility": "Mục tiêu và utility của dữ liệu tổng hợp",
+      "implementation": "Nguồn bối cảnh; không là một model đối chứng online",
+      "evidence": "Primary paper abstract/introduction/design goals",
+      "first_public_evidence": "https://arxiv.org/abs/2403.07218"
+    }
+  ],
+  "foundations": [
+    {
+      "key": "geoi",
+      "authors": "M. E. Andrés, N. E. Bordenabe, K. Chatzikokolakis và C. Palamidessi",
+      "title": "Geo-Indistinguishability: Differential Privacy for Location-Based Systems",
+      "venue": "ACM CCS 2013, pp.901–914",
+      "url": "https://arxiv.org/abs/1212.1984"
+    },
+    {
+      "key": "predictive",
+      "authors": "K. Chatzikokolakis, C. Palamidessi và M. Stronati",
+      "title": "A Predictive Differentially-Private Mechanism for Mobility Traces",
+      "venue": "Privacy Enhancing Technologies 2014",
+      "url": "https://petsymposium.org/2014/papers/Chatzikokolakis.pdf"
+    }
+  ]
+}

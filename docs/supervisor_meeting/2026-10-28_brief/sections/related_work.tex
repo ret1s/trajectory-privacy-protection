@@ -1,0 +1,35 @@
+\section{Related Work}
+\subsection{Truy vấn liên tục và tính hợp lý của đầu ra}
+TransProtect\cite{transprotect} khai thác dự đoán chuyển động và chi phí tới đích để chọn miền obfuscation,
+đối phó tấn công biết bối cảnh đường/giao thông. Semantic correlation\cite{semantic} xét sự nhất quán
+ngữ nghĩa và thời gian của chuỗi tập vị trí. Fake queries\cite{fake} chèn thêm tập toàn giả giữa các lần
+truy vấn để làm gián đoạn tương quan và reachability. Những hướng này chỉ ra vì sao attacker không nên
+bị giới hạn vào một điểm độc lập; chúng khác nhau ở việc có công bố GPS thật như một thành viên hay không.
+
+\subsection{Geo-I, utility và các phạm vi bảo vệ khác}
+EV querying\cite{ev} kết hợp approximate Geo-I với dummy và xử lý cục bộ để giữ chất lượng tìm trạm sạc;
+điều đó cho thấy Geo-I + dummy + local selection đã có tiền lệ. PTPPM\cite{ptppm} là preprint road-aware
+kết hợp personalized budget và distortion privacy. Khác biệt cần phân tích của GeoI-BQ nằm ở đặc tả
+kênh Q và cận toàn transcript, không ở phát biểu rằng lần đầu dùng nhiễu trên mạng đường.
+
+CPCROK\cite{cpcrok} bảo vệ việc nối lại beacon qua pseudonym trong VANET; DP-FETC\cite{dpfetc} phát hành
+dataset tổng hợp và xử lý OD/tương quan. Các mục tiêu đó liên quan identity/endpoint nhưng không tự
+tương đương tác vụ POI online. SoK\cite{sok} giúp phân biệt đơn vị privacy và các mục tiêu của generative
+trajectory publication; nó là nguồn bối cảnh, không là một model đối chứng online.
+
+\subsection{Tổng hợp phạm vi, metrics và khả năng đối chiếu}
+Khảo sát phương pháp gần đây dùng cửa sổ \textbf{28/10/2023--28/10/2026}, xét công bố đầu tiên có bằng chứng.
+Geo-I 2013 và predictive mechanism 2014 được dẫn riêng ở Phần 3 như nguồn nền tảng.
+Trong bảng: \textbf{F} = trực tiếp xét/đánh giá task theo giả định paper; \textbf{P} = một phần hoặc bối cảnh khác;
+\textbf{CX} = chưa đủ căn cứ đối chiếu chi tiết. Các nhãn do ta ánh xạ sang S1--S10, không có nghĩa chống mọi attacker.
+Scenario không liệt kê chưa có căn cứ coverage trong audit này; không tự quy thành score 0 hoặc đã bảo vệ.
+
+\begin{footnotesize}\input{tables/related}\end{footnotesize}
+
+\textbf{Khoảng trống đánh giá.} ASR đòi một thành viên thật và posterior tương ứng; Q-only không có thành viên
+đó. DER đo chất lượng dummy, JSD đo fidelity của dataset và CoP đo tổn thất dịch vụ, không phải cùng một
+đại lượng privacy. Vì vậy, Phần 4 định nghĩa metrics chung theo threat và utility thực nhận, đồng thời giữ
+metrics gốc đúng contract. Khác định nghĩa phải ghi rõ; thiếu đầu vào giữ N/A, không chuyển thành score tốt.
+
+Ba hàng TransProtect*, Semantic* và Fake-query* trong thực nghiệm là các adaptation đã audit. Những hàng
+khác định vị nghiên cứu và giới hạn coverage; chưa có implementation phù hợp thì không được gán số benchmark.

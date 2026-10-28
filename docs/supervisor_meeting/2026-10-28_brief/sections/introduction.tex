@@ -1,0 +1,46 @@
+\section{Introduction}
+\textbf{Motivation.} Dịch vụ dựa trên vị trí (LBS) giúp người dùng tìm địa điểm quan tâm (POI) khi di chuyển.
+Những yêu cầu liên tiếp đồng thời tạo thành dấu vết mà nhà cung cấp có thể kết hợp với bản đồ và lịch sử
+để suy luận vị trí, đường đi hoặc các thông tin liên quan. Bảo vệ một điểm gửi riêng lẻ vì vậy chưa đủ
+để mô tả rủi ro của cả quá trình sử dụng dịch vụ. Các nghiên cứu về bối cảnh giao thông, ngữ nghĩa và
+query liên tục đã khai thác những tương quan này\cite{transprotect,semantic,fake}.
+
+\textbf{Các vấn đề cần giải quyết.} Thứ nhất, cơ chế nhiều bước phải tính cả quyết định khi nào cập nhật
+thông tin vị trí, không chỉ việc thêm nhiễu. Thứ hai, đầu ra giả có thể hợp lý về hình học nhưng không
+lấy được POI phù hợp cho người dùng. Thứ ba, các công trình được khảo sát dùng output, attacker, dữ liệu
+và metrics khác nhau: một tọa độ thay thế, một tập chứa GPS thật và các dummy, hoặc một bộ dữ liệu
+trajectory được tổng hợp offline không thể được so sánh bằng một score không đổi ý nghĩa.
+
+Vấn đề đánh giá không nằm ở việc hoàn toàn thiếu dataset hoặc metrics trong lĩnh vực. Điều còn thiếu
+cho phép đối chiếu ở đây là \emph{một protocol thống nhất giữa những hợp đồng đầu ra và mục tiêu đang xét}.
+Luận văn do đó hệ thống hóa các tác vụ suy luận, xây dựng workload có kiểm soát và sử dụng hai lớp đo:
+metrics chung theo tác vụ, cùng metrics gốc khi định nghĩa và đầu vào tương thích.
+
+\begin{tabularx}{\linewidth}{@{}P{2.1cm}P{5.6cm}Y@{}}\toprule
+\textbf{Nhóm} & \textbf{Mục tiêu} & \textbf{Vai trò nghiên cứu}\\\midrule
+S1--S3 & Vị trí hiện tại, nơi dừng, đường đã đi & Tác vụ định vị/tái dựng theo các phạm vi quan sát.\\
+S4--S6 & Liên kết người/xe, cạnh kế tiếp, đích tương lai & Suy luận phụ thuộc prior và quan hệ giữa target với trajectory.\\
+S7--S8 & Nội dung/ý định query; thông tin người đi cùng & Phân biệt payload với intent, cá nhân với tương quan nhóm.\\
+S9--S10 & Điểm đầu và điểm cuối phiên & Rủi ro endpoint dưới mô hình quan sát được khai báo.\\\bottomrule
+\end{tabularx}
+
+\textbf{Hướng giải quyết.} GeoI-BQ giữ Geo-indistinguishability (Geo-I) làm nền tảng. Thiết bị dùng REM
+và phép thử tái sử dụng có nhiễu để duy trì điểm tham chiếu Z. Từ lịch sử đã bảo vệ, một belief gần đúng
+đánh giá những vị trí người dùng có thể ở. Belief điều chỉnh phân phối chọn \emph{đoạn Q} trong giới hạn;
+các khung Q được phát theo lịch, còn GPS hiện tại và nhu cầu thật chỉ dùng tại bộ lọc/xếp hạng local.
+Phân tích toán học nối các thao tác này thành cận cho toàn transcript trước khi đọc benchmark.
+
+\textbf{Đóng góp chính.}
+\begin{enumerate}
+\item Hệ thống hóa bài toán thành các scenario, ranh giới quan sát và protocol đánh giá theo output contract;
+xây dựng workload SUMO/POI để đo suy luận vị trí, chất lượng đáp án và chi phí trên cùng dữ liệu.
+\item Đặc tả phương pháp dựa trên Geo-I và cơ chế chọn chung đoạn Q; phân tích privacy toàn transcript,
+giới hạn suy luận và các bảo đảm utility có điều kiện. Không gọi các nền tảng hợp thành/hậu xử lý là định lý mới.
+\item Đối chiếu GeoI-BQ với ba adaptation từ nghiên cứu gần đây trên cùng cohort, kèm Raw và REM-Z controls;
+giữ CI, failure, metrics không áp dụng và sự khác biệt về chi phí/bảo đảm.
+\end{enumerate}
+Các kết quả không mặc định bảo vệ đầy đủ S1--S10. Bằng chứng thực nghiệm chính là S1--S3 và S9--S10;
+S4--S6 nhận phân tích suy luận có điều kiện, S7 có tính bất biến payload và S8 là hướng mở rộng.
+
+Phần 2 khảo sát nghiên cứu liên quan; Phần 3 trình bày hệ thống, thuật toán và chứng minh; Phần 4 định nghĩa
+đánh giá và phân tích thực nghiệm; Phần 5 tổng kết đóng góp, giới hạn và hướng tiếp theo.

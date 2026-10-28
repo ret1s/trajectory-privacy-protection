@@ -1,0 +1,192 @@
+\clearpage
+\subsection{Privacy analysis}\label{sec:privacy}
+\subsubsection{Mệnh đề 1: REM thỏa Geo-I}
+Dựa trên định nghĩa Geo-I \cite{geoi} và tư tưởng predictive reuse \cite{predictive}, giữ cùng $V$ và cùng phép chiếu mét. Với hai GPS $x,x'$, đặt $d=\|x-x'\|$,
+$w_x(v)=e^{-u\|x-a_v\|/2}$ và $S_x=\sum_vw_x(v)$.
+Bất đẳng thức tam giác cho $|\|x-a_v\|-\|x'-a_v\||\le d$, suy ra
+\begin{equation}
+\frac{w_x(v)}{w_{x'}(v)}\le e^{ud/2},\qquad
+w_{x'}(v)\le e^{ud/2}w_x(v)\ \Longrightarrow\ \frac{S_{x'}}{S_x}\le e^{ud/2}.
+\end{equation}
+Vì vậy, với mọi ứng viên $v$:
+\begin{equation}
+\boxed{\frac{R_u(v\mid x)}{R_u(v\mid x')}
+=\frac{w_x(v)}{w_{x'}(v)}\frac{S_{x'}}{S_x}\le e^{ud}.}
+\label{eq:remproof}
+\end{equation}
+Hoán đổi $x,x'$ cho cận ngược. Cộng theo các ứng viên trùng tọa độ giữ cận cho Z quan sát được.
+Đây là tính chất của toàn kernel, không phải phép lọc riêng từng điểm ``đạt Geo-I''.
+
+\subsubsection{Mệnh đề 2: noisy reuse và hạch toán toàn phiên}
+Tại cùng lịch sử đã bảo vệ, Z cũ $h$ giống nhau. $g_h(x)=\|x-h\|$ là 1-Lipschitz.
+Với $Y=g_h(x)+\operatorname{Lap}(0,1/u)$, mật độ là $f_x(y)=\frac u2e^{-u|y-g_h(x)|}$, nên
+\begin{equation}
+\frac{f_x(y)}{f_{x'}(y)}
+=e^{u(|y-g_h(x')|-|y-g_h(x)|)}\le e^{ud}.
+\label{eq:test}
+\end{equation}
+Tích phân trên $Y\le\theta$ và $Y>\theta$ chứng minh cả quyết định giữ và đổi thỏa cận $u$.
+Gọi $r_x$ là xác suất giữ, kernel của lịch sử mở rộng có hai nhánh:
+\[
+K_x(\mathrm{reuse})=r_x,\qquad K_x(\mathrm{fresh},v)=(1-r_x)R_u(v\mid x).
+\]
+Nhánh reuse có hệ số tối đa $e^{ud}$; nhánh fresh có hệ số tối đa $e^{2ud}$.
+Cờ nhánh ở local; phân tích lịch sử mạnh hơn rồi chiếu xuống output, không giả sử server nhìn thấy cờ này.
+
+\begin{tabularx}{\linewidth}{@{}Ycc@{}}\toprule
+\textbf{Thao tác} & \textbf{Đơn vị chi phí} & \textbf{Lý do}\\\midrule
+Z đầu tiên bằng REM & 1 & Một lần REM\\
+Test rồi giữ Z & 1 & Một lần test\\
+Test rồi tạo mới & 2 & Test + REM\\
+Chỉ hậu xử lý, không đọc GPS mới & 0 & Không thêm private input\\\bottomrule
+\end{tabularx}
+
+\textbf{Hợp thành.} So hai traces $X,X'$ trên cùng lịch \emph{có thể đọc}, kể cả mốc bị bỏ qua.
+Prospective filter dự toán chi phí trước khi đọc; tại cùng lịch sử, pacing/cap quyết định giống nhau.
+Với $c_i\in\{0,1,2\}$ và $\sum_ic_i\le M$, chain rule cho
+\begin{equation}
+\log\frac{\Pr(E=e\mid X,C)}{\Pr(E=e\mid X',C)}
+\le u\sum_ic_i\|x_i-x_i'\|\le MuD_\infty=C_sD_\infty.
+\label{eq:geosession}
+\end{equation}
+$D_\infty$ là độ lệch lớn nhất giữa hai traces ở các mốc tương ứng. Cận tinh hơn giữ tổng khoảng cách
+của các thao tác khả thi; không cần độc lập giữa các GPS.
+
+\textbf{Ý nghĩa ngân sách.} $u=B/(2H)$, $M=2H-1=23$, $C_s=Mu=0{,}23$ m$^{-1}$.
+Đây là hệ quả cấu hình, không phải bán kính nhiễu hay mức an toàn tối ưu. Muốn tỷ số không vượt $R_*$
+cho $D_\infty\le d_*$, điều kiện đủ của cận thô là $C_s\le\log(R_*)/d_*$.
+Không khẳng định cấu hình hiện tại đã được chọn theo một chính sách rủi ro như vậy từ trước.
+Hết cap vẫn có thể truy vấn bằng thông tin đã bảo vệ, nhưng khả năng thích nghi có thể giảm.
+
+
+\clearpage
+\subsubsection{Mệnh đề 3: một lần chọn đoạn Q có cận tiết lộ riêng}
+Lịch sử phân tích $H$ giữ cả đoạn đã chọn và nhãn lane giả; hai lane có thể trùng tọa độ wire nhưng
+khác chuyển tiếp về sau. Tại cùng $C,H$, thư viện, thứ tự action và $w_a>0$ chung, không dùng GPS/Z/belief
+để loại ứng viên. Ta chứng minh trên lịch sử mở rộng này rồi marginal hóa về wire, không giả sử tọa độ
+quan sát được xác định duy nhất lane. Với $z_a\in[0,1]$, công thức (\ref{eq:kernel}) cho
+\begin{equation}
+\sum_ap_a=1+\alpha\left(\sum_aw_az_a-\mu\right)=1,\qquad
+w_a(1-\alpha)\le p_a\le w_a(1+\alpha).
+\label{eq:normalization}
+\end{equation}
+Do $\alpha<1$, support vẫn dương. Hai belief bất kỳ tạo hai vector điểm nhưng cùng khoảng chặn:
+\begin{equation}
+\boxed{\frac{p_a(b)}{p_a(b')}\le\frac{1+\alpha}{1-\alpha}=1+\varepsilon_Q\le e^{\varepsilon_Q}.}
+\label{eq:qbound}
+\end{equation}
+Nếu belief còn ngẫu nhiên tại cùng public history, lấy kỳ vọng điểm có điều kiện vẫn nằm trong $[0,1]$;
+phép centered tuyến tính nên cận vẫn giữ. Không cần chứng minh belief là posterior chính xác.
+
+\textbf{Liên hệ mã.} Với $w_a=m_a/T$, $z_a=F_a/S$, $\alpha=N/D$, trọng số integer là
+\[
+W_a=m_a\left[DTS+N\left(TF_a-\sum_cm_cF_c\right)\right],\qquad\sum_aW_a=DT^2S.
+\]
+Một integer đều trong tổng công khai này cho đúng PMF hữu hạn. Kết luận phụ thuộc bit đều mới và
+ledger đáng tin cậy; PCG dùng trong benchmark không phải chứng chỉ entropy lý thuyết thông tin.
+
+\subsubsection{Mệnh đề 4: hợp thành các đoạn cho cả phiên}
+\begin{equation}
+\varepsilon_{Q,j}=\frac{\Gamma_Q}{j(j+1)},\qquad
+\sum_{j=1}^n\varepsilon_{Q,j}=\Gamma_Q\frac{n}{n+1}\le\Gamma_Q.
+\label{eq:allowance}
+\end{equation}
+Mã dùng tham số hữu tỷ biểu diễn được không lớn hơn allowance. Nhân các cận tại cùng augmented history:
+\begin{equation}
+\boxed{\Pr_X(O_n\in B)\le R_n\Pr_{X'}(O_n\in B),\qquad
+R_n=\prod_{j=1}^n(1+\varepsilon_{Q,j})\le e^{\Gamma_Q}.}
+\label{eq:whole}
+\end{equation}
+Phản hồi provider có cùng conditional law, cache suy từ replies; các khung còn lại và retry dùng bản tin đã commit.
+Chứng minh trên lịch sử có cả lane/đoạn rồi marginal hóa xuống wire, không nhầm lane trùng tọa độ.
+Không cần IID; không được reset bộ đếm trong cùng phiên. Với $\Gamma_Q=1$, cận hữu tỷ toàn thời lượng
+nhỏ hơn $\RatioUpper$. Adaptation giảm dần khi allowance nhỏ; không cam kết utility cao cho mọi chuyến dài.
+
+\subsubsection{Định lý toàn transcript và ý nghĩa suy luận}
+Khi downstream chỉ dùng $E$ và thông tin công khai, kernel hậu xử lý $K$ chung cho hai traces:
+\begin{equation}
+\Pr_X(O\in B)=\int K(B\mid e,C)\,d\Pr_X(E=e)
+\le e^{C_sD_\infty}\Pr_{X'}(O\in B).
+\label{eq:postprocessing}
+\end{equation}
+Kết hợp hai cận cho \emph{cùng} output event:
+\begin{equation}
+\boxed{\Pr_X(O\in B)\le e^{\min\{C_sD_\infty,\log R_n\}}\Pr_{X'}(O\in B).}
+\label{eq:minimum}
+\end{equation}
+Cận Q không cần upstream Geo-I đúng; nhánh không gian và minimum cần kernel Geo-I lý tưởng cùng full restore.
+Bayes cho odds sau bằng odds trước nhân likelihood ratio. Với một target event có prior $\pi\in(0,1)$:
+\begin{equation}
+\frac{\pi}{\pi+R_n(1-\pi)}\le\Pr(Y\in A\mid O,C)
+\le\frac{R_n\pi}{1-\pi+R_n\pi}.
+\label{eq:bayes}
+\end{equation}
+Prior 50/50 cho posterior từng transcript không quá khoảng $\PosteriorUpper\%$ ở cận toàn thời lượng.
+Đây không phải attack accuracy trung bình. Identity người/xe và tương lai chỉ nhận hệ quả khi target đi qua
+kênh private input đã mô hình hóa; prior mạnh, ID trực tiếp và nhiều phiên liên kết vẫn cần phân tích riêng.
+
+
+\clearpage
+\subsection{Utility analysis}\label{sec:utilityproof}
+\subsubsection{Ưu tiên điểm hữu ích không đồng nghĩa bảo đảm Recall thật}
+Tại local state cố định, với kernel (\ref{eq:kernel}):
+\begin{equation}
+\mathbb E_p[z]=\mathbb E_w[z]+\alpha\operatorname{Var}_w(z)\ge\mathbb E_w[z],\qquad
+\mathbb E_p[r]-\mathbb E_w[r]=\alpha\operatorname{Cov}_w(z,r).
+\label{eq:gain}
+\end{equation}
+$r_a$ là actual utility có điều kiện của action. Vì vậy gain của điểm chuẩn hóa luôn không âm, còn gain
+actual utility cần điểm proxy tương quan đúng với chất lượng thật. Nếu $\max_a|r_a-v_a|\le\eta$ thì
+\[
+\Delta_r\ge\alpha\left[\operatorname{Cov}_w(z,v)-\eta\mathbb E_w|z-\mu|\right].
+\]
+Khi chưa chứng nhận $\eta$, không đặt bằng 0. Nếu private scores còn ngẫu nhiên, lấy kỳ vọng các
+covariance có điều kiện; không thay bằng covariance của các vector đã lấy trung bình.
+
+\subsubsection{Từ phản hồi thực nhận đến đáp án tại GPS thật}
+Gọi $T_t$ là reference top-k theo GPS, nhu cầu và cùng total order; $U_t$ là cache metadata hợp lệ.
+Lọc và sắp xếp cùng quy tắc cho
+\begin{equation}
+\operatorname{Recall@k}(U_t)=\frac{|T_t\cap U_t|}{|T_t|},\qquad
+U_t\supseteq U_0\Longrightarrow\operatorname{Recall@k}(U_t;x_t,\psi_t)
+\ge\operatorname{Recall@k}(U_0;x_t,\psi_t).
+\label{eq:cache}
+\end{equation}
+Reference rỗng là N/A. Bất đẳng thức so \emph{cùng GPS/request}, không khẳng định Recall tăng theo thời gian
+khi người dùng di chuyển. Không thể xếp hạng local để khôi phục POI chưa được lấy về. Expiry/status động
+có thể phá inclusion của cache hợp lệ.
+
+\subsubsection{Cận utility cả phiên so với cùng public-base planner}
+Gọi $W$ là law của cùng planner khi $\Gamma_Q=0$; $P$ là law có private adaptation.
+Tại cùng augmented history, $\chi^2(p_j\Vert w_j)\le\alpha_j^2/4$. Tower property và Cauchy--Schwarz cho
+\begin{equation}
+\TV(P_n,W_n)\le\delta_n=\frac12\sqrt{\prod_{j\le n}(1+\alpha_j^2/4)-1},\qquad
+|\mathbb E_Ph-\mathbb E_Wh|\le\delta_n
+\label{eq:utilitypath}
+\end{equation}
+với mọi $h\in[0,1]$, kể cả Recall trung bình cả phiên hoặc theo purpose. Không cần độc lập giữa các bước;
+wire projection không tăng cận. Với $\Gamma_Q=1$, $\delta_\infty<0{,}0553$: tối đa 5,53 pp so với \emph{cùng}
+public-base rule, không phải cận so với service-cover hay paper bất kỳ.
+
+\textbf{Public floor sang actual utility.} Nếu mọi history có reference mean floor $c_t$, và actual case law
+điều kiện theo history cách miền tham chiếu không quá $\tau_t$ theo TV, proxy error không quá $\nu_t$, thì
+\begin{equation}
+\mathbb E[r_t\mid H_t]\ge\max(0,c_t-\tau_t-\nu_t).
+\label{eq:transfer}
+\end{equation}
+Tower property cho trung bình phiên với trọng số công khai, không cần IID. Unknown errors vẫn là unknown.
+Floor dự đoán chỉ chuyển sang cache khi phản hồi đầy đủ và khớp signatures; benchmark cao không chứng nhận điều kiện này cho mọi provider.
+
+\begin{tabularx}{\linewidth}{@{}P{3cm}P{5.4cm}Y@{}}\toprule
+\textbf{Kết quả} & \textbf{Giả thiết/cơ chế bảo đảm} & \textbf{Giới hạn còn giữ}\\\midrule
+Geo-I và cap & Miền chung, test/REM lý tưởng, prospective filter & Float sampler và full restore chưa chứng nhận.\\
+Cận Q & Common support/masses, integer kernel, commit/ledger & Bit đều mới; clock và kênh quan sát đúng mô hình.\\
+Utility cache & Metadata hợp lệ, cùng GPS/request/order & Không hứa floor ngoài miền; không áp cache hết hạn.\\
+Utility thực & Bound proxy/TV có điều kiện hoặc so matched W & Chưa có calibration thực địa; không mặc định sai số bằng 0.\\\bottomrule
+\end{tabularx}
+S7 có conditional payload noninterference: đổi $\psi$ nhưng giữ cùng trajectory/context/randomness không đổi transcript.
+Ý định tương quan tuyến có thể vẫn bị suy luận. Các cận inference trung bình theo mô hình target ngoại sinh
+không chứng minh anonymity của tài khoản hay hành động tương lai do Q gây ra.
+
+
+\clearpage

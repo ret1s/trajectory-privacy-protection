@@ -1,0 +1,136 @@
+\section{Proposed Method}
+\subsection{Problem formulation and assumptions}
+Đầu vào riêng là trajectory $X=(x_0,x_1,\ldots)$ tại cùng lịch \emph{có thể đọc}, cùng nhu cầu $\psi_t$.
+Bối cảnh $C$ gồm bản đồ, cấu hình, clock và provider law. Lịch sử $E$ chứa các nhánh noisy test và các Z;
+$b_t$ là belief gần đúng từ thông tin đã bảo vệ. Đầu ra công khai $O$ gồm các Q có thứ tự, timestamp,
+request/reply và retry logic. Đáp án đã lọc ở thiết bị không thuộc $O$.
+
+Một phiên có cùng token/ledger; restart tiếp tục phiên, không cấp lại ngân sách. Attacker là server hoặc
+bên có cùng quyền quan sát, biết thuật toán và cấu hình công khai, có thể nối cả transcript. Không giả định
+attacker phải biết sẵn hai trajectory thật: hai traces chỉ là phép so sánh trong định lý.
+
+Các kết quả dựa trên: (i) support và xác suất nền chung tại cùng lịch sử phân tích (Q/đoạn, lane giả, replies),
+không lọc theo GPS/Z/belief; (ii) downstream chỉ đọc
+thông tin đã bảo vệ; (iii) bit đều mới cho kernel Q và ledger không rollback; (iv) cùng clock/provider law;
+(v) metadata POI còn hợp lệ cho chứng minh cache. Nhánh Geo-I còn cần sampler lý tưởng và phục hồi đầy đủ
+upstream. Hai traces được cố định trước phép chạy; tuyến thật thay đổi do đề xuất POI cần mô hình tương tác riêng.
+Account/IP/biển số và kênh thời gian/lỗi ngoài giao thức không được che bởi các định lý này.
+
+\subsection{System architecture}
+\begin{center}
+\begin{tikzpicture}[>=Latex,b/.style={draw=ink!65,rounded corners=2pt,fill=white,text width=3.2cm,align=center,inner sep=7pt,font=\small},a/.style={->,thick,draw=ink},private/.style={->,thick,draw=teal}]
+\node[b] (user) at (0,0) {\textbf{Người dùng / cảm biến}\\GPS $x_t$, nhu cầu $\psi_t$};
+\node[b,draw=teal,fill=teal!5] (model) at (5.4,0) {\textbf{GeoI-BQ}\\Bảo vệ / lập kế hoạch Q};
+\node[b] (server) at (10.8,0) {\textbf{LBS server}\\Nhận Q; trả POI};
+\node[b] (context) at (5.4,-2.3) {\textbf{Ngữ cảnh công khai}\\Bản đồ, cấu hình, POI};
+\node[b] (local) at (5.4,-4.8) {\textbf{Xử lý đáp án local}\\Union/cache, lọc, sắp xếp};
+\node[b] (out) at (0,-4.8) {\textbf{Đáp án người dùng}\\Danh sách phù hợp\\đã sắp xếp};
+\node[b] (attacker) at (10.8,-3) {\textbf{Attacker tại server}\\Lưu Q, clock, replies\\Suy luận trajectory};
+\draw[a] (user)--node[above,text width=1.6cm,align=center,font=\scriptsize] {GPS cho lớp\\bảo vệ}(model);
+\draw[a] (context)--(model);\draw[a] (model)--node[above,text width=1.6cm,align=center,font=\scriptsize] {Q, request\\chung}(server);
+\draw[a] (server.south west)--(8.3,-1.5)--(8.3,-4.8)--node[above,font=\scriptsize] {POI}(local.east);
+\draw[a] (local)--(out);\draw[a,dashed] (server)--(attacker);
+\draw[private] (user.west)--(-2.2,0)--(-2.2,-3.5)--(5.4,-3.5)--node[right,font=\scriptsize] {GPS + $\psi$ local}(local.north);
+\begin{scope}[on background layer]\node[fit=(user)(model)(context)(local)(out),draw=teal,fill=teal!2,rounded corners,inner sep=12pt] {};\end{scope}
+\node[font=\small\bfseries,text=teal,fill=white,inner sep=2pt] at (2.7,1.05) {THIẾT BỊ TIN CẬY};
+\end{tikzpicture}
+\captionof{figure}{Vị trí mô hình trong hệ thống. Chỉ Q/request chung đi sang LBS; GPS và nhu cầu thật phục vụ xếp hạng tại client.}
+\label{fig:system}
+\end{center}
+Server cung cấp dữ liệu; chất lượng sử dụng được đánh giá sau khi client xử lý theo nhu cầu thật. Cache
+không tự tạo POI chưa nhận. Năm query slots không đồng nghĩa k-anonymity và Z nội bộ không mặc định là một Q gửi đi.
+
+\clearpage
+\subsection{Model architecture and workflow}
+\begin{center}
+\begin{tikzpicture}[>=Latex,b/.style={draw=ink!65,rounded corners=2pt,fill=white,text width=8cm,align=center,inner sep=6pt,font=\small},e/.style={draw=blue!60,fill=blue!4,rounded corners,text width=3.1cm,align=center,inner sep=5pt,font=\small},a/.style={->,thick,draw=ink}]
+\node[e,text width=7.8cm] (gps) at (0,.4) {\textbf{Input: GPS $x_t$ tại mốc được phép đọc}};
+\node[b] (rem) at (0,-1) {\textbf{1. REM + noisy reuse + cap Geo-I}\\Tạo Z trên đường hoặc giữ Z cũ; dự toán chi phí trước GPS};
+\node[b] (belief) at (0,-2.5) {\textbf{2. Belief từ protected history}\\Dự đoán di chuyển; cập nhật bằng likelihood của Z};
+\node[b,draw=teal] (select) at (0,-4) {\textbf{3. Chọn chung một đoạn Q}\\Chấm điểm bằng belief; centered kernel bị chặn\\Thư viện/xác suất nền chỉ dùng thông tin công khai};
+\node[b] (send) at (0,-5.6) {\textbf{4. Phát ba khung đã commit}\\0/20/40 s, mỗi khung K5; L60 mỗi loại/Q};
+\node[b] (local) at (0,-7.1) {\textbf{5. Union/cache và local ranking}\\GPS hiện tại + nhu cầu thật $\psi_t$};
+\node[e,text width=7.8cm] (answer) at (0,-8.5) {\textbf{Output: toàn danh sách phù hợp đã sắp xếp}};
+\node[e] (pub) at (6.4,-2.5) {\textbf{Public context}\\Đường, clock, Q trước, replies/cache};
+\node[e] (ledger) at (6.4,-4) {\textbf{Ledger Q}\\$\Gamma_Q$, counter, đoạn đã commit};
+\node[e] (lbs) at (6.4,-5.6) {\textbf{LBS server}\\Q $\rightarrow$ POI};
+\draw[a] (gps)--(rem);\draw[a] (rem)--(belief);\draw[a] (belief)--(select);\draw[a] (select)--(send);\draw[a] (send)--(local);\draw[a] (local)--(answer);
+\draw[a,dashed] (pub.west)--(4.5,-2.5)--(4.5,-4)--(select.east);\draw[a,dashed] (ledger.west)--(select.east);
+\draw[a,blue] (send.east)--(lbs.west);\draw[a,blue] (lbs.south)--(6.4,-6.5)--(local.east);
+\draw[a,teal] (gps.west)--(-5.35,.4)--(-5.35,-7.1)--(local.west);
+\node[rotate=90,font=\scriptsize,text=teal] at (-5.55,-3.6) {GPS hiện tại cho local ranking};
+\draw[a,dashed] (local.west)--(-4.65,-7.1)--(-4.65,-4)--(select.west);
+\begin{scope}[on background layer]\node[fit=(rem)(belief)(select)(send)(local),draw=teal,fill=teal!2,rounded corners,inner sep=10pt] {};\end{scope}
+\node[anchor=south west,font=\scriptsize\bfseries,text=teal,fill=white] at (-4.3,-.36) {MÔ HÌNH GEOI-BQ TẠI CLIENT};
+\end{tikzpicture}
+\captionof{figure}{Kiến trúc nội bộ. Đoạn là đầu ra lấy mẫu chung; từng khung được phát sau đó là hậu xử lý, không chọn lại theo belief giữa đoạn. Mũi tên nét đứt từ local chỉ chuyển cache suy từ replies.}
+\label{fig:model}
+\end{center}
+
+\begin{tabularx}{\linewidth}{@{}P{3cm}Y@{}}\toprule
+\textbf{Thành phần} & \textbf{Cấu hình cuối và lý do}\\\midrule
+Geo-I/REM & $B=0{,}24$ m$^{-1}$, $H=12$, $u=B/(2H)=0{,}01$ m$^{-1}$; $M=23$, $C_s=Mu=0{,}23$ m$^{-1}$ mỗi phiên.\\
+Noisy test / cadence & Ngưỡng 200 m; private reads cách ít nhất 60 s, nếu đủ dự toán. Gửi Q mỗi 20 s.\\
+Q và dịch vụ & K5, ba khung/đoạn; L60 mỗi loại và tọa độ; giữ request chung cho bốn purposes local.\\
+Kernel / ledger & $\Gamma_Q=1$, $\varepsilon_{Q,j}=\Gamma_Q/[j(j+1)]$; score integer $S=65536$; commit trước gửi.\\
+Public planning & Portfolio beam24; novelty và long-range weight4; travel scale60 s; hold khả thi.\\\bottomrule
+\end{tabularx}
+Cap bảo vệ tổng tiết lộ; nó không đặt thời gian tối đa được di chuyển. Hết cap thì dùng thông tin đã bảo vệ,
+đổi lại khả năng thích nghi giảm. $\Gamma_Q$ không có đơn vị, không cộng trực tiếp với $C_s$ theo m$^{-1}$.
+
+\clearpage
+\subsection{Algorithm specification}
+\textbf{REM và noisy reuse.} Với miền ứng viên đường công khai $V$ và tọa độ $a_v$:
+\begin{equation}
+R_u(v\mid x)=\frac{\exp[-u\|x-a_v\|/2]}{\sum_{w\in V}\exp[-u\|x-a_w\|/2]},\quad V_t\sim R_u(\cdot\mid x_t),\quad Z_t=a_{V_t}.
+\label{eq:rem}
+\end{equation}
+Sau lần đầu, ở mốc được phép đọc, đặt $D_t=\mathbf1\{\|x_t-Z_{\rm cũ}\|+\xi_t>200\}$ với
+$\xi_t\sim\operatorname{Lap}(0,1/u)$. $D_t=0$ giữ Z; $D_t=1$ tạo Z mới bằng REM. Không có bước planar noise rồi ``map vào REM''.
+
+\textbf{Belief.} Trên các trạng thái đại diện $s$, dự đoán rồi cập nhật:
+\begin{equation}
+b_t^-(s)=\sum_rb_{t-1}(r)T_{\Delta t}(r,s),\qquad
+b_t(s)=\frac{b_t^-(s)\ell_t(Z_t\mid s,Z_{\rm cũ})}{\sum_rb_t^-(r)\ell_t(Z_t\mid r,Z_{\rm cũ})}.
+\label{eq:belief}
+\end{equation}
+Likelihood cộng xác suất các lane trùng tọa độ và tính noisy reuse. Mốc không đọc mới chỉ dự đoán; không coi
+Z cũ là một quan sát REM độc lập mới. Lưới, prior và chuyển tiếp là xấp xỉ, không phải posterior đã hiệu chuẩn.
+
+\textbf{Từ belief đến phân phối chọn đoạn.} Mỗi $A_a$ gồm ba khung năm Q khả thi trên đường. Thư viện
+và $w_a>0$, $\sum_aw_a=1$ chỉ phụ thuộc public context/history. Belief không loại ứng viên:
+\begin{equation}
+v_a=\sum_sb(s)g_a(s),\quad z_a=\operatorname{Quantize}(v)_a/S\in[0,1],\quad
+\mu=\sum_aw_az_a,\quad \alpha=\frac{\varepsilon_Q}{2+\varepsilon_Q},\quad p_a=w_a[1+\alpha(z_a-\mu)].
+\label{eq:kernel}
+\end{equation}
+$g_a$ là proxy utility công khai; min--max trước lượng tử hóa giữ điểm tương đối, không biến $z_a$ thành Recall thật.
+Lấy mẫu $A\sim p$, commit cả đoạn rồi gửi từng khung. Client union POI hợp lệ và xử lý $\psi_t$ tại local.
+
+\textbf{Giả mã một tick.}
+\begin{enumerate}
+\item Kiểm tra public clock và dự toán cap trước khi đưa GPS mới vào lớp bảo vệ.
+\item Nếu đọc được: noisy test/REM cập nhật Z và ledger. Nếu không: giữ thông tin đã bảo vệ.
+\item Belief dự đoán theo thời gian; chỉ cập nhật emission khi có private read.
+\item Nếu đến đầu đoạn: tạo public library/base, tính $z$, lấy mẫu và lưu đoạn với allowance lần $j$.
+\item Phát khung đã lưu; mọi Q hỏi cùng loại/độ sâu; nhận và hợp replies/cache.
+\item Dùng GPS local và nhu cầu thật lọc/sắp xếp toàn danh sách phù hợp. Retry phát lại, không lấy mẫu mới.
+\end{enumerate}
+
+\textbf{Ví dụ định lượng.} Ba vùng đại diện 0/100/300 m, prior $(0{,}5;0{,}3;0{,}2)$,
+$u=0{,}01$; nếu REM chỉ có ba đầu ra và Z đầu bằng 100 m, likelihood lần lượt là
+$(0{,}3315;0{,}5065;0{,}2312)$. Nhân prior rồi chuẩn hóa cho belief
+$(0{,}4554;0{,}4175;0{,}1271)$. Hai đoạn có proxy $(0{,}9;0{,}6;0{,}2)$ và $(0{,}3;0{,}7;0{,}9)$
+cho điểm $0{,}686$ và $0{,}543$, sau chuẩn hóa $z=(1;0)$.
+Với $w=(0{,}5;0{,}5)$, $\varepsilon_Q=0{,}5$, ta được $p=(0{,}55;0{,}45)$.
+
+\textbf{Một chuyến nhiều bước đã lưu.} Lấy cố định family TEST đầu tiên theo ID, \texttt{cache-029}, trip/draw đầu;
+không chọn theo score. GPS biểu diễn tương đối so với lúc bắt đầu; Z và Q1 hiển thị làm tròn bốn số lẻ
+(artifact giữ đủ precision). Packet còn có Q2--Q5.
+\begin{footnotesize}\input{tables/sample_trace}\end{footnotesize}
+Units nhân $u=0{,}01$ ra chi phí Geo-I tích lũy. 20/40 s phát khung đã commit; 60/120 s tạo Z mới và chọn
+đoạn tiếp với allowance $1/6,1/12$; 180 s giữ Z nhưng vẫn có thể chọn đoạn mới với allowance $1/20$.
+Z, GPS và nhánh trong bảng là diagnostics để giải thích, không được đưa vào attacker features.
+POI thực nhận được hợp/cache trước khi xử lý nhu cầu thật tại local.
+
+Ví dụ ba vùng là mock; bảng nhiều bước lấy từ chính output đã lưu, không thay thống kê TEST.

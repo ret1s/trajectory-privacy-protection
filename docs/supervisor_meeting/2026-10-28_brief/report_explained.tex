@@ -1,0 +1,51 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\usepackage[margin=1.8cm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,booktabs,tabularx,array,ragged2e,enumitem,microtype,xcolor,tikz,fancyhdr,titlesec,graphicx,caption}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds}
+\usepackage[hidelinks,unicode]{hyperref}
+\definecolor{ink}{HTML}{183A45}\definecolor{teal}{HTML}{087F7A}\definecolor{blue}{HTML}{405F8A}\definecolor{gray}{HTML}{56656B}
+\newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\renewcommand{\tabularxcolumn}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\setlength{\parindent}{0pt}\setlength{\parskip}{5pt}\setlength{\emergencystretch}{2em}
+\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.12}
+\setlist{nosep,leftmargin=1.4em,topsep=3pt}
+\titleformat{\section}{\large\bfseries\color{ink}}{\thesection}{.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{ink}}{\thesubsection}{.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{.6em}{}
+\titlespacing*{\section}{0pt}{8pt}{6pt}\titlespacing*{\subsection}{0pt}{7pt}{4pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\color{gray}GEOI-BQ: BẢO VỆ QUỸ ĐẠO VÀ ĐÁNH GIÁ ĐỐI CHỨNG}
+\fancyhead[R]{\small\color{gray}28/10/2026}\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{.3pt}
+\renewcommand{\refname}{References}
+\captionsetup{font=small,labelfont=bf}
+\newcommand{\key}[1]{\par\smallskip\textcolor{teal}{\textbf{#1}}\par\smallskip}
+\newcommand{\claim}[1]{\par\textbf{Ý nghĩa.} #1\par}
+\newcommand{\TV}{\operatorname{TV}}
+\hypersetup{pdftitle={GeoI-BQ: phương pháp Geo-I và đánh giá đối chiếu paper adaptations},pdfauthor={}}
+\input{report_constants}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries\color{ink}Bảo vệ quỹ đạo cho người dùng dịch vụ vị trí}\\[4pt]
+{\large Phương pháp dựa trên Geo-I với cận tiết lộ toàn transcript}\\[3pt]
+{\small Bản sơ bộ khoa học: đặc tả, chứng minh và đối chiếu thực nghiệm}
+\end{center}
+\input{sections/introduction}
+\clearpage
+\input{sections/related_work}
+\clearpage
+\input{sections/method}
+\input{sections/proofs}
+\clearpage
+\input{sections/experiments}
+\clearpage
+\input{sections/summary}
+\begin{small}\begin{thebibliography}{99}
+\input{references}
+\end{thebibliography}\end{small}
+\clearpage
+\input{sections/appendices}
+\end{document}
