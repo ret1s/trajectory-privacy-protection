@@ -1,0 +1,100 @@
+{
+  "mean_observed_coordinates": 12.4,
+  "mean_observed_packets": 12.4,
+  "method": "transprotect_markov",
+  "metrics": {
+    "Hit100": {
+      "ci95": [
+        0.5666666666666667,
+        0.7166666666666667
+      ],
+      "group_values": {
+        "test-block-01": 0.6666666666666666,
+        "test-block-02": 0.75,
+        "test-block-03": 0.5833333333333334,
+        "test-block-04": 0.75,
+        "test-block-05": 0.5833333333333334,
+        "test-block-06": 0.75,
+        "test-block-07": 0.4166666666666667,
+        "test-block-08": 0.5833333333333334,
+        "test-block-09": 0.8333333333333334,
+        "test-block-10": 0.5
+      },
+      "groups": 10,
+      "mean": 0.6416666666666667,
+      "records": 120
+    },
+    "MAE_m": {
+      "ci95": [
+        78.78430945179522,
+        116.16626326985806
+      ],
+      "group_values": {
+        "test-block-01": 69.23440382418472,
+        "test-block-02": 76.73679677549828,
+        "test-block-03": 123.51944745623437,
+        "test-block-04": 84.96583172501515,
+        "test-block-05": 137.04230171721204,
+        "test-block-06": 72.46521868843132,
+        "test-block-07": 148.08302594692884,
+        "test-block-08": 99.15392008660194,
+        "test-block-09": 52.35873525145726,
+        "test-block-10": 104.59068612527699
+      },
+      "groups": 10,
+      "mean": 96.81503675968409,
+      "records": 120
+    }
+  },
+  "paired_vs_target_only": {
+    "Hit100": {
+      "ci95": [
+        0.0,
+        0.06666666666666668
+      ],
+      "group_values": {
+        "test-block-01": 0.08333333333333333,
+        "test-block-02": 0.08333333333333333,
+        "test-block-03": 0.0,
+        "test-block-04": -0.08333333333333333,
+        "test-block-05": 0.0,
+        "test-block-06": 0.08333333333333333,
+        "test-block-07": 0.08333333333333333,
+        "test-block-08": 0.0,
+        "test-block-09": 0.0,
+        "test-block-10": 0.08333333333333333
+      },
+      "groups": 10,
+      "mean": 0.03333333333333333,
+      "records": 120
+    },
+    "MAE_m": {
+      "ci95": [
+        -8.486871325251169,
+        -3.5930671996488
+      ],
+      "group_values": {
+        "test-block-01": -4.165654631962784,
+        "test-block-02": -1.760863445363525,
+        "test-block-03": -10.519561152518719,
+        "test-block-04": -4.426773016544612,
+        "test-block-05": -2.554080029428931,
+        "test-block-06": -1.6040815579163725,
+        "test-block-07": -2.85199818546068,
+        "test-block-08": -7.682085413825033,
+        "test-block-09": -11.547171839635789,
+        "test-block-10": -12.376661215788038
+      },
+      "groups": 10,
+      "mean": -5.9488930488444485,
+      "records": 120
+    }
+  },
+  "selected": {
+    "hit100": "fusion_velocity_0.25",
+    "mae": "fusion_velocity_0.5"
+  },
+  "status": "ok",
+  "task": "S8--protected_partner--transprotect_markov",
+  "view": "protected_partner"
+}

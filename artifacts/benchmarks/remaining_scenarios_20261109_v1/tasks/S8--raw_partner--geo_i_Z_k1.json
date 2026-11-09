@@ -1,0 +1,166 @@
+{
+  "mean_observed_coordinates": 12.4,
+  "mean_observed_packets": 12.4,
+  "method": "geo_i_Z_k1",
+  "metrics": {
+    "Hit100": {
+      "ci95": [
+        1.0,
+        1.0
+      ],
+      "group_values": {
+        "test-block-01": 1.0,
+        "test-block-02": 1.0,
+        "test-block-03": 1.0,
+        "test-block-04": 1.0,
+        "test-block-05": 1.0,
+        "test-block-06": 1.0,
+        "test-block-07": 1.0,
+        "test-block-08": 1.0,
+        "test-block-09": 1.0,
+        "test-block-10": 1.0
+      },
+      "groups": 10,
+      "mean": 1.0,
+      "records": 120
+    },
+    "MAE_m": {
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "group_values": {
+        "test-block-01": 0.0,
+        "test-block-02": 0.0,
+        "test-block-03": 0.0,
+        "test-block-04": 0.0,
+        "test-block-05": 0.0,
+        "test-block-06": 0.0,
+        "test-block-07": 0.0,
+        "test-block-08": 0.0,
+        "test-block-09": 0.0,
+        "test-block-10": 0.0
+      },
+      "groups": 10,
+      "mean": 0.0,
+      "records": 120
+    }
+  },
+  "paired_vs_target_only": {
+    "Hit100": {
+      "ci95": [
+        0.8333333333333334,
+        0.95
+      ],
+      "group_values": {
+        "test-block-01": 0.75,
+        "test-block-02": 0.8333333333333334,
+        "test-block-03": 0.9166666666666666,
+        "test-block-04": 0.9166666666666666,
+        "test-block-05": 1.0,
+        "test-block-06": 0.9166666666666666,
+        "test-block-07": 0.75,
+        "test-block-08": 1.0,
+        "test-block-09": 1.0,
+        "test-block-10": 0.8333333333333334
+      },
+      "groups": 10,
+      "mean": 0.8916666666666668,
+      "records": 120
+    },
+    "MAE_m": {
+      "ci95": [
+        -424.8645195209652,
+        -297.63952109412514
+      ],
+      "group_values": {
+        "test-block-01": -188.9881715510982,
+        "test-block-02": -345.64180300659655,
+        "test-block-03": -509.42917696878743,
+        "test-block-04": -317.87706331552937,
+        "test-block-05": -486.77192485175607,
+        "test-block-06": -343.4934047555887,
+        "test-block-07": -264.30273807423697,
+        "test-block-08": -364.6668908455046,
+        "test-block-09": -497.3492398981595,
+        "test-block-10": -278.5020539611011
+      },
+      "groups": 10,
+      "mean": -359.7022467228358,
+      "records": 120
+    }
+  },
+  "selected": {
+    "hit100": "partner_centroid",
+    "mae": "partner_centroid"
+  },
+  "selection": {
+    "centroid": {
+      "hit100": 0.0,
+      "mae": 499.82647943346666
+    },
+    "learned_knn1": {
+      "hit100": 0.0,
+      "mae": 1406.9348841746248
+    },
+    "learned_knn5": {
+      "hit100": 0.0,
+      "mae": 1010.3469885569336
+    },
+    "learned_prior_hit100": {
+      "hit100": 0.0,
+      "mae": 2374.5633623003464
+    },
+    "learned_prior_median": {
+      "hit100": 0.0,
+      "mae": 2276.5623238909725
+    },
+    "learned_tree": {
+      "hit100": 0.0,
+      "mae": 726.4360650406625
+    },
+    "median": {
+      "hit100": 0.0,
+      "mae": 499.82647943346666
+    },
+    "partner_centroid": {
+      "hit100": 1.0,
+      "mae": 0.0
+    },
+    "partner_median": {
+      "hit100": 1.0,
+      "mae": 0.0
+    },
+    "partner_velocity": {
+      "hit100": 1.0,
+      "mae": 10.413267744604683
+    },
+    "target_only_knn1": {
+      "hit100": 0.0,
+      "mae": 1185.898021446012
+    },
+    "target_only_knn5": {
+      "hit100": 0.0,
+      "mae": 1004.1030261780887
+    },
+    "target_only_prior_hit100": {
+      "hit100": 0.0,
+      "mae": 2374.5633623003464
+    },
+    "target_only_prior_median": {
+      "hit100": 0.0,
+      "mae": 2276.5623238909725
+    },
+    "target_only_tree": {
+      "hit100": 0.0,
+      "mae": 805.1490382670331
+    },
+    "velocity": {
+      "hit100": 0.052831216351296784,
+      "mae": 524.5708881757729
+    }
+  },
+  "status": "ok",
+  "task": "S8--raw_partner--geo_i_Z_k1",
+  "view": "raw_partner"
+}

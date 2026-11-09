@@ -1,0 +1,100 @@
+{
+  "mean_observed_coordinates": 73.5,
+  "mean_observed_packets": 14.7,
+  "method": "fake_queries",
+  "metrics": {
+    "Hit100": {
+      "ci95": [
+        0.5666666666666667,
+        0.8
+      ],
+      "group_values": {
+        "test-block-01": 1.0,
+        "test-block-02": 0.5,
+        "test-block-03": 0.6666666666666666,
+        "test-block-04": 0.5,
+        "test-block-05": 0.6666666666666666,
+        "test-block-06": 0.5,
+        "test-block-07": 0.6666666666666666,
+        "test-block-08": 0.8333333333333334,
+        "test-block-09": 1.0,
+        "test-block-10": 0.5
+      },
+      "groups": 10,
+      "mean": 0.6833333333333333,
+      "records": 120
+    },
+    "MAE_m": {
+      "ci95": [
+        1526.6087780994587,
+        2225.7646240349504
+      ],
+      "group_values": {
+        "test-block-01": 1688.842967031711,
+        "test-block-02": 2099.6141297771023,
+        "test-block-03": 2957.511963717286,
+        "test-block-04": 1149.1743218616668,
+        "test-block-05": 1977.3746067289194,
+        "test-block-06": 1371.6979580491127,
+        "test-block-07": 2613.7560176856364,
+        "test-block-08": 1331.1869091699743,
+        "test-block-09": 1366.1061867784185,
+        "test-block-10": 2018.5963767142487
+      },
+      "groups": 10,
+      "mean": 1857.3861437514079,
+      "records": 120
+    }
+  },
+  "paired_vs_target_only": {
+    "Hit100": {
+      "ci95": [
+        0.4666666666666666,
+        0.5666666666666667
+      ],
+      "group_values": {
+        "test-block-01": 0.5,
+        "test-block-02": 0.5,
+        "test-block-03": 0.6666666666666666,
+        "test-block-04": 0.5,
+        "test-block-05": 0.5,
+        "test-block-06": 0.5,
+        "test-block-07": 0.6666666666666666,
+        "test-block-08": 0.3333333333333333,
+        "test-block-09": 0.5,
+        "test-block-10": 0.5
+      },
+      "groups": 10,
+      "mean": 0.5166666666666666,
+      "records": 120
+    },
+    "MAE_m": {
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "group_values": {
+        "test-block-01": 0.0,
+        "test-block-02": 0.0,
+        "test-block-03": 0.0,
+        "test-block-04": 0.0,
+        "test-block-05": 0.0,
+        "test-block-06": 0.0,
+        "test-block-07": 0.0,
+        "test-block-08": 0.0,
+        "test-block-09": 0.0,
+        "test-block-10": 0.0
+      },
+      "groups": 10,
+      "mean": 0.0,
+      "records": 120
+    }
+  },
+  "selected": {
+    "hit100": "fusion_nearest_pair",
+    "mae": "target_only_tree"
+  },
+  "status": "ok",
+  "task": "S8--protected_partner--fake_queries",
+  "view": "protected_partner"
+}

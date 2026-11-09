@@ -1,0 +1,100 @@
+{
+  "mean_observed_coordinates": 62.0,
+  "mean_observed_packets": 12.4,
+  "method": "geoi_bq",
+  "metrics": {
+    "Hit100": {
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "group_values": {
+        "test-block-01": 0.0,
+        "test-block-02": 0.0,
+        "test-block-03": 0.0,
+        "test-block-04": 0.0,
+        "test-block-05": 0.0,
+        "test-block-06": 0.0,
+        "test-block-07": 0.0,
+        "test-block-08": 0.0,
+        "test-block-09": 0.0,
+        "test-block-10": 0.0
+      },
+      "groups": 10,
+      "mean": 0.0,
+      "records": 120
+    },
+    "MAE_m": {
+      "ci95": [
+        1950.8643347440022,
+        2507.3406262750686
+      ],
+      "group_values": {
+        "test-block-01": 2067.1556245344286,
+        "test-block-02": 2560.1327680319278,
+        "test-block-03": 2252.603185746682,
+        "test-block-04": 1522.4919248807018,
+        "test-block-05": 3093.47216336143,
+        "test-block-06": 2415.1158533871085,
+        "test-block-07": 2413.1214694235173,
+        "test-block-08": 1574.4062691253323,
+        "test-block-09": 1991.842149400505,
+        "test-block-10": 2378.1136313195248
+      },
+      "groups": 10,
+      "mean": 2226.845503921116,
+      "records": 120
+    }
+  },
+  "paired_vs_target_only": {
+    "Hit100": {
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "group_values": {
+        "test-block-01": 0.0,
+        "test-block-02": 0.0,
+        "test-block-03": 0.0,
+        "test-block-04": 0.0,
+        "test-block-05": 0.0,
+        "test-block-06": 0.0,
+        "test-block-07": 0.0,
+        "test-block-08": 0.0,
+        "test-block-09": 0.0,
+        "test-block-10": 0.0
+      },
+      "groups": 10,
+      "mean": 0.0,
+      "records": 120
+    },
+    "MAE_m": {
+      "ci95": [
+        -161.8318155641555,
+        111.70585853541814
+      ],
+      "group_values": {
+        "test-block-01": -26.66867723852935,
+        "test-block-02": 117.12545477805672,
+        "test-block-03": -103.6696663479928,
+        "test-block-04": -342.68738123179287,
+        "test-block-05": 146.1709807208723,
+        "test-block-06": 194.4980760009299,
+        "test-block-07": 133.8773466406058,
+        "test-block-08": -403.68389803186466,
+        "test-block-09": 274.4410255239989,
+        "test-block-10": -188.01922072316384
+      },
+      "groups": 10,
+      "mean": -19.861595990887984,
+      "records": 120
+    }
+  },
+  "selected": {
+    "hit100": "centroid",
+    "mae": "learned_knn5"
+  },
+  "status": "ok",
+  "task": "S8--protected_partner--geoi_bq",
+  "view": "protected_partner"
+}

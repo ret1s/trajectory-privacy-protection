@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-09",
+  "inputs_sha256": {
+    "artifacts/benchmarks/remaining_scenarios_20261109_v1/output_manifest.json": "55263d4164b4aa8941650a20b565d4ef073ed7ef21bdfecc8728e6739fdc7dbe",
+    "artifacts/benchmarks/remaining_scenarios_20261109_v1/protocol.json": "25ac6816815ddb11eac735ea6ba6601e6181faa880efea684a551218e6e1a4ec",
+    "artifacts/benchmarks/remaining_scenarios_20261109_v1/results.json": "c1620ece3ce84c0e61e31302c0dd8ac7dab1b9defaf1f5736768344158c55214",
+    "artifacts/benchmarks/remaining_scenarios_20261109_v1/validation.json": "e0da2cfdfbd4f8c89ad0eea929523b38ee1335fb911b9e75ce0af5aaa70a5a46"
+  },
+  "methods": [
+    "raw",
+    "geo_i_Z_k1",
+    "transprotect_markov",
+    "semantic_poi",
+    "fake_queries",
+    "geoi_bq"
+  ],
+  "new_defense_samples": false,
+  "post_v1_diagnostic": true,
+  "prior_test_inspected": true,
+  "rules": "V1 candidates plus fixed public fusion; SELECTION mean+/-SE; TEST10-block CI10000",
+  "schema": "s8-fusion-protocol-v2",
+  "source_sha256": {
+    "docs/research/2026-11-09_s8_fusion_protocol.md": "33ddfa5eb46c0793162f2a28507861c86cee33a22d54efa2546b9580470c52c2",
+    "evaluation/correlated_channel_fusion.py": "f48767a5896f3eb8326552bcd3753553eb701da5ff5c1d5f51ec9e3be7663d3a",
+    "experiments/s8_fusion_20261109.py": "c10dcce37aeecc282a6237504c98bbae9e6bb5e954e07025e08e79618a1a956e",
+    "tests/test_correlated_channel_fusion.py": "c86a706f1a0adee8de48e807278c257232e4c5e6c577bb085f453f1e145ee095"
+  },
+  "views": [
+    "target_only",
+    "protected_partner",
+    "raw_partner",
+    "unrelated_partner"
+  ]
+}

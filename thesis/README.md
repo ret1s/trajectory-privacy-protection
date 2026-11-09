@@ -1,5 +1,12 @@
 # Graduation thesis
 
+The [09/11 S4–S8 benchmark supplement](../docs/supervisor_meeting/2026-11-09_brief/README.md)
+adds fixed-output session association, causal future-choice evaluation, conditional
+query-payload auditing and an aligned correlated-channel diagnostic. It retains
+the initial S8 bank and its disclosed post-readout fusion repair, including the
+first verifier's overstrict control gate. Human/vehicle identity and actual
+simultaneous companionship remain outside the available labels.
+
 The [28/10 paper-style draft](../docs/supervisor_meeting/2026-10-28_brief/README.md)
 implements the agreed five-section article outline in Vietnamese, with system/model
 diagrams, the final GeoI-BQ proofs and a new matched comparison against three

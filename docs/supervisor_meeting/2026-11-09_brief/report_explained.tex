@@ -1,0 +1,247 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\usepackage[margin=1.8cm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,booktabs,tabularx,array,ragged2e,enumitem,xcolor,fancyhdr,titlesec,microtype}
+\usepackage[hidelinks,unicode]{hyperref}
+\definecolor{ink}{HTML}{183A45}\definecolor{teal}{HTML}{087F7A}\definecolor{gray}{HTML}{56656B}
+\newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\renewcommand{\tabularxcolumn}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\setlength{\parindent}{0pt}\setlength{\parskip}{5pt}\setlength{\emergencystretch}{2em}
+\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.12}
+\setlist{nosep,leftmargin=1.4em,topsep=3pt}
+\titleformat{\section}{\large\bfseries\color{ink}}{\thesection}{.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{ink}}{\thesubsection}{.6em}{}
+\titlespacing*{\section}{0pt}{8pt}{6pt}\titlespacing*{\subsection}{0pt}{7pt}{4pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\color{gray}GEOI-BQ: BỔ SUNG BENCHMARK S4--S8}
+\fancyhead[R]{\small\color{gray}09/11/2026}\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{.3pt}
+\renewcommand{\contentsname}{Mục lục}\setcounter{tocdepth}{2}
+\hypersetup{pdftitle={GeoI-BQ: bổ sung benchmark S4--S8},pdfauthor={}}
+\input{report_constants}
+\begin{document}
+\pagenumbering{roman}
+{\setlength{\parskip}{0pt}\tableofcontents}
+\clearpage\pagenumbering{arabic}
+\begin{center}
+{\LARGE\bfseries\color{ink}Bổ sung đánh giá cho các scenario S4--S8}\\[3pt]
+{\large GeoI-BQ v1 và năm phương án đối chứng}\\[2pt]
+{\small Kết quả theo tác vụ; giữ riêng proxy, kiểm tra điều kiện và mục tiêu chưa đo được}
+\end{center}
+
+\section{Phạm vi và kết quả liên kết phiên S4}
+\subsection{Protocol chung}
+Sáu phương pháp: Raw GPS, REM-Z K1, TransProtect*, Semantic correlation*, Fake-query insertion*
+và GeoI-BQ v1. Dấu * là adaptation đã audit của paper. Giữ nguyên output, GPS, Q và cấu hình đã đóng băng;
+không lấy mẫu lại để cải thiện điểm. Dùng cùng 48 family: 20 TRAIN / 8 SELECTION / 20 TEST,
+hai chuyến khác nhau/family, ba draws tại TEST, tương ứng 120 trip-draw/arm.
+
+Fit attacker trên TRAIN, chọn theo từng arm/task/loss trên SELECTION, sau đó đánh giá TEST.
+CI95\% dùng 10.000 bootstrap theo nhóm phụ thuộc. S5/S6 dùng family; S4/S8 dùng block gồm hai family
+vì cặp âm hoặc partner không liên quan dùng hai family. Mỗi TEST có 10 block. Toàn bộ 66 tác vụ vòng đầu
+và 24 tác vụ S8 vòng fusion hoàn tất. Lần kiểm tra gate quá chặt được giữ ở phụ lục D.
+Đây là mở rộng trên cohort đã xem.
+
+S1--S3/S9--S10 và Recall 99,595\% trong báo cáo 28/10 giữ nguyên nguồn. Bản này bổ sung tác vụ;
+không coi utility toàn phiên cũ là một phép đo mới ở mọi cutoff. Formal privacy vẫn có các giả thiết
+về common support, clock, bit đều và ledger; sampler Geo-I số thực/full restore chưa được chứng nhận đầy đủ.
+
+\subsection{S4: đo liên kết phiên tới cùng nhóm tuyến}
+\textbf{Target đo được:} hai phiên ngày 7/8 có thuộc cùng route family hay không. Ghép các family thành
+block không giao nhau; mỗi block/draw có hai cặp cùng family và hai cặp chéo. TEST có 120 cặp cân bằng,
+không dùng hai draws của cùng một chuyến làm hai phiên dương độc lập.
+
+Attacker dùng \textbf{ExtraTrees96, logistic, kNN-1/5}, khoảng cách giữa các tập điểm ở đầu/cuối và uniform;
+ngưỡng được chọn trên SELECTION. Feature đối xứng, chỉ đọc tọa độ/thời gian công khai. BA thấp hơn có lợi
+cho unlinkability trong tác vụ này; mốc cân bằng là 50\%.
+\begin{small}\input{tables/s4}\end{small}
+
+GeoI-BQ có BA \PrimaryBA\%, gần mức đoán cân bằng; AUC dưới 0,5 không được diễn giải là bảo vệ
+``tốt hơn ngẫu nhiên''. Các controls chứa tín hiệu liên kết mạnh hơn trong bank hiện tại.
+AUC trong bảng là trung bình theo block với CI; AUC pooled và toàn bộ probabilities được giữ trong artifact.
+
+\textbf{Giới hạn target.} Cohort chưa có ground truth người và phương tiện vật lý độc lập với route family.
+Vì vậy, person re-identification và vehicle re-identification là \textbf{N/A}; không đổi tên điểm liên kết tuyến
+thành kết quả bảo vệ danh tính người/xe. Account, biển số hoặc thiết bị trực tiếp cũng không được mô hình hóa.
+
+\clearpage
+\section{S5 và S6: dự đoán tương lai từ prefix}
+\subsection{S5: cạnh ngoài kế tiếp tại fork hai lựa chọn}
+Hai cạnh/đích ứng viên là auxiliary context công khai, chọn trước private route choice. Tên cạnh chỉ dùng
+để xuất dự đoán; feature dùng hình dạng, khoảng cách và hướng. Target cạnh phải xuất hiện \emph{sau} cutoff
+trong native SUMO. Attacker chỉ nhận các packet đã gửi tới cutoff, gồm cả fake packets.
+
+Hai clock công khai được giữ: trước fork và cửa sổ đang rẽ. Không bổ sung GPS ở giữa các mốc gửi 20 s.
+Bank gồm \textbf{candidate ExtraTrees96, kNN-1/5, geometry/motion và uniform}. Accuracy càng thấp thì
+attacker càng khó chọn đúng cạnh trong bài toán hai lựa chọn này.
+\begin{small}\input{tables/s5}\end{small}
+
+\textbf{Phép đo S5 chưa có positive control mạnh.} Raw đạt 50\% ở cả hai pha; tại cửa sổ đang rẽ,
+packet Raw cuối đã quan sát không nằm trên lane rẽ cần phân biệt trong các family TEST.
+Lịch gửi 20 s đã bỏ lỡ khoảng rẽ ngắn. Vì vậy, điểm gần 50\% phần lớn phản ánh thông tin chưa được quan sát,
+chưa chứng minh một cải thiện privacy của mô hình. Giữ đủ family và kết quả này, không lọc các trường hợp
+để làm Raw tốt hơn hoặc proposed đẹp hơn. Mục tiêu next-route không giới hạn vẫn chưa được đánh giá.
+
+\subsection{S6: đích đến sau khi đã có tín hiệu rẽ}
+Thêm cutoff công khai $20\lceil t_{\rm turn}/20\rceil$, là mốc gửi đầu tiên từ clock đang rẽ trở đi.
+Đích đến thật vẫn ở tương lai. Mỗi family có hai chuyến chọn hai đích cân bằng; baseline uniform là 50\%.
+Không cung cấp route tương lai, routine label hoặc GPS tương lai cho attacker.
+\begin{small}\input{tables/s6}\end{small}
+
+Raw đạt 100\% và các adaptation phần lớn suy ra đúng đích; GeoI-BQ khoảng \PrimaryFuture\%,
+REM-Z ở mức 50\%. Phép thử này có positive control phân biệt được target, nên có giá trị hơn pha trước fork.
+Tuy nhiên, đây là chọn giữa \emph{hai đích đã biết}, không phải dự đoán một đích bất kỳ trong thành phố.
+
+Hit100 trùng accuracy chọn đích trong workload này vì hai đích cách xa và đích đúng chỉ lệch ít mét so
+với điểm dừng native. MAE được tính từ đích ứng viên được chọn tới GPS cuối. Brier/log loss đo chất lượng
+probability, không gọi là ASR của paper khác. Các pha và CIs đầy đủ ở phụ lục A/B.
+S6 dùng sáu chuyến lịch sử có bảo vệ chưa được chạy: outputs hiện tại chỉ bao gồm ngày 7/8.
+
+\clearpage
+\section{S7 và S8: nội dung truy vấn và kênh tương quan}
+\subsection{S7: khả năng phân biệt nội dung khi giữ cùng trajectory}
+Giữ cùng GPS/Q, thời điểm gửi và phản hồi provider; thay bốn purposes $\times$ sáu categories ở local.
+Kiểm tra giao diện client đang dùng với một provider thử nghiệm trả phản hồi rỗng cố định;
+requests vẫn hỏi mọi category ở L60. Reply-mask signatures của output thực được xác thực riêng.
+Đây là kiểm tra giao diện/payload, không phải chạy lại POI utility hay suy luận ý định tự nhiên.
+\begin{small}\input{tables/s7}\end{small}
+
+Wire bằng nhau ở tất cả 1.056 streams, tương ứng 25.344 biến thể điều kiện. Với phân bố counterfactual
+cân bằng, độ đoán đúng tối ưu trong một lớp wire bằng nhau là purpose $1/4$, category $1/6$, joint $1/24$.
+Control thêm purpose/category trực tiếp vào request khôi phục 100\% nhãn joint.
+Đây là \emph{conditional Bayes vulnerability}, không phải accuracy của attacker học trên hành vi người thật.
+
+Cả sáu arm dùng chung cover wrapper, nên S7 là tính chất của giao diện chung, không là ưu thế riêng trước
+implementation gốc của các paper. Ý định tương quan tuyến, tài khoản hoặc lúc mở phiên vẫn chưa được đo.
+
+\subsection{S8: suy luận vị trí từ hai kênh có shared prefix}
+Dùng hai phiên ngày 7/8 khác nhau, căn theo clock tương đối, cắt trước fork tại một tick công khai.
+Native GPS của hai phiên giống nhau trên prefix này. \textbf{Đây là mô hình tương quan tổng hợp sau căn clock},
+không là hai xe đồng hành chạy đồng thời trong SUMO. Attacker được cấp liên kết giữa hai kênh.
+
+Mỗi ô là \textbf{Hit100\% / MAE m}. Target: chỉ thấy kênh mục tiêu; +protected: thêm kênh đã bảo vệ cùng
+shared prefix; +raw: cấp công khai GPS của kênh tương quan; +unrelated: partner bảo vệ từ family khác.
+Bảng dùng bank fusion V2 được công bố ở Phần 4.
+Hit100 và MAE được chọn attacker riêng theo từng loss, nên hai số trong một ô có thể từ hai estimators khác nhau.
+\begin{small}\input{tables/s8}\end{small}
+
+GeoI-BQ không có hit trong mẫu ở target/+protected, nhưng không suy từ đó rủi ro bằng 0.
+Khi partner Raw được công khai, estimator đọc trực tiếp partner định vị được 100\% target; attacker đã chọn
+trên SELECTION đạt 98,33--100\% ở TEST. GPS tương quan đủ để tiết lộ target trong mô hình này.
+Điều đó thể hiện giới hạn của việc bảo vệ một người khi có side information rất mạnh.
+Một cận single-session không tự trở thành chứng nhận cho joint transcript của nhiều người/phiên.
+
+\clearpage
+\section{Attacker mạnh hơn, kết luận và phạm vi bằng chứng}
+\subsection{S8 V1 sang V2: giữ lại quá trình sửa bank attacker}
+Sau khi đọc V1, audit nhận ra bank thiếu phép lấy trung bình hai kênh và tìm cặp Q gần nhau nhất.
+V2 giữ nguyên toàn bộ V1 và thêm centroid/median/velocity mixtures với trọng số $1/4,1/2,3/4$;
+midpoint cặp gần nhất và trung bình hai/ba cặp gần nhất. Các phép này chỉ dùng hai prefix công khai.
+Nếu mỗi tập đều chứa cùng GPS thật, việc đối chiếu hai tập có thể làm lộ thành viên đó.
+
+V2 được chốt trước khi chấm điểm riêng, chọn lại attacker trên SELECTION; đây là \textbf{post-V1 diagnostic
+trên dữ liệu đã xem}, không phải confirmation mới. Bảng giữ cả hai vòng, view +protected:
+\begin{small}\input{tables/fusion}\end{small}
+
+Fusion làm attacker định vị tốt hơn rõ ở Semantic*/Fake-query* trong readout này. Nó không bảo đảm
+mọi metric TEST đều tăng: selector được giữ theo SELECTION và chọn riêng cho Hit/MAE.
+Kết quả không được chọn bằng cách lấy attacker có score đẹp nhất sau khi xem TEST.
+
+\subsection{Những attacker thực sự được chọn cho GeoI-BQ}
+\begin{small}\input{tables/selected}\end{small}
+\texttt{curve\_min} dùng khoảng cách từ Q tới hình dạng rẽ công khai; các temperature được chốt trong bank.
+Một selected model là kết quả của finite bank, không chứng minh attacker tối ưu đã thất bại.
+
+\subsection{Kết luận có thể trình bày}
+\begin{enumerate}
+\item Đã bổ sung phép đo tái lập cho liên kết phiên S4, fork S5, đích S6, payload S7 và kênh tương quan S8,
+với target/metrics riêng thay vì điền cùng Hit100 cho mọi scenario.
+\item Bằng chứng S4 là proxy liên kết tuyến; S6 sau rẽ có positive control mạnh. S5 hiện có hạn chế về
+khả năng quan sát do cadence, nên chưa là bằng chứng superiority.
+\item S7 xác nhận nhu cầu local không thay payload trong điều kiện cố định. S8 cho thấy raw side information
+có thể phá bảo vệ vị trí khi hai trajectory tương quan hoàn hảo; kết quả +protected cần đọc cùng scope tổng hợp.
+\item Chứng minh privacy toàn transcript tiếp tục là nền tảng. Benchmark đo hiệu quả trong những kênh và
+workload cụ thể, không thay các giả thiết của định lý hoặc chứng nhận triển khai.
+\end{enumerate}
+Các mục còn N/A được giữ công khai: identity người/xe thật; S6 protected history sáu chuyến;
+S7 natural intent; S8 co-travel/companion detection thực tế. Đây là giới hạn dữ liệu/tác vụ, không phải score 0.
+
+\clearpage
+\section*{Phụ lục A. S5: xác suất dự đoán và CI đầy đủ}
+\addcontentsline{toc}{section}{Phụ lục A. S5: xác suất dự đoán và CI đầy đủ}
+Accuracy là chọn đúng ID cạnh trong hai ứng viên công khai. CI95\% theo 20 TEST family, mỗi family
+hai chuyến $\times$ ba draws. Brier là $\mathbb E(p_1-y)^2$; log loss dùng log tự nhiên.
+\begin{small}\input{tables/s5_full}\end{small}
+Raw trước fork có cùng prefix cho hai lựa chọn nên accuracy 50\% là mốc thiếu thông tin nội tại.
+Tại cửa sổ rẽ, clock native đúng vẫn chưa bảo đảm có packet đã phát trong cửa sổ đó. Các row và số lượng
+tọa độ/fake packets quan sát được được lưu theo từng sample; không dùng last-N packet thay cho cutoff.
+
+\section*{Nguyên tắc đọc những điểm gần ngẫu nhiên}
+\begin{itemize}
+\item Phải có Raw/positive control đủ tín hiệu trước khi ghi nhận đóng góp của defense.
+\item Điểm dưới 50\% không tự là privacy tốt hơn; có thể là mất calibration hoặc biến thiên mẫu.
+\item CI chứa mức ngẫu nhiên chỉ mô tả readout của bank này; nó không chứng nhận mọi attacker đều vô lợi.
+\end{itemize}
+
+\clearpage
+\section*{Phụ lục B. S6: tất cả pha, xác suất và sai số đích}
+\addcontentsline{toc}{section}{Phụ lục B. S6: tất cả pha, xác suất và sai số đích}
+Phân biệt ba phạm vi quan sát; không dùng cả chuyến đã đi để dự đoán đích vẫn gọi là ``tương lai''.
+Eligibility kiểm tra arrival native nằm sau cutoff ở tất cả rows.
+\begin{footnotesize}\input{tables/s6_full}\end{footnotesize}
+Candidate accuracy và Hit100 bằng nhau trong trial hai đích này; Brier/log loss vẫn có thể khác giữa
+các phương pháp có cùng accuracy. Không gọi số MAE này là kết quả của một attacker đích đến không giới hạn.
+
+\clearpage
+\section*{Phụ lục C. S8 V2: CI và chênh lệch ghép theo block}
+\addcontentsline{toc}{section}{Phụ lục C. S8 V2: CI và chênh lệch ghép theo block}
+Đơn vị ΔHit là điểm phần trăm; ΔMAE theo mét. Chênh lệch là view trừ target-only, cùng session/draw.
+CI95\% ghép theo 10 block để giữ phụ thuộc khi hai family trao đổi unrelated partners.
+\begin{footnotesize}\input{tables/s8_full}\end{footnotesize}
+CI [0;0] khi không có hit là giới hạn của percentile bootstrap trên mẫu, không là chứng minh xác suất hit bằng 0.
+Positive control +raw là side information được cấp công khai, không phải GPS target bị đưa lén vào features.
+
+\clearpage
+\section*{Phụ lục D. Số quan sát, kiểm chứng và tái lập}
+\addcontentsline{toc}{section}{Phụ lục D. Số quan sát, kiểm chứng và tái lập}
+\textbf{Số tọa độ công khai trung bình mà attacker quan sát tại cutoff S8.}
+Joint views tính cả hai kênh và mọi fake packets tới cutoff. Đây là số quan sát của attacker,
+không phải thời gian mạng hoặc một lần benchmark utility/energy mới.
+\begin{small}\input{tables/s8_cost}\end{small}
+
+Nguồn chính: \texttt{remaining\_scenarios\_20261109\_v1}; vòng sửa attacker:
+\texttt{s8\_fusion\_20261109\_v2}, cùng trong \texttt{artifacts/benchmarks/}.
+Nguồn cũ \texttt{paper\_comparison\_20261028\_v1} giữ nguyên, có source hash được xác thực.
+Hai protocol ghi rõ trước/sau readout V1 và các giới hạn scope.
+
+\textbf{Verifier.} Tái tính metrics/CIs từ predictions đã lưu, xác thực split/block, cutoff, cạnh/arrival tương lai,
+nhãn riêng không vào feature API và ngân sách/source pins của mô hình. V2 lưu cả SELECTION predictions
+để replay đúng selector, rồi mới so TEST. Tất cả failure, models và candidate predictions được giữ.
+
+Từ repo root, dùng môi trường \texttt{requirements-paper-comparison.txt}:
+\begin{quote}\small\ttfamily
+python -m experiments.verify\_remaining\_scenarios\_20261109\\
+python -m experiments.check\_s8\_fusion\_20261109
+\end{quote}
+Trong thư mục report:
+\begin{quote}\small\ttfamily
+python build\_report.py --check\\
+tectonic --keep-logs report\_explained.tex\\
+python validate\_report.py
+\end{quote}
+Sau khi render và xem toàn bộ PDF, validator với \texttt{--visual-reviewed} ghi receipt QA.
+Các bảng được xuất từ JSON đã qua verifier; exporter không fit attacker, tạo lại Q hoặc sửa core Geo-I.
+Lệnh \texttt{--write} của verifier chỉ dùng lần đầu để tạo receipt write-once.
+
+\textbf{Gate kiểm tra đã sửa.} Verifier V2 ban đầu đòi model được chọn phải đạt Hit100=100\% khi có Raw
+partner. Một fusion estimator cùng đạt 100\% trên SELECTION nhưng chỉ đạt 98,33\% trên TEST ở TransProtect*.
+Đó là biến thiên của selector, không phải mất Raw side channel: estimator \texttt{partner\_centroid} vẫn đạt
+100\%. Giữ failure đầu tiên và dùng checker độc lập để xác nhận cả available control lẫn selected score;
+không sửa prediction, kết quả hoặc defense. Không gọi lại frozen verifier với gate sai để ghi đè receipt.
+
+\textbf{Nguồn phương pháp.} Báo cáo 28/10 cung cấp kiến trúc/bốn mệnh đề privacy và utility;
+hai protocol 09/11 cung cấp hợp đồng đánh giá bổ sung. Chứng minh không biến proxy identity hoặc
+hai phiên căn clock thành ground truth người/xe hay co-travel thực tế. Để mở rộng những mục tiêu đó,
+cần dữ liệu/quan sát tương ứng và phân tích nhiều kênh riêng.
+\end{document}

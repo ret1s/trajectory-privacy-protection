@@ -1,0 +1,100 @@
+{
+  "mean_observed_coordinates": 37.2,
+  "mean_observed_packets": 12.4,
+  "method": "semantic_poi",
+  "metrics": {
+    "Hit100": {
+      "ci95": [
+        1.0,
+        1.0
+      ],
+      "group_values": {
+        "test-block-01": 1.0,
+        "test-block-02": 1.0,
+        "test-block-03": 1.0,
+        "test-block-04": 1.0,
+        "test-block-05": 1.0,
+        "test-block-06": 1.0,
+        "test-block-07": 1.0,
+        "test-block-08": 1.0,
+        "test-block-09": 1.0,
+        "test-block-10": 1.0
+      },
+      "groups": 10,
+      "mean": 1.0,
+      "records": 120
+    },
+    "MAE_m": {
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "group_values": {
+        "test-block-01": 0.0,
+        "test-block-02": 0.0,
+        "test-block-03": 0.0,
+        "test-block-04": 0.0,
+        "test-block-05": 0.0,
+        "test-block-06": 0.0,
+        "test-block-07": 0.0,
+        "test-block-08": 0.0,
+        "test-block-09": 0.0,
+        "test-block-10": 0.0
+      },
+      "groups": 10,
+      "mean": 0.0,
+      "records": 120
+    }
+  },
+  "paired_vs_target_only": {
+    "Hit100": {
+      "ci95": [
+        0.3,
+        0.8
+      ],
+      "group_values": {
+        "test-block-01": 0.5,
+        "test-block-02": 0.0,
+        "test-block-03": 1.0,
+        "test-block-04": 0.5,
+        "test-block-05": 0.0,
+        "test-block-06": 1.0,
+        "test-block-07": 1.0,
+        "test-block-08": 0.0,
+        "test-block-09": 1.0,
+        "test-block-10": 0.5
+      },
+      "groups": 10,
+      "mean": 0.55,
+      "records": 120
+    },
+    "MAE_m": {
+      "ci95": [
+        -132.1253627439565,
+        -76.6539235750465
+      ],
+      "group_values": {
+        "test-block-01": -68.58552436725286,
+        "test-block-02": -57.39354485116754,
+        "test-block-03": -118.7793420164402,
+        "test-block-04": -88.85902530749485,
+        "test-block-05": -58.01584191029119,
+        "test-block-06": -111.07984127701205,
+        "test-block-07": -211.92079428713245,
+        "test-block-08": -64.13628625284024,
+        "test-block-09": -129.07166637601233,
+        "test-block-10": -106.64806855982896
+      },
+      "groups": 10,
+      "mean": -101.44899352054726,
+      "records": 120
+    }
+  },
+  "selected": {
+    "hit100": "fusion_centroid_0.25",
+    "mae": "partner_centroid"
+  },
+  "status": "ok",
+  "task": "S8--raw_partner--semantic_poi",
+  "view": "raw_partner"
+}

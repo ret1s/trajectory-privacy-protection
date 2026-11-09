@@ -1,0 +1,100 @@
+{
+  "mean_observed_coordinates": 12.4,
+  "mean_observed_packets": 12.4,
+  "method": "transprotect_markov",
+  "metrics": {
+    "Hit100": {
+      "ci95": [
+        0.5166666666666666,
+        0.7
+      ],
+      "group_values": {
+        "test-block-01": 0.5833333333333334,
+        "test-block-02": 0.6666666666666666,
+        "test-block-03": 0.5833333333333334,
+        "test-block-04": 0.8333333333333334,
+        "test-block-05": 0.5833333333333334,
+        "test-block-06": 0.6666666666666666,
+        "test-block-07": 0.3333333333333333,
+        "test-block-08": 0.5833333333333334,
+        "test-block-09": 0.8333333333333334,
+        "test-block-10": 0.4166666666666667
+      },
+      "groups": 10,
+      "mean": 0.6083333333333334,
+      "records": 120
+    },
+    "MAE_m": {
+      "ci95": [
+        84.7709244950782,
+        121.91376355180091
+      ],
+      "group_values": {
+        "test-block-01": 73.4000584561475,
+        "test-block-02": 78.49766022086179,
+        "test-block-03": 134.03900860875308,
+        "test-block-04": 89.39260474155977,
+        "test-block-05": 139.59638174664096,
+        "test-block-06": 74.06930024634768,
+        "test-block-07": 150.93502413238954,
+        "test-block-08": 106.83600550042696,
+        "test-block-09": 63.90590709109306,
+        "test-block-10": 116.96734734106498
+      },
+      "groups": 10,
+      "mean": 102.76392980852854,
+      "records": 120
+    }
+  },
+  "paired_vs_target_only": {
+    "Hit100": {
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "group_values": {
+        "test-block-01": 0.0,
+        "test-block-02": 0.0,
+        "test-block-03": 0.0,
+        "test-block-04": 0.0,
+        "test-block-05": 0.0,
+        "test-block-06": 0.0,
+        "test-block-07": 0.0,
+        "test-block-08": 0.0,
+        "test-block-09": 0.0,
+        "test-block-10": 0.0
+      },
+      "groups": 10,
+      "mean": 0.0,
+      "records": 120
+    },
+    "MAE_m": {
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "group_values": {
+        "test-block-01": 0.0,
+        "test-block-02": 0.0,
+        "test-block-03": 0.0,
+        "test-block-04": 0.0,
+        "test-block-05": 0.0,
+        "test-block-06": 0.0,
+        "test-block-07": 0.0,
+        "test-block-08": 0.0,
+        "test-block-09": 0.0,
+        "test-block-10": 0.0
+      },
+      "groups": 10,
+      "mean": 0.0,
+      "records": 120
+    }
+  },
+  "selected": {
+    "hit100": "velocity",
+    "mae": "velocity"
+  },
+  "status": "ok",
+  "task": "S8--unrelated_partner--transprotect_markov",
+  "view": "unrelated_partner"
+}
