@@ -1,0 +1,120 @@
+\chapter{CIs và attacker của so sánh chính}\label{app:main-ci}
+Các bảng dưới mở rộng bảng chính, không tạo trial mới. CI95\% theo 20 TEST families, 10.000
+bootstrap replicates; các draws/trips được gộp trong family trước resampling. Hit100 và MAE chọn
+model riêng trên SELECTION. Việc hai số trong một ô đến từ hai estimators không phải ensemble
+được chọn sau TEST.
+\section{Privacy: toàn bộ khoảng tin cậy}
+\input{generated/privacy_ci}
+\section{Utility: CI theo purpose và chênh lệch}
+\input{generated/utility_ci}
+\input{generated/purpose_deltas}
+\section{Toàn bộ selected attackers}
+Tên model giữ đúng artifact để tra lại feature/selector. Đối với method Q-only, Z nội bộ không
+thuộc attacker input. Shadow models là mô hình do protocol huấn luyện trên TRAIN, không phải
+attack implementation được tuyên bố lấy nguyên từ paper nguồn.
+\input{generated/main_selected}
+
+\chapter{Chi tiết các tác vụ bổ sung}\label{app:extended}
+\section{S5: hai pha causal và calibration}
+Accuracy chọn đúng candidate edge; Brier/log loss theo probability lớp 1. Native edge first occurrence
+phải ở tương lai so cutoff. Raw chance ở cả hai pha là hạn chế của observability trong readout này.
+\input{generated/s5_full}
+\section{S6: tất cả pha và sai số đích}
+Ba pha là trước fork, cửa sổ rẽ và tick gửi đầu từ cửa sổ rẽ trở đi. Arrival đích thật sau cutoff;
+không dùng cả chuyến hoàn tất như observation rồi gọi bài toán đó là dự đoán tương lai.
+\input{generated/s6_full}
+\section{S8 V2: CIs, paired deltas và số quan sát}
+Delta là view trừ target-only. Hit delta dùng điểm phần trăm, MAE delta dùng mét. Resampling theo
+10 two-family blocks giữ dependence của unrelated partner. CI [0;0] khi mọi hit đều 0 không là
+cận xác suất rủi ro bằng 0.
+\input{generated/s8_full}
+\input{generated/s8_cost}
+\section{Selected attackers của GeoI-BQ trong supplement}
+\path{curve_min} dùng khoảng cách từ Q tới hình dạng rẽ public với temperature chốt trong bank.
+Một selected estimator là kết quả của bank hữu hạn, không là Bayes-optimality certificate.
+\input{generated/selected}
+
+\chapter{Ablation và độ sâu phản hồi}\label{app:support}
+\section{Ablation nội bộ, tách khỏi paper comparison}
+Bảng dùng protocol nội bộ 14/10. Service-cover, initial-only, local explore và public base là
+controls giải thích cơ chế, không là tên các phương pháp mới từ literature. Bảng chính Chương 4
+mới là phép đối chiếu ba paper adaptations dưới protocol đã công bố.
+\input{generated/ablation}
+Public base có Recall cao hơn $\Gamma=1$ trong cohort này. Không suy từ gain planning score rằng
+mọi actual utility cần tăng, hoặc sửa defense để đảo chiều số liệu.
+\section{Truncation response depth trên cùng Q/time}
+L60 là response depth thực tế của main release. Truncation L30 giữ Q/time nhưng giảm POI entries.
+Delta L60--L30 có CI ghép theo family trong protocol hỗ trợ; không là chênh lệch privacy.
+\input{generated/depth_sensitivity}
+
+\chapter{Nguồn, cấu hình và tái lập}\label{app:repro}
+\section{Bản chính, snapshot và phân vai nguồn}
+Canonical source là \path{thesis/main.tex}; PDF review là
+\path{artifacts/reports/graduation_thesis.pdf}. Bản trước consolidation được giữ trong
+\path{thesis/notes/snapshots/main_before_consolidation_20261109.tex} và archive PDF tương ứng.
+Các report 28/10 và 09/11 không bị ghi đè. Nguồn số liệu của bản luận văn là:
+\begin{enumerate}
+\item \path{artifacts/benchmarks/paper_comparison_20261028_v1/}: main six-arm trial, metrics gốc,
+costs và attacker choices; 30 method--scenario cells.
+\item \path{artifacts/benchmarks/remaining_scenarios_20261109_v1/}: 66 tác vụ bổ sung, gồm audit S7
+và S8 V1. Targets còn thiếu ground truth được giữ N/A.
+\item \path{artifacts/benchmarks/s8_fusion_20261109_v2/}: 24 tasks với attacker fusion; giữ cả
+SELECTION predictions và initial verifier failure.
+\item \path{configs/geo_i_bq_v1.json}: release 108 pins; outputs proposed kế thừa
+\path{main_depth_20261014_v1}, không lấy mẫu lại trong consolidation.
+\item \path{docs/research/2026-10-14_geoi_bq_mathematical_foundation.md}: đặc tả chứng minh;
+adversarial audit và mathematical completion receipts lưu riêng trong \path{docs/reviews/}.
+\end{enumerate}
+
+Exporter của luận văn xác thực các source hashes, xuất bảng/hình và lưu
+\path{thesis/generated/sources.json}. Nó không fit attacker, sửa GPS, sinh Q hoặc ghi lại benchmark.
+Các foundations cũ được dẫn riêng; literature evidence giữ cửa sổ khảo sát 28/10/2023--28/10/2026.
+Không cập nhật trạng thái công bố một preprint sau mốc khảo sát mà không audit nguồn mới.
+
+\section{Coverage và failure trong so sánh chính}
+Mỗi arm hoàn tất 120/120 TEST trip-draws. Coverage dưới đây chỉ là trạng thái thực thi của trial,
+không là phần trăm các mục tiêu privacy đã được giải quyết. Runtime failure và target N/A có ý
+nghĩa riêng như đã định nghĩa ở Chương~\ref{ch:experiments}.
+\input{generated/coverage}
+
+\section{Lệnh kiểm tra và dựng lại}
+Từ repo root, dùng Python environment có \path{requirements-paper-comparison.txt} và
+\path{thesis/requirements.txt}. Các lệnh dưới là read-only đối với benchmark đã lưu:
+\begin{quote}\small\ttfamily\raggedright
+python -m experiments.check\_paper\_comparison\_20261028\\
+python -m experiments.verify\_remaining\_scenarios\_20261109\\
+python -m experiments.check\_s8\_fusion\_20261109\\
+python -m experiments.verify\_geoi\_bq\_mathematics\_20261014 --check\\
+python -m experiments.export\_thesis\_consolidated\_20261109 --check
+\end{quote}
+Để xuất lại bảng/hình, bỏ \texttt{--check} ở exporter cuối; không bỏ check bằng cách gọi runner
+sinh benchmark. Sau đó, từ \path{thesis/}:
+\begin{quote}\small\ttfamily\raggedright
+tectonic --keep-logs --outdir ../build/thesis main.tex
+\end{quote}
+Sau khi kiểm tra layout, PDF được đặt vào đường dẫn canonical và chạy validator luận văn từ repo root:
+\begin{quote}\small\ttfamily\raggedright
+python -m experiments.validate\_thesis\_consolidated\_20261109
+\end{quote}
+Kiểm tra source/table/receipt không thay được việc xem PDF: cần render và xem mọi trang, kiểm tra
+equations, ngắt bảng, glyph tiếng Việt và links mục lục. Validator lưu các kiểm tra thực hiện được;
+visual review được ghi riêng sau khi đã xem bản cuối.
+
+\section{Những trường hợp kiểm chứng cần đọc đúng}
+Frozen verifier S8 V2 gốc giữ một gate yêu cầu selected Raw-partner Hit100 100\% cho mọi arm.
+Failure đầu ở \path{verification_failures/initial_gate.json} được bảo tồn. Checker độc lập
+\path{experiments/check_s8_fusion_20261109.py} xác thực available direct-partner control đạt 100\%
+và selected score 98,33\% ở TransProtect*; không sửa predictions. Không chạy write-once verifier
+để ghi đè dấu vết này.
+
+Các finite graph oracles kiểm tra support, lane reachability, normalization, mọi prefix budget,
+mixture/emission và integer PMF. Chứng minh đại số áp cho mọi input thỏa giả thiết; finite oracles
+chỉ kiểm tra triển khai trên miền đã duyệt. Float sampler, entropy thực và full upstream restore
+vẫn giữ đúng mức chứng nhận đã trình bày ở Chương~\ref{ch:method}.
+
+\section{Tách bằng chứng lịch sử khỏi kết quả hợp nhất}
+Repository còn các report/datasets phát triển trước release, pilot continual, response-depth và
+diagnostics ứng dụng. Chúng giải thích lịch sử nghiên cứu nhưng không được xếp cạnh main trial như
+cùng protocol. Các module \path{thesis/current_*.tex} cũ còn lưu để tra cứu; bản canonical mới
+không import chúng. Mục đích của consolidation là một mạch lập luận và một evidence map nhất quán,
+không cộng mọi score từng có thành một tuyên bố mạnh hơn phạm vi dữ liệu.

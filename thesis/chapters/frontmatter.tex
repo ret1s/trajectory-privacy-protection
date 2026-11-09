@@ -1,0 +1,148 @@
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\centering
+{\large ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH\\
+TRƯỜNG ĐẠI HỌC BÁCH KHOA\\
+KHOA KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH\par}
+\vspace{2.3cm}
+{\large\bfseries BẢN THẢO LUẬN VĂN THẠC SĨ\par}
+\vspace{1cm}
+{\LARGE\bfseries\color{ink}Bảo vệ tính riêng tư về quỹ đạo\par
+cho người dùng dịch vụ dựa trên vị trí\par}
+\vspace{.9cm}
+{\large Phương pháp GeoI-BQ:\\
+kiểm soát tiết lộ toàn transcript và chất lượng dịch vụ\par}
+\vspace{1.8cm}
+\begin{tabular}{ll}
+Học viên: & Ngô Minh Hạnh\\[5pt]
+Mã số học viên: & 2470010\\[5pt]
+Giảng viên hướng dẫn: & TS. Phan Trọng Nhân
+\end{tabular}
+\vfill
+{\small Bản hợp nhất phục vụ review và chỉnh sửa nội dung\par}
+\vspace{.6cm}
+{Tp. Hồ Chí Minh, tháng 11 năm 2026\par}
+\end{titlepage}
+\hypersetup{pageanchor=true}\pagenumbering{roman}
+
+\chapter*{Tóm tắt}
+\addcontentsline{toc}{chapter}{Tóm tắt}
+Dịch vụ dựa trên vị trí cần thông tin không gian để trả lời người dùng, trong khi chuỗi yêu cầu
+có thể cho phép nhà cung cấp suy luận vị trí, đường đi và những thông tin liên quan. Bảo đảm cho một
+điểm riêng lẻ chưa mô tả được lượng thông tin tích lũy qua cả phiên. Việc đánh giá cũng gặp khó khăn
+khi các nghiên cứu dùng tọa độ thay thế, tập chứa điểm thật/dummy hoặc dữ liệu trajectory offline với
+những attacker và metrics khác nhau.
+
+Luận văn hệ thống hóa các mục tiêu thành S1--S10 và đề xuất phương pháp GeoI-BQ v1 dựa trên
+Geo-indistinguishability. Thiết bị dùng REM và noisy reuse để duy trì điểm tham chiếu Z trên mạng đường,
+từ đó cập nhật belief gần đúng. Belief điều chỉnh một phân phối chọn đoạn Q có support chung và cận
+tiết lộ riêng. Mỗi đoạn gồm ba khung được chọn chung rồi phát theo lịch; nhu cầu thật được giữ ở local
+để lọc và sắp xếp các POI đã truy hồi.
+
+Phân tích gồm bốn mệnh đề nối cơ chế REM, phép kiểm tra tái sử dụng, kernel chọn đoạn và hợp thành
+nhiều đoạn. Dưới các giả thiết được công bố, toàn transcript có cận likelihood ratio theo khoảng cách
+trajectory và cận riêng của kênh Q. Các kết quả utility tách gain điểm lập kế hoạch, tính đơn điệu của
+cache tại cùng nhu cầu và cận so với chính sách nền phù hợp; chuyển sang chất lượng thực cần điều kiện
+về proxy, belief và provider. Kernel lý tưởng được phân biệt với sampler số thực và khả năng phục hồi
+trạng thái của prototype chưa được chứng nhận đầy đủ.
+
+Thực nghiệm đối chiếu với ba adaptation đã audit từ paper, kèm Raw GPS và REM-Z, trên cùng cohort
+48 family tổng hợp. Các attacker học trên TRAIN, chọn trên SELECTION và đánh giá trên TEST; CI tính
+theo nhóm phụ thuộc. GeoI-BQ đạt macro session Recall@5 \PrimaryRecall\%, CI95\% \PrimaryCI\%, thấp hơn các adaptation khoảng 0,4 điểm phần trăm, đồng thời có Hit100 thấp hơn trong các phép thử
+S1--S3/S9--S10 của bank đang xét. Phương pháp sử dụng 155 truy vấn tọa độ mỗi phiên 600 giây.
+
+Đánh giá bổ sung đo liên kết phiên theo nhóm tuyến S4, dự đoán hai lựa chọn tương lai S5/S6,
+tính bất biến payload S7 và hai kênh tương quan S8. Kết quả giữ cả trường hợp Raw thiếu tín hiệu,
+attacker fusion mạnh hơn và side information Raw làm lộ target. Các số liệu này không được đổi tên
+thành bảo vệ danh tính người/xe thật hoặc đồng hành thực tế. Đóng góp là thiết kế và phân tích có điều
+kiện cho toàn transcript, cùng protocol đối chiếu tái lập về privacy--utility--cost.
+
+\noindent\textbf{Từ khóa:} trajectory privacy, Geo-indistinguishability, REM, truy vấn liên tục,
+POI, hợp thành, đánh giá đối chứng.
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+Location-based services require spatial information to answer user requests, while a provider may
+aggregate repeated queries to infer locations and trajectories. A guarantee for a single release is
+insufficient to characterize the disclosure of a complete interaction. Comparisons are further
+complicated by heterogeneous output contracts, datasets, adversaries and utility measurements.
+
+This thesis specifies GeoI-BQ v1, a Geo-indistinguishability-based client-side mechanism. A road
+exponential mechanism and a private reuse test maintain a protected anchor. An approximate belief
+guides a bounded distribution over road-feasible query segments. Each segment jointly commits three
+frames, while actual request filtering and POI ranking remain local. Four privacy propositions yield
+a conditional end-to-end transcript bound. Utility analysis distinguishes planning-score gains,
+cache/ranking properties, matched-public-base comparisons and conditions for transfer to actual
+service quality. Ideal kernels, numerical implementation and trusted state restoration are explicitly
+distinguished.
+
+A controlled study compares three audited paper adaptations, Raw GPS and direct REM-anchor release
+on the same previously inspected 48-family synthetic cohort. Attacks are trained and selected on
+separate splits, with grouped confidence intervals. GeoI-BQ achieves 99.595\% macro session Recall@5
+with a 95\% interval of [99.224; 99.903]\%, approximately 0.4 percentage points below the adaptations,
+and lower localization Hit100 in the tested attack bank. It issues 155 coordinate queries per
+600-second session. Supplementary tasks cover route-family session association, causal two-choice
+forecasting, conditional payload identifiability and aligned correlated-channel observations.
+Results retain weak positive controls and stronger fusion attacks rather than claiming universal
+scenario coverage. The contributions are a scoped full-transcript mechanism and analysis, and a
+reproducible privacy--utility--cost evaluation; they do not certify the prototype as a complete
+deployment or establish real-person/vehicle anonymity.
+
+\clearpage
+\begingroup\small\setstretch{1.05}\setlength{\parskip}{0pt}\tableofcontents\endgroup
+\clearpage
+\begingroup\small\setstretch{1.05}\setlength{\parskip}{0pt}\addcontentsline{toc}{chapter}{Danh mục hình}\listoffigures\endgroup
+\clearpage
+\begingroup\small\setstretch{1.05}\setlength{\parskip}{0pt}\addcontentsline{toc}{chapter}{Danh mục bảng}\listoftables\endgroup
+
+\chapter*{Danh mục từ viết tắt}
+\addcontentsline{toc}{chapter}{Danh mục từ viết tắt}
+\begin{small}\setstretch{1.1}
+\begin{longtable}{@{}P{2.1cm}P{13.4cm}@{}}
+LBS & Location-based Services -- dịch vụ dựa trên vị trí.\\
+LSP & Location Service Provider -- nhà cung cấp dịch vụ vị trí.\\
+POI & Point of Interest -- địa điểm được quan tâm.\\
+Geo-I & Geo-indistinguishability -- bảo đảm privacy theo khoảng cách vị trí.\\
+REM & Road Exponential Mechanism -- kernel mũ trên miền đường công khai trong luận văn.\\
+DP & Differential Privacy -- riêng tư vi sai.\\
+SUMO & Simulation of Urban MObility -- mô phỏng giao thông vi mô.\\
+FCD & Floating Car Data -- trạng thái phương tiện theo thời gian từ mô phỏng.\\
+OSM & OpenStreetMap -- nguồn dữ liệu bản đồ mở.\\
+GPS/GNSS & Hệ thống định vị vệ tinh; phân biệt GPS dùng bảo vệ và GPS dùng xếp hạng local.\\
+PMF & Probability Mass Function -- hàm xác suất trên miền rời rạc.\\
+LR & Likelihood Ratio -- tỷ số xác suất/khả năng của cùng output dưới hai input.\\
+TV & Total Variation -- khoảng cách biến thiên toàn phần giữa hai phân phối.\\
+CI & Confidence Interval -- khoảng tin cậy.\\
+BA/AUC & Balanced Accuracy; diện tích dưới đường ROC.\\
+MAE/EIE & Sai số tuyệt đối trung bình; sai số suy luận kỳ vọng theo contract tương ứng.\\
+ASR/DER & Các metrics trong paper dummy-based; chỉ tính khi đáp ứng đúng định nghĩa nguồn.\\
+kNN & k-Nearest Neighbors -- mô hình láng giềng gần nhất.\\
+JSON & Định dạng bản tin ứng dụng được dùng trong phép đếm byte.\\
+N/A & Không áp dụng hoặc chưa đủ đầu vào hợp lệ để tính; không mang giá trị 0.\\
+\end{longtable}\end{small}
+
+\chapter*{Danh mục ký hiệu}
+\addcontentsline{toc}{chapter}{Danh mục ký hiệu}
+\begin{small}\setstretch{1.08}
+\begin{longtable}{@{}P{2.5cm}P{13cm}@{}}
+\textbf{Ký hiệu} & \textbf{Ý nghĩa và đơn vị}\\\midrule
+$X=(x_i)_i$ & Trajectory thật ở các mốc có thể đọc; tọa độ trong một hệ chiếu mét cố định.\\
+$C$ & Ngữ cảnh công khai: bản đồ, catalogue, clock, cấu hình, provider law.\\
+$V,a_v$ & Tập trạng thái đường công khai và tọa độ của trạng thái $v$.\\
+$Z_t,E$ & Điểm tham chiếu đã bảo vệ; lịch sử nội bộ gồm các Z và nhánh test.\\
+$b_t(s)$ & Belief gần đúng về trạng thái người dùng, tính từ thông tin đã bảo vệ.\\
+$Q_t,K$ & Khung gồm $K$ query slots gửi tại một mốc; prototype dùng $K=5$.\\
+$A_a,\mathcal A_j$ & Một đoạn ba khung Q và thư viện các đoạn ở lần chọn $j$.\\
+$\mathcal H_j$ & Lịch sử phân tích có đoạn đã chọn, lane giả và replies; mạnh hơn wire tọa độ.\\
+$O_n$ & Transcript server sau $n$ lần chọn đoạn: Q, thứ tự, clock, request/reply, retry.\\
+$w_a,p_a$ & Phân phối nền và phân phối thích nghi khi chọn đoạn.\\
+$v_a,z_a$ & Điểm lập kế hoạch trước chuẩn hóa; điểm bị chặn đưa vào kernel.\\
+$u,C_s$ & Chi phí một đơn vị và cap Geo-I từng phiên, đơn vị m$^{-1}$.\\
+$B,H_{\rm cfg},M$ & Tham số ngân sách danh nghĩa, tham số accounting và số đơn vị cap; $M=2H_{\rm cfg}-1$.\\
+$\varepsilon_{Q,j},\Gamma_Q$ & Allowance chọn đoạn thứ $j$ và cap Q cả phiên, không có đơn vị.\\
+$L,k$ & Độ sâu phản hồi mỗi loại POI/tọa độ; độ sâu reference đánh giá, lần lượt 60 và 5.\\
+$\psi_t,U_t,T_{t,\psi}$ & Nhu cầu thật tại local; cache hợp lệ; tập POI reference tại GPS/nhu cầu đang xét.\\
+$D_\infty(X,X')$ & Độ lệch tọa độ lớn nhất giữa hai traces trên cùng lịch, đơn vị mét.\\
+$R_n,\delta_n$ & Cận LR của kênh Q và cận TV cả phiên so với matched public base.\\
+$\eta,\tau,\nu$ & Sai số calibration/proxy và chuyển miền có điều kiện; chưa biết không được đặt bằng 0.\\
+\end{longtable}\end{small}

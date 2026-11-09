@@ -1,0 +1,19 @@
+\Needspace{210pt}
+\par\begingroup\small\setstretch{1.04}\setlength{\parskip}{0pt}
+\begin{longtable}{@{}P{3.6cm}P{2.199cm}P{2.199cm}P{2.199cm}P{2.199cm}P{2.199cm}@{}}
+\caption{Chi phí trung bình mỗi phiên 600 giây; KB = 1.000 byte}\label{tab:main-cost}\\
+\toprule
+\textbf{Phương pháp} & \textbf{Packet} & \textbf{Query điểm} & \textbf{Request KB} & \textbf{Reply KB} & \textbf{Sinh / tick ms} \\
+\midrule\endfirsthead
+\multicolumn{6}{l}{\small\textit{Bảng \thetable\ (tiếp)}}\\\toprule
+\textbf{Phương pháp} & \textbf{Packet} & \textbf{Query điểm} & \textbf{Request KB} & \textbf{Reply KB} & \textbf{Sinh / tick ms} \\
+\midrule\endhead
+\midrule\multicolumn{6}{r}{\small\textit{Còn tiếp ở trang sau}}\\\endfoot
+\bottomrule\endlastfoot
+Raw GPS & 31{,}00 & 31{,}00 & 5{,}846 & 16{,}843 & <0{,}001 \\
+Geo-I/REM Z (K1) & 31{,}00 & 31{,}00 & 6{,}352 & 16{,}921 & -- \\
+TransProtect* & 31{,}00 & 31{,}00 & 6{,}351 & 16{,}847 & 3{,}287 \\
+Semantic correlation* & 31{,}00 & 155{,}00 & 31{,}754 & 84{,}770 & 0{,}993 \\
+Fake-query insertion* & 38{,}04 & 190{,}21 & 39{,}418 & 104{,}033 & 0{,}759 \\
+\textbf{GeoI-BQ v1} & 31{,}00 & 155{,}00 & 31{,}756 & 82{,}557 & -- \\
+\end{longtable}\endgroup\par

@@ -1,0 +1,42 @@
+\par\begingroup\footnotesize\setstretch{1.04}\setlength{\parskip}{0pt}
+\begin{longtable}{@{}P{3.1cm}P{.7cm}P{5.678cm}P{5.678cm}@{}}
+\caption{Toàn bộ attacker thực sự được chọn trong trial chính}\label{tab:main-selected}\\
+\toprule
+\textbf{Phương pháp} & \textbf{S} & \textbf{Attacker Hit100} & \textbf{Attacker MAE} \\
+\midrule\endfirsthead
+\multicolumn{4}{l}{\small\textit{Bảng \thetable\ (tiếp)}}\\\toprule
+\textbf{Phương pháp} & \textbf{S} & \textbf{Attacker Hit100} & \textbf{Attacker MAE} \\
+\midrule\endhead
+\midrule\multicolumn{4}{r}{\small\textit{Còn tiếp ở trang sau}}\\\endfoot
+\bottomrule\endlastfoot
+Raw GPS & S1 & \path{centroid} & \path{centroid} \\
+Raw GPS & S2 & \path{centroid} & \path{centroid} \\
+Raw GPS & S3 & \path{centroid} & \path{centroid} \\
+Raw GPS & S9 & \path{centroid} & \path{centroid} \\
+Raw GPS & S10 & \path{centroid} & \path{centroid} \\
+Geo-I/REM Z (K1) & S1 & \path{centroid} & \path{centroid} \\
+Geo-I/REM Z (K1) & S2 & \path{centroid} & \path{centroid} \\
+Geo-I/REM Z (K1) & S3 & \path{centroid} & \path{centroid} \\
+Geo-I/REM Z (K1) & S9 & \path{centroid} & \path{centroid} \\
+Geo-I/REM Z (K1) & S10 & \path{centroid} & \path{geometry_nearest_slot0_ols3_boundary} \\
+TransProtect* & S1 & \path{centroid} & \path{centroid} \\
+TransProtect* & S2 & \path{centroid} & \path{centroid} \\
+TransProtect* & S3 & \path{centroid} & \path{centroid} \\
+TransProtect* & S9 & \path{centroid} & \path{geometry_nearest_slot0_ols2_boundary} \\
+TransProtect* & S10 & \path{geometry_nearest_slot0_ols6_boundary} & \path{geometry_nearest_slot0_ols6_boundary} \\
+Semantic correlation* & S1 & \path{centroid} & \path{query_prior} \\
+Semantic correlation* & S2 & \path{centroid} & \path{median} \\
+Semantic correlation* & S3 & \path{centroid} & \path{query_prior} \\
+Semantic correlation* & S9 & \path{centroid} & \path{observed_slots_slot4_ols2_boundary} \\
+Semantic correlation* & S10 & \path{centroid} & \path{observed_slots_slot4_endpoint} \\
+Fake-query insertion* & S1 & \path{query_prior} & \path{shadow_tree} \\
+Fake-query insertion* & S2 & \path{viterbi_motion} & \path{viterbi_motion} \\
+Fake-query insertion* & S3 & \path{viterbi_motion} & \path{viterbi_motion} \\
+Fake-query insertion* & S9 & \path{public_boundary_viterbi_ols2} & \path{public_boundary_viterbi_ols2} \\
+Fake-query insertion* & S10 & \path{public_boundary_viterbi_ols2} & \path{viterbi_motion} \\
+\textbf{GeoI-BQ v1} & S1 & \path{centroid} & \path{shadow_prior_median} \\
+\textbf{GeoI-BQ v1} & S2 & \path{centroid} & \path{shadow_prior_median} \\
+\textbf{GeoI-BQ v1} & S3 & \path{centroid} & \path{shadow_prior_median} \\
+\textbf{GeoI-BQ v1} & S9 & \path{centroid} & \path{geometry_nearest_prior_median} \\
+\textbf{GeoI-BQ v1} & S10 & \path{centroid} & \path{geometry_nearest_prior_median} \\
+\end{longtable}\endgroup\par

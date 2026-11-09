@@ -1,0 +1,56 @@
+\chapter{Summary -- Kết luận}\label{ch:summary}
+Luận văn xem trajectory privacy như một bài toán bảo vệ transcript dịch vụ theo thời gian. Một
+tọa độ giả ở từng thời điểm chưa đủ: quyền quan sát cả chuỗi, quyết định cập nhật và tương quan
+giữa các đầu ra đều cần được đặc tả. Đồng thời, utility được đánh giá bằng đáp án POI người dùng
+thực nhận thay vì chỉ độ lệch giữa GPS và tọa độ phát.
+
+\section{Trả lời các câu hỏi nghiên cứu}
+\textbf{RQ1 -- Bảo đảm privacy toàn transcript.} GeoI-BQ v1 nối REM/noisy reuse với một prospective
+cap cho private GPS và một guard riêng cho lựa chọn đoạn Q. Trên miền/support chung và các giả thiết
+kernel, clock, ledger, provider đã nêu, chuỗi Q có tỷ số likelihood không quá $R_n\le e^{\Gamma_Q}$;
+với $\Gamma_Q=1$, cận toàn thời lượng nhỏ hơn 2,437372. Nhánh Geo-I lý tưởng cho cận theo metric
+trajectory; khi cả hai nhánh hợp lệ có thể lấy minimum của chúng. Đây là giới hạn mức transcript
+làm thay đổi khả năng phân biệt/suy luận, không là chứng minh attacker không thể biết vị trí.
+
+\textbf{RQ2 -- Utility và các điều kiện cần.} Centered kernel có gain không âm trên planning score,
+còn actual utility gain phụ thuộc covariance/proxy calibration. Union/cache và local ranking giữ
+được các reference POI đã truy hồi tại cùng GPS/request khi metadata hợp lệ. Phân tích toàn history
+cho cận utility so matched public base bằng conditional expectation, không dùng IID. Floor chuyển
+sang GPS thật vẫn cần bound sai số và provider completeness. Những điều kiện chưa chứng nhận không
+được đặt bằng không trong kết luận.
+
+\textbf{RQ3 -- Trade-off thực nghiệm.} Trong controlled comparison với ba adaptation đã audit từ
+paper và Raw/REM-Z controls, GeoI-BQ đạt session Recall@5 99,595\%, CI95\% [99,224;99,903]. Các
+coordinate tasks S1--S3/S9--S10 có Hit100 0--0,188\% dưới bank đã chọn, thấp hơn các adaptation trong
+trial, đổi lại dùng 155 point queries mỗi phiên và utility thấp hơn khoảng 0,4 điểm phần trăm so
+ba adaptation. Các con số không chứng minh mọi original paper implementation hoặc mọi attacker
+đều thua, và không là generalization ngoài cohort.
+
+\section{Đóng góp thực sự của bản hiện tại}
+Thứ nhất, luận văn hệ thống hóa targets, output contracts và một protocol đánh giá bổ sung giữa
+các cơ chế khác dạng. MAE, Recall và bootstrap là kiến thức kế thừa; đóng góp là cách ghép target,
+window, aggregation, cost và failure accounting thành một phép đối chiếu kiểm tra được.
+
+Thứ hai, phương pháp tách protected reference khỏi public query action, quản lý noisy reuse theo
+phiên và chọn chung đoạn Q bằng kernel bị chặn có integer representation. Các chứng minh liên kết
+từ thành phần đến transcript và nêu rõ điều kiện của suy luận Bayes cũng như utility. Không quy
+đóng góp thành việc tạo thêm nhiễu hoặc phát minh lại Geo-I.
+
+Thứ ba, artifact chứa main comparison, các tác vụ S4--S8 có scope riêng, bảng CIs/selected attackers,
+source pins và verifier. Quá trình sửa attacker S8 được giữ để kết quả có thể bị kiểm tra và phản
+biện. Đây là bằng chứng bổ sung cho thiết kế, không thay cho các giả thiết toán học.
+
+\section{Giới hạn và hướng phát triển}
+Ưu tiên tiếp theo là chứng nhận sampler upstream/restore toàn state và nguồn randomness; sau đó
+đánh giá trên cohort/bản đồ mới và catalogue lớn/động với latency, bytes metadata đầy đủ và energy
+thực đo. Matched public base đang có utility tốt hơn trên cohort hiện tại, nên cần xác định điều
+kiện nào private adaptation thực sự đáng chi phí thay vì mặc định $\Gamma=1$ tối ưu.
+
+Identity người/xe cần nhãn vật lý và task riêng; route-family association chưa đủ. S5 cần cadence
+và positive control phù hợp; S6 cần lựa chọn/historical context đa dạng hơn. S7 cần đo route-correlated
+intent ngoài payload, S8 cần dữ liệu tương quan thực và phân tích joint channels/multiple sessions.
+Các hướng đó mở rộng phạm vi đã có, không được trình bày như kết quả hoàn thành trong bản này.
+
+Bản hiện tại cung cấp một cơ sở thống nhất để review: kiến trúc/đặc tả trước, chứng minh có điều kiện
+tiếp theo, rồi benchmark cùng protocol và kết luận tương xứng. Từ đó có thể chỉnh sửa diễn giải,
+củng cố chứng nhận triển khai và xác nhận ngoài miền mà vẫn giữ nền tảng Geo-I của phương pháp.

@@ -1,0 +1,36 @@
+\par\begingroup\footnotesize\setstretch{1.04}\setlength{\parskip}{0pt}
+\begin{longtable}{@{}P{2.8cm}P{1.5cm}P{2.574cm}P{2.574cm}P{2.574cm}P{2.574cm}@{}}
+\caption{S8 V2: CI và chênh lệch ghép theo block}\label{tab:s8-full}\\
+\toprule
+\textbf{Phương pháp} & \textbf{View} & \textbf{Hit\% [CI]} & \textbf{MAE m [CI]} & \textbf{ΔHit pp [CI]} & \textbf{ΔMAE m [CI]} \\
+\midrule\endfirsthead
+\multicolumn{6}{l}{\small\textit{Bảng \thetable\ (tiếp)}}\\\toprule
+\textbf{Phương pháp} & \textbf{View} & \textbf{Hit\% [CI]} & \textbf{MAE m [CI]} & \textbf{ΔHit pp [CI]} & \textbf{ΔMAE m [CI]} \\
+\midrule\endhead
+\midrule\multicolumn{6}{r}{\small\textit{Còn tiếp ở trang sau}}\\\endfoot
+\bottomrule\endlastfoot
+Raw GPS & Target & 100{,}00\newline [100{,}00; 100{,}00] & 0{,}0\newline [0{,}0; 0{,}0] & 0{,}00\newline [0{,}00; 0{,}00] & 0{,}0\newline [0{,}0; 0{,}0] \\
+Raw GPS & + protected & 100{,}00\newline [100{,}00; 100{,}00] & 0{,}0\newline [0{,}0; 0{,}0] & 0{,}00\newline [0{,}00; 0{,}00] & 0{,}0\newline [0{,}0; 0{,}0] \\
+Raw GPS & + raw & 100{,}00\newline [100{,}00; 100{,}00] & 0{,}0\newline [0{,}0; 0{,}0] & 0{,}00\newline [0{,}00; 0{,}00] & 0{,}0\newline [0{,}0; 0{,}0] \\
+Raw GPS & + unrelated & 100{,}00\newline [100{,}00; 100{,}00] & 0{,}0\newline [0{,}0; 0{,}0] & 0{,}00\newline [0{,}00; 0{,}00] & 0{,}0\newline [0{,}0; 0{,}0] \\
+REM-Z K1 & Target & 10{,}83\newline [5{,}00; 16{,}67] & 359{,}7\newline [297{,}6; 424{,}9] & 0{,}00\newline [0{,}00; 0{,}00] & 0{,}0\newline [0{,}0; 0{,}0] \\
+REM-Z K1 & + protected & 6{,}67\newline [0{,}00; 15{,}00] & 300{,}8\newline [247{,}9; 357{,}9] & -4{,}17\newline [-11{,}67; 2{,}50] & -58{,}9\newline [-74{,}7; -43{,}8] \\
+REM-Z K1 & + raw & 100{,}00\newline [100{,}00; 100{,}00] & 0{,}0\newline [0{,}0; 0{,}0] & 89{,}17\newline [83{,}33; 95{,}00] & -359{,}7\newline [-424{,}9; -297{,}6] \\
+REM-Z K1 & + unrelated & 10{,}83\newline [5{,}00; 16{,}67] & 359{,}7\newline [297{,}6; 424{,}9] & 0{,}00\newline [0{,}00; 0{,}00] & 0{,}0\newline [0{,}0; 0{,}0] \\
+TransProtect* & Target & 60{,}83\newline [51{,}67; 70{,}00] & 102{,}8\newline [84{,}8; 121{,}9] & 0{,}00\newline [0{,}00; 0{,}00] & 0{,}0\newline [0{,}0; 0{,}0] \\
+TransProtect* & + protected & 64{,}17\newline [56{,}67; 71{,}67] & 96{,}8\newline [78{,}8; 116{,}2] & 3{,}33\newline [0{,}00; 6{,}67] & -5{,}9\newline [-8{,}5; -3{,}6] \\
+TransProtect* & + raw & 98{,}33\newline [95{,}83; 100{,}00] & 0{,}0\newline [0{,}0; 0{,}0] & 37{,}50\newline [27{,}50; 47{,}50] & -102{,}8\newline [-121{,}9; -84{,}8] \\
+TransProtect* & + unrelated & 60{,}83\newline [51{,}67; 70{,}00] & 102{,}8\newline [84{,}8; 121{,}9] & 0{,}00\newline [0{,}00; 0{,}00] & 0{,}0\newline [0{,}0; 0{,}0] \\
+Semantic correlation* & Target & 45{,}00\newline [20{,}00; 70{,}00] & 101{,}4\newline [76{,}7; 132{,}1] & 0{,}00\newline [0{,}00; 0{,}00] & 0{,}0\newline [0{,}0; 0{,}0] \\
+Semantic correlation* & + protected & 75{,}00\newline [60{,}00; 90{,}00] & 46{,}2\newline [29{,}3; 62{,}5] & 30{,}00\newline [10{,}00; 50{,}00] & -55{,}3\newline [-95{,}8; -23{,}9] \\
+Semantic correlation* & + raw & 100{,}00\newline [100{,}00; 100{,}00] & 0{,}0\newline [0{,}0; 0{,}0] & 55{,}00\newline [30{,}00; 80{,}00] & -101{,}4\newline [-132{,}1; -76{,}7] \\
+Semantic correlation* & + unrelated & 45{,}00\newline [20{,}00; 70{,}00] & 101{,}4\newline [76{,}7; 132{,}1] & 0{,}00\newline [0{,}00; 0{,}00] & 0{,}0\newline [0{,}0; 0{,}0] \\
+Fake-query insertion* & Target & 16{,}67\newline [5{,}00; 31{,}67] & 1857{,}4\newline [1526{,}6; 2225{,}8] & 0{,}00\newline [0{,}00; 0{,}00] & 0{,}0\newline [0{,}0; 0{,}0] \\
+Fake-query insertion* & + protected & 68{,}33\newline [56{,}67; 80{,}00] & 1857{,}4\newline [1526{,}6; 2225{,}8] & 51{,}67\newline [46{,}67; 56{,}67] & 0{,}0\newline [0{,}0; 0{,}0] \\
+Fake-query insertion* & + raw & 100{,}00\newline [100{,}00; 100{,}00] & 0{,}0\newline [0{,}0; 0{,}0] & 83{,}33\newline [68{,}33; 95{,}00] & -1857{,}4\newline [-2225{,}8; -1526{,}6] \\
+Fake-query insertion* & + unrelated & 16{,}67\newline [5{,}00; 31{,}67] & 1857{,}4\newline [1526{,}6; 2225{,}8] & 0{,}00\newline [0{,}00; 0{,}00] & 0{,}0\newline [0{,}0; 0{,}0] \\
+\textbf{GeoI-BQ v1} & Target & 0{,}00\newline [0{,}00; 0{,}00] & 2246{,}7\newline [2036{,}7; 2468{,}2] & 0{,}00\newline [0{,}00; 0{,}00] & 0{,}0\newline [0{,}0; 0{,}0] \\
+\textbf{GeoI-BQ v1} & + protected & 0{,}00\newline [0{,}00; 0{,}00] & 2226{,}8\newline [1950{,}9; 2507{,}3] & 0{,}00\newline [0{,}00; 0{,}00] & -19{,}9\newline [-161{,}8; 111{,}7] \\
+\textbf{GeoI-BQ v1} & + raw & 100{,}00\newline [100{,}00; 100{,}00] & 0{,}0\newline [0{,}0; 0{,}0] & 100{,}00\newline [100{,}00; 100{,}00] & -2246{,}7\newline [-2468{,}2; -2036{,}7] \\
+\textbf{GeoI-BQ v1} & + unrelated & 0{,}00\newline [0{,}00; 0{,}00] & 2246{,}7\newline [2036{,}7; 2468{,}2] & 0{,}00\newline [0{,}00; 0{,}00] & 0{,}0\newline [0{,}0; 0{,}0] \\
+\end{longtable}\endgroup\par

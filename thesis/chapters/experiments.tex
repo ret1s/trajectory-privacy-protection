@@ -1,0 +1,204 @@
+\chapter{Experiments and Analysis -- Thực nghiệm và phân tích}\label{ch:experiments}
+\section{Evaluation framework and metrics}
+Đánh giá trả lời ba câu hỏi: \textbf{RQ1}, transcript hạn chế suy luận vị trí đến đâu trong mô hình đã khai báo;
+\textbf{RQ2}, đáp án dịch vụ còn hữu ích đến đâu; và \textbf{RQ3}, đánh đổi đó cần bao nhiêu truy vấn/dữ liệu.
+Cận lý thuyết không phụ thuộc vào một attacker học cụ thể; benchmark chỉ kiểm tra các attacker hữu hạn trên workload này.
+
+\noindent\begin{tabularx}{\linewidth}{@{}P{1cm}P{4.1cm}Y@{}}\toprule
+\textbf{Case} & \textbf{Target} & \textbf{Quan sát thực sự dùng trong trial chính}\\\midrule
+S1 & GPS tại tick đang xét & Một packet tại tick dịch vụ công khai; không xem trước/sau.\\
+S2 & Proxy tọa độ cửa sổ muộn & Tất cả wire trong 540--600 s; target là trung bình bốn GPS ticks. Chưa đo suy luận nơi dừng ngữ nghĩa.\\
+S3 & Đường đã đi & Toàn wire 0--600 s; tái dựng 31 GPS theo timestamp, rồi gộp sai số.\\
+S9 & GPS đầu phiên & Toàn wire, biết public clock và mốc bắt đầu.\\
+S10 & GPS cuối phiên & Toàn wire, biết phiên đóng tại 600 s; không giả định attacker không biết lúc kết thúc.\\\bottomrule
+\end{tabularx}
+
+Với target $x_i$, ước lượng $\hat x_i$ và sai số Euclid theo mét $e_i=\|x_i-\hat x_i\|$:
+\[
+\operatorname{Hit100}=\frac1N\sum_{i=1}^N\mathbf1\{e_i\le100\},\qquad
+\operatorname{MAE}=\frac1N\sum_{i=1}^Ne_i.
+\]
+Hit100 thấp hơn và MAE cao hơn có lợi cho privacy trong \emph{cùng task/attacker protocol}. Hai phép đo bổ sung:
+Hit100 thể hiện xác suất định vị trong vùng thực dụng, MAE thể hiện độ lệch trung bình; một số sai số rất lớn
+có thể làm MAE cao dù Hit100 vẫn cao. Chúng không chứng minh formal privacy hay anonymity.
+
+\textbf{Utility theo đáp án.} Reference $T_{t,\psi}$ là tối đa năm POI đúng theo GPS và purpose; danh sách client
+trả về là toàn bộ kết quả phù hợp đã sắp xếp, không bị cắt ở năm. Recall@5 là
+$|T_{t,\psi}\cap U_t|/|T_{t,\psi}|$, với $U_t$ là tập ứng viên hợp lệ thực nhận; nhờ cùng bộ lọc/total order; nó cũng là độ phủ reference top-five sau local ranking. Reference rỗng là N/A và được ghi mẫu số. Macro không lấy N/A làm 0 hoặc 1. Radius cố định là 1.000 m;
+minimum-detour cần đích local riêng. Khoảng cách/chi phí đường có hướng chỉ dùng ở utility, còn MAE định vị dùng Euclid mét.
+Macro là trung bình đều bốn purposes có reference hợp lệ: gần nhất theo khoảng cách, nhanh nhất theo cost
+di chuyển, trong bán kính 1.000 m và ít vòng đường nhất đối với một đích local đã biết.
+
+Gộp tick trong trip, các trip/draw trong family, rồi trung bình family. TEST có 20 family; mỗi family hai
+chuyến và ba defense draws. Bootstrap \textbf{10.000 lần theo family}, giữ ghép cùng family giữa các phương pháp,
+seed công khai 20261028. CI là percentile 95\% theo bootstrap~\cite{efron}; không coi 120 trip-draw là 120 family độc lập.
+Hit và MAE dùng model được chọn riêng theo loss; hai số trong một ô không nhất thiết từ cùng một estimator.
+
+\textbf{Vì sao cần bộ đo này?} (i) Target và cửa sổ quan sát vẫn có cùng ý nghĩa khi output là một điểm hoặc
+nhiều điểm; (ii) utility đo đáp án thực nhận thay vì chỉ độ lệch điểm giả; (iii) request/response tính đủ các
+fake events; (iv) metrics gốc được giữ khi áp dụng được. Bộ đo là một \emph{protocol kết hợp metrics đã biết},
+không tuyên bố phát minh MAE/Recall hay thay thế mọi phép đo của nghiên cứu trước.
+
+\subsection{Metrics cho liên kết, tương lai và nội dung truy vấn}
+Với S4, target nhị phân $y=1$ nghĩa hai phiên thuộc cùng route family. Balanced accuracy (BA) là
+$\frac12(\mathrm{TPR}+\mathrm{TNR})$, không bị tỷ lệ hai lớp chi phối như accuracy thường. Macro-F1
+lấy trung bình F1 của hai lớp. ROC-AUC đo xếp hạng probability; AUC trung bình block và AUC pooled
+được ghi riêng vì không có cùng mẫu số. BA/AUC gần mức cân bằng chưa chứng minh mọi attacker không
+thể liên kết; score dưới 0,5 cũng có thể do đảo thứ tự hoặc biến thiên mẫu.
+
+S5/S6 là chọn một trong hai cạnh/đích công khai. Accuracy là tỷ lệ chọn đúng, mốc uniform là 50\%.
+Với probability $p_i$ cho lớp 1 và $y_i\in\{0,1\}$, hai thước đo xác suất là
+\begin{align}
+\operatorname{Brier}&=\frac1N\sum_i(p_i-y_i)^2,\label{eq:brier}\\
+\operatorname{LogLoss}&=-\frac1N\sum_i[y_i\log p_i+(1-y_i)\log(1-p_i)].\label{eq:logloss}
+\end{align}
+Implementation áp dụng clipping probability theo protocol trước log. Brier/log loss thấp hơn có
+lợi cho attacker, không tự gọi là privacy budget hoặc ASR của paper khác. S6 còn đo Hit100/MAE
+của tọa độ đích ứng viên được chọn tới GPS cuối. Quan sát chỉ là prefix trước cutoff và phải kiểm
+tra target còn nằm trong tương lai.
+
+S7 đo equality của wire khi thay request local nhưng giữ trajectory/context. Với prior cân bằng trên
+$m$ nhãn mà cùng wire, conditional Bayes vulnerability là $1/m$. Các mốc $1/4$, $1/6$, $1/24$ chỉ
+đúng trong phép thử purposes/categories cân bằng đã khai báo; không là prior của người dùng thực.
+S8 đo Hit100/MAE ở cùng target/cutoff dưới bốn quyền quan sát và chênh lệch joint trừ target-only.
+Số quan sát tính cả hai kênh; không thay common time window bằng cùng số packets.
+
+\subsection{Mẫu số, missingness và bất định}
+Các tác vụ mở rộng S4--S8 được đo riêng ở Mục~\ref{sec:extended-scenarios}, với target và nhóm phụ thuộc
+riêng. Hệ quả Bayes ở Mục~\ref{sec:privacy} vẫn có điều kiện trên kênh target. Không thay một nhãn
+identity người/xe chưa có ground truth bằng nhãn route-family chỉ để hoàn tất bảng.
+Failure thực thi được giữ ở coverage: thiếu output không là privacy thành công; utility không giao
+được đáp án là 0 nếu reference có thật. N/A nghĩa target/metric không áp dụng hoặc thiếu đầu vào,
+không đồng nghĩa với failure hay một kết quả bằng 0. Các CI điều kiện trên cohort/model đã giữ lại;
+chúng chưa bao gồm toàn bộ bất định của quá trình sinh bản đồ, chọn mô hình hoặc dữ liệu ngoài miền.
+
+
+\section{Dataset construction and environment}
+Workload dùng mạng đường có hướng SUMO~\cite{sumo}, các phiên di chuyển native và catalogue POI công khai trong
+repository, với dữ liệu bản đồ công khai được ghi nguồn theo OSM~\cite{osm}. Mỗi phiên giữ tọa độ/trạng thái đường, timestamp và reference POI riêng để đánh giá. Các ràng buộc
+scenario xác định \emph{target/cửa sổ suy luận}; không lựa chọn lại tuyến theo điểm privacy của mô hình.
+Các family gom những chuyến liên quan để tránh rò rỉ giữa TRAIN và TEST do cùng cấu trúc nguồn.
+Nguồn \texttt{cache\_fresh\_native\_20261012\_v2} được sinh bằng SUMO bước 1 s trên mạng native đã lưu:
+đề xuất các cặp nhánh đường có đích cách ít nhất 600 m, giới hạn tuyến 4 km, kiểm tra overlap edge-set
+và cân bằng tốc độ công khai 6/8 m/s giữa các split. Lọc eligibility dựa trên geometry/calibration công khai,
+không đọc score defense. Nguồn đầy đủ có 48 family, 384 native trips tám ngày và 249.984 FCD fixes; mỗi native trip có 651 fixes.
+Mạng native được biên dịch từ geometry đã lưu, không được gọi là bản sao chính xác mọi lane/intersection của mạng Beijing nguồn.
+Trial hiện tại dùng hai phiên ngày 7/8 của mỗi family, giữ cửa sổ 600 s và stop cuối;
+không sinh cohort mới hoặc sửa sample. Source generator và hashes đi kèm artifact nguồn.
+
+\noindent\begin{tabularx}{\linewidth}{@{}P{4.2cm}Y@{}}\toprule
+\textbf{Thành phần} & \textbf{Thiết lập}\\\midrule
+Nguồn và không gian & Native graph đã đóng băng; 4.849 external edges, 21.179 internal edges, 66.189 trạng thái đường và 418 POI thuộc sáu categories. Tọa độ quy đổi sang mét nhất quán.\\
+Chia family & 48 family: 20 TRAIN / 8 SELECTION / 20 TEST, không giao family giữa các split.\\
+Số chuyến/draw & Hai chuyến/family; một draw ở TRAIN/SELECTION, ba draws ở TEST: 176 trip-draw/arm, trong đó 120 TEST.\\
+Thời gian & Mỗi chuyến 0--600 s, 31 target ticks cách 20 s. Fake-query có thêm packet theo lịch tự nhiên.\\
+Dịch vụ & Mỗi tọa độ truy vấn mọi category với L60; cùng catalogue, reference, local ranking và tie-break.\\
+Cache & Current: packet hiện tại; epoch60: tích lũy trong đoạn 60 s; session: tích lũy cả phiên, là chế độ chính. Metadata tĩnh.\\
+Môi trường & Python 3.12, NumPy 2.4.6, SciPy 1.17.1, scikit-learn 1.7.1; OPENBLAS/OMP một thread. Nền tảng chi tiết được lưu trong protocol.\\\bottomrule
+\end{tabularx}
+
+Reference được tính trên cùng provider đầy đủ; mỗi purpose dùng cost/filter tương ứng và cùng total order.
+Đích cần cho minimum-detour chỉ nằm trong workload local; nó không được gửi như payload thật.
+GPS dùng đánh giá local ở mỗi target tick không phải một lần đọc mới được đưa vào lớp bảo vệ Geo-I.
+Số lần private read và số lần local ranking vì vậy khác nhau.
+
+Đây là \textbf{controlled comparison trên cohort đã xem}, không phải xác nhận trên tuyến/thành phố mới.
+Family split phục vụ fit/chọn attacker; cấu trúc bản đồ và workload đã được dùng trong quá trình phát triển.
+Catalogue nhỏ, đáp án tĩnh và session cache có thể làm Recall gần bão hòa; không suy rộng sang catalogue rất lớn,
+POI hết hạn hoặc dịch vụ cá nhân hóa chưa được mô hình hóa.
+
+\section{Comparison methods and protocol}
+\noindent\begin{tabularx}{\linewidth}{@{}P{3.4cm}P{3.6cm}Y@{}}\toprule
+\textbf{Phương pháp} & \textbf{Output} & \textbf{Cấu hình và fidelity}\\\midrule
+Raw GPS & Một GPS thật / tick & Control không bảo vệ, kiểm tra target có thể quan sát được.\\
+Geo-I/REM Z (K1) & Một Z / tick & Phát lại anchors đã lưu của cùng proposed run; không lấy mẫu REM mới.\\
+TransProtect* & Một tọa độ thay thế & Candidate K10, tám TRAIN targets, $\alpha_{\rm TP}=10000$, $\varepsilon=0{,}005$ m$^{-1}$; Markov thay predictor neural gốc.\\
+Semantic correlation* & GPS thật + bốn dummy & K5, pool128; semantic từ POI công khai, predictor thực nghiệm thay AMap/LSTM.\\
+Fake-query insertion* & Tập real/dummy + fake packets & K5; tối đa hai fake giữa lần thật, chờ 5--15 s, 24 ứng viên, similarity 0,75; road/history adaptation.\\
+\textbf{GeoI-BQ v1} & Năm Q-only / tick & Phát lại đúng Q/time của cấu hình chính đã đóng băng, không tạo draws mới.\\\bottomrule
+\end{tabularx}
+\textbf{Dấu * luôn nghĩa adaptation}, không là implementation chính thức hoặc kết quả do tác giả paper báo cáo.
+Giữ những cơ chế có thể audit; thay predictor/data được công bố rõ. Không ép các epsilon hoặc K khác bản chất
+thành ``cùng mức privacy''. AnotherMe offline và DLS/RDG lịch sử không là đối chứng online gần đây.
+
+\textbf{Attacker bank.} Cùng họ geometry/history, \textbf{ExtraTrees (64 trees)}~\cite{extratrees}, \textbf{kNN-1/kNN-5} và prior;
+endpoint thêm ordered/geometry-linked sequences. Fit trên TRAIN, chọn riêng từng method/scenario/loss trên
+SELECTION bằng mean+SE cho MAE hoặc mean$-$SE cho Hit, rồi đánh giá TEST. Đây là attacker kiểm thử của ta,
+không phải tuyên bố lấy nguyên attacker của paper. Feature API chỉ nhận coordinates/timestamps;
+không nhận Z nội bộ của proposed, belief, cờ real/fake, khóa hay chỉ mục evaluator.
+Đối với GeoI-BQ, selector chính thực tế chọn \textbf{centroid} cho Hit100 ở cả năm scenarios; MAE
+S1--S3 chọn \textbf{shadow\_prior\_median}, endpoint chọn \textbf{geometry\_nearest\_prior\_median}.
+Vì vậy, dù bank có mô hình học mạnh hơn, readout này chưa chứng minh một attacker gần Bayes-optimal đã thất bại.
+Danh sách 30 lựa chọn thực tế được giữ ở Phụ lục~\ref{app:main-ci}.
+
+Public clock đã biết nên fake timing không được xem là bí mật. S3 tái dựng tại đúng timestamp GPS;
+fake packets bổ sung vẫn ở trong observation window và cost.
+
+
+\section{Main results}
+\subsection{Privacy theo scenario}\label{sec:main-privacy}
+Mỗi ô là \textbf{Hit100 (\%) / MAE (m)}; chiều tốt cho bảo vệ là Hit thấp, MAE cao.
+Các con số là trung bình family TEST. CI đầy đủ ở Phụ lục~\ref{app:main-ci}.
+\begin{small}\input{generated/privacy}\end{small}
+
+Raw khôi phục các target với Hit100 100\% và sai số gần 0, xác nhận phép đo không che những target trực tiếp
+quan sát được. GeoI-BQ có Hit100 0--0,188\% và MAE khoảng 1,99--2,12 km; REM-Z trực tiếp còn Hit100
+5,833--37,500\%. Trong bank này, công bố Q-only từ thư viện public rộng giúp hạn chế định vị hơn công bố Z.
+Đây là \emph{quan sát thực nghiệm}; cận formal ở Chương~\ref{ch:method} không được suy ra từ MAE cao.
+
+Ba adaptation có utility rất cao nhưng target vẫn dễ định vị hơn. Fake-query thể hiện đặc biệt rõ việc phải
+đọc cả hai metrics: S1 có MAE 1.213 m nhưng Hit100 vẫn 53,387\%; khi nối cả cửa sổ S3 và biết public clock,
+Hit100 lên 98,790\%. Packet giả bổ sung không tự bảo đảm indistinguishability khi timing thật có thể nhận diện.
+Không suy từ kết quả adaptation rằng mọi bản triển khai gốc của paper đều có nhược điểm với cùng mức độ.
+
+S2 chỉ là proxy tọa độ cuối cửa sổ; S9/S10 biết mốc đầu/cuối. Không gọi các số này là đã xác nhận stop semantics,
+identity người/xe hoặc prediction tương lai. S1 và S3 có thể bằng nhau khi selection chọn cùng kiểu estimator;
+không vì vậy mà hai threat có cùng ý nghĩa.
+
+\subsection{Utility theo từng purpose và CI}
+Session cache; mọi giá trị là Recall@5 (\%), app vẫn trả toàn danh sách phù hợp.
+\begin{small}\input{generated/utility}\end{small}
+GeoI-BQ đạt \textbf{\PrimaryRecall\%}, CI95\% macro \PrimaryCI\%.
+So với ba adaptation, macro giảm khoảng 0,4 điểm phần trăm. Đây là trade-off có dấu âm, không gọi là
+vượt đối chứng về utility. Radius là purpose nhạy hơn vì catalogue ứng viên phải chứa các POI đủ gần GPS thật.
+Các phép đo gần 100\% cũng phản ánh workload nhỏ và cache tĩnh; không dùng chúng để khẳng định mọi
+query purpose trong ứng dụng thực đều đã được bao phủ.
+\input{generated/comparison}
+CI tuyệt đối từng purpose và chênh lệch theo tất cả controls được giữ trong Phụ lục~\ref{app:main-ci};
+không chỉ chọn so sánh có lợi.
+
+
+\subsection{Đánh đổi privacy--utility--cost}
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{figures/privacy_utility_cost.pdf}
+\caption{So sánh trên cùng cohort. Trái: S3 Hit100 thấp hơn có lợi cho privacy. Phải: reply-index JSON KB/phiên;
+nhãn là session Recall@5. Đồ thị thể hiện ba mặt của đánh đổi, không gộp thành một score tùy ý. Dấu * chỉ adaptation.}
+\label{fig:tradeoff}
+\end{figure}
+\input{generated/cost}
+Trung bình mỗi phiên 600 s; KB = 1.000 byte. ``Query điểm'' đếm từng tọa độ, gồm mọi category theo cùng
+provider API. Fake-query gửi trung bình 38,04 packets thay vì 31; mọi packet phụ đều được tính.
+GeoI-BQ dùng 155 point queries, cùng mức K5 như Semantic* nhưng nhiều hơn singleton Z/TransProtect*.
+Chi phí này giúp lấy ứng viên đủ rộng mà không gửi nhu cầu thật.
+
+``Sinh/tick'' là tổng thời gian sinh adapter mới chia 31 input ticks; không là p95 hay latency end-to-end.
+GeoI-BQ và REM-Z được replay từ outputs cũ nên không có generation timing đồng bộ trong trial này (ký hiệu --).
+Service replay dùng shared warm cache và thứ tự chạy; không dùng nó để tuyên bố phương pháp nào nhanh hơn.
+Byte chỉ gồm request/reply-index JSON, chưa gồm metadata POI đầy đủ, HTTP/TLS, mạng hay năng lượng thiết bị.
+
+
+\subsection{Metrics gốc: giữ đúng hợp đồng}
+\input{generated/native}
+EIE cho point estimator ở S3 chính là MAE, không tạo thêm một kết quả độc lập. Với output singleton,
+Eq.13 travel-cost distortion của TransProtect được đo bằng
+\[
+\Delta c=\sum_{d}\pi(d)\,|c(x,d)-c(y,d)|,
+\]
+với tám đích/prior chọn từ TRAIN, directed shortest-path metres và quy ước disconnected của provider.
+Đây là \textbf{local-target proxy}: TransProtect* khoảng 47,44 m, REM-Z khoảng 688,65 m; không phải parity
+với thí nghiệm Rome/SF gốc. Q-only hoặc real+dummy không có một released singleton $y$ duy nhất,
+nên Eq.13 là N/A; không lấy centroid hoặc chọn Q gần GPS thật để tạo số.
+
+ASR cần posterior calibrated trên real-member theo định nghĩa paper; DER cần hàm similarity và threshold
+tương ứng; indistinguishable-path count cần bộ kiểm tra path đúng contract nguồn. Hiện chưa đủ đầu vào
+để tính các metric này một cách đối chiếu được, vì vậy giữ N/A kèm lý do thay vì đổi tên Hit100 thành ASR.

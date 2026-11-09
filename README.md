@@ -1,5 +1,11 @@
 # Trajectory Privacy Protection
 
+The [consolidated thesis (09/11)](thesis/README.md) now follows the agreed five-chapter
+outline, with the final GeoI-BQ specification, full privacy/utility proof chain,
+paper-adaptation comparison and scoped S4–S8 supplement. See the
+[review guide](thesis/REVIEW_GUIDE.md) and [canonical PDF](artifacts/reports/graduation_thesis.pdf).
+Consolidation does not change the frozen algorithm or benchmark outputs.
+
 Latest research reference (14/10): **GeoI-BQ v1**, unchanged Geo-I/REM plus
 bounded joint Q, public targeted exploration and exact public L60 design.
 [Method, scope and full benchmark](docs/research/2026-10-14_main_model.md),
@@ -32,10 +38,10 @@ it against explicit attacker, utility, and output-contract assumptions.
 - Final thesis source: [`thesis/main.tex`](thesis/main.tex)
 - Scenario database and update history: [`storage guide`](data/scenario_store/README.md)
 - Current thesis PDF: [`artifacts/reports/graduation_thesis.pdf`](artifacts/reports/graduation_thesis.pdf)
-- Current thesis revision (07/10): [`scope and rebuild guide`](thesis/README.md)
-  — Geo-I/REM, evidence by scenario/protocol, fresh L30 utility/cost confirmation,
-  local-GPS sensitivity, historical companion diagnostic and resource accounting.
-- Thesis handoff: [`formal proofs and verification`](docs/reviews/2026-10-07_thesis_formal_completion_v2.md)
+- Current thesis revision (09/11): [`scope and rebuild guide`](thesis/README.md)
+  — five chapters, two architectures, transcript privacy and conditional utility,
+  external adaptations as main comparisons, complete CIs/attackers and S4–S8 scope.
+- Historical thesis handoff (07/10): [`formal proofs and verification`](docs/reviews/2026-10-07_thesis_formal_completion_v2.md)
 - Problem formulation: [`docs/research/problem_formulation.md`](docs/research/problem_formulation.md)
 - Foundations study guide: [`artifacts/reports/location_trajectory_privacy_foundations.pdf`](artifacts/reports/location_trajectory_privacy_foundations.pdf)
 - Comparator status and evidence: [`benchmark/README.md`](benchmark/README.md)

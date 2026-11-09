@@ -1,0 +1,27 @@
+\begin{tikzpicture}[>=Latex,
+ b/.style={draw=ink!65,rounded corners=2pt,fill=white,text width=8cm,align=center,inner sep=6pt,font=\small},
+ e/.style={draw=blue!60,fill=blue!4,rounded corners,text width=3.1cm,align=center,inner sep=5pt,font=\small},
+ a/.style={->,thick,draw=ink}]
+\node[b] (rem) {\textbf{1. REM + noisy reuse + cap Geo-I}\\Tạo Z trên đường hoặc giữ Z cũ;\\dự toán chi phí trước GPS};
+\node[e,text width=7.8cm,above=.85cm of rem] (gps) {\textbf{Input: GPS $x_t$ tại mốc được phép đọc}};
+\node[b,below=.5cm of rem] (belief) {\textbf{2. Belief từ protected history}\\Dự đoán di chuyển; cập nhật\\bằng likelihood của Z};
+\node[b,draw=teal,below=.5cm of belief] (select) {\textbf{3. Chọn chung một đoạn Q}\\Chấm điểm bằng belief; centered kernel bị chặn\\Thư viện và masses nền chỉ dùng public history};
+\node[b,below=.5cm of select] (send) {\textbf{4. Phát ba khung đã commit}\\0/20/40 s, mỗi khung K5; L60 mỗi loại/Q};
+\node[b,below=.5cm of send] (local) {\textbf{5. Union/cache và local ranking}\\GPS hiện tại + nhu cầu thật $\psi_t$};
+\node[e,text width=7.8cm,below=.7cm of local] (answer) {\textbf{Output: toàn danh sách phù hợp đã sắp xếp}};
+\node[e,right=1.1cm of belief] (pub) {\textbf{Public context}\\Đường, clock, Q trước, replies/cache};
+\node[e,right=1.1cm of select] (ledger) {\textbf{Ledger Q}\\$\Gamma_Q$, counter, đoạn đã commit};
+\node[e,right=1.1cm of send] (lbs) {\textbf{LBS server}\\Q $\rightarrow$ POI};
+\draw[a] (gps)--(rem);\draw[a] (rem)--(belief);\draw[a] (belief)--(select);
+\draw[a] (select)--(send);\draw[a] (send)--(local);\draw[a] (local)--(answer);
+\draw[a,dashed] (pub.west)--++(-.5,0)|-(select.east);
+\draw[a,dashed] (ledger.west)--(select.east);
+\draw[a,blue] (send.east)--(lbs.west);\draw[a,blue] (lbs.south)|-(local.east);
+\draw[a,teal] (gps.west)--++(-1.1,0)|-(local.west);
+\node[rotate=90,font=\scriptsize,text=teal] at ($(belief.west)+(-1.3,-1.0)$) {GPS hiện tại cho local ranking};
+\draw[a,dashed] (local.west)--++(-.45,0)|-(select.west);
+\begin{scope}[on background layer]
+\node[fit=(rem)(belief)(select)(send)(local),draw=teal,fill=teal!2,rounded corners,inner sep=10pt] (model) {};
+\end{scope}
+\node[anchor=south west,font=\scriptsize\bfseries,text=teal,fill=white,inner sep=2pt] at (model.north west) {MÔ HÌNH GEOI-BQ TẠI CLIENT};
+\end{tikzpicture}

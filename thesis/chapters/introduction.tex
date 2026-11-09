@@ -1,0 +1,115 @@
+\chapter{Introduction -- Giới thiệu}\label{ch:introduction}
+\section{Bối cảnh và động lực nghiên cứu}
+Dịch vụ dựa trên vị trí (Location-based Services, LBS) sử dụng thông tin không gian để hỗ trợ những
+nhu cầu như tìm quán ăn, trạm sạc, cơ sở y tế hoặc địa điểm phù hợp trên đường đi. Khi người dùng di
+chuyển, một yêu cầu đơn lẻ thường không đủ: thiết bị tiếp tục hỏi dữ liệu mới, nhận phản hồi và cập
+nhật đáp án. Chuỗi tương tác này tạo ra một transcript có tọa độ, thứ tự và thời gian. Nhà cung cấp
+không chỉ quan sát nơi một yêu cầu được gửi, mà còn có thể kết hợp nhiều yêu cầu với bản đồ và kiến
+thức sẵn có về chuyển động.
+
+Trajectory có tính tương quan: các điểm thuộc cùng một hành trình phải phù hợp với mạng đường,
+thời gian di chuyển và hoạt động của người dùng. Một điểm chưa đủ rõ có thể trở nên dễ suy luận khi
+đặt cạnh các điểm trước và sau nó. Nghiên cứu về tính duy nhất của dấu vết di chuyển cũng cho thấy
+thông tin không gian--thời gian có thể mang tín hiệu nhận dạng mạnh trong một số tập dữ liệu
+\cite{mobilityunique}. Kết quả đó tạo động lực cho nghiên cứu riêng tư, nhưng không được sử dụng để
+mặc định rằng mọi trajectory tổng hợp đều đại diện đầy đủ cho danh tính người thật.
+
+Trong bối cảnh này, thêm một điểm nhiễu là một thao tác kỹ thuật; điều cần giải thích là mức thông
+tin mà \emph{cả quá trình sử dụng dịch vụ} có thể tiết lộ. Geo-indistinguishability (Geo-I) đưa ra một
+cách phát biểu bảo đảm theo xác suất và khoảng cách vị trí \cite{geoi}. Tuy nhiên, một hệ thống online
+còn có các quyết định tạo mới/tái sử dụng thông tin, chọn điểm truy vấn, gửi nhiều khung và sử dụng
+cache. Muốn đưa ra bảo đảm cho hệ thống, cần phân tích những quyết định đó trong một mô hình chung.
+
+\section{Các vấn đề nghiên cứu}
+\subsection{Từ snapshot đến transcript nhiều bước}
+Một cơ chế có thể tạo đầu ra khó phân biệt ở từng lần gửi nhưng vẫn tích lũy thông tin khi được gọi
+nhiều lần. Attacker có thể khai thác chuỗi vị trí, tốc độ và quan hệ reachability. Quyết định cập nhật
+hay giữ một điểm tham chiếu cũng dựa trên GPS; bỏ qua quyết định đó trong accounting có thể làm cận
+của toàn chuỗi không còn đúng. Lập luận privacy vì vậy phải xác định lịch quan sát, lịch có thể đọc,
+trạng thái được giữ qua phiên và cách hợp thành các bước.
+
+Privacy được phát biểu bằng giới hạn mức transcript làm thay đổi khả năng phân biệt/suy luận.
+Prior mạnh hoặc định danh trực tiếp vẫn có thể cho attacker nhiều thông tin từ trước.
+
+\subsection{Chất lượng dịch vụ phụ thuộc đáp án POI}
+Khoảng cách giữa điểm thật và điểm công bố chưa thể hiện đầy đủ trải nghiệm dịch vụ. Một vị trí giả
+khá gần GPS vẫn có thể lấy thiếu địa điểm đúng khi có đường một chiều, sông hoặc quy tắc xếp hạng
+khác nhau. Ngược lại, nhiều query locations và cache có thể tạo ra đủ ứng viên để thiết bị tìm được
+đáp án tốt dù từng tọa độ công bố ở xa. Đánh giá utility cần đi qua chuỗi truy hồi POI, hợp/cache,
+lọc và sắp xếp ở vị trí thật.
+
+Nhu cầu tìm POI cũng có nhiều dạng: gần nhất, nhanh nhất, trong một bán kính và ít vòng đường trên
+đường tới một đích đã biết tại thiết bị. Một dịch vụ có thể giữ nhu cầu này ở local và gửi một dạng
+request chung. Việc không gửi payload thật phải được phân biệt với việc che mọi ý định tương quan
+với tuyến đường hoặc thời điểm bắt đầu sử dụng dịch vụ.
+
+\subsection{Khó khăn khi đối chiếu các nghiên cứu}
+Các công trình liên quan có thể công bố một tọa độ thay thế, một tập chứa GPS thật và các dummy,
+chèn fake packets, hoặc phát hành một bộ trajectory offline. Mỗi output contract làm thay đổi điều
+attacker phải suy luận và cách tính metrics. Chẳng hạn, một metric chọn thành viên thật trong tập
+không áp dụng nguyên dạng khi cơ chế không đưa GPS thật vào tập Q. JSD của dữ liệu tổng hợp cũng
+không đo cùng tác vụ với lỗi định vị online \cite{semantic,fake,dpfetc,sok}.
+
+Luận văn không khẳng định toàn lĩnh vực không có dataset hay metrics chung. Nhận định có giới hạn
+là những công trình được khảo sát chưa cung cấp một protocol trực tiếp dùng chung cho các output và
+mục tiêu đang xét. Vì vậy, cần xây dựng workload có kiểm soát, khai báo attacker và giữ hai lớp đo:
+metrics chung theo tác vụ, cùng metrics gốc khi đầu vào/định nghĩa tương thích. Những metrics quen
+thuộc như MAE hay Recall không được gọi là công thức mới của luận văn.
+
+\section{Hệ thống hóa mục tiêu bảo vệ}
+Luận văn sử dụng mười scenario để làm rõ \emph{target suy luận}, thay vì xem mọi nguy cơ là một score
+privacy duy nhất. S1--S3 xét vị trí hiện tại, nơi dừng và đường đã đi; S4 xét liên kết người/thiết bị/
+phương tiện qua các quan sát; S5/S6 xét cạnh kế tiếp và đích tương lai; S7 xét nội dung hoặc ý định
+truy vấn; S8 xét thông tin tương quan từ người đi cùng; S9/S10 xét điểm đầu và cuối phiên.
+
+S1--S3/S9--S10 là thực nghiệm chính; S4--S8 được đánh giá theo target và dữ liệu thực sự có.
+Proxy nhóm tuyến và hai phiên căn clock được tách khỏi danh tính người/xe và quan sát đồng hành thực tế.
+
+Workload SUMO và catalogue POI tạo điều kiện giữ cùng bản đồ, lịch và đáp án tham chiếu giữa các
+phương pháp. Các giả thiết sinh dữ liệu và việc chia family cần được khai báo để hiểu các con số.
+Chi tiết construction, metrics và coverage được đặt ở Chương~\ref{ch:experiments}, sau khi bài toán
+và phương pháp đã được đặc tả.
+
+\section{Hướng giải quyết và câu hỏi nghiên cứu}
+GeoI-BQ v1 duy trì một điểm tham chiếu Z bằng cơ chế trên mạng đường dựa trên Geo-I và một phép kiểm
+tra tái sử dụng có nhiễu. Thông tin đã bảo vệ được đưa vào một belief gần đúng để đánh giá các vị trí
+có thể của người dùng. Belief điều chỉnh phân phối chọn \emph{đoạn Q} từ một thư viện chung. Đoạn được
+chọn một lần rồi phát từng khung, giúp nối thiết kế online với accounting privacy rõ ràng. POI trả về
+được hợp/cache và xử lý theo nhu cầu thật tại thiết bị.
+
+Hai bước Z và Q là một lựa chọn thiết kế có phân vai: Z quản lý thông tin vị trí đã bảo vệ theo thời
+gian; Q là hành động truy hồi dịch vụ mà server nhìn thấy. Tính an toàn không đến từ việc gọi đó là
+``hai lần nhiễu'', mà từ các cận xác suất và hợp thành. Luận văn tập trung ba câu hỏi:
+\begin{enumerate}[label=\textbf{RQ\arabic*.}]
+\item Khi attacker quan sát toàn transcript trong một phiên, có thể chứng minh giới hạn nào cho
+khả năng phân biệt trajectory và mức tăng suy luận?
+\item Việc chọn Q, hợp/cache và local ranking bảo đảm utility ở mức nào; điều kiện nào cần để nối
+điểm lập kế hoạch với chất lượng đáp án tại GPS thật?
+\item Trong protocol được khai báo, GeoI-BQ đánh đổi privacy, utility và cost ra sao so với các
+adaptation liên quan và các controls trên cùng workload?
+\end{enumerate}
+
+\section{Các đóng góp chính}
+\begin{enumerate}
+\item \textbf{Đặc tả bài toán và đánh giá theo contract.} Luận văn tổ chức S1--S10, phân biệt thông tin
+riêng/công khai và quyền quan sát; xây dựng protocol cho những output khác nhau và giữ trường hợp
+không áp dụng, failure, confidence interval cùng cost.
+\item \textbf{Thiết kế phương pháp và phân tích toàn transcript.} Phương pháp nối REM/noisy reuse,
+belief và kernel chọn chung đoạn Q có ngân sách tổng hữu hạn; phân tích privacy và utility nêu rõ
+giả thiết cũng như quan hệ giữa bảo đảm lý tưởng và prototype.
+\item \textbf{Thực nghiệm có thể tái lập.} So sánh chính dùng ba adaptation đã audit từ paper, kèm
+Raw GPS và REM-Z; các phép đo mở rộng giữ target phù hợp và quá trình tăng cường attacker S8.
+Bảng/hình được xuất từ artifact đã xác thực, không điều chỉnh defense để tìm kết quả thuận lợi.
+\end{enumerate}
+
+Geo-I, dự đoán riêng tư, hợp thành và hậu xử lý là kiến thức kế thừa \cite{geoi,predictive,dworkroth}.
+Đóng góp của luận văn nằm ở đặc tả/cơ chế kết hợp và những phân tích cho policy đã nêu, không mặc định
+là lần đầu có Geo-I, dummy hoặc local selection. Kết quả chính là một đánh đổi có điều kiện, không
+là cam kết thắng mọi metrics hoặc bảo vệ mọi side channel.
+
+\section{Tổ chức luận văn}
+Chương~\ref{ch:related} phân tích nghiên cứu liên quan và khoảng trống đánh giá.
+Chương~\ref{ch:method} đặc tả hệ thống, thuật toán và chứng minh privacy/utility trước thực nghiệm.
+Chương~\ref{ch:experiments} trình bày metrics, dữ liệu, setup, kết quả chính và diagnostic bổ sung.
+Chương~\ref{ch:summary} trả lời các câu hỏi nghiên cứu, tổng kết đóng góp, giới hạn và hướng tiếp theo.
+Phụ lục giữ CIs, cấu hình/tái lập và các bảng giải thích nội bộ để phần chính tập trung vào lập luận.

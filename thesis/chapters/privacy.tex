@@ -1,0 +1,273 @@
+\section{Privacy analysis -- Bảo đảm cho toàn transcript}\label{sec:privacy}
+Phân tích gồm bốn mệnh đề có vai trò khác nhau. Mệnh đề thứ nhất bảo vệ một lần tạo Z; mệnh đề thứ
+hai đưa các lần kiểm tra/cập nhật vào cùng sổ chi phí. Mệnh đề thứ ba giới hạn mức điều chỉnh riêng
+của một đoạn Q; mệnh đề thứ tư hợp thành các đoạn. Sau cùng, định lý hậu xử lý nối hai nhánh vào
+chính transcript mà server nhìn thấy. Các định lý xác suất là phát biểu về kernel lý tưởng dưới
+giả thiết tương ứng ở Mục~\ref{sec:assumptions}, không phải tuyên bố toàn bộ binary mô phỏng đã được
+chứng nhận pure differential privacy.
+
+\subsection{Từ Geo-I một điểm tới đầu ra trên mạng đường}
+\begin{definition}[Geo-indistinguishability]
+Một kernel $M$ thỏa $u$-Geo-I nếu, với mọi $x,x'$ và mọi tập đầu ra đo được $B$,
+\begin{equation}
+\Pr(M(x)\in B)\le e^{u d(x,x')}\Pr(M(x')\in B).
+\label{eq:geoi-definition}
+\end{equation}
+\end{definition}
+Do điều kiện đúng cả khi hoán đổi hai đầu vào, likelihood ratio bị chặn theo cả hai chiều.
+Điểm quan trọng của định nghĩa không phải output nhất thiết cách GPS bao nhiêu mét. Nó giới hạn
+khả năng một output làm một giả thuyết GPS trở nên có lý hơn giả thuyết khác. Hai GPS gần nhau
+phải có phân phối đầu ra gần nhau theo tỷ số này~\cite{geoi}. $u$ nhỏ siết ràng buộc; utility còn
+phụ thuộc miền ứng viên và bước lấy dữ liệu phía sau.
+
+\begin{proposition}[REM trên miền chung]\label{prop:rem}
+Với $V$ hữu hạn, không rỗng, cố định theo public context và metric Euclid chung, kernel
+\eqref{eq:rem} thỏa $u$-Geo-I. Ánh xạ lane state sang tọa độ Z giữ bảo đảm đó.
+\end{proposition}
+\begin{proof}
+Đặt $d=d(x,x')$, $w_x(v)=\exp[-u d(x,a_v)/2]$ và $S_x=\sum_{v\in V}w_x(v)$.
+Bất đẳng thức tam giác ngược cho
+\[
+|d(x,a_v)-d(x',a_v)|\le d.
+\]
+Vì vậy $e^{-ud/2}\le w_x(v)/w_{x'}(v)\le e^{ud/2}$. Chiều cần cho normalizer là
+$w_{x'}(v)\le e^{ud/2}w_x(v)$; cộng theo cùng $V$ cho $S_{x'}/S_x\le e^{ud/2}$.
+Ghép hai thừa số:
+\begin{equation}
+\frac{R_u(v\mid x)}{R_u(v\mid x')}
+=\frac{w_x(v)}{w_{x'}(v)}\frac{S_{x'}}{S_x}\le e^{ud/2}e^{ud/2}=e^{ud}.
+\label{eq:rem-ratio}
+\end{equation}
+Hoán đổi $x,x'$ cho chiều ngược. Cộng bất đẳng thức theo một tập lane chứng minh cho mọi event.
+Nếu nhiều lane có cùng tọa độ Z, event $Z\in B$ là hợp các lane có $a_v\in B$; cộng các probabilities
+vẫn giữ cận. Không được tùy GPS mà bỏ bớt lane khỏi support rồi dùng nguyên chứng minh này.
+\end{proof}
+
+Hệ số $1/2$ trong trọng số là thiết yếu cho phép suy luận trên: một nửa trả cho độ lệch của weight,
+một nửa cho normalizer. Chứng minh không nói mọi $Z$ có probability bằng nhau, cũng không nói
+hai GPS khác nhau cho cùng phân phối. Nó chỉ nói tỷ số không vượt mức cho phép.
+
+\subsection{Noisy reuse và composition của các lần dùng GPS}
+Một phép kiểm tra giữ/đổi dựa trên GPS có thể tiết lộ rằng người dùng đã rời xa tham chiếu cũ. Dù
+server không nhận cờ nhánh, cờ đó có thể ảnh hưởng chuỗi Z và Q về sau. Vì thế không được xem quyết
+định reuse là miễn phí. Tư tưởng dự đoán rồi chỉ làm mới khi cần phù hợp với predictive
+Geo-I~\cite{predictive}; ở đây phải đặc tả và hạch toán chính phép kiểm tra đang chạy.
+
+\begin{proposition}[Test riêng tư và cap cả phiên]\label{prop:reuse}
+Tại cùng lịch sử đã bảo vệ, giữ $h$ cố định. Noisy test trong \eqref{eq:private-test} tốn một
+đơn vị $u$; nhánh test rồi REM tốn tối đa hai đơn vị. Với prospective filter và
+$\sum_i c_i\le M$, lịch sử mở rộng $E$ thỏa
+\begin{equation}
+\Pr_X(E\in B)\le e^{C_sD_\infty(X,X')}\Pr_{X'}(E\in B),\qquad C_s=Mu.
+\label{eq:private-history}
+\end{equation}
+\end{proposition}
+\begin{proof}
+Hàm $g_h(x)=d(x,h)$ là 1-Lipschitz. Mật độ của
+$Y_x=g_h(x)+\operatorname{Lap}(0,1/u)$ là $f_x(y)=\frac u2e^{-u|y-g_h(x)|}$.
+Lại dùng bất đẳng thức tam giác:
+\begin{align}
+\frac{f_x(y)}{f_{x'}(y)}
+&=\exp\{u(|y-g_h(x')|-|y-g_h(x)|)\}\nonumber\\
+&\le\exp\{u|g_h(x)-g_h(x')|\}\le e^{u d(x,x')}.
+\label{eq:test-ratio}
+\end{align}
+Tích phân trên $(-\infty,\theta]$ chứng minh cho event giữ, và trên $(\theta,\infty)$ cho event đổi.
+Viết $r_x=\Pr(Y_x\le\theta)$. Tại cùng history, kernel nhánh mở rộng là
+\[
+K_x(\mathrm{reuse})=r_x,\qquad
+K_x(\mathrm{fresh},v)=(1-r_x)R_u(v\mid x).
+\]
+Nhánh reuse có likelihood ratio tối đa $e^{ud}$; nhánh fresh có tối đa $e^{2ud}$ theo
+Mệnh đề~\ref{prop:rem}. Z đầu chỉ dùng REM nên tốn một đơn vị. Nhánh không đọc mới là một kernel
+chung theo protected history và không thêm chi phí GPS.
+
+Xét một history cụ thể $e$. Ở mỗi prefix giống nhau, filter có cùng allowance và pacing trước khi
+đọc GPS. Vì vậy hai input đi qua cùng kiểu thao tác khi tính conditional ratio của prefix đó.
+Chain rule, không giả sử các GPS độc lập, cho
+\begin{equation}
+\log\frac{\Pr_X(E=e)}{\Pr_{X'}(E=e)}
+\le u\sum_i c_i(e)d(x_i,x_i')
+\le uM D_\infty(X,X').
+\label{eq:chain-geoi}
+\end{equation}
+History không khả thi có probability không ở cả hai phía; common support và các kernel dương
+đảm bảo không xuất hiện event chỉ có một phía do private pruning. Cộng/integrate theo $e$ cho
+\eqref{eq:private-history}. Có thể chứng minh trước trên history có cờ nhánh, rồi marginal hóa
+cờ đó; không đòi server nhìn thấy nhánh.
+\end{proof}
+
+\begin{table}[htbp]\centering\small
+\caption{Accounting của nhánh GPS; đơn vị thực là m$^{-1}$.}\label{tab:accounting}
+\begin{tabularx}{\linewidth}{@{}YcY@{}}\toprule
+Thao tác & $c_i$ & Căn cứ\\\midrule
+REM đầu & 1 & Một kernel REM\\
+Test rồi giữ & 1 & Tính riêng tư của cả event giữ\\
+Test rồi REM mới & 2 & Test và REM có điều kiện\\
+Predict belief, phát/retry khung cũ & 0 & Không đọc thêm private GPS\\\bottomrule
+\end{tabularx}
+\end{table}
+
+Cap giới hạn tổng độ nhạy thông tin, không giới hạn tổng chiều dài đường đi. Ví dụ sau khi đã
+dùng hết 23 đơn vị, request vẫn có thể phát từ các trạng thái đã bảo vệ; điều mất dần là khả năng
+thích nghi với GPS mới. Ngược lại, đặt lại ledger mỗi lần restart sẽ làm hỏng cận của một phiên.
+Nhiều phiên có thể liên kết cần một bài toán composition mới.
+
+Cận $C_sD_\infty$ thuận tiện nhưng có thể lỏng. Với $d_i=d(x_i,x_i')$, một envelope tinh hơn là
+\begin{equation}
+G_M(X,X')=u\!\left[d_0+\operatorname{TopSum}_{M-1}
+(d_1,d_1,d_2,d_2,\ldots)\right].
+\label{eq:geoi-refined}
+\end{equation}
+Mỗi thời điểm sau lần đầu đóng góp tối đa hai đơn vị; envelope bỏ qua các ràng buộc pacing nên vẫn
+là cận trên. Với chuỗi vô hạn, TopSum là supremum của các tổng con có tối đa $M-1$ phần tử.
+Ta có $G_M\le C_sD_\infty$. Đây là cận cho độ khác nhau giữa hai giả thuyết trajectory, không phải
+quãng đường của một trajectory.
+
+\subsection{Một lần chọn đoạn Q: support chung và centered kernel}
+Phần này đặt một guard độc lập cho kênh Q. Ở cùng augmented history, mọi private belief có thể tạo
+score khác nhau nhưng không thay đổi danh sách action hoặc masses nền. Nhờ vậy có thể so chính
+xác probabilities của cùng action. Nếu support thay theo GPS, một action có thể có probability
+dương ở một phía và bằng không ở phía kia; không một phép chia hữu hạn nào sửa được lỗi đó.
+
+\begin{proposition}[Cận cho một đoạn]\label{prop:q}
+Với common support $\mathcal A$, $w_a>0$, $\sum_a w_a=1$, $z_a(b)\in[0,1]$ và
+$\alpha=\varepsilon/(2+\varepsilon)$, kernel \eqref{eq:kernel} là PMF dương và, với mọi $b,b',a$,
+\begin{equation}
+\frac{p_a(b)}{p_a(b')}\le 1+\varepsilon\le e^\varepsilon.
+\label{eq:one-q-ratio}
+\end{equation}
+Kết quả vẫn đúng khi belief ngẫu nhiên có điều kiện trên cùng augmented history.
+\end{proposition}
+\begin{proof}
+Đặt $\mu=\sum_a w_a z_a$. Do $\mu,z_a\in[0,1]$, $z_a-\mu\in[-1,1]$ và
+\begin{align}
+\sum_a p_a&=1+\alpha\left(\sum_a w_a z_a-\mu\sum_a w_a\right)=1,\nonumber\\
+w_a(1-\alpha)&\le p_a\le w_a(1+\alpha).
+\label{eq:centered-range}
+\end{align}
+Với $\varepsilon$ hữu hạn, $\alpha<1$, nên cận dưới dương. Chia cận trên ở $b$ cho cận dưới ở $b'$:
+$p_a(b)/p_a(b')\le(1+\alpha)/(1-\alpha)=1+\varepsilon$.
+Khi $b$ ngẫu nhiên, conditional expectation của $p_a(b)$ vẫn nằm trong cùng khoảng
+$[w_a(1-\alpha),w_a(1+\alpha)]$. Vì thế cận chia vẫn đúng mà không cần hai phía có cùng law belief.
+\end{proof}
+
+Belief có thể rất sai mà cận privacy này vẫn đúng; score sai chủ yếu làm hỏng utility. Cũng không
+cần một sensitivity bound chưa được chứng minh cho phép min--max phụ thuộc belief: chứng minh
+đi trực tiếp qua miền chặn của $z$.
+
+Trong biểu diễn integer \eqref{eq:integer-kernel}, phép cộng cho
+\begin{align}
+\sum_aW_a
+&=DT S\sum_a m_a
++N\left[T\sum_a m_aF_a-\Bigl(\sum_a m_a\Bigr)\sum_c m_cF_c\right]\nonumber\\
+&=DT^2S.
+\label{eq:integer-sum}
+\end{align}
+Hơn nữa $W_a/(DT^2S)=p_a$. Lấy mẫu uniform integer bằng rejection với nguồn bit đều cho đúng PMF
+này, tránh việc chuyển các probabilities về số thực rồi tích lũy gây mất support nhỏ. Tính đúng
+PMF hữu hạn không chứng nhận rằng PCG của simulator là nguồn randomness mật mã hoặc nguồn bit lý tưởng.
+
+\subsection{Nhiều đoạn Q: cận không cần biết trước thời lượng}
+\begin{proposition}[Hợp thành thích nghi theo đoạn]\label{prop:segments}
+Giả sử Mệnh đề~\ref{prop:q} đúng tại mọi augmented prefix, counter không reset, và replies có cùng
+conditional law ở cùng history. Với allowance \eqref{eq:q-allowance}, toàn wire transcript qua
+$n$ lần chọn đoạn thỏa, cho mọi event $B$,
+\begin{equation}
+\Pr_X(O_n\in B)\le R_n\Pr_{X'}(O_n\in B),\qquad
+R_n=\prod_{j=1}^n(1+\varepsilon_{Q,j})\le e^{\Gamma_Q}.
+\label{eq:q-session}
+\end{equation}
+\end{proposition}
+\begin{proof}
+Phân tích trên history chứa action/nhãn lane giả. Tại cùng history, conditional ratio của lần chọn
+$j$ bị chặn bởi $1+\varepsilon_{Q,j}$. Provider responses có cùng conditional law nên không thêm
+thừa số; phát các khung đã commit, cache suy từ replies và retry cố định là hậu xử lý. Nhân theo
+chain rule rồi marginal hóa history mở rộng cho \eqref{eq:q-session}.
+
+Do $1/[j(j+1)]=1/j-1/(j+1)$,
+\begin{equation}
+\sum_{j=1}^n\varepsilon_{Q,j}=\Gamma_Q\frac{n}{n+1}\le\Gamma_Q.
+\label{eq:q-telescoping}
+\end{equation}
+Áp dụng $1+t\le e^t$ cho từng thừa số chứng minh $R_n\le e^{\Gamma_Q}$. Chứng minh dùng conditional
+laws, không yêu cầu các đoạn độc lập. Với transcript vô hạn, cận đều cho mọi cylinder event mở rộng
+sang sigma-algebra transcript theo monotone class. Do vậy không cần đặt trước số đoạn.
+\end{proof}
+
+Với $\Gamma_Q=1$, phép tính hữu tỷ và chặn phần đuôi cho cận toàn thời lượng
+\begin{equation}
+R_\infty<2{,}437372<e.
+\label{eq:r-infinite}
+\end{equation}
+Receipt kiểm chứng lưu cách làm tròn ra ngoài; đây không phải suy luận từ một số thực làm tròn
+thành cận chính xác. Các allowance hữu tỷ triển khai không vượt lịch đã công bố. Khi $j$ lớn,
+$\alpha_j\to0$, phân phối tiến gần public base. Đây là trade-off của finite disclosure budget:
+không thể đồng thời kết luận luôn thích nghi mạnh và vẫn giữ nguyên guard hữu hạn cho mọi chuyến dài.
+
+\subsection{Định lý toàn transcript: ghép hai nhánh bằng hậu xử lý}
+\begin{theorem}[Bảo đảm end-to-end có điều kiện]\label{thm:transcript}
+Khi toàn downstream chỉ dùng $E$ và bối cảnh cho phép, đồng thời các giả thiết của
+Mệnh đề~\ref{prop:reuse} và~\ref{prop:segments} cùng đúng, ta có
+\begin{equation}
+\Pr_X(O_n\in B)\le
+\exp\!\left(\min\{C_sD_\infty(X,X'),\log R_n\}\right)\Pr_{X'}(O_n\in B).
+\label{eq:whole-transcript}
+\end{equation}
+Có thể thay $C_sD_\infty$ bằng $G_M$ của \eqref{eq:geoi-refined}.
+\end{theorem}
+\begin{proof}
+Gọi $K(B\mid e,C)$ là law chung của phần downstream. Tính chất hậu xử lý~\cite{dworkroth} cho
+\begin{align}
+\Pr_X(O_n\in B)&=\int K(B\mid e,C)\,d\Pr_X(E=e)\nonumber\\
+&\le e^{C_sD_\infty}\int K(B\mid e,C)\,d\Pr_{X'}(E=e).
+\label{eq:integral-postprocess}
+\end{align}
+Mặt khác, Mệnh đề~\ref{prop:segments} đã cho cận $R_n$ của chính event đó. Chọn cận nhỏ hơn cho
+\eqref{eq:whole-transcript}. Không cộng $C_s$ với $\Gamma_Q$: một đại lượng có đơn vị m$^{-1}$,
+một đại lượng không có đơn vị, và chúng là hai cách chặn cùng kênh đầu ra.
+\end{proof}
+
+Cận Q không đòi upstream Geo-I hoàn hảo; nó chỉ cần các giả thiết riêng của common support, kernel,
+ledger và kênh quan sát. Ngược lại, cận theo khoảng cách và minimum cần upstream lý tưởng/restore
+hợp lệ. Nếu gửi Z hoặc cờ riêng trong diagnostics cho server, transcript mở rộng đó không được tự
+động nhận nguyên cận Q dành cho wire hiện tại.
+
+\subsection{Diễn giải Bayes và hệ quả cho S4--S6}
+Giả sử một target event $A$ của biến $Y$ có prior $\pi\in(0,1)$ tại cùng context $C$, và
+$Y\to X\to O$ là Markov chain có điều kiện theo $C$. Nếu cận Q đúng cho mọi cặp trajectories trong
+hai lớp target, tích phân theo $X\mid Y$ giữ likelihood ratio giữa hai mixture trong
+$[1/R_n,R_n]$. Bayes cho
+\begin{equation}
+\frac{\Pr(A\mid O,C)}{1-\Pr(A\mid O,C)}
+=\frac{\pi}{1-\pi}\frac{\Pr(O\mid A,C)}{\Pr(O\mid A^c,C)}.
+\label{eq:odds}
+\end{equation}
+Do đó
+\begin{equation}
+\frac{\pi}{\pi+R_n(1-\pi)}\le\Pr(A\mid O,C)
+\le\frac{R_n\pi}{1-\pi+R_n\pi}.
+\label{eq:posterior}
+\end{equation}
+Với prior 50/50 và cận toàn thời lượng, mỗi posterior tương ứng không vượt khoảng 70,91\%; đồng
+thời không thấp hơn khoảng 29,09\%. Nếu prior đã là 99\%, cận này không làm attacker quên prior.
+Đó là giới hạn mức transcript \emph{làm tăng} khả năng phân biệt, không phải cam kết accuracy trung
+bình 70,91\% của mọi benchmark hoặc một lời khẳng định không thể tái dựng.
+
+S4 (liên kết danh tính), S5 (cạnh tương lai) và S6 (đích tương lai) có thể nhận hệ quả odds dưới
+mô hình target vừa nêu. Nó không chứng minh k-anonymity của người/xe, không xóa account hoặc biển
+số công khai, và không áp dụng nguyên xi khi tương lai bị Q gây ra. Đối với hai phiên được quan sát
+chung, phải composition các kênh tương ứng; một cận một phiên không tự là cận joint hai phiên.
+
+\subsection{Phạm vi kiểm chứng của mã và chứng minh}\label{sec:proof-implementation}
+Phép kiểm chứng hữu hạn duyệt các graph nhỏ để đối chiếu normalization, likelihood inequalities,
+common support, directed paths, mọi prefix allowance và integer PMF. Receipt số học hữu tỷ xác nhận
+các cận vô hạn và các bất đẳng thức đại số. Những kiểm tra này hỗ trợ liên kết mã--định lý; chúng
+không thay thế chứng minh tổng quát bằng một cuộc thử nhiều seeds.
+
+Còn hai điều kiện triển khai quan trọng. Thứ nhất, REM/noisy test số thực hiện có chưa được chứng
+nhận support và rounding theo pure Geo-I cho mọi input; finite precision có thể tạo lỗ hổng
+likelihood ratio~\cite{mironov}. Thứ hai, ledger Q đã có persistence nhưng phục hồi toàn upstream
+state sau restart vẫn là trách nhiệm của caller và chưa có chứng nhận toàn deployment. Vì thế
+luận văn giữ riêng kernel lý tưởng, kiểm chứng module và phạm vi simulator. Không lấy điểm attacker
+thấp để tuyên bố hai điều kiện này đã tự được giải quyết.

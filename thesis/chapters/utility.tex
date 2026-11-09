@@ -1,0 +1,179 @@
+\section{Utility analysis -- Từ planner tới đáp án dịch vụ}\label{sec:utility}
+Privacy không phụ thuộc việc attacker benchmark có mạnh hay không. Utility lại cần kiểm tra rằng
+những Q được phép phát thực sự lấy về metadata hữu ích cho GPS và nhu cầu hiện tại. Vì vậy phần
+này phân biệt điểm lập kế hoạch, chất lượng ứng viên thực nhận và chất lượng đáp án người dùng.
+Không đồng nhất ba đại lượng chỉ vì đều nằm trong $[0,1]$.
+
+\subsection{Gain của centered kernel và điều kiện chuyển sang utility thật}
+Giữ một history và trạng thái local cố định. Với $r_a\in[0,1]$ là actual utility có điều kiện nếu
+chọn action $a$, đặt $\mu=\E_w z$ như trước.
+\begin{theorem}[Gain tại cùng trạng thái]\label{thm:gain}
+Kernel centered cho
+\begin{align}
+\E_p z-\E_w z&=\alpha\Var_w(z)\ge0,\label{eq:score-gain}\\
+\E_p r-\E_w r&=\alpha\Cov_w(z,r).\label{eq:actual-gain}
+\end{align}
+Nếu một proxy $v_a$ thỏa $\max_a|r_a-v_a|\le\eta$, thì
+\begin{equation}
+\E_p r-\E_w r\ge
+\alpha\left[\Cov_w(z,v)-\eta\E_w|z-\mu|\right].
+\label{eq:calibrated-gain}
+\end{equation}
+\end{theorem}
+\begin{proof}
+Với mọi vector $f$, trừ hai kỳ vọng và dùng $p_a-w_a=\alpha w_a(z_a-\mu)$:
+\[
+\E_p f-\E_w f=\alpha\sum_a w_a(z_a-\mu)f_a=\alpha\Cov_w(z,f).
+\]
+Lần lượt thay $f=z,r$. Viết $r=v+(r-v)$; phần sai số có trị tuyệt đối không vượt
+$\eta\sum_aw_a|z_a-\mu|$. Suy ra \eqref{eq:calibrated-gain}.
+\end{proof}
+
+Nếu $z$ là hàm đơn điệu của $v$, $\Cov_w(z,v)\ge0$: dùng hai action độc lập theo $w$ để viết
+$2\Cov_w(z,v)=\E[(z_A-z_{A'})(v_A-v_{A'})]\ge0$. Tuy nhiên min--max thay đổi thang, nên không suy
+$|z-v|\le1/S$ từ precision lượng tử hóa $S$. Gain score không âm không đủ chứng minh gain Recall
+không âm. Khi belief/proxy chưa hiệu chuẩn, $\eta$ là unknown, không được đặt bằng không.
+
+Nếu local state còn ngẫu nhiên khi điều kiện trên public history, lấy conditional expectation
+của các đẳng thức trên rồi dùng tower property. Không thay kỳ vọng covariance có điều kiện bằng
+covariance của hai vector kỳ vọng, vì hai phép toán đó nói chung khác nhau.
+
+\subsection{Từ POI được truy hồi đến danh sách trả cho người dùng}
+Tại cùng GPS $x_t$, request thật $\psi_t$ và một total order cố định (bao gồm tie-break theo ID),
+gọi $T_t$ là reference top-$k$ của catalogue đầy đủ sau lọc. Gọi $U_t$ là tập metadata đã nhận,
+còn hiệu lực và có thể dùng để áp dụng chính bộ lọc/order đó. Client trả toàn danh sách phù hợp
+đã sắp xếp; ký hiệu $A_t$ là top-$k$ của danh sách này chỉ phục vụ đánh giá.
+
+\begin{proposition}[Exactness trên reference và cache]\label{prop:cache}
+Nếu $T_t\ne\varnothing$, thì
+\begin{equation}
+\frac{|T_t\cap A_t|}{|T_t|}=\frac{|T_t\cap U_t|}{|T_t|}.
+\label{eq:recall-union}
+\end{equation}
+Do đó, nếu $U_t\supseteq U'_t$ tại cùng GPS/request/order, Recall trên $U_t$ không thấp hơn trên
+$U'_t$. Reference rỗng là N/A.
+\end{proposition}
+\begin{proof}
+Mỗi POI của $T_t$ đứng trước mọi POI nằm ngoài reference top-$k$ trong total order toàn catalogue.
+Do đó một POI thuộc $T_t\cap U_t$ không bị loại khỏi top-$k$ local bởi một POI ngoài $T_t$.
+Chiều ngược, $A_t\subseteq U_t$. Hai giao có cùng các phần tử reference, suy ra đẳng thức.
+Inclusion của các tập cache làm tử số không giảm.
+\end{proof}
+
+Định lý so hai cache ở \emph{cùng thời điểm đánh giá}, không nói Recall tăng theo thời gian khi GPS
+và nhu cầu đổi. POI hết hạn, giá/trạng thái động hoặc metadata thiếu có thể làm hỏng giả thiết.
+Local ranking cũng không tự tạo POI mà provider chưa trả về. Vì vậy cover đủ câu trả lời vẫn là
+một vấn đề retrieval, bên cạnh việc giữ request ở local.
+
+Bốn purposes dùng cùng tập metadata nhưng thay hàm local: khoảng cách đường gần nhất, thời gian
+đường ngắn nhất, lọc trong bán kính rồi sắp xếp, và detour nhỏ nhất trên đường tới đích local.
+Đây là bốn contract có thể kiểm tra trên workload; không là danh sách đầy đủ mọi nhu cầu LBS.
+
+\subsection{Utility cả phiên so với matched public base}
+Một gain một bước không tự là gain cả phiên: action thay đổi thư viện và cache ở các bước sau.
+Để có phát biểu toàn phiên mà không giả định các bước độc lập, so law $P_n$ của planner với law
+$W_n$ của \emph{cùng} planner khi $\Gamma_Q=0$. Hai phía có cùng public rules, masses nền, clock,
+provider và các biến ngoại sinh. Tại cùng augmented history, $W$ chọn theo $w_j$.
+
+\begin{theorem}[Cận sai khác utility toàn history]\label{thm:utility-session}
+Với $\alpha_j=\varepsilon_{Q,j}/(2+\varepsilon_{Q,j})$ và mọi measurable $h\in[0,1]$,
+\begin{align}
+\TV(P_n,W_n)&\le\delta_n
+=\frac12\sqrt{\prod_{j=1}^n(1+\alpha_j^2/4)-1},\label{eq:tv-utility}\\
+|\E_{P_n}h-\E_{W_n}h|&\le\delta_n.\label{eq:bounded-functional}
+\end{align}
+Với $\Gamma_Q=1$, $\delta_\infty<0{,}0553$.
+\end{theorem}
+\begin{proof}
+Tại một history cố định, $p_j/w_j=1+\alpha_j(z_j-\mu_j)$. Vì một biến trong $[0,1]$ có variance
+không quá $1/4$,
+\[
+\chi^2(p_j\Vert w_j)=\E_{w_j}(p_j/w_j-1)^2
+=\alpha_j^2\Var_{w_j}(z_j)\le\alpha_j^2/4.
+\]
+Nếu private state chưa được điều kiện hóa, thay $z$ bởi conditional mean vẫn cho cùng cận.
+Gọi $L_j$ là density của full history $P_j$ đối với $W_j$. Dùng cùng conditional laws cho các
+biến ngoài action, tower property cho
+\begin{align*}
+\E_W L_j^2
+&=\E_W\left[L_{j-1}^2\E_W\left[(p_j/w_j)^2\mid\mathcal H_{j-1}\right]\right]\\
+&\le(1+\alpha_j^2/4)\E_W L_{j-1}^2.
+\end{align*}
+Lặp lại từ $L_0=1$. Vì $\E_W L_n=1$, Cauchy--Schwarz cho
+$\TV(P_n,W_n)=\frac12\E_W|L_n-1|\le\frac12\sqrt{\E_WL_n^2-1}$.
+Bất đẳng thức cho $h\in[0,1]$ là tính chất của TV. Phần đuôi của tích vô hạn được chặn bằng tổng
+hội tụ của $\alpha_j^2/4$; receipt hữu tỷ xác nhận cận làm tròn ra ngoài 0,0553.
+\end{proof}
+
+Có thể chọn $h$ là Recall trung bình phiên, Recall của một purpose, hoặc tỷ lệ đáp án trong một
+ngưỡng, miễn là $h$ thực sự bị chặn và được định nghĩa trên cùng experiment. Cận 5,53 điểm phần
+trăm nói mức độ khác so với matched public base, không chứng minh utility cao tuyệt đối và không
+áp cho một paper bất kỳ. Nó cũng không chứng minh $P$ tốt hơn $W$: dấu của chênh lệch vẫn phải
+được đo hoặc nhận từ các điều kiện mạnh hơn.
+
+\subsection{Public reference floor và điều kiện chuyển sang GPS thật}
+Một bảng public được duyệt hết có thể chứng nhận floor trên chính miền hữu hạn đó. Để chuyển sang
+case người dùng, cần phát biểu điều kiện phân phối. Tại mỗi history $H_t$, cho reference law
+$\rho_t$, actual case law $\lambda_t$, một proxy reward $\widehat r_t\in[0,1]$ và actual reward $r_t$.
+Giả sử
+\begin{equation}
+\E_{\rho_t}\widehat r_t\ge c_t,\qquad
+\TV(\lambda_t,\rho_t)\le\tau_t,\qquad
+\E_{\lambda_t}|r_t-\widehat r_t|\le\nu_t.
+\label{eq:floor-assumptions}
+\end{equation}
+Khi reply signatures đầy đủ/đúng và cache đáp ứng Mệnh đề~\ref{prop:cache}, ta có
+\begin{equation}
+\E[r_t\mid H_t]\ge\max\{0,c_t-\tau_t-\nu_t\}.
+\label{eq:floor-transfer}
+\end{equation}
+Thật vậy, TV làm mất tối đa $\tau_t$ trên một hàm $[0,1]$ và proxy error mất tối đa $\nu_t$.
+Với các trọng số clock công khai $a_t\ge0$, $\sum_ta_t=1$, lấy expectation và cộng:
+\begin{equation}
+\E\sum_ta_tr_t\ge\sum_ta_t\E\bigl[\max\{0,c_t-\tau_t-\nu_t\}\bigr].
+\label{eq:session-floor}
+\end{equation}
+Không dùng IID hoặc giả định independence giữa các đoạn. Cận có điều kiện phải đúng tại các history
+đang được lấy expectation; một floor trung bình trên một bảng không đủ thay cho điều kiện đó.
+
+Luận văn phân biệt ba mức: (i) chứng chỉ trên miền public hữu hạn đã kiểm tra; (ii) cận actual
+có điều kiện theo $\tau,\nu$ hoặc $\eta$; (iii) ước lượng thực nghiệm chưa chứng nhận các sai số này.
+Recall cao trên dữ liệu SUMO thuộc mức (iii) đối với triển khai thực địa. Không mặc định calibration
+error bằng không chỉ vì belief được viết theo công thức Bayes.
+
+\subsection{S7: request giữ tại local và điều không được suy rộng}
+Nếu đổi $\psi$ nhưng giữ GPS, context, randomness, Q và provider law như nhau, request wrapper
+gửi cùng mọi category và cùng response depth. Planner không dùng $\psi$. Do đó wire distribution
+không đổi: đây là conditional payload noninterference. Local ranking vẫn thay theo $\psi$ và trả
+đáp án phù hợp. Giữ kín nội dung trực tiếp không xóa tương quan giữa trajectory với ý định, chẳng
+hạn một người đang gần bệnh viện. Benchmark S7 ở Chương~\ref{ch:experiments} kiểm tra đúng phần
+giao diện có điều kiện này.
+
+\subsection{Bảng nối kết quả toán học với cơ chế triển khai}
+\begingroup\small\setstretch{1.04}\begin{longtable}{@{}P{3.0cm}P{4.5cm}P{7.9cm}@{}}
+\caption{Định lý, giả thiết, cơ chế mã và giới hạn chứng nhận.}\label{tab:proof-map}\\
+\toprule Kết quả & Giả thiết thiết yếu & Cơ chế/kiểm chứng và phạm vi\\\midrule\endfirsthead
+\toprule Kết quả & Giả thiết thiết yếu & Cơ chế/kiểm chứng và phạm vi\\\midrule\endhead
+\bottomrule\endfoot
+REM, MĐ~\ref{prop:rem} & Miền chung; metric; sampler lý tưởng &
+\path{benchmark/engines/budgeted.py}; oracle nhỏ kiểm tra tỷ số. Float implementation chưa là pure-Geo-I certificate.\\
+Reuse/cap, MĐ~\ref{prop:reuse} & Test riêng tư; dự toán trước GPS; restore đầy đủ &
+Noisy reuse và ledger upstream; kiểm tra mọi prefix/nhánh trên graph nhỏ. Full upstream restart cần caller bảo đảm.\\
+Đoạn Q, MĐ~\ref{prop:q} & Common library/masses; score chặn; bit đều mới &
+\path{benchmark/finite_query_kernel.py}; integer weights, support/path checks. PRNG mô phỏng không thay chứng chỉ randomness.\\
+Cả phiên, MĐ~\ref{prop:segments} & Commit, counter bền vững, public clock/provider &
+Ledger theo phiên; retry/khung sau dùng đoạn cũ. Restart không nhận thêm allowance; nhiều phiên phải hợp thành riêng.\\
+Gain, ĐL~\ref{thm:gain} & So tại cùng trạng thái; proxy calibration nếu nói actual gain &
+Score/centered kernel; kiểm tra đại số. Gain score không được đổi nhãn thành gain Recall thật.\\
+Cache, MĐ~\ref{prop:cache} & Metadata hợp lệ; cùng GPS/request/order &
+Union/ID-dedup và local ranking; replay reply masks. Không áp cho metadata hết hạn/thiếu trường.\\
+Utility phiên, ĐL~\ref{thm:utility-session} & Matched base và cùng conditional laws &
+Receipt TV/tích vô hạn; $\Gamma=0$ ablation hỗ trợ. Không so mọi paper bằng cận này.\\
+Floor actual, \eqref{eq:floor-transfer} & Sai số có điều kiện và replies đúng signatures &
+Public table certificate tách conditional transfer. Sai số thực địa chưa được chứng nhận.\\
+\end{longtable}\endgroup
+
+Hai phân tích kết thúc ở hai lời hứa khác nhau nhưng bổ sung nhau: giới hạn mức transcript làm
+phân biệt private inputs, và kiểm soát chất lượng retrieval/ranking trong những điều kiện nêu rõ.
+Benchmark tiếp theo kiểm tra một workload hữu hạn và cung cấp trade-off thực tế; nó không được
+dùng để mở rộng ngầm phạm vi của các định lý.

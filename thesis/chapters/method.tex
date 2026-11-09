@@ -1,0 +1,304 @@
+\chapter{Proposed Method -- Phương pháp đề xuất}\label{ch:method}
+Chương này đặc tả phiên bản tham chiếu GeoI-BQ v1, rồi phân tích privacy và utility của cùng phiên
+bản đó. Luồng chính là GPS $\rightarrow$ thông tin vị trí đã bảo vệ $\rightarrow$ belief $\rightarrow$
+đoạn Q $\rightarrow$ dịch vụ POI $\rightarrow$ xử lý đáp án tại local. Các bước lý thuyết được phát
+biểu trước benchmark để bảo đảm kết luận không phụ thuộc một attacker học cụ thể.
+
+\section{Problem formulation and assumptions}\label{sec:formulation}
+\subsection{Mạng đường, trajectory và nhu cầu dịch vụ}
+Cho một mạng đường có hướng với tập trạng thái hữu hạn $V$. Mỗi trạng thái $v$ có tọa độ $a_v$ trong
+một hệ chiếu mét cố định. Hai lane khác nhau có thể trùng tọa độ; chúng vẫn là hai trạng thái cho
+việc chuyển tiếp. GPS thật $x_i$ không nhất thiết trùng đúng một $a_v$. Trong định lý Geo-I, khoảng
+cách $d(x,x')=\|x-x'\|_2$ là khoảng cách Euclid của cùng phép chiếu. Chi phí di chuyển trên đường có
+hướng được dùng riêng cho reachability và utility, không thay vào chứng minh tam giác mà không kiểm
+tra các giả thiết tương ứng.
+
+Trajectory $X=(x_0,x_1,\ldots)$ được định nghĩa trên mọi mốc \emph{có thể đọc} theo clock chung, kể cả
+mốc bị bộ lọc bỏ qua do pacing/cap. Như vậy, hai đầu vào so sánh không bị đổi hệ chỉ số vì số lần đọc
+thực tế khác nhau. Luận văn dùng metric trajectory
+\begin{equation}
+D_\infty(X,X')=\sup_i\|x_i-x_i'\|_2.
+\label{eq:trajectory-metric}
+\end{equation}
+Với trace hữu hạn, supremum là maximum. Metric này đo độ lệch giữa hai giả thuyết trajectory tại
+cùng clock; không được hiểu là khoảng cách mà một người đã di chuyển trong một chuyến.
+
+Nhu cầu thật $\psi_t$ gồm purpose, loại POI và các tham số local như radius hoặc destination. Catalogue
+POI là $\mathcal P$. Client cần trả một danh sách phù hợp đã sắp xếp theo GPS hiện tại và $\psi_t$.
+Độ sâu đánh giá $k=5$ chỉ tạo reference top-five, không buộc ứng dụng chỉ trả năm địa điểm.
+
+\subsection{Dữ liệu riêng, ngữ cảnh công khai và transcript}
+Thông tin riêng gồm GPS, nhu cầu thật và các target có quan hệ với trajectory được khai báo trong
+từng tác vụ. Ngữ cảnh $C$ gồm bản đồ, cấu hình, public clock, catalogue và conditional law của provider.
+Lịch sử nội bộ đã bảo vệ $E$ gồm các nhánh noisy test và điểm REM. Belief được tính từ thông tin
+này cùng bối cảnh cho phép; không đọc trực tiếp GPS để thay thư viện Q.
+
+Transcript $O_n$ của server gồm các Q theo thứ tự, timestamp, request/reply và retry sau $n$ lần chọn
+đoạn. GPS local, $\psi_t$, belief, ledger và cờ fresh/reuse không thuộc transcript. Đáp án đã lọc tại
+thiết bị cũng không được gửi ngược lại trong mô hình này. Nếu một ứng dụng gửi click, destination
+hoặc diagnostics riêng lên server, kênh quan sát đã thay đổi và phải được phân tích bổ sung.
+
+Để chứng minh nhiều bước, lịch sử $\mathcal H_j$ giữ cả các đoạn đã chọn, nhãn lane giả và replies.
+Nó mạnh hơn wire chỉ gồm tọa độ: lane aliases có thể cùng tọa độ nhưng dẫn tới thư viện khác ở bước
+sau. Các nhãn lane đó thuộc hành động giả do mô hình sinh, không phải lane thật của người dùng.
+Phân tích trên lịch sử mở rộng rồi chiếu xuống wire tránh giả định sai rằng tọa độ xác định duy nhất
+toàn bộ trạng thái chuyển tiếp.
+
+\subsection{Attacker và ranh giới bảo vệ}
+Attacker là LSP hoặc bên có cùng quyền quan sát. Nó biết thuật toán, tham số công khai, mạng đường
+và có thể lưu toàn transcript. Định lý không giả định attacker chỉ dùng một snapshot, chỉ biết kNN
+hoặc không biết lịch phát thật. Hai traces $X,X'$ là phép so sánh của cơ chế; attacker không cần biết
+sẵn hai trajectory đó trong một cuộc tấn công cụ thể.
+
+Tuyến thật và các target tương lai trong phân tích được cố định ngoại sinh trước phép chạy. Nếu Q
+hoặc đáp án POI làm thay đổi hành động tiếp theo của người dùng, cần mô hình tương tác có feedback.
+Một user identity hoặc future target chỉ nhận hệ quả từ định lý khi mối quan hệ target--input--output
+thỏa mô hình đã phát biểu. Account/IP/biển số trực tiếp và raw side information từ người tương quan
+không mặc định được bảo vệ.
+
+\subsection{Giả thiết dùng trong các định lý}\label{sec:assumptions}
+\begin{enumerate}[label=\textbf{A\arabic*.}]
+\item \textbf{Support chung.} Tại cùng $C,\mathcal H_{j-1}$, thư viện $\mathcal A_j$, thứ tự action và
+masses nền giống nhau, mọi mass dương. GPS, Z, belief và nhu cầu riêng không loại ứng viên. Có một
+đoạn đứng yên khả thi khi cần fallback.
+\item \textbf{Upstream Geo-I lý tưởng.} REM và noisy test dùng các kernel xác suất được đặc tả;
+downstream chỉ đọc $E$ và bối cảnh cho phép. Không có đường trực tiếp GPS $\rightarrow$ support,
+request hoặc quyết định gửi riêng. Nhánh không gian qua restart cần phục hồi đầy đủ history, chi phí
+và RNG state; khớp timestamp/config chưa đủ xác nhận việc phục hồi đó.
+\item \textbf{Kernel Q.} Điểm vào kernel nằm trong $[0,1]$. Sampler integer sử dụng bit đều mới,
+độc lập với private input và upstream randomness. Sai số belief không phá cận Q nếu score vẫn bị chặn.
+\item \textbf{Ledger và lịch phát.} Commit trước gửi; counter/allowance không rollback hoặc reset
+trong cùng phiên. Các khung còn lại và retry dùng đoạn đã chọn. Clock/mở/đóng phiên được giữ cùng
+nhau khi so hai input, hoặc dừng theo quy tắc chỉ dùng lịch sử công khai.
+\item \textbf{Provider law.} Tại cùng Q/history, server có cùng conditional response law cho hai
+input. Cache suy từ replies; thông tin riêng không được đưa thêm vào kênh request/reply.
+\item \textbf{Utility.} Metadata dùng chứng minh cache còn hợp lệ; client dùng cùng GPS, nhu cầu và
+total order khi so các tập ứng viên. Muốn dùng floor từ reply signatures, batch nhận được phải đầy đủ
+và khớp signatures. Calibration/proxy error chưa biết được giữ là chưa chứng nhận.
+\end{enumerate}
+
+Một phiên có cùng token/ledger. Restart tiếp tục phiên đó; mở nhiều phiên liên kết cần composition
+riêng. Những giả thiết này được dùng có chọn lọc: cận Q có thể đúng dù upstream không thỏa Geo-I,
+nhưng cận không gian và minimum của hai cận cần nhánh upstream hợp lệ.
+
+\section{System architecture -- Vị trí mô hình trong hệ thống}
+Hình~\ref{fig:system} phân biệt thiết bị tin cậy và LBS server. Cảm biến cung cấp GPS cho lớp bảo vệ
+và cho local ranking. Privacy/planner tạo các tọa độ Q để lấy dữ liệu; server trả POI theo request
+chung. Thiết bị giữ nhu cầu thật để chọn đáp án từ những metadata đã nhận.
+
+\begin{figure}[htbp]
+\centering\resizebox{\linewidth}{!}{\input{figures/system_architecture}}
+\caption{Kiến trúc hệ thống và ranh giới quan sát. Chỉ Q/request chung đi sang LBS; GPS và nhu cầu thật phục vụ client.}
+\label{fig:system}
+\end{figure}
+
+Z không phải một Q mặc định được phát lên server. Nó là trạng thái đã bảo vệ giúp quản lý private
+reads và tạo belief. Q là hành động dịch vụ công khai. Nếu chỉ công bố Z, vẫn có thể có một bảo đảm
+Geo-I lý tưởng nhưng chất lượng lấy POI bị gắn với một query location. Nếu chọn cả tập Q trực tiếp
+từ GPS, cũng có thể xây dựng cơ chế đúng; khi đó phải phân tích trực tiếp toàn joint kernel và các
+lần lặp theo thời gian. Hai tầng ở đây giúp phân vai và kiểm soát các điều kiện thiết kế.
+
+\section{Model architecture and workflow}\label{sec:model-workflow}
+Hình~\ref{fig:model} tổ chức phương pháp thành năm lớp vận hành. Trong mỗi lớp có các thao tác logic
+riêng: bảo vệ/cập nhật vị trí, ước lượng trạng thái, tạo thư viện và chọn đoạn, phát khung, rồi hợp và
+xử lý POI. Server không quan sát belief hoặc quyết định fresh/reuse. Đường phản hồi từ cache tới
+planner chỉ mang thông tin suy từ replies, không đưa $\psi_t$ vào support hoặc cadence.
+
+\begin{figure}[htbp]
+\centering\resizebox{\linewidth}{!}{\input{figures/model_architecture}}
+\caption{Kiến trúc nội bộ GeoI-BQ. Một đoạn ba khung được chọn chung; từng khung và retry sau đó là hậu xử lý.}
+\label{fig:model}
+\end{figure}
+
+\subsection{Vấn đề, quyết định thiết kế và điều cần chứng minh}
+REM sử dụng miền đường công khai để tránh đầu ra vô nghĩa ngoài mạng. Điều cần chứng minh là phân
+phối trên miền đó thỏa Geo-I, không chỉ rằng một điểm được chọn có vẻ hợp lý. Noisy reuse tránh phải
+tạo Z mới ở mọi lần phát; phép kiểm tra vẫn dùng GPS nên phải được tính vào cap.
+
+Belief mô tả những vị trí có thể của người dùng để phục vụ retrieval. Nó không là chứng chỉ attacker
+không suy ra được người dùng. Thư viện đoạn Q giữ độc lập với private pruning để có common support;
+belief chỉ điều chỉnh xác suất trong một giới hạn. Đây là phần tách yêu cầu utility khỏi điều kiện
+support của chứng minh.
+
+Kernel centered và ledger Q giới hạn mức điều chỉnh theo thông tin riêng qua nhiều đoạn. Commit cả
+đoạn bảo đảm các khung 20/40 s không lén trở thành những lần chọn mới chưa hạch toán. Common category
+cover giữ payload purpose/category thật ở local. Union/cache và ranking dùng GPS để cải thiện đáp
+án mà không tạo một lần phát GPS mới. Mỗi thiết kế sẽ được nối với mệnh đề tương ứng ở
+Mục~\ref{sec:privacy} và~\ref{sec:utility}.
+
+\subsection{Clock, bộ nhớ và cấu hình tham chiếu}
+Một đoạn kéo dài 60 giây với các khung ở offset 0, 20, 40 s. Lần chọn đoạn tiếp theo ở offset 60 s.
+Lớp bảo vệ dùng GPS mới tối thiểu cách nhau 60 s và chỉ khi dự toán cap cho phép. GPS local phục vụ
+xếp hạng có thể được đọc theo nhu cầu ứng dụng; không suy từ pacing bảo vệ rằng tổng số GNSS reads
+hoặc năng lượng đã giảm.
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[>=Latex,x=1cm,y=1cm,font=\small]
+\draw[->] (0,0)--(13,0) node[right] {$t$};
+\foreach \x/\t in {0/0,2/20,4/40,6/60,8/80,10/100,12/120}{
+\draw (\x,.08)--(\x,-.08);\node[below] at (\x,-.1){\t};
+\fill[blue] (\x,.65) circle (2pt);}
+\node[anchor=east] at (-.3,.65){Gửi Q};
+\foreach \x in {0,6,12}{\fill[teal] (\x,1.45) circle (2.4pt);}
+\node[anchor=east] at (-.3,1.45){Có thể đọc};
+\draw[teal,thick,decorate,decoration={brace,amplitude=5pt}] (0,2.1)--(5.85,2.1);
+\draw[teal,thick,decorate,decoration={brace,amplitude=5pt}] (6.05,2.1)--(11.85,2.1);
+\node at (3,2.55){Đoạn 1: $\varepsilon_{Q,1}=1/2$};
+\node at (9,2.55){Đoạn 2: $\varepsilon_{Q,2}=1/6$};
+\end{tikzpicture}
+\caption{Hai clock khác nhau. Dấu ``có thể đọc'' còn phụ thuộc dự toán cap; phát khung không đồng nghĩa lấy mẫu Q hoặc đọc bảo vệ GPS mới.}
+\label{fig:clock}
+\end{figure}
+
+Cấu hình tham chiếu dùng $K=5$, $L=60$ mỗi loại/tọa độ, sáu categories công khai và reference $k=5$.
+Vì vậy một packet có tối đa $5\times6\times60$ reply entries trước loại trùng, không phải chừng đó
+POI unique. Prototype có catalogue 418 POI, nên union có thể bão hòa; đây là điều kiện cần khi giải
+thích Recall cao. Planner sử dụng portfolio beam 24, novelty/long-range weights 4 và travel scale
+60 s. Các tham số là cấu hình đã đóng băng, không là tối ưu phổ quát được chứng minh.
+
+\section{Algorithm specification -- Đặc tả thuật toán}\label{sec:algorithm}
+\subsection{REM trên miền đường công khai}
+Với $u>0$ và cùng $V$, cơ chế lấy mẫu trạng thái và ánh xạ sang tọa độ:
+\begin{align}
+R_u(v\mid x)&=\frac{\exp[-u\|x-a_v\|_2/2]}{\sum_{w\in V}\exp[-u\|x-a_w\|_2/2]},\label{eq:rem}\\
+V_t&\sim R_u(\cdot\mid x_t),\qquad Z_t=a_{V_t}.\nonumber
+\end{align}
+Các trạng thái gần GPS có trọng số lớn hơn, nhưng mọi trạng thái trong miền chung có xác suất dương
+ở kernel lý tưởng. Không lọc từng điểm theo một điều kiện ``đã đạt Geo-I'' rồi random đều. Geo-I là
+tính chất của \emph{toàn phân phối} khi thay input. Cũng không có bước planar Laplace rồi mới map vào
+REM trong đặc tả này. Hệ số $1/2$ chia độ lệch giữa tử số và normalizer trong chứng minh.
+
+\subsection{Noisy reuse và cap từng phiên}
+Sau Z đầu, tại mốc được phép đọc, với tham chiếu cũ $h$, đặt
+\begin{equation}
+D_t=\mathbf1\{\|x_t-h\|_2+\xi_t>\theta\},\qquad
+\xi_t\sim\operatorname{Lap}(0,1/u),\quad \theta=200\text{ m}.
+\label{eq:private-test}
+\end{equation}
+$D_t=0$ giữ $Z_t=h$; $D_t=1$ gọi REM để tạo Z mới. Tạo đầu tiên tốn một đơn vị; test rồi giữ tốn
+một; test rồi tạo mới tốn hai. Bộ lọc dự toán chi phí lớn nhất cần cho thao tác \emph{trước khi đọc}
+GPS. Nhánh không đọc không được dùng một phép kiểm tra GPS riêng để quyết định rằng nó sẽ không đọc.
+
+Các số ngân sách có quan hệ:
+\begin{equation}
+u=\frac{B}{2H_{\rm cfg}},\qquad M=2H_{\rm cfg}-1,\qquad C_s=Mu.
+\label{eq:budget-config}
+\end{equation}
+Trong prototype, $B=0{,}24$ m$^{-1}$, $H_{\rm cfg}=12$, nên $u=0{,}01$ m$^{-1}$, $M=23$ và
+$C_s=0{,}23$ m$^{-1}$. $H_{\rm cfg}$ là tham số accounting, không đòi biết trước route hoặc thời
+lượng chuyến. Cap không đặt thời gian tối đa người dùng được đi; hết allowance thì lớp bảo vệ tiếp
+tục từ thông tin đã bảo vệ, đổi lại khả năng thích nghi với GPS mới giảm.
+
+Muốn một chính sách rủi ro không gian có tỷ số tối đa $R_*$ trong bán kính so sánh $d_*$, điều kiện đủ
+của cận thô là $C_s\le\log(R_*)/d_*$. Công thức cho phép suy ra $u=C_s/M$ rồi kiểm tra utility.
+Luận văn không khẳng định cấu hình 0,23 đã được chọn từ một yêu cầu rủi ro như vậy ngay từ đầu, hoặc
+là một bán kính nhiễu. Đó là cap hiệu lực của cấu hình tham chiếu.
+
+\subsection{Belief từ lịch sử đã bảo vệ}
+Trên các trạng thái đại diện $s$, bắt đầu bằng prior công khai. Dự đoán và cập nhật:
+\begin{align}
+b_t^-(s)&=\sum_r b_{t-1}(r)T_{\Delta t}(r,s),\label{eq:belief-prediction}\\
+b_t(s)&=\frac{b_t^-(s)\ell_t(Z_t\mid s,h)}{\sum_r b_t^-(r)\ell_t(Z_t\mid r,h)}.\label{eq:belief}
+\end{align}
+Ở lần đầu, $\ell$ cộng REM probabilities của các lane có cùng tọa độ. Sau đó, likelihood của quan
+sát Z bao gồm cả xác suất reuse và refresh. Nếu $r_s$ là xác suất giữ ở trạng thái đại diện $s$:
+\begin{equation}
+\ell(z\mid s,h)=r_s\mathbf1_{\{z=h\}}+(1-r_s)\sum_{v:a_v=z}R_u(v\mid s).
+\label{eq:emission}
+\end{equation}
+Vì REM có thể chọn lại cùng tọa độ cũ, không suy fresh/reuse chỉ từ việc hai Z có bằng nhau không.
+Mốc không có private read chỉ dự đoán; không coi Z cũ lặp lại là một quan sát REM độc lập mới.
+
+Lưới, prior và chuyển tiếp là xấp xỉ công khai. Prototype dùng một đại diện gần tâm cho mỗi cell
+belief và một mô hình chuyển tiếp theo thời gian; nó không được gọi là posterior đã hiệu chuẩn của
+người thật. Privacy của kernel Q chỉ cần score bị chặn. Sai số belief có ý nghĩa riêng ở phần chuyển
+sang utility thực, nơi không được tự đặt sai số bằng 0.
+
+\subsection{Thư viện đoạn, điểm số và lấy mẫu integer}
+Một action $A_a$ gồm ba khung $Q_a^{(0)},Q_a^{(1)},Q_a^{(2)}$, mỗi khung có $K$ slots. Đường chuyển
+tiếp của các slot phải khả thi trên mạng có hướng từ fake state trước. Public search/portfolio và
+fallback đứng yên tạo thư viện $\mathcal A_j(\mathcal H_{j-1})$. Không dùng GPS/Z/belief để cắt bỏ
+action. Điều kiện floor public nếu không đạt phải được báo giảm chứng chỉ hoặc dùng fallback chung,
+không chuyển sang một support riêng theo người dùng.
+
+Với bảng proxy công khai bị chặn $g_a(s)$ và belief $b$, tính raw score $v_a$. Sau chuẩn hóa và
+lượng tử hóa thành integer $F_a$, đặt $z_a=F_a/S$, $S=65536$:
+\begin{align}
+v_a&=\sum_s b(s)g_a(s),\qquad 0\le z_a\le1,\qquad \mu=\sum_a w_a z_a,\nonumber\\
+\alpha_j&=\frac{\varepsilon_{Q,j}}{2+\varepsilon_{Q,j}},\qquad
+p_a=w_a\bigl[1+\alpha_j(z_a-\mu)\bigr].\label{eq:kernel}
+\end{align}
+$w$ là phân phối nền chung với masses dương. Belief điều chỉnh probabilities, không chọn support.
+Min--max trước quantization có thể làm thay đổi thang đo; $z_a$ không là Recall và không mặc định
+lệch raw $v_a$ tối đa $1/S$. Những cận không dựa vào sensitivity của phép min--max này được chứng
+minh trực tiếp từ $z\in[0,1]$.
+
+Allowance của lần chọn thứ $j$ là
+\begin{equation}
+\varepsilon_{Q,j}=\frac{\Gamma_Q}{j(j+1)},\qquad\Gamma_Q=1.
+\label{eq:q-allowance}
+\end{equation}
+Lịch công khai này không đòi biết trước số đoạn. Viết $w_a=m_a/T$, $\alpha_j=N/D$, với các integer
+dương thích hợp. Kernel được lấy mẫu qua trọng số integer:
+\begin{equation}
+W_a=m_a\left[DTS+N\left(TF_a-\sum_c m_cF_c\right)\right],\qquad T=\sum_c m_c.
+\label{eq:integer-kernel}
+\end{equation}
+Chọn một integer đều trên $[0,\sum_aW_a)$ rồi dò cumulative weights cho đúng PMF hữu hạn.
+Điều này tách sai số tính score trước lượng tử hóa khỏi việc lấy mẫu PMF, nhưng vẫn cần nguồn bit
+đều mới; một PRNG dùng trong mô phỏng không tự là chứng chỉ entropy thông tin lý thuyết.
+
+\subsection{Phát khung, hợp POI và local ranking}
+Sau khi lấy mẫu, commit cả đoạn, counter và ledger trước khi gửi khung đầu. Các khung 20/40 s dùng
+đoạn đã lưu; retry dùng lại bản tin. Request hỏi mọi loại POI với cùng L60 ở mỗi Q. Server không
+nhận purpose/radius/destination thật qua giao diện này.
+
+Client hợp các metadata nhận được, loại trùng theo ID POI và giữ cache theo chính sách đã khai báo.
+Tại thời điểm dùng dịch vụ, GPS hiện tại và nhu cầu thật tạo bộ lọc/total order local. Danh sách
+được sắp xếp chỉ gồm các POI thực nhận và còn hợp lệ; local ranking không khôi phục metadata chưa
+được truy hồi. Catalogue tĩnh trong benchmark giúp cache tích lũy; trường hợp hết hạn/status động
+đòi kiểm tra lại giả thiết utility.
+
+\subsection{Giả mã và chi phí vận hành}
+\begin{enumerate}
+\item Đọc public clock, kiểm tra pacing và dự toán Geo-I cap. Quyết định có thể đọc GPS phải dựa
+trên trạng thái/lịch cho phép trước private read.
+\item Nếu được đọc: tạo REM đầu tiên hoặc noisy test rồi reuse/refresh; cập nhật $E$ và chi phí.
+Nếu không: tiếp tục từ thông tin đã bảo vệ.
+\item Dự đoán belief theo thời gian; cập nhật emission chỉ khi có private read.
+\item Ở đầu đoạn: tạo thư viện/masses nền chung, tính $v,z,p$ và lấy mẫu bằng integer kernel;
+commit action và allowance lần $j$.
+\item Phát khung đã commit; nhận replies, union/cache hợp lệ. Không dành thêm allowance cho các
+khung còn lại hoặc retry cùng bản tin.
+\item Lọc/sắp xếp tại local bằng $x_t,\psi_t$ và trả toàn danh sách phù hợp.
+\end{enumerate}
+
+Một REM trực tiếp duyệt $|V|$ weights; belief và planner có chi phí theo số trạng thái đại diện,
+transition và candidate segments. Public portfolio có thể dùng cache/tables nhưng không vì vậy
+mà suy ra latency của điện thoại. Khi score POI đã có, hợp các reply entries là tuyến tính theo số
+entries và sắp xếp $|U_t|$ ứng viên mất $O(|U_t|\log|U_t|)$ phép so sánh. Chi phí truy vấn đường và
+cập nhật metadata phụ thuộc provider/context; số liệu thời gian ở Chương~\ref{ch:experiments} ghi rõ
+phạm vi đo, đặc biệt output replay không đo lại generation của proposed.
+
+\subsection{Ví dụ từ belief tới một đoạn Q}
+Xét ba trạng thái mock ở 0, 100, 300 m với prior $(0{,}5;0{,}3;0{,}2)$ và $u=0{,}01$. Nếu Z đầu
+ở 100 m, likelihood REM của quan sát đó theo ba GPS giả thuyết xấp xỉ $(0{,}3315;0{,}5065;0{,}2312)$.
+Nhân prior và chuẩn hóa cho belief $(0{,}4554;0{,}4175;0{,}1271)$.
+
+Hai đoạn có proxy trên ba trạng thái là $(0{,}9;0{,}6;0{,}2)$ và $(0{,}3;0{,}7;0{,}9)$, cho raw scores
+khoảng $0{,}686$ và $0{,}543$. Sau min--max, $z=(1;0)$. Với base $w=(1/2;1/2)$ và allowance đầu
+$\varepsilon_{Q,1}=1/2$, ta có $\alpha=1/5$, $\mu=1/2$, nên $p=(0{,}55;0{,}45)$.
+Đoạn hữu ích hơn được ưu tiên nhưng đoạn kia vẫn có probability dương. Đây là ví dụ tính toán,
+không thay cho chứng minh hoặc điểm benchmark.
+
+\subsection{Ví dụ nhiều bước từ output đã lưu}
+Chọn cố định family TEST đầu theo ID, \path{cache-029}, trip/draw đầu, không chọn theo score.
+Bảng~\ref{tab:sample} hiển thị GPS tương đối so với lúc bắt đầu, Z nội bộ, Q1 và số POI unique trong
+cache. Q2--Q5 vẫn có trong packet; tọa độ trong bảng làm tròn, artifact giữ đủ precision.
+\input{generated/sample_trace}
+
+Ở 20/40 s, mô hình phát các khung còn lại mà không đọc bảo vệ GPS mới. 60/120 s tạo Z mới với tổng
+chi phí tương ứng; 180 s giữ Z nhưng có thể chọn một đoạn mới từ belief đã cập nhật. Units nhân
+$u=0{,}01$ cho chi phí Geo-I tích lũy. Z, GPS và nhánh trong bảng là diagnostics để giải thích, không
+được đưa vào attacker features. Cache tăng trong mẫu không phải định lý rằng Recall luôn tăng theo
+thời gian khi người dùng di chuyển.

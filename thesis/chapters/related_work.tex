@@ -1,0 +1,146 @@
+\chapter{Related Work -- Nghiên cứu liên quan}\label{ch:related}
+Chương này phân tích những hướng liên quan theo nhiệm vụ và output contract. Danh mục phương pháp
+gần đây giữ cửa sổ khảo sát đã chốt 28/10/2023--28/10/2026; tám công trình được
+khảo sát có công bố đầu tiên đã xác định trong giai đoạn 2024--2026. Geo-I và các nguồn lý thuyết cũ
+được dẫn như nền tảng, không được dùng để mở rộng giả tạo cửa sổ khảo sát gần đây. Danh mục có phạm
+vi lựa chọn phục vụ bài toán, không phải một systematic review toàn bộ lĩnh vực.
+
+\section{Bảo vệ truy vấn vị trí liên tục}
+\subsection{TransProtect: tọa độ thay thế có xét bối cảnh}
+TransProtect sử dụng mô hình chuyển động và thông tin bối cảnh để chọn tọa độ tổng hợp cho phương
+tiện \cite{transprotect}. Cơ chế không chỉ nhằm tạo một điểm ở gần GPS, mà còn xem xét liệu đầu ra
+có hợp lý dưới kiến thức của attacker về đường và việc di chuyển hay không. Output được xem là một
+tọa độ thay thế ở mỗi mốc, phù hợp với nhiệm vụ online. Paper đánh giá sai số suy luận và tổn thất
+chi phí di chuyển tới những đích có thể.
+
+Hướng này gần với S1/S3 của luận văn vì attacker có thể kết hợp chuỗi tọa độ và context. Tuy nhiên,
+travel-cost distortion của một điểm thay thế không tự tương đương Recall của danh sách POI cuối.
+Khi dịch vụ trả nhiều kết quả từ nhiều query locations, cần xác định chính xác đầu ra dịch vụ và
+không lấy một thành viên gần GPS nhất bằng nhãn riêng để giả lập released singleton.
+
+Trong thực nghiệm của luận văn, hàng TransProtect* là \emph{Markov adaptation}. Nó giữ hướng chọn
+miền/đích và đo chi phí phù hợp nhưng thay predictor neural của nguồn bằng proxy học từ TRAIN.
+Sự thay thế này có thể ảnh hưởng chất lượng bảo vệ. Vì vậy, kết quả là đối chiếu với adaptation được
+công bố đầy đủ, không được trình bày như đã tái lập đúng checkpoint và mọi chi tiết của tác giả.
+
+\subsection{Tương quan ngữ nghĩa của chuỗi tập vị trí}
+Phương pháp dummy-based xét semantic correlation của moving paths tạo các tập vị trí có thành viên
+thật và các dummy \cite{semantic}. Điểm giả phải có tính nhất quán theo thời gian và ý nghĩa địa điểm,
+vì một tập thoạt nhìn có nhiều thành viên vẫn có thể bị thu hẹp khi attacker kiểm tra đường đi hoặc
+ngữ nghĩa. Paper sử dụng những phép đo anonymity success và chất lượng dummy trong môi trường nguồn.
+
+Output chứa điểm thật tạo ra một bài toán đặc biệt: attacker có thể cố nhận diện thành viên đó.
+Đây là khác biệt quan trọng với Q-only của GeoI-BQ, nơi GPS thật không được đưa vào tập như một thành
+viên bắt buộc. Vì vậy, cùng ký hiệu K không làm hai phương pháp có cùng bảo đảm; xác suất chọn thành
+viên thật và sai số định vị là hai contract khác nhau.
+
+Mapping scope cần thận trọng. Việc xét ngữ nghĩa và liên tiếp chưa đủ để gọi là đã trực tiếp đo suy
+luận điểm dừng hoặc tái dựng mọi đoạn đường trong S2/S3 của luận văn. Adaptation Semantic correlation*
+dùng POI công khai và predictor thực nghiệm thay các nguồn semantic/learner gốc. Những phần chưa
+tái lập được ghi riêng để người đọc không gán kết quả trên cohort này cho implementation chính thức.
+
+\subsection{Chèn fake queries giữa các lần truy vấn thật}
+Fake-query insertion bổ sung những tập hoàn toàn giả giữa các yêu cầu có vị trí thật/dummy
+\cite{fake}. Mục đích là làm gián đoạn việc nối các tập theo thời gian và tăng số giải thích có thể
+cho một chuỗi quan sát. Cơ chế quan tâm tới các đường khó phân biệt, sự hợp lý của fake queries và
+chi phí tạo/phát chúng.
+
+Lịch gửi là một phần của threat model. Nếu attacker biết những thời điểm mà client luôn gửi yêu cầu
+thật, giả định rằng mọi packet đều có khả năng là thật không còn phù hợp. Một phép đánh giá công
+bằng cần giữ tự nhiên số fake events, cho attacker nhìn tất cả sự kiện trong cùng cửa sổ và tính đủ
+request/reply phát sinh. So cùng số packet trong khi bỏ packet giả sẽ thay đổi nhiệm vụ của phương
+pháp, cũng như làm sai phần chi phí.
+
+Hàng Fake-query insertion* của luận văn là road/history adaptation. Các giả thiết về đồ thị, lịch
+chờ và similarity được công bố; không gọi nó là bản chính thức của paper. Kết quả S8 cũng cho thấy
+đối chiếu hai tập có thể làm attacker mạnh hơn khi có một thành viên thật tương quan, nên bank kiểm
+thử không nên chỉ gồm một estimator độc lập cho từng tập.
+
+\section{Geo-I trên mạng đường và cơ chế có xét utility}
+\subsection{Nền tảng Geo-I và dự đoán riêng tư}
+Geo-I ràng buộc tỷ số xác suất của cùng một output giữa hai vị trí đầu vào theo khoảng cách
+\cite{geoi}. Nó cung cấp một phát biểu xác suất để nối với posterior của attacker, thay vì chỉ yêu cầu
+điểm giả nằm xa GPS. Các kết quả về cơ chế dự đoán riêng tư cho mobility traces cho thấy việc quản
+lý quan sát mới và tái sử dụng thông tin là một phần của bài toán chuỗi \cite{predictive}.
+
+Luận văn kế thừa hướng bảo đảm này, nhưng phải đặc tả thêm support trên mạng đường, phép kiểm tra
+giữ/đổi và action chọn Q. Chứng minh của một lần thêm nhiễu không tự áp dụng cho mọi quyết định dùng
+GPS trong một chương trình. Những điều kiện hậu xử lý và hợp thành được phát biểu ở chương phương
+pháp, nơi có thể đối chiếu trực tiếp với giao diện input/output.
+
+\subsection{EV querying: approximate Geo-I, dummy và xử lý cục bộ}
+Cơ chế truy vấn dành cho electric vehicles kết hợp approximate Geo-I, dummy và xử lý cục bộ nhằm
+giữ chất lượng lựa chọn trạm sạc \cite{ev}. Utility được đo qua cost of privacy của tác vụ tương ứng;
+một tọa độ nhiễu có thể được sử dụng như bước trung gian để phục vụ quyết định của client.
+
+Công trình này là tiền lệ quan trọng: kết hợp Geo-I, nhiều query locations và lựa chọn local không
+phải bản thân một tuyên bố mới của luận văn. Điều cần làm rõ ở GeoI-BQ là policy cụ thể, cận riêng
+của việc chọn đoạn, điều kiện cho toàn transcript và protocol đối chiếu giữa các dạng output.
+Các giả định Edge, ngữ cảnh trạm sạc và approximate guarantee của EV querying cũng không nên được
+đồng nhất với một phiên client/server có cùng clock và cap của nghiên cứu này.
+
+\subsection{PTPPM: bảo vệ có xét mạng đường và tương quan}
+Bản PTPPM được khảo sát là preprint năm 2025 về personalized trajectory protection trên road network
+với spatiotemporal correlations \cite{ptppm}. Nó liên quan trực tiếp tới việc chọn miền đường,
+ngân sách và sự đánh đổi distortion/utility. Những nhận định ở đây dựa trên phiên bản nguồn đã khảo
+sát; luận văn không mặc định có một reproduction cùng tác vụ POI của paper.
+
+PTPPM được đưa vào tổng hợp để định vị hướng nghiên cứu gần mô hình đề xuất. Tuy nhiên, chưa có
+implementation đã audit đáp ứng contract và nguồn dữ liệu hiện tại, nên không gán điểm số của một
+phương pháp khác cho hàng PTPPM. Việc không có số trong bảng thực nghiệm không làm paper mất liên
+quan; nó phản ánh ranh giới fidelity của phép so sánh đang thực hiện.
+
+\section{Danh tính, phát hành trajectory và các phạm vi liên quan}
+\subsection{CPCROK và liên kết phương tiện}
+CPCROK xét bảo vệ pseudonym/beacon trong mạng xe mật độ thấp bằng các cơ chế liên quan mix-zone,
+thay pseudonym và fake beacons \cite{cpcrok}. Mục tiêu nối lại các quan sát của xe liên quan tới S4,
+nhưng kênh VANET, danh tính pseudonym và loại bản tin khác với truy vấn POI online.
+
+Một client gửi năm điểm Q không tự xóa account, IP, biển số hoặc định danh phần cứng. Vì vậy, luận
+văn tách việc chặn thông tin bổ sung từ tọa độ khỏi một hệ thống ẩn danh danh tính hoàn chỉnh.
+Dataset chỉ có family tuyến cũng không đủ để đánh giá người và phương tiện như hai target độc lập.
+S4 của phần thực nghiệm bổ sung được đặt đúng tên là association proxy.
+
+\subsection{DP-FETC và trajectory publishing offline}
+DP-FETC kết hợp thống kê riêng tư, feature extraction, trajectory correlation và xử lý phân bố OD
+trong bài toán phát hành dữ liệu tổng hợp \cite{dpfetc}. Các phép đo về phân bố, mutual information
+hoặc độ phức tạp phản ánh mục tiêu khai thác dataset sau công bố. Chúng không trực tiếp cho biết
+attacker định vị người dùng online từ một packet Q tốt đến đâu.
+
+Quan hệ với S3/S8/S9/S10 chủ yếu là một phần về nội dung quỹ đạo, tương quan và đầu/cuối. Luận văn
+không ánh xạ mọi kết quả offline thành protection đầy đủ cho các task online tương ứng. Phát hành
+một tập trajectory và cung cấp dịch vụ POI liên tục có điều kiện input/output cũng như mục tiêu
+utility khác nhau, nên không được ép vào cùng bảng score chỉ để đủ số phương pháp.
+
+\subsection{SoK và yêu cầu xác định đơn vị privacy}
+SoK về trajectory generation hệ thống hóa khó khăn khi kết hợp privacy và utility, nhấn mạnh việc
+định nghĩa đơn vị được bảo vệ và đánh giá cả bảo đảm lẫn triển khai \cite{sok}. Nguồn này hữu ích để
+phân biệt point-level, trajectory-level và những claim về người dùng hoặc nhiều phiên liên kết.
+
+Trong luận văn, một phiên được giữ bởi token/ledger và một mô hình clock cụ thể. Bảo đảm toàn
+transcript của phiên không tự là bảo đảm cho mọi phiên của một người, mọi người đồng hành hoặc
+một quyết định tương lai do chính đáp án dịch vụ gây ra. Nhận định này được dùng để giới hạn scope,
+không dùng SoK như một model đối chứng có số request/Recall POI tương đương.
+
+\section{Tổng hợp, khoảng trống và hướng tiếp cận của luận văn}
+Bảng~\ref{tab:related} gom các trục so sánh vào cùng một chỗ. F nghĩa là paper trực tiếp xét/đánh giá
+task dưới giả định của nó; P nghĩa là một phần hoặc một setting khác; CX nghĩa là chưa đủ căn cứ
+cho mapping chi tiết. Những nhãn này do luận văn ánh xạ sang S1--S10, không phải chứng chỉ bảo vệ
+hoàn toàn trước mọi attacker. Scenario không được liệt kê chưa có căn cứ coverage trong audit này.
+\input{generated/related}
+
+Ba khoảng trống dẫn tới thiết kế được nghiên cứu. Thứ nhất, cần nối tất cả thao tác dùng GPS và
+quyết định chọn Q thành một cận cho transcript có trạng thái. Thứ hai, utility phải được đo qua
+đáp án dịch vụ thực nhận, trong khi nhu cầu thật giữ ở local. Thứ ba, đánh giá cần thống nhất target,
+cửa sổ và cost giữa các output contracts, đồng thời vẫn giữ metrics gốc khi có thể áp dụng đúng.
+
+Một bộ metrics bổ sung vì thế không có nghĩa thay thế mọi metrics của paper. ASR của tập chứa điểm
+thật đòi posterior và định nghĩa nguồn; EIE của point estimator gần với MAE định vị; DER xét chất
+lượng dummy; JSD xét fidelity phân bố offline; CoP gắn với tác vụ dịch vụ cụ thể. Chương thực nghiệm
+sẽ nêu cả khả năng tính và lý do N/A thay vì đổi tên các đại lượng đó thành một score chung.
+
+GeoI-BQ được định vị như một phương pháp client-side có đặc tả và phân tích toàn transcript, với
+kernel chọn đoạn có cận riêng và một luồng phục vụ nhiều nhu cầu local. Đối chiếu chính dùng ba
+adaptation online phù hợp, còn các công trình chưa có reproduction cùng contract giữ vai trò
+related work. Cách định vị này cho phép đánh giá một đóng góp có phạm vi rõ mà không đòi mọi paper
+phải giải cùng toàn bộ mười scenario.

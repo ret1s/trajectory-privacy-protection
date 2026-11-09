@@ -1,0 +1,16 @@
+\begin{tikzpicture}[>=Latex,b/.style={draw=ink!65,rounded corners=2pt,fill=white,text width=3.2cm,align=center,inner sep=7pt,font=\small},a/.style={->,thick,draw=ink},private/.style={->,thick,draw=teal}]
+\node[b] (user) at (0,0) {\textbf{Người dùng / cảm biến}\\GPS $x_t$, nhu cầu $\psi_t$};
+\node[b,draw=teal,fill=teal!5] (model) at (5.4,0) {\textbf{GeoI-BQ}\\Bảo vệ / lập kế hoạch Q};
+\node[b] (server) at (10.8,0) {\textbf{LBS server}\\Nhận Q; trả POI};
+\node[b] (context) at (5.4,-2.3) {\textbf{Ngữ cảnh công khai}\\Bản đồ, cấu hình, POI};
+\node[b] (local) at (5.4,-4.8) {\textbf{Xử lý đáp án local}\\Union/cache, lọc, sắp xếp};
+\node[b] (out) at (0,-4.8) {\textbf{Đáp án người dùng}\\Danh sách phù hợp\\đã sắp xếp};
+\node[b] (attacker) at (10.8,-3) {\textbf{Attacker tại server}\\Lưu Q, clock, replies\\Suy luận trajectory};
+\draw[a] (user)--node[above,text width=1.6cm,align=center,font=\scriptsize] {GPS cho lớp\\bảo vệ}(model);
+\draw[a] (context)--(model);\draw[a] (model)--node[above,text width=1.6cm,align=center,font=\scriptsize] {Q, request\\chung}(server);
+\draw[a] (server.south west)--(8.3,-1.5)--(8.3,-4.8)--node[above,font=\scriptsize] {POI}(local.east);
+\draw[a] (local)--(out);\draw[a,dashed] (server)--(attacker);
+\draw[private] (user.west)--(-2.2,0)--(-2.2,-3.5)--(5.4,-3.5)--node[right,font=\scriptsize] {GPS + $\psi$ local}(local.north);
+\begin{scope}[on background layer]\node[fit=(user)(model)(context)(local)(out),draw=teal,fill=teal!2,rounded corners,inner sep=12pt] {};\end{scope}
+\node[font=\small\bfseries,text=teal,fill=white,inner sep=2pt] at (2.7,1.05) {THIẾT BỊ TIN CẬY};
+\end{tikzpicture}

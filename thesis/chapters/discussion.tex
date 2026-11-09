@@ -1,0 +1,105 @@
+\section{Supporting analysis -- Giải thích các thành phần}
+\subsection{Cache trên cùng output và provider tĩnh}
+Current giữ packet hiện tại; epoch60 giữ metadata trong đoạn 60 s; session tích lũy cả phiên.
+Các chế độ dùng cùng GPS/reference, không tạo Q mới. Đây là phép tách ảnh hưởng của bộ nhớ khỏi
+ảnh hưởng của privacy kernel.
+\input{generated/cache}
+
+GeoI-BQ tăng từ 96,780\% current lên 97,123\% epoch60 và 99,595\% session. Cache giúp bù việc
+không truy vấn trực tiếp GPS. Tuy nhiên, proof inclusion chỉ giữ ở cùng GPS/request và metadata
+hợp lệ. Di chuyển sang một vùng khác có thể làm reference đổi; thông tin giờ mở cửa/giá/status
+động có thể làm cache mất hiệu lực. Do đó kết quả session tĩnh không là chứng chỉ chất lượng
+dịch vụ online động mà không có thêm chính sách expiry/refresh.
+
+\subsection{Response depth và vai trò của GPS local}
+Trên cùng Q/time và provider signatures, truncation L30 cho macro Recall 94,170\%, thấp hơn L60
+5,425 điểm phần trăm, CI95\% [3,486;7,527]. Radius chịu chênh lệch lớn nhất, khoảng 10,374 điểm
+phần trăm. Bảng chi tiết ở Phụ lục~\ref{app:support}; đây là replay/sensitivity có contract riêng,
+không là một lần cải thiện privacy hoặc một thử nghiệm thành phố mới.
+
+Một correction metadata đã đổi nhãn request nguồn cũ từ L30 sang L60 để khớp callback thực tế.
+Nó không thay Q/time, reply masks, Recall hoặc độ dài bytes trong main trial. Cấu hình trình bày
+hiện tại ghi L60 mỗi category/tọa độ; không nối score của L30 cũ với score mới thành một comparison
+cùng cấu hình. Source hashes và verifier ghi lại correction này.
+
+GPS local dùng đánh giá/ranking tại grid 20 s; lớp bảo vệ chỉ đưa private information mới vào
+upstream theo pacing tối thiểu 60 s và cap. Vì vậy ít protected reads không đồng nghĩa điện thoại
+chỉ bật GNSS từng ấy lần, cũng không chứng minh tiết kiệm pin. Đây là ranh giới giữa quan sát
+của server và nhu cầu local, không phải một thí nghiệm năng lượng.
+
+\subsection{Ablation public base và thích nghi theo belief}
+Bảng ablation nội bộ ngày 14/10 giữ cùng frozen release ở Phụ lục~\ref{app:support}. Matched public
+base $\Gamma=0$ đạt macro 99,711\%, cao hơn GeoI-BQ $\Gamma=1$ là 99,595\% trên workload này.
+Service-cover đạt 100\% nhưng là control retrieval nội bộ, không phải một paper đối chứng.
+
+Kết quả đó phù hợp với định lý utility: gain score không bắt buộc actual Recall gain. $\Gamma=0$
+loại private adaptation của Q khi context cố định; vì thế nó cũng có Q-channel independence mạnh
+hơn. Cohort này \textbf{chưa chứng minh belief adaptation cần thiết hoặc $\Gamma=1$ tối ưu}.
+Thiết kế đề xuất cho phép bounded adaptation có accounting, còn giá trị thực tế của adaptation
+trong catalogue lớn/động cần được xác nhận. Không thay baseline sau khi nhìn TEST để che kết quả này.
+
+\section{Discussion -- Độ tin cậy và phạm vi kết luận}\label{sec:discussion}
+\subsection{Mối quan hệ giữa chứng minh và benchmark}
+Lý thuyết trả lời một câu hỏi khác với accuracy của một attack: các phân phối transcript được
+phép khác nhau tới đâu khi private input đổi. Nếu một attacker mới mạnh hơn làm Hit100 tăng,
+định lý kernel không tự bị phủ định; phải kiểm tra liệu attack/side channel có nằm trong model và
+có vi phạm cận phân phối đã chứng minh không. Ngược lại, Hit thấp không đủ chứng nhận implementation
+đúng kernel lý tưởng. Hai loại bằng chứng phải được đọc cùng giả thiết.
+
+Với S1--S3/S9--S10, finite bank hiện tại cho thấy Q-only hạn chế định vị tốt hơn các controls/adaptations
+trong cùng trial. Với S4/S6, có thêm bằng chứng tác vụ có target cụ thể. S5 chưa có positive control
+đủ mạnh; S7 là conditional interface property chung; S8 là diagnostic tương quan tổng hợp và raw side
+information. Không lấy việc đã có mười dòng scenario làm bằng chứng mười bài toán đều được giải quyết đầy đủ.
+
+\subsection{Validity của phép so sánh phương pháp}
+Các adaptation giữ ý tưởng cơ chế nhưng thay neural predictors hoặc nguồn semantic. Do đó conclusion
+chỉ là controlled comparison của các implementation đã audit. Epsilon, output contracts và query
+counts khác nhau; không nói cùng privacy budget hoặc cùng cost. Native metrics N/A phản ánh thiếu
+contract tương ứng, không loại một result bất lợi. Cần author code, dữ liệu và task alignment trước
+khi phát biểu superiority đối với kết quả chính thức của paper.
+
+Raw control xác nhận năm coordinate targets có thể quan sát, nhưng S5 cho thấy control có thể không
+cung cấp tín hiệu trong một cutoff cụ thể. S8 V2 cho thấy một bank học có thể thiếu fusion rất đơn giản.
+Vì vậy attacker selection phải công khai, giữ loss-specific models và không trình bày số lớn ở MAE
+như một chứng chỉ attacker tối ưu đã thất bại.
+
+\subsection{Validity của dữ liệu và utility gần bão hòa}
+Chia family tránh một dạng leakage giữa các chuyến cùng nhóm, nhưng bản đồ/cohort đã được xem trong
+quá trình phát triển. TRAIN/SELECTION/TEST không biến nó thành một geography holdout độc lập. Native
+SUMO phản ánh những ràng buộc giao thông của mạng đã xây, chưa đại diện hành vi người thật, quyết định
+POI hay nhãn người/xe. Bootstrap family/block đo resampling của số nhóm hữu hạn đang có, không đo
+tất cả nguồn domain shift.
+
+Catalogue có 418 POI và sáu categories. K5 nhân L60 mỗi category có thể trả tối đa 1.800 entries trước
+dedup ở một packet, nên coverage và session cache dễ gần bão hòa. Đây là lời giải thích quan trọng
+cho Recall gần 100\%, không chỉ là đặc tính của planner. Nếu API cho tải toàn catalogue hợp lệ một
+lần với cost chấp nhận được, client có thể giảm nhu cầu periodic coordinate queries; lợi thế của
+planner khi đó phải được đánh giá lại theo chính contract đó. Không ghép số từ một diagnostic bulk
+khác cohort/cấu hình vào bảng chính để chứng minh ưu thế.
+
+Privacy MAE lớn cũng phụ thuộc public library rộng so với route workload. Công bố sự khác nhau này
+giúp phân biệt guard lý thuyết với lợi ích do geometry hiện tại. Một nghiên cứu tiếp theo cần catalogue
+lớn/động hơn, reference đầy đủ và những family mới chốt trước khi đánh giá.
+
+\subsection{Giới hạn triển khai và tài nguyên}
+Float Geo-I, entropy nguồn random và full-state restore là những điều kiện thực thi còn phải kiểm
+chứng trước deployment có cam kết. Header/account/IP, kích thước payload không được giữ cố định,
+click feedback và private start/stop timing có thể tạo kênh khác. Finite cap của một phiên không
+xóa composition qua nhiều phiên liên kết hoặc qua người tương quan.
+
+Chi phí hiện báo là counts và serialized index JSON. Metadata thực, network latency, server billing,
+GNSS duty cycle và năng lượng chưa có phép đo đồng bộ. BQ/REM-Z được replay nên không có generation
+timing cùng trial. Các giới hạn này không làm mất giá trị của counts đã kiểm chứng, nhưng ngăn kết
+luận phương pháp nhanh hơn/rẻ hơn trên thiết bị người dùng.
+
+\subsection{Kiểm chứng tái lập và failure accounting}
+Main verifier kiểm tra độc lập 392.832 ô utility, 600 family-level privacy scores, 528 native-cost
+trip values, 5.456 proposed prefixes và tổng 104.168 point queries trên toàn các split/arms.
+Supplement kiểm tra split/block, future cutoffs, selectors, predictions, CIs và mọi fake packet.
+Kết quả failure gate S8 ban đầu được giữ bên cạnh checker sửa điều kiện kiểm tra, không ghi đè
+predictions. Cả ba benchmark folders và 108 frozen release pins được xác thực trước xuất bảng.
+
+Quy trình này không biến dữ liệu đã xem thành dữ liệu mới hoặc làm mọi sai số biến mất. Nó bảo đảm
+người review có thể đi từ kết luận về đúng con số, task, output và source dùng để tính. Trong luận
+văn, đây là cơ sở để giới hạn contribution ở một phương pháp có đặc tả rõ, chuỗi chứng minh có điều
+kiện và một đánh giá thực nghiệm có thể kiểm tra.
