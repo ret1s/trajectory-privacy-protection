@@ -6,6 +6,11 @@ paper-adaptation comparison and scoped S4–S8 supplement. See the
 [review guide](thesis/REVIEW_GUIDE.md) and [canonical PDF](artifacts/reports/graduation_thesis.pdf).
 Consolidation does not change the frozen algorithm or benchmark outputs.
 
+**Demo for the defense:** `python3 -m web.thesis_demo --port 5011`, then open
+<http://127.0.0.1:5011>. Replays all 120 retained TEST draws of current GeoI-BQ,
+local POI ranking, six-arm benchmark and the transcript privacy argument.
+[Launch and presentation guide](docs/demos/2026-11-11_geoi_bq/README.md).
+
 Latest research reference (14/10): **GeoI-BQ v1**, unchanged Geo-I/REM plus
 bounded joint Q, public targeted exploration and exact public L60 design.
 [Method, scope and full benchmark](docs/research/2026-10-14_main_model.md),
