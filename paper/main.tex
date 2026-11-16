@@ -1,12 +1,13 @@
-\documentclass[final,5p,times,twocolumn]{elsarticle}
+\documentclass[9pt,letterpaper,twocolumn]{extarticle}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amssymb,amsthm,booktabs,tabularx,longtable,array,graphicx}
-\usepackage{enumitem,xcolor,tikz,microtype,xurl,algorithm,algpseudocode,fancyhdr}
+\usepackage{enumitem,xcolor,tikz,microtype,xurl}
+\usepackage{geoipaper}
 \usepackage[hidelinks]{hyperref}
 \usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
-\definecolor{ink}{HTML}{183A45}
-\definecolor{teal}{HTML}{087F7A}
-\definecolor{blue}{HTML}{405F8A}
+\definecolor{ink}{gray}{0}
+\definecolor{teal}{gray}{.18}
+\definecolor{blue}{gray}{.28}
 \newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \newtheorem{proposition}{Proposition}[section]
@@ -18,30 +19,13 @@
 \newcommand{\Var}{\operatorname{Var}}
 \newcommand{\Cov}{\operatorname{Cov}}
 \newcommand{\BQ}{GeoI-BQ}
-\setlength{\emergencystretch}{2em}
-\setlength{\tabcolsep}{3.5pt}
-\renewcommand{\arraystretch}{1.06}
-\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
-\setlength{\dbltextfloatsep}{10pt plus 2pt minus 2pt}
-\setlength{\floatsep}{8pt plus 2pt minus 2pt}
-\setlength{\dblfloatsep}{8pt plus 2pt minus 2pt}
-\setlist{nosep,leftmargin=*}
-\renewcommand{\topfraction}{.95}
-\renewcommand{\textfraction}{.04}
-\renewcommand{\floatpagefraction}{.8}
-\setcounter{topnumber}{5}
-\setcounter{dbltopnumber}{5}
-\renewcommand{\dbltopfraction}{.95}
-\setcounter{totalnumber}{5}
-\raggedbottom
-\fancypagestyle{pprintTitle}{\fancyhf{}\fancyfoot[C]{\thepage}\renewcommand{\headrulewidth}{0pt}}
 \hypersetup{pdftitle={GeoI-BQ: Bounded Transcript Disclosure for Road-Aware Location Queries},
 pdfauthor={Hanh Ngo-Minh; Phan Trong Nhan},pdfsubject={Research manuscript; affiliations and contact details pending}}
-\begin{document}
-\begin{frontmatter}
 \title{GeoI-BQ: Bounded Transcript Disclosure for Road-Aware Location Queries}
-\author{Hanh Ngo-Minh}
-\author{Phan Trong Nhan}
+\author{Hanh Ngo-Minh \and Phan Trong Nhan}
+\date{}
+\begin{document}
+\maketitle
 \begin{abstract}
 \input{abstract}
 \end{abstract}
@@ -49,8 +33,6 @@ pdfauthor={Hanh Ngo-Minh; Phan Trong Nhan},pdfsubject={Research manuscript; affi
 Trajectory privacy \sep Geo-indistinguishability \sep Location-based services \sep
 Adaptive composition \sep Point-of-interest retrieval
 \end{keyword}
-\end{frontmatter}
-\hypersetup{pdfauthor={Hanh Ngo-Minh; Phan Trong Nhan}}
 \input{introduction}
 \input{related_work}
 \input{method}

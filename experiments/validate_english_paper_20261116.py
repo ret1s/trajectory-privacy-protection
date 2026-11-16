@@ -45,8 +45,15 @@ def source_check(folder=PAPER):
         # The text is English; legitimate non-ASCII author names remain.
         assert not re.search(r"\b(?:Nguồn|Truy cập|Phương pháp|kết quả|và)\b", text), entry
     main = texts["main"]
-    options = re.search(r"\\documentclass\[([^]]+)\]\{elsarticle\}", main)[1].split(",")
-    assert "twocolumn" in options and "5p" in options, "Compact two-column article required"
+    options = re.search(r"\\documentclass\[([^]]+)\]\{extarticle\}", main)[1].split(",")
+    assert {"twocolumn", "9pt", "letterpaper"} <= set(options), "Reference-inspired two-column layout required"
+    assert r"\usepackage{geoipaper}" in main and (folder / "geoipaper.sty").is_file()
+    layout = json.loads((folder / "layout_reference.json").read_text())
+    for name, digest in layout["protected_scientific_files_sha256"].items():
+        assert sha(folder / name) == digest, "Presentation edit changed scientific content: " + name
+    tail = (folder / "main.tex").read_text().split(r"\input{introduction}", 1)[1]
+    import hashlib
+    assert hashlib.sha256((r"\input{introduction}" + tail).encode()).hexdigest() == layout["main_content_tail_sha256"]
     cited = {k.strip() for group in re.findall(r"\\cite(?:\[[^]]*\])?\{([^}]+)\}", main)
              for k in group.split(",")}
     bib = re.findall(r"\\bibitem\{([^}]+)\}", main)
@@ -63,10 +70,11 @@ def source_check(folder=PAPER):
     assert 3 <= len(highlights) <= 5 and max(map(len, highlights)) <= 85
     for path in re.findall(r"\\path\{([^}]+\.py)\}", texts["supplement"]):
         assert (ROOT / path).is_file(), path
-    return dict(layout="Elsevier 5p two-column", main_sections=len(sections), references=len(bib), abstract_words=abstract_words,
+    return dict(layout="Geo-I reference-inspired two-column, 9 pt", main_sections=len(sections), references=len(bib), abstract_words=abstract_words,
                 highlight_characters=list(map(len, highlights)),
                 all_inputs_figures_references_resolve=True, authors=list(AUTHORS),
-                author_order_verified=True)
+                author_order_verified=True, scientific_content_preserved=True,
+                protected_scientific_files=len(layout["protected_scientific_files_sha256"]))
 
 
 def validate():

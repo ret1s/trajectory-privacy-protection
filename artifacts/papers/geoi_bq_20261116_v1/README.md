@@ -1,11 +1,11 @@
 # GeoI-BQ English paper — author-review package
 
-- [Main manuscript](manuscript.pdf): 6 pages in compact two-column layout, including references.
+- [Main manuscript](manuscript.pdf): 6 pages in a compact two-column layout inspired by the original Geo-I paper, including references.
 - [Supplementary material](supplement.pdf): 15 single-column pages, including detailed specifications/proofs, full CIs, selected attackers, costs and extended scenario results.
 - [Flat editable LaTeX package](latex_sources.zip): both documents and all required source figures/inputs.
 - [Build receipt](build.json), [structural/evidence checks](validation.json), and [visual QA receipt](visual_qa.json).
 
-The paper is separate from the Vietnamese thesis. Its five main sections cover motivation, recent related work, the GeoI-BQ specification and analysis, controlled experiments, and conclusions. The main text has been condensed and utility/cost results merged into one table. Author order is Hanh Ngo-Minh first, followed by Phan Trong Nhan; affiliations and corresponding-author details remain pending.
+The paper is separate from the Vietnamese thesis. Its five main sections cover motivation, recent related work, the GeoI-BQ specification and analysis, controlled experiments, and conclusions. The current visual revision changes typography, title/abstract placement, headings, captions and diagram palette; it preserves 38 scientific source/figure files byte-for-byte. Author order is Hanh Ngo-Minh first, followed by Phan Trong Nhan; affiliations and corresponding-author details remain pending.
 
 The article preserves GeoI-BQ v1, the six-arm paper-adaptation comparison, all 120 retained TEST draws, negative controls and explicit limitations. No defense or attacker was rerun to write the paper. Full-reference access and the stronger public-base control remain central qualifications of the application/utility claim.
 

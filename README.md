@@ -2,7 +2,7 @@
 
 The separate [English paper manuscript](paper/README.md) distills the frozen
 GeoI-BQ method, transcript/utility analysis and six-arm controlled comparison
-into a compact two-column Elsevier-format author-review article with supplementary material.
+into a compact two-column author-review article styled after the original Geo-I paper, with supplementary material.
 Author order is confirmed; affiliations and contact details remain pending. This is not a journal submission.
 
 The [consolidated thesis (argument revision 16/11)](thesis/README.md) follows the agreed five-chapter

@@ -1,0 +1,84 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{geoipaper}[2026/11/16 Geo-I reference-inspired review layout]
+\RequirePackage[letterpaper,left=.75in,right=.75in,top=.75in,
+ textheight=9.25in,columnsep=.3in]{geometry}
+\RequirePackage{times}
+\RequirePackage{helvet}
+\RequirePackage{titlesec}
+\RequirePackage{caption}
+\RequirePackage{indentfirst}
+\RequirePackage{flushend}
+\RequirePackage{etoolbox}
+
+% Visual reference: https://arxiv.org/pdf/1212.1984.
+% Typography and layout only; no publisher banner, rights block or venue claim.
+\let\paperoriginalnormalsize\normalsize
+\renewcommand{\normalsize}{\paperoriginalnormalsize\fontsize{9}{10.5}\selectfont}
+\normalsize
+\setlength{\parindent}{9pt}
+\setlength{\parskip}{0pt}
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+\setlength{\emergencystretch}{1.5em}
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.06}
+% Keep wide tables at 8 pt rather than extarticle's 7 pt footnote size.
+\let\footnotesize\small
+\setlist{nosep,leftmargin=*}
+\titleformat{\section}
+ {\raggedright\hyphenpenalty10000\exhyphenpenalty10000\normalfont\bfseries\fontsize{12}{14}\selectfont}
+ {\thesection.}{.7em}{\MakeUppercase}
+\titleformat{\subsection}
+ {\raggedright\hyphenpenalty10000\exhyphenpenalty10000\normalfont\bfseries\fontsize{12}{14}\selectfont}
+ {\thesubsection}{.65em}{}
+\titleformat{\subsubsection}
+ {\raggedright\hyphenpenalty10000\exhyphenpenalty10000\normalfont\itshape\fontsize{11}{12.5}\selectfont}
+ {\thesubsubsection}{.65em}{}
+\titlespacing*{\section}{0pt}{11pt plus 2pt minus 1pt}{4pt}
+\titlespacing*{\subsection}{0pt}{9pt plus 1pt minus 1pt}{3pt}
+\titlespacing*{\subsubsection}{0pt}{7pt}{2pt}
+\captionsetup{font=normalsize,labelfont=bf,textfont=bf,labelsep=colon,skip=6pt}
+\newtheoremstyle{paperstatement}{6pt}{6pt}{\itshape}{9pt}
+ {\scshape}{.}{.5em}{}
+\theoremstyle{paperstatement}
+
+\newcommand{\paperfrontheading}[1]{\par\addvspace{9pt}%
+ {\noindent\normalfont\bfseries\fontsize{12}{14}\selectfont #1\par}\nobreak\vspace{4pt}}
+\renewenvironment{abstract}{\paperfrontheading{ABSTRACT}\noindent\ignorespaces}
+ {\par\smallskip}
+\newenvironment{keyword}{\paperfrontheading{Keywords}\noindent\ignorespaces}
+ {\par\smallskip}
+\newcommand{\sep}{\unskip;\space\ignorespaces}
+
+\makeatletter
+\renewcommand{\@maketitle}{%
+ \newpage\null\vskip6pt
+ \begin{center}
+ \parbox{.94\textwidth}{\centering\sffamily\bfseries\fontsize{18}{20}\selectfont\@title}\par
+ \vskip18pt
+ {\sffamily\fontsize{12}{14}\selectfont
+  \def\and{\end{minipage}\hfill
+    \begin{minipage}[t]{.48\textwidth}\centering}%
+  \begin{minipage}[t]{.48\textwidth}\centering
+   \@author
+  \end{minipage}\par}
+ \vskip12pt
+ \end{center}\par
+}
+\makeatother
+\apptocmd{\thebibliography}{\raggedright\setlength{\itemsep}{2pt}}{}{}
+
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\dblfloatsep}{8pt plus 2pt minus 2pt}
+\renewcommand{\topfraction}{.95}
+\renewcommand{\dbltopfraction}{.95}
+\renewcommand{\textfraction}{.04}
+\renewcommand{\floatpagefraction}{.8}
+\setcounter{topnumber}{5}
+\setcounter{dbltopnumber}{5}
+\setcounter{totalnumber}{5}
+\raggedbottom
+\pagestyle{plain}

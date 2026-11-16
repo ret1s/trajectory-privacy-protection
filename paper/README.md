@@ -2,7 +2,9 @@
 
 This is a compact, two-column English author-review paper, distilled from the current thesis and frozen GeoI-BQ v1 evidence. It provisionally targets a regular research article in the Journal of Information Security and Applications (JISA). It has not been submitted.
 
-The main article uses Elsevier's 5p two-column layout. It keeps the mechanism, four privacy propositions, end-to-end bound, principal utility properties and six-arm results. Detailed specifications, full proofs, confidence intervals, selected attackers and extra metrics are in the single-column supplement. Utility and acquisition costs share one main table; repeated explanations have been removed.
+The main article's visual style follows the [original Geo-I paper](https://arxiv.org/pdf/1212.1984): US Letter, two columns, 9 pt Times text, a bold sans-serif title, separate author blocks, a left-column abstract, bold numbered headings and bold captions. This is a reference-inspired review layout, not an assertion of ACM publication or current JISA template compliance.
+
+The layout revision preserves the scientific text, equations, captions, figures and result values. [layout_reference.json](layout_reference.json) records the visual reference and 38 unchanged-content hashes. Detailed specifications, full proofs, confidence intervals, selected attackers and extra metrics remain in the single-column supplement. Utility and acquisition costs share one main table.
 
 - Main source: [main.tex](main.tex).
 - Full proofs, CIs, selected attackers and extended tasks: [supplement.tex](supplement.tex).
@@ -24,7 +26,7 @@ The user confirmed author order: **Hanh Ngo-Minh** (first author), followed by *
 
 ## Rebuild inside the research repository
 
-The exporter requires the repository's normal scientific Python environment. Tectonic supplies the official Elsevier class and standard TeX packages.
+The exporter requires the repository's normal scientific Python environment. Tectonic supplies standard TeX packages; the flat source package includes the custom visual style [geoipaper.sty](geoipaper.sty).
 
     python experiments/export_english_paper_20261116.py --check
     python experiments/build_english_paper_20261116.py --tectonic /path/to/tectonic

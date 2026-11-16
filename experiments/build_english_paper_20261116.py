@@ -16,7 +16,7 @@ BUILD = ROOT / "build/paper/current"
 
 
 def source_files():
-    return sorted(p for p in PAPER.iterdir() if p.suffix in (".tex", ".pdf", ".txt", ".md", ".json"))
+    return sorted(p for p in PAPER.iterdir() if p.suffix in (".tex", ".sty", ".pdf", ".txt", ".md", ".json"))
 
 
 def make_archive(path):

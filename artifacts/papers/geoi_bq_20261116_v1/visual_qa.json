@@ -2,34 +2,34 @@
   "schema": "english-paper-visual-qa-v1",
   "status": "pass",
   "date": "2026-11-16",
-  "layout": "Elsevier 5p two-column compact main; single-column supplement",
+  "layout": "Geo-I reference-inspired: US Letter, 9 pt Times, 18 pt bold sans-serif title, left-column abstract, two columns",
   "renderer": "Poppler pdftoppm 26.05.0",
-  "review": "Both updated title pages visually inspected: Hanh Ngo-Minh first, Phan Trong Nhan second. All other 19 page renders are pixel-identical to the previously inspected compact layout.",
+  "review": "All six final main pages visually inspected against the supplied reference. Typography, title/author blocks, abstract placement, headings, captions, diagrams and reference balancing reviewed. All fifteen supplementary renders are pixel-identical to previously inspected pages.",
   "reviewer": "Codex visual inspection; author scientific review remains pending",
   "checks": [
-    "Legible two-column text and mathematical statements",
     "No clipping, missing glyphs or overlapping labels observed",
-    "Wide diagrams/tables fit the article",
-    "Proofs, CIs and detailed configurations retained in supplement",
-    "Captions, citations and continuation headers checked",
-    "Requested author order verified on both title pages and in PDF metadata"
+    "Reference-inspired typography and left-column abstract verified",
+    "Two-column mathematical text and wide tables/figures legible",
+    "Final reference columns balanced",
+    "Author order and PDF metadata retained",
+    "38 scientific source/figure hashes and main scientific input tail unchanged"
   ],
   "pdfs": {
     "manuscript.pdf": {
-      "sha256": "b36a9337d7939b5622596dc2d1e7a440e1a3e21f7057bc750a37e00aa3f8532c",
+      "sha256": "05f03f87fe94f0ae4dcd5c689688ee6774ea8d82c73bdc35693a8abb60268f59",
       "pages_inspected": 6,
-      "dpi": 115,
+      "dpi": 125,
       "page_render_sha256": {
-        "1": "14dba571182808666da80a03c713e7df8c9dcd6da4ce193efb75993885569803",
-        "2": "971e8c1d16ee4ce2b039e246a937c3ce9ec6b0e29f56f0b5d262d2ad77db8315",
-        "3": "edaa324262335d7d5e8cf44d92b6c9f351710916ceb49fdb660514e79e38d99d",
-        "4": "f758416e74401edda1a17002914700484c1c032ad79452b593d91ef178783cb8",
-        "5": "4b97e2b867ced63f782846a3411dcb61da0dbcae8f5c1e82e23d202987696b44",
-        "6": "205b9df88cd47b407a419ac519bb330fedf58b457437b1c11b59c91c6c32993d"
+        "1": "f3ac8095486facbf47db6defceaafbd36e3f01ac5efdaf1c0a408bd2671f2753",
+        "2": "25f7cae09f6b249f2b37a2ff7f293e203415ad8b5099023e5df5d174f9a0aeb5",
+        "3": "d43c16890a8c8cf45ee6acf655be5547d61c9d448c52074c45b764d3edc4e280",
+        "4": "0d3e74215ba69a2f6d63fac25db5aa15ddf2a158a8667ea1864ccbce558437c6",
+        "5": "3f05db6da2eded232aaee5e1cf29c8c13b0c2a0ee165973af2d24979b355391f",
+        "6": "3766add7a725df29ed7872cbea7e93297ade19eb7594fcf1dcf9649562dee017"
       }
     },
     "supplement.pdf": {
-      "sha256": "a51626d8614c130d04406133b1ddc25db69d65ac6d82665c00ce24d3029ec524",
+      "sha256": "373ea4ca214463c43aec776a6bfce7b0bf133bb78fb135b501fbcc727059bf88",
       "pages_inspected": 15,
       "dpi": 100,
       "page_render_sha256": {
@@ -54,5 +54,38 @@
   "authors": [
     "Hanh Ngo-Minh",
     "Phan Trong Nhan"
+  ],
+  "reference_visual_style_url": "https://arxiv.org/pdf/1212.1984",
+  "scientific_content_files_unchanged": 38,
+  "main_page_size_pt": [
+    612,
+    792
+  ],
+  "main_first_page_font_metrics": [
+    {
+      "font": "NimbusRomNo9L-Regu",
+      "size_pt": 8.97,
+      "characters": 4918
+    },
+    {
+      "font": "NimbusRomNo9L-Medi",
+      "size_pt": 11.96,
+      "characters": 93
+    },
+    {
+      "font": "NimbusSanL-Bold",
+      "size_pt": 17.93,
+      "characters": 63
+    },
+    {
+      "font": "NimbusSanL-Regu",
+      "size_pt": 11.96,
+      "characters": 25
+    },
+    {
+      "font": "CMMI9",
+      "size_pt": 8.97,
+      "characters": 6
+    }
   ]
 }

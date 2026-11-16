@@ -6,7 +6,7 @@ Status on 16 November 2026: English content and source package for author review
 
 The provisional target remains a regular research article in **Journal of Information Security and Applications**, as discussed with the supervisor. The historical 2022 special issue is not treated as an open call.
 
-The main manuscript uses Elsevier's official `elsarticle` class in compact 5p two-column layout, with numbered citations. The supplement retains a single-column proof/table layout. The flat source package follows Elsevier's general guidance for LaTeX source files. These are generic preparation choices, not confirmation of every current JISA requirement.
+At the user's request, the review manuscript visually follows [the original Geo-I paper](https://arxiv.org/pdf/1212.1984): compact two-column US Letter pages, 9 pt Times body text, a bold sans-serif title and a left-column abstract. The custom `geoipaper.sty` contains these presentation choices; scientific content is unchanged. The supplement retains a single-column proof/table layout. The flat source package follows the general source-packaging guidance below. This visual reference does not change the provisional JISA target or assert journal-template compliance.
 
 - [Elsevier LaTeX instructions](https://www.elsevier.com/researcher/author/policies-and-guidelines/latex-instructions), consulted 16 November 2026.
 - [JISA Guide for Authors](https://www.sciencedirect.com/journal/journal-of-information-security-and-applications/publish/guide-for-authors), attempted 16 November 2026: access returned HTTP 403.
