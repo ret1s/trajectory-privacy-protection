@@ -27,11 +27,9 @@ Giảng viên hướng dẫn: & TS. Phan Trọng Nhân
 
 \chapter*{Tóm tắt}
 \addcontentsline{toc}{chapter}{Tóm tắt}
-Dịch vụ dựa trên vị trí cần thông tin không gian để trả lời người dùng, trong khi chuỗi yêu cầu
-có thể cho phép nhà cung cấp suy luận vị trí, đường đi và những thông tin liên quan. Bảo đảm cho một
-điểm riêng lẻ chưa mô tả được lượng thông tin tích lũy qua cả phiên. Việc đánh giá cũng gặp khó khăn
-khi các nghiên cứu dùng tọa độ thay thế, tập chứa điểm thật/dummy hoặc dữ liệu trajectory offline với
-những attacker và metrics khác nhau.
+Chuỗi yêu cầu LBS có thể cho phép nhà cung cấp suy luận vị trí và đường đi. Bảo đảm một điểm chưa
+mô tả lượng thông tin tích lũy cả phiên; việc đối chiếu nghiên cứu còn khó do output, attacker,
+dữ liệu và metrics khác nhau.
 
 Luận văn hệ thống hóa các mục tiêu thành S1--S10 và đề xuất phương pháp GeoI-BQ v1 dựa trên
 Geo-indistinguishability. Thiết bị dùng REM và noisy reuse để duy trì điểm tham chiếu Z trên mạng đường,
@@ -46,16 +44,19 @@ cache tại cùng nhu cầu và cận so với chính sách nền phù hợp; ch
 về proxy, belief và provider. Kernel lý tưởng được phân biệt với sampler số thực và khả năng phục hồi
 trạng thái của prototype chưa được chứng nhận đầy đủ.
 
+Phần bổ sung nối cận transcript với Hit theo độ tập trung prior, hợp thành nhiều kênh và minh hoạ
+utility bằng ví dụ hữu tỷ. Prototype dùng public reference đầy đủ khớp provider tĩnh; phép đo
+đánh giá ứng viên thực nhận, chưa chứng minh sự cần thiết của online queries khi catalogue đã có.
+
 Thực nghiệm đối chiếu với ba adaptation đã audit từ paper, kèm Raw GPS và REM-Z, trên cùng cohort
 48 family tổng hợp. Các attacker học trên TRAIN, chọn trên SELECTION và đánh giá trên TEST; CI tính
 theo nhóm phụ thuộc. GeoI-BQ đạt macro session Recall@5 \PrimaryRecall\%, CI95\% \PrimaryCI\%, thấp hơn các adaptation khoảng 0,4 điểm phần trăm, đồng thời có Hit100 thấp hơn trong các phép thử
 S1--S3/S9--S10 của bank đang xét. Phương pháp sử dụng 155 truy vấn tọa độ mỗi phiên 600 giây.
 
-Đánh giá bổ sung đo liên kết phiên theo nhóm tuyến S4, dự đoán hai lựa chọn tương lai S5/S6,
-tính bất biến payload S7 và hai kênh tương quan S8. Kết quả giữ cả trường hợp Raw thiếu tín hiệu,
-attacker fusion mạnh hơn và side information Raw làm lộ target. Các số liệu này không được đổi tên
-thành bảo vệ danh tính người/xe thật hoặc đồng hành thực tế. Đóng góp là thiết kế và phân tích có điều
-kiện cho toàn transcript, cùng protocol đối chiếu tái lập về privacy--utility--cost.
+Đánh giá bổ sung xét nhóm tuyến S4, hai lựa chọn tương lai S5/S6, payload S7 và kênh tương quan S8;
+giữ cả Raw thiếu tín hiệu, attacker fusion mạnh hơn và giới hạn do Raw side information. Đóng góp
+là thiết kế/phân tích có điều kiện cho transcript và protocol privacy--utility--cost tái lập;
+chưa chứng nhận deployment hoặc danh tính người/xe.
 
 \noindent\textbf{Từ khóa:} trajectory privacy, Geo-indistinguishability, REM, truy vấn liên tục,
 POI, hợp thành, đánh giá đối chứng.
@@ -87,6 +88,12 @@ Results retain weak positive controls and stronger fusion attacks rather than cl
 scenario coverage. The contributions are a scoped full-transcript mechanism and analysis, and a
 reproducible privacy--utility--cost evaluation; they do not certify the prototype as a complete
 deployment or establish real-person/vehicle anonymity.
+
+Additional corollaries connect the transcript bound to arbitrary-estimator localization through
+prior concentration and to conditional multi-channel composition. Exact finite examples clarify
+utility transfer. The prototype uses a complete public reference matching its static provider;
+its received-candidate evaluation does not establish the necessity of online queries when that
+catalogue is already locally available, or service quality after the Geo-I cap prevents new reads.
 
 \clearpage
 \begingroup\small\setstretch{1.05}\setlength{\parskip}{0pt}\tableofcontents\endgroup

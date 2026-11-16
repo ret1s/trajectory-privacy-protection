@@ -27,16 +27,42 @@ upstream theo pacing tối thiểu 60 s và cap. Vì vậy ít protected reads k
 chỉ bật GNSS từng ấy lần, cũng không chứng minh tiết kiệm pin. Đây là ranh giới giữa quan sát
 của server và nhu cầu local, không phải một thí nghiệm năng lượng.
 
-\subsection{Ablation public base và thích nghi theo belief}
+\subsection{Ablation public base và thích nghi theo belief}\label{sec:belief-attribution}
 Bảng ablation nội bộ ngày 14/10 giữ cùng frozen release ở Phụ lục~\ref{app:support}. Matched public
 base $\Gamma=0$ đạt macro 99,711\%, cao hơn GeoI-BQ $\Gamma=1$ là 99,595\% trên workload này.
 Service-cover đạt 100\% nhưng là control retrieval nội bộ, không phải một paper đối chứng.
+
+Readout nguồn ghi chênh lệch primary trừ public base là khoảng $-0{,}116$ điểm phần trăm, CI95\%
+$[-0{,}253;-0{,}006]$. Khoảng này hỗ trợ chiều bất lợi cho adaptation trên cohort đang xét; nó
+không là kết luận public base luôn tốt hơn trên mọi workload. Public base cần được xem là control
+để kiểm tra sự cần thiết của thích nghi, không chỉ là một hàng giải thích phụ.
 
 Kết quả đó phù hợp với định lý utility: gain score không bắt buộc actual Recall gain. $\Gamma=0$
 loại private adaptation của Q khi context cố định; vì thế nó cũng có Q-channel independence mạnh
 hơn. Cohort này \textbf{chưa chứng minh belief adaptation cần thiết hoặc $\Gamma=1$ tối ưu}.
 Thiết kế đề xuất cho phép bounded adaptation có accounting, còn giá trị thực tế của adaptation
 trong catalogue lớn/động cần được xác nhận. Không thay baseline sau khi nhìn TEST để che kết quả này.
+
+\subsection{Audit saturation và miền vận hành chưa được kiểm tra}\label{sec:argument-audit}
+Một audit read-only sau review đối chiếu lại toàn bộ masks và ledger của 120 TEST draws, xác thực
+108 frozen pins và các source receipts. Nó không sinh GPS/Q, fit attacker, đổi cấu hình hoặc
+ghi lại main benchmark. Kết quả trong Bảng~\ref{tab:argument-audit} cho thấy ngay packet đầu đã
+nhận trung bình khoảng 91\% catalogue, cuối phiên khoảng 99,49\%. Recall gần bão hoà vì vậy chưa
+phân biệt rõ giá trị riêng của belief với một public-cover policy.
+
+\input{../artifacts/analysis/thesis_arguments_20261116_v1/argument_audit}
+
+Trong các ledger đã lưu, private reads đều là 11, tổng chi phí cuối nằm trong 13--21 đơn vị;
+không lần chạy nào chạm cap 23. Privacy composition áp được cho thời lượng dài dưới giả thiết,
+nhưng utility thực nghiệm mới được xác nhận ở cửa sổ 600 s còn cập nhật được upstream. Chế độ
+ngừng private reads vì cap, cũng như adaptation Q rất muộn, chưa được kiểm tra bởi trial chính.
+Một diagnostic dài hạn cần giữ nguyên cấu hình và báo chất lượng trước/sau cap; luận văn không
+dùng khả năng tiếp tục phát Q để suy ra chất lượng cao vô thời hạn.
+
+Control thông tin ở Mệnh đề~\ref{prop:offline-information} là một hệ quả của quyền truy cập
+dữ liệu, không là một arm mới được chạy. Nó cho Recall bằng 1 cho reference có định nghĩa nếu
+client thực sự biết và được sử dụng toàn catalogue hợp lệ. Chi phí acquisition/setup/refresh
+chưa đo, nên không gán cost bằng 0 cho toàn hệ thống hoặc so trực tiếp với bytes của trial.
 
 \section{Discussion -- Độ tin cậy và phạm vi kết luận}\label{sec:discussion}
 \subsection{Mối quan hệ giữa chứng minh và benchmark}
@@ -76,6 +102,14 @@ cho Recall gần 100\%, không chỉ là đặc tính của planner. Nếu API c
 lần với cost chấp nhận được, client có thể giảm nhu cầu periodic coordinate queries; lợi thế của
 planner khi đó phải được đánh giá lại theo chính contract đó. Không ghép số từ một diagnostic bulk
 khác cohort/cấu hình vào bảng chính để chứng minh ưu thế.
+
+Vấn đề còn nằm ở quyền truy cập của prototype: public reference/reply được nạp đầy đủ để lập
+kế hoạch và xếp hạng, không chỉ ở giả thuyết provider có một API bulk. Phân vai ở
+Mục~\ref{sec:data-access} phải được giữ khi diễn giải: trial hiện kiểm tra acquisition theo
+received-mask trong một thế giới tham chiếu biết trước. Muốn chứng minh giá trị của truy vấn
+online, cần tách proxy offline khỏi metadata hiện hành thật sự chưa có ở thiết bị và đo đúng
+contract mới. Không thể dùng một nhu cầu dữ liệu live chưa được đánh giá để giải thích hồi tố
+toàn bộ lợi ích của static benchmark.
 
 Privacy MAE lớn cũng phụ thuộc public library rộng so với route workload. Công bố sự khác nhau này
 giúp phân biệt guard lý thuyết với lợi ích do geometry hiện tại. Một nghiên cứu tiếp theo cần catalogue

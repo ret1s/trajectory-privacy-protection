@@ -80,11 +80,15 @@ bản đồ công khai. URL giữ sample, draw, phương pháp và mốc để m
 
 ## Nguồn và tái lập
 
+Demo giữ PDF snapshot 09/11 ở `artifacts/reports/archive/graduation_thesis_20261109.pdf`;
+luận văn canonical hiện có revision lập luận 16/11. Phát lại 11/11 vẫn là bằng chứng lịch sử,
+không được hiểu là chứa các hệ quả và audit bổ sung mới.
+
 Main benchmark: `artifacts/benchmarks/paper_comparison_20261028_v1/`.
 GeoI-BQ ledger/diagnostics:
 `artifacts/benchmarks/main_depth_20261014_v1/`.
 Bổ sung S4–S8: `remaining_scenarios_20261109_v1` và
-`s8_fusion_20261109_v2`. PDF là bản canonical trong `artifacts/reports/`.
+`s8_fusion_20261109_v2`. PDF giữ snapshot lịch sử như đã nêu ở trên.
 Hash nguồn và mọi tệp bundle nằm trong `manifest.json`.
 
 Runtime server kiểm tra hash bundle trước khi phục vụ. Exporter kiểm tra

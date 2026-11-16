@@ -187,9 +187,11 @@ Service replay dùng shared warm cache và thứ tự chạy; không dùng nó �
 Byte chỉ gồm request/reply-index JSON, chưa gồm metadata POI đầy đủ, HTTP/TLS, mạng hay năng lượng thiết bị.
 
 
-\subsection{Metrics gốc: giữ đúng hợp đồng}
+\subsection{Metrics gốc và proxy: giữ đúng hợp đồng}
 \input{generated/native}
-EIE cho point estimator ở S3 chính là MAE, không tạo thêm một kết quả độc lập. Với output singleton,
+Sai số point estimator S3 trong bảng có cùng dạng kỳ vọng khoảng cách với EIE, nhưng là MAE
+của attacker bank trong luận văn; chưa tái lập VehiTrack EIE của TransProtect. Vì vậy không đổi
+nhãn nó thành một phép kiểm tra native attacker đã hoàn tất. Với output singleton,
 Eq.13 travel-cost distortion của TransProtect được đo bằng
 \[
 \Delta c=\sum_{d}\pi(d)\,|c(x,d)-c(y,d)|,
@@ -202,3 +204,15 @@ nên Eq.13 là N/A; không lấy centroid hoặc chọn Q gần GPS thật để
 ASR cần posterior calibrated trên real-member theo định nghĩa paper; DER cần hàm similarity và threshold
 tương ứng; indistinguishable-path count cần bộ kiểm tra path đúng contract nguồn. Hiện chưa đủ đầu vào
 để tính các metric này một cách đối chiếu được, vì vậy giữ N/A kèm lý do thay vì đổi tên Hit100 thành ASR.
+
+Cần phân biệt bốn trạng thái: \emph{metric gốc áp dụng được trong adaptation} (Eq.13 trên singleton,
+với local target/prior đã nêu); \emph{proxy theo cùng tác vụ} (MAE S3); \emph{chưa tái lập} (posterior,
+similarity hoặc source-compatible attacker còn thiếu); và \emph{không áp dụng} (chọn real member khi
+Q không bắt buộc chứa GPS thật). Hai trạng thái cuối có thể cùng hiển thị N/A ở bảng, nhưng không
+có cùng lý do. Native-metric coverage hiện chưa đủ để kết luận superiority theo mọi tiêu chí của
+các paper gốc.
+
+Một metric service-cost regret trên đáp án cuối có thể bổ sung Recall: với cùng request và cost
+nhỏ hơn là tốt hơn, so cost của POI phù hợp tốt nhất thực nhận với POI tối ưu trong catalogue.
+Đáp án rỗng phải giữ failure/missing riêng. Đây sẽ là một metric theo tác vụ, không được gọi nguyên
+Eq.13 của released singleton. Bản hiện tại chưa báo số regret chưa được chạy.

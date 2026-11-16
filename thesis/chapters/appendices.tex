@@ -71,6 +71,12 @@ Exporter của luận văn xác thực các source hashes, xuất bảng/hình v
 Các foundations cũ được dẫn riêng; literature evidence giữ cửa sổ khảo sát 28/10/2023--28/10/2026.
 Không cập nhật trạng thái công bố một preprint sau mốc khảo sát mà không audit nguồn mới.
 
+Revision lập luận 16/11 giữ nguyên các benchmark trên và bổ sung
+\path{artifacts/analysis/thesis_arguments_20261116_v1/}: audit masks, ledger, aggregation và control
+thông tin offline có điều kiện. Module \path{evaluation/argument_bounds_20261116.py} duyệt ví dụ
+hữu tỷ cho posterior events, tập suy luận do estimator chọn, joint channels và utility. Receipt
+mới không ghi đè certificate toán học 14/10 hoặc validation luận văn 09/11.
+
 \section{Coverage và failure trong so sánh chính}
 Mỗi arm hoàn tất 120/120 TEST trip-draws. Coverage dưới đây chỉ là trạng thái thực thi của trial,
 không là phần trăm các mục tiêu privacy đã được giải quyết. Runtime failure và target N/A có ý
@@ -86,6 +92,13 @@ python -m experiments.verify\_remaining\_scenarios\_20261109\\
 python -m experiments.check\_s8\_fusion\_20261109\\
 python -m experiments.verify\_geoi\_bq\_mathematics\_20261014 --check\\
 python -m experiments.export\_thesis\_consolidated\_20261109 --check
+\end{quote}
+Kiểm chứng revision hiện tại:
+\begin{quote}\small\ttfamily\raggedright
+python -m experiments.audit\_thesis\_arguments\_20261116 --check\\
+python -m evaluation.argument\_bounds\_20261116\\
+python -m unittest tests.test\_argument\_bounds\_20261116\\
+python -m unittest tests.test\_thesis\_argument\_audit\_20261116
 \end{quote}
 Để xuất lại bảng/hình, bỏ \texttt{--check} ở exporter cuối; không bỏ check bằng cách gọi runner
 sinh benchmark. Sau đó, từ \path{thesis/}:

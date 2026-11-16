@@ -141,6 +141,46 @@ có điều kiện theo $\tau,\nu$ hoặc $\eta$; (iii) ước lượng thực n
 Recall cao trên dữ liệu SUMO thuộc mức (iii) đối với triển khai thực địa. Không mặc định calibration
 error bằng không chỉ vì belief được viết theo công thức Bayes.
 
+\subsection{Ví dụ hữu hạn có cận utility không rỗng}
+Một ví dụ có số giúp phân biệt điều đã chứng nhận trên miền nhỏ với tham số chưa biết của người dùng
+thật. Trước hết, xét hai action ở cùng history, $w=(1/2,1/2)$, $z=(1,0)$ và
+$\varepsilon_Q=1/2$. Khi đó $\alpha=1/5$, $p=(0{,}55;0{,}45)$. Nếu actual rewards trên miền toy đã
+biết là $r=(0{,}9;0{,}6)$, ta tính trực tiếp
+\[
+\E_wr=0{,}75,\qquad \E_pr=0{,}765,\qquad \E_pr-\E_wr=0{,}015.
+\]
+Với proxy $v=(0{,}86;0{,}62)$, sai số đồng đều $\eta=0{,}04$ được duyệt và xác nhận trên đúng hai
+action. Ta có $\Cov_w(z,v)=0{,}06$, $\E_w|z-\mu|=0{,}5$, nên \eqref{eq:calibrated-gain} cho gain
+ít nhất $0{,}2(0{,}06-0{,}04\times0{,}5)=0{,}008>0$. Đây là trường hợp một điều kiện calibration
+đã biết thực sự cho cận actual gain dương. Đổi rewards thành $(0{,}4;0{,}9)$ trong khi giữ nguyên
+$z,w,p$ lại cho gain $-0{,}025$: gain score dương không đủ thay cho điều kiện về actual reward.
+
+Tiếp theo, xét một history cố định và ba case trong miền public hữu hạn. Cho
+\[
+\rho=(0{,}50;0{,}30;0{,}20),\quad
+\widehat r=(0{,}91;0{,}90;0{,}89),\quad
+\lambda=(0{,}47;0{,}30;0{,}23),\quad
+r=\widehat r-0{,}02.
+\]
+Ở ví dụ toy này, các bảng và hai laws đều được cho đầy đủ. Duyệt hết cho
+$\E_\rho\widehat r=0{,}903\ge c=0{,}90$,
+$\TV(\lambda,\rho)=\tau=0{,}03$ và
+$\E_\lambda|r-\widehat r|=\nu=0{,}02$. Do đó \eqref{eq:floor-transfer} cho
+\begin{equation}
+\E_\lambda r\ge0{,}90-0{,}03-0{,}02=0{,}85;
+\qquad \text{giá trị duyệt trực tiếp là }0{,}8824.
+\label{eq:finite-floor-example}
+\end{equation}
+Cận 85\% là không rỗng vì mọi giả thiết số đều kiểm tra được trên chính miền ví dụ. Nó không là
+chứng chỉ Recall 85\% cho SUMO hoặc người dùng thực. Trong trial thực, các sai số $\tau,\nu,\eta$
+chưa được chứng nhận, nên giữ nguyên trạng thái chưa biết. Tương tự, cận 5,53 điểm phần trăm ở
+Định lý~\ref{thm:utility-session} là cận \emph{sai khác so matched public base}, không cung cấp một
+mức Recall tuyệt đối nếu utility của base chưa được bảo đảm.
+
+Các phép tính dùng phân số chính xác trong \path{evaluation/argument_bounds_20261116.py}, gồm
+cả phản ví dụ gain actual âm. Oracle hữu hạn kiểm tra ví dụ/đại số, không thay thế chứng minh tổng
+quát, không chạy lại defense và không nâng cấp calibration thực địa thành giả thiết đã chứng nhận.
+
 \subsection{S7: request giữ tại local và điều không được suy rộng}
 Nếu đổi $\psi$ nhưng giữ GPS, context, randomness, Q và provider law như nhau, request wrapper
 gửi cùng mọi category và cùng response depth. Planner không dùng $\psi$. Do đó wire distribution
@@ -161,6 +201,10 @@ Reuse/cap, MĐ~\ref{prop:reuse} & Test riêng tư; dự toán trước GPS; rest
 Noisy reuse và ledger upstream; kiểm tra mọi prefix/nhánh trên graph nhỏ. Full upstream restart cần caller bảo đảm.\\
 Đoạn Q, MĐ~\ref{prop:q} & Common library/masses; score chặn; bit đều mới &
 \path{benchmark/finite_query_kernel.py}; integer weights, support/path checks. PRNG mô phỏng không thay chứng chỉ randomness.\\
+Hit theo prior, HQ~\ref{cor:hit-prior} & Prior/side information hợp lệ; channel cùng context &
+Cận estimator bất kỳ và trung bình nhiều ticks. Độ tập trung prior thực chưa được chứng nhận.\\
+Joint channels, HQ~\ref{cor:joint-channels} & Cận đúng tại mọi conditional prefix; randomness phù hợp &
+Nhân các cận, không đòi private inputs độc lập. Raw partner không có finite guard tương ứng.\\
 Cả phiên, MĐ~\ref{prop:segments} & Commit, counter bền vững, public clock/provider &
 Ledger theo phiên; retry/khung sau dùng đoạn cũ. Restart không nhận thêm allowance; nhiều phiên phải hợp thành riêng.\\
 Gain, ĐL~\ref{thm:gain} & So tại cùng trạng thái; proxy calibration nếu nói actual gain &

@@ -1,5 +1,5 @@
 \section{Privacy analysis -- Bảo đảm cho toàn transcript}\label{sec:privacy}
-Phân tích gồm bốn mệnh đề có vai trò khác nhau. Mệnh đề thứ nhất bảo vệ một lần tạo Z; mệnh đề thứ
+Phân tích gồm bốn mệnh đề privacy chính. Mệnh đề thứ nhất bảo vệ một lần tạo Z; mệnh đề thứ
 hai đưa các lần kiểm tra/cập nhật vào cùng sổ chi phí. Mệnh đề thứ ba giới hạn mức điều chỉnh riêng
 của một đoạn Q; mệnh đề thứ tư hợp thành các đoạn. Sau cùng, định lý hậu xử lý nối hai nhánh vào
 chính transcript mà server nhìn thấy. Các định lý xác suất là phát biểu về kernel lý tưởng dưới
@@ -258,6 +258,107 @@ S4 (liên kết danh tính), S5 (cạnh tương lai) và S6 (đích tương lai)
 mô hình target vừa nêu. Nó không chứng minh k-anonymity của người/xe, không xóa account hoặc biển
 số công khai, và không áp dụng nguyên xi khi tương lai bị Q gây ra. Đối với hai phiên được quan sát
 chung, phải composition các kênh tương ứng; một cận một phiên không tự là cận joint hai phiên.
+
+\subsection{Nối cận transcript với xác suất định vị trong bán kính}
+Cận posterior có thể được nối với chính mục tiêu Hit100, thay vì chỉ minh họa bằng hai giả thuyết.
+Giữ cùng context $C$, gồm mọi side information đang cho attacker, và một prior hợp lệ của $X$.
+Ở đây $X_t$ là vị trí thật tại clock $t$, còn $\widehat x_t(O_n)$ là một estimator bất kỳ chỉ dùng
+transcript và $C$. Với $r\ge0$, định nghĩa độ tập trung của prior:
+\begin{equation}
+\pi_{\max,t}(r\mid C)=\sup_y\Pr\{\|X_t-y\|_2\le r\mid C\}.
+\label{eq:prior-concentration}
+\end{equation}
+Đại lượng này mô tả mức dễ đoán đã có trước khi nhìn transcript. Nó không được đặt bằng $1/K$
+chỉ vì một frame có $K$ điểm Q; các Q không phải các giả thuyết GPS có prior bằng nhau.
+
+\begin{corollary}[Cận Hit theo prior cho estimator bất kỳ]\label{cor:hit-prior}
+Giả sử cùng conditional channel thỏa cận tỷ số $R\ge1$ cho mọi cặp trajectories thuộc miền prior,
+như Mệnh đề~\ref{prop:segments}. Trên output hữu hạn/đếm được, hoặc với phiên bản mật độ chung có
+cận likelihood đúng đồng thời hầu khắp, mọi estimator đo được thỏa
+\begin{equation}
+\Pr\{\|X_t-\widehat x_t(O_n)\|_2\le r\mid C\}
+\le f_R\bigl(\pi_{\max,t}(r\mid C)\bigr),\qquad
+f_R(p)=\frac{Rp}{1+(R-1)p}.
+\label{eq:hit-prior-bound}
+\end{equation}
+Với các trọng số clock công khai $a_t\ge0$, $\sum_ta_t=1$, Hit trung bình nhiều mốc bị chặn bởi
+$\sum_ta_tf_R(\pi_{\max,t}(r\mid C))$; không cần các GPS hoặc các errors độc lập.
+\end{corollary}
+\begin{proof}
+Ở một output cố định $o$, đặt $A_o=\{X:\|X_t-\widehat x_t(o)\|_2\le r\}$. Đây là một tập private
+inputs cố định khi $o$ đã được cố định, dù tâm của tập được estimator chọn theo output.
+Áp dụng \eqref{eq:posterior} cho tập đó cho
+\[
+\Pr(A_o\mid O_n=o,C)\le f_R(\Pr(A_o\mid C))
+\le f_R(\pi_{\max,t}(r\mid C)).
+\]
+Bất đẳng thức thứ hai dùng $f_R'(p)=R/[1+(R-1)p]^2\ge0$. Lấy kỳ vọng theo $O_n\mid C$ chứng
+minh \eqref{eq:hit-prior-bound}; các trường hợp prior 0 hoặc 1 theo công thức liên tục.
+Lấy tổng có trọng số cho nhiều mốc dùng tính tuyến tính của kỳ vọng, không dùng IID.
+Estimator ngẫu nhiên được xử lý bằng cách thêm randomness độc lập của attacker vào output;
+randomness đó không đổi cận likelihood của channel.
+\end{proof}
+
+Chọn $r=100$ m nối hệ quả với Hit100; chọn nhiều $t$ nối với phép gộp S3. Đây là cận theo prior,
+không là suy luận rằng Hit100 thực nghiệm phải bằng cận. Nếu attacker đã biết người dùng ở một
+vùng rất nhỏ, $\pi_{\max}$ có thể gần 1 và cận không hữu ích. Một ước lượng độ tập trung từ cohort
+hữu hạn chỉ là diagnostic nếu chưa có bảo đảm cho prior thực và side information. Không dùng
+một estimate chưa chứng nhận để nâng cấp hệ quả thành một cam kết định vị ngoài thực địa.
+
+\subsection{Nhiều phiên và nhiều kênh được quan sát chung}
+\begin{corollary}[Hợp thành các kênh có điều kiện]\label{cor:joint-channels}
+Gọi $\mathbf X$ là toàn bộ private inputs của $m$ kênh và $O^{(1)},\ldots,O^{(m)}$ là các transcript.
+Giữ cùng joint context $C$. Tại mọi history công khai $h_{\ell-1}$ khả thi chung và mọi cặp
+$\mathbf X,\mathbf X'$, giả sử conditional channel thứ $\ell$ thỏa
+\begin{equation}
+\Pr_{\mathbf X}\{O^{(\ell)}\in B\mid h_{\ell-1},C\}
+\le R_\ell\Pr_{\mathbf X'}\{O^{(\ell)}\in B\mid h_{\ell-1},C\}.
+\label{eq:joint-conditional-assumption}
+\end{equation}
+Các cận phải đúng sau conditioning, với support chung, ledger đúng và randomness mới phù hợp;
+không chỉ đúng cho từng marginal channel khi đứng riêng. Khi đó joint transcript thỏa cận
+$R_{\rm joint}=\prod_{\ell=1}^mR_\ell$. Các private inputs có thể tương quan.
+\end{corollary}
+\begin{proof}
+Tại cùng joint output history, chain rule nhân các conditional likelihood ratios; mỗi thừa số
+bị chặn bởi $R_\ell$. Cộng/tích phân theo event cần xét giữ cùng tích các cận. Nếu private inputs
+được lấy theo một prior tương quan, tích phân theo conditional laws trong từng lớp target vẫn
+giữ cận như lập luận mixture ở \eqref{eq:odds}. Không có bước nào nhân các prior marginal của
+private inputs hoặc giả định chúng độc lập.
+\end{proof}
+
+Hai phiên đều thỏa guard $\Gamma_Q=1$ dưới các điều kiện trên cho
+$R_{\rm joint}<(2{,}437372)^2$. Với một target event có prior cân bằng tại \emph{cùng joint context},
+cận posterior là
+\begin{equation}
+\Pr(A\mid O^{(1)},O^{(2)},C)
+<\frac{(2{,}437372)^2}{1+(2{,}437372)^2}<0{,}855925.
+\label{eq:two-session-posterior}
+\end{equation}
+Giá trị này xấp xỉ 85,59\%, yếu hơn cận một phiên. Nó không tự là accuracy của attacker S4/S8,
+không xác nhận prior cân bằng của identity người/xe, và không áp dụng khi các kênh dùng chung
+randomness làm hỏng \eqref{eq:joint-conditional-assumption}. Raw partner có thể tiết lộ trực tiếp
+GPS nên không nhận một cận $R_\ell$ hữu hạn như kênh Q. Nếu đưa raw side information vào $C$,
+phải kiểm tra lại conditional channel và prior; prior target khi đó có thể đã tập trung gần 1.
+
+\subsection{Public base là một thành viên có bảo đảm mạnh hơn của họ policy}
+\begin{proposition}[Độc lập output khi không có private adaptation]\label{prop:gamma-zero}
+Với $\Gamma_Q=0$ và cùng các điều kiện support, clock, ledger/provider, ngữ cảnh ngoại sinh của
+Mệnh đề~\ref{prop:segments}, phân phối wire $O_n$ không phụ thuộc $X$ tại cùng $C$, nếu toàn bộ
+private dependence chỉ đi qua bounded scores. Điều này không bao gồm đáp án local hoặc side channels.
+\end{proposition}
+\begin{proof}
+Mỗi allowance bằng 0 nên $\alpha_j=0$ và $p_{j,a}=w_{j,a}$ với mọi score. Tại history ban đầu,
+phân phối action giống nhau cho mọi $X$. Giả sử điều này đúng tới prefix $j-1$: cùng prefix tạo
+cùng support/masses và cùng provider law, nên conditional law của bước $j$ cũng giống nhau.
+Quy nạp rồi marginal hóa augmented history cho $\Pr_X(O_n\in B)=\Pr_{X'}(O_n\in B)$.
+\end{proof}
+
+Hệ quả này xác định đúng vai trò của $\Gamma$: nó cho phép một mức thích nghi theo thông tin đã
+bảo vệ, thay cho việc luôn chọn theo public base. Chứng minh không nói $\Gamma>0$ là cần thiết hoặc
+luôn có utility cao hơn $\Gamma=0$. Lợi ích đó cần điều kiện calibration hoặc bằng chứng thực nghiệm
+riêng. Việc giữ Geo-I/REM làm upstream của họ phương pháp không thay kết luận độc lập của nhánh
+Q khi $\Gamma=0$; lớp Geo-I vẫn có phạm vi spatial/accounting riêng như đã nêu.
 
 \subsection{Phạm vi kiểm chứng của mã và chứng minh}\label{sec:proof-implementation}
 Phép kiểm chứng hữu hạn duyệt các graph nhỏ để đối chiếu normalization, likelihood inequalities,

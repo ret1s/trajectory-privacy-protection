@@ -9,7 +9,7 @@
 \node[b,below=.5cm of select] (send) {\textbf{4. Phát ba khung đã commit}\\0/20/40 s, mỗi khung K5; L60 mỗi loại/Q};
 \node[b,below=.5cm of send] (local) {\textbf{5. Union/cache và local ranking}\\GPS hiện tại + nhu cầu thật $\psi_t$};
 \node[e,text width=7.8cm,below=.7cm of local] (answer) {\textbf{Output: toàn danh sách phù hợp đã sắp xếp}};
-\node[e,right=1.1cm of belief] (pub) {\textbf{Public context}\\Đường, clock, Q trước, replies/cache};
+\node[e,right=1.1cm of belief] (pub) {\textbf{Public context}\\Đường, proxy offline, clock, Q trước, replies/cache};
 \node[e,right=1.1cm of select] (ledger) {\textbf{Ledger Q}\\$\Gamma_Q$, counter, đoạn đã commit};
 \node[e,right=1.1cm of send] (lbs) {\textbf{LBS server}\\Q $\rightarrow$ POI};
 \draw[a] (gps)--(rem);\draw[a] (rem)--(belief);\draw[a] (belief)--(select);

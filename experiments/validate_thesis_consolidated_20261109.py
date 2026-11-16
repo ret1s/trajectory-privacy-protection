@@ -32,6 +32,7 @@ def read(path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--visual-reviewed', action='store_true')
+    parser.add_argument('--receipt', type=Path, default=HERE/'validation_20261116.json')
     args = parser.parse_args()
     tables, constants, bibliography, sources = build.generated()
     assert len(tables) == 26
@@ -48,6 +49,8 @@ def main():
 
     def expand(path):
         assert path.exists(), path
+        path=path.resolve()
+        assert path.is_relative_to(ROOT)
         visited.append(path)
         return re.sub(r'\\input\{([^}]+)\}', lambda m: expand(HERE/(m[1]+'.tex')), path.read_text())
 
@@ -68,8 +71,18 @@ def main():
     defined = re.findall(r'\\bibitem\{([^}]+)\}', bibliography)
     assert len(defined) == len(set(defined)) == 17
     assert used == set(defined), (used-set(defined), set(defined)-used)
-    assert len(re.findall(r'\\begin\{proposition\}', tex)) == 5
+    assert len(re.findall(r'\\begin\{proposition\}', tex)) == 7
     assert len(re.findall(r'\\begin\{theorem\}', tex)) == 3
+    assert len(re.findall(r'\\begin\{corollary\}', tex)) == 2
+    for label in ('sec:data-access','prop:offline-information','eq:budget-general',
+                  'sec:component-roles','cor:hit-prior','cor:joint-channels','prop:gamma-zero',
+                  'eq:finite-floor-example','tab:argument-audit','fig:bound-profile'):
+        assert label in labels, label
+    from evaluation.argument_bounds_20261116 import worked_examples
+    from experiments.audit_thesis_arguments_20261116 import check as argument_check
+    examples=worked_examples();argument_audit=argument_check()
+    assert examples['floor']['lower'] > 0
+    assert argument_audit['coverage']['retained_test_draws']==120
     assert all(r'\label{'+x+'}' in tex for x in ('fig:system','fig:model','fig:tradeoff',
                     'fig:future','fig:fusion','sec:privacy','sec:utility','thm:transcript'))
     assert all('current_' not in path.name for path in visited)
@@ -126,13 +139,24 @@ def main():
         HERE/'references_foundations.json',HERE/'generated/sources.json',
         Path(__file__).resolve(), Path(build.__file__).resolve(),PDF}
     files |= set((HERE/'figures').glob('*.pdf'))
-    result = dict(schema='consolidated-masters-thesis-validation-v1',date='2026-11-09',
+    files |= {ROOT/'evaluation/argument_bounds_20261116.py',
+              ROOT/'tests/test_argument_bounds_20261116.py',
+              ROOT/'experiments/audit_thesis_arguments_20261116.py',
+              ROOT/'tests/test_thesis_argument_audit_20261116.py'}
+    files |= set((ROOT/'artifacts/analysis/thesis_arguments_20261116_v1').glob('*'))
+    result = dict(schema='consolidated-masters-thesis-validation-v2',date='2026-11-16',
         page_count=pages, main_chapters=5, appendix_chapters=4, citations=17,
         generated_tables=26, main_privacy_cells=30, additional_tasks_v1=66,
         joint_fusion_tasks_v2=24, main_release_pins_verified=108,
         main_comparison_is_paper_adaptations=True, adaptations_not_official_reproductions=True,
         benchmark_or_algorithm_changed=False, source_tables_reproducible=True,
         exact_mathematical_receipt_authenticated=True, implementation_certified=False,
+        additional_hit_and_joint_corollaries=True, finite_utility_floor_illustrated=True,
+        additional_argument_audit_tables=1,
+        full_catalogue_access_scope_explicit=True,
+        cap_exhaustion_tested_in_main_trial=False,
+        original_native_attack_reproduced=False,
+        exact_example_results={key:str(value) for key,value in examples['floor'].items()},
         all_citations_used_and_resolved=True, labels_resolved=True,
         linked_contents_annotations=toc_links,pdf_annotations=annot_count,
         internal_pdf_destinations_verified=internal_links,
@@ -140,7 +164,7 @@ def main():
         visual_qa_completed=args.visual_reviewed,
         files_sha256={str(p.relative_to(ROOT)):sha(p) for p in sorted(files)},
         rendered_pages_sha256={p.name:sha(p) for p in renders})
-    (HERE/'validation_20261109.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
+    args.receipt.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     print(f'PASS: {pages} pages;5 chapters;26 tables;17 references;108 pins;math/PDF checks')
 
 

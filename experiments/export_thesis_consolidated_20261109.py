@@ -59,7 +59,7 @@ TABLES={
  'comparison':('Chênh lệch macro Recall giữa GeoI-BQ và từng đối chứng','utility-differences'),
  'utility_ci':('Recall GeoI-BQ theo purpose và chênh lệch so với TransProtect*','purpose-ci'),
  'cache':('Macro Recall@5 theo phạm vi cache trên cùng output','cache'),
- 'native':('Metrics gốc áp dụng được và các trường hợp N/A','native'),
+ 'native':('Metrics gốc, proxy theo tác vụ và trường hợp N/A','native'),
  'coverage':('Coverage TEST và số lần thực thi thất bại của trial chính','coverage'),
  'privacy_ci':(r'CI95\% đầy đủ cho năm tác vụ định vị/tái dựng','privacy-ci'),
  'purpose_deltas':('Chênh lệch Recall theo purpose: GeoI-BQ trừ đối chứng','purpose-deltas'),
@@ -112,11 +112,29 @@ def figures():
     ax.set_yticks(y,labels);ax.invert_yaxis();ax.set_xlim(0,105);ax.set_xlabel('S8 protected-partner Hit100 (%)')
     ax.grid(axis='x',alpha=.15);ax.set_axisbelow(True);ax.legend(loc='lower right',fontsize=8)
     fig.tight_layout();fig.savefig(folder/'joint_attack_fusion.pdf',metadata={'CreationDate':None,'ModDate':None});plt.close(fig)
+    # Illustrative envelopes, not a measured privacy curve.
+    import math
+    x=np.linspace(0,20,401);cap=.23;ceiling=math.log(2.437372)
+    fig,ax=plt.subplots(figsize=(6.2,2.8))
+    ax.plot(x,cap*x,label='Coarse Geo-I: Cs × distance',color='#7d8d9a',ls='--')
+    ax.axhline(ceiling,label='Q guard: log(2.437372)',color='#a77b45',ls=':')
+    ax.plot(x,np.minimum(cap*x,ceiling),label='Combined upper envelope',color='#087f7a',lw=2)
+    crossing=ceiling/cap;ax.axvline(crossing,color='#778781',ls=':',lw=.8)
+    ax.annotate(f'{crossing:.3f} m',xy=(crossing,ceiling),xytext=(6,1.45),
+                arrowprops={'arrowstyle':'->','lw':.8},fontsize=8)
+    ax.set(xlim=(0,20),ylim=(0,4.8),xlabel='Trajectory distance D-infinity (m)',
+           ylabel='Upper bound on log likelihood ratio')
+    ax.grid(alpha=.15);ax.legend(fontsize=8,loc='upper left')
+    fig.tight_layout();fig.savefig(folder/'privacy_bound_profile_20261116.pdf',
+                                  metadata={'CreationDate':None,'ModDate':None});plt.close(fig)
 
 
 def generated():
     one,c1,bib,p1=PAPER.generated();two,c2,p2=SUPPLEMENT.generated();out={}
     for name,text in one.items():
+        if name == 'native.tex':
+            # The old table's EIE-like error is our S3 bank's MAE, not VehiTrack reproduction.
+            text = text.replace('EIE S3 (m)', 'MAE S3 (m)')
         cap,label=TABLES[name[:-4]]
         out[name]=longtable(text,cap,label,'footnotesize' if name in ('related.tex','privacy_ci.tex','sample_trace.tex') else 'small')
     for name,text in two.items():
@@ -145,13 +163,22 @@ def generated():
         ROOT/'docs/reviews/2026-10-14_mathematical_adversarial_audit.md',
         ROOT/'docs/reviews/2026-10-14_mathematical_completion.json',
         ROOT/'docs/research/2026-11-09_remaining_scenarios_protocol.md',
-        ROOT/'docs/research/2026-11-09_s8_fusion_protocol.md']
+        ROOT/'docs/research/2026-11-09_s8_fusion_protocol.md',
+        ROOT/'evaluation/argument_bounds_20261116.py',
+        ROOT/'tests/test_argument_bounds_20261116.py',
+        ROOT/'experiments/audit_thesis_arguments_20261116.py',
+        ROOT/'tests/test_thesis_argument_audit_20261116.py']
+    audit_folder=ROOT/'artifacts/analysis/thesis_arguments_20261116_v1'
+    from experiments.audit_thesis_arguments_20261116 import check as check_arguments
+    check_arguments()
+    files += sorted(p for p in audit_folder.iterdir() if p.is_file())
     source_hashes={**p1['sources_sha256'],**p2['sources_sha256'],**{str(p.relative_to(ROOT)):sha(p) for p in files}}
-    provenance=dict(schema='consolidated-masters-thesis-sources-v1',date='2026-11-09',
+    provenance=dict(schema='consolidated-masters-thesis-sources-v1',date='2026-11-16',
         canonical_source='thesis/main.tex',main_chapters=5,main_release_pins_verified=108,
         main_privacy_cells=30,supplement_tasks_v1=66,joint_fusion_tasks_v2=24,
         generated_tables=len(out),models_fitted=False,defense_outputs_regenerated=False,
         main_comparison='three audited paper adaptations plus Raw/REM-Z; not official reproductions',
+        argument_revision='2026-11-16; conditional localization/joint corollaries and data-access audit',
         sources_sha256=source_hashes,
         figures_sha256={p.name:sha(p) for p in sorted((HERE/'figures').glob('*.pdf'))})
     return out,c1+c2,bib,provenance

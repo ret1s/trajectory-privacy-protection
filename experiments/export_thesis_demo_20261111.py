@@ -25,6 +25,7 @@ ORIGINAL = ROOT/'artifacts/benchmarks/main_depth_20261014_v1'
 EXTRA = ROOT/'artifacts/benchmarks/remaining_scenarios_20261109_v1'
 FUSION = ROOT/'artifacts/benchmarks/s8_fusion_20261109_v2'
 ASSETS = ROOT/'web/static/thesis_demo'
+THESIS = ROOT/'artifacts/reports/archive/graduation_thesis_20261109.pdf'
 METHODS = study.METHODS
 LABELS = ['Raw GPS','REM-Z K1','TransProtect*','Semantic correlation*','Fake-query insertion*','GeoI-BQ v1']
 
@@ -115,7 +116,7 @@ def export(output=OUT):
     sources=[PRIMARY/'results.json', PRIMARY/'protocol.json', PRIMARY/'validation.json',
         EXTRA/'results.json',EXTRA/'validation.json',FUSION/'results.json',FUSION/'validation.json',
         ROOT/study.sealed.public.NETWORK, ROOT/study.sealed.public.RESOURCES,
-        ROOT/'configs/geo_i_bq_v1.json',ROOT/'artifacts/reports/graduation_thesis.pdf']
+        ROOT/'configs/geo_i_bq_v1.json',THESIS]
     sessions=[]; checked_cells=0; draws=0
     for family_path in sorted((PRIMARY/'families').glob('*.json.gz')):
         family=read(family_path)
@@ -189,7 +190,8 @@ def export(output=OUT):
         all_duration_ratio_upper=2.437372,balanced_posterior_upper_percent=70.91))
     for path in ASSETS.iterdir():
         if path.is_file(): shutil.copyfile(path,output/path.name)
-    shutil.copyfile(ROOT/'artifacts/reports/graduation_thesis.pdf',output/'thesis.pdf')
+    # This is the 11/11 teaching replay; retain its historical thesis snapshot.
+    shutil.copyfile(THESIS,output/'thesis.pdf')
     source_paths=sorted(set(sources+[Path(__file__).resolve(),ROOT/'web/thesis_demo.py']+list(ASSETS.glob('*'))))
     manifest=dict(schema='geoi-bq-demo-manifest-v1',date='2026-11-11',families=20,sessions=40,draws=120,
         checked_utility_cells=checked_cells,main_pins_verified=len(release['files_sha256']),

@@ -81,6 +81,49 @@ Một phiên có cùng token/ledger. Restart tiếp tục phiên đó; mở nhi�
 riêng. Những giả thiết này được dùng có chọn lọc: cận Q có thể đúng dù upstream không thỏa Geo-I,
 nhưng cận không gian và minimum của hai cận cần nhánh upstream hợp lệ.
 
+\subsection{Quyền truy cập dữ liệu: thiết kế offline và thiết bị vận hành}\label{sec:data-access}
+Tính công khai của một bảng không đồng nghĩa thiết bị đã tải bảng đó, và cũng không chứng minh thiết
+bị cần tiếp tục truy vấn. Cần phân biệt ba vai trò:
+\begin{center}\small
+\begin{tabularx}{\linewidth}{@{}P{3.2cm}YY@{}}\toprule
+Vai trò & Dữ liệu được dùng & Điều cần hiểu đúng\\\midrule
+Thiết kế/evaluator offline & Catalogue đầy đủ, đồ thị và reference/reply signatures để xây policy và chấm điểm &
+Có thể dùng một thế giới tham chiếu đầy đủ, nhưng không gọi đó là metadata mà client chưa biết.\\
+Client của prototype & Public context đầy đủ được nạp để lập kế hoạch; tập ứng viên trả lời bị giới hạn bởi replies đã nhận &
+Recall đo theo hợp đồng tập đã nhận. Mã hiện tại chưa cách ly kho tham chiếu khỏi dữ liệu vận hành.\\
+LBS provider & Trả metadata theo Q và common cover request &
+Trong trial tĩnh, provider khớp public reply context; chưa đo chênh lệch với catalogue live.\\\bottomrule
+\end{tabularx}
+\end{center}
+
+Trong factory tham chiếu, \path{core/research_release.py} nạp cả \texttt{reference} và
+\texttt{reply}, xây portfolio từ catalogue đó và gắn bộ xếp hạng lên pipeline. Vì vậy luận văn
+không giả định sai rằng prototype chỉ biết toạ độ của những POI đã nhận. Các masks trong phép đo
+quy định POI nào được phép xuất hiện trong đáp án, không phải cơ chế ngăn mã truy cập dữ liệu.
+
+\begin{proposition}[Giới hạn thông tin của tác vụ catalogue tĩnh]\label{prop:offline-information}
+Nếu thiết bị đã có catalogue hiện hành đầy đủ, các trường cần cho bộ lọc/order, đồ thị cost và
+tham số request local, thì cả bốn mục đích đang xét đều tính được tại local mà không cần một
+response LBS mới. Khi reference khác rỗng, Recall@5 của đáp án đầy đủ là 1.
+\end{proposition}
+\begin{proof}
+Các hàm distance, travel time, radius và detour đều được xác định bởi những đầu vào đã có.
+Áp dụng cùng bộ lọc và total order lên toàn catalogue tạo đúng reference; giao với reference
+là chính reference. Phát biểu không giả sử các dữ liệu đó miễn phí hoặc luôn còn hiệu lực.
+\end{proof}
+
+Do đó, benchmark hiện là phép kiểm tra \emph{thu nhận ứng viên theo replies} trong môi trường tham
+chiếu đầy đủ, chưa chứng minh sự cần thiết của online querying so với một client đã biết toàn
+catalogue. Control thông tin offline này không được ghép thành hàng thứ bảy của trial: nó không
+đo chi phí tải dữ liệu ban đầu, chuẩn bị bảng, lưu trữ hay cập nhật. Đối chiếu với prefetch phải
+khai báo cùng quyền truy cập và tính cả các chi phí đó.
+
+Một triển khai online có thể chỉ nhận proxy public $\widehat{\mathcal D}$ từ bước thiết kế, còn
+provider giữ metadata hiện hành $\mathcal D_t$. Khi hai bên khác nhau, bảo đảm privacy vẫn cần
+các giả thiết support/kernel/provider tương ứng; floor utility còn cần các sai số chuyển miền ở
+Mục~\ref{sec:utility}. Catalogue lớn, dữ liệu live hay trường thông tin chưa biết không được dùng
+như lời giải thích cho trial tĩnh khi chúng chưa được mô hình hoá và kiểm tra.
+
 \section{System architecture -- Vị trí mô hình trong hệ thống}
 Hình~\ref{fig:system} phân biệt thiết bị tin cậy và LBS server. Cảm biến cung cấp GPS cho lớp bảo vệ
 và cho local ranking. Privacy/planner tạo các tọa độ Q để lấy dữ liệu; server trả POI theo request
@@ -179,7 +222,16 @@ $D_t=0$ giữ $Z_t=h$; $D_t=1$ gọi REM để tạo Z mới. Tạo đầu tiên
 một; test rồi tạo mới tốn hai. Bộ lọc dự toán chi phí lớn nhất cần cho thao tác \emph{trước khi đọc}
 GPS. Nhánh không đọc không được dùng một phép kiểm tra GPS riêng để quyết định rằng nó sẽ không đọc.
 
-Các số ngân sách có quan hệ:
+Trong đặc tả tổng quát, $C_s>0$ là cap của một phiên, $0<u\le C_s$ là chi phí một thao tác cơ bản và
+$M=\lfloor C_s/u\rfloor$ là số đơn vị có thể dùng. Với $c_i\in\{0,1,2\}$ theo nhánh:
+\begin{equation}
+\operatorname{Spent}_n=u\sum_{i=0}^{n}c_i\le Mu\le C_s.
+\label{eq:budget-general}
+\end{equation}
+Filter dự toán nhánh đắt nhất trước private read để giữ bất đẳng thức tại mọi prefix. Công thức
+không cần biết trước độ dài route hoặc thời lượng; không hứa giữ khả năng thích nghi khi cap đã hết.
+
+Code tham chiếu dùng một cách tham số hoá cap qua $B,H_{\rm cfg}$:
 \begin{equation}
 u=\frac{B}{2H_{\rm cfg}},\qquad M=2H_{\rm cfg}-1,\qquad C_s=Mu.
 \label{eq:budget-config}
@@ -302,3 +354,5 @@ chi phí tương ứng; 180 s giữ Z nhưng có thể chọn một đoạn mớ
 $u=0{,}01$ cho chi phí Geo-I tích lũy. Z, GPS và nhánh trong bảng là diagnostics để giải thích, không
 được đưa vào attacker features. Cache tăng trong mẫu không phải định lý rằng Recall luôn tăng theo
 thời gian khi người dùng di chuyển.
+
+\input{chapters/component_roles}

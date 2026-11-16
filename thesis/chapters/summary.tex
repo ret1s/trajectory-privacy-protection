@@ -12,6 +12,11 @@ với $\Gamma_Q=1$, cận toàn thời lượng nhỏ hơn 2,437372. Nhánh Geo-
 trajectory; khi cả hai nhánh hợp lệ có thể lấy minimum của chúng. Đây là giới hạn mức transcript
 làm thay đổi khả năng phân biệt/suy luận, không là chứng minh attacker không thể biết vị trí.
 
+Hệ quả theo độ tập trung prior nối cận với Hit trong một bán kính của estimator bất kỳ; hệ quả
+nhiều kênh dùng các cận có điều kiện và tích tỷ số. Chúng không cần giả định các GPS độc lập, nhưng
+cần cùng context/side information, prior hợp lệ và điều kiện channel sau conditioning. Cận 70,91\%
+của một phiên không được dùng nguyên cho joint hai phiên.
+
 \textbf{RQ2 -- Utility và các điều kiện cần.} Centered kernel có gain không âm trên planning score,
 còn actual utility gain phụ thuộc covariance/proxy calibration. Union/cache và local ranking giữ
 được các reference POI đã truy hồi tại cùng GPS/request khi metadata hợp lệ. Phân tích toàn history
@@ -19,12 +24,22 @@ cho cận utility so matched public base bằng conditional expectation, không 
 sang GPS thật vẫn cần bound sai số và provider completeness. Những điều kiện chưa chứng nhận không
 được đặt bằng không trong kết luận.
 
+Ví dụ hữu hạn cho một floor không rỗng và cả counterexample score gain dương nhưng actual gain âm.
+Đó là minh hoạ đã kiểm chứng đại số, không phải chứng nhận calibration ngoài thực địa. Trên trial,
+public base $\Gamma_Q=0$ có Recall cao hơn bản thích nghi; thiết kế đóng góp một họ policy có
+accounting, chưa chứng minh mọi private adaptation đều cần thiết.
+
 \textbf{RQ3 -- Trade-off thực nghiệm.} Trong controlled comparison với ba adaptation đã audit từ
 paper và Raw/REM-Z controls, GeoI-BQ đạt session Recall@5 99,595\%, CI95\% [99,224;99,903]. Các
 coordinate tasks S1--S3/S9--S10 có Hit100 0--0,188\% dưới bank đã chọn, thấp hơn các adaptation trong
 trial, đổi lại dùng 155 point queries mỗi phiên và utility thấp hơn khoảng 0,4 điểm phần trăm so
 ba adaptation. Các con số không chứng minh mọi original paper implementation hoặc mọi attacker
 đều thua, và không là generalization ngoài cohort.
+
+Audit thông tin bổ sung xác nhận packet đầu đã nhận khoảng 91\% catalogue tĩnh. Prototype đồng
+thời có reference/reply context đầy đủ để lập kế hoạch; do đó readout là quality theo received-mask
+contract, chưa chứng minh ưu thế online khi client đã biết toàn catalogue. Cửa sổ 600 s cũng chưa
+kiểm tra utility sau khi cap dừng private reads. Hai giới hạn này là điều kiện diễn giải kết quả.
 
 \section{Đóng góp thực sự của bản hiện tại}
 Thứ nhất, luận văn hệ thống hóa targets, output contracts và một protocol đánh giá bổ sung giữa
@@ -45,6 +60,10 @@ biện. Đây là bằng chứng bổ sung cho thiết kế, không thay cho cá
 đánh giá trên cohort/bản đồ mới và catalogue lớn/động với latency, bytes metadata đầy đủ và energy
 thực đo. Matched public base đang có utility tốt hơn trên cohort hiện tại, nên cần xác định điều
 kiện nào private adaptation thực sự đáng chi phí thay vì mặc định $\Gamma=1$ tối ưu.
+
+Đối với hệ thống online, ưu tiên phân tách public design proxy khỏi metadata hiện hành thật sự
+chưa có ở thiết bị; đánh giá acquisition/setup/refresh cùng một control có quyền truy cập tương ứng.
+Không thể dùng một payload live chưa được đo để biện minh hồi tố cho trial catalogue tĩnh.
 
 Identity người/xe cần nhãn vật lý và task riêng; route-family association chưa đủ. S5 cần cadence
 và positive control phù hợp; S6 cần lựa chọn/historical context đa dạng hơn. S7 cần đo route-correlated

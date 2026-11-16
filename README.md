@@ -1,10 +1,15 @@
 # Trajectory Privacy Protection
 
-The [consolidated thesis (09/11)](thesis/README.md) now follows the agreed five-chapter
+The [consolidated thesis (argument revision 16/11)](thesis/README.md) follows the agreed five-chapter
 outline, with the final GeoI-BQ specification, full privacy/utility proof chain,
 paper-adaptation comparison and scoped S4–S8 supplement. See the
 [review guide](thesis/REVIEW_GUIDE.md) and [canonical PDF](artifacts/reports/graduation_thesis.pdf).
 Consolidation does not change the frozen algorithm or benchmark outputs.
+
+The latest revision makes the client/reference data-access boundary explicit, adds
+prior-based localization and conditional multi-channel corollaries, and audits catalogue
+saturation/cap coverage. It preserves the adverse Γ0 ablation and does not certify
+online necessity, real-data calibration or post-cap utility.
 
 **Demo for the defense:** `python3 -m web.thesis_demo --port 5011`, then open
 <http://127.0.0.1:5011>. Replays all 120 retained TEST draws of current GeoI-BQ,
@@ -43,7 +48,7 @@ it against explicit attacker, utility, and output-contract assumptions.
 - Final thesis source: [`thesis/main.tex`](thesis/main.tex)
 - Scenario database and update history: [`storage guide`](data/scenario_store/README.md)
 - Current thesis PDF: [`artifacts/reports/graduation_thesis.pdf`](artifacts/reports/graduation_thesis.pdf)
-- Current thesis revision (09/11): [`scope and rebuild guide`](thesis/README.md)
+- Current thesis revision (16/11): [`scope and rebuild guide`](thesis/README.md)
   — five chapters, two architectures, transcript privacy and conditional utility,
   external adaptations as main comparisons, complete CIs/attackers and S4–S8 scope.
 - Historical thesis handoff (07/10): [`formal proofs and verification`](docs/reviews/2026-10-07_thesis_formal_completion_v2.md)
