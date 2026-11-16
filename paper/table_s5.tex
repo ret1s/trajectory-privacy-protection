@@ -1,0 +1,25 @@
+\begingroup\footnotesize
+\begin{longtable}{@{}P{2.5cm}P{2cm}P{4cm}P{1.2cm}P{1.4cm}@{}}
+\caption{S5 two-candidate inference: accuracy and 95\% CI, Brier score and log loss.}\label{tab:s5}\\
+\toprule\textbf{Method} & \textbf{Phase} & \textbf{Accuracy \%; 95\% CI} & \textbf{Brier} & \textbf{Log loss} \\
+\midrule\endfirsthead
+\multicolumn{5}{l}{\textit{Continued from previous page}}\\
+\toprule\textbf{Method} & \textbf{Phase} & \textbf{Accuracy \%; 95\% CI} & \textbf{Brier} & \textbf{Log loss} \\
+\midrule\endhead
+\midrule\multicolumn{5}{r}{\textit{Continued on next page}}\\\endfoot
+\bottomrule\endlastfoot
+Raw GPS & before\_\allowbreak{}fork & 50.00; [50.00, 50.00] & 0.250 & 0.693 \\
+REM-Z (K1) & before\_\allowbreak{}fork & 50.00; [50.00, 50.00] & 0.250 & 0.693 \\
+TransProtect* & before\_\allowbreak{}fork & 50.00; [50.00, 50.00] & 0.250 & 0.693 \\
+Semantic* & before\_\allowbreak{}fork & 50.00; [50.00, 50.00] & 0.250 & 0.693 \\
+Fake queries* & before\_\allowbreak{}fork & 44.17; [38.33, 50.00] & 0.315 & 0.853 \\
+\textbf{GeoI-BQ v1} & before\_\allowbreak{}fork & 52.50; [48.33, 57.50] & 0.259 & 0.712 \\
+Raw GPS & turn\_\allowbreak{}window & 50.00; [50.00, 50.00] & 0.250 & 0.693 \\
+REM-Z (K1) & turn\_\allowbreak{}window & 50.00; [50.00, 50.00] & 0.250 & 0.693 \\
+TransProtect* & turn\_\allowbreak{}window & 50.00; [50.00, 50.00] & 0.250 & 0.693 \\
+Semantic* & turn\_\allowbreak{}window & 50.00; [50.00, 50.00] & 0.252 & 0.697 \\
+Fake queries* & turn\_\allowbreak{}window & 50.00; [43.33, 57.50] & 0.373 & 5.372 \\
+\textbf{GeoI-BQ v1} & turn\_\allowbreak{}window & 50.83; [45.83, 55.83] & 0.259 & 0.714 \\
+\end{longtable}
+
+\endgroup

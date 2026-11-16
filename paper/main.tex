@@ -1,0 +1,66 @@
+\documentclass[preprint,11pt]{elsarticle}
+\usepackage[a4paper,margin=24mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,booktabs,tabularx,longtable,array,graphicx}
+\usepackage{enumitem,xcolor,tikz,microtype,xurl,algorithm,algpseudocode,fancyhdr}
+\usepackage[hidelinks]{hyperref}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+\definecolor{ink}{HTML}{183A45}
+\definecolor{teal}{HTML}{087F7A}
+\definecolor{blue}{HTML}{405F8A}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\newtheorem{lemma}[proposition]{Lemma}
+\newcommand{\E}{\mathbb E}
+\newcommand{\TV}{\operatorname{TV}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\BQ}{GeoI-BQ}
+\setlength{\emergencystretch}{2em}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.12}
+\renewcommand{\topfraction}{.95}
+\renewcommand{\textfraction}{.04}
+\renewcommand{\floatpagefraction}{.8}
+\setcounter{topnumber}{5}
+\setcounter{totalnumber}{5}
+\raggedbottom
+\fancypagestyle{pprintTitle}{\fancyhf{}\fancyfoot[C]{\thepage}\renewcommand{\headrulewidth}{0pt}}
+\hypersetup{pdftitle={GeoI-BQ: Bounded Transcript Disclosure for Road-Aware Location Queries},
+pdfauthor={},pdfsubject={Research manuscript; author information deferred}}
+\begin{document}
+\begin{frontmatter}
+\title{GeoI-BQ: Bounded Transcript Disclosure for Road-Aware Location Queries}
+\author{Anonymous authors}
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+\begin{keyword}
+Trajectory privacy \sep Geo-indistinguishability \sep Location-based services \sep
+Adaptive composition \sep Point-of-interest retrieval
+\end{keyword}
+\end{frontmatter}
+\hypersetup{pdfauthor={}}
+\input{introduction}
+\input{related_work}
+\input{method}
+\input{analysis}
+\input{evaluation}
+\input{conclusion}
+\section*{Data and code availability}
+The study uses synthetic mobility and a versioned public geographic catalogue. The accompanying
+reproducibility manifest identifies the frozen method, comparison artifacts, mathematical checks
+and source hashes. Redistribution of geographic inputs remains subject to their original
+licenses. A persistent publication archive has not been registered for this author-review draft.
+\section*{Declaration of generative AI assistance}
+OpenAI ChatGPT/Codex assisted with manuscript drafting, software preparation and consistency
+checking. The mathematical and empirical claims are tied to the specifications and preserved
+artifacts described in this article. The authors remain responsible for final verification,
+editing and approval of the submitted work.
+\begin{thebibliography}{99}
+\input{references}
+\end{thebibliography}
+\end{document}

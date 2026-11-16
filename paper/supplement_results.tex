@@ -1,0 +1,150 @@
+\section{Protocol and metric contracts}
+\subsection{Tasks and aggregation}
+The principal comparison retains the same six implementations, map, catalogue,
+service wrapper and time windows. The source has 48 disjoint route families:
+20 TRAIN, 8 SELECTION and 20 TEST. Two native trips per family and three TEST
+draws yield 120 retained TEST trip-draws per arm. TRAIN and SELECTION have one
+retained draw per trip. Bootstrap units are 20 families for the primary tables.
+Repeated points and draws do not enlarge that number of independent groups.
+The supplementary pair tasks use 10 two-family blocks for S4/S8 and 20
+families for S5/S6. Percentile intervals use 10,000 grouped bootstrap replicates.
+They condition on the inspected cohort and fitted bank.
+
+S1 observes one service packet; S2 uses the 540--600 s window and targets the
+mean of the last four truth coordinates; S3 observes the complete wire and
+targets all 31 ticks; S9/S10 target first/last GPS with public boundaries.
+S2 is a coordinate proxy, not observed semantic home/work. S4 uses balanced
+same-family versus alternative-family association. Physical person/vehicle
+labels are unavailable. S5 predicts one of two next edges before/around a
+fork; Raw is at chance in this retained cadence. S6 predicts one of two
+future destinations in before-fork, turn-window and post-turn phases.
+S7 is conditional payload noninterference under a common wrapper. S8 is a
+synthetic aligned-partner diagnostic, not collected simultaneous co-travel.
+
+Hit100 and MAE are computed from Euclidean projected error. Within a defined
+task, lower Hit and larger MAE favor privacy, without proving resistance to
+all estimators. Binary accuracy, Brier score and log loss describe different
+properties; a low-accuracy but badly calibrated attacker is not a probability
+certificate. Recall uses the same full-catalogue reference/filter/order per
+purpose; empty references are N/A. The evaluation returns a full sorted list
+to users and uses top five only for scoring.
+
+All additional fake packets remain in their natural windows and costs.
+Attackers see public coordinates, order and timing, without Z, true-member
+labels or evaluator bookkeeping. Loss-specific SELECTION can choose different
+estimators for Hit and MAE. S8 V2 deliberately enlarges the bank after
+inspection of V1, so its result is a retained diagnostic, not independent
+confirmatory evidence.
+
+\subsection{Original metrics: what can and cannot be transferred}
+\input{table_native}
+The singleton travel-cost distortion uses eight TRAIN-selected destinations
+and their empirical prior, directed road costs, and the travel-cost expression
+of TransProtect's Equation 13. It is a local proxy of that contract, not a
+reproduction of its original cities, learned predictor or attack.
+Q-only GeoI-BQ has no unique replacement coordinate; a best-Q selected using
+secret GPS would fabricate a favorable singleton output.
+
+EIE has an expected point-error form, but the paper's VehiTrack observer
+is not reproduced by the current bank. We therefore label our observed point
+error MAE rather than reporting it as original-paper EIE.
+For real-member ASR, the source-calibrated real-member posterior is absent
+for the real-plus-dummy adaptations; Q-only GeoI-BQ has no real member by design.
+For DER, the original semantic effectiveness/Sim rule and AMap predictor
+are unavailable. Source-compatible path counts require full arrival/direction
+similarity definitions not recovered in this adaptation. All remain N/A,
+with unavailable inputs distinguished from an incompatible output contract.
+This is a partial source-metric comparison; it does not claim superiority
+on every original metric.
+
+\section{Primary results with uncertainty}
+\input{table_coverage}
+\input{table_privacy_full}
+\input{table_attackers}
+\input{table_bq_utility}
+\input{table_utility_full}
+\input{table_cache}
+Zero observed hits can produce a degenerate family-bootstrap interval;
+this is a finite-sample property, not a proof of zero population risk.
+The main article's request/reply byte table measures index JSON only.
+Replayed REM-Z and GeoI-BQ have no comparable generation-latency measurement.
+
+\section{Extended scenario diagnostics}
+\subsection{S4: route-family association}
+\input{table_s4}
+Association is a proxy for linking movement patterns. It is not a person,
+device account, plate or persistent vehicle-identity identification benchmark.
+The two-candidate prior and confidence intervals must accompany chance-level claims.
+
+\subsection{S5 and S6: next edge and future destination}
+\input{table_s5}
+\input{table_s6}
+S5's Raw chance result is an informativeness warning. For S6 after the turn,
+Raw separates the alternatives while GeoI-BQ is near chance; REM-Z is also
+near chance, so the contrast does not attribute protection uniquely to Q.
+Future routes are externally fixed in these tasks. User feedback from service
+answers would change the causal model of the theoretical target.
+
+\subsection{S7: fixed-wire request protection}
+\input{table_s7}
+Across all arms, 1,056 retained streams and 25,344 fixed-context counterfactuals
+check four purposes by six categories. The interface probe has deterministic
+empty responses; frozen nonempty reply-mask signatures are authenticated separately.
+This is not a benchmark of adversarial inference of naturally correlated intent.
+The common cover wrapper, rather than an inherent property of each source paper,
+accounts for equality across the six arms. An explicit-request control exposes
+joint content with vulnerability one.
+
+\subsection{S8: stronger fusion bank and side-information control}
+\input{table_s8}
+\input{table_s8_attackers}
+Views are target only, protected partner, perfectly aligned Raw partner and
+unrelated partner. Channel association is granted. V2 adds fusion estimators
+after V1 inspection and preserves the earlier readout and initial gate failure.
+The selected Hit and MAE estimators differ. A perfect Raw-partner estimator
+is available with Hit100 one for every arm, even when a separately selected
+loss-specific TEST estimator is below one. This distinguishes attack-bank
+availability from selected-model reporting.
+
+\section{Preserved internal controls and multi-step example}
+\input{table_ablation}
+These internal rows are explanatory evidence from the earlier frozen trial,
+not additional recent-paper implementations. The matched public base attains
+99.711\% macro Recall, versus 99.595\% for GeoI-BQ; the retained paired
+difference is approximately $-0.116$ pp, with CI [$-0.253$,$-0.006$] pp.
+Private score adaptation is not demonstrated to improve actual Recall.
+
+\input{table_sample}
+Latitude/longitude coordinates in this display are for illustration;
+privacy and localization calculations use projected meters.
+The audit-only GPS offsets, Z and branch ledger are deliberately excluded
+from attacker input. The first segment can remain stationary while later
+segments move road-feasibly. A local GPS update is distinct from a permitted
+protected observation.
+
+\section{Reproducibility and scope}
+\begin{itemize}[leftmargin=*]
+\item Primary artifacts: \path{artifacts/benchmarks/paper_comparison_20261028_v1/}.
+Main method: \path{configs/geo_i_bq_v1.json}.
+\item Extended tasks: \path{artifacts/benchmarks/remaining_scenarios_20261109_v1/};
+fusion diagnostic: \path{artifacts/benchmarks/s8_fusion_20261109_v2/}.
+\item Argument audit: \path{artifacts/analysis/thesis_arguments_20261116_v1/};
+symbolic development and exact certificates are indexed by
+\path{docs/reviews/2026-10-14_mathematical_completion.json}.
+\item The English exporter reads these sources and writes tables, figures and
+\path{evidence_manifest.json}. It neither fits models nor generates new wire.
+The flat LaTeX source package compiles independently of the research repository.
+\end{itemize}
+The catalogue has 418 static POIs, with about 91\% acquired in the first
+GeoI-BQ packet and 99.49\% in the final session cache. Complete reference
+access is already present in the operational prototype factory.
+An equally informed offline client could answer all defined static requests
+exactly, without establishing zero setup or refresh cost. No measured seventh
+arm or operational information-isolation result is invented here.
+
+All 120 protected ledgers permit 11 reads and spend 13--21 units, below the
+23-unit cap. This trial therefore tests neither utility after cap exhaustion
+nor arbitrary long trips. Correlated sessions need additional composition;
+public start/stop is a conditioning assumption. New cities, larger/changing
+catalogues, stronger attacker families and a clear proxy--provider information
+boundary remain important independent evaluations.

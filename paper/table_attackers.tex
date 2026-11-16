@@ -1,0 +1,43 @@
+\begingroup\footnotesize
+\begin{longtable}{@{}P{2.5cm}P{.6cm}P{4.5cm}P{4.5cm}@{}}
+\caption{Loss-specific attackers selected before the primary TEST readout.}\label{tab:attackers}\\
+\toprule\textbf{Method} & \textbf{S} & \textbf{Hit100 attacker} & \textbf{MAE attacker} \\
+\midrule\endfirsthead
+\multicolumn{4}{l}{\textit{Continued from previous page}}\\
+\toprule\textbf{Method} & \textbf{S} & \textbf{Hit100 attacker} & \textbf{MAE attacker} \\
+\midrule\endhead
+\midrule\multicolumn{4}{r}{\textit{Continued on next page}}\\\endfoot
+\bottomrule\endlastfoot
+Raw GPS & S1 & centroid & centroid \\
+Raw GPS & S2 & centroid & centroid \\
+Raw GPS & S3 & centroid & centroid \\
+Raw GPS & S9 & centroid & centroid \\
+Raw GPS & S10 & centroid & centroid \\
+REM-Z (K1) & S1 & centroid & centroid \\
+REM-Z (K1) & S2 & centroid & centroid \\
+REM-Z (K1) & S3 & centroid & centroid \\
+REM-Z (K1) & S9 & centroid & centroid \\
+REM-Z (K1) & S10 & centroid & geometry\_\allowbreak{}nearest\_\allowbreak{}slot0\_\allowbreak{}ols3\_\allowbreak{}boundary \\
+TransProtect* & S1 & centroid & centroid \\
+TransProtect* & S2 & centroid & centroid \\
+TransProtect* & S3 & centroid & centroid \\
+TransProtect* & S9 & centroid & geometry\_\allowbreak{}nearest\_\allowbreak{}slot0\_\allowbreak{}ols2\_\allowbreak{}boundary \\
+TransProtect* & S10 & geometry\_\allowbreak{}nearest\_\allowbreak{}slot0\_\allowbreak{}ols6\_\allowbreak{}boundary & geometry\_\allowbreak{}nearest\_\allowbreak{}slot0\_\allowbreak{}ols6\_\allowbreak{}boundary \\
+Semantic* & S1 & centroid & query\_\allowbreak{}prior \\
+Semantic* & S2 & centroid & median \\
+Semantic* & S3 & centroid & query\_\allowbreak{}prior \\
+Semantic* & S9 & centroid & observed\_\allowbreak{}slots\_\allowbreak{}slot4\_\allowbreak{}ols2\_\allowbreak{}boundary \\
+Semantic* & S10 & centroid & observed\_\allowbreak{}slots\_\allowbreak{}slot4\_\allowbreak{}endpoint \\
+Fake queries* & S1 & query\_\allowbreak{}prior & shadow\_\allowbreak{}tree \\
+Fake queries* & S2 & viterbi\_\allowbreak{}motion & viterbi\_\allowbreak{}motion \\
+Fake queries* & S3 & viterbi\_\allowbreak{}motion & viterbi\_\allowbreak{}motion \\
+Fake queries* & S9 & public\_\allowbreak{}boundary\_\allowbreak{}viterbi\_\allowbreak{}ols2 & public\_\allowbreak{}boundary\_\allowbreak{}viterbi\_\allowbreak{}ols2 \\
+Fake queries* & S10 & public\_\allowbreak{}boundary\_\allowbreak{}viterbi\_\allowbreak{}ols2 & viterbi\_\allowbreak{}motion \\
+\textbf{GeoI-BQ v1} & S1 & centroid & shadow\_\allowbreak{}prior\_\allowbreak{}median \\
+\textbf{GeoI-BQ v1} & S2 & centroid & shadow\_\allowbreak{}prior\_\allowbreak{}median \\
+\textbf{GeoI-BQ v1} & S3 & centroid & shadow\_\allowbreak{}prior\_\allowbreak{}median \\
+\textbf{GeoI-BQ v1} & S9 & centroid & geometry\_\allowbreak{}nearest\_\allowbreak{}prior\_\allowbreak{}median \\
+\textbf{GeoI-BQ v1} & S10 & centroid & geometry\_\allowbreak{}nearest\_\allowbreak{}prior\_\allowbreak{}median \\
+\end{longtable}
+
+\endgroup

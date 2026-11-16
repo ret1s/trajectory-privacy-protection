@@ -1,0 +1,68 @@
+\section{Introduction}\label{sec:intro}
+Location-based services (LBSs) connect private movement to remote information retrieval. A
+device may request nearby facilities repeatedly, and a provider can combine the resulting
+coordinates, timestamps and replies with road geometry and prior knowledge. Correlation across
+requests matters: a plausible replacement at one instant may become identifiable when the
+complete sequence is examined. The uniqueness of mobility traces motivates this concern,
+although observations on real populations do not automatically transfer to synthetic
+trajectories or to physical identities~\cite{mobilityunique}.
+
+Geo-indistinguishability (Geo-I) expresses location privacy through a likelihood-ratio bound
+scaled by input distance~\cite{geoi}. Extending that guarantee to an implemented continuous
+service requires accounting for more than repeated noise generation. Decisions to reuse a
+reference, the construction of query candidates, the sampling of public actions, retries and
+session boundaries can each depend on private information. Predictive private mechanisms
+already show the importance of managing new information over time~\cite{predictive}.
+Our focus is the explicit connection between these mechanisms and the transcript actually
+observed by an LBS provider.
+
+Utility also requires a task definition. A coordinate close to a user may retrieve poor
+answers across a one-way road or a travel-time boundary. Conversely, several remote query
+locations can recover useful metadata that the device ranks accurately using its current
+GPS. Prior work combines Geo-I, dummy queries and local processing in application-specific
+settings~\cite{ev}. Thus neither multiple queries nor local selection alone is our novelty
+claim. The question is how to specify a stateful publication policy, bound its complete
+transcript, and evaluate its answers without confusing a planning proxy with service utility.
+
+Comparability is another obstacle. Recent methods release a replacement coordinate, a set
+containing the true location and dummies, or extra fake packets; offline trajectory generation
+has a different output contract~\cite{transprotect,semantic,fake,sok}. A real-member anonymity
+metric does not apply unchanged to a query set that need not contain the true location.
+We therefore retain task-aligned localization and service metrics alongside original metrics
+where their definitions and required inputs remain applicable. We do not propose new formulas
+for mean absolute error (MAE), Recall or bootstrap intervals.
+
+We examine \BQ{}, a family of policies with Geo-I cap $C_s$ and query allowance $\Gamma_Q$;
+the evaluated v1 configuration remains fixed throughout this article. A road exponential
+mechanism and a private reuse test maintain an internal reference $Z$. An approximate belief
+computed from protected history scores a common library of road-feasible query segments.
+A bounded centered kernel selects one segment; its frames are then released at public times.
+The device retrieves a purpose-independent cover, caches valid metadata, and returns a full
+filtered and sorted local answer.
+
+The information-access model is consequential. The present prototype loads a complete
+public reference that matches the static provider used in the experiment. Its utility
+evaluation restricts answers to received candidates, but does not establish that an
+operational device lacks the information to answer offline. Likewise, a nonadaptive public
+base has slightly higher Recall in this cohort. We preserve these adverse findings.
+They limit claims about application necessity and the benefit of private adaptation, while
+leaving the conditional transcript analysis meaningful.
+
+The article makes three scoped contributions:
+\begin{enumerate}[leftmargin=*,itemsep=3pt]
+\item A road-aware, stateful publication policy with separate accounting for private GPS
+operations and bounded joint query-segment selection. The analysis covers the ordered
+transcript under stated support, clock, provider and state assumptions.
+\item A connected privacy--utility analysis: an end-to-end likelihood-ratio bound, a
+prior-concentration corollary for arbitrary-estimator localization, conditional composition
+of multiple channels, and utility statements that separate exact properties from
+uncertified calibration assumptions.
+\item A reproducible controlled comparison with three audited paper adaptations and two
+controls, accompanied by supplementary inference tasks, family-level uncertainty, cost
+accounting and an audit of catalogue saturation and the untested cap-exhausted regime.
+\end{enumerate}
+We do not claim to be the first road-aware Geo-I mechanism, to outperform every original
+paper implementation, or to certify a complete deployed system.
+Section~\ref{sec:related} positions the work; Section~\ref{sec:method} specifies and analyzes
+the method; Section~\ref{sec:evaluation} reports the comparison and its limits; and
+Section~\ref{sec:conclusion} concludes.

@@ -1,0 +1,205 @@
+\section{Proposed method and analysis}\label{sec:method}
+\subsection{System, private inputs and information access}\label{sec:system}
+Let $V$ be a finite directed road-state space with coordinates $a_v$ in a fixed metric
+projection. Distinct lane states may have identical coordinates. We use Euclidean distance
+for Geo-I and localization error; directed road cost is a separate quantity used for
+feasibility and service ranking. A trajectory $X=(x_0,x_1,\ldots)$ is defined at all
+potential protected-read times on a common clock, including times skipped by the filter.
+For two trajectories,
+\begin{equation}
+D_\infty(X,X')=\sup_i\|x_i-x_i'\|_2. \label{eq:metric}
+\end{equation}
+This is the deviation between synchronized hypotheses, not distance traveled.
+
+The true request $\psi_t$ contains purpose, category and local parameters, such as a radius
+or destination. GPS and $\psi_t$ remain local. The provider sees the ordered transcript
+$O_n$ of coordinates, timestamps, common requests, responses and retries after $n$ segment
+selections. It does not receive $Z$, belief, private ledger, refresh flags or ranked local
+answers. We consider a provider that knows the algorithm and public context $C$.
+Account/IP identifiers, application feedback and private start/stop timing require
+additional channels and are not silently covered.
+
+Figure~\ref{fig:system} locates the mechanism in the system. Information access must be
+distinguished from publicity: a public catalogue is not necessarily already downloaded,
+but a device that possesses its complete current metadata may not need online retrieval.
+In our prototype, offline reference and reply contexts are loaded into the operational
+factory, and the trial provider matches that static context. The candidate mask records
+what was received and permitted in the measured answer; it is not a confidentiality
+barrier between an evaluator's catalogue and the client.
+
+\begin{figure}[htbp]\centering
+\resizebox{\linewidth}{!}{\input{figure_system}}
+\caption{System boundary and information flow. The complete design context is available in
+the present prototype. An operational proxy--provider separation would require explicit
+unknown metadata and a matching service evaluation.}\label{fig:system}
+\end{figure}
+
+Accordingly, the experiment measures received-candidate quality under a declared acquisition
+contract. If the same complete valid POI records and road costs are already usable locally,
+all four evaluated purposes can be answered offline with Recall one for every defined
+reference. This analytical control does not assume free data acquisition, storage or
+refresh. A production setting with a public proxy $\widehat{\mathcal D}$ and unknown
+current provider records $\mathcal D_t$ is a different information contract; dynamic
+attributes cannot retrospectively justify the static trial.
+
+\subsection{Assumptions for transcript guarantees}\label{sec:assumptions}
+We make the following requirements explicit.
+\begin{enumerate}[label=A\arabic*.,leftmargin=*,itemsep=3pt]
+\item At the same public context and augmented action history, the candidate segment
+library, ordering and positive base masses are identical. GPS, $Z$, belief and private
+request do not prune support. Within the valid public domain, a common stationary
+segment supplies holding feasibility.
+\item The spatial guarantee uses ideal REM and private-test kernels; downstream reads
+only their protected history and permitted context. All new private reads are accounted
+before access. Restarts must restore the full required upstream state, not merely a clock.
+\item The query kernel receives scores in $[0,1]$ and samples its integer PMF using fresh
+uniform bits. Its random source is independent of private input and upstream randomness.
+\item Actions and allowance counters are committed before publication and cannot roll
+back within a session. Clock and session boundaries are common when inputs are compared,
+or follow a public-history-only rule. Subsequent frames and retries reuse the action.
+\item At the same public query/history, the provider has the same conditional response
+law under either private input. Private GPS or intent creates no additional request.
+\item Cache/ranking results require valid, sufficient metadata and the same local
+request and total order. Transfer to actual service utility requires separately justified
+proxy and distribution error bounds.
+\end{enumerate}
+Augmented history includes selected fake lane states as well as public coordinates:
+coordinate aliases need not identify subsequent feasible transitions. We prove a bound
+on this stronger history before projecting to the wire. Movement and future targets
+are fixed exogenously for the analysis; user decisions altered by service replies
+would require an interactive feedback model.
+
+\subsection{Protected references and prospective accounting}
+With a common road domain, the road exponential mechanism (REM) samples
+\begin{equation}
+R_u(v\mid x)=
+\frac{\exp[-u\|x-a_v\|_2/2]}{\sum_{w\in V}\exp[-u\|x-a_w\|_2/2]},
+\qquad Z=a_v,\quad v\sim R_u(\cdot\mid x). \label{eq:rem}
+\end{equation}
+It directly samples a road state. It is not planar noise followed by a second matching
+step. A GPS-dependent truncation of $V$ would require a different proof.
+After the first reference, a permitted read tests an old reference $h$:
+\begin{equation}
+D_t=\mathbf1\{\|x_t-h\|_2+\xi_t>\theta\},\qquad
+\xi_t\sim\operatorname{Lap}(0,1/u). \label{eq:test}
+\end{equation}
+A zero result reuses $h$; otherwise REM refreshes it. The initial release costs one
+unit $u$, test-and-reuse one unit, and test-and-refresh two units.
+
+For a session cap $C_s>0$, choose $0<u\le C_s$ and $M=\lfloor C_s/u\rfloor$.
+The prospective filter preserves
+\begin{equation}
+\operatorname{Spent}_n=u\sum_{i=0}^n c_i\le Mu\le C_s,\qquad c_i\in\{0,1,2\}. \label{eq:cap}
+\end{equation}
+It reserves the maximal possible next cost before reading GPS. A skipped read cannot
+itself be selected by an unaccounted GPS test. The frozen configuration parameterizes
+$u=B/(2H_{\rm cfg})$, $M=2H_{\rm cfg}-1$ with $B=0.24\,\mathrm m^{-1}$ and
+$H_{\rm cfg}=12$, giving $u=0.01\,\mathrm m^{-1}$ and effective cap
+$C_s=0.23\,\mathrm m^{-1}$. These are configuration values, not a universal risk policy.
+Exhaustion prevents further protected GPS input; it does not force query termination.
+More generally, a sufficient spatial policy for likelihood ratio at most $R_\star>1$
+throughout a declared neighborhood $D_\infty\le d_\star$ is
+$C_s\le\log(R_\star)/d_\star$. This converts a stated distinguishability target
+into a cap; it does not justify the frozen numerical cap without such a policy
+or promise a fixed number of useful future observations.
+
+\subsection{Protected belief and common segment library}
+An approximate belief over representative states predicts and updates as
+\begin{align}
+b_t^-(s)&=\sum_r b_{t-1}(r)T_{\Delta t}(r,s),\\
+b_t(s)&=\frac{b_t^-(s)\ell_t(Z_t\mid s,h)}
+                    {\sum_r b_t^-(r)\ell_t(Z_t\mid r,h)}. \label{eq:belief}
+\end{align}
+At an update, the emission combines the reuse atom and refresh:
+$\ell(z\mid s,h)=r_s\mathbf1_{\{z=h\}}+
+(1-r_s)\sum_{v:a_v=z}R_u(v\mid s)$, where $r_s$ is the reuse probability.
+Without a private read, prediction alone is performed; a repeated reference is not
+treated as an independent new REM observation. State discretization, prior and motion
+transitions are public approximations, not a certified posterior of a real user.
+
+An action $A_a$ is a segment with three frames, each containing $K=5$ fake road states.
+Frame transitions respect directed-road feasibility from previously selected fake
+states. Public search and cover goals generate a common library
+$\mathcal A_j(\mathcal H_{j-1})$. Belief changes scores, not the library or positive
+base masses $w_a$. Holding is a feasible common action in the declared domain.
+The frozen initial policy filters only by a public reference-mass floor;
+an empty public goal/filter domain raises a reported construction failure,
+rather than relaxing support using private information. The trial has no such failure.
+The evaluated planner uses a portfolio width of 24, novelty and long-range weights
+of four, and a 60-second travel scale. These are frozen choices, not proven optima.
+The supplement specifies the cache-coverage/proximity score and public masses.
+
+\subsection{Bounded joint sampling, publication and local answers}
+From a bounded public proxy $g_a(s)$, compute raw score $v_a=\sum_s b(s)g_a(s)$.
+Normalization and quantization give $z_a=F_a/S\in[0,1]$, $S=65536$.
+The centered kernel is
+\begin{align}
+\varepsilon_{Q,j}&=\frac{\Gamma_Q}{j(j+1)},&
+\alpha_j&=\frac{\widehat\varepsilon_{Q,j}}{2+\widehat\varepsilon_{Q,j}},\\
+\mu_j&=\sum_a w_a z_a,&
+p_a&=w_a[1+\alpha_j(z_a-\mu_j)]. \label{eq:kernel}
+\end{align}
+Here $0\le\widehat\varepsilon_{Q,j}\le\varepsilon_{Q,j}$ is the exact rational
+value obtained by rounding the scheduled allowance downward to binary64
+before constructing the integer kernel. The nominal schedule remains a valid upper bound.
+The evaluated allowance is $\Gamma_Q=1$. Min--max normalization can change the score
+scale; $z_a$ is neither actual Recall nor a calibrated GPS probability. The proof uses
+its bounded range, not an unjustified sensitivity claim.
+
+With $w_a=m_a/T$ and $\alpha_j=N/D$, exact finite sampling uses
+\begin{equation}
+W_a=m_a\left[DTS+N\left(TF_a-\sum_c m_cF_c\right)\right],
+\qquad \sum_aW_a=DT^2S. \label{eq:integer}
+\end{equation}
+A uniform integer below the total mass selects its cumulative interval.
+The representation avoids floating cumulative probabilities; it does not certify
+the simulator's entropy source or the upstream floating-point mechanism.
+
+A selected segment is committed once and emitted at offsets 0, 20 and 40 seconds.
+The next segment begins at 60 seconds. The protected layer reads fresh GPS no more
+often than every 60 seconds and only when its prospective filter allows it.
+Current GPS can still be used privately for local ranking at service ticks.
+Thus protected-read counts are not total GNSS activations or energy measurements.
+Every public coordinate requests the same six categories with response depth $L=60$
+per category. The true purpose, category, radius and destination remain local.
+Received metadata are deduplicated by POI identifier and cached under the declared
+validity rule. The application returns the full matching sorted list; top five
+defines only the evaluation reference.
+
+\begin{figure}[htbp]\centering
+\resizebox{.93\linewidth}{!}{\input{figure_model}}
+\caption{GeoI-BQ workflow. One joint action produces three published frames.
+Local GPS and request affect ranking, not query support or the common payload.}
+\label{fig:model}
+\end{figure}
+
+\begin{algorithm}[htbp]
+\caption{One public service tick of GeoI-BQ}\label{alg:policy}
+\begin{algorithmic}[1]
+\Require Public clock, common library policy, persisted ledgers and provider interface
+\If{pacing and prospective Geo-I filter permit a protected read}
+  \State Read GPS; create initial REM reference or perform private reuse/refresh
+  \State Update protected history and spent units
+\EndIf
+\State Predict belief; apply an emission update only for an actual protected observation
+\If{the tick begins a new segment}
+  \State Construct the common library and positive base masses from permitted history
+  \State Score using protected belief; sample by (\ref{eq:integer})
+  \State Commit action, segment counter and allowance before sending
+\EndIf
+\State Send the committed frame with the common category cover; reuse it on retry
+\State Union valid responses into cache; filter and sort locally using current GPS and $\psi_t$
+\State \Return the full matching answer list
+\end{algorithmic}
+\end{algorithm}
+
+For a fixed example (first trip of TEST family cache-029), the first packet
+acquires 381 distinct POIs. At 20 and 40 seconds, public pacing skips a new
+protected read and preserves one spent unit, even though the true GPS moves.
+The first frame of the next segment at 60 seconds follows a private refresh,
+raising spend to three units and cache size to 385. A further refresh at
+120 seconds raises spend to five and cache size to 402; a private reuse at
+180 seconds costs one additional unit and leaves the reference unchanged,
+while cache size reaches 407. These internal audit labels are not provider
+features. The supplement gives the retained GPS offsets, reference and Q1
+coordinates; the example was selected by identifier, not by its protection score.

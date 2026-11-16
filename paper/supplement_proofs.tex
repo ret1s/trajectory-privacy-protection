@@ -1,0 +1,287 @@
+\section{Proof details and interpretation}
+\subsection{Concrete public scoring in the frozen policy}
+Let $P(F)$ be the public POI reply union of a K5 frame and $C$ the cache mask
+derived from received replies. For each representative state $s$, the public
+table assigns reference-item weights within each defined purpose, averaging
+over its defined public destination/category cases. Undefined cases are removed
+before belief mixing, with no belief-dependent denominator.
+Writing $\mathcal P_s$ for the defined purposes and $\omega_{s,p,i}$ for
+their normalized reference-item weights, define
+\[
+r_s(U)=\frac{1}{|\mathcal P_s|}
+ \sum_{p\in\mathcal P_s}\sum_{i\in U}\omega_{s,p,i}\in[0,1].
+\]
+For a later segment $a=(F_1,F_2,F_3)$, let
+$C_{a,\ell}=C\cup\bigcup_{h\le\ell}P(F_h)$ and let
+$d(s,F_\ell)$ be Euclidean distance to the nearest coordinate in the frame.
+The frozen public proxy is
+\[
+g_a(s)=\frac13\sum_{\ell=1}^3
+\left(0.9r_s(C_{a,\ell})+
+\frac{0.1}{1+d(s,F_\ell)/(1000\,{\rm m})}\right).
+\]
+Initially the coverage term uses the frame pool $P(F_\ell)$; the public
+library consists of stationary goal segments. Initial candidates retain a
+public exact reference mass at least the best initial goal mass minus $0.005$,
+and have equal base masses. The goals themselves are selected by a public
+beam of width 24 and an exact declared-reference floor of $0.99$.
+Empty public goal/filter construction is an explicit failure, not a
+private-input fallback. Real-provider metadata validity remains an assumption.
+
+For later segments the positive base integer mass is
+$m_a=1+4n_a+4\ell_a$, where
+$n_a=|(\bigcup_\ell P(F_\ell))\setminus C|$ and $\ell_a$ is a public
+long-range potential, zero when absent. The long-range search assigns
+five tracks to reply-equivalence goals by maximizing uncovered item count
+divided by $1+\text{travel time}/60$ s, using five cyclic assignment orders.
+The potential is the uncovered goal-union count divided by the ceiling of
+maximum assigned travel time over 60 s (at least one), rounded down.
+Local directed-reachable exploration and these targeted goals are both
+constructed without belief, true GPS or request.
+
+After $v_a=\sum_sb(s)g_a(s)$, nonconstant scores use
+$F_a=\lfloor S(v_a-\min_cv_c)/(\max_cv_c-\min_cv_c)\rfloor$,
+clipped to $[0,S]$, with $S=65536$. Constant scores map to zero.
+The implementation includes bounded numerical fallbacks without changing
+public support or requesting private-dependent retries. It converts the
+allowance downward to a representable rational $\widehat\varepsilon$.
+The exact Q analysis below uses that value; nominal-schedule ceilings are
+conservative because $\widehat\varepsilon\le\varepsilon$.
+This score construction explains the policy but does not turn a proxy
+coverage or proximity term into actual service Recall.
+
+\subsection{REM, private tests and accounting}
+For a finite common road-state domain, write
+$w_x(v)=e^{-u\|x-a_v\|/2}$ and $S_x=\sum_vw_x(v)$. For $d=\|x-x'\|$,
+the reverse triangle inequality gives both
+\[
+e^{-ud/2}\le\frac{w_x(v)}{w_{x'}(v)}\le e^{ud/2},
+\qquad
+e^{-ud/2}\le\frac{S_{x'}}{S_x}\le e^{ud/2}.
+\]
+Multiplying proves the REM point ratio, then summing proves the event ratio.
+The normalizers must remain in the proof: neither cancels when $x$ changes.
+Lane aliases are summed only after sampling, so coordinate projection cannot
+worsen the bound. Private truncation to nearby roads would invalidate this argument.
+
+At a fixed extended history the old reference $h$ is the same under the two
+hypotheses. The distance statistic is 1-Lipschitz. For noise density
+$f_x(y)=(u/2)e^{-u|y-\|x-h\||}$, another triangle inequality gives
+$f_x(y)\le e^{ud}f_{x'}(y)$. Integrating either threshold half-line proves
+the same ratio for reuse $r_x$ and for refresh $1-r_x$. The transition has
+two distinguishable extended branches:
+\[
+\Pr_x(\text{reuse})=r_x,\qquad
+\Pr_x(\text{refresh},v)=(1-r_x)R_u(v\mid x).
+\]
+Thus their point ratios cost at most $u$ and $2u$, respectively. The extended
+branch labels are mathematical analysis devices, not server-side inputs.
+
+The filter decides whether to read using the already protected state and
+remaining ledger, before seeing the next raw GPS. It reserves two units for
+a possible test-and-refresh, or one for the initial reference.
+For every finite extended path,
+\[
+\log\frac{\Pr_X(e)}{\Pr_{X'}(e)}
+\le u\sum_i c_i(e)\|x_i-x_i'\|
+\le C_sD_\infty(X,X').
+\]
+Common paths have the same branch costs; the inequality is pathwise, not
+an average-spend argument. A public skipped-read transition contributes zero.
+Summing path probabilities and integrating the same downstream kernel gives
+the spatial transcript bound. It requires complete upstream state restoration
+across restarts. The existence of a persisted Q counter alone is insufficient.
+
+\subsection{Centered sampling, exact representation and adaptive composition}
+Let $w_a>0$, $\sum_aw_a=1$, $z_a\in[0,1]$, $\mu=\sum_aw_az_a$ and
+$p_a=w_a[1+\alpha(z_a-\mu)]$. Centering gives
+$\sum_ap_a=1$. For $\alpha=\varepsilon/(2+\varepsilon)<1$,
+\[
+w_a(1-\alpha)\le p_a\le w_a(1+\alpha),\qquad
+\frac{p_a(b)}{p_a(b')}\le\frac{1+\alpha}{1-\alpha}=1+\varepsilon .
+\]
+This is a range argument for arbitrary beliefs, not a sensitivity bound on an
+unquantized utility normalization. A conditional mixture over protected histories
+still lies in the same interval. If a candidate or base mass vanishes for only
+one private input, the premise fails.
+
+Write $w_a=m_a/T$, $z_a=F_a/S$, $\alpha=N/D$ with positive integer masses.
+The exact action weight is
+\[
+W_a=m_a\{DTS+N(TF_a-\sum_cm_cF_c)\},\quad
+\sum_aW_a=DT^2S .
+\]
+The mass is positive because $\alpha<1$ and $F_a/S\in[0,1]$.
+Dividing by the total recovers $p_a$ exactly. Sampling the integer cumulative
+interval is exact only conditional on an unbiased uniform integer generator.
+Arithmetic checks do not certify the runtime's entropy, timing side channels
+or the floating-point REM mechanism.
+
+Condition on the common augmented action history (fake lane states included).
+The library and base masses coincide; multiplying the per-action ratios gives
+$R_n=\prod_{j\le n}(1+\Gamma_Q/[j(j+1)])$. All provider responses have the same
+conditional law, so they introduce no new ratio factor. Remaining frames,
+fixed retries and projection to coordinate-only wire are post-processing.
+Private correlated movement does not require independence in this chain rule.
+
+For $\Gamma_Q=1$, let $P_N$ be the finite product. The positive tail terms
+have sum $s=1/(N+1)$. Expanding the product into elementary symmetric sums
+and bounding each order by $s^k$ gives
+\[
+R_\infty\le\frac{P_N}{1-s},\qquad
+N=11:\quad R_\infty\le
+\frac{10763282027953}{4415938560000}<2.437372.
+\]
+The finite rational fraction is a conservative certificate, not the exact
+infinite product. A uniform finite-prefix bound extends to the sigma-field
+of infinite wire sequences by the usual monotone-class argument. Public
+stopping times are measurable functions of this wire; GPS-dependent private
+start/stop rules are additional mechanisms.
+
+\subsection{End-to-end, posterior and joint-channel consequences}
+If both the spatial and Q analyses apply to the same event, their intersection is
+\[
+\Pr_X(O_n\in B)\le
+\min\{e^{C_sD_\infty(X,X')},R_n\}\Pr_{X'}(O_n\in B).
+\]
+The minimum is valid because these are independent proofs about the same channel.
+It is not sequential composition of a GPS channel and a newly exposed private
+GPS channel, and the two parameter units differ.
+
+For a fixed private-input event $A$ and observed output $o$, uniform pairwise
+likelihood ratios imply the same bound between the mixture likelihoods given
+$A$ and $A^c$. With $\pi=\Pr(A\mid C)$, Bayes' rule yields
+\[
+\Pr(A\mid o,C)\le
+f_R(\pi)=\frac{R\pi}{1+(R-1)\pi}.
+\]
+The complementary bound is
+$\Pr(A\mid o,C)\ge1-f_R(1-\pi)$. Zero prior events remain zero; prior-one
+events remain one. The bound controls new evidence, not existing knowledge.
+For localization, fix the event after observing $o$ to be the radius-$r$
+ball around the estimator's selected center. Its prior mass is at most
+$\pi_{\max,t}(r)$, and $f_R$ is increasing. Integrating proves the
+arbitrary-estimator Hit bound. This step prevents applying a fixed-event
+claim to a data-selected ball without justification.
+
+For example, $\pi=1/2$ and $R<2.437372$ imply posterior below 70.91\%
+for any one observed wire in a balanced two-hypothesis experiment. If
+$\pi=0.99$, the same formula permits approximately 99.59\%: no uniform
+impossibility of identification follows. Identity and future-target
+events require a valid target--trajectory--wire model at the same context.
+An exposed account or license plate is an additional observation channel.
+
+For multiple channels, assume conditional ratios at every feasible common
+joint prefix. Chain rule gives $\prod_\ell R_\ell$, even with correlated
+private trajectories. A purely marginal per-user guarantee is insufficient
+when conditional laws change after another observation. Two valid sessions
+give $R^2$, with balanced-prior posterior below 85.5925\%. A perfectly aligned
+Raw partner has no finite all-pairs ratio guard and can reveal a correlated
+target directly.
+
+\subsection{Utility identities, transfer and path bounds}
+At the same local history, for any bounded vector $f$,
+\[
+\E_pf-\E_wf=\sum_aw_a\alpha(z_a-\mu)f_a
+=\alpha\Cov_w(z,f).
+\]
+Setting $f=z$ gives nonnegative score gain. Setting $f=r$ gives the actual
+reward gain, whose sign is not constrained without calibration. If
+$|r_a-v_a|\le\eta$, then
+\[
+\Cov_w(z,r)\ge\Cov_w(z,v)-\eta\E_w|z-\mu|.
+\]
+These formulas remain valid after score normalization/quantization, but
+the interpretation of $z$ as actual service utility does not follow from them.
+
+For a fixed GPS/request and common total order, every reference top-$k$ POI
+received in $U$ precedes every non-reference POI in that order. It therefore
+survives top-$k$ restricted to $U$. This proves
+$\operatorname{Recall@}k=|T\cap U|/|T|$ for nonempty $T$.
+Cache inclusion can only increase this expression for that same reference;
+expired metadata or a different request is outside the comparison.
+Returning a full matching list is compatible with using top-$k$ for evaluation.
+
+For an adaptive path, let $L_j=dP_j/dW_j$ relative to the identical public
+base, and let $\ell_j=p_j/w_j$. Conditional on history,
+\[
+\E_W[\ell_j^2\mid H_{j-1}]
+=1+\alpha_j^2\Var_{w_j}(z_j)\le1+\alpha_j^2/4 .
+\]
+For a latent protected belief, take $z_j$ to be its conditional mean score
+vector under the adaptive law at this prefix. The centered representation
+survives averaging and the vector remains in $[0,1]$; exposing Z is unnecessary.
+Iterated conditional expectation gives
+$\E_WL_n^2\le\prod_{j\le n}(1+\alpha_j^2/4)$.
+Cauchy--Schwarz then gives
+\[
+\TV(P_n,W_n)\le\frac12\sqrt{\E_W(L_n-1)^2}
+\le\frac12\sqrt{\prod_{j\le n}(1+\alpha_j^2/4)-1}.
+\]
+The same provider, external conditions, cache policy and private input are
+held fixed in this matched comparison; the public base changes the action
+law and consequently future public histories. No IID step assumption is used.
+The exact prefix/tail certificate gives a uniform bound
+$6907/125000=0.055256<0.0553$ for $\Gamma_Q=1$.
+It is a bound on a possible bounded-utility shift, not a 94.47\% Recall floor.
+
+For a declared reference-case law $\rho$ and actual law $\lambda$, both
+conditional on the current history, assume $\E_\rho\widehat r\ge c$,
+$\TV(\lambda,\rho)\le\tau$ and
+$\E_\lambda|r-\widehat r|\le\nu$, with rewards in $[0,1]$. Then
+\[
+\E_\lambda r\ge\E_\lambda\widehat r-\nu
+\ge\E_\rho\widehat r-\tau-\nu\ge c-\tau-\nu .
+\]
+Clip the lower bound at zero. Applying the tower property to fixed public
+time weights $\omega_t$ gives
+$\E\sum_t\omega_t r_t\ge\sum_t\omega_t\max(0,c_t-\tau_t-\nu_t)$.
+Conditional bounds must hold at the histories to which they are applied.
+An unconditional case distribution that ignores a selected cache can
+understate error. Actual-cohort proxy errors remain uncertified.
+
+\subsection{Exact finite examples, not empirical calibration}
+Take two public actions with $w=(1/2,1/2)$, scores $z=(1,0)$ and
+$\varepsilon=1/2$, so $\alpha=1/5$ and $p=(11/20,9/20)$.
+If actual rewards are $r=(0.9,0.6)$, actual gain is $0.015$.
+For proxy $v=(0.86,0.62)$ and valid uniform error $\eta=0.04$,
+the conditional lower bound is $0.008$.
+If actual rewards instead are $(0.4,0.9)$, the same kernel still improves
+its planning score but reduces actual reward by $0.025$.
+
+For an absolute-floor illustration, use
+$\rho=(0.5,0.3,0.2)$, $\lambda=(0.47,0.30,0.23)$,
+$\widehat r=(0.91,0.90,0.89)$ and $r=\widehat r-0.02$.
+Then $\E_\rho\widehat r=0.903$, $\TV(\lambda,\rho)=0.03$,
+and $\E_\lambda|r-\widehat r|=0.02$.
+Taking the conservative $c=0.90$ proves a nonvacuous floor $0.85$;
+the actual mean is $0.8824$. Exact Fraction arithmetic checks the examples.
+They do not estimate error for the mobility cohort or a real provider.
+
+\section{Assumptions, implementation and checks}
+\begin{longtable}{@{}P{2.6cm}P{4.9cm}P{6cm}@{}}
+\caption{Claim-to-code map. Checks support the specification but do not replace symbolic proofs.}\label{tab:claim-map}\\
+\toprule Claim & Mechanism / source & Check and remaining condition\\\midrule\endfirsthead
+\toprule Claim & Mechanism / source & Check and remaining condition\\\midrule\endhead
+\bottomrule\endlastfoot
+REM / reuse & \path{core/mechanisms.py}; \path{benchmark/geo_i_event_bound.py} &
+Ideal kernels; finite branch/cap oracle. Floating-point upstream and full restoration are not deployment-certified.\\
+Centered PMF & \path{benchmark/finite_query_kernel.py} &
+Exact normalization, positive mass and ratio tests; unbiased runtime entropy is assumed.\\
+Session wire & \path{core/bounded_query_session.py}; \path{benchmark/finite_session_bounds.py} &
+Persistent counter, committed three-frame segment, retry/restart and support/path checks. Rollback or unmodeled side channels break the premises.\\
+Adaptive utility & \path{benchmark/whole_path_chi_square.py}; \path{benchmark/conditional_gain.py} &
+Exact finite path, prefix/tail and conditional gain oracles; comparison is to the matched public base.\\
+Reference transfer & \path{benchmark/reference_utility_transfer.py} &
+History-conditional counterexamples and finite floors; real calibration remains unknown.\\
+Estimator / joint & \path{evaluation/argument_bounds_20261116.py} &
+Exact posterior/event, selected success-set and conditional-product checks; a valid prior and conditional observation model are required.\\
+Empirical audit & \path{experiments/audit_thesis_arguments_20261116.py} &
+All retained TEST draws; catalogue coverage, cap spend and preserved negative controls. No refitting or resampling.\\
+\end{longtable}
+The evidence manifest binds 108 frozen release pins and all source artifacts used
+by the exporter. Full local repository paths in this table identify code modules,
+not files required by the standalone LaTeX build.
+An integer Q kernel does not make the complete program a certified pure-DP
+implementation. A practical claim additionally needs numerical support analysis,
+entropy validation, crash/rollback behavior, upstream restoration and side-channel review.

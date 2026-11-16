@@ -1,0 +1,14 @@
+\begin{table}[htbp]\centering\footnotesize
+\caption{Localization results: Hit100 (\%, lower) / MAE (m, higher). Same time windows.}\label{tab:privacy}
+\begin{tabularx}{\linewidth}{@{}P{2.7cm}YYYYY@{}}\toprule
+\textbf{Method} & \textbf{S1} & \textbf{S2} & \textbf{S3} & \textbf{S9} & \textbf{S10} \\
+\midrule
+Raw GPS & \shortstack[l]{100.000 /\\ 0.0} & \shortstack[l]{100.000 /\\ 0.0} & \shortstack[l]{100.000 /\\ 0.0} & \shortstack[l]{100.000 /\\ 0.0} & \shortstack[l]{100.000 /\\ 0.0} \\
+REM-Z (K1) & \shortstack[l]{18.522 /\\ 338.5} & \shortstack[l]{37.500 /\\ 214.3} & \shortstack[l]{18.522 /\\ 338.5} & \shortstack[l]{5.833 /\\ 435.8} & \shortstack[l]{35.000 /\\ 246.8} \\
+TransProtect* & \shortstack[l]{82.984 /\\ 54.4} & \shortstack[l]{94.167 /\\ 28.7} & \shortstack[l]{82.984 /\\ 54.4} & \shortstack[l]{96.667 /\\ 17.8} & \shortstack[l]{90.833 /\\ 33.6} \\
+Semantic* & \shortstack[l]{82.258 /\\ 41.9} & \shortstack[l]{100.000 /\\ 8.2} & \shortstack[l]{82.258 /\\ 41.9} & \shortstack[l]{100.000 /\\ 5.3} & \shortstack[l]{100.000 /\\ 7.3} \\
+Fake queries* & \shortstack[l]{53.387 /\\ 1213.0} & \shortstack[l]{92.500 /\\ 239.1} & \shortstack[l]{98.790 /\\ 13.3} & \shortstack[l]{99.167 /\\ 42.2} & \shortstack[l]{100.000 /\\ 6.4} \\
+\textbf{GeoI-BQ v1} & \shortstack[l]{0.188 /\\ 2104.6} & \shortstack[l]{0.000 /\\ 2124.2} & \shortstack[l]{0.188 /\\ 2104.6} & \shortstack[l]{0.000 /\\ 1986.4} & \shortstack[l]{0.000 /\\ 2124.2} \\
+\bottomrule\end{tabularx}
+\par\smallskip\raggedright * Audited adaptations, not official author implementations. Each loss has its own selected attacker. Full CIs appear in the supplement.
+\end{table}

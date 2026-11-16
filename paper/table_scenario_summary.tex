@@ -1,0 +1,14 @@
+\begin{table}[htbp]\centering\footnotesize
+\caption{Extended diagnostics (\%); lower inference is preferable, subject to task validity.}\label{tab:scenario-summary}
+\begin{tabularx}{\linewidth}{@{}P{2.7cm}YYY@{}}\toprule
+\textbf{Method} & \textbf{S4 balanced acc.} & \textbf{S6 post-turn acc.} & \textbf{S8 protected-partner Hit100} \\
+\midrule
+Raw GPS & 100.00 & 100.00 & 100.00 \\
+REM-Z (K1) & 91.67 & 50.00 & 6.67 \\
+TransProtect* & 99.17 & 95.00 & 64.17 \\
+Semantic* & 100.00 & 95.00 & 75.00 \\
+Fake queries* & 93.33 & 99.17 & 68.33 \\
+\textbf{GeoI-BQ v1} & 47.50 & 50.83 & 0.00 \\
+\bottomrule\end{tabularx}
+\par\smallskip\raggedright S4 is route-family association, not verified person/vehicle identity. S6 has two candidates (50\% chance). S8 is the post-V1 fusion diagnostic on the inspected cohort.
+\end{table}

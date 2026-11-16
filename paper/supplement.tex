@@ -1,0 +1,33 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=23mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,booktabs,tabularx,longtable,array}
+\usepackage{enumitem,microtype,xurl,graphicx}
+\usepackage[hidelinks]{hyperref}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\E}{\mathbb E}
+\newcommand{\TV}{\operatorname{TV}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\theequation}{S\arabic{equation}}
+\setlength{\emergencystretch}{2em}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.12}
+\hypersetup{pdftitle={GeoI-BQ: Supplementary Material},pdfauthor={}}
+\title{GeoI-BQ: Bounded Transcript Disclosure for Road-Aware Location Queries\\
+\large Supplementary Material}
+\author{Anonymous authors}
+\date{}
+\begin{document}
+\maketitle
+\noindent This supplement accompanies the English article with the same title.
+It preserves proof details, uncertainty, selected attackers and unfavorable controls.
+All empirical values are exports of existing artifacts; preparing this manuscript
+did not rerun a defense, train an attacker or select a new favorable draw.
+\tableofcontents
+\input{supplement_proofs}
+\input{supplement_results}
+\end{document}

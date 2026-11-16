@@ -1,0 +1,37 @@
+\begingroup\footnotesize
+\begin{longtable}{@{}P{2.5cm}P{2.6cm}P{3.8cm}P{3.8cm}@{}}
+\caption{Loss-specific selected S8 V2 attackers.}\label{tab:s8-attackers}\\
+\toprule\textbf{Method} & \textbf{View} & \textbf{Hit100 attacker} & \textbf{MAE attacker} \\
+\midrule\endfirsthead
+\multicolumn{4}{l}{\textit{Continued from previous page}}\\
+\toprule\textbf{Method} & \textbf{View} & \textbf{Hit100 attacker} & \textbf{MAE attacker} \\
+\midrule\endhead
+\midrule\multicolumn{4}{r}{\textit{Continued on next page}}\\\endfoot
+\bottomrule\endlastfoot
+Raw GPS & target\_\allowbreak{}only & centroid & centroid \\
+REM-Z (K1) & target\_\allowbreak{}only & velocity & centroid \\
+TransProtect* & target\_\allowbreak{}only & velocity & velocity \\
+Semantic* & target\_\allowbreak{}only & centroid & centroid \\
+Fake queries* & target\_\allowbreak{}only & centroid & learned\_\allowbreak{}tree \\
+\textbf{GeoI-BQ v1} & target\_\allowbreak{}only & centroid & learned\_\allowbreak{}knn5 \\
+Raw GPS & protected\_\allowbreak{}partner & centroid & centroid \\
+REM-Z (K1) & protected\_\allowbreak{}partner & fusion\_\allowbreak{}velocity\_\allowbreak{}0.5 & fusion\_\allowbreak{}centroid\_\allowbreak{}0.5 \\
+TransProtect* & protected\_\allowbreak{}partner & fusion\_\allowbreak{}velocity\_\allowbreak{}0.25 & fusion\_\allowbreak{}velocity\_\allowbreak{}0.5 \\
+Semantic* & protected\_\allowbreak{}partner & fusion\_\allowbreak{}nearest\_\allowbreak{}2\_\allowbreak{}pairs\_\allowbreak{}mean & fusion\_\allowbreak{}nearest\_\allowbreak{}pair \\
+Fake queries* & protected\_\allowbreak{}partner & fusion\_\allowbreak{}nearest\_\allowbreak{}pair & target\_\allowbreak{}only\_\allowbreak{}tree \\
+\textbf{GeoI-BQ v1} & protected\_\allowbreak{}partner & centroid & learned\_\allowbreak{}knn5 \\
+Raw GPS & raw\_\allowbreak{}partner & centroid & centroid \\
+REM-Z (K1) & raw\_\allowbreak{}partner & partner\_\allowbreak{}centroid & partner\_\allowbreak{}centroid \\
+TransProtect* & raw\_\allowbreak{}partner & fusion\_\allowbreak{}velocity\_\allowbreak{}0.25 & partner\_\allowbreak{}centroid \\
+Semantic* & raw\_\allowbreak{}partner & fusion\_\allowbreak{}centroid\_\allowbreak{}0.25 & partner\_\allowbreak{}centroid \\
+Fake queries* & raw\_\allowbreak{}partner & fusion\_\allowbreak{}nearest\_\allowbreak{}pair & partner\_\allowbreak{}centroid \\
+\textbf{GeoI-BQ v1} & raw\_\allowbreak{}partner & partner\_\allowbreak{}centroid & partner\_\allowbreak{}centroid \\
+Raw GPS & unrelated\_\allowbreak{}partner & centroid & centroid \\
+REM-Z (K1) & unrelated\_\allowbreak{}partner & velocity & centroid \\
+TransProtect* & unrelated\_\allowbreak{}partner & velocity & velocity \\
+Semantic* & unrelated\_\allowbreak{}partner & centroid & centroid \\
+Fake queries* & unrelated\_\allowbreak{}partner & centroid & target\_\allowbreak{}only\_\allowbreak{}tree \\
+\textbf{GeoI-BQ v1} & unrelated\_\allowbreak{}partner & centroid & target\_\allowbreak{}only\_\allowbreak{}knn5 \\
+\end{longtable}
+
+\endgroup

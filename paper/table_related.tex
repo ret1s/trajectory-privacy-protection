@@ -1,0 +1,16 @@
+\begin{table}[htbp]\centering\footnotesize
+\caption{Recent related work: contracts, task coverage and evidence status.}\label{tab:related}
+\begin{tabularx}{\linewidth}{@{}P{2.5cm}P{2.05cm}P{2.15cm}YP{2.35cm}@{}}\toprule
+\textbf{Work} & \textbf{Output} & \textbf{Coverage} & \textbf{Privacy / utility metrics} & \textbf{This study} \\
+\midrule
+TransProtect (2024)\cite{transprotect} & Synthetic coordinate & D: S1, S3; P: S2 & EIE / VehiTrack; travel-cost distortion & Markov adaptation \\
+Semantic (2026)\cite{semantic} & Real + dummy set & D: S1; P: S2, S3 & ASR; DER; generation time & OSM/empirical adaptation \\
+Fake queries (2026)\cite{fake} & Mixed and fake-only sets & D: S1, S3; P: S2 & ASR; indistinguishable paths; runtime/RSS & Road/history adaptation \\
+EV querying (2024)\cite{ev} & Noisy/dummy queries & P: S1--S3 & Approx.\ Geo-I; IBU/Wasserstein; cost of privacy & Survey only; Edge contract differs \\
+CPCROK (2025)\cite{cpcrok} & Pseudonyms / beacons & P: S4 & Relinking; fake routes; communication & Different VANET contract \\
+DP-FETC (2025)\cite{dpfetc} & Offline trajectory data & P: S3, S8--S10 & DP; mutual information; JSD & Different release contract \\
+PTPPM (2025)\cite{ptppm} & Road perturbation & U: S1, S3 & Geo-I; distortion / QoS & Preprint; no audited comparator \\
+SoK (2024)\cite{sok} & Synthesis survey & Not a comparator & Privacy units; reconstruction; utility & Context and evaluation guidance \\
+\bottomrule\end{tabularx}
+\par\smallskip\raggedright D: directly evaluated task under source assumptions; P: partial overlap; U: insufficient audited evidence for a stronger mapping. Unlisted scenarios have no direct coverage established here. D does not imply universal protection.
+\end{table}
