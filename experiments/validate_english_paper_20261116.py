@@ -12,7 +12,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from experiments.export_english_paper_20261116 import PAPER, generate, sha
+from experiments.export_english_paper_20261116 import AUTHORS, PAPER, generate, sha
 from experiments.build_english_paper_20261116 import OUT, BUILD, source_files
 
 
@@ -37,7 +37,11 @@ def source_check(folder=PAPER):
         for image in re.findall(r"\\includegraphics(?:\[[^]]*\])?\{([^}]+)\}", text):
             assert Path(image).name == image and (folder / image).is_file(), image
         assert not re.search(r"\b(?:TODO|TBC|FIXME)\b|turn\d+(?:search|view)|\ufffd", text), entry
-        assert "Anonymous authors" in text and r"pdfauthor={}" in text, entry
+        blocks = re.findall(r"\\author(?:\[[^]]*\])?\{([^}]+)\}", text)
+        names = [name.strip() for block in blocks for name in re.split(r"\\and\b", block)]
+        assert names == list(AUTHORS), (entry, names)
+        assert r"pdfauthor={" + "; ".join(AUTHORS) + "}" in text, entry
+        assert "Anonymous authors" not in text, entry
         # The text is English; legitimate non-ASCII author names remain.
         assert not re.search(r"\b(?:Nguồn|Truy cập|Phương pháp|kết quả|và)\b", text), entry
     main = texts["main"]
@@ -61,7 +65,8 @@ def source_check(folder=PAPER):
         assert (ROOT / path).is_file(), path
     return dict(layout="Elsevier 5p two-column", main_sections=len(sections), references=len(bib), abstract_words=abstract_words,
                 highlight_characters=list(map(len, highlights)),
-                all_inputs_figures_references_resolve=True, anonymous_author_metadata=True)
+                all_inputs_figures_references_resolve=True, authors=list(AUTHORS),
+                author_order_verified=True)
 
 
 def validate():
@@ -88,7 +93,11 @@ def validate():
         assert not re.search(r"Overfull \\[hv]box|undefined references|Citation .* undefined|Missing character:", log), entry
         with pdfplumber.open(OUT / name) as doc:
             assert sha(OUT / name) == build["outputs"][name]["sha256"]
-            assert (doc.metadata.get("Author") or "").strip(" ;") in ("", "Anonymous authors"), doc.metadata
+            author_meta = (doc.metadata.get("Author") or "").strip(" ;")
+            assert re.split(r"\s*;\s*", author_meta) == list(AUTHORS), doc.metadata
+            title_text = re.sub(r"\s+", "", doc.pages[0].extract_text() or "")
+            positions = [title_text.find(re.sub(r"\s+", "", name)) for name in AUTHORS]
+            assert min(positions) >= 0 and positions == sorted(positions), (entry, positions)
             texts = []
             bounds = []
             for i, page in enumerate(doc.pages, 1):

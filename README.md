@@ -3,7 +3,7 @@
 The separate [English paper manuscript](paper/README.md) distills the frozen
 GeoI-BQ method, transcript/utility analysis and six-arm controlled comparison
 into a compact two-column Elsevier-format author-review article with supplementary material.
-Author information is deferred; this is not a journal submission.
+Author order is confirmed; affiliations and contact details remain pending. This is not a journal submission.
 
 The [consolidated thesis (argument revision 16/11)](thesis/README.md) follows the agreed five-chapter
 outline, with the final GeoI-BQ specification, full privacy/utility proof chain,

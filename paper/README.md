@@ -20,7 +20,7 @@ The main article uses Elsevier's 5p two-column layout. It keeps the mechanism, f
 
 Review the central end-to-end theorem and its assumptions first, then the paper-adaptation fidelity and experimental information-access model. Full reference access, catalogue saturation, the stronger Γ0 control and the untested cap-exhausted regime remain explicit. Good observed scores do not replace the theory or prove general superiority.
 
-Authorship and affiliation are intentionally deferred at the user's request. The PDF is anonymous for internal review; this choice is not a statement about JISA's required review model.
+The user confirmed author order: **Hanh Ngo-Minh** (first author), followed by **Phan Trong Nhan** (supervisor). Both PDFs and their metadata use this order. Affiliations, ORCIDs, contact details and the corresponding author remain to be supplied.
 
 ## Rebuild inside the research repository
 

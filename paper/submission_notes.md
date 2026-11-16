@@ -25,7 +25,7 @@ The abstract is kept under 250 words and five short highlights are supplied as c
 
 ## Items deliberately deferred
 
-The user requested content first, so author order, affiliations, ORCIDs and corresponding-author details remain open. No author identity or contact address has been invented.
+The user confirmed **Hanh Ngo-Minh** as first author and **Phan Trong Nhan** as the supervisor and second listed author. This order appears in both PDFs and their metadata. Affiliations, ORCIDs, emails and corresponding-author designation remain open; none has been inferred.
 
 Before an actual submission, the responsible authors must:
 

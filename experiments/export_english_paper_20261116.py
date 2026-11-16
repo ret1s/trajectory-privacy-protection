@@ -12,6 +12,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 PAPER = ROOT / "paper"
+AUTHORS = ("Hanh Ngo-Minh", "Phan Trong Nhan")
 sys.path.insert(0, str(ROOT))
 METHODS = ("raw", "geo_i_Z_k1", "transprotect_markov", "semantic_poi", "fake_queries", "geoi_bq")
 LABELS = ("Raw GPS", "REM-Z (K1)", "TransProtect*", "Semantic*", "Fake queries*", r"\textbf{GeoI-BQ v1}")
@@ -320,7 +321,8 @@ def generate():
         assert sha(path) == provenance["figures_sha256"][path.name], path
         sources[str(path.relative_to(ROOT))] = sha(path)
     manifest = dict(schema="english-paper-evidence-v1", date="2026-11-16",
-                    method="GeoI-BQ v1", author_information="deferred by user",
+                    method="GeoI-BQ v1", authors=list(AUTHORS),
+                    author_information="Order confirmed by user; affiliations and corresponding-author details pending",
                     frozen_release_pins_verified=len(spec["files_sha256"]),
                     main_privacy_cells=len(a), extended_tasks=len(extra["tasks"]), fusion_tasks=len(fusion["tasks"]),
                     models_fitted=False, defense_outputs_regenerated=False,

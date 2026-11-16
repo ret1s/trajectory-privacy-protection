@@ -2,8 +2,9 @@
 
 **Bản thảo tiếng Anh ngày 16/11:** xem [paper/README.md](../../../paper/README.md).
 Đây là bài riêng và supplementary material dựa trên GeoI-BQ v1 cùng bằng chứng
-hiện tại; phần dưới giữ nguyên vai trò kế hoạch lịch sử. Tác giả chưa chốt,
-chưa nộp bài và chưa khẳng định đáp ứng toàn bộ yêu cầu JISA hiện hành.
+hiện tại; phần dưới giữ nguyên vai trò kế hoạch lịch sử. Thứ tự tác giả đã được
+xác nhận: Hanh Ngo-Minh, Phan Trong Nhan. Chưa nộp bài và chưa khẳng định
+đáp ứng toàn bộ yêu cầu JISA hiện hành.
 
 Đánh giá ngày **06/10/2026**. Chưa có deadline/CFP mới, nên thiết kế dưới đây
 tạm nhắm research article thông thường. **Đúng chủ đề, nhưng evidence hiện tại
