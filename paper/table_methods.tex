@@ -1,14 +1,19 @@
-\begin{table}[htbp]\centering\footnotesize
-\caption{Controls, adaptations and the frozen proposed method.}\label{tab:methods}
-\begin{tabularx}{\linewidth}{@{}P{2.7cm}P{3.6cm}Y@{}}\toprule
-\textbf{Method} & \textbf{Public output contract} & \textbf{Configuration / fidelity} \\
-\midrule
+\begingroup\footnotesize
+\begin{longtable}{@{}P{2.7cm}P{3.6cm}P{7.3cm}@{}}
+\caption{Controls, adaptations and the frozen proposed method.}\label{tab:methods}\\
+\toprule\textbf{Method} & \textbf{Public output contract} & \textbf{Configuration / fidelity} \\
+\midrule\endfirsthead
+\multicolumn{3}{l}{\textit{Continued from previous page}}\\
+\toprule\textbf{Method} & \textbf{Public output contract} & \textbf{Configuration / fidelity} \\
+\midrule\endhead
+\midrule\multicolumn{3}{r}{\textit{Continued on next page}}\\\endfoot
+\bottomrule\endlastfoot
 Raw GPS & One real coordinate & Unprotected control \\
 REM-Z (K1) & One REM coordinate & $u=0.01\,\mathrm m^{-1}$; frozen references \\
 TransProtect* & One replacement coordinate & Markov predictor; $K=10$, 8 TRAIN targets, $\alpha_{\rm TP}=10000$, $\varepsilon=0.005\,\mathrm m^{-1}$ \\
 Semantic* & True point + 4 dummies & OSM/empirical predictor; candidate pool 128; replaces AMap/LSTM \\
 Fake queries* & K5 sets + inserted fake events & Road/history predictor; up to 2 fake events, waits 5--15 s, 24 candidates, similarity 0.75 \\
 \textbf{GeoI-BQ v1} & K5 committed frames & $\Gamma_Q=1$, $C_s=0.23\,\mathrm m^{-1}$; protected read interval $\ge60$ s \\
-\bottomrule\end{tabularx}
-\par\smallskip\raggedright The methods have different guarantees, output cardinalities and costs. We do not equate their epsilon values.
-\end{table}
+\end{longtable}
+The methods have different guarantees, output cardinalities and costs. We do not equate their epsilon values.
+\endgroup

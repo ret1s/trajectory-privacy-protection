@@ -19,7 +19,7 @@ def test_every_primary_privacy_cell_binds_to_preserved_results():
     for method in METHODS:
         for scenario in SCENARIOS:
             t = rows[method, scenario]
-            expected = r"\shortstack[l]{" + pct(t["Hit100"]) + r" /\\ " + n(t["MAE_m"], 1) + "}"
+            expected = pct(t["Hit100"]) + " / " + n(t["MAE_m"], 1)
             assert expected in outputs["table_privacy.tex"]
     assert "N/A" in outputs["table_native.tex"]
     # Favorable privacy values must not erase the stronger public-base control.

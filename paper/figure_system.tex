@@ -1,35 +1,23 @@
 \begin{tikzpicture}[>=Latex,
- box/.style={draw=ink!65,rounded corners=2pt,fill=white,text width=3.25cm,
- align=center,inner sep=7pt,font=\small},
+ box/.style={draw=ink!65,rounded corners=2pt,fill=white,text width=3.9cm,
+ align=center,inner sep=5pt,font=\small},
  arr/.style={->,thick,draw=ink}]
-\node[box] (input) at (0,0) {\textbf{Private inputs}\\GPS $x_t$, request $\psi_t$};
-\node[box,draw=teal,fill=teal!5] (model) at (5.2,0)
-{\textbf{GeoI-BQ}\\Protected reference\\and segment policy};
-\node[box] (server) at (10.4,0)
-{\textbf{LBS provider}\\Common cover query\\POI response};
-\node[box] (context) at (0,-2.6)
-{\textbf{Design context}\\Roads, policy, catalogue\\Complete in this prototype};
-\node[box] (local) at (5.2,-2.6)
-{\textbf{Local answer processing}\\Union/cache\\Private filtering and ranking};
-\node[box] (attacker) at (10.4,-2.6)
-{\textbf{Provider-side observer}\\Ordered coordinates,\\clock, requests, responses};
-\node[box] (output) at (5.2,-4.7)
+\node[box,draw=teal,fill=teal!4] (model) at (0,0)
+{\textbf{Device: GeoI-BQ}\\Private GPS $\to Z$/belief $\to$ Q};
+\node[box] (local) at (0,-1.7)
+{\textbf{Local answer processing}\\Cache; filter/sort with GPS and $\psi$};
+\node[box,text width=2.5cm] (server) at (5.5,-.7)
+{\textbf{LBS / observer}\\Sees Q, clock,\\requests and replies};
+\node[box,text width=3.9cm] (context) at (0,1.45)
+{\textbf{Public design context}\\Roads and complete trial reference};
+\node[box] (out) at (0,-3.1)
 {\textbf{User output}\\Full matching sorted list};
-\draw[arr] (input)--node[above,font=\scriptsize,text width=1.35cm,align=center]{protected\\reads}(model);
-\draw[arr] (model)--node[above,font=\scriptsize,text width=1.35cm,align=center]{Q + fixed\\payload}(server);
-\draw[arr] (context.east)--(2.75,-2.6)--(2.75,-1.1)--(5.2,-1.1)--(model.south);
-\draw[arr,blue] (server.south west)--(7.7,-1.25)--(7.7,-2.6)--
-node[above,font=\scriptsize]{POIs}(local.east);
-\draw[arr] (local)--(output);
-\draw[arr,dashed] (server)--(attacker);
-\draw[arr,teal] (input.west)--(-2.5,0)--(-2.5,-3.75)--
-node[below,font=\scriptsize]{Current GPS + true request stay local}(2.8,-3.75)
---(2.8,-2.6)--(local.west);
-\coordinate (corner) at (-2.5,-3.75);
+\draw[arr] (context)--(model);
+\draw[arr] (model.east)--node[above,font=\scriptsize,align=center]{common\\query}(server.north west);
+\draw[arr,blue] (server.south west)--node[below,font=\scriptsize]{POIs}(local.east);
+\draw[arr] (local)--(out);
+\draw[arr,teal] (model.west)--++(-.4,0)|-(local.west);
 \begin{scope}[on background layer]
-\node[fit=(input)(context)(model)(local)(output)(corner),draw=teal,
- fill=teal!2,rounded corners,inner sep=11pt] {};
+\node[fit=(model)(local)(context)(out),draw=teal,fill=teal!2,rounded corners,inner sep=8pt] {};
 \end{scope}
-\node[font=\small\bfseries,text=teal,fill=white,inner sep=2pt] at (2,1)
-{TRUSTED DEVICE};
 \end{tikzpicture}

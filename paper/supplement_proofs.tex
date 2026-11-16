@@ -1,4 +1,12 @@
 \section{Proof details and interpretation}
+\paragraph{Protected belief.}
+After public motion prediction, the emission for old reference $h$ is
+$\ell(z\mid s,h)=r_s\mathbf1_{\{z=h\}}+
+(1-r_s)\sum_{v:a_v=z}R_u(v\mid s)$, where $r_s$ is the private reuse probability.
+The initial update uses the REM emission. At skipped reads, prediction alone
+is performed; reusing the same reference is not an independent new REM sample.
+The representative prior and transition model are public approximations, not
+certified user calibration.
 \subsection{Concrete public scoring in the frozen policy}
 Let $P(F)$ be the public POI reply union of a K5 frame and $C$ the cache mask
 derived from received replies. For each representative state $s$, the public

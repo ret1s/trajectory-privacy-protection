@@ -41,6 +41,8 @@ def source_check(folder=PAPER):
         # The text is English; legitimate non-ASCII author names remain.
         assert not re.search(r"\b(?:Nguồn|Truy cập|Phương pháp|kết quả|và)\b", text), entry
     main = texts["main"]
+    options = re.search(r"\\documentclass\[([^]]+)\]\{elsarticle\}", main)[1].split(",")
+    assert "twocolumn" in options and "5p" in options, "Compact two-column article required"
     cited = {k.strip() for group in re.findall(r"\\cite(?:\[[^]]*\])?\{([^}]+)\}", main)
              for k in group.split(",")}
     bib = re.findall(r"\\bibitem\{([^}]+)\}", main)
@@ -57,7 +59,7 @@ def source_check(folder=PAPER):
     assert 3 <= len(highlights) <= 5 and max(map(len, highlights)) <= 85
     for path in re.findall(r"\\path\{([^}]+\.py)\}", texts["supplement"]):
         assert (ROOT / path).is_file(), path
-    return dict(main_sections=len(sections), references=len(bib), abstract_words=abstract_words,
+    return dict(layout="Elsevier 5p two-column", main_sections=len(sections), references=len(bib), abstract_words=abstract_words,
                 highlight_characters=list(map(len, highlights)),
                 all_inputs_figures_references_resolve=True, anonymous_author_metadata=True)
 

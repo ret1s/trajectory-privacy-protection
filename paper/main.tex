@@ -1,7 +1,6 @@
-\documentclass[preprint,11pt]{elsarticle}
-\usepackage[a4paper,margin=24mm]{geometry}
+\documentclass[final,5p,times,twocolumn]{elsarticle}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern,amsmath,amssymb,amsthm,booktabs,tabularx,longtable,array,graphicx}
+\usepackage{amsmath,amssymb,amsthm,booktabs,tabularx,longtable,array,graphicx}
 \usepackage{enumitem,xcolor,tikz,microtype,xurl,algorithm,algpseudocode,fancyhdr}
 \usepackage[hidelinks]{hyperref}
 \usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
@@ -20,12 +19,19 @@
 \newcommand{\Cov}{\operatorname{Cov}}
 \newcommand{\BQ}{GeoI-BQ}
 \setlength{\emergencystretch}{2em}
-\setlength{\tabcolsep}{4pt}
-\renewcommand{\arraystretch}{1.12}
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.06}
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\dblfloatsep}{8pt plus 2pt minus 2pt}
+\setlist{nosep,leftmargin=*}
 \renewcommand{\topfraction}{.95}
 \renewcommand{\textfraction}{.04}
 \renewcommand{\floatpagefraction}{.8}
 \setcounter{topnumber}{5}
+\setcounter{dbltopnumber}{5}
+\renewcommand{\dbltopfraction}{.95}
 \setcounter{totalnumber}{5}
 \raggedbottom
 \fancypagestyle{pprintTitle}{\fancyhf{}\fancyfoot[C]{\thepage}\renewcommand{\headrulewidth}{0pt}}
@@ -51,15 +57,12 @@ Adaptive composition \sep Point-of-interest retrieval
 \input{evaluation}
 \input{conclusion}
 \section*{Data and code availability}
-The study uses synthetic mobility and a versioned public geographic catalogue. The accompanying
-reproducibility manifest identifies the frozen method, comparison artifacts, mathematical checks
-and source hashes. Redistribution of geographic inputs remains subject to their original
-licenses. A persistent publication archive has not been registered for this author-review draft.
+Synthetic mobility, geographic snapshots, code and frozen artifact hashes are indexed
+by the accompanying manifest. Original geographic licenses apply.
+A persistent publication archive remains to be registered.
 \section*{Declaration of generative AI assistance}
-OpenAI ChatGPT/Codex assisted with manuscript drafting, software preparation and consistency
-checking. The mathematical and empirical claims are tied to the specifications and preserved
-artifacts described in this article. The authors remain responsible for final verification,
-editing and approval of the submitted work.
+OpenAI ChatGPT/Codex assisted drafting, software preparation and consistency checks.
+The authors remain responsible for final verification, editing and approval.
 \begin{thebibliography}{99}
 \input{references}
 \end{thebibliography}

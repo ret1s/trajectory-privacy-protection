@@ -1,60 +1,24 @@
 \section{Related work}\label{sec:related}
-\subsection{Spatial guarantees and protected mobility history}
-Geo-I bounds the relative probability of an output under two candidate locations, using a
-spatial metric~\cite{geoi}. Predictive mechanisms extend the discussion to mobility traces
-by distinguishing predicted behavior from information that requires a new private
-measurement~\cite{predictive}. Composition and post-processing provide the general
-mathematical tools~\cite{dworkroth}; they do not justify unaccounted private candidate pruning
-or a GPS-dependent send decision.
+Geo-I, prediction, composition and post-processing supply the
+foundations~\cite{geoi,predictive,dworkroth}. EV querying combines approximate
+Geo-I, dummies and local selection~\cite{ev}; PTPPM considers road-aware
+personalized protection under correlation~\cite{ptppm}. An IWPE 2026 program
+abstract also describes road adaptation and mobility prediction~\cite{iwpe26};
+we do not infer an unavailable full specification from that abstract.
 
-Road constraints and utility-aware querying are established directions. The electric-vehicle
-querying mechanism of Atmaca et al.\ combines approximate Geo-I with dummy requests and
-local processing~\cite{ev}. Road-aware personalized protection under spatiotemporal
-correlation is also studied in PTPPM~\cite{ptppm}. These precedents rule out treating
-road awareness, mobility prediction or local selection by themselves as distinctive
-contributions. Our analysis concerns the particular common-support segment kernel and
-its connection to complete transcript disclosure and answer-level utility.
+TransProtect produces context-driven replacement coordinates~\cite{transprotect}.
+Semantic correlation generates real-plus-dummy sets~\cite{semantic}, while fake
+query insertion adds dummy-only events~\cite{fake}. These contracts support
+different inference and service measures. Our implementations substitute a
+Markov predictor, OSM/empirical semantics, and road/history prediction,
+respectively; they are audited adaptations, not official reproductions.
 
-The IWPE 2026 program also lists a road-adaptive, mobility-prediction mechanism
-by Santos et al.~\cite{iwpe26}. Its abstract describes dynamic budget allocation
-and grouping by predicted proximity. We use this program abstract to delimit
-overlap, without inferring an unavailable full specification or a reproducible
-comparator. The distinctive claim here is the specified bounded publication
-channel and its connected analysis, rather than combining prediction with roads.
-
-\subsection{Replacement coordinates, dummy sets and inserted queries}
-TransProtect uses contextual prediction and utility information to construct synthetic
-vehicle locations~\cite{transprotect}. Its replacement-coordinate contract supports
-coordinate inference error and travel-cost distortion measurements. Our comparison uses
-a Markov adaptation in place of its neural predictor; results must therefore be read
-as implementation-specific controlled evidence.
-
-Semantic-correlation dummy schemes generate sets containing the true point and plausible
-alternatives~\cite{semantic}. Temporal and semantic consistency can make dummy paths
-less easily discarded, but true-member inference remains a distinct task. The semantic
-source and empirical predictor in our adaptation differ from the paper's original setting.
-Fake-query insertion adds dummy-only events between genuine requests~\cite{fake}.
-Its benefits depend partly on the observer's knowledge of timing. We preserve natural
-extra events, allow the attacker to know the public service clock, and count every
-emitted query. This is a declared threat-model choice, not a reproduction of the
-original paper's anonymity scores.
-
-\subsection{Identity, correlated channels and offline publication}
-Pseudonym and beacon protection in vehicular networks, such as CPCROK~\cite{cpcrok},
-addresses linkability under communication contracts different from online POI retrieval.
-A query mechanism does not automatically remove an account, network identifier or
-physical vehicle identity. Our route-family association task is explicitly a proxy.
-DP-FETC studies differentially private trajectory publication using features and
-correlations~\cite{dpfetc}; distributional fidelity of an offline release is not the
-same quantity as online localization error. The SoK by Buchholz et al.\ emphasizes
-the difficulty of reconciling trajectory privacy, utility and evaluation
-assumptions~\cite{sok}.
-
+CPCROK addresses vehicular pseudonym/beacon linkability~\cite{cpcrok};
+DP-FETC concerns offline trajectory publication~\cite{dpfetc}. Neither maps
+directly to online POI retrieval. The trajectory-generation SoK likewise
+emphasizes privacy units and evaluation assumptions~\cite{sok}.
+Table~\ref{tab:related} retains the audited recent-work window
+(28 October 2023--28 October 2026), with older foundations cited separately.
+The contribution examined here is the bounded publication channel and its
+connected analysis, rather than a new Geo-I principle or universal metric.
 \input{table_related}
-Table~\ref{tab:related} summarizes the relevant contracts. The recent-method survey retains
-its audited publication window, 28 October 2023--28 October 2026; older works supply
-foundations. It is a targeted comparison, not an exhaustive systematic review.
-The gap addressed here is a connected specification and analysis of a bounded segment
-policy, together with an inspectable evaluation across compatible tasks. Original
-metrics remain valuable; unavailable posterior models, similarity rules or output
-contracts are not silently replaced by renamed localization scores.

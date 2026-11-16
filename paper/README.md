@@ -1,6 +1,8 @@
 # English research manuscript
 
-This is a separate author-review paper, distilled from the current thesis and frozen GeoI-BQ v1 evidence. It is written in English and provisionally organized for a regular research article in the Journal of Information Security and Applications (JISA). It has not been submitted.
+This is a compact, two-column English author-review paper, distilled from the current thesis and frozen GeoI-BQ v1 evidence. It provisionally targets a regular research article in the Journal of Information Security and Applications (JISA). It has not been submitted.
+
+The main article uses Elsevier's 5p two-column layout. It keeps the mechanism, four privacy propositions, end-to-end bound, principal utility properties and six-arm results. Detailed specifications, full proofs, confidence intervals, selected attackers and extra metrics are in the single-column supplement. Utility and acquisition costs share one main table; repeated explanations have been removed.
 
 - Main source: [main.tex](main.tex).
 - Full proofs, CIs, selected attackers and extended tasks: [supplement.tex](supplement.tex).

@@ -1,26 +1,13 @@
 \section{Conclusion}\label{sec:conclusion}
-GeoI-BQ separates protected spatial information from public query actions and
-accounts for both across a stateful LBS session. Under explicit assumptions,
-REM and a private reuse test provide a spatial history bound, while a
-common-support segment kernel supplies an independent summable transcript
-guard. Their combination yields a conditional end-to-end guarantee.
-Prior concentration connects the guard to arbitrary-estimator localization;
-conditional composition extends the reasoning to joint channels without
-assuming independent private movement.
+GeoI-BQ separates protected spatial history from bounded query publication.
+Under stated conditions, four local-to-session results yield a complete
+transcript bound and prior-dependent inference consequences. Utility analysis
+distinguishes exact cache/ranking properties, planning-score gain and conditional
+service guarantees.
 
-Utility has a different status: exact local-ranking/cache properties and
-bounded perturbation relative to a matched public base are proved, while
-absolute service floors depend on quantified proxy and distribution errors.
-The controlled synthetic comparison exhibits low localization Hit100 and
-99.595\% session Recall at 155 coordinate queries per 600 seconds, with a
-small utility loss relative to three audited paper adaptations.
-It also exposes limits: a stronger public-base control, near-complete
-catalogue acquisition, complete prototype reference access and an
-unexercised post-cap regime.
-
-The supported contribution is thus a specified and auditable bounded
-publication mechanism, its connected conditional analysis, and a reproducible
-evaluation with explicit unfavorable evidence. Deployment certification,
-faithful original-paper reproduction, independently registered mobility
-cohorts and genuinely unknown or changing provider records remain separate
-requirements for stronger claims of practical advantage.
+The controlled comparison combines low localization Hit100 with 99.595\%
+session Recall at higher query cost. However, the public base performs slightly
+better, complete-reference access weakens online-necessity claims, and post-cap
+utility is untested. The contribution is an auditable conditional mechanism and
+comparison, with deployment certification, faithful source-paper reproduction
+and independent mobility/provider evaluation remaining future work.

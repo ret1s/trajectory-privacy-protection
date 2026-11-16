@@ -64,12 +64,12 @@ def table(caption, label, spec, headers, rows, note="", long=False):
                 + r"}{r}{\textit{Continued on next page}}\\\endfoot" + "\n"
                 + r"\bottomrule\endlastfoot" + "\n" + body
                 + r"\end{longtable}" + "\n" + note + "\n" + r"\endgroup" + "\n")
-    return (r"\begin{table}[htbp]\centering\footnotesize" + "\n"
+    return (r"\begin{table*}[t]\centering\footnotesize" + "\n"
             + r"\caption{" + caption + r"}\label{tab:" + label + "}\n"
             + r"\begin{tabularx}{\linewidth}{@{}" + spec + r"@{}}\toprule" + "\n"
             + head + r"\midrule" + "\n" + body + r"\bottomrule\end{tabularx}" + "\n"
             + (r"\par\smallskip\raggedright " + note + "\n" if note else "")
-            + r"\end{table}" + "\n")
+            + r"\end{table*}" + "\n")
 
 
 def generate():
@@ -93,7 +93,7 @@ def generate():
     out["table_privacy.tex"] = table(
         r"Localization results: Hit100 (\%, lower) / MAE (m, higher). Same time windows.",
         "privacy", "P{2.7cm}YYYYY", ("Method",) + SCENARIOS,
-        [[label] + [r"\shortstack[l]{" + pct(a[m, s]["Hit100"]) + r" /\\ " + n(a[m, s]["MAE_m"], 1) + "}"
+        [[label] + [pct(a[m, s]["Hit100"]) + " / " + n(a[m, s]["MAE_m"], 1)
                     for s in SCENARIOS] for m, label in zip(METHODS, LABELS)],
         r"* Audited adaptations, not official author implementations. Each loss has its own selected attacker. Full CIs appear in the supplement.")
     out["table_utility.tex"] = table(
@@ -103,11 +103,20 @@ def generate():
          for m, label in zip(METHODS, LABELS)])
     out["table_cost.tex"] = table(
         "Mean wire cost per 600-second session; KB denotes 1,000 bytes.",
-        "cost", "P{2.7cm}YYYY", ("Method", "Packets", "Coordinates", "Request KB", "Reply KB"),
+        "cost", "P{2.7cm}P{2.2cm}P{2.2cm}P{2.2cm}P{2.2cm}", ("Method", "Packets", "Coordinates", "Request KB", "Reply KB"),
         [[label, n(r["cost"][m]["packets"], 2), n(r["cost"][m]["requests"], 2),
           n(r["cost"][m]["request_bytes"] / 1000), n(r["cost"][m]["reply_bytes"] / 1000)]
          for m, label in zip(METHODS, LABELS)],
-        r"Request/reply serialization is the replay contract; reply bytes encode POI indices, not full production records, TLS or network energy.")
+        r"Request/reply serialization is the replay contract; reply bytes encode POI indices, not full production records, TLS or network energy.",
+        long=True)
+    out["table_service.tex"] = table(
+        r"Session Recall@5 (\%, higher) by purpose and acquisition cost per 600 s.",
+        "service", "P{2.7cm}YYYYYYY",
+        ("Method",) + PLABELS + ("Coordinates", "Reply KB"),
+        [[label] + [pct(u[m, "session"]["metrics"][p]["mean"]) for p in PURPOSES]
+         + [n(r["cost"][m]["requests"], 2), n(r["cost"][m]["reply_bytes"] / 1000)]
+         for m, label in zip(METHODS, LABELS)],
+        r"KB = 1,000 bytes of reply-index JSON; full records, transport overhead, latency and energy are excluded.")
     method_rows = [
         ["Raw GPS", "One real coordinate", "Unprotected control"],
         ["REM-Z (K1)", "One REM coordinate", r"$u=0.01\,\mathrm m^{-1}$; frozen references"],
@@ -117,9 +126,10 @@ def generate():
         [r"\textbf{GeoI-BQ v1}", "K5 committed frames", r"$\Gamma_Q=1$, $C_s=0.23\,\mathrm m^{-1}$; protected read interval $\ge60$ s"],
     ]
     out["table_methods.tex"] = table(
-        "Controls, adaptations and the frozen proposed method.", "methods", "P{2.7cm}P{3.6cm}Y",
+        "Controls, adaptations and the frozen proposed method.", "methods", "P{2.7cm}P{3.6cm}P{7.3cm}",
         ("Method", "Public output contract", "Configuration / fidelity"), method_rows,
-        r"The methods have different guarantees, output cardinalities and costs. We do not equate their epsilon values.")
+        r"The methods have different guarantees, output cardinalities and costs. We do not equate their epsilon values.",
+        long=True)
     # English coverage descriptions are manually audited translations of the pinned literature matrix.
     lit_rows = [
         [r"TransProtect (2024)\cite{transprotect}", "Synthetic coordinate", "D: S1, S3; P: S2", "EIE / VehiTrack; travel-cost distortion", "Markov adaptation"],
