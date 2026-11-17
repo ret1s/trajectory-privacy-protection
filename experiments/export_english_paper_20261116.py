@@ -253,10 +253,11 @@ def generate():
         "Loss-specific selected S8 V2 attackers.", "s8-attackers",
         "P{2.5cm}P{2.6cm}P{3.8cm}P{3.8cm}",
         ("Method", "View", "Hit100 attacker", "MAE attacker"), selected, long=True)
-    # Fixed first TEST identifier, first trip; no score-based sample selection.
-    trip = json.loads(gzip.decompress((B1 / "families/cache-029.json.gz").read_bytes()))["trips"][0]
+    # Geometry-selected illustration; no attack/utility-score sample selection.
+    from experiments.export_paper_walkthrough_20261117 import FAMILY_ID
+    trip = json.loads(gzip.decompress((B1 / f"families/{FAMILY_ID}.json.gz").read_bytes()))["trips"][0]
     old_folder = ROOT / "artifacts/benchmarks/main_depth_20261014_v1"
-    old_trip = json.loads(gzip.decompress((old_folder / "families/cache-029.json.gz").read_bytes()))["trips"][0]
+    old_trip = json.loads(gzip.decompress((old_folder / f"families/{FAMILY_ID}.json.gz").read_bytes()))["trips"][0]
     rows = []
     pair = lambda a: "(" + ", ".join(n(v, 4) for v in a) + ")"
     x0 = trip["truth"][0]["xy"]
@@ -268,7 +269,7 @@ def generate():
                      pair(trip["events"]["geoi_bq"][i]["coordinates"][0]),
                      int(trip["masks"]["geoi_bq"][i]["session"], 16).bit_count()])
     out["table_sample.tex"] = table(
-        "Fixed multi-step example: cache-029, first trip; only Q1 of each K5 frame is displayed.",
+        f"Multi-turn illustration: {FAMILY_ID}, first retained trip; only Q1 of each K5 frame is displayed.",
         "sample", "P{.6cm}P{1.5cm}P{1.8cm}P{3cm}P{3cm}P{1.1cm}",
         ("s", r"$\Delta$GPS m", "Branch / units", "Z (lat, lon)", "Q1 (lat, lon)", "Cache"),
         rows, long=True)
@@ -334,7 +335,7 @@ def generate():
                     main_privacy_cells=len(a), extended_tasks=len(extra["tasks"]), fusion_tasks=len(fusion["tasks"]),
                     models_fitted=False, defense_outputs_regenerated=False,
                     new_empirical_runs=False, scope="Controlled comparison on the previously inspected synthetic cohort",
-                    walkthrough="Fixed first TEST trip, 0--180 s; retained outputs only, no new sampling",
+                    walkthrough="Geometry-selected cache-046 TEST trip, 0--180 s; retained outputs only, no new sampling",
                     generated_tables=len(out) - 1, generated_sha256={
                         name: hashlib.sha256(content.encode()).hexdigest() for name, content in out.items()},
                     sources_sha256=sources, figure_sha256={name: sha(path) for name, path in figures.items()},

@@ -4,34 +4,34 @@
   "date": "2026-11-17",
   "layout": "Geo-I reference-inspired: US Letter, 9 pt Times, 18 pt bold sans-serif title, left-column abstract, two columns",
   "renderer": "Poppler pdftoppm 26.05.0",
-  "review": "All six final main pages visually inspected. Figure 3 was inspected at full-page scale and as a standalone 180 dpi render. Actual SUMO/OSM road background, all five Q, GPS/Z zoom, scale, north arrow, labels, legend, client/wire separation and budget units are legible. All fifteen supplementary renders are pixel-identical to the previous inspected build.",
+  "review": "All six final main pages visually inspected. Figure 3 was inspected at final page scale and as a standalone 180 dpi render. Multi-turn GPS geometry, road map, all five Q, enlarged GPS/Z view, marker legend and timeline checked. Supplementary pages 14 and 15 were visually inspected after updating the sample table; the other thirteen pages are pixel-identical to the previous inspected build.",
   "reviewer": "Codex visual inspection; author scientific review remains pending",
   "checks": [
+    "Retained cache-046_day7 selected for multi-turn geometry only; no attack/utility-score selection",
     "No clipping, missing glyphs or overlapping labels observed",
-    "Figure 3 uses the pinned benchmark road map, with all five Q and a GPS/Z zoom inset",
-    "Both map views use the original sample projection and the same unmodified coordinates",
-    "North arrow, 1 km scale, time labels and marker legend readable at final scale",
+    "All five Q and GPS/Z use the original projection and unmodified retained coordinates",
+    "Refreshed reference at 180 s correctly spends two units; cumulative spending reaches seven units",
+    "Supplementary sample table agrees with Figure 3",
     "Main paper remains six pages including all references",
-    "Reference-inspired typography, equations and wide tables remain legible",
-    "36 original protected scientific inputs unchanged; authorized illustration revisions recorded",
-    "All 15 supplementary page renders pixel-identical to the previous inspected build"
+    "35 original protected scientific inputs unchanged; illustration revisions recorded",
+    "Supplementary pages 14/15 inspected; thirteen other page renders pixel-identical"
   ],
   "pdfs": {
     "manuscript.pdf": {
-      "sha256": "bb7b09818613f9aae4bd5fe35f8fe6a30bacd81e978cf1f9c448341915d6e27f",
+      "sha256": "b28a73f048da7b7d8fa2d32a5f669f6385449aa839ede709b199a2889bb05c87",
       "pages_inspected": 6,
       "dpi": 125,
       "page_render_sha256": {
         "1": "f3ac8095486facbf47db6defceaafbd36e3f01ac5efdaf1c0a408bd2671f2753",
         "2": "25f7cae09f6b249f2b37a2ff7f293e203415ad8b5099023e5df5d174f9a0aeb5",
-        "3": "a5d58032eb651398f40a7192a1e88abe1feba8a5d5a4b5e57e11e2184c679ca3",
-        "4": "1bd4797cd7b1a2d9ae1c0c1c9127965508f1998ac28060f16cd3f9739567cf36",
+        "3": "7bfd94aa6c368d78d0803f677bbb70c54ab7f7de72154e672cf21802b96a4dbb",
+        "4": "9bbcbbd7fb9e48561fa82eb108f0d0b85858f135c0c4392b8a7185ef8b79f6a6",
         "5": "f4ba060c9727cd0e2f05f5df8d1abdc9b2108bff8734906828c7b17ce0a1d915",
         "6": "ce98d862327a771fa03abe8bc98def5a8c0009025e62a549dc8c975d232e06bd"
       }
     },
     "supplement.pdf": {
-      "sha256": "cb122a43bd437633f7f70bd8e929cdefffd527da4d20c9b9d965ed18552a62cc",
+      "sha256": "1efc9828066261363566435a14a94ce209eceea0c2b98b3568b9c6ed7e67a8c5",
       "pages_inspected": 15,
       "dpi": 100,
       "page_render_sha256": {
@@ -48,8 +48,8 @@
         "11": "259f02d34f26776f02b2000c11be2957009869c4c7d95358c3618ccb69eb3dae",
         "12": "373fad82c113c6ebe1036fa23706b7b7dfabaf6dfaaf8b33d06f17a82652c348",
         "13": "646d0240cdb000371d54391321db57b65db1f6cba17d56c8e319572e7927f77f",
-        "14": "667f6d08d69cfb79b87ba37e341cce9b3e34d02d722641ec7e11c8c06ed1b43c",
-        "15": "fb33a522dda9b473868218fb4841fa27803171a2d44891c8f871ee75b9f08fd8"
+        "14": "504bfe570667490d128e5a870b6f2e6c451048bd1c952afc4934ebded4e1ccdd",
+        "15": "9255886ac92bd6c319858db7f075d8575288441236a063dde088010556da6f24"
       }
     }
   },
@@ -89,18 +89,19 @@
       "characters": 6
     }
   ],
-  "original_scientific_files_unchanged": 36,
+  "original_scientific_files_unchanged": 35,
   "approved_illustration_revision_files": [
     "method.tex",
-    "evaluation.tex"
+    "evaluation.tex",
+    "table_sample.tex"
   ],
   "main_page_limit": 6,
-  "retained_sample": "cache-029_day7; fixed prefix 0--180 s; no defense sampling or attacker fitting",
+  "retained_sample": "cache-046_day7; geometry-selected 0--180 s illustration; no new defense sampling or attacker fitting",
   "map": {
     "source": "Pinned benchmark SUMO network with OSM provenance",
-    "road_edge_count": 4317,
-    "geometry_sha256": "754c689595eca9d839a02cd588de40818fb2ad799ea7b9db8fce2dc86a235a6c",
-    "sample": "cache-029_day7",
+    "road_edge_count": 4158,
+    "geometry_sha256": "607ceb7c6f0ee4c21c25175b2e92980c8b334a5ca6a38605271967c49b8db053",
+    "sample": "cache-046_day7",
     "all_five_Q_shown": true,
     "gps_z_zoom": true
   }

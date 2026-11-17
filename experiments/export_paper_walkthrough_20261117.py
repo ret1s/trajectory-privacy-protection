@@ -16,8 +16,10 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 OUT = ROOT / "artifacts/figures/paper_walkthrough_20261117_v1"
-PRIMARY = ROOT / "artifacts/benchmarks/paper_comparison_20261028_v1/families/cache-029.json.gz"
-UPSTREAM = ROOT / "artifacts/benchmarks/main_depth_20261014_v1/families/cache-029.json.gz"
+FAMILY_ID = "cache-046"
+SESSION_ID = FAMILY_ID + "_day7"
+PRIMARY = ROOT / f"artifacts/benchmarks/paper_comparison_20261028_v1/families/{FAMILY_ID}.json.gz"
+UPSTREAM = ROOT / f"artifacts/benchmarks/main_depth_20261014_v1/families/{FAMILY_ID}.json.gz"
 NETWORK = ROOT / "artifacts/datasets/future_controlled_20261005_v1/public_native.net.xml.gz"
 INDICES = (0, 1, 2, 3, 6, 9)
 
@@ -37,7 +39,7 @@ def sample_data():
     load_release()
     trip = read_gzip(PRIMARY)["trips"][0]
     upstream = read_gzip(UPSTREAM)["trips"][0]
-    assert trip["native_session_id"] == upstream["native_session_id"] == "cache-029_day7"
+    assert trip["native_session_id"] == upstream["native_session_id"] == SESSION_ID
     assert trip["truth"] == upstream["truth"], "Use the same retained paired trajectory"
     # Reconstruct only the public coordinate projection, never a protection mechanism.
     with tempfile.TemporaryDirectory(prefix="paper-public-projection-") as directory:
@@ -75,8 +77,8 @@ def sample_data():
             belief_operation="update" if ledger["private_read"] else "predict",
             segment=block, frame=i % 3 + 1, q_reserved_upper_exact=str(reserved),
             cache_unique=int(trip["masks"]["geoi_bq"][i]["session"], 16).bit_count()))
-    assert [r["geo_i_spent_units"] for r in (records[i] for i in INDICES)] == [1, 1, 1, 3, 5, 6]
-    assert records[9]["z_latlon"] == records[6]["z_latlon"]
+    assert [r["geo_i_spent_units"] for r in (records[i] for i in INDICES)] == [1, 1, 1, 3, 5, 7]
+    assert records[9]["branch"] == "fresh" and records[9]["z_latlon"] != records[6]["z_latlon"]
     assert records[0]["q_latlon"] == records[1]["q_latlon"] == records[2]["q_latlon"]
     points = np.concatenate([np.asarray([r["gps_xy_m"], r["z_xy_m"]] + r["q_xy_m"])
                              for r in records]) - origin
@@ -84,7 +86,8 @@ def sample_data():
     local = np.asarray([[r["gps_xy_m"], r["z_xy_m"]] for r in records]).reshape(-1, 2) - origin
     zoom_lo, zoom_hi = local.min(axis=0) - [110, 90], local.max(axis=0) + [110, 90]
     zoom_center_y = (zoom_lo[1] + zoom_hi[1]) / 2
-    zoom_lo[1], zoom_hi[1] = zoom_center_y - 200, zoom_center_y + 200
+    zoom_half_height = max(200, (zoom_hi[1] - zoom_lo[1]) / 2)
+    zoom_lo[1], zoom_hi[1] = zoom_center_y - zoom_half_height, zoom_center_y + zoom_half_height
     # Exact passenger-lane geometry from the same public SUMO snapshot; no tiles,
     # synthetic street grid, inferred private path or background-map service.
     from data.sumo_demo import _load_sumolib
@@ -106,7 +109,7 @@ def sample_data():
              ROOT / "benchmark/engines/filtered_cover.py", ROOT / "benchmark/anchor_belief.py"]
     return dict(
         schema="paper-walkthrough-data-v1", native_session_id=trip["native_session_id"],
-        selection="First trip in fixed first TEST family cache-029; prefix fixed at 0--180 s",
+        selection="First retained trip of cache-046; 0--180 s multi-turn geometry selected for illustration at the user's request, without attack/utility-score selection",
         shown_indices=list(INDICES), K=5, L_per_category=60, categories=6,
         geo_i_unit_per_m=.01, geo_i_cap_per_m=.23, gamma_Q=1,
         public_projection_lat0=rn.proj.lat0, origin_xy_m=origin.tolist(), records=records,
@@ -161,13 +164,14 @@ def render(data):
                    color="#087f7a", edgecolors="white", linewidths=.25, zorder=3)
         ax.scatter(*q[0, k], s=20, facecolors="white", edgecolors="#087f7a", lw=.8, zorder=4)
         ax.scatter(*q[-1, k], s=19, color="#087f7a", marker="^", zorder=5)
-        outlined(ax, q[0, k, 0]+85, q[0, k, 1]+70, f"Q{k+1}", fontsize=7, color="#075e5b", zorder=6)
+        offset_y = -180 if k == 0 else 70
+        outlined(ax, q[0, k, 0]+85, q[0, k, 1]+offset_y, f"Q{k+1}",
+                 fontsize=7, color="#075e5b", zorder=6)
     ax.scatter(gps[:, 0], gps[:, 1], s=9, color="#222222", zorder=4)
     ax.scatter(z[:, 0], z[:, 1], s=16, marker="D", color="#c16b23", zorder=5)
     ax.add_patch(Rectangle(zoom_lo, *(zoom_hi-zoom_lo), fill=False, edgecolor="#b66422", lw=.9, zorder=6))
-    outlined(ax, zoom_lo[0]+15, zoom_hi[1]+120, "GPS / Z detail", fontsize=6.5, zorder=6)
     # Scale and north arrow refer to the fixed metric projection used by the trial.
-    sx, sy = lo[0]+150, lo[1]+.56*(hi[1]-lo[1])
+    sx, sy = lo[0]+150, lo[1]+.60*(hi[1]-lo[1])
     ax.plot([sx, sx+1000], [sy, sy], color="#222222", lw=1.1)
     ax.plot([sx, sx, sx+1000, sx+1000], [sy-45, sy+45, sy+45, sy-45],
             color="#222222", lw=.65)
@@ -175,18 +179,20 @@ def render(data):
     ax.annotate("N", xy=(.08, .78), xytext=(.08, .67), xycoords="axes fraction",
                 fontsize=7, ha="center", arrowprops=dict(arrowstyle="-|>", lw=.7, color="#444444"))
     # Magnify only the GPS/Z area; main-map square shows exactly this footprint.
-    zoom = ax.inset_axes([.44, .68, .78, .29])
+    zoom = ax.inset_axes([.44, .58, .78, .41])
     background(zoom, (zoom_lo, zoom_hi), width=.65)
+    for spine in zoom.spines.values():
+        spine.set_color("#b66422")
     zoom.scatter(gps[:, 0], gps[:, 1], s=8, color="#222222", zorder=3)
     zoom.scatter(z[:, 0], z[:, 1], s=17, marker="D", color="#c16b23",
                  edgecolors="white", linewidths=.35, zorder=4)
-    for i, x in [(0, .21), (3, .43), (9, .69), (6, .92)]:
-        zoom.annotate(str(rows[i]["t_s"])+" s", xy=gps[i], xytext=(x, .88),
-                      textcoords="axes fraction", fontsize=6.2, ha="center", va="center",
+    for i, offset in [(0, (9, -6)), (3, (-9, 6)), (6, (-12, -7)), (9, (12, -7))]:
+        zoom.annotate(str(rows[i]["t_s"])+" s", xy=gps[i], xytext=offset,
+                      textcoords="offset points", fontsize=6.2, ha="center", va="center",
                       arrowprops=dict(arrowstyle="-", color="#555555", lw=.45),
                       bbox=dict(facecolor="white", edgecolor="none", pad=.2), zorder=6)
-    for i, x, label in [(0, .12, "Z0"), (6, .45, "Z120/180"), (3, .82, "Z60")]:
-        zoom.annotate(label, xy=z[i], xytext=(x, .12), textcoords="axes fraction",
+    for i, offset in [(0, (-12, -8)), (3, (-12, 7)), (6, (-12, 7)), (9, (12, 7))]:
+        zoom.annotate("Z"+str(rows[i]["t_s"]), xy=z[i], xytext=offset, textcoords="offset points",
                       fontsize=6.2, ha="center", va="center", color="#9b5018",
                       arrowprops=dict(arrowstyle="-", color="#a05b25", lw=.45),
                       bbox=dict(facecolor="white", edgecolor="none", pad=.2), zorder=6)

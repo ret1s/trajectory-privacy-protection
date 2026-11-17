@@ -98,13 +98,13 @@ segment library; committed frames retrieve POIs for local ranking.
 Only public cache information feeds back into candidate construction.}\label{fig:model}
 \end{figure*}
 
-Figure~\ref{fig:walkthrough} traces the retained sample used in the supplement.
-At 20/40 s the belief predicts without a protected GPS read; at 180 s
-the reuse test spends one unit even though Z stays unchanged.
+Figure~\ref{fig:walkthrough} traces a retained TEST trip selected for its
+multi-turn geometry. At 20/40 s belief predicts without a protected GPS read;
+the test-and-refresh steps at 60/120/180 s each spend two units.
 
 \begin{figure*}[t]\centering
 \includegraphics[width=\textwidth]{figure_walkthrough.pdf}
-\caption{Retained trip \texttt{cache-029\_day7}, 0--180 s. Left: all five Q
+\caption{Retained trip \texttt{cache-046\_day7}, 0--180 s. Left: all five Q
 over the benchmark SUMO/OSM road map; the inset enlarges GPS and Z.
 Open/triangle Q markers identify 0/180 s.
 Right: selected ticks, client-side diagnostics and public frames.

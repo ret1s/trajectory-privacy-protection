@@ -61,13 +61,13 @@ def test_completed_pdf_and_flat_archive_have_matching_provenance():
     assert result["pdfs"]["manuscript.pdf"]["pages"] <= 6
 
 
-def test_walkthrough_uses_retained_wire_and_counts_reuse_as_a_private_read():
+def test_walkthrough_uses_retained_wire_and_counts_protected_read_costs():
     import numpy as np
     from core.road_network import LocalProjection
     data = sample_data()
     trip = read_gzip(PRIMARY)["trips"][0]
     original = read_gzip(UPSTREAM)["trips"][0]
-    assert data["native_session_id"] == "cache-029_day7"
+    assert data["native_session_id"] == "cache-046_day7"
     projection = LocalProjection(data["public_projection_lat0"])
     for row in data["records"]:
         i = row["index"]
@@ -86,11 +86,11 @@ def test_walkthrough_uses_retained_wire_and_counts_reuse_as_a_private_read():
         assert row["belief_operation"] == "predict"
         assert row["geo_i_spent_units"] == 1 and not row["private_read"]
         assert row["gps_xy_m"] != data["records"][0]["gps_xy_m"]
-    reuse = data["records"][9]
-    assert reuse["z_latlon"] == data["records"][6]["z_latlon"]
-    assert reuse["private_read"] and reuse["geo_i_cost_units"] == 1
-    assert reuse["geo_i_spent_units"] == 6
-    assert reuse["q_reserved_upper_exact"] == "4/5"
+    refresh = data["records"][9]
+    assert refresh["z_latlon"] != data["records"][6]["z_latlon"]
+    assert refresh["branch"] == "fresh" and refresh["private_read"]
+    assert refresh["geo_i_cost_units"] == 2 and refresh["geo_i_spent_units"] == 7
+    assert refresh["q_reserved_upper_exact"] == "4/5"
 
 
 def test_main_page_limit_rejects_a_seventh_page():
