@@ -129,7 +129,8 @@ def validate():
             assert "Gamma" in all_text or "Γ" in all_text or "public base" in all_text
             if entry == "main":
                 assert "cache-046_day7" in all_text and "Selected ticks" in all_text
-                assert "Locations on the benchmark road map" in all_text
+                assert "Sent Q: full query area" in all_text
+                assert "GPS and Z: detail B" in all_text and "same-time pair" in all_text
                 assert "Z180" in all_text and "Q5" in all_text
                 assert "Only K5 + cover is uploaded" in all_text
             pdfs[name] = dict(pages=len(doc.pages), sha256=sha(OUT / name),

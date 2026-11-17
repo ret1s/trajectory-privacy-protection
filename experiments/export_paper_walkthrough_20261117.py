@@ -135,8 +135,7 @@ def render(data):
         "axes.spines.top": False, "axes.spines.right": False,
         "axes.linewidth": .65, "xtick.major.width": .65, "ytick.major.width": .65,
     })
-    fig = plt.figure(figsize=(7.0, 3.45))
-    ax = fig.add_axes([.015, .19, .435, .72])
+    fig = plt.figure(figsize=(7.0, 4.0))
     rows = data["records"]
     origin = np.asarray(data["origin_xy_m"])
     gps = np.asarray([r["gps_xy_m"] for r in rows]) - origin
@@ -144,7 +143,9 @@ def render(data):
     q = np.asarray([r["q_xy_m"] for r in rows]) - origin
     roads = [r["xy_m"] for r in data["map"]["roads"]]
     lo, hi = np.asarray(data["map"]["bounds_m"])
-    zoom_lo, zoom_hi = np.asarray(data["map"]["zoom_bounds_m"])
+    detail_lo, detail_hi = np.asarray(data["map"]["zoom_bounds_m"])
+    colors = {0: "#0072b2", 3: "#009e73", 6: "#d55e00", 9: "#8b5aa5"}
+
     def background(target, limits, width=.35):
         target.set_facecolor("#f8f9f7")
         target.add_collection(LineCollection(roads, colors="#c8cecc", linewidths=width, zorder=0))
@@ -153,96 +154,102 @@ def render(data):
         for spine in target.spines.values():
             spine.set_visible(True)
             spine.set_color("#bcc3c0")
+
     def outlined(target, x, y, value, **kw):
         return target.text(x, y, value, path_effects=[pe.withStroke(linewidth=2, foreground="white")], **kw)
-    background(ax, (lo, hi))
-    ax.set_title("(a) Locations on the benchmark road map", fontsize=8, pad=7)
-    # Every retained Q is drawn. Point size advances with time; no straight
-    # chord is presented as a reconstructed road path between observations.
-    for k in range(5):
-        ax.scatter(q[:, k, 0], q[:, k, 1], s=np.linspace(6, 13, len(rows)),
-                   color="#087f7a", edgecolors="white", linewidths=.25, zorder=3)
-        ax.scatter(*q[0, k], s=20, facecolors="white", edgecolors="#087f7a", lw=.8, zorder=4)
-        ax.scatter(*q[-1, k], s=19, color="#087f7a", marker="^", zorder=5)
-        offset_y = -180 if k == 0 else 70
-        outlined(ax, q[0, k, 0]+85, q[0, k, 1]+offset_y, f"Q{k+1}",
-                 fontsize=7, color="#075e5b", zorder=6)
-    ax.scatter(gps[:, 0], gps[:, 1], s=9, color="#222222", zorder=4)
-    ax.scatter(z[:, 0], z[:, 1], s=16, marker="D", color="#c16b23", zorder=5)
-    ax.add_patch(Rectangle(zoom_lo, *(zoom_hi-zoom_lo), fill=False, edgecolor="#b66422", lw=.9, zorder=6))
-    # Scale and north arrow refer to the fixed metric projection used by the trial.
-    sx, sy = lo[0]+150, lo[1]+.60*(hi[1]-lo[1])
-    ax.plot([sx, sx+1000], [sy, sy], color="#222222", lw=1.1)
-    ax.plot([sx, sx, sx+1000, sx+1000], [sy-45, sy+45, sy+45, sy-45],
-            color="#222222", lw=.65)
-    outlined(ax, sx+500, sy+100, "1 km", ha="center", fontsize=6.5)
-    ax.annotate("N", xy=(.08, .78), xytext=(.08, .67), xycoords="axes fraction",
-                fontsize=7, ha="center", arrowprops=dict(arrowstyle="-|>", lw=.7, color="#444444"))
-    # Magnify only the GPS/Z area; main-map square shows exactly this footprint.
-    zoom = ax.inset_axes([.44, .58, .78, .41])
-    background(zoom, (zoom_lo, zoom_hi), width=.65)
-    for spine in zoom.spines.values():
-        spine.set_color("#b66422")
-    zoom.scatter(gps[:, 0], gps[:, 1], s=8, color="#222222", zorder=3)
-    zoom.scatter(z[:, 0], z[:, 1], s=17, marker="D", color="#c16b23",
-                 edgecolors="white", linewidths=.35, zorder=4)
-    for i, offset in [(0, (9, -6)), (3, (-9, 6)), (6, (-12, -7)), (9, (12, -7))]:
-        zoom.annotate(str(rows[i]["t_s"])+" s", xy=gps[i], xytext=offset,
-                      textcoords="offset points", fontsize=6.2, ha="center", va="center",
-                      arrowprops=dict(arrowstyle="-", color="#555555", lw=.45),
-                      bbox=dict(facecolor="white", edgecolor="none", pad=.2), zorder=6)
-    for i, offset in [(0, (-12, -8)), (3, (-12, 7)), (6, (-12, 7)), (9, (12, 7))]:
-        zoom.annotate("Z"+str(rows[i]["t_s"]), xy=z[i], xytext=offset, textcoords="offset points",
-                      fontsize=6.2, ha="center", va="center", color="#9b5018",
-                      arrowprops=dict(arrowstyle="-", color="#a05b25", lw=.45),
-                      bbox=dict(facecolor="white", edgecolor="none", pad=.2), zorder=6)
-    zoom.set_title("GPS / Z (enlarged)", fontsize=6.2, pad=2)
-    legend = [Line2D([], [], marker="o", color="#222222", ls="", ms=3, label="GPS"),
-              Line2D([], [], marker="D", color="#c16b23", ls="", ms=3, label="Z (local)"),
-              Line2D([], [], marker="o", color="#087f7a", ls="", ms=3, label="All five Q")]
-    ax.legend(handles=legend, loc="upper center", bbox_to_anchor=(.5, -.025),
-              fontsize=6.5, frameon=False, ncol=3, handletextpad=.2, columnspacing=.8)
 
-    panel = fig.add_axes([.48, .28, .505, .63])
+    def scale(target, x, y, length, label):
+        target.plot([x, x+length], [y, y], color="#222222", lw=1.1)
+        height = length*.035
+        target.vlines([x, x+length], y-height, y+height, color="#222222", lw=.7)
+        outlined(target, x+length/2, y+length*.10, label, ha="center", fontsize=7)
+
+    # Separate overview and large detail: no inset hides the published Q.
+    overview = fig.add_axes([.035, .41, .34, .51])
+    background(overview, (lo, hi))
+    overview.set_title("(a) Sent Q: full query area", fontsize=8, pad=7)
+    for k in range(5):
+        overview.scatter(q[:, k, 0], q[:, k, 1], s=np.linspace(7, 14, len(rows)),
+                         color="#087f7a", edgecolors="white", linewidths=.25, zorder=3)
+        overview.scatter(*q[0, k], s=22, facecolors="white", edgecolors="#087f7a", lw=.8, zorder=4)
+        overview.scatter(*q[-1, k], s=21, color="#087f7a", marker="^", zorder=5)
+        outlined(overview, q[0, k, 0]+85, q[0, k, 1]+80, f"Q{k+1}",
+                 fontsize=7, color="#075e5b", zorder=6)
+    overview.add_patch(Rectangle(detail_lo, *(detail_hi-detail_lo), fill=False,
+                                edgecolor="#b66422", lw=1.0, zorder=6))
+    outlined(overview, *(detail_lo+(detail_hi-detail_lo)/2), "B",
+             ha="center", va="center", color="#9b5018", fontweight="bold", fontsize=8, zorder=7)
+    scale(overview, lo[0]+150, lo[1]+.58*(hi[1]-lo[1]), 1000, "1 km")
+    overview.annotate("N", xy=(.08, .80), xytext=(.08, .67), xycoords="axes fraction",
+                      fontsize=7, ha="center", arrowprops=dict(arrowstyle="-|>", lw=.7, color="#444444"))
+    q_key = [Line2D([], [], marker="o", color="#087f7a", mfc="white", ls="", ms=3.5, label="0 s"),
+             Line2D([], [], marker="o", color="#087f7a", ls="", ms=2.5, label="20 s ticks"),
+             Line2D([], [], marker="^", color="#087f7a", ls="", ms=3.5, label="180 s")]
+    overview.legend(handles=q_key, loc="upper center", bbox_to_anchor=(.5, -.045),
+                    fontsize=6.5, frameon=False, ncol=3, handletextpad=.15, columnspacing=.65)
+
+    detail = fig.add_axes([.465, .42, .50, .49])
+    background(detail, (detail_lo, detail_hi), width=.65)
+    for spine in detail.spines.values():
+        spine.set_color("#b66422")
+    detail.set_title("(b) GPS and Z: detail B (local only)", fontsize=8, pad=7)
+    detail.scatter(gps[:, 0], gps[:, 1], s=11, color="#333333", zorder=3)
+    # Dashed arrows show same-time reference displacement, not a travelled path.
+    gps_offsets = {0: (13, -7), 3: (-14, 9), 6: (-13, -10), 9: (15, -9)}
+    z_offsets = {0: (-14, -9), 3: (-14, 10), 6: (-14, 10), 9: (14, 10)}
+    for i, color in colors.items():
+        detail.annotate("", xy=z[i], xytext=gps[i],
+                        arrowprops=dict(arrowstyle="->", color=color, lw=.85, ls=(0, (3, 2)), alpha=.85),
+                        zorder=2)
+        detail.scatter(*gps[i], s=24, color=color, edgecolors="white", linewidths=.4, zorder=4)
+        detail.scatter(*z[i], s=38, marker="D", facecolors="white",
+                       edgecolors=color, linewidths=1.0, zorder=5)
+        for point, label, offset in [(gps[i], str(rows[i]["t_s"])+" s", gps_offsets[i]),
+                                     (z[i], "Z"+str(rows[i]["t_s"]), z_offsets[i])]:
+            detail.annotate(label, xy=point, xytext=offset, textcoords="offset points",
+                            fontsize=7.1, ha="center", va="center", color=color,
+                            arrowprops=dict(arrowstyle="-", color=color, lw=.45),
+                            bbox=dict(facecolor="white", edgecolor="none", pad=.3), zorder=6)
+    scale(detail, detail_hi[0]-350, detail_lo[1]+35, 200, "200 m")
+    detail_key = [Line2D([], [], marker="o", color="#333333", ls="", ms=3.5, label="GPS"),
+                  Line2D([], [], marker="D", color="#333333", mfc="white", ls="", ms=4, label="Z"),
+                  Line2D([], [], color="#777777", lw=.9, ls="--", label="same-time pair")]
+    detail.legend(handles=detail_key, loc="upper center", bbox_to_anchor=(.5, -.045),
+                  fontsize=7, frameon=False, ncol=3, handlelength=1.5,
+                  handletextpad=.4, columnspacing=1.2)
+
+    panel = fig.add_axes([.045, .085, .92, .215])
     panel.set(xlim=(0, 1), ylim=(0, 1))
     panel.axis("off")
-    panel.set_title("(b) Selected ticks: local state and public frames", fontsize=8, pad=7)
-    labels = ["Time (s)", "GPS / Z", "Belief op.", "Geo-I spent", "Q reserved",
-              "Sent K5 frame", "POIs cached"]
-    yy = [.96, .81, .68, .55, .42, .25, .08]
-    xx = np.linspace(.30, .96, 6)
+    fig.text(.045, .321, "(c) Selected ticks: protected reads, committed K5 frames and cache", fontsize=8)
+    labels = ["Time (s)", "GPS / Z", "Belief op.", r"Geo-I spent (m$^{-1}$)",
+              "Q reserved (unitless)", "Sent K5 frame", "POIs cached"]
+    yy = [.95, .80, .65, .50, .35, .20, .05]
+    xx = np.linspace(.31, .95, 6)
     chosen = [rows[i] for i in data["shown_indices"]]
-    panel.add_patch(Rectangle((0, .355), 1, .52, color="#f2f2f2", zorder=0))
-    panel.add_patch(Rectangle((0, .155), 1, .18, color="#edf5f4", zorder=0))
+    panel.add_patch(Rectangle((0, .275), 1, .60, color="#f2f2f2", zorder=0))
+    panel.add_patch(Rectangle((0, .13), 1, .145, color="#edf5f4", zorder=0))
     for label, y in zip(labels, yy):
-        panel.text(.008, y, label, va="center", fontsize=7.1,
+        panel.text(.008, y, label, va="center", fontsize=7,
                    fontweight="bold" if label in ("Time (s)", "Sent K5 frame") else "normal")
     for x, row in zip(xx, chosen):
-        first = row["index"] == 0
-        branch = ("init" if first else
+        branch = ("init" if row["index"] == 0 else
                   {"fresh": "refresh", "reuse": "reuse", "public_clock_skip": "skip"}[row["branch"]])
         values = [str(row["t_s"]), branch, row["belief_operation"],
                   f'{row["geo_i_spent_per_m"]:.2f}',
                   f'{float(Fraction(row["q_reserved_upper_exact"])):.3f}']
-        for y, value in zip(yy[:5], values):
-            panel.text(x, y, value, ha="center", va="center", fontsize=7.0)
-        panel.text(x, yy[5]+.018, r"$A_{%d}^{(%d)}$" % (row["segment"], row["frame"]),
-                   ha="center", va="center", fontsize=8.0, color="#075e5b")
-        panel.scatter(x + np.linspace(-.026, .026, 5), [.19]*5,
-                      s=4, color="#087f7a", clip_on=False)
-        panel.text(x, yy[6], str(row["cache_unique"]), ha="center", va="center", fontsize=7.2)
-    panel.plot([.235, 1], [.895, .895], color="#555555", lw=.6)
-    panel.plot([0, 1], [.345, .345], color="#777777", lw=.65, ls="--")
-    # Only these three frames share a single initially selected segment.
-    panel.plot([xx[0]-.035, xx[0]-.035, xx[2]+.035, xx[2]+.035],
-               [.13, .115, .115, .13], color="#087f7a", lw=.65)
-    fig.text(.48, .21, r"$A_j^{(f)}$: frame $f$ of segment $j$; 5 Q per frame.",
-             fontsize=6.7)
-    fig.text(.48, .17, r"Geo-I: m$^{-1}$ (cap 0.23); Q: unitless (cap 1).",
-             fontsize=6.7)
-    fig.text(.045, .09, "Map: benchmark SUMO/OSM; Q markers: open = 0 s, triangle = 180 s.",
+        for j, (y, value) in enumerate(zip(yy[:5], values)):
+            panel.text(x, y, value, ha="center", va="center", fontsize=7,
+                       color=colors.get(row["index"], "#333333") if j == 0 else "#222222",
+                       fontweight="bold" if j == 0 else "normal")
+        panel.text(x, yy[5], r"$A_{%d}^{(%d)}$" % (row["segment"], row["frame"]),
+                   ha="center", va="center", fontsize=8, color="#075e5b")
+        panel.text(x, yy[6], str(row["cache_unique"]), ha="center", va="center", fontsize=7.1)
+    panel.plot([.24, 1], [.875, .875], color="#555555", lw=.6)
+    fig.text(.045, .045,
+             r"$A_j^{(f)}$: frame $f$ of segment $j$. Maps use different scales; north is up. Roads: benchmark SUMO/OSM.",
              fontsize=6.7, color="#444444")
-    fig.text(.045, .04,
+    fig.text(.045, .009,
              r"Cached POIs $\rightarrow$ local filter/sort (GPS + request) $\rightarrow$ full sorted answer.  Only K5 + cover is uploaded.",
              fontsize=6.9, color="#333333")
     buffer = BytesIO()
@@ -250,7 +257,6 @@ def render(data):
         "CreationDate": None, "ModDate": None, "Creator": "Frozen GeoI-BQ sample walkthrough"})
     plt.close(fig)
     return buffer.getvalue()
-
 
 def export(check=False):
     data = sample_data()

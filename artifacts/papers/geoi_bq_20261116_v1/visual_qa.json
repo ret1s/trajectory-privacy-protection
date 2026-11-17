@@ -4,34 +4,35 @@
   "date": "2026-11-17",
   "layout": "Geo-I reference-inspired: US Letter, 9 pt Times, 18 pt bold sans-serif title, left-column abstract, two columns",
   "renderer": "Poppler pdftoppm 26.05.0",
-  "review": "All six final main pages visually inspected. Figure 3 was inspected at final page scale and as a standalone 180 dpi render. Multi-turn GPS geometry, road map, all five Q, enlarged GPS/Z view, marker legend and timeline checked. Supplementary pages 14 and 15 were visually inspected after updating the sample table; the other thirteen pages are pixel-identical to the previous inspected build.",
+  "review": "All six final main pages visually inspected, with the final pages 4--6 reinspected after grouping the result tables. Figure 3 was also inspected as a standalone 180 dpi render. Separate overview/detail maps, larger GPS/Z markers, same-time colors, dashed displacement links, scale bars and ledger checked. All fifteen supplementary renders and the first three main pages are pixel-identical to the previous inspected build.",
   "reviewer": "Codex visual inspection; author scientific review remains pending",
   "checks": [
-    "Retained cache-046_day7 selected for multi-turn geometry only; no attack/utility-score selection",
+    "Separate overview and larger GPS/Z detail; no nested inset obscures Q or local markers",
+    "Filled GPS and hollow Z markers have matching time labels/colors; dashed links denote displacement, not travel",
+    "Explicit 1 km and 200 m scale bars; both maps north-up",
+    "Step ledger remains below the maps and agrees with the unchanged sample data",
     "No clipping, missing glyphs or overlapping labels observed",
-    "All five Q and GPS/Z use the original projection and unmodified retained coordinates",
-    "Refreshed reference at 180 s correctly spends two units; cumulative spending reaches seven units",
-    "Supplementary sample table agrees with Figure 3",
+    "Privacy and utility result tables remain together on page 5",
     "Main paper remains six pages including all references",
-    "35 original protected scientific inputs unchanged; illustration revisions recorded",
-    "Supplementary pages 14/15 inspected; thirteen other page renders pixel-identical"
+    "35 original protected scientific inputs unchanged; presentation revisions recorded",
+    "All 15 supplementary page renders and first 3 main pages pixel-identical to previous inspected build"
   ],
   "pdfs": {
     "manuscript.pdf": {
-      "sha256": "b28a73f048da7b7d8fa2d32a5f669f6385449aa839ede709b199a2889bb05c87",
+      "sha256": "de685d336863d46217b2ca872d8e8a38b1a7c60b4df58211ab9944413af4f15e",
       "pages_inspected": 6,
       "dpi": 125,
       "page_render_sha256": {
         "1": "f3ac8095486facbf47db6defceaafbd36e3f01ac5efdaf1c0a408bd2671f2753",
         "2": "25f7cae09f6b249f2b37a2ff7f293e203415ad8b5099023e5df5d174f9a0aeb5",
         "3": "7bfd94aa6c368d78d0803f677bbb70c54ab7f7de72154e672cf21802b96a4dbb",
-        "4": "9bbcbbd7fb9e48561fa82eb108f0d0b85858f135c0c4392b8a7185ef8b79f6a6",
-        "5": "f4ba060c9727cd0e2f05f5df8d1abdc9b2108bff8734906828c7b17ce0a1d915",
-        "6": "ce98d862327a771fa03abe8bc98def5a8c0009025e62a549dc8c975d232e06bd"
+        "4": "404e2735213ecdab0ea810e82a067c7deaadcabc743f4921dff1ca1e94e7a342",
+        "5": "f1c4f69019783f28852b3fa381b0aee58e919dceacf742932344b40bab0387c9",
+        "6": "a412183eaf85269c45333746b956785ef80805838abda67dcd5936c06c8146b8"
       }
     },
     "supplement.pdf": {
-      "sha256": "1efc9828066261363566435a14a94ce209eceea0c2b98b3568b9c6ed7e67a8c5",
+      "sha256": "03ede41ad9cf96facd4afc9f420d14fb14476be6cbe20322e24be56035daebdf",
       "pages_inspected": 15,
       "dpi": 100,
       "page_render_sha256": {
@@ -103,6 +104,13 @@
     "geometry_sha256": "607ceb7c6f0ee4c21c25175b2e92980c8b334a5ca6a38605271967c49b8db053",
     "sample": "cache-046_day7",
     "all_five_Q_shown": true,
-    "gps_z_zoom": true
-  }
+    "gps_z_separate_detail": true,
+    "nested_inset": false,
+    "scale_lengths_m": [
+      1000,
+      200
+    ],
+    "same_time_pairs": true
+  },
+  "sample_data_unchanged": true
 }
