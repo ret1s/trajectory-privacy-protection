@@ -62,15 +62,25 @@ def test_completed_pdf_and_flat_archive_have_matching_provenance():
 
 
 def test_walkthrough_uses_retained_wire_and_counts_reuse_as_a_private_read():
+    import numpy as np
+    from core.road_network import LocalProjection
     data = sample_data()
     trip = read_gzip(PRIMARY)["trips"][0]
     original = read_gzip(UPSTREAM)["trips"][0]
     assert data["native_session_id"] == "cache-029_day7"
+    projection = LocalProjection(data["public_projection_lat0"])
     for row in data["records"]:
         i = row["index"]
         assert row["q_latlon"] == trip["events"]["geoi_bq"][i]["coordinates"]
         assert row["z_latlon"] == original["GeoI_anchors"][i]
         assert row["cache_unique"] == int(trip["masks"]["geoi_bq"][i]["session"], 16).bit_count()
+        # The map may not move points independently to make separation look better.
+        coordinates = np.asarray(trip["events"]["geoi_bq"][i]["coordinates"])
+        expected = np.column_stack(projection.to_xy(coordinates[:, 0], coordinates[:, 1]))
+        np.testing.assert_allclose(row["q_xy_m"], expected, rtol=0, atol=1e-8)
+        np.testing.assert_allclose(row["z_xy_m"], projection.to_xy(*original["GeoI_anchors"][i]),
+                                   rtol=0, atol=1e-8)
+        assert row["gps_xy_m"] == trip["truth"][i]["xy"]
     for i in (1, 2):
         row = data["records"][i]
         assert row["belief_operation"] == "predict"

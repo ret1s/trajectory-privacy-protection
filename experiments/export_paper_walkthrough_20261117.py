@@ -64,6 +64,7 @@ def sample_data():
         q_xy = np.column_stack(rn.proj.to_xy(q[:, 0], q[:, 1]))
         records.append(dict(
             index=i, t_s=point["t"], gps_xy_m=point["xy"], z_latlon=anchor,
+            z_xy_m=anchor_xy.tolist(), q_xy_m=q_xy.tolist(),
             gps_east_m=round(float(point["xy"][0] - origin[0]), 6),
             z_east_m=round(float(anchor_xy[0] - origin[0]), 6),
             q1_east_m=round(float(q_xy[0, 0] - origin[0]), 6),
@@ -77,6 +78,30 @@ def sample_data():
     assert [r["geo_i_spent_units"] for r in (records[i] for i in INDICES)] == [1, 1, 1, 3, 5, 6]
     assert records[9]["z_latlon"] == records[6]["z_latlon"]
     assert records[0]["q_latlon"] == records[1]["q_latlon"] == records[2]["q_latlon"]
+    points = np.concatenate([np.asarray([r["gps_xy_m"], r["z_xy_m"]] + r["q_xy_m"])
+                             for r in records]) - origin
+    lo, hi = points.min(axis=0) - 300, points.max(axis=0) + 300
+    local = np.asarray([[r["gps_xy_m"], r["z_xy_m"]] for r in records]).reshape(-1, 2) - origin
+    zoom_lo, zoom_hi = local.min(axis=0) - [110, 90], local.max(axis=0) + [110, 90]
+    zoom_center_y = (zoom_lo[1] + zoom_hi[1]) / 2
+    zoom_lo[1], zoom_hi[1] = zoom_center_y - 200, zoom_center_y + 200
+    # Exact passenger-lane geometry from the same public SUMO snapshot; no tiles,
+    # synthetic street grid, inferred private path or background-map service.
+    from data.sumo_demo import _load_sumolib
+    with tempfile.TemporaryDirectory(prefix="paper-public-roads-") as directory:
+        path = Path(directory) / "network.net.xml"
+        path.write_bytes(gzip.decompress(NETWORK.read_bytes()))
+        network = _load_sumolib().net.readNet(str(path), withInternal=False)
+        roads = []
+        for edge in sorted(network.getEdges(), key=lambda e: e.getID()):
+            lanes = [lane for lane in edge.getLanes() if lane.allows("passenger")]
+            if not lanes:
+                continue
+            lonlat = np.asarray([network.convertXY2LonLat(*p) for p in lanes[0].getShape()])
+            xy = np.column_stack(rn.proj.to_xy(lonlat[:, 1], lonlat[:, 0])) - origin
+            if np.all(xy.max(axis=0) >= lo) and np.all(xy.min(axis=0) <= hi):
+                roads.append(dict(edge_id=edge.getID(), xy_m=xy.round(3).tolist()))
+    assert roads
     paths = [PRIMARY, UPSTREAM, NETWORK, ROOT / "data/lane_states.py", ROOT / "core/road_network.py",
              ROOT / "benchmark/engines/filtered_cover.py", ROOT / "benchmark/anchor_belief.py"]
     return dict(
@@ -85,7 +110,11 @@ def sample_data():
         shown_indices=list(INDICES), K=5, L_per_category=60, categories=6,
         geo_i_unit_per_m=.01, geo_i_cap_per_m=.23, gamma_Q=1,
         public_projection_lat0=rn.proj.lat0, origin_xy_m=origin.tolist(), records=records,
-        scope="Retained sample; east coordinate only; belief operations, not reconstructed posterior probabilities",
+        map=dict(source="Public benchmark SUMO network with OpenStreetMap provenance",
+                 geometry="First passenger lane per external edge; display coordinates rounded to 1 mm",
+                 bounds_m=[lo.tolist(), hi.tolist()], zoom_bounds_m=[zoom_lo.tolist(), zoom_hi.tolist()],
+                 roads=roads),
+        scope="Retained two-dimensional locations on the actual public road map; belief operations, not reconstructed posterior probabilities",
         sources_sha256={str(p.relative_to(ROOT)): sha(p) for p in paths})
 
 
@@ -94,43 +123,88 @@ def render(data):
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     from matplotlib.patches import Rectangle
+    from matplotlib.collections import LineCollection
+    from matplotlib.lines import Line2D
+    import matplotlib.patheffects as pe
     import numpy as np
     plt.rcParams.update({
         "font.family": "DejaVu Serif", "font.size": 7.5, "pdf.fonttype": 42,
         "axes.spines.top": False, "axes.spines.right": False,
         "axes.linewidth": .65, "xtick.major.width": .65, "ytick.major.width": .65,
     })
-    fig = plt.figure(figsize=(7.0, 2.85))
-    ax = fig.add_axes([.082, .20, .277, .68])
+    fig = plt.figure(figsize=(7.0, 3.45))
+    ax = fig.add_axes([.015, .19, .435, .72])
     rows = data["records"]
-    times = [r["t_s"] for r in rows]
-    ax.plot(times, [r["gps_east_m"] for r in rows], "-o", color="#222222",
-            ms=2.8, lw=1.15, label="GPS")
-    ax.step(times, [r["z_east_m"] for r in rows], where="post", color="#777777",
-            lw=1.05, label="Z (local)")
-    reads = [r for r in rows if r["private_read"]]
-    ax.scatter([r["t_s"] for r in reads], [r["z_east_m"] for r in reads],
-               color="#777777", marker="D", s=14, zorder=4)
-    ax.plot(times, [r["q1_east_m"] for r in rows], "--s", color="#087f7a",
-            ms=2.4, lw=1.05, label="Q1 of K5")
-    ax.set(xlim=(-5, 185), ylim=(-230, 2780), xticks=[0, 60, 120, 180],
-           yticks=[0, 1000, 2000], xlabel="Time (s)", ylabel="East from start (m)")
-    ax.set_title("(a) Recorded coordinate traces", fontsize=8, pad=7)
-    ax.grid(alpha=.15, lw=.5)
-    ax.legend(loc="center left", bbox_to_anchor=(.01, .63), fontsize=6.9,
-              frameon=False, handlelength=1.6, borderaxespad=0, labelspacing=.35)
-    ax.annotate("same Z", xy=(180, rows[9]["z_east_m"]),
-                xytext=(126, 1150), fontsize=6.9,
-                arrowprops=dict(arrowstyle="->", lw=.6, color="#555555"))
+    origin = np.asarray(data["origin_xy_m"])
+    gps = np.asarray([r["gps_xy_m"] for r in rows]) - origin
+    z = np.asarray([r["z_xy_m"] for r in rows]) - origin
+    q = np.asarray([r["q_xy_m"] for r in rows]) - origin
+    roads = [r["xy_m"] for r in data["map"]["roads"]]
+    lo, hi = np.asarray(data["map"]["bounds_m"])
+    zoom_lo, zoom_hi = np.asarray(data["map"]["zoom_bounds_m"])
+    def background(target, limits, width=.35):
+        target.set_facecolor("#f8f9f7")
+        target.add_collection(LineCollection(roads, colors="#c8cecc", linewidths=width, zorder=0))
+        target.set(xlim=(limits[0][0], limits[1][0]), ylim=(limits[0][1], limits[1][1]),
+                   aspect="equal", xticks=[], yticks=[])
+        for spine in target.spines.values():
+            spine.set_visible(True)
+            spine.set_color("#bcc3c0")
+    def outlined(target, x, y, value, **kw):
+        return target.text(x, y, value, path_effects=[pe.withStroke(linewidth=2, foreground="white")], **kw)
+    background(ax, (lo, hi))
+    ax.set_title("(a) Locations on the benchmark road map", fontsize=8, pad=7)
+    # Every retained Q is drawn. Point size advances with time; no straight
+    # chord is presented as a reconstructed road path between observations.
+    for k in range(5):
+        ax.scatter(q[:, k, 0], q[:, k, 1], s=np.linspace(6, 13, len(rows)),
+                   color="#087f7a", edgecolors="white", linewidths=.25, zorder=3)
+        ax.scatter(*q[0, k], s=20, facecolors="white", edgecolors="#087f7a", lw=.8, zorder=4)
+        ax.scatter(*q[-1, k], s=19, color="#087f7a", marker="^", zorder=5)
+        outlined(ax, q[0, k, 0]+85, q[0, k, 1]+70, f"Q{k+1}", fontsize=7, color="#075e5b", zorder=6)
+    ax.scatter(gps[:, 0], gps[:, 1], s=9, color="#222222", zorder=4)
+    ax.scatter(z[:, 0], z[:, 1], s=16, marker="D", color="#c16b23", zorder=5)
+    ax.add_patch(Rectangle(zoom_lo, *(zoom_hi-zoom_lo), fill=False, edgecolor="#b66422", lw=.9, zorder=6))
+    outlined(ax, zoom_lo[0]+15, zoom_hi[1]+120, "GPS / Z detail", fontsize=6.5, zorder=6)
+    # Scale and north arrow refer to the fixed metric projection used by the trial.
+    sx, sy = lo[0]+150, lo[1]+.56*(hi[1]-lo[1])
+    ax.plot([sx, sx+1000], [sy, sy], color="#222222", lw=1.1)
+    ax.plot([sx, sx, sx+1000, sx+1000], [sy-45, sy+45, sy+45, sy-45],
+            color="#222222", lw=.65)
+    outlined(ax, sx+500, sy+100, "1 km", ha="center", fontsize=6.5)
+    ax.annotate("N", xy=(.08, .78), xytext=(.08, .67), xycoords="axes fraction",
+                fontsize=7, ha="center", arrowprops=dict(arrowstyle="-|>", lw=.7, color="#444444"))
+    # Magnify only the GPS/Z area; main-map square shows exactly this footprint.
+    zoom = ax.inset_axes([.44, .68, .78, .29])
+    background(zoom, (zoom_lo, zoom_hi), width=.65)
+    zoom.scatter(gps[:, 0], gps[:, 1], s=8, color="#222222", zorder=3)
+    zoom.scatter(z[:, 0], z[:, 1], s=17, marker="D", color="#c16b23",
+                 edgecolors="white", linewidths=.35, zorder=4)
+    for i, x in [(0, .21), (3, .43), (9, .69), (6, .92)]:
+        zoom.annotate(str(rows[i]["t_s"])+" s", xy=gps[i], xytext=(x, .88),
+                      textcoords="axes fraction", fontsize=6.2, ha="center", va="center",
+                      arrowprops=dict(arrowstyle="-", color="#555555", lw=.45),
+                      bbox=dict(facecolor="white", edgecolor="none", pad=.2), zorder=6)
+    for i, x, label in [(0, .12, "Z0"), (6, .45, "Z120/180"), (3, .82, "Z60")]:
+        zoom.annotate(label, xy=z[i], xytext=(x, .12), textcoords="axes fraction",
+                      fontsize=6.2, ha="center", va="center", color="#9b5018",
+                      arrowprops=dict(arrowstyle="-", color="#a05b25", lw=.45),
+                      bbox=dict(facecolor="white", edgecolor="none", pad=.2), zorder=6)
+    zoom.set_title("GPS / Z (enlarged)", fontsize=6.2, pad=2)
+    legend = [Line2D([], [], marker="o", color="#222222", ls="", ms=3, label="GPS"),
+              Line2D([], [], marker="D", color="#c16b23", ls="", ms=3, label="Z (local)"),
+              Line2D([], [], marker="o", color="#087f7a", ls="", ms=3, label="All five Q")]
+    ax.legend(handles=legend, loc="upper center", bbox_to_anchor=(.5, -.025),
+              fontsize=6.5, frameon=False, ncol=3, handletextpad=.2, columnspacing=.8)
 
-    panel = fig.add_axes([.405, .20, .575, .68])
+    panel = fig.add_axes([.48, .28, .505, .63])
     panel.set(xlim=(0, 1), ylim=(0, 1))
     panel.axis("off")
-    panel.set_title("(b) Selected ticks: local state and published frames", fontsize=8, pad=7)
+    panel.set_title("(b) Selected ticks: local state and public frames", fontsize=8, pad=7)
     labels = ["Time (s)", "GPS / Z", "Belief op.", "Geo-I spent", "Q reserved",
               "Sent K5 frame", "POIs cached"]
     yy = [.96, .81, .68, .55, .42, .25, .08]
-    xx = np.linspace(.30, .95, 6)
+    xx = np.linspace(.30, .96, 6)
     chosen = [rows[i] for i in data["shown_indices"]]
     panel.add_patch(Rectangle((0, .355), 1, .52, color="#f2f2f2", zorder=0))
     panel.add_patch(Rectangle((0, .155), 1, .18, color="#edf5f4", zorder=0))
@@ -156,11 +230,13 @@ def render(data):
     # Only these three frames share a single initially selected segment.
     panel.plot([xx[0]-.035, xx[0]-.035, xx[2]+.035, xx[2]+.035],
                [.13, .115, .115, .13], color="#087f7a", lw=.65)
-    fig.text(.405, .135, r"$A_j^{(f)}$: frame $f$ of segment $j$; every frame contains 5 Q.",
-             fontsize=6.9)
-    fig.text(.405, .087, r"Geo-I spent: m$^{-1}$ (cap 0.23); Q reserved: unitless (cap 1).",
-             fontsize=6.9)
-    fig.text(.082, .025,
+    fig.text(.48, .21, r"$A_j^{(f)}$: frame $f$ of segment $j$; 5 Q per frame.",
+             fontsize=6.7)
+    fig.text(.48, .17, r"Geo-I: m$^{-1}$ (cap 0.23); Q: unitless (cap 1).",
+             fontsize=6.7)
+    fig.text(.045, .09, "Map: benchmark SUMO/OSM; Q markers: open = 0 s, triangle = 180 s.",
+             fontsize=6.7, color="#444444")
+    fig.text(.045, .04,
              r"Cached POIs $\rightarrow$ local filter/sort (GPS + request) $\rightarrow$ full sorted answer.  Only K5 + cover is uploaded.",
              fontsize=6.9, color="#333333")
     buffer = BytesIO()
@@ -172,7 +248,13 @@ def render(data):
 
 def export(check=False):
     data = sample_data()
-    encoded = json.dumps(data, indent=2) + "\n"
+    # The pinned network already stores all road geometry. Bind the rendered
+    # subset by digest/count rather than duplicating thousands of polylines.
+    roads = data["map"]["roads"]
+    recorded_map = {k: v for k, v in data["map"].items() if k != "roads"}
+    recorded_map.update(road_edge_count=len(roads), road_geometry_sha256=hashlib.sha256(
+        json.dumps(roads, separators=(",", ":")).encode()).hexdigest())
+    encoded = json.dumps(dict(data, map=recorded_map), indent=2) + "\n"
     pdf = render(data)
     record = dict(schema="paper-walkthrough-receipt-v1", date="2026-11-17",
                   data_sha256=hashlib.sha256(encoded.encode()).hexdigest(),
