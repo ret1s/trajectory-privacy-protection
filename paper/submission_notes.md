@@ -22,6 +22,7 @@ The abstract is kept under 250 words and five short highlights are supplied as c
 - Utility scores use received-candidate masks. The prototype also loads complete static reference information. Online necessity and superiority to an equally informed offline client are not established.
 - Γ0's slightly higher Recall, finite-catalogue saturation, S5's weak Raw control, partial native-metric coverage and cap-exhaustion gaps are retained.
 - Recent related-work coverage inherits the audited 28 October 2023–28 October 2026 window. The IWPE 2026 lead is cited as an official program abstract only, not as a full paper or reproduced comparator.
+- The six-page review article includes a retained 0--180 s sample walkthrough in place of the redundant privacy–cost plot. It is an illustration of previously stored outputs, not a new experiment or evidence of general protection.
 
 ## Items deliberately deferred
 

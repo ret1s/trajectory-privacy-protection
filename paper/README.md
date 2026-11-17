@@ -4,7 +4,7 @@ This is a compact, two-column English author-review paper, distilled from the cu
 
 The main article's visual style follows the [original Geo-I paper](https://arxiv.org/pdf/1212.1984): US Letter, two columns, 9 pt Times text, a bold sans-serif title, separate author blocks, a left-column abstract, bold numbered headings and bold captions. This is a reference-inspired review layout, not an assertion of ACM publication or current JISA template compliance.
 
-The layout revision preserves the scientific text, equations, captions, figures and result values. [layout_reference.json](layout_reference.json) records the visual reference and 38 unchanged-content hashes. Detailed specifications, full proofs, confidence intervals, selected attackers and extra metrics remain in the single-column supplement. Utility and acquisition costs share one main table.
+The main article is limited to **six pages, including references**. Its third figure walks through a fixed retained trip: protected reads/reuse, belief prediction/update, committed Q frames, budget reservations and local POI ranking. It replaces the privacy–cost bar chart whose values are already tabulated. [layout_reference.json](layout_reference.json) records the original visual reference and this explicitly authorized illustration revision; equations, benchmark values and all other protected scientific inputs are unchanged. Detailed specifications, full proofs, confidence intervals, selected attackers and extra metrics remain in the single-column supplement. Utility and acquisition costs share one main table.
 
 - Main source: [main.tex](main.tex).
 - Full proofs, CIs, selected attackers and extended tasks: [supplement.tex](supplement.tex).
@@ -28,11 +28,12 @@ The user confirmed author order: **Hanh Ngo-Minh** (first author), followed by *
 
 The exporter requires the repository's normal scientific Python environment. Tectonic supplies standard TeX packages; the flat source package includes the custom visual style [geoipaper.sty](geoipaper.sty).
 
+    python experiments/export_paper_walkthrough_20261117.py
     python experiments/export_english_paper_20261116.py --check
     python experiments/build_english_paper_20261116.py --tectonic /path/to/tectonic
     python experiments/validate_english_paper_20261116.py
 
-The build authenticates the frozen evidence, exports tables, compiles both PDFs and creates a flat source archive. It never changes the method, benchmark, attacker or retained draws. The validation file records structural checks; visual QA is recorded only after the latest PDF pages are actually inspected.
+The build authenticates the frozen evidence, recreates the retained-sample figure, exports tables, enforces the six-page main-article ceiling, compiles both PDFs and creates a flat source archive. It never changes the method, benchmark, attacker or retained draws. The validation file records structural checks; visual QA is recorded only after the latest PDF pages are actually inspected. The walkthrough data and its source hashes are retained in [the figure artifact](../artifacts/figures/paper_walkthrough_20261117_v1/).
 
 ## Build from the flat source archive
 

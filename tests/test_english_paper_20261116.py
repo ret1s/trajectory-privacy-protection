@@ -9,6 +9,10 @@ from experiments.export_english_paper_20261116 import (
     B1, METHODS, SCENARIOS, PAPER, generate, pct, n,
 )
 from experiments.validate_english_paper_20261116 import source_check, validate
+from experiments.build_english_paper_20261116 import check_main_page_limit
+from experiments.export_paper_walkthrough_20261117 import (
+    PRIMARY, UPSTREAM, read_gzip, sample_data,
+)
 
 
 def test_every_primary_privacy_cell_binds_to_preserved_results():
@@ -53,3 +57,33 @@ def test_completed_pdf_and_flat_archive_have_matching_provenance():
     assert result["frozen_pins_verified"] == 108
     assert result["archive_flat_self_contained"]
     assert result["portable_compilation_text_matches"]
+    assert result["main_page_limit_pass"]
+    assert result["pdfs"]["manuscript.pdf"]["pages"] <= 6
+
+
+def test_walkthrough_uses_retained_wire_and_counts_reuse_as_a_private_read():
+    data = sample_data()
+    trip = read_gzip(PRIMARY)["trips"][0]
+    original = read_gzip(UPSTREAM)["trips"][0]
+    assert data["native_session_id"] == "cache-029_day7"
+    for row in data["records"]:
+        i = row["index"]
+        assert row["q_latlon"] == trip["events"]["geoi_bq"][i]["coordinates"]
+        assert row["z_latlon"] == original["GeoI_anchors"][i]
+        assert row["cache_unique"] == int(trip["masks"]["geoi_bq"][i]["session"], 16).bit_count()
+    for i in (1, 2):
+        row = data["records"][i]
+        assert row["belief_operation"] == "predict"
+        assert row["geo_i_spent_units"] == 1 and not row["private_read"]
+        assert row["gps_xy_m"] != data["records"][0]["gps_xy_m"]
+    reuse = data["records"][9]
+    assert reuse["z_latlon"] == data["records"][6]["z_latlon"]
+    assert reuse["private_read"] and reuse["geo_i_cost_units"] == 1
+    assert reuse["geo_i_spent_units"] == 6
+    assert reuse["q_reserved_upper_exact"] == "4/5"
+
+
+def test_main_page_limit_rejects_a_seventh_page():
+    check_main_page_limit(6)
+    with pytest.raises(AssertionError, match="limit is 6"):
+        check_main_page_limit(7)

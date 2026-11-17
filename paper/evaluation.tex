@@ -53,15 +53,6 @@ CI [$-0.773$,$-0.093$]; utility superiority is not supported.
 It uses 155 coordinate queries versus 31 for singleton arms and approximately
 190.21 for Fake queries*. Byte counts serialize reply indices rather than full
 records; replayed REM-Z/GeoI-BQ generation latency is unavailable.
-Figure~\ref{fig:tradeoff} shows the resulting trade-off.
-
-\begin{figure*}[t]\centering
-\includegraphics[width=.88\textwidth]{figure_tradeoff.pdf}
-\caption{Controlled S3 privacy and acquisition cost; labels on the right give
-session Recall@5. Starred methods are adaptations with different costs and guarantees.}
-\label{fig:tradeoff}
-\end{figure*}
-
 Source-metric comparison is partial. Singleton travel-cost distortion from
 TransProtect's Eq.~13 gives 47.44 m for TransProtect* and 688.65 m for REM-Z
 using eight local TRAIN-selected targets/prior. This is a local proxy, not the

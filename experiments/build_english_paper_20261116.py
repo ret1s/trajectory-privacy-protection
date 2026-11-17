@@ -13,6 +13,11 @@ from experiments.export_english_paper_20261116 import PAPER, generate, sha
 
 OUT = ROOT / "artifacts/papers/geoi_bq_20261116_v1"
 BUILD = ROOT / "build/paper/current"
+MAIN_PAGE_LIMIT = 6
+
+
+def check_main_page_limit(pages):
+    assert 1 <= pages <= MAIN_PAGE_LIMIT, f"Main paper has {pages} pages; limit is {MAIN_PAGE_LIMIT}"
 
 
 def source_files():
@@ -47,6 +52,8 @@ def main():
     if not args.tectonic:
         p.error("Tectonic required; pass --tectonic /path/to/tectonic")
     compiler = str(Path(args.tectonic).resolve())
+    from experiments.export_paper_walkthrough_20261117 import export
+    export()
     generated, figures = generate()
     for name, text in generated.items():
         (PAPER / name).write_text(text)
@@ -57,9 +64,11 @@ def main():
     outputs = {}
     for entry, target in (("main", "manuscript.pdf"), ("supplement", "supplement.pdf")):
         pdf = compile_one(compiler, PAPER, entry, BUILD / entry)
-        shutil.copyfile(pdf, OUT / target)
         with pdfplumber.open(pdf) as doc:
+            if entry == "main":
+                check_main_page_limit(len(doc.pages))
             outputs[target] = dict(pages=len(doc.pages), sha256=sha(pdf))
+        shutil.copyfile(pdf, OUT / target)
     make_archive(OUT / "latex_sources.zip")
     # Prove that the delivered archive has no hidden repository dependency.
     portable = BUILD / "portable"
@@ -76,6 +85,7 @@ def main():
     record = dict(schema="english-paper-build-v1", compiler=Path(compiler).name,
                   source_sha256={p.name: sha(p) for p in source_files()},
                   outputs=outputs, archive_sha256=sha(OUT / "latex_sources.zip"),
+                  main_page_limit=MAIN_PAGE_LIMIT,
                   portable_archive_both_entries_compiled=True,
                   portable_text_identical=True, benchmark_or_method_changed=False)
     (OUT / "build.json").write_text(json.dumps(record, indent=2) + "\n")

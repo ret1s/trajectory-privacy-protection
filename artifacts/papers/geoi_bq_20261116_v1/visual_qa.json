@@ -1,35 +1,36 @@
 {
   "schema": "english-paper-visual-qa-v1",
   "status": "pass",
-  "date": "2026-11-16",
+  "date": "2026-11-17",
   "layout": "Geo-I reference-inspired: US Letter, 9 pt Times, 18 pt bold sans-serif title, left-column abstract, two columns",
   "renderer": "Poppler pdftoppm 26.05.0",
-  "review": "All six final main pages visually inspected against the supplied reference. Typography, title/author blocks, abstract placement, headings, captions, diagrams and reference balancing reviewed. All fifteen supplementary renders are pixel-identical to previously inspected pages.",
+  "review": "All six final main pages visually inspected. Figure 3 and its caption were inspected at full-page scale and the standalone figure at 180 dpi; labels, coordinates, client/wire separation and budget units are legible. All fifteen supplementary renders are pixel-identical to previously inspected pages.",
   "reviewer": "Codex visual inspection; author scientific review remains pending",
   "checks": [
     "No clipping, missing glyphs or overlapping labels observed",
-    "Reference-inspired typography and left-column abstract verified",
-    "Two-column mathematical text and wide tables/figures legible",
-    "Final reference columns balanced",
-    "Author order and PDF metadata retained",
-    "38 scientific source/figure hashes and main scientific input tail unchanged"
+    "Retained multi-step Figure 3 readable at final full-width scale",
+    "Main paper remains six pages including all references",
+    "Reference-inspired typography, equations and wide tables remain legible",
+    "Author order, PDF metadata and balanced final reference columns retained",
+    "36 original protected scientific inputs unchanged; two authorized figure/cross-reference revisions recorded",
+    "All 15 supplementary page renders pixel-identical to the previous inspected build"
   ],
   "pdfs": {
     "manuscript.pdf": {
-      "sha256": "05f03f87fe94f0ae4dcd5c689688ee6774ea8d82c73bdc35693a8abb60268f59",
+      "sha256": "52dfbc4026d61170b8472cc6e935d9553d846e3a277dd20a4474682a6054c45d",
       "pages_inspected": 6,
       "dpi": 125,
       "page_render_sha256": {
         "1": "f3ac8095486facbf47db6defceaafbd36e3f01ac5efdaf1c0a408bd2671f2753",
         "2": "25f7cae09f6b249f2b37a2ff7f293e203415ad8b5099023e5df5d174f9a0aeb5",
-        "3": "d43c16890a8c8cf45ee6acf655be5547d61c9d448c52074c45b764d3edc4e280",
-        "4": "0d3e74215ba69a2f6d63fac25db5aa15ddf2a158a8667ea1864ccbce558437c6",
-        "5": "3f05db6da2eded232aaee5e1cf29c8c13b0c2a0ee165973af2d24979b355391f",
-        "6": "3766add7a725df29ed7872cbea7e93297ade19eb7594fcf1dcf9649562dee017"
+        "3": "a5d58032eb651398f40a7192a1e88abe1feba8a5d5a4b5e57e11e2184c679ca3",
+        "4": "5e561161694ab91a4cc2d35ddb7827195000b3c5ab6c6364a3b596299cd4db06",
+        "5": "9b71220ef0b90bc47c88f2344844e9c241a0c3091cc7d2abfe3cd0e1521c6d06",
+        "6": "b78dffc1c521ee724bc0dc26842cfca91dfc3491df77328099a5bce4c3badc02"
       }
     },
     "supplement.pdf": {
-      "sha256": "373ea4ca214463c43aec776a6bfce7b0bf133bb78fb135b501fbcc727059bf88",
+      "sha256": "2e826b25fbde119692f9d37b21d03e1d66d924c0c433069a0a6ac72ecd622199",
       "pages_inspected": 15,
       "dpi": 100,
       "page_render_sha256": {
@@ -56,7 +57,6 @@
     "Phan Trong Nhan"
   ],
   "reference_visual_style_url": "https://arxiv.org/pdf/1212.1984",
-  "scientific_content_files_unchanged": 38,
   "main_page_size_pt": [
     612,
     792
@@ -87,5 +87,12 @@
       "size_pt": 8.97,
       "characters": 6
     }
-  ]
+  ],
+  "original_scientific_files_unchanged": 36,
+  "approved_illustration_revision_files": [
+    "method.tex",
+    "evaluation.tex"
+  ],
+  "main_page_limit": 6,
+  "retained_sample": "cache-029_day7; fixed prefix 0--180 s; no defense sampling or attacker fitting"
 }

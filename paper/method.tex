@@ -97,3 +97,16 @@ top five is only the evaluation reference.
 segment library; committed frames retrieve POIs for local ranking.
 Only public cache information feeds back into candidate construction.}\label{fig:model}
 \end{figure*}
+
+Figure~\ref{fig:walkthrough} traces the retained sample used in the supplement.
+At 20/40 s the belief predicts without a protected GPS read; at 180 s
+the reuse test spends one unit even though Z stays unchanged.
+
+\begin{figure*}[t]\centering
+\includegraphics[width=\textwidth]{figure_walkthrough.pdf}
+\caption{Retained trip \texttt{cache-029\_day7}, 0--180 s. Left: east coordinates,
+showing only Q1 spatially; every emitted frame contains five Q.
+Right: selected ticks, client-side diagnostics and public frames.
+The first three frames share one committed segment. Z, belief, ledgers
+and the ranked answer remain local.}\label{fig:walkthrough}
+\end{figure*}

@@ -13,7 +13,9 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from experiments.export_english_paper_20261116 import AUTHORS, PAPER, generate, sha
-from experiments.build_english_paper_20261116 import OUT, BUILD, source_files
+from experiments.build_english_paper_20261116 import (
+    OUT, BUILD, source_files, MAIN_PAGE_LIMIT, check_main_page_limit,
+)
 
 
 def expanded(folder, entry, active=()):
@@ -50,7 +52,7 @@ def source_check(folder=PAPER):
     assert r"\usepackage{geoipaper}" in main and (folder / "geoipaper.sty").is_file()
     layout = json.loads((folder / "layout_reference.json").read_text())
     for name, digest in layout["protected_scientific_files_sha256"].items():
-        assert sha(folder / name) == digest, "Presentation edit changed scientific content: " + name
+        assert sha(folder / name) == digest, "Unrecorded scientific-content change: " + name
     tail = (folder / "main.tex").read_text().split(r"\input{introduction}", 1)[1]
     import hashlib
     assert hashlib.sha256((r"\input{introduction}" + tail).encode()).hexdigest() == layout["main_content_tail_sha256"]
@@ -73,7 +75,8 @@ def source_check(folder=PAPER):
     return dict(layout="Geo-I reference-inspired two-column, 9 pt", main_sections=len(sections), references=len(bib), abstract_words=abstract_words,
                 highlight_characters=list(map(len, highlights)),
                 all_inputs_figures_references_resolve=True, authors=list(AUTHORS),
-                author_order_verified=True, scientific_content_preserved=True,
+                author_order_verified=True, scientific_content_matches_recorded_revision=True,
+                approved_content_revisions=layout.get("approved_content_revisions", []),
                 protected_scientific_files=len(layout["protected_scientific_files_sha256"]))
 
 
@@ -100,6 +103,8 @@ def validate():
         log = (BUILD / entry / (entry + ".log")).read_text(errors="replace")
         assert not re.search(r"Overfull \\[hv]box|undefined references|Citation .* undefined|Missing character:", log), entry
         with pdfplumber.open(OUT / name) as doc:
+            if entry == "main":
+                check_main_page_limit(len(doc.pages))
             assert sha(OUT / name) == build["outputs"][name]["sha256"]
             author_meta = (doc.metadata.get("Author") or "").strip(" ;")
             assert re.split(r"\s*;\s*", author_meta) == list(AUTHORS), doc.metadata
@@ -122,12 +127,17 @@ def validate():
             all_text = "\n".join(texts)
             assert "99.595" in all_text and "2.437372" in all_text
             assert "Gamma" in all_text or "Γ" in all_text or "public base" in all_text
+            if entry == "main":
+                assert "cache-029_day7" in all_text and "Selected ticks" in all_text
+                assert "same Z" in all_text and "Only K5 + cover is uploaded" in all_text
             pdfs[name] = dict(pages=len(doc.pages), sha256=sha(OUT / name),
                               all_pages_text_bounds_pass=True, text_x_bounds=bounds)
     result = dict(schema="english-paper-validation-v1", status="pass", structural=structural,
                   frozen_pins_verified=108, source_generated_tables_match=True,
                   archive_flat_self_contained=True, portable_compilation_text_matches=True,
                   no_overfull_boxes=True, no_undefined_refs_or_missing_glyphs=True,
+                  main_page_limit=MAIN_PAGE_LIMIT, main_page_limit_pass=True,
+                  walkthrough_retained_source_binding_pass=True,
                   pdfs=pdfs, benchmarks_changed=False, defense_or_attackers_rerun=False,
                   visual_qa="Separate page inspection receipt required; not asserted by this script")
     return result

@@ -5,7 +5,7 @@
 - [Flat editable LaTeX package](latex_sources.zip): both documents and all required source figures/inputs.
 - [Build receipt](build.json), [structural/evidence checks](validation.json), and [visual QA receipt](visual_qa.json).
 
-The paper is separate from the Vietnamese thesis. Its five main sections cover motivation, recent related work, the GeoI-BQ specification and analysis, controlled experiments, and conclusions. The current visual revision changes typography, title/abstract placement, headings, captions and diagram palette; it preserves 38 scientific source/figure files byte-for-byte. Author order is Hanh Ngo-Minh first, followed by Phan Trong Nhan; affiliations and corresponding-author details remain pending.
+The paper is separate from the Vietnamese thesis. Its five main sections cover motivation, recent related work, the GeoI-BQ specification and analysis, controlled experiments, and conclusions. Figure 3 now illustrates the retained sample cache-029_day7 across 0--180 s. It replaces the redundant privacy–cost bar chart, preserving the six-page limit and all equations/benchmark values. The original visual-reference receipt records the two authorized text/caption edits; the other 36 protected scientific files remain unchanged. Author order is Hanh Ngo-Minh first, followed by Phan Trong Nhan; affiliations and corresponding-author details remain pending.
 
 The article preserves GeoI-BQ v1, the six-arm paper-adaptation comparison, all 120 retained TEST draws, negative controls and explicit limitations. No defense or attacker was rerun to write the paper. Full-reference access and the stronger public-base control remain central qualifications of the application/utility claim.
 

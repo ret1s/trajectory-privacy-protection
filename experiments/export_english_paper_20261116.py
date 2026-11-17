@@ -320,6 +320,13 @@ def generate():
     for name, path in figures.items():
         assert sha(path) == provenance["figures_sha256"][path.name], path
         sources[str(path.relative_to(ROOT))] = sha(path)
+    from experiments.export_paper_walkthrough_20261117 import OUT as WALKTHROUGH, export
+    export(check=True)
+    figures["figure_walkthrough.pdf"] = WALKTHROUGH / "figure_walkthrough.pdf"
+    for path in (WALKTHROUGH / "sample.json", WALKTHROUGH / "receipt.json",
+                 figures["figure_walkthrough.pdf"],
+                 ROOT / "experiments/export_paper_walkthrough_20261117.py"):
+        sources[str(path.relative_to(ROOT))] = sha(path)
     manifest = dict(schema="english-paper-evidence-v1", date="2026-11-16",
                     method="GeoI-BQ v1", authors=list(AUTHORS),
                     author_information="Order confirmed by user; affiliations and corresponding-author details pending",
@@ -327,6 +334,7 @@ def generate():
                     main_privacy_cells=len(a), extended_tasks=len(extra["tasks"]), fusion_tasks=len(fusion["tasks"]),
                     models_fitted=False, defense_outputs_regenerated=False,
                     new_empirical_runs=False, scope="Controlled comparison on the previously inspected synthetic cohort",
+                    walkthrough="Fixed first TEST trip, 0--180 s; retained outputs only, no new sampling",
                     generated_tables=len(out) - 1, generated_sha256={
                         name: hashlib.sha256(content.encode()).hexdigest() for name, content in out.items()},
                     sources_sha256=sources, figure_sha256={name: sha(path) for name, path in figures.items()},
