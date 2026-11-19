@@ -5,6 +5,9 @@ GeoI-BQ method, transcript/utility analysis and six-arm controlled comparison
 into a compact two-column author-review article styled after the original Geo-I paper, with supplementary material.
 Author order is confirmed; affiliations and contact details remain pending. This is not a journal submission.
 
+A separate [HK261 template version](paper_hk261/README.md) uses the supplied
+LLNCS class and bibliography style with a compact two-column, 9 pt layout.
+
 The [consolidated thesis (argument revision 16/11)](thesis/README.md) follows the agreed five-chapter
 outline, with the final GeoI-BQ specification, full privacy/utility proof chain,
 paper-adaptation comparison and scoped S4–S8 supplement. See the

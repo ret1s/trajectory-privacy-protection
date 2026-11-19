@@ -1,0 +1,24 @@
+\section{Related Work}\label{sec:related}
+Geo-I, prediction, composition and post-processing supply the
+foundations~\cite{geoi,predictive,dworkroth}. EV querying combines approximate
+Geo-I, dummies and local selection~\cite{ev}; PTPPM considers road-aware
+personalized protection under correlation~\cite{ptppm}. An IWPE 2026 program
+abstract also describes road adaptation and mobility prediction~\cite{iwpe26};
+we do not infer an unavailable full specification from that abstract.
+
+TransProtect produces context-driven replacement coordinates~\cite{transprotect}.
+Semantic correlation generates real-plus-dummy sets~\cite{semantic}, while fake
+query insertion adds dummy-only events~\cite{fake}. These contracts support
+different inference and service measures. Our implementations substitute a
+Markov predictor, OSM/empirical semantics, and road/history prediction,
+respectively; they are audited adaptations, not official reproductions.
+
+CPCROK addresses vehicular pseudonym/beacon linkability~\cite{cpcrok};
+DP-FETC concerns offline trajectory publication~\cite{dpfetc}. Neither maps
+directly to online POI retrieval. The trajectory-generation SoK likewise
+emphasizes privacy units and evaluation assumptions~\cite{sok}.
+Table~\ref{tab:related} retains the audited recent-work window
+(28 October 2023--28 October 2026), with older foundations cited separately.
+The contribution examined here is the bounded publication channel and its
+connected analysis, rather than a new Geo-I principle or universal metric.
+\input{table_related}

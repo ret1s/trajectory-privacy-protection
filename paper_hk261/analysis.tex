@@ -1,0 +1,117 @@
+\subsection{Transcript privacy}\label{sec:privacy}
+Let $X=(x_i)_i$ cover all potential protected-read times, including skipped
+ones, and $D_\infty(X,X')=\sup_i\|x_i-x_i'\|$.
+The following four statements connect local kernels to the complete wire.
+Full proofs and implementation conditions are in the supplement.
+
+\begin{proposition}[Common-domain REM]\label{prop:rem}
+Equation~(\ref{eq:rem}) is $u$-Geo-I.
+\end{proposition}
+\noindent\emph{Proof sketch.}
+The reverse triangle inequality bounds both the unnormalized-weight ratio and
+the inverse-normalizer ratio by $e^{u\|x-x'\|/2}$.
+Multiplication, then summation over outputs/coordinate aliases, gives the event bound.
+
+\begin{proposition}[Private reuse and cap]\label{prop:history}
+The ideal protected history $E$ satisfies
+\begin{equation}
+\Pr_X(E\in B)\le e^{C_sD_\infty(X,X')}\Pr_{X'}(E\in B). \label{eq:history}
+\end{equation}
+\end{proposition}
+\noindent\emph{Proof sketch.}
+Distance to fixed $h$ is 1-Lipschitz, so either Laplace threshold event
+costs $u$; refresh plus REM costs $2u$.
+At every common extended path, chain rule and the prospective ledger bound
+the log ratio by $u\sum_i c_i\|x_i-x_i'\|\le C_sD_\infty$.
+Marginalizing flags gives (\ref{eq:history}), without independent GPS steps.
+
+\begin{proposition}[Bounded segment kernel]\label{prop:kernel}
+For common positive $w$, (\ref{eq:kernel}) is a positive PMF with
+$p_a(b)/p_a(b')\le1+\varepsilon_{Q,j}$ for any two beliefs.
+\end{proposition}
+\noindent\emph{Proof sketch.}
+Centering normalizes the PMF and gives
+$w_a(1-\alpha_j)\le p_a\le w_a(1+\alpha_j)$.
+Their ratio is $1+\widehat\varepsilon_{Q,j}\le1+\varepsilon_{Q,j}$.
+Conditional mixtures retain the same bounds.
+
+\begin{proposition}[Adaptive publication]\label{prop:segments}
+The complete ordered transcript $O_n$ satisfies
+\begin{equation}
+\Pr_X(O_n\in B)\le R_n\Pr_{X'}(O_n\in B),\quad
+R_n=\prod_{j\le n}(1+\varepsilon_{Q,j})\le e^{\Gamma_Q}. \label{eq:segments}
+\end{equation}
+\end{proposition}
+\noindent\emph{Proof sketch.}
+Condition on common augmented prefixes and multiply action bounds.
+Committed frames, common-law responses and fixed retries add no ratio factor.
+The schedule sums to $\Gamma_Qn/(n+1)$; independent segments are unnecessary.
+
+\begin{theorem}[Conditional end-to-end bound]\label{thm:endtoend}
+Under both spatial and publication assumptions,
+\begin{equation}
+\Pr_X(O_n\in B)\le
+e^{\min\{C_sD_\infty(X,X'),\,\log R_n\}}\Pr_{X'}(O_n\in B). \label{eq:endtoend}
+\end{equation}
+\end{theorem}
+\noindent
+Post-processing gives the spatial bound; Proposition~\ref{prop:segments}
+independently bounds the same event, so their minimum applies.
+For $\Gamma_Q=1$, an exact prefix/tail certificate gives
+$R_\infty<2.437372$, without a duration limit.
+This Q guard can hold without ideal upstream Geo-I; the spatial branch needs
+its additional assumptions. With $C_s=0.23\,\mathrm m^{-1}$, the coarse spatial
+and Q ceilings cross at approximately 3.874 m.
+
+A uniform ratio $R$ limits posterior event probability to
+$f_R(\pi)=R\pi/[1+(R-1)\pi]$ at prior $\pi$.
+For radius $r$, put
+$\pi_{\max,t}(r)=\sup_y\Pr(\|X_t-y\|\le r\mid C)$.
+Every measurable estimator obeys
+\begin{equation}
+\Pr(\|X_t-\widehat x_t(O)\|\le r\mid C)
+\le f_R(\pi_{\max,t}(r)). \label{eq:hit}
+\end{equation}
+Apply the event bound to the output-selected ball, then average.
+Balanced binary priors give posterior below 70.91\% for one session;
+strong priors can make this uninformative. Conditional joint-channel ratios
+multiply, even for correlated inputs: two valid sessions permit a ceiling
+below 85.5925\%. Marginal per-user bounds alone do not establish this premise;
+a Raw partner can reveal correlated targets directly.
+
+\subsection{Utility and scope}\label{sec:utility}
+At fixed local history, with actual action rewards $r_a\in[0,1]$,
+\begin{align}
+\E_pz-\E_wz&=\alpha\Var_w(z)\ge0,\\
+\E_pr-\E_wr&=\alpha\Cov_w(z,r). \label{eq:gain}
+\end{align}
+Thus score improvement does not imply actual Recall gain.
+A proxy error $|r_a-v_a|\le\eta$ gives lower gain
+$\alpha[\Cov_w(z,v)-\eta\E_w|z-\E_wz|]$; unknown error is not zero.
+
+For full-catalogue reference top-$k$ $T_t\ne\varnothing$ and valid received
+set $U_t$, common filtering/order gives
+\begin{equation}
+\operatorname{Recall@}k=\frac{|T_t\cap U_t|}{|T_t|}. \label{eq:recall}
+\end{equation}
+Cache inclusion cannot reduce Recall at the same GPS/request, but cannot
+create absent metadata or ensure monotonicity while the user moves.
+
+Let $P_n$ be the adaptive wire law and $W_n$ the identical policy with
+$\Gamma_Q=0$, holding other conditions fixed. Conditional second moments give
+\begin{equation}
+|\E_{P_n}h-\E_{W_n}h|
+\le\frac12\sqrt{\prod_{j\le n}(1+\alpha_j^2/4)-1},
+\quad 0\le h\le1. \label{eq:tv}
+\end{equation}
+The uniform ceiling is below 0.0553 for $\Gamma_Q=1$.
+Latent scores are replaced by conditional mean scores, still in $[0,1]$.
+This bounds deviation from a matched base, not absolute quality.
+
+If a history-conditional public case law gives proxy reward at least $c$,
+actual-case TV error is at most $\tau$, and mean proxy error is at most $\nu$,
+then actual expected reward is at least $\max(0,c-\tau-\nu)$.
+Conditional expectation extends this to public-weighted session averages without
+IID steps. Real calibration remains uncertified.
+Finally, purpose-independent payloads provide fixed-context request
+noninterference, not secrecy of intent correlated with movement.

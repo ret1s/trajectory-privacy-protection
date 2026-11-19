@@ -1,0 +1,42 @@
+\begin{tikzpicture}[>=Latex,
+ box/.style={draw=ink!65,rounded corners=2pt,fill=white,text width=4cm,
+ align=center,inner sep=6pt,font=\small},
+ side/.style={draw=blue!60,fill=blue!4,rounded corners=2pt,text width=4cm,
+ align=center,inner sep=5pt,font=\small},
+ arr/.style={->,thick,draw=ink}]
+\node[box] (rem) at (0,0)
+{\textbf{1. Protected spatial history}\\Permitted GPS reads: REM $Z$\\Private reuse/refresh; cap $C_s$};
+\node[box] (belief) at (5.6,0)
+{\textbf{2. Protected belief}\\Motion prediction +\\protected-observation update};
+\node[box,draw=teal] (choose) at (11.2,0)
+{\textbf{3. Joint segment selection}\\Common library/base; bounded tilt\\Persist counter $j$ and action};
+\node[box] (send) at (11.2,-2.1)
+{\textbf{4. Commit and publish}\\K5 at 0/20/40 s; next at 60 s\\Six-category cover, L60};
+\node[box] (local) at (5.6,-2.1)
+{\textbf{5. Local service processing}\\Union/cache of valid POIs\\Filter/sort with current GPS + $\psi$};
+\node[side] (input) at (0,1.7)
+{\textbf{Private GPS stream}};
+\node[side,text width=6.9cm] (public) at (8.4,1.7)
+{\textbf{Public context:} roads, proxy, clock, prior Q/replies};
+\node[side] (output) at (0,-2.1)
+{\textbf{Output}\\Full matching sorted list};
+\node[side] (provider) at (11.2,-3.8)
+{\textbf{External LBS:} Q $\to$ POIs};
+\draw[arr] (input)--(rem);
+\draw[arr] (rem)--(belief);
+\draw[arr] (belief)--(choose);
+\draw[arr] (choose)--(send);
+\draw[arr] (local)--(output);
+\draw[arr,blue] (send)--(provider);
+\draw[arr,blue] (provider.west)-|node[below,pos=.3,font=\scriptsize]{POI replies}(local.south);
+\draw[arr,dashed,blue] (public.south west)--(belief.north);
+\draw[arr,dashed,blue] (public.south east)--(choose.north);
+\draw[arr,dashed] (local.north)--(5.6,-1.05)-|(choose.west);
+\node[font=\scriptsize,fill=white,inner sep=2pt] at (7.3,-1.05) {public cache only};
+\begin{scope}[on background layer]
+\node[fit=(rem)(belief)(choose)(send)(local),draw=teal,fill=teal!2,
+ rounded corners,inner sep=10pt] (boundary) {};
+\end{scope}
+\node[font=\scriptsize\bfseries,text=teal,anchor=north west,fill=white,inner sep=2pt]
+at (boundary.north west) {CLIENT-SIDE GEOI-BQ};
+\end{tikzpicture}

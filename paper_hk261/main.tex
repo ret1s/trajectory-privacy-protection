@@ -1,0 +1,52 @@
+\documentclass[runningheads,twocolumn,envcountsame,envcountsect]{llncs}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,booktabs,tabularx,array,graphicx}
+\usepackage{enumitem,xcolor,tikz,microtype,xurl}
+\usepackage{hk261_compact}
+\usepackage[hidelinks]{hyperref}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+\definecolor{ink}{gray}{0}
+\definecolor{teal}{gray}{.18}
+\definecolor{blue}{gray}{.28}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\E}{\mathbb E}
+\newcommand{\TV}{\operatorname{TV}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\BQ}{GeoI-BQ}
+\hypersetup{pdftitle={GeoI-BQ: Bounded Transcript Disclosure for Road-Aware Location Queries},
+pdfauthor={Hanh Ngo-Minh; Phan Trong Nhan},
+pdfsubject={HK261 template-based compact author-review manuscript}}
+\title{GeoI-BQ: Bounded Transcript Disclosure for Road-Aware Location Queries}
+\titlerunning{GeoI-BQ: Bounded Transcript Disclosure}
+\author{Hanh Ngo-Minh \and Phan Trong Nhan}
+\authorrunning{Hanh Ngo-Minh and Phan Trong Nhan}
+\institute{}
+\newcommand{\paperabstract}{%
+\begin{abstract}
+\input{abstract}
+\keywords{Trajectory privacy \and Geo-indistinguishability \and
+Location-based services \and Adaptive composition \and Point-of-interest retrieval}
+\end{abstract}}
+\begin{document}
+\maketitle
+\input{introduction}
+\input{related_work}
+\input{method}
+\input{analysis}
+\input{evaluation}
+\input{conclusion}
+\begin{credits}
+\subsubsection{Data and code availability.}
+Synthetic mobility, geographic snapshots, code and frozen artifact hashes are indexed
+by the accompanying manifest. Original geographic licenses apply.
+A persistent publication archive remains to be registered.
+\subsubsection{Declaration of generative AI assistance.}
+OpenAI ChatGPT/Codex assisted drafting, software preparation and consistency checks.
+The authors remain responsible for final verification, editing and approval.
+\end{credits}
+\bibliographystyle{splncs04}
+\bibliography{references}
+\end{document}

@@ -1,0 +1,15 @@
+Repeated location queries expose a transcript whose privacy cannot be inferred from
+isolated noisy points. We present GeoI-BQ, combining a geo-indistinguishable road
+reference, private reference reuse and bounded joint query-segment sampling.
+A summable allowance schedule limits transcript disclosure without specifying trip
+duration. Under explicit support, timing, state and provider assumptions, we derive
+an end-to-end likelihood-ratio bound and prior-dependent localization guarantees.
+Utility analysis separates planning-score gain from actual service reward and bounds
+deviation from a matched public base. A controlled synthetic comparison with three
+audited paper adaptations and two controls uses 20 test families and 120 retained
+trip-draws. GeoI-BQ achieves 99.595\% session Recall@5 and 0--0.188\% Hit100 across
+five localization tasks, using 155 coordinate queries per 600-second session.
+The nonadaptive base has slightly higher Recall, and complete static-reference
+access limits claims of online necessity. These findings support a conditional
+transcript mechanism and reproducible trade-off analysis, rather than deployment
+certification or faithful reproduction of the original papers.

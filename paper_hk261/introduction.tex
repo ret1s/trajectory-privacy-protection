@@ -1,0 +1,33 @@
+\section{Introduction}\label{sec:intro}
+Repeated location-based service (LBS) requests reveal coordinates, timing and
+movement correlations. Mobility-trace uniqueness motivates protection beyond
+isolated queries~\cite{mobilityunique}. Geo-indistinguishability (Geo-I) bounds
+output likelihood ratios by input distance~\cite{geoi}, but a continuous service
+must also account for reference reuse, candidate construction, publication and
+session state. Predictive mechanisms already recognize the cost of new private
+observations~\cite{predictive}.
+
+Useful answers need not come from a query near the true GPS: several cover
+locations can retrieve metadata for private local ranking, as application-specific
+work demonstrates~\cite{ev}. Evaluating this design requires distinguishing a
+planning proxy from actual service quality. Comparison is complicated by different
+output contracts: a replacement coordinate, real-plus-dummy sets, inserted fake
+queries or offline trajectories~\cite{transprotect,semantic,fake,sok}. We use
+task-aligned metrics alongside applicable source metrics, without claiming new
+formulas for MAE or Recall.
+
+We study GeoI-BQ, which maintains a protected road reference, estimates a belief
+from protected history, and selects jointly published query segments using a
+bounded centered distribution. Its contributions are:
+\begin{enumerate}
+\item A stateful road-aware policy with separate GPS and query-publication accounting.
+\item Connected transcript privacy and conditional utility bounds, including
+prior-dependent localization and conditional joint-channel consequences.
+\item A reproducible six-arm comparison with uncertainty, costs and adverse controls.
+\end{enumerate}
+The prototype loads the complete reference used by its static provider, and a
+nonadaptive public base slightly outperforms private adaptation in Recall.
+These findings constrain application claims; neither multiple queries, road
+awareness nor local ranking alone is asserted as novel.
+Sections~\ref{sec:related}--\ref{sec:conclusion} cover prior work, method and analysis,
+experiments, and conclusions.

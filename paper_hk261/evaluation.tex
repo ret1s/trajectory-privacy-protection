@@ -1,0 +1,90 @@
+\section{Experiments and Analysis}\label{sec:evaluation}
+\subsection{Data and protocol}
+Native SUMO mobility~\cite{sumo} uses a versioned directed network
+(66,189 road states, 4,849 external and 21,179 internal edges) and
+418 POIs in six categories with OpenStreetMap provenance~\cite{osm}.
+The 48 route families split into 20 TRAIN, 8 SELECTION and 20 TEST.
+Two retained trips/family and three TEST draws yield 120 test trip-draws/arm.
+Each window lasts 600 s with 31 service ticks. This inspected synthetic cohort
+is a controlled comparison, not untouched-city confirmation.
+
+All arms share the catalogue, L60/category/coordinate and local ranking.
+Four purposes cover nearest road distance, fastest travel, within 1,000 m,
+and minimum detour to a private local destination.
+Session cache is primary; empty references are N/A.
+Hit100 and Euclidean MAE measure localization; Recall@5 measures answers.
+Results aggregate within trip, family, then across families.
+We report 10,000 family-bootstrap 95\% intervals~\cite{efron};
+repeated draws are not independent families.
+
+\subsection{Comparators and attackers}
+We compare Raw GPS, direct REM-Z (K1), three starred paper adaptations and
+frozen GeoI-BQ v1. TransProtect* uses a Markov predictor (K10,
+$\alpha_{\rm TP}=10000$, $\varepsilon=0.005\,\mathrm m^{-1}$);
+Semantic* uses OSM/empirical K5 dummies; Fake queries* uses K5
+road/history sets with up to two inserted events at 5--15 s waits.
+Their differing guarantees, costs and outputs are retained, without equal-epsilon
+or official-reproduction claims. Full settings appear in the supplement.
+
+The bank includes geometry/history estimators, ExtraTrees
+(64 trees)~\cite{extratrees}, shadow kNN-1/kNN-5 and priors.
+Fit uses TRAIN; robust SELECTION is loss-specific; TEST features contain
+only public wire, excluding Z, true-member labels and evaluator indices.
+S1 sees one packet; S2 sees 540--600 s and targets mean final-window GPS
+(a coordinate proxy); S3 reconstructs all ticks from the whole wire;
+S9/S10 infer endpoints from the same whole window with public boundaries.
+All fake events count. Hit and MAE can select different attackers.
+
+\subsection{Main results}
+\input{table_privacy}
+\input{table_service}
+Raw recovers observed coordinates exactly; all six arms complete 120/120 draws
+without failures. GeoI-BQ yields Hit100 0--0.188\% and MAE 1.99--2.12 km,
+versus REM-Z Hit100 5.833--37.500\%.
+Fake queries* illustrates the value of temporal evaluation: S1 has
+53.387\% Hit100 / 1,213 m MAE, but S3 has 98.790\% / 13.3 m.
+The known clock and history undermine this adaptation's inserted events.
+These are retained-bank results, not universal rankings or Bayes-optimal attacks;
+zero-hit intervals do not prove zero population risk.
+
+GeoI-BQ's macro Recall is 99.595\%, CI [99.224, 99.903]\%.
+Against TransProtect*, the paired difference is $-0.401$ pp,
+CI [$-0.773$,$-0.093$]; utility superiority is not supported.
+It uses 155 coordinate queries versus 31 for singleton arms and approximately
+190.21 for Fake queries*. Byte counts serialize reply indices rather than full
+records; replayed REM-Z/GeoI-BQ generation latency is unavailable.
+Source-metric comparison is partial. Singleton travel-cost distortion from
+TransProtect's Eq.~13 gives 47.44 m for TransProtect* and 688.65 m for REM-Z
+using eight local TRAIN-selected targets/prior. This is a local proxy, not the
+original cities or VehiTrack reproduction. Q-only output has no unique
+singleton for that metric. Source-calibrated ASR, DER and path counts remain
+N/A where inputs or contracts are incompatible; reasons and full CIs are retained
+in the supplement.
+
+\subsection{Extended tasks and attribution}
+S4 route-family association gives GeoI-BQ balanced accuracy 47.50\%,
+CI [40.00, 54.17]\%, without physical person/vehicle labels.
+S5 is inconclusive because Raw is also at 50\%.
+S6 post-turn destination choice is informative: Raw reaches 100\%,
+adaptations 95--99.17\%, GeoI-BQ 50.83\%
+(CI [44.17, 57.50]\%); REM-Z is also at chance.
+S7's common wrapper yields identical wire across 1,056 streams and 25,344
+purpose/category counterfactuals. This fixed-context property is shared,
+not unique to GeoI-BQ or evidence against correlated-intent inference.
+Post-V1 S8 fusion raises Semantic*/Fake-query* protected-partner Hit100 to
+75\%/68.33\%, while GeoI-BQ has no retained hits.
+An available perfectly aligned Raw-partner estimator reaches 100\% in every arm.
+These extensions are diagnostics on the inspected cohort.
+
+High Recall partly reflects catalogue saturation: the first GeoI-BQ packet
+acquires 380.2/418 unique POIs on average, and the final cache 415.875.
+Current/epoch/session Recall is 96.780/97.123/99.595\%.
+The matched $\Gamma_Q=0$ base achieves 99.711\%; proposed minus base is
+$-0.116$ pp, CI [$-0.253$,$-0.006$]. Private adaptation is therefore not
+shown necessary for quality. Complete client reference access also permits exact
+offline static answers under equal information, without implying zero setup cost.
+
+All ledgers spend 13--21 of 23 units: the 600 s trial never exhausts its cap.
+Long-trip utility, unknown/dynamic provider data, new geography, practical entropy,
+upstream numerical/restoration guarantees and additional identity channels remain
+outside the demonstrated result.

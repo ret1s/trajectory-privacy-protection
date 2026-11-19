@@ -1,0 +1,113 @@
+\section{Proposed Method}\label{sec:method}
+\subsection{System and assumptions}\label{sec:system}
+Let $V$ be a finite directed road-state domain with projected coordinates $a_v$.
+Euclidean distance defines privacy/localization; directed cost defines road
+feasibility and service ranking. GPS $x_t$ and request $\psi_t$ stay local.
+The algorithm and public context $C$ are known to the provider.
+It observes ordered Q coordinates, clock, common requests, responses
+and retries, but not reference $Z$, belief, ledgers or ranked answers
+(Fig.~\ref{fig:system}).
+
+\begin{figure}[t]\centering
+\resizebox{\columnwidth}{!}{\input{figure_system}}
+\caption{Trusted device and provider boundary. The prototype already loads the
+complete static reference used by the trial provider.}\label{fig:system}
+\end{figure}
+
+The guarantees require common candidate support and positive public base masses
+at each augmented action prefix, including fake lane states; ideal spatial
+kernels; fresh independent uniform Q bits; committed, nonrollbackable session
+state and full upstream restoration; public boundaries/clock; and the same
+conditional provider law at the same query/history. Movement is exogenous.
+Account/IP identifiers, private start/stop timing and feedback require additional
+channels. Cache results require valid metadata and a common ranking order.
+Integer Q arithmetic alone does not certify the complete floating-point
+implementation~\cite{mironov}.
+
+The operational factory has complete reference/reply data matching the static
+provider. Received-candidate masks constrain the measured answer, but do not
+establish information isolation: an equally informed offline client can answer
+all defined static requests exactly. Acquisition and refresh costs remain separate.
+
+\subsection{Protected reference and belief}
+The road exponential mechanism (REM) directly samples a road state:
+\begin{equation}
+R_u(v\mid x)=
+\frac{e^{-u\|x-a_v\|/2}}{\sum_{w\in V}e^{-u\|x-a_w\|/2}},
+\quad Z=a_v. \label{eq:rem}
+\end{equation}
+At a permitted later GPS read, the old reference $h$ is tested by
+\begin{equation}
+D_t=\mathbf1\{\|x_t-h\|+\xi_t>\theta\},
+\quad \xi_t\sim\operatorname{Lap}(0,1/u). \label{eq:test}
+\end{equation}
+Reuse costs $u$; test-and-refresh costs $2u$; the initial REM costs $u$.
+A prospective filter reserves the maximal next cost before reading GPS:
+\begin{equation}
+u\sum_i c_i\le Mu\le C_s,\qquad
+M=\lfloor C_s/u\rfloor,\quad c_i\in\{0,1,2\}. \label{eq:cap}
+\end{equation}
+The frozen configuration uses $u=B/(2H_{\rm cfg})$,
+$B=0.24\,\mathrm m^{-1}$ and $H_{\rm cfg}=12$, giving $u=0.01\,\mathrm m^{-1}$,
+$M=23$, $C_s=0.23\,\mathrm m^{-1}$ and $\theta=200$ m.
+Generally, $C_s\le\log(R_\star)/d_\star$ suffices for spatial ratio $R_\star$
+within $D_\infty\le d_\star$. Exhaustion stops new protected reads, not queries.
+
+A representative-state belief predicts using a public motion model and updates
+only on an actual protected observation:
+\begin{align}
+b_t^-(s)&=\sum_r b_{t-1}(r)T_{\Delta t}(r,s),\\
+b_t(s)&\propto b_t^-(s)\ell_t(Z_t\mid s,h). \label{eq:belief}
+\end{align}
+The emission combines the reuse atom with refresh REM likelihood.
+A skipped read uses prediction only; repeated Z is not an independent
+measurement. This approximate belief is not certified real-user calibration.
+
+\subsection{Bounded segment selection and local answers}
+Each action has three K5 frames linked by feasible directed-road movement.
+Public context and prior fake actions/replies determine the library and masses;
+GPS, Z, belief and request do not prune support. Holding supplies common
+feasibility; an empty public construction is a reported failure.
+The frozen public planner uses width 24, novelty/long-range weights four and
+a 60 s travel scale. The supplement specifies these masses and the bounded
+cache-coverage/proximity proxy $g_a(s)$.
+
+Scores $v_a=\sum_sb(s)g_a(s)$ are normalized/quantized to $z_a\in[0,1]$
+at resolution 65536. For segment $j$,
+\begin{align}
+\varepsilon_{Q,j}&=\frac{\Gamma_Q}{j(j+1)},&
+\alpha_j&=\frac{\widehat\varepsilon_{Q,j}}{2+\widehat\varepsilon_{Q,j}},\\
+\mu_j&=\sum_aw_az_a,&
+p_a&=w_a[1+\alpha_j(z_a-\mu_j)]. \label{eq:kernel}
+\end{align}
+Here $\widehat\varepsilon_{Q,j}\le\varepsilon_{Q,j}$ is the downward-rounded
+rational allowance; $\Gamma_Q=1$ in the trial.
+Exact integer cumulative weights implement this PMF conditional on uniform bits.
+
+One committed segment emits at offsets 0, 20 and 40 s; the next starts at 60 s
+(Fig.~\ref{fig:model}). Protected GPS reads are at least 60 s apart, while
+current local GPS can rank at every tick. Each Q requests the same six categories,
+$L60$ per category. The device deduplicates/caches replies, then filters and
+sorts privately using $\psi_t$. Users receive the full matching list;
+top five is only the evaluation reference.
+
+\begin{figure*}[t]\centering
+\resizebox{.94\textwidth}{!}{\input{figure_model}}
+\caption{GeoI-BQ workflow. Private spatial history scores a common public
+segment library; committed frames retrieve POIs for local ranking.
+Only public cache information feeds back into candidate construction.}\label{fig:model}
+\end{figure*}
+
+Figure~\ref{fig:walkthrough} traces a retained TEST trip selected for its
+multi-turn geometry. At 20/40 s belief predicts without a protected GPS read;
+the test-and-refresh steps at 60/120/180 s each spend two units.
+
+\begin{figure*}[t]\centering
+\includegraphics[width=\textwidth]{figure_walkthrough.pdf}
+\caption{Retained trip \texttt{cache-046\_day7}, 0--180 s.
+(a) All five Q streams; box B locates the separate detail in (b).
+Filled GPS and hollow Z markers share time labels/colors; dashed links
+show reference displacement, not travel.
+(c) Selected ticks and committed frames; the first three share one segment.
+Z, belief, ledgers and ranked answers remain local.}\label{fig:walkthrough}
+\end{figure*}
