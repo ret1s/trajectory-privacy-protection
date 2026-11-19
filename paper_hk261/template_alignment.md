@@ -19,4 +19,6 @@
 
 The two-column A4 layout, 9 pt body and reduced spacing are the user's requested compact adaptations. Scientific paragraphs, equations, measured results and illustrations are retained. Method subsections are nested under Workflow and experiment details under the supplied environment/empirical headings; no benchmark result is removed.
 
+Final typography uses a balanced two-line title, deliberate affiliation/address breaks, tighter run-in headings with terminal punctuation and centered numeric result columns. These are presentation changes; title wording, author metadata and result values are retained.
+
 The archive's sample figures and unrelated bibliography examples are replaced by the actual research figures and sources. Its example running author name and placeholder emails are replaced by the confirmed author data. The commented competing-interest example is not turned into a declaration without author information.

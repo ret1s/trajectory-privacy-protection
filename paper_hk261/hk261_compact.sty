@@ -31,6 +31,9 @@
  {-8pt plus -1pt minus -1pt}{3pt}%
  {\normalfont\fontsize{9.5}{11}\selectfont\bfseries\boldmath
   \raggedright\hyphenpenalty10000\exhyphenpenalty10000}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+ {-9pt plus -1pt minus -1pt}{-.55em}%
+ {\normalfont\normalsize\bfseries\boldmath}}
 % Keep the native LLNCS title, author separators, abstract, running heads,
 % theorem environments, credits and bibliography. Compact only their spacing.
 \patchcmd{\@maketitle}{\vskip .8cm}{\vskip 10pt}{}{\PackageError{hk261_compact}{Title spacing patch failed}{}}

@@ -36,9 +36,9 @@ PRESENTATION_CHANGES = {
         (r"\section{Proposed method and analysis}", r"\section{Proposed Method}"),
         (r"\subsection{System and assumptions}", r"\subsection{Framework}"),
         (r"\subsection{Protected reference and belief}",
-         "\\subsection{Workflow}\n\\subsubsection{Protected reference and belief}"),
+         "\\subsection{Workflow}\n\\subsubsection{Protected reference and belief.}"),
         (r"\subsection{Bounded segment selection and local answers}",
-         r"\subsubsection{Query-segment selection and local answers}"),
+         r"\subsubsection{Query-segment selection and local answers.}"),
         (r"\begin{figure}[t]", r"\begin{figure}[!ht]"),
     ],
     "analysis.tex": [
@@ -48,15 +48,17 @@ PRESENTATION_CHANGES = {
     "evaluation.tex": [
         (r"\section{Experiments and analysis}", r"\section{Experiments and Analysis}"),
         (r"\subsection{Data and protocol}",
-         "\\subsection{Environment Settings}\n\\subsubsection{Data and evaluation protocol}"),
+         "\\subsection{Environment Settings}\n\\subsubsection{Data and evaluation protocol.}"),
         (r"\subsection{Comparators and attackers}",
-         r"\subsubsection{Comparison methods and attackers}"),
+         r"\subsubsection{Comparison methods and attackers.}"),
         (r"\subsection{Main results}",
-         "\\subsection{Empirical Experiments}\n\\subsubsection{Main results}"),
+         "\\subsection{Empirical Experiments}\n\\subsubsection{Main results.}"),
         (r"\subsection{Extended tasks and attribution}",
-         r"\subsubsection{Extended tasks and attribution}"),
+         r"\subsubsection{Extended tasks and attribution.}"),
     ],
     "conclusion.tex": [(r"\section{Conclusion}", r"\section{Summary}")],
+    "table_privacy.tex": [(r"P{2.7cm}YYYYY", r"P{2.7cm}CCCCC")],
+    "table_service.tex": [(r"P{2.7cm}YYYYYYY", r"P{2.7cm}CCCCCCC")],
 }
 
 
@@ -115,7 +117,7 @@ def source_check(folder=PAPER):
     for block, author in zip(blocks, info["authors"]):
         assert r"\inst{1,2}" in block and author["affiliation_ids"] == [1, 2]
         assert (r"\textsuperscript{\Letter}" in block) == author["corresponding"]
-    normalized = re.sub(r"\s+", " ", text)
+    normalized = re.sub(r"\s+", " ", text.replace(r"\\", " "))
     for affiliation in info["affiliations"]:
         assert affiliation["text"] in normalized
     assert r"\email{\{nmhanh.sdh241, nhanpt\}@hcmut.edu.vn}" in text
@@ -142,7 +144,7 @@ def source_check(folder=PAPER):
     return dict(template_class_exact=True, template_bst_exact=True,
                 class_version=origin["class_version"], main_sections=sections,
                 inherited_inputs_verified=len(expected), references=18, authors=list(AUTHORS),
-                scientific_change="Headings, contribution-list markers and float placement only; scientific paragraphs, equations, result values and figures unchanged",
+                scientific_change="Headings, list markers, float placement and numeric-column alignment only; scientific paragraphs, equations, result values and figures unchanged",
                 bibliography="Same 18 works and source DOIs; splncs04 presentation/order",
                 author_metadata="Two supplied affiliations and user-provided emails; Hanh Ngo-Minh is the sole corresponding author",
                 affiliations=info["affiliations"], corresponding_author=corresponding[0]["name"])
@@ -215,6 +217,13 @@ def validate():
                         or c["top"] < -.5 or c["bottom"] > page.height+.5], i
             texts.append(text)
         combined = "\n".join(texts)
+        title_page = doc.pages[0].filter(
+            lambda obj: obj.get("object_type") == "char" and obj.get("size", 0) > 13)
+        title_lines = (title_page.extract_text(x_tolerance=1.5) or "").splitlines()
+        assert len(title_lines) == 2 and min(len(line.split()) for line in title_lines) >= 4, (
+            "Unbalanced title", title_lines)
+        assert re.sub(r"\s+", " ", doc.metadata.get("Title", "")) == (
+            "GeoI-BQ: Bounded Transcript Disclosure for Road-Aware Location Queries")
         for required in ("HCMUT", "VNU-HCM", "nmhanh.sdh241", "nhanpt", "Corresponding author:"):
             assert re.sub(r"\s+", "", required) in re.sub(r"\s+", "", texts[0]), (
                 "Author block missing from page 1", required)
@@ -229,6 +238,7 @@ def validate():
                       pdf_sha256=sha(OUT / "manuscript.pdf"), a4=True, two_columns=True,
                       no_overfull_boxes=True, no_undefined_references=True,
                       all_pdf_text_within_page=True, theorem_numbers_preserved=True,
+                      title_lines=title_lines, title_widow_absent=True,
                       portable_archive_compiled=True, original_version_unchanged=True,
                       visual_qa="Separate observed page inspection receipt required")
     return result

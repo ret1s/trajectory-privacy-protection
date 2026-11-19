@@ -5,8 +5,8 @@
   "renderer": "Poppler pdftoppm 26.05.0",
   "dpi": 125,
   "pages_inspected": 6,
-  "pdf_sha256": "847e8b2f6cf6d24da351bd379860bb7d06ad77b4073dea2013343624de9741d2",
-  "review": "Final pages 5 and 6 visually inspected after removing the two requested review sections. Pages 1--4 are pixel-identical to the previously inspected version. Acknowledgments remains, followed directly by References. All scientific figures/tables, author affiliations/contact and six-page two-column layout are retained; no clipping, missing glyphs or overlap observed.",
+  "pdf_sha256": "0aa9ac1a47ce8f5cc634b73c3f76097eb0b5a2dd05239b422edaed0a77345e9c",
+  "review": "All six final pages visually inspected after typography polish. The title is balanced over two semantic lines with no stranded last word. Institution/address line breaks, author/contact block, run-in heading spacing and punctuation, captions and centered numeric result columns reviewed. Three figures, theorem numbering and reference flow remain legible; no clipping, missing glyphs or overlapping labels observed.",
   "checks": [
     "Exact supplied LLNCS class and splncs04 style preserved",
     "Two complete numbered affiliations and both author emails visible on page 1",
@@ -18,14 +18,18 @@
     "Flat editable source ZIP compiled independently with identical page text",
     "Original paper/version and benchmark/method files unchanged",
     "Acknowledgments remains; data/code availability and generative-AI assistance sections absent from the review PDF",
-    "Updated reference flow on final two pages inspected; first four pages pixel-identical to prior inspected build"
+    "Title wording and PDF title metadata retained; balanced two-line title with no widow",
+    "Institution names and addresses use deliberate, readable line breaks",
+    "Run-in headings have consistent terminal punctuation and tighter vertical spacing",
+    "Privacy and utility numeric columns centered; every inherited result value preserved",
+    "All six latest page renders visually inspected; A4/two-column six-page layout retained"
   ],
   "page_render_sha256": {
-    "1": "2b5c7c3f02e38b0b4503f1252524c204a922628a0eadf23b6c3e34d01b9a58e5",
-    "2": "67a2e28639e2c5dca2e5122787c55b1e6ee3653db6d621765c2c2a6c1b516384",
+    "1": "9e30b09ca182c446455c348b8c35f3574aa01301844f79f98eadf9b110061fff",
+    "2": "8d3b5a02272315f664d60f51fdadc67849e96590a4cb6e23d4f585bcf9781192",
     "3": "8ce65d7c5a2118dd9d9afdbb97d99b44aca1f3016566f7db4cdc1a4f2cf051c2",
-    "4": "1de2eb60941932a626cd1a0565822f1a1ca9b14400d8872e2d9f2352b264811d",
-    "5": "a0b292c6a877fa62c7c5ee59dfa1f376497576e11992c212de108c3a7c0ab19e",
+    "4": "4a4715529692018918de1e52c88d762e0b59abbb2f0b9c9f8c7e9133529ef495",
+    "5": "0ea9d5b0178d219904f233a0b7521efdbb8466f7e37313f30338517ffce095b8",
     "6": "1327cda9f1a7cc183bf3f6763db0281ee711d4a9bb3e8f2b4fd20e2701649055"
   },
   "font_metrics": [
@@ -42,7 +46,7 @@
     {
       "font": "LMRoman9-Bold",
       "size_pt": 8.97,
-      "characters": 340
+      "characters": 346
     },
     {
       "font": "LMRoman8-Regular",
@@ -96,5 +100,10 @@
   "affiliation_ids": [
     1,
     2
-  ]
+  ],
+  "title_lines": [
+    "GeoI-BQ: Bounded Transcript Disclosure",
+    "for Road-Aware Location Queries"
+  ],
+  "title_widow_absent": true
 }

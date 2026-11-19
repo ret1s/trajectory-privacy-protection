@@ -6,6 +6,8 @@
 
 The native title/author treatment, abstract/keywords, running heads, theorem style, credits and bibliography follow the supplied HK261 archive. Spacing and two-column overrides are isolated in hk261_compact.sty. The original template sample is preserved as a text reference so the editable ZIP has one main compilation entry.
 
+The title is balanced over two lines without a stranded last word. Affiliation breaks, run-in heading spacing/punctuation and numeric-column alignment are polished while retaining the supplied style and scientific content.
+
 The same English scientific content, equations, measured result values and latest multi-turn illustration are retained. Headings follow the supplied Framework/Workflow and Environment Settings/Empirical Experiments structure, ending in Summary. The same eighteen references are formatted and ordered by splncs04.
 
 Both authors carry markers 1,2 for the supplied HCMUT and VNU-HCM affiliations/addresses. The email aliases are nmhanh.sdh241 and nhanpt at hcmut.edu.vn. Hanh Ngo-Minh is the sole corresponding author and carries the envelope symbol, as confirmed by the user. The institutional Acknowledgments from the template is restored. See the source package's template_alignment.md for the full layout audit.
