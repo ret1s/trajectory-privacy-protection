@@ -1,0 +1,19 @@
+Chuỗi truy vấn vị trí tạo thành một transcript (toàn bộ thông tin trao đổi),
+mà mức bảo vệ không thể được suy ra chỉ từ từng điểm nhiễu riêng lẻ.
+Chúng tôi đề xuất GeoI-BQ, kết hợp điểm tham chiếu trên mạng đường thỏa
+geo-indistinguishability, phép kiểm tra tái sử dụng có bảo vệ và cơ chế lấy mẫu
+chung một đoạn truy vấn với mức tiết lộ bị chặn. Lịch phân bổ ngân sách có tổng
+hữu hạn giới hạn tiết lộ của transcript mà không cần biết trước thời lượng
+chuyến đi. Với các giả thiết rõ ràng về miền hỗ trợ, thời gian, trạng thái và
+nhà cung cấp, chúng tôi suy ra cận tỷ số xác suất đầu ra cho toàn hệ thống và
+cận suy luận vị trí phụ thuộc prior. Phân tích utility tách mức tăng điểm lập
+kế hoạch khỏi chất lượng dịch vụ thật, đồng thời chặn độ lệch so với một cơ chế
+công khai tương ứng. Thực nghiệm có kiểm soát trên dữ liệu mô phỏng so sánh ba
+bản điều chỉnh từ paper và hai đối chứng, với 20 nhóm tuyến TEST và 120 lượt
+chuyến đi--lấy mẫu. GeoI-BQ đạt Recall@5 toàn phiên 99.595\% và Hit100
+0--0.188\% trên năm tác vụ định vị, sử dụng 155 truy vấn tọa độ trong phiên
+600 giây. Cơ chế nền không thích nghi có Recall nhỉnh hơn; việc thiết bị đã
+có toàn bộ dữ liệu tham chiếu tĩnh cũng giới hạn lập luận về sự cần thiết của
+truy vấn online. Kết quả hỗ trợ một cơ chế bảo vệ transcript có điều kiện và
+phân tích đánh đổi tái lập được, chưa phải chứng nhận triển khai hay tái lập
+chính thức các paper gốc.

@@ -1,0 +1,95 @@
+\section{Thực nghiệm và phân tích}\label{sec:evaluation}
+\subsection{Thiết lập thực nghiệm}
+\subsubsection{Dữ liệu và quy trình đánh giá.}
+Di chuyển mô phỏng bằng SUMO nguyên bản~\cite{sumo} dùng mạng đường có hướng
+được quản lý phiên bản (66,189 trạng thái đường, 4,849 cạnh ngoài và 21,179
+cạnh nội bộ), cùng 418 POI thuộc sáu loại có nguồn gốc
+OpenStreetMap~\cite{osm}. Có 48 nhóm tuyến, chia thành 20 TRAIN, 8 SELECTION
+và 20 TEST. Hai chuyến đã lưu mỗi nhóm và ba lần lấy mẫu TEST tạo 120 lượt
+chuyến đi--lấy mẫu cho mỗi phương án. Mỗi cửa sổ dài 600 s, có 31 nhịp dịch
+vụ. Đây là so sánh có kiểm soát trên cohort mô phỏng đã được xem, không phải
+xác nhận trên thành phố chưa từng khảo sát.
+
+Các phương án dùng chung danh mục, L60/loại/tọa độ và xếp hạng local.
+Bốn mục đích gồm gần nhất theo đường, di chuyển nhanh nhất, trong bán kính
+1,000 m và ít vòng đường nhất tới đích riêng tư tại local.
+Cache toàn phiên là cấu hình chính; tập tham chiếu rỗng được ghi N/A.
+Hit100 và MAE Euclid đo suy luận vị trí; Recall@5 đo câu trả lời dịch vụ.
+Kết quả được gộp trong chuyến, trong nhóm tuyến, rồi giữa các nhóm.
+Khoảng tin cậy 95\% dùng 10,000 lần bootstrap theo nhóm tuyến~\cite{efron};
+các lần lấy mẫu lặp lại không được coi là nhóm độc lập.
+
+\subsubsection{Phương pháp đối chứng và attacker.}
+So sánh gồm Raw GPS, gửi REM-Z trực tiếp (K1), ba bản điều chỉnh từ paper
+có dấu sao và GeoI-BQ v1 đã đóng băng. TransProtect* dùng dự đoán Markov
+(K10, $\alpha_{\rm TP}=10000$, $\varepsilon=0.005\,\mathrm m^{-1}$);
+Semantic* dùng K5 điểm giả theo OSM/thực nghiệm; Fake queries* dùng tập K5
+dựa trên đường/lịch sử, chèn tối đa hai sự kiện với thời gian chờ 5--15 s.
+Khác biệt về bảo đảm, chi phí và đầu ra được giữ nguyên; không khẳng định
+cùng epsilon hay tái lập chính thức. Cấu hình đầy đủ nằm trong tài liệu bổ sung.
+
+Tập attacker gồm ước lượng hình học/lịch sử, ExtraTrees
+(64 cây)~\cite{extratrees}, shadow kNN-1/kNN-5 và prior.
+Huấn luyện dùng TRAIN; lựa chọn vững trên SELECTION được làm riêng theo hàm
+mất mát. Đặc trưng TEST chỉ chứa transcript công khai, không có Z, nhãn điểm
+thật hay chỉ mục của bộ đánh giá. S1 xem một gói; S2 xem 540--600 s và dự đoán
+GPS trung bình của cửa sổ cuối (một proxy tọa độ); S3 tái dựng mọi nhịp từ
+toàn transcript; S9/S10 suy ra hai đầu từ cùng cửa sổ đầy đủ với ranh giới
+phiên công khai. Tính mọi sự kiện giả. Hit và MAE có thể chọn attacker khác nhau.
+
+\subsection{Kết quả thực nghiệm}
+\subsubsection{Kết quả chính.}
+\input{table_privacy}
+\input{table_service}
+Raw khôi phục chính xác tọa độ quan sát được; cả sáu phương án hoàn tất
+120/120 lượt, không có thất bại. GeoI-BQ đạt Hit100 0--0.188\% và MAE
+1.99--2.12 km, so với Hit100 5.833--37.500\% của REM-Z.
+Fake queries* cho thấy vì sao cần đánh giá theo thời gian: S1 đạt
+53.387\% Hit100 / 1,213 m MAE, nhưng S3 là 98.790\% / 13.3 m.
+Đồng hồ đã biết và lịch sử làm giảm hiệu quả chèn sự kiện của bản điều chỉnh
+này. Đây là kết quả với tập attacker đã lưu, không phải xếp hạng phổ quát
+hay tấn công tối ưu Bayes; khoảng tin cậy không có hit chưa chứng minh rủi ro
+quần thể bằng 0.
+
+Macro Recall của GeoI-BQ là 99.595\%, CI [99.224, 99.903]\%.
+So với TransProtect*, chênh lệch ghép cặp là $-0.401$ điểm phần trăm (pp),
+CI [$-0.773$,$-0.093$]; chưa có bằng chứng vượt trội về utility.
+GeoI-BQ dùng 155 truy vấn tọa độ, so với 31 của phương án một điểm và khoảng
+190.21 của Fake queries*. Số byte chỉ tuần tự hóa chỉ mục phản hồi, chưa phải
+bản ghi đầy đủ; chưa có độ trễ sinh đầu ra cho REM-Z/GeoI-BQ được phát lại.
+So sánh theo metric gốc mới thực hiện một phần. Sai lệch chi phí di chuyển
+cho một tọa độ theo Eq.~13 của TransProtect là 47.44 m với TransProtect* và
+688.65 m với REM-Z, dùng tám đích/prior local chọn từ TRAIN. Đây là proxy
+local, không phải tái lập các thành phố gốc hay VehiTrack. Đầu ra chỉ gồm Q
+không có một tọa độ đơn duy nhất cho metric này. ASR, DER và số đường theo
+hiệu chuẩn gốc được ghi N/A khi đầu vào hoặc dạng tương tác không tương thích;
+lý do và CI đầy đủ nằm trong tài liệu bổ sung.
+
+\subsubsection{Tác vụ mở rộng và phân tích đóng góp.}
+S4 liên kết nhóm tuyến cho GeoI-BQ balanced accuracy 47.50\%,
+CI [40.00, 54.17]\%, chưa có nhãn danh tính người/phương tiện thật.
+S5 chưa cho kết luận vì Raw cũng ở 50\%.
+S6 chọn đích sau khi rẽ có thông tin hơn: Raw đạt 100\%, các bản điều chỉnh
+95--99.17\%, GeoI-BQ 50.83\% (CI [44.17, 57.50]\%); REM-Z cũng ở mức ngẫu nhiên.
+Wrapper chung của S7 tạo transcript giống hệt trên 1,056 luồng và 25,344
+tình huống phản thực purpose/loại POI. Tính chất ở ngữ cảnh cố định này là
+chung, không riêng GeoI-BQ và chưa loại trừ suy luận ý định tương quan.
+Phép hợp nhất S8 sau V1 nâng Hit100 của người đi cùng đã bảo vệ lên
+75\%/68.33\% cho Semantic*/Fake queries*, còn GeoI-BQ không có hit trong các
+lượt đã lưu. Bộ ước lượng có người đi cùng gửi Raw và căn thời gian hoàn hảo
+đạt 100\% ở mọi phương án. Các mở rộng này là chẩn đoán trên cohort đã xem.
+
+Recall cao một phần do danh mục gần bão hòa: gói GeoI-BQ đầu tiên thu được
+trung bình 380.2/418 POI duy nhất; cache cuối đạt 415.875.
+Recall theo gói hiện tại/epoch/toàn phiên lần lượt là
+96.780/97.123/99.595\%.
+Cơ chế nền tương ứng $\Gamma_Q=0$ đạt 99.711\%; chênh lệch proposed trừ nền
+là $-0.116$ pp, CI [$-0.253$,$-0.006$]. Vì vậy chưa chứng minh thích nghi
+riêng tư là cần thiết cho chất lượng. Client có toàn bộ tham chiếu cũng có
+thể trả lời offline chính xác với cùng thông tin, nhưng không có nghĩa chi
+phí thiết lập bằng 0.
+
+Mọi sổ ngân sách tiêu 13--21 trong 23 đơn vị: thử nghiệm 600 s chưa chạm
+giới hạn. Utility chuyến dài, dữ liệu nhà cung cấp chưa biết/động, địa bàn
+mới, nguồn ngẫu nhiên thực tế, bảo đảm số học/khôi phục của các bước trước Q
+và các kênh danh tính bổ sung nằm ngoài kết quả đã chứng minh.

@@ -10,6 +10,12 @@ LLNCS class and bibliography style with a compact two-column, 9 pt layout.
 It includes the supplied HCMUT/VNU-HCM affiliations and the confirmed contact
 details, with Hanh Ngo-Minh as the sole corresponding author.
 
+A separate [Vietnamese review version](paper_hk261_vi/README.md) preserves the
+HK261 paper's formulas, results and figures, with translated prose and figure labels.
+Its [six-page PDF](artifacts/papers/geoi_bq_hk261_vi_20261119_v1/manuscript.pdf) and
+[Overleaf source ZIP](artifacts/papers/geoi_bq_hk261_vi_20261119_v1/latex_sources.zip)
+are available for author review; the English version remains unchanged.
+
 The [consolidated thesis (argument revision 16/11)](thesis/README.md) follows the agreed five-chapter
 outline, with the final GeoI-BQ specification, full privacy/utility proof chain,
 paper-adaptation comparison and scoped S4–S8 supplement. See the

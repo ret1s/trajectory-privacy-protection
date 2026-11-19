@@ -1,0 +1,71 @@
+\documentclass[runningheads,twocolumn,envcountsame,envcountsect]{llncs}
+\usepackage{fontspec}
+\setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\setsansfont{texgyreheros}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\usepackage{amsmath,amssymb,booktabs,tabularx,array,graphicx}
+\usepackage{marvosym}
+\usepackage{enumitem,xcolor,tikz,microtype,xurl}
+\usepackage{hk261_compact}
+\usepackage[hidelinks]{hyperref}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+\definecolor{ink}{gray}{0}
+\definecolor{teal}{gray}{.18}
+\definecolor{blue}{gray}{.28}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcommand{\E}{\mathbb E}
+\newcommand{\TV}{\operatorname{TV}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\BQ}{GeoI-BQ}
+\hypersetup{pdftitle={GeoI-BQ: Giới hạn tiết lộ toàn bộ transcript cho truy vấn vị trí trên mạng đường},
+pdfauthor={Hanh Ngo-Minh; Phan Trong Nhan},
+pdfsubject={Bản tiếng Việt để tác giả đọc và chỉnh sửa}}
+\title{GeoI-BQ: Giới hạn tiết lộ toàn bộ transcript\\
+cho truy vấn vị trí trên mạng đường}
+\titlerunning{GeoI-BQ: Bảo vệ transcript truy vấn vị trí}
+\author{Hanh Ngo-Minh\inst{1,2}\textsuperscript{\Letter} \and
+Phan Trong Nhan\inst{1,2}}
+\authorrunning{Hanh Ngo-Minh and Phan Trong Nhan}
+\institute{Faculty of Computer Science and Engineering, Ho Chi Minh City University of
+Technology (HCMUT),\\
+268 Ly Thuong Kiet, District 10, Ho Chi Minh City, Vietnam.
+\and
+Vietnam National University Ho Chi Minh City (VNU-HCM),\\
+Linh Trung Ward,
+Thu Duc District, Ho Chi Minh City, Vietnam.\\
+\email{\{nmhanh.sdh241, nhanpt\}@hcmut.edu.vn}\\
+\Letter\ Tác giả liên hệ: \email{nmhanh.sdh241@hcmut.edu.vn}}
+\newcommand{\paperabstract}{%
+\begin{abstract}
+\input{abstract}
+\keywords{Riêng tư quỹ đạo \and Geo-indistinguishability \and
+Dịch vụ vị trí \and Hợp thành thích nghi \and Truy hồi địa điểm}
+\end{abstract}}
+\AtBeginDocument{%
+\renewcommand{\abstractname}{Tóm tắt.}%
+\renewcommand{\keywordname}{Từ khóa:}%
+\renewcommand{\figurename}{Hình}%
+\renewcommand{\tablename}{Bảng}%
+\renewcommand{\refname}{Tài liệu tham khảo}%
+\renewcommand{\ackname}{Lời cảm ơn.}%
+\renewcommand{\propositionname}{Mệnh đề}%
+\renewcommand{\theoremname}{Định lý}%
+}
+\begin{document}
+\maketitle
+\input{introduction}
+\input{related_work}
+\input{method}
+\input{analysis}
+\input{evaluation}
+\input{conclusion}
+\begin{credits}
+\subsubsection{\ackname}
+Chúng tôi cảm ơn Trường Đại học Bách khoa (HCMUT), Đại học Quốc gia
+Thành phố Hồ Chí Minh (VNU-HCM) đã hỗ trợ nghiên cứu này.
+\end{credits}
+\bibliographystyle{splncs04}
+\bibliography{references}
+\end{document}

@@ -1,0 +1,38 @@
+\section{Giới thiệu}\label{sec:intro}
+Các truy vấn dịch vụ vị trí (LBS) liên tiếp có thể tiết lộ tọa độ, thời điểm
+và tương quan di chuyển. Tính đặc trưng của dấu vết di chuyển cho thấy cần
+bảo vệ vượt ra ngoài từng truy vấn riêng lẻ~\cite{mobilityunique}.
+Geo-indistinguishability (Geo-I) chặn tỷ số xác suất đầu ra theo khoảng cách
+giữa hai vị trí đầu vào~\cite{geoi}. Tuy nhiên, dịch vụ liên tục còn phải
+kiểm soát việc dùng lại điểm tham chiếu, tạo ứng viên, công bố truy vấn và
+duy trì trạng thái phiên. Các cơ chế dự đoán trước đây cũng đã xét chi phí
+của mỗi lần quan sát dữ liệu riêng tư mới~\cite{predictive}.
+
+Để lấy được kết quả phù hợp, không nhất thiết phải truy vấn gần GPS thật:
+nhiều điểm truy vấn thay thế có thể thu thập dữ liệu địa điểm (POI) để thiết bị
+xếp hạng riêng tại local, như các nghiên cứu theo ứng dụng đã chỉ ra~\cite{ev}.
+Đánh giá thiết kế này cần phân biệt điểm đại diện dùng để lập kế hoạch với
+chất lượng dịch vụ thực tế. Việc so sánh còn khó vì các phương pháp có dạng
+đầu ra khác nhau: một tọa độ thay thế, tập điểm thật và giả, truy vấn giả chèn
+thêm, hoặc quỹ đạo phát hành offline~\cite{transprotect,semantic,fake,sok}.
+Chúng tôi dùng bộ đo theo tác vụ cùng những metrics gốc áp dụng được, không
+xem MAE hay Recall là công thức mới.
+
+GeoI-BQ duy trì điểm tham chiếu đã bảo vệ trên mạng đường, ước lượng belief
+(phân phối xác suất vị trí) từ lịch sử đã bảo vệ, rồi chọn cả đoạn truy vấn
+bằng một phân phối được hiệu chỉnh quanh giá trị trung bình và có cận tiết lộ.
+Các đóng góp gồm:
+\begin{itemize}
+\item Chính sách có trạng thái và xét mạng đường, với sổ ngân sách riêng cho
+việc đọc GPS và công bố truy vấn.
+\item Chuỗi lập luận liên kết bảo vệ transcript với utility có điều kiện,
+bao gồm cận định vị phụ thuộc prior và hệ quả khi kết hợp các kênh có điều kiện.
+\item So sánh tái lập được giữa sáu phương án, kèm bất định, chi phí và các
+đối chứng chỉ ra giới hạn của phương pháp.
+\end{itemize}
+Prototype đã nạp toàn bộ dữ liệu tham chiếu của nhà cung cấp tĩnh; cơ chế nền
+công khai không thích nghi cũng đạt Recall nhỉnh hơn cơ chế thích nghi riêng tư.
+Các phát hiện này giới hạn phạm vi ứng dụng có thể khẳng định. Việc dùng nhiều
+truy vấn, xét mạng đường hoặc xếp hạng local tự thân không được coi là điểm mới.
+Các phần~\ref{sec:related}--\ref{sec:conclusion} lần lượt trình bày nghiên cứu
+liên quan, phương pháp và phân tích, thực nghiệm, rồi kết luận.

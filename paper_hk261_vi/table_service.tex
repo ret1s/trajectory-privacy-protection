@@ -1,0 +1,14 @@
+\begin{table*}[t]\centering\footnotesize
+\caption{Recall@5 toàn phiên (\%, cao hơn tốt hơn) theo mục đích và chi phí truy hồi trong 600 s.}\label{tab:service}
+\begin{tabularx}{\linewidth}{@{}P{2.7cm}CCCCCCC@{}}\toprule
+\textbf{Phương pháp} & \textbf{Macro} & \textbf{Gần nhất} & \textbf{Nhanh nhất} & \textbf{Bán kính} & \textbf{Vòng đường} & \textbf{Số tọa độ} & \textbf{KB phản hồi} \\
+\midrule
+Raw GPS & 99.999 & 100.000 & 100.000 & 100.000 & 99.995 & 31.00 & 16.843 \\
+REM-Z (K1) & 99.700 & 99.753 & 99.753 & 99.625 & 99.668 & 31.00 & 16.921 \\
+TransProtect* & 99.996 & 100.000 & 100.000 & 100.000 & 99.986 & 31.00 & 16.847 \\
+Semantic* & 99.999 & 100.000 & 100.000 & 100.000 & 99.997 & 155.00 & 84.770 \\
+Fake queries* & 99.999 & 100.000 & 100.000 & 100.000 & 99.997 & 190.21 & 104.033 \\
+\textbf{GeoI-BQ v1} & 99.595 & 99.638 & 99.641 & 99.388 & 99.712 & 155.00 & 82.557 \\
+\bottomrule\end{tabularx}
+\par\smallskip\raggedright KB = 1,000 byte JSON chứa chỉ mục phản hồi; chưa gồm bản ghi đầy đủ, chi phí truyền tải, độ trễ và năng lượng.
+\end{table*}

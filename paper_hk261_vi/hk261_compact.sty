@@ -1,0 +1,64 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{hk261_compact}[2026/11/19 Compact two-column HK261 adaptation]
+% User-requested presentation overrides; the supplied llncs.cls is unmodified.
+\RequirePackage[a4paper,left=17mm,right=17mm,top=18mm,bottom=18mm,
+ includehead,headheight=12pt,headsep=12pt,columnsep=6mm,footskip=16pt]{geometry}
+\RequirePackage{etoolbox}
+\RequirePackage{flushend}
+\renewcommand{\normalsize}{%
+ \@setfontsize\normalsize{9}{10.5}%
+ \abovedisplayskip=6pt plus 2pt minus 2pt
+ \belowdisplayskip=6pt plus 2pt minus 2pt
+ \abovedisplayshortskip=2pt plus 1pt
+ \belowdisplayshortskip=4pt plus 1pt minus 1pt}
+\renewcommand{\small}{\@setfontsize\small{8}{9.5}}
+\renewcommand{\footnotesize}{\@setfontsize\footnotesize{8}{9.5}}
+\renewcommand{\scriptsize}{\@setfontsize\scriptsize{7}{8}}
+\normalsize
+\setlength{\parindent}{9pt}
+\setlength{\parskip}{0pt}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.04}
+\setlist{nosep,leftmargin=*}
+\setlength{\emergencystretch}{1.5em}
+\urlstyle{same}
+\renewcommand{\figurename}{Figure}
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+ {-10pt plus -2pt minus -1pt}{4pt}%
+ {\normalfont\fontsize{10.5}{12}\selectfont\bfseries\boldmath
+  \raggedright\hyphenpenalty10000\exhyphenpenalty10000}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+ {-8pt plus -1pt minus -1pt}{3pt}%
+ {\normalfont\fontsize{9.5}{11}\selectfont\bfseries\boldmath
+  \raggedright\hyphenpenalty10000\exhyphenpenalty10000}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+ {-9pt plus -1pt minus -1pt}{-.55em}%
+ {\normalfont\normalsize\bfseries\boldmath}}
+% Keep the native LLNCS title, author separators, abstract, running heads,
+% theorem environments, credits and bibliography. Compact only their spacing.
+\patchcmd{\@maketitle}{\vskip .8cm}{\vskip 10pt}{}{\PackageError{hk261_compact}{Title spacing patch failed}{}}
+\patchcmd{\@maketitle}{\vskip.35cm}{\vskip 3pt}{}{\PackageError{hk261_compact}{Author spacing patch failed}{}}
+\apptocmd{\@maketitle}{\paperabstract\vspace{5pt}}{}{\PackageError{hk261_compact}{Abstract insertion failed}{}}
+\renewenvironment{abstract}{%
+ \list{}{\topsep=4pt\small\leftmargin=6mm\rightmargin=6mm
+ \labelwidth=0pt\listparindent=0pt\itemindent=0pt}%
+ \item[\hskip\labelsep\bfseries\abstractname]}
+ {\endlist}
+\AtBeginDocument{\renewcommand{\keywords}[1]{%
+ \par\addvspace{4pt}\noindent\keywordname\enspace
+ \begingroup\def\and{\unskip\enspace\textperiodcentered\enspace}#1\endgroup}}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{3pt}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{7pt plus 2pt minus 2pt}
+\setlength{\dblfloatsep}{7pt plus 2pt minus 2pt}
+\renewcommand{\topfraction}{.95}
+\renewcommand{\dbltopfraction}{.95}
+\renewcommand{\textfraction}{.04}
+\renewcommand{\floatpagefraction}{.8}
+\setcounter{topnumber}{5}
+\setcounter{dbltopnumber}{5}
+\setcounter{totalnumber}{5}
+\apptocmd{\thebibliography}{\raggedright\setlength{\itemsep}{1.5pt}}{}{}
+\raggedbottom

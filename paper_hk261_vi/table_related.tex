@@ -1,0 +1,16 @@
+\begin{table*}[t]\centering\footnotesize
+\caption{Nghiên cứu gần đây: dạng đầu ra, phạm vi tác vụ và tình trạng bằng chứng.}\label{tab:related}
+\begin{tabularx}{\linewidth}{@{}P{2.5cm}P{2.05cm}P{2.15cm}YP{2.35cm}@{}}\toprule
+\textbf{Công trình} & \textbf{Đầu ra} & \textbf{Phạm vi} & \textbf{Metrics privacy / utility} & \textbf{Trong nghiên cứu này} \\
+\midrule
+TransProtect (2024)\cite{transprotect} & Tọa độ tổng hợp & D: S1, S3; P: S2 & EIE / VehiTrack; sai lệch chi phí di chuyển & Điều chỉnh Markov \\
+Semantic (2026)\cite{semantic} & Tập điểm thật + giả & D: S1; P: S2, S3 & ASR; DER; thời gian sinh & Điều chỉnh OSM/thực nghiệm \\
+Fake queries (2026)\cite{fake} & Tập hỗn hợp và chỉ giả & D: S1, S3; P: S2 & ASR; số đường không phân biệt được; thời gian/RSS & Điều chỉnh đường/lịch sử \\
+EV querying (2024)\cite{ev} & Truy vấn nhiễu/giả & P: S1--S3 & Geo-I xấp xỉ; IBU/Wasserstein; chi phí riêng tư & Chỉ khảo sát; tương tác Edge khác \\
+CPCROK (2025)\cite{cpcrok} & Bí danh / beacon & P: S4 & Liên kết lại; tuyến giả; truyền thông & Tương tác VANET khác \\
+DP-FETC (2025)\cite{dpfetc} & Quỹ đạo offline & P: S3, S8--S10 & DP; thông tin tương hỗ; JSD & Dạng phát hành khác \\
+PTPPM (2025)\cite{ptppm} & Nhiễu trên đường & U: S1, S3 & Geo-I; sai lệch / QoS & Preprint; chưa có đối chứng đã rà soát \\
+SoK (2024)\cite{sok} & Khảo sát tổng hợp & Không là đối chứng & Đơn vị bảo vệ; tái dựng; utility & Ngữ cảnh và hướng dẫn đánh giá \\
+\bottomrule\end{tabularx}
+\par\smallskip\raggedright D: đánh giá trực tiếp tác vụ trong giả thiết của paper; P: giao nhau một phần; U: chưa đủ bằng chứng đã rà soát để kết luận mạnh hơn. Chưa xác lập bảo vệ trực tiếp cho scenario không được liệt kê. D không có nghĩa bảo vệ trước mọi attacker.
+\end{table*}

@@ -1,0 +1,122 @@
+\subsection{Phân tích privacy}\label{sec:privacy}
+Gọi $X=(x_i)_i$ bao gồm mọi thời điểm có thể đọc GPS cho cơ chế bảo vệ, kể
+cả lần bỏ qua, và $D_\infty(X,X')=\sup_i\|x_i-x_i'\|$.
+Bốn mệnh đề sau liên kết từng kernel với toàn bộ transcript trên kênh truyền.
+Chứng minh đầy đủ và điều kiện triển khai nằm trong tài liệu bổ sung.
+
+\begin{proposition}[REM trên miền chung]\label{prop:rem}
+Phương trình~(\ref{eq:rem}) thỏa $u$-Geo-I.
+\end{proposition}
+\noindent\emph{Phác thảo chứng minh.}
+Bất đẳng thức tam giác ngược chặn cả tỷ số trọng số chưa chuẩn hóa và tỷ số
+nghịch đảo hằng số chuẩn hóa bởi $e^{u\|x-x'\|/2}$.
+Nhân hai cận, rồi cộng theo đầu ra/các trạng thái trùng tọa độ, thu được cận
+cho sự kiện đầu ra.
+
+\begin{proposition}[Tái sử dụng riêng tư và giới hạn phiên]\label{prop:history}
+Lịch sử đã bảo vệ lý tưởng $E$ thỏa
+\begin{equation}
+\Pr_X(E\in B)\le e^{C_sD_\infty(X,X')}\Pr_{X'}(E\in B). \label{eq:history}
+\end{equation}
+\end{proposition}
+\noindent\emph{Phác thảo chứng minh.}
+Khoảng cách tới $h$ cố định là hàm 1-Lipschitz, nên mỗi sự kiện ngưỡng
+Laplace tốn $u$; tạo mới bằng REM sau kiểm tra tốn tổng $2u$.
+Trên mỗi nhánh lịch sử mở rộng chung, quy tắc nhân xác suất và sổ ngân sách
+dự phòng chặn log tỷ số bởi
+$u\sum_i c_i\|x_i-x_i'\|\le C_sD_\infty$.
+Lấy tổng loại các cờ quyết định cho (\ref{eq:history}), không cần giả sử
+các bước GPS độc lập.
+
+\begin{proposition}[Kernel chọn đoạn có cận]\label{prop:kernel}
+Với $w$ dương và chung, (\ref{eq:kernel}) là hàm khối xác suất (PMF) dương,
+với $p_a(b)/p_a(b')\le1+\varepsilon_{Q,j}$ cho hai belief bất kỳ.
+\end{proposition}
+\noindent\emph{Phác thảo chứng minh.}
+Trừ trung bình chuẩn hóa PMF và cho
+$w_a(1-\alpha_j)\le p_a\le w_a(1+\alpha_j)$.
+Tỷ số hai cận là $1+\widehat\varepsilon_{Q,j}\le1+\varepsilon_{Q,j}$.
+Trộn các phân phối có điều kiện vẫn giữ các cận này.
+
+\begin{proposition}[Công bố thích nghi]\label{prop:segments}
+Transcript đầy đủ có thứ tự $O_n$ thỏa
+\begin{equation}
+\Pr_X(O_n\in B)\le R_n\Pr_{X'}(O_n\in B),\quad
+R_n=\prod_{j\le n}(1+\varepsilon_{Q,j})\le e^{\Gamma_Q}. \label{eq:segments}
+\end{equation}
+\end{proposition}
+\noindent\emph{Phác thảo chứng minh.}
+Điều kiện hóa theo các tiền tố mở rộng chung rồi nhân cận từng hành động.
+Khung đã cam kết, phản hồi có cùng quy luật và lần thử lại cố định không
+thêm hệ số tỷ số. Tổng lịch ngân sách bằng $\Gamma_Qn/(n+1)$; không cần
+các đoạn độc lập.
+
+\begin{theorem}[Cận toàn hệ thống có điều kiện]\label{thm:endtoend}
+Khi đồng thời thỏa giả thiết không gian và công bố,
+\begin{equation}
+\Pr_X(O_n\in B)\le
+e^{\min\{C_sD_\infty(X,X'),\,\log R_n\}}\Pr_{X'}(O_n\in B). \label{eq:endtoend}
+\end{equation}
+\end{theorem}
+\noindent
+Hậu xử lý cho cận không gian; Mệnh đề~\ref{prop:segments} độc lập chặn cùng
+sự kiện, nên có thể lấy cận nhỏ hơn. Với $\Gamma_Q=1$, chứng chỉ chính xác
+cho tích tiền tố và phần đuôi cho $R_\infty<2.437372$, không cần giới hạn
+thời lượng. Cận của kênh Q có thể đúng ngay cả khi thành phần Geo-I trước đó
+không lý tưởng; nhánh không gian cần các giả thiết bổ sung của nó.
+Với $C_s=0.23\,\mathrm m^{-1}$, hai trần không gian và Q dạng thô giao nhau
+ở khoảng 3.874 m.
+
+Cận tỷ số đều $R$ giới hạn xác suất hậu nghiệm của sự kiện bởi
+$f_R(\pi)=R\pi/[1+(R-1)\pi]$ khi prior bằng $\pi$.
+Với bán kính $r$, đặt
+$\pi_{\max,t}(r)=\sup_y\Pr(\|X_t-y\|\le r\mid C)$.
+Mọi bộ ước lượng đo được đều thỏa
+\begin{equation}
+\Pr(\|X_t-\widehat x_t(O)\|\le r\mid C)
+\le f_R(\pi_{\max,t}(r)). \label{eq:hit}
+\end{equation}
+Áp dụng cận sự kiện cho hình tròn được chọn theo đầu ra, rồi lấy trung bình.
+Với prior nhị phân cân bằng, posterior dưới 70.91\% cho một phiên; prior
+mạnh có thể khiến cận này ít thông tin. Tỷ số của các kênh kết hợp có điều
+kiện được nhân ngay cả khi đầu vào tương quan: hai phiên hợp lệ cho trần
+dưới 85.5925\%. Chỉ có cận biên riêng cho từng người dùng chưa đủ xác lập
+tiền đề này; người đi cùng gửi Raw có thể trực tiếp làm lộ mục tiêu tương quan.
+
+\subsection{Phân tích utility và phạm vi}\label{sec:utility}
+Tại lịch sử local cố định, với chất lượng thật của hành động $r_a\in[0,1]$,
+\begin{align}
+\E_pz-\E_wz&=\alpha\Var_w(z)\ge0,\\
+\E_pr-\E_wr&=\alpha\Cov_w(z,r). \label{eq:gain}
+\end{align}
+Tăng điểm lập kế hoạch chưa đồng nghĩa tăng Recall thật.
+Sai số đại diện $|r_a-v_a|\le\eta$ cho cận dưới mức tăng
+$\alpha[\Cov_w(z,v)-\eta\E_w|z-\E_wz|]$; sai số chưa biết không được coi bằng 0.
+
+Với tập top-$k$ tham chiếu từ toàn danh mục $T_t\ne\varnothing$ và tập hợp
+lệ đã nhận $U_t$, cùng quy tắc lọc/thứ tự xếp hạng cho
+\begin{equation}
+\operatorname{Recall@}k=\frac{|T_t\cap U_t|}{|T_t|}. \label{eq:recall}
+\end{equation}
+Bổ sung cache không giảm Recall tại cùng GPS/request, nhưng không tạo được
+metadata chưa có hay bảo đảm Recall tăng đơn điệu khi người dùng di chuyển.
+
+Gọi $P_n$ là phân phối transcript thích nghi, $W_n$ là chính sách tương ứng
+với $\Gamma_Q=0$, giữ các điều kiện khác cố định. Moment bậc hai có điều kiện cho
+\begin{equation}
+|\E_{P_n}h-\E_{W_n}h|
+\le\frac12\sqrt{\prod_{j\le n}(1+\alpha_j^2/4)-1},
+\quad 0\le h\le1. \label{eq:tv}
+\end{equation}
+Trần đều dưới 0.0553 khi $\Gamma_Q=1$. Điểm ẩn được thay bằng kỳ vọng có
+điều kiện, vẫn trong $[0,1]$. Đây là cận độ lệch so với cơ chế nền tương ứng,
+không phải cận chất lượng tuyệt đối.
+
+Nếu phân phối tình huống công khai có điều kiện theo lịch sử cho chất lượng
+đại diện ít nhất $c$, sai số TV của tình huống thật không quá $\tau$, và sai
+số đại diện trung bình không quá $\nu$, thì kỳ vọng chất lượng thật ít nhất
+$\max(0,c-\tau-\nu)$. Kỳ vọng có điều kiện mở rộng kết quả cho trung bình toàn
+phiên với trọng số công khai, không cần các bước IID. Hiệu chuẩn trên dữ liệu
+thật chưa được chứng nhận. Cuối cùng, payload không phụ thuộc purpose bảo
+đảm request không ảnh hưởng đầu ra ở ngữ cảnh cố định, không bảo đảm che giấu
+ý định tương quan với di chuyển.
