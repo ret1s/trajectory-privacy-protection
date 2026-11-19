@@ -14,6 +14,7 @@
 | Experiments and Analysis | Environment Settings; Empirical Experiments |
 | Summary | Retained as Section 5 |
 | Acknowledgments | Original institutional acknowledgment restored in the credits block |
+| Additional data/code and AI statements | Omitted from this review manuscript at the user's request |
 | References | Same 18 research sources, sorted/formatted by the supplied splncs04 style |
 
 The two-column A4 layout, 9 pt body and reduced spacing are the user's requested compact adaptations. Scientific paragraphs, equations, measured results and illustrations are retained. Method subsections are nested under Workflow and experiment details under the supplied environment/empirical headings; no benchmark result is removed.

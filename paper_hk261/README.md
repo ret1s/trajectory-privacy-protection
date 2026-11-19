@@ -8,6 +8,8 @@ The five sections follow the supplied outline: Introduction, Related Work, Propo
 
 Both authors carry affiliation markers 1,2 and the two complete institution/address entries supplied by the user. The email block is {nmhanh.sdh241, nhanpt}@hcmut.edu.vn. Hanh Ngo-Minh is the sole corresponding author, explicitly confirmed by the user and marked with the template's envelope symbol. The original institutional Acknowledgments paragraph is restored for author review. No funding grant or competing-interest statement is invented. See author_info.json for metadata and template_alignment.md for the layout audit.
 
+At the user's request, the current review PDF prints only Acknowledgments in the credits block. The data/code availability and generative-AI assistance sections are omitted from this version. The selected venue's disclosure requirements remain a separate submission decision; source/evidence manifests remain in the research repository.
+
 The detailed proof/benchmark supplement remains available in [the original review package](../artifacts/papers/geoi_bq_20261116_v1/). It is a separate document with its own reference numbering.
 
 ## Build

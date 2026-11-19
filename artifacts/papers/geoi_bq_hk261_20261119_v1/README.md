@@ -10,6 +10,8 @@ The same English scientific content, equations, measured result values and lates
 
 Both authors carry markers 1,2 for the supplied HCMUT and VNU-HCM affiliations/addresses. The email aliases are nmhanh.sdh241 and nhanpt at hcmut.edu.vn. Hanh Ngo-Minh is the sole corresponding author and carries the envelope symbol, as confirmed by the user. The institutional Acknowledgments from the template is restored. See the source package's template_alignment.md for the full layout audit.
 
+The current review PDF omits the data/code availability and generative-AI assistance sections at the user's request, while retaining Acknowledgments. Final submission disclosures must follow the selected venue's requirements.
+
 The original paper and its deliverables are unchanged. [Its detailed supplement](../geoi_bq_20261116_v1/supplement.pdf) remains available as an independent document with its own bibliography numbering.
 
 The source archive was extracted and compiled separately with identical page text. No method, benchmark or attacker was rerun. This is the user's requested compact adaptation of the supplied template, not an external submission.

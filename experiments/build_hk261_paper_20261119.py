@@ -126,6 +126,8 @@ def source_check(folder=PAPER):
         assert r"\subsection{" + heading + "}" in text
     assert r"\subsubsection{\ackname}" in text
     assert "for supporting this study." in normalized
+    assert "Data and code availability." not in text
+    assert "Declaration of generative AI assistance." not in text
     sections = re.findall(r"\\section\{([^}]+)\}", text)
     assert sections == ["Introduction", "Related Work", "Proposed Method", "Experiments and Analysis", "Summary"]
     assert not re.search(r"\b(?:TODO|TBC|FIXME)\b|turn\d+(?:search|view)", text)
@@ -217,6 +219,8 @@ def validate():
             assert re.sub(r"\s+", "", required) in re.sub(r"\s+", "", texts[0]), (
                 "Author block missing from page 1", required)
         assert "Acknowledgments." in combined
+        assert "Data and code availability" not in combined
+        assert "Declaration of generative AI assistance" not in combined
         for required in ("99.595", "2.437372", "cache-046_day7", "Summary", "same-time pair"):
             assert required in combined, required
         assert record["portable_archive_compiled"] and record["portable_text_identical"]
