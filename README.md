@@ -3,10 +3,12 @@
 The separate [English paper manuscript](paper/README.md) distills the frozen
 GeoI-BQ method, transcript/utility analysis and six-arm controlled comparison
 into a compact two-column author-review article styled after the original Geo-I paper, with supplementary material.
-Author order is confirmed; affiliations and contact details remain pending. This is not a journal submission.
+Author order is confirmed. This is not a journal submission.
 
 A separate [HK261 template version](paper_hk261/README.md) uses the supplied
 LLNCS class and bibliography style with a compact two-column, 9 pt layout.
+It includes the supplied HCMUT/VNU-HCM affiliations and the confirmed contact
+details, with Hanh Ngo-Minh as the sole corresponding author.
 
 The [consolidated thesis (argument revision 16/11)](thesis/README.md) follows the agreed five-chapter
 outline, with the final GeoI-BQ specification, full privacy/utility proof chain,

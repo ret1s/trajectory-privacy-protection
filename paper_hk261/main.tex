@@ -2,6 +2,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{amsmath,amssymb,booktabs,tabularx,array,graphicx}
+\usepackage{marvosym}
 \usepackage{enumitem,xcolor,tikz,microtype,xurl}
 \usepackage{hk261_compact}
 \usepackage[hidelinks]{hyperref}
@@ -21,9 +22,16 @@ pdfauthor={Hanh Ngo-Minh; Phan Trong Nhan},
 pdfsubject={HK261 template-based compact author-review manuscript}}
 \title{GeoI-BQ: Bounded Transcript Disclosure for Road-Aware Location Queries}
 \titlerunning{GeoI-BQ: Bounded Transcript Disclosure}
-\author{Hanh Ngo-Minh \and Phan Trong Nhan}
+\author{Hanh Ngo-Minh\inst{1,2}\textsuperscript{\Letter} \and
+Phan Trong Nhan\inst{1,2}}
 \authorrunning{Hanh Ngo-Minh and Phan Trong Nhan}
-\institute{}
+\institute{Faculty of Computer Science and Engineering, Ho Chi Minh City University of
+Technology (HCMUT), 268 Ly Thuong Kiet, District 10, Ho Chi Minh City, Vietnam.
+\and
+Vietnam National University Ho Chi Minh City (VNU-HCM), Linh Trung Ward,
+Thu Duc District, Ho Chi Minh City, Vietnam.\\
+\email{\{nmhanh.sdh241, nhanpt\}@hcmut.edu.vn}\\
+\Letter\ Corresponding author: \email{nmhanh.sdh241@hcmut.edu.vn}}
 \newcommand{\paperabstract}{%
 \begin{abstract}
 \input{abstract}
@@ -39,6 +47,9 @@ Location-based services \and Adaptive composition \and Point-of-interest retriev
 \input{evaluation}
 \input{conclusion}
 \begin{credits}
+\subsubsection{\ackname}
+We acknowledge Ho Chi Minh City University of Technology (HCMUT), VNU-HCM
+for supporting this study.
 \subsubsection{Data and code availability.}
 Synthetic mobility, geographic snapshots, code and frozen artifact hashes are indexed
 by the accompanying manifest. Original geographic licenses apply.

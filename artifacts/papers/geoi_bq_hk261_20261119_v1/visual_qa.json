@@ -5,47 +5,53 @@
   "renderer": "Poppler pdftoppm 26.05.0",
   "dpi": 125,
   "pages_inspected": 6,
-  "pdf_sha256": "33107195fb72ddee7e5f7c7430a8c11b23703106c01696be65a38a7ca4c6d54e",
-  "review": "All six final pages visually inspected: native LLNCS front matter and running heads, two-column scientific text, numbered propositions/theorem, three figures, three result/literature tables, credits and bibliography. No clipping, missing glyphs or overlapping labels observed. Full-width abstract and smaller body/headings/captions are readable.",
+  "pdf_sha256": "8e78e2a45a4ec53b366001dbc28fb2b239b7f34295d44d876c2f7ca207111732",
+  "review": "All six final pages visually inspected. Page 1 was also inspected in the matching preview: both 1,2 superscripts, complete HCMUT/VNU-HCM addresses, real grouped emails and the envelope on Hanh Ngo-Minh plus the explicit corresponding-author contact are visible. Framework/Workflow, Environment Settings/Empirical Experiments, Acknowledgments, formulas, tables, figures and bibliography reviewed. No clipping, missing glyphs or overlapping labels observed.",
   "checks": [
-    "Supplied LLNCS class and splncs04 style retained byte-for-byte",
-    "A4 two-column layout, 9 pt body and 8 pt captions/tables",
-    "Confirmed author order and names preserved",
-    "Latest separate Q overview and larger GPS/Z map remain legible",
-    "Theorem numbering 3.1--3.5 and displayed equations verified",
-    "Primary privacy and utility tables remain together",
-    "Native alphabetically ordered 18-entry bibliography and citation links resolved",
-    "Original paper and benchmark/method files unchanged",
-    "Extracted source archive compiled independently with identical page text"
+    "Exact supplied LLNCS class and splncs04 style preserved",
+    "Two complete numbered affiliations and both author emails visible on page 1",
+    "Hanh Ngo-Minh is the sole envelope-marked corresponding author",
+    "Template bullet contributions, Framework/Workflow and Environment Settings/Empirical Experiments restored",
+    "Institutional Acknowledgments restored from the supplied template",
+    "A4, two columns, 9 pt body, 8 pt captions/tables; six pages including references",
+    "Theorem numbering 3.1--3.5 and all scientific paragraphs/results retained",
+    "Three scientific figures and paired privacy/utility tables remain legible",
+    "Flat editable source ZIP compiled independently with identical page text",
+    "Original paper/version and benchmark/method files unchanged"
   ],
   "page_render_sha256": {
-    "1": "99735a742f2bad07230fe26b91786f22fc658f0a21109404a936c316f8208ebb",
-    "2": "53c8617427c9955a464db7ae712bea548cf575400ba2e9b89695267324f07153",
-    "3": "14677d59ef5b6ca512bb6826e6a96b880e177c464a2197ba7ed69ab19d28aaf3",
-    "4": "204cd11d2d6cb3c73261443c4f1c2caea88cce80fd99111fd203cce3251518ec",
-    "5": "b59e93d1088e95bf8cd1869a7cc91b270f7dd4ebf5cbd1da9a8d187af8981242",
-    "6": "8ecf28b2a93a2bc0ce862209daee4b41a0b971bf6ae3e5c5cecadd61c4e3a72d"
+    "1": "2b5c7c3f02e38b0b4503f1252524c204a922628a0eadf23b6c3e34d01b9a58e5",
+    "2": "67a2e28639e2c5dca2e5122787c55b1e6ee3653db6d621765c2c2a6c1b516384",
+    "3": "8ce65d7c5a2118dd9d9afdbb97d99b44aca1f3016566f7db4cdc1a4f2cf051c2",
+    "4": "1de2eb60941932a626cd1a0565822f1a1ca9b14400d8872e2d9f2352b264811d",
+    "5": "471218355bd2bdee618315e2fffc9a38346b5c1c8c5da840d804fa6a969545c5",
+    "6": "88297ec20f3ec1bc700a6dbdc8bb1a94c1d4b29a1b9a6e419fa6c2f189fcc391"
   },
   "font_metrics": [
     {
       "font": "LMRoman9-Regular",
       "size_pt": 8.97,
-      "characters": 13568
+      "characters": 13558
     },
     {
       "font": "LMRoman8-Regular",
       "size_pt": 7.97,
-      "characters": 8030
+      "characters": 8367
+    },
+    {
+      "font": "LMRoman9-Bold",
+      "size_pt": 8.97,
+      "characters": 340
+    },
+    {
+      "font": "LMRoman8-Bold",
+      "size_pt": 7.97,
+      "characters": 296
     },
     {
       "font": "LMRoman8-Regular",
       "size_pt": 8.01,
       "characters": 292
-    },
-    {
-      "font": "LMRoman8-Bold",
-      "size_pt": 7.97,
-      "characters": 280
     },
     {
       "font": "LMMathItalic9-Regular",
@@ -58,24 +64,14 @@
       "characters": 237
     },
     {
-      "font": "LMRoman10-Bold",
-      "size_pt": 9.46,
-      "characters": 220
-    },
-    {
       "font": "DejaVuSerif",
       "size_pt": 6.93,
       "characters": 208
     },
     {
-      "font": "LMRoman9-Bold",
-      "size_pt": 8.97,
-      "characters": 181
-    },
-    {
       "font": "LMMathItalic6-Regular",
       "size_pt": 5.98,
-      "characters": 173
+      "characters": 175
     },
     {
       "font": "LMRoman8-Bold",
@@ -86,7 +82,18 @@
       "font": "DejaVuSerif",
       "size_pt": 7.92,
       "characters": 129
+    },
+    {
+      "font": "LMRoman8-Regular",
+      "size_pt": 7.07,
+      "characters": 127
     }
   ],
-  "reviewer": "Codex visual inspection; author scientific review remains pending"
+  "reviewer": "Codex visual inspection; author scientific review remains pending",
+  "corresponding_author": "Hanh Ngo-Minh",
+  "corresponding_email": "nmhanh.sdh241@hcmut.edu.vn",
+  "affiliation_ids": [
+    1,
+    2
+  ]
 }

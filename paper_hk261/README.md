@@ -4,9 +4,9 @@ This separate English-paper version uses the actual LLNCS 2.24 class and splncs0
 
 The user-requested two-column adaptation uses A4 pages, a 9 pt body, 8 pt tables/captions, smaller headings and compact spacing. The native template supplies the title/author treatment, abstract and keywords, numbered headings, running heads, theorem style, credits and alphabetically ordered bibliography. All overrides are isolated in hk261_compact.sty. This is the requested compact adaptation, rather than the original single-column template dimensions.
 
-The five sections follow the supplied outline: Introduction, Related Work, Proposed Method, Experiments and Analysis, Summary. Scientific paragraphs, equations, result tables and the three current figures are inherited from the frozen English paper. Section headings and bibliography presentation change; no method or benchmark is rerun.
+The five sections follow the supplied outline: Introduction, Related Work, Proposed Method, Experiments and Analysis, Summary. Framework/Workflow and Environment Settings/Empirical Experiments follow the original subsection structure; privacy/utility analysis and extended results remain within those sections. Contributions use the template's bullet list. Scientific paragraphs, equations, result values and the three current figures are inherited from the frozen English paper. No method or benchmark is rerun.
 
-Only the confirmed author names are asserted: Hanh Ngo-Minh and Phan Trong Nhan. Template institution, email, corresponding-author and support placeholders are not treated as verified author information. Those fields remain for the authors to complete.
+Both authors carry affiliation markers 1,2 and the two complete institution/address entries supplied by the user. The email block is {nmhanh.sdh241, nhanpt}@hcmut.edu.vn. Hanh Ngo-Minh is the sole corresponding author, explicitly confirmed by the user and marked with the template's envelope symbol. The original institutional Acknowledgments paragraph is restored for author review. No funding grant or competing-interest statement is invented. See author_info.json for metadata and template_alignment.md for the layout audit.
 
 The detailed proof/benchmark supplement remains available in [the original review package](../artifacts/papers/geoi_bq_20261116_v1/). It is a separate document with its own reference numbering.
 

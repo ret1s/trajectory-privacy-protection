@@ -6,7 +6,9 @@
 
 The native title/author treatment, abstract/keywords, running heads, theorem style, credits and bibliography follow the supplied HK261 archive. Spacing and two-column overrides are isolated in hk261_compact.sty. The original template sample is preserved as a text reference so the editable ZIP has one main compilation entry.
 
-The same English scientific content, equations, benchmark tables and latest multi-turn illustration are retained. Four section headings are aligned with the supplied outline, ending in Summary. The same eighteen references are formatted and ordered by splncs04. Author names remain Hanh Ngo-Minh and Phan Trong Nhan; unconfirmed affiliation, email and corresponding-author data are not filled from template placeholders.
+The same English scientific content, equations, measured result values and latest multi-turn illustration are retained. Headings follow the supplied Framework/Workflow and Environment Settings/Empirical Experiments structure, ending in Summary. The same eighteen references are formatted and ordered by splncs04.
+
+Both authors carry markers 1,2 for the supplied HCMUT and VNU-HCM affiliations/addresses. The email aliases are nmhanh.sdh241 and nhanpt at hcmut.edu.vn. Hanh Ngo-Minh is the sole corresponding author and carries the envelope symbol, as confirmed by the user. The institutional Acknowledgments from the template is restored. See the source package's template_alignment.md for the full layout audit.
 
 The original paper and its deliverables are unchanged. [Its detailed supplement](../geoi_bq_20261116_v1/supplement.pdf) remains available as an independent document with its own bibliography numbering.
 

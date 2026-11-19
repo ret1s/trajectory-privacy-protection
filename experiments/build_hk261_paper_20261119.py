@@ -26,11 +26,37 @@ INHERITED = (
     "figure_walkthrough.pdf", "table_related.tex", "table_privacy.tex", "table_service.tex",
     "highlights.txt",
 )
-HEADINGS = {
-    "related_work.tex": (r"\section{Related work}", r"\section{Related Work}"),
-    "method.tex": (r"\section{Proposed method and analysis}", r"\section{Proposed Method}"),
-    "evaluation.tex": (r"\section{Experiments and analysis}", r"\section{Experiments and Analysis}"),
-    "conclusion.tex": (r"\section{Conclusion}", r"\section{Summary}"),
+PRESENTATION_CHANGES = {
+    "introduction.tex": [
+        (r"\begin{enumerate}", r"\begin{itemize}"),
+        (r"\end{enumerate}", r"\end{itemize}"),
+    ],
+    "related_work.tex": [(r"\section{Related work}", r"\section{Related Work}")],
+    "method.tex": [
+        (r"\section{Proposed method and analysis}", r"\section{Proposed Method}"),
+        (r"\subsection{System and assumptions}", r"\subsection{Framework}"),
+        (r"\subsection{Protected reference and belief}",
+         "\\subsection{Workflow}\n\\subsubsection{Protected reference and belief}"),
+        (r"\subsection{Bounded segment selection and local answers}",
+         r"\subsubsection{Query-segment selection and local answers}"),
+        (r"\begin{figure}[t]", r"\begin{figure}[!ht]"),
+    ],
+    "analysis.tex": [
+        (r"\subsection{Transcript privacy}", r"\subsection{Privacy analysis}"),
+        (r"\subsection{Utility and scope}", r"\subsection{Utility analysis and scope}"),
+    ],
+    "evaluation.tex": [
+        (r"\section{Experiments and analysis}", r"\section{Experiments and Analysis}"),
+        (r"\subsection{Data and protocol}",
+         "\\subsection{Environment Settings}\n\\subsubsection{Data and evaluation protocol}"),
+        (r"\subsection{Comparators and attackers}",
+         r"\subsubsection{Comparison methods and attackers}"),
+        (r"\subsection{Main results}",
+         "\\subsection{Empirical Experiments}\n\\subsubsection{Main results}"),
+        (r"\subsection{Extended tasks and attribution}",
+         r"\subsubsection{Extended tasks and attribution}"),
+    ],
+    "conclusion.tex": [(r"\section{Conclusion}", r"\section{Summary}")],
 }
 
 
@@ -49,8 +75,7 @@ def expected_sources():
     expected = {}
     for name in INHERITED:
         content = (ORIGINAL / name).read_bytes()
-        if name in HEADINGS:
-            before, after = HEADINGS[name]
+        for before, after in PRESENTATION_CHANGES.get(name, []):
             assert content.decode().count(before) == 1, name
             content = content.decode().replace(before, after, 1).encode()
         expected[name] = content
@@ -78,9 +103,29 @@ def source_check(folder=PAPER):
         assert Path(image).name == image and (folder / image).is_file(), image
     assert r"\documentclass[runningheads,twocolumn,envcountsame,envcountsect]{llncs}" in text
     assert r"\bibliographystyle{splncs04}" in text
-    names = re.search(r"\\author\{([^}]+)\}", text)[1].split(r"\and")
-    assert [n.strip() for n in names] == list(AUTHORS)
-    assert r"\institute{}" in text, "Do not fill unconfirmed author information"
+    author_block = re.search(r"\\author\{(.*?)\}\s*\\authorrunning", text, re.S)[1]
+    names = [re.sub(r"\\(?:inst|textsuperscript)\{[^}]*\}", "", n).strip()
+             for n in author_block.split(r"\and")]
+    assert names == list(AUTHORS)
+    info = json.loads((folder / "author_info.json").read_text())
+    assert [a["name"] for a in info["authors"]] == list(AUTHORS)
+    corresponding = [a for a in info["authors"] if a["corresponding"]]
+    assert len(corresponding) == 1 and corresponding[0]["name"] == AUTHORS[0]
+    blocks = author_block.split(r"\and")
+    for block, author in zip(blocks, info["authors"]):
+        assert r"\inst{1,2}" in block and author["affiliation_ids"] == [1, 2]
+        assert (r"\textsuperscript{\Letter}" in block) == author["corresponding"]
+    normalized = re.sub(r"\s+", " ", text)
+    for affiliation in info["affiliations"]:
+        assert affiliation["text"] in normalized
+    assert r"\email{\{nmhanh.sdh241, nhanpt\}@hcmut.edu.vn}" in text
+    assert r"\Letter\ Corresponding author: \email{" + corresponding[0]["email"] + "}" in text
+    assert [a["email"] for a in info["authors"]] == [
+        "nmhanh.sdh241@hcmut.edu.vn", "nhanpt@hcmut.edu.vn"]
+    for heading in ("Framework", "Workflow", "Environment Settings", "Empirical Experiments"):
+        assert r"\subsection{" + heading + "}" in text
+    assert r"\subsubsection{\ackname}" in text
+    assert "for supporting this study." in normalized
     sections = re.findall(r"\\section\{([^}]+)\}", text)
     assert sections == ["Introduction", "Related Work", "Proposed Method", "Experiments and Analysis", "Summary"]
     assert not re.search(r"\b(?:TODO|TBC|FIXME)\b|turn\d+(?:search|view)", text)
@@ -95,9 +140,10 @@ def source_check(folder=PAPER):
     return dict(template_class_exact=True, template_bst_exact=True,
                 class_version=origin["class_version"], main_sections=sections,
                 inherited_inputs_verified=len(expected), references=18, authors=list(AUTHORS),
-                scientific_change="Only four section headings; scientific body, equations, tables and figures unchanged",
+                scientific_change="Headings, contribution-list markers and float placement only; scientific paragraphs, equations, result values and figures unchanged",
                 bibliography="Same 18 works and source DOIs; splncs04 presentation/order",
-                author_metadata="Affiliations/contact/corresponding-author information not invented")
+                author_metadata="Two supplied affiliations and user-provided emails; Hanh Ngo-Minh is the sole corresponding author",
+                affiliations=info["affiliations"], corresponding_author=corresponding[0]["name"])
 
 
 def prepare():
@@ -108,11 +154,13 @@ def prepare():
     record = dict(schema="hk261-content-manifest-v1", date="2026-11-19",
                   inherited_source="paper/", source_sha256={name: sha(ORIGINAL / name) for name in INHERITED},
                   adapted_sha256={name: sha(PAPER / name) for name in INHERITED},
-                  heading_changes={name: list(change) for name, change in HEADINGS.items()},
+                  presentation_changes={name: [list(change) for change in changes]
+                                        for name, changes in PRESENTATION_CHANGES.items()},
                   original_references_sha256=sha(ORIGINAL / "references.tex"),
                   original_evidence_manifest_sha256=sha(ORIGINAL / "evidence_manifest.json"),
                   bibliography_sha256=sha(PAPER / "references.bib"),
                   template_origin_sha256=sha(PAPER / "template_origin.json"),
+                  author_info_sha256=sha(PAPER / "author_info.json"),
                   method_or_benchmark_changed=False, defense_or_attackers_rerun=False)
     (PAPER / "content_manifest.json").write_text(json.dumps(record, indent=2) + "\n")
     source_check()
@@ -165,6 +213,10 @@ def validate():
                         or c["top"] < -.5 or c["bottom"] > page.height+.5], i
             texts.append(text)
         combined = "\n".join(texts)
+        for required in ("HCMUT", "VNU-HCM", "nmhanh.sdh241", "nhanpt", "Corresponding author:"):
+            assert re.sub(r"\s+", "", required) in re.sub(r"\s+", "", texts[0]), (
+                "Author block missing from page 1", required)
+        assert "Acknowledgments." in combined
         for required in ("99.595", "2.437372", "cache-046_day7", "Summary", "same-time pair"):
             assert required in combined, required
         assert record["portable_archive_compiled"] and record["portable_text_identical"]

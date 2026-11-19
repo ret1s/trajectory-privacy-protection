@@ -1,5 +1,5 @@
 \section{Proposed Method}\label{sec:method}
-\subsection{System and assumptions}\label{sec:system}
+\subsection{Framework}\label{sec:system}
 Let $V$ be a finite directed road-state domain with projected coordinates $a_v$.
 Euclidean distance defines privacy/localization; directed cost defines road
 feasibility and service ranking. GPS $x_t$ and request $\psi_t$ stay local.
@@ -8,7 +8,7 @@ It observes ordered Q coordinates, clock, common requests, responses
 and retries, but not reference $Z$, belief, ledgers or ranked answers
 (Fig.~\ref{fig:system}).
 
-\begin{figure}[t]\centering
+\begin{figure}[!ht]\centering
 \resizebox{\columnwidth}{!}{\input{figure_system}}
 \caption{Trusted device and provider boundary. The prototype already loads the
 complete static reference used by the trial provider.}\label{fig:system}
@@ -29,7 +29,8 @@ provider. Received-candidate masks constrain the measured answer, but do not
 establish information isolation: an equally informed offline client can answer
 all defined static requests exactly. Acquisition and refresh costs remain separate.
 
-\subsection{Protected reference and belief}
+\subsection{Workflow}
+\subsubsection{Protected reference and belief}
 The road exponential mechanism (REM) directly samples a road state:
 \begin{equation}
 R_u(v\mid x)=
@@ -63,7 +64,7 @@ The emission combines the reuse atom with refresh REM likelihood.
 A skipped read uses prediction only; repeated Z is not an independent
 measurement. This approximate belief is not certified real-user calibration.
 
-\subsection{Bounded segment selection and local answers}
+\subsubsection{Query-segment selection and local answers}
 Each action has three K5 frames linked by feasible directed-road movement.
 Public context and prior fake actions/replies determine the library and masses;
 GPS, Z, belief and request do not prune support. Holding supplies common

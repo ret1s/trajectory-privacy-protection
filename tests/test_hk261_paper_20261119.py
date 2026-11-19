@@ -12,6 +12,8 @@ def test_hk261_version_preserves_science_template_and_portable_build():
     assert result["pages"] <= 6
     assert result["theorem_numbers_preserved"]
     assert result["structural"]["references"] == 18
+    assert result["structural"]["corresponding_author"] == "Hanh Ngo-Minh"
+    assert len(result["structural"]["affiliations"]) == 2
 
 
 def test_hk261_version_rejects_a_changed_proof(tmp_path):
