@@ -3,6 +3,8 @@
 Bản chính: [PDF](../artifacts/reports/graduation_thesis.pdf), [LaTeX](main.tex).
 Nội dung theo năm chương đã chốt; các báo cáo cũ còn nguyên.
 
+Trước khi nộp, đọc và xác nhận lời cam đoan, sau đó chỉnh [lời cảm ơn](chapters/frontmatter.tex) theo trải nghiệm hướng dẫn của chính bạn.
+
 ## Tự biên tập theo từng chương
 
 Có hai loại câu thường đứng cạnh nhau. Câu “vì sao tôi chọn phép so sánh này” thể hiện quyết định nghiên cứu của tác giả. Câu “phép so sánh chấm đại lượng nào, trên mẫu nào” là đặc tả để người khác có thể lặp lại. Hãy viết câu đầu bằng cách bạn giải thích với GVHD, rồi đối chiếu câu sau với công thức hoặc bảng nguồn.

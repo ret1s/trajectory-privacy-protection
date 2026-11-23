@@ -93,13 +93,23 @@ def main():
     with pdfplumber.open(PDF) as pdf:
         assert len(pdf.pages) >= 50, 'Unexpectedly missing thesis content'
         page_ids = {page.page_obj.pageid for page in pdf.pages}
+        in_contents = False
         for index, page in enumerate(pdf.pages, 1):
             text = page.extract_text() or ''
             texts.append(text)
             assert len(compact(text)) >= 200, ('Unexpected blank/sparse page', index)
             annots = page.annots or []
             annot_count += len(annots)
-            if index in (4,5,6):
+            normalized = compact(text)
+            if index == 1:
+                for field in ('Ngô Minh Hạnh', '2470010', 'TS. Phan Trọng Nhân', 'LUẬN VĂN THẠC SĨ'):
+                    assert compact(field) in normalized, ('Cover metadata', field)
+                assert page.images, 'Cover logo missing'
+            if normalized.startswith('Mụclục'):
+                in_contents = True
+            elif normalized.startswith('Danhmụchình'):
+                in_contents = False
+            if in_contents:
                 toc_links += len(annots)
             for annot in annots:
                 action = resolve1(annot['data'].get('A', {}))
@@ -138,7 +148,7 @@ def main():
     files = set(visited) | {HERE/'README.md',HERE/'REVIEW_GUIDE.md',HERE/'requirements.txt',
         HERE/'references_foundations.json',HERE/'generated/sources.json',
         Path(__file__).resolve(), Path(build.__file__).resolve(),PDF}
-    files |= set((HERE/'figures').glob('*.pdf'))
+    files |= set((HERE/'figures').glob('*.pdf')) | {HERE/'figures/hcmut.png'}
     files |= {ROOT/'evaluation/argument_bounds_20261116.py',
               ROOT/'tests/test_argument_bounds_20261116.py',
               ROOT/'experiments/audit_thesis_arguments_20261116.py',

@@ -1,32 +1,21 @@
 \hypersetup{pageanchor=false}
-\begin{titlepage}
-\centering
-{\large ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH\\
-TRƯỜNG ĐẠI HỌC BÁCH KHOA\\
-KHOA KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH\par}
-\vspace{2.3cm}
-{\large\bfseries BẢN THẢO LUẬN VĂN THẠC SĨ\par}
-\vspace{1cm}
-{\LARGE\bfseries\color{ink}Bảo vệ tính riêng tư về quỹ đạo\par
-cho người dùng dịch vụ dựa trên vị trí\par}
-\vspace{.9cm}
-{\large Phương pháp GeoI-BQ:\\
-kiểm soát tiết lộ toàn transcript và chất lượng dịch vụ\par}
-\vspace{1.8cm}
-\begin{tabular}{ll}
-Học viên: & Ngô Minh Hạnh\\[5pt]
-Mã số học viên: & 2470010\\[5pt]
-Giảng viên hướng dẫn: & TS. Phan Trọng Nhân
-\end{tabular}
-\vfill
-{\small Bản hợp nhất phục vụ review và chỉnh sửa nội dung\par}
-\vspace{.6cm}
-{Tp. Hồ Chí Minh, tháng 11 năm 2026\par}
-\end{titlepage}
-\hypersetup{pageanchor=true}\pagenumbering{roman}
+\input{chapters/cover}
+\frontmatter
+\hypersetup{pageanchor=true}
+\prelimheading{Lời cam đoan}
+Tôi chịu trách nhiệm về nội dung luận văn và cách trình bày các kết quả nghiên cứu
+trong bản nộp. Các ý tưởng kế thừa, dữ liệu sử dụng và phương pháp đối chứng được
+dẫn nguồn trong luận văn. Đối với các phương pháp được điều chỉnh để so sánh, tôi
+trình bày rõ phần điều chỉnh và phạm vi diễn giải kết quả.
+\par\vspace{1.5cm}
+\hfill\begin{tabular}{c}Học viên\\[1.6cm]Ngô Minh Hạnh\end{tabular}
 
-\chapter*{Tóm tắt}
-\addcontentsline{toc}{chapter}{Tóm tắt}
+\prelimheading{Lời cảm ơn}
+Tôi xin cảm ơn thầy Phan Trọng Nhân đã hướng dẫn tôi trong quá trình thực hiện luận văn.
+Những trao đổi với thầy về cách so sánh các phương pháp và cách đánh giá chất lượng
+dịch vụ đã giúp tôi xác định rõ hơn câu hỏi nghiên cứu và phạm vi của từng kết luận.
+
+\prelimheading{Tóm tắt}
 Khi một người dùng tìm địa điểm nhiều lần trên đường đi, nhà cung cấp có thể kết hợp tọa độ,
 thời điểm và thứ tự các truy vấn để suy ra hành trình. Luận văn xem toàn bộ chuỗi trao đổi
 trong một phiên là đối tượng cần bảo vệ. Mười kịch bản S1--S10 xác định điều bên quan sát
@@ -57,8 +46,7 @@ và các mô hình suy luận đã đánh giá.
 \noindent\textbf{Từ khóa:} riêng tư quỹ đạo, geo-indistinguishability, mạng đường,
 truy vấn liên tục, địa điểm, hợp thành xác suất.
 
-\chapter*{Abstract}
-\addcontentsline{toc}{chapter}{Abstract}
+\begingroup\setstretch{1.34}\prelimheading{Abstract}
 Location-based services require spatial information to answer user requests, while a provider may
 aggregate repeated queries to infer locations and trajectories. A guarantee for a single release is
 insufficient to characterize the disclosure of a complete interaction. Comparisons are further
@@ -91,12 +79,12 @@ utility transfer. The prototype uses a complete public reference matching its st
 its received-candidate evaluation does not establish the necessity of online queries when that
 catalogue is already locally available, or service quality after the Geo-I cap prevents new reads.
 
-\clearpage
+\clearpage\endgroup
 \begingroup\small\setstretch{1.05}\setlength{\parskip}{0pt}\tableofcontents\endgroup
 \clearpage
-\begingroup\small\setstretch{1.05}\setlength{\parskip}{0pt}\addcontentsline{toc}{chapter}{Danh mục hình}\listoffigures\endgroup
+\begingroup\small\setstretch{1.05}\setlength{\parskip}{0pt}\phantomsection\addcontentsline{toc}{chapter}{Danh mục hình}\listoffigures\endgroup
 \clearpage
-\begingroup\small\setstretch{1.05}\setlength{\parskip}{0pt}\addcontentsline{toc}{chapter}{Danh mục bảng}\listoftables\endgroup
+\begingroup\small\setstretch{1.05}\setlength{\parskip}{0pt}\phantomsection\addcontentsline{toc}{chapter}{Danh mục bảng}\listoftables\endgroup
 
 \chapter*{Danh mục từ viết tắt}
 \addcontentsline{toc}{chapter}{Danh mục từ viết tắt}

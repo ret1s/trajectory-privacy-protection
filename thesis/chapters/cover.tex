@@ -1,0 +1,45 @@
+\newgeometry{left=1.5cm,right=1.5cm,top=2cm,bottom=2cm}
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay,inner sep=0,outer sep=0]
+     \draw[line width=4pt] ([xshift=-1.5cm,yshift=-2cm]current page.north east) coordinate (A)--([xshift=1.5cm,yshift=-2cm]current page.north west) coordinate(B)--([xshift=1.5cm,yshift=2cm]current page.south west) coordinate (C)--([xshift=-1.5cm,yshift=2cm]current page.south east) coordinate(D)--cycle;
+
+     \draw ([yshift=0.5cm,xshift=-0.5cm]A)-- ([yshift=0.5cm,xshift=0.5cm]B)--
+     ([yshift=-0.5cm,xshift=0.5cm]B) --([yshift=-0.5cm,xshift=-0.5cm]B)--([yshift=0.5cm,xshift=-0.5cm]C)--([yshift=0.5cm,xshift=0.5cm]C)--([yshift=-0.5cm,xshift=0.5cm]C)-- ([yshift=-0.5cm,xshift=-0.5cm]D)--([yshift=0.5cm,xshift=-0.5cm]D)--([yshift=0.5cm,xshift=0.5cm]D)--([yshift=-0.5cm,xshift=0.5cm]A)--([yshift=-0.5cm,xshift=-0.5cm]A)--([yshift=0.5cm,xshift=-0.5cm]A);
+
+
+     \draw ([yshift=-0.3cm,xshift=0.3cm]A)-- ([yshift=-0.3cm,xshift=-0.3cm]B)--
+     ([yshift=0.3cm,xshift=-0.3cm]B) --([yshift=0.3cm,xshift=0.3cm]B)--([yshift=-0.3cm,xshift=0.3cm]C)--([yshift=-0.3cm,xshift=-0.3cm]C)--([yshift=0.3cm,xshift=-0.3cm]C)-- ([yshift=0.3cm,xshift=0.3cm]D)--([yshift=-0.3cm,xshift=0.3cm]D)--([yshift=-0.3cm,xshift=-0.3cm]D)--([yshift=0.3cm,xshift=-0.3cm]A)--([yshift=0.3cm,xshift=0.3cm]A)--([yshift=-0.3cm,xshift=0.3cm]A);
+
+\end{tikzpicture}\par
+\centering
+\vspace*{0.35cm}
+ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH\\
+TRƯỜNG ĐẠI HỌC BÁCH KHOA\\
+KHOA KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH\par
+\vspace{1cm}
+\includegraphics[width=3cm]{figures/hcmut.png}\par
+\vspace{1cm}
+{\large\bfseries LUẬN VĂN THẠC SĨ\par}
+\vspace{.7cm}
+\begin{minipage}{.84\linewidth}
+\centering\rule{\linewidth}{.5pt}\par
+\vspace{.45cm}
+{\LARGE\bfseries Bảo vệ tính riêng tư về quỹ đạo\\
+cho người dùng dịch vụ dựa trên vị trí\par}
+\vspace{.45cm}
+\rule{\linewidth}{.5pt}
+\end{minipage}\par
+\vspace{.4cm}
+\textbf{NGÀNH:} KHOA HỌC MÁY TÍNH\par
+\vfill
+\begin{tabular}{@{}ll@{}}
+\textbf{Giảng viên hướng dẫn:} & TS. Phan Trọng Nhân\\
+\textbf{Học viên thực hiện:} & Ngô Minh Hạnh\\
+\textbf{Mã số học viên:} & 2470010
+\end{tabular}\par
+\vfill
+{\footnotesize TP. HỒ CHÍ MINH, THÁNG 11/2026\par}
+\vspace*{.9cm}
+\end{titlepage}
+\restoregeometry

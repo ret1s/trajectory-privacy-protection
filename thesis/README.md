@@ -5,6 +5,10 @@
 Đây là bản thảo đầy đủ để học viên/GVHD review và chỉnh sửa, chưa phải bản được
 nhà trường phê duyệt hoặc chứng nhận deployment.
 
+## Định dạng luận văn
+
+Bản dựng dùng mẫu từ luận văn cũ của học viên. Bìa có khung, logo Bách khoa và thông tin thạc sĩ hiện tại. Sau bìa là lời cam đoan, lời cảm ơn, tóm tắt, Abstract và các danh mục. Phần chính dùng lớp sách A4 một mặt 12 pt, giãn dòng 1,5, tiêu đề chương Bjornstrup và lề trái/phải/trên/dưới lần lượt 30/20/20/40 mm theo thiết lập sau bìa của mẫu. Tệp nguồn bìa là [cover.tex](chapters/cover.tex). ZIP cũ chỉ dùng làm tham chiếu ở máy cá nhân.
+
 ## Cấu trúc đã chốt
 
 1. **Introduction:** motivation, transcript/utility/đối chiếu, S1–S10, RQs và đóng góp.
