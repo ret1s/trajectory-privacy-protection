@@ -28,6 +28,7 @@ INHERITED = (
 )
 PRESENTATION_CHANGES = {
     "introduction.tex": [
+        ("We study GeoI-BQ", "\\input{scenarios}\n\nWe study GeoI-BQ"),
         (r"\begin{enumerate}", r"\begin{itemize}"),
         (r"\end{enumerate}", r"\end{itemize}"),
     ],
@@ -46,6 +47,7 @@ PRESENTATION_CHANGES = {
         (r"\subsection{Utility and scope}", r"\subsection{Utility analysis and scope}"),
     ],
     "evaluation.tex": [
+        ("Native SUMO mobility", "\\input{workload}\nNative SUMO mobility"),
         (r"\section{Experiments and analysis}", r"\section{Experiments and Analysis}"),
         (r"\subsection{Data and protocol}",
          "\\subsection{Environment Settings}\n\\subsubsection{Data and evaluation protocol.}"),
@@ -144,7 +146,7 @@ def source_check(folder=PAPER):
     return dict(template_class_exact=True, template_bst_exact=True,
                 class_version=origin["class_version"], main_sections=sections,
                 inherited_inputs_verified=len(expected), references=18, authors=list(AUTHORS),
-                scientific_change="Headings, list markers, float placement and numeric-column alignment only; scientific paragraphs, equations, result values and figures unchanged",
+                scientific_change="Added inference targets, observation windows and workload rationale to the compact presentation. Equations, result values and figures preserved.",
                 bibliography="Same 18 works and source DOIs; splncs04 presentation/order",
                 author_metadata="Two supplied affiliations and user-provided emails; Hanh Ngo-Minh is the sole corresponding author",
                 affiliations=info["affiliations"], corresponding_author=corresponding[0]["name"])

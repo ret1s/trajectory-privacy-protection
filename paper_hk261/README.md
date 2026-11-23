@@ -20,3 +20,5 @@ The detailed proof/benchmark supplement remains available in [the original revie
     python experiments/build_hk261_paper_20261119.py --check
 
 The new PDF, flat editable LaTeX ZIP and validation receipts are written to artifacts/papers/geoi_bq_hk261_20261119_v1/. The source ZIP compiles independently with tectonic main.tex or a LaTeX/BibTeX workflow.
+
+Edit `scenarios.tex` for the inference targets and `workload.tex` for the rationale behind the controlled comparison.

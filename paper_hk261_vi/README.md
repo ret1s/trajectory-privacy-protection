@@ -1,7 +1,7 @@
 # GeoI-BQ: bản tiếng Việt để đọc và chỉnh sửa
 
 Bản dịch riêng của `paper_hk261/` (bản HK261 tiếng Anh chốt ngày 19/11/2026).
-Giữ bố cục A4 hai cột, năm phần nội dung, ba hình và ba bảng. Không thay đổi
+Giữ bố cục A4 hai cột, năm phần nội dung, ba hình, bảng S1–S10 và ba bảng so sánh. Không thay đổi
 thuật toán, công thức, cấu hình, số liệu hay kết luận thực nghiệm. Giữ nguyên
 tên tác giả, cơ quan bằng tên chính thức tiếng Anh, email và tài liệu tham khảo.
 Hanh Ngo-Minh là tác giả liên hệ duy nhất. Bản tiếng Anh không bị ghi đè.
@@ -53,3 +53,5 @@ python experiments/build_vietnamese_paper_20261119.py --check
 
 Builder kiểm tra công thức, số liệu bảng, nhãn/trích dẫn, 18 tài liệu tham khảo,
 nguồn HK261, bản tiếng Anh không đổi và biên dịch độc lập ZIP giao cho Overleaf.
+
+Để sửa theo lời văn của mình, mở `scenarios.tex` (cách đặt bài toán, S1–S10) và `workload.tex` (lý do xây dựng dữ liệu so sánh).
