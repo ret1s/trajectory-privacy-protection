@@ -1,40 +1,43 @@
 \section{Giới thiệu}\label{sec:intro}
-Các truy vấn dịch vụ vị trí (LBS) liên tiếp có thể tiết lộ tọa độ, thời điểm
-và tương quan di chuyển. Tính đặc trưng của dấu vết di chuyển cho thấy cần
-bảo vệ vượt ra ngoài từng truy vấn riêng lẻ~\cite{mobilityunique}.
-Geo-indistinguishability (Geo-I) chặn tỷ số xác suất đầu ra theo khoảng cách
-giữa hai vị trí đầu vào~\cite{geoi}. Tuy nhiên, dịch vụ liên tục còn phải
-kiểm soát việc dùng lại điểm tham chiếu, tạo ứng viên, công bố truy vấn và
-duy trì trạng thái phiên. Các cơ chế dự đoán trước đây cũng đã xét chi phí
-của mỗi lần quan sát dữ liệu riêng tư mới~\cite{predictive}.
+Một người đang đi trên đường muốn tìm một địa điểm gần mình. Điện thoại có
+thể gửi truy vấn từ một tọa độ thay thế rồi dùng GPS thật để chọn kết quả.
+Nếu người đó tiếp tục di chuyển và tìm kiếm, nhà cung cấp sẽ thấy cả chuỗi
+tọa độ cùng thời điểm gửi. Từng gói có thể phù hợp với nhiều con đường.
+Khi đặt các gói theo thứ tự thời gian, có thể chỉ còn vài tuyến hợp lý.
+Tính đặc trưng của dấu vết di chuyển khiến khả năng suy luận này đáng
+quan tâm~\cite{mobilityunique}.
 
-Để lấy được kết quả phù hợp, không nhất thiết phải truy vấn gần GPS thật:
-nhiều điểm truy vấn thay thế có thể thu thập dữ liệu địa điểm (POI) để thiết bị
-xếp hạng riêng tại local, như các nghiên cứu theo ứng dụng đã chỉ ra~\cite{ev}.
-Đánh giá thiết kế này cần phân biệt điểm đại diện dùng để lập kế hoạch với
-chất lượng dịch vụ thực tế. Việc so sánh còn khó vì các phương pháp có dạng
-đầu ra khác nhau: một tọa độ thay thế, tập điểm thật và giả, truy vấn giả chèn
-thêm, hoặc quỹ đạo phát hành offline~\cite{transprotect,semantic,fake,sok}.
-Chúng tôi dùng bộ đo theo tác vụ cùng những metrics gốc áp dụng được, không
-xem MAE hay Recall là công thức mới.
+Câu hỏi chúng tôi đặt ra là sau cả chuyến đi, chuỗi trao đổi ấy giúp nhà
+cung cấp phân biệt hai quỹ đạo thật đến mức nào? Geo-indistinguishability
+(Geo-I) cho ta điểm xuất phát bằng cách giới hạn tỷ số xác suất quan sát cùng
+một đầu ra tại hai vị trí thật~\cite{geoi}. Để mở rộng lập luận ra cả phiên,
+ta phải tính cả những lần thiết bị đọc lại GPS để quyết định giữ hay đổi điểm
+tham chiếu. Chi phí của quan sát mới cũng là cơ sở của các cơ chế bảo vệ dùng
+dự đoán~\cite{predictive}.
+
+Về phía người dùng, điều quan trọng là danh sách địa điểm (POI) nào thực sự
+hiện trên màn hình. Truy vấn từ nhiều vị trí có thể thu về đủ địa điểm để
+điện thoại xếp hạng theo nhu cầu thật~\cite{ev}. Vì vậy, chúng tôi so danh sách
+người dùng nhận được với đáp án cho cùng yêu cầu tại GPS thật trên toàn bộ
+danh mục. Cách đo này áp dụng được khi đầu ra công khai là một tọa độ, một
+tập điểm thật và giả, hoặc một chuỗi có thêm truy vấn giả. Các công trình về
+phát hành quỹ đạo ngoại tuyến có mục tiêu sử dụng khác~\cite{transprotect,semantic,fake,sok}.
 
 \input{scenarios}
 
-GeoI-BQ duy trì điểm tham chiếu đã bảo vệ trên mạng đường, ước lượng belief
-(phân phối xác suất vị trí) từ lịch sử đã bảo vệ, rồi chọn cả đoạn truy vấn
-bằng một phân phối được hiệu chỉnh quanh giá trị trung bình và có cận tiết lộ.
-Các đóng góp gồm:
+GeoI-BQ giữ điểm tham chiếu đã bảo vệ trên mạng đường. Từ lịch sử các điểm
+tham chiếu, thiết bị ước lượng một phân phối vị trí (belief) để chọn cả đoạn
+truy vấn kế tiếp. Nghiên cứu có ba đóng góp.
 \begin{itemize}
-\item Chính sách có trạng thái và xét mạng đường, với sổ ngân sách riêng cho
-việc đọc GPS và công bố truy vấn.
-\item Chuỗi lập luận liên kết bảo vệ transcript với utility có điều kiện,
-bao gồm cận định vị phụ thuộc prior và hệ quả khi kết hợp các kênh có điều kiện.
-\item So sánh tái lập được giữa sáu phương án, kèm bất định, chi phí và các
-đối chứng chỉ ra giới hạn của phương pháp.
+\item Thiết kế cơ chế xét mạng đường với hai ngân sách riêng cho quan sát GPS
+và cho việc chọn đoạn truy vấn để công bố.
+\item Suy ra cận tiết lộ cho toàn bộ phiên, diễn giải cận theo thông tin có
+trước của bên quan sát và xác định điều kiện bảo đảm chất lượng dịch vụ.
+\item Đối chiếu sáu phương án theo cùng tác vụ, kèm khoảng tin cậy, chi phí
+và các phép đo gốc áp dụng được.
 \end{itemize}
-Prototype đã nạp toàn bộ dữ liệu tham chiếu của nhà cung cấp tĩnh; cơ chế nền
-công khai không thích nghi cũng đạt Recall nhỉnh hơn cơ chế thích nghi riêng tư.
-Các phát hiện này giới hạn phạm vi ứng dụng có thể khẳng định. Việc dùng nhiều
-truy vấn, xét mạng đường hoặc xếp hạng local tự thân không được coi là điểm mới.
-Các phần~\ref{sec:related}--\ref{sec:conclusion} lần lượt trình bày nghiên cứu
-liên quan, phương pháp và phân tích, thực nghiệm, rồi kết luận.
+Trong thử nghiệm, thiết bị đã có toàn bộ danh mục tĩnh và phương án nền
+công khai đạt Recall nhỉnh hơn cơ chế thích nghi. Hai điều kiện này ảnh hưởng
+đến cách diễn giải lợi ích của truy vấn trực tuyến.
+Các phần~\ref{sec:related}--\ref{sec:conclusion} trình bày nghiên cứu liên quan,
+phương pháp và chứng minh, kết quả thực nghiệm và kết luận.

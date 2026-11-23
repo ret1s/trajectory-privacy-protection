@@ -1,26 +1,22 @@
-Đơn vị quan sát là toàn bộ chuỗi truy vấn và phản hồi mà nhà cung cấp thấy
-trong một phiên (transcript). Một gói có thể phù hợp với nhiều vị trí, nhưng
-thứ tự và thời điểm của nhiều gói liên tiếp có thể giúp nhận ra tuyến đường.
-Vì vậy, mỗi tác vụ phải xác định bên quan sát thấy gì, trong khoảng thời gian
-nào và muốn suy ra đại lượng nào. Về chất lượng dịch vụ, ta so kết quả người
-dùng nhận được với đáp án từ toàn bộ danh mục POI tại GPS thật cho cùng yêu cầu.
+Chúng tôi xác định mười kịch bản theo thông tin bên quan sát muốn suy ra
+và phần chuỗi trao đổi (transcript) họ được thấy.
 
-\smallskip
-\noindent\begin{tabularx}{\columnwidth}{@{}lYY@{}}\toprule
-\textbf{Mã} & \textbf{Mục tiêu suy luận} & \textbf{Phép kiểm tra trong bài} \\\midrule
-S1 & Vị trí hiện tại & Đoán GPS từ một gói \\
-S2 & Nơi dừng & Ước lượng GPS trung bình phút cuối \\
-S3 & Đường đã đi & Khôi phục GPS từng nhịp từ cả phiên \\
-S4 & Liên kết người hoặc xe & Xét hai phiên có cùng nhóm tuyến \\
-S5 & Đoạn đường kế tiếp & Chọn một trong hai nhánh đường \\
-S6 & Đích đến tương lai & Chọn một trong hai đích sau khi rẽ \\
-S7 & Nội dung hoặc ý định truy vấn & Đổi yêu cầu trên cùng chuyến đi \\
-S8 & Vị trí suy qua người đi cùng & Kết hợp hai luồng đã căn thời gian \\
-S9 & Vị trí xuất phát & Đoán GPS đầu từ cả phiên \\
-S10 & Vị trí kết thúc & Đoán GPS cuối từ cả phiên \\\bottomrule
-\end{tabularx}\par\smallskip
+\smallskip\noindent\textbf{Vị trí và đường đã đi.}
+Từ một gói, bên quan sát ước lượng GPS hiện tại (S1). Với chuỗi dài hơn,
+họ có thể tìm nơi dừng (S2) hoặc khôi phục vị trí ở từng mốc thời gian (S3).
+Ở S2, dữ liệu chỉ cho phép dùng tọa độ trung bình trong phút cuối làm đại
+diện cho nơi dừng. Khi cho xem toàn phiên, ta còn đo được khả năng suy ra
+điểm xuất phát (S9) và điểm kết thúc (S10). Đây là năm tác vụ định vị chính.
 
-S1--S3 và S9--S10 tạo thành phép so sánh định vị chính. Ở S2, tọa độ chỉ là
-đại lượng đại diện cho nơi dừng. S4--S8 xét các câu hỏi hẹp hơn theo nhãn
-dữ liệu hiện có. Chẳng hạn, S4 dùng liên kết nhóm tuyến làm phép đo đại diện
-cho khả năng liên kết danh tính.
+\smallskip\noindent\textbf{Liên kết và dự đoán.}
+Hai phiên có thuộc về cùng một người hay phương tiện (S4)? Dữ liệu chỉ có
+nhãn nhóm tuyến, nên phép thử là xác định hai phiên có cùng nhóm hay không.
+Với suy luận tương lai, chúng tôi xét hai quyết định khác nhau trên mạng
+đường. S5 dự đoán nhánh kế tiếp trong hai nhánh khả dĩ. S6 chọn một trong
+hai đích đến khi đã thấy người dùng rẽ.
+
+\smallskip\noindent\textbf{Nội dung và người đi cùng.}
+Ở S7, ta giữ nguyên chuyến đi rồi đổi yêu cầu trên thiết bị để kiểm tra xem
+nội dung yêu cầu có làm thay đổi transcript hay không. S8 xét một nguồn
+thông tin khác mà nhà cung cấp có thể có. Khi căn hai luồng truy vấn theo
+thời gian, quan sát thêm người đi cùng giúp định vị người dùng đến mức nào?

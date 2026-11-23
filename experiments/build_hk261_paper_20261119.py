@@ -21,17 +21,12 @@ PAPER = ROOT / "paper_hk261"
 OUT = ROOT / "artifacts/papers/geoi_bq_hk261_20261119_v1"
 BUILD = ROOT / "build/paper/hk261_20261119"
 INHERITED = (
-    "abstract.tex", "introduction.tex", "related_work.tex", "method.tex", "analysis.tex",
+    "abstract.tex", "related_work.tex", "method.tex", "analysis.tex",
     "evaluation.tex", "conclusion.tex", "figure_system.tex", "figure_model.tex",
     "figure_walkthrough.pdf", "table_related.tex", "table_privacy.tex", "table_service.tex",
     "highlights.txt",
 )
 PRESENTATION_CHANGES = {
-    "introduction.tex": [
-        ("We study GeoI-BQ", "\\input{scenarios}\n\nWe study GeoI-BQ"),
-        (r"\begin{enumerate}", r"\begin{itemize}"),
-        (r"\end{enumerate}", r"\end{itemize}"),
-    ],
     "related_work.tex": [(r"\section{Related work}", r"\section{Related Work}")],
     "method.tex": [
         (r"\section{Proposed method and analysis}", r"\section{Proposed Method}"),

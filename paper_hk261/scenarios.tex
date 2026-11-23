@@ -1,26 +1,22 @@
-Our unit of observation is the session transcript, the ordered queries and
-replies available to the provider. A single packet may leave several locations
-plausible, yet their order and timing across packets can identify a route.
-For each inference task we therefore specify what the observer sees, over
-which interval, and which hidden quantity it must estimate. On the service
-side, we compare the answer delivered to the user with the answer obtained
-from the full catalogue at the true location for the same request.
+We distinguish ten scenarios by what the observer tries to infer and which
+part of the exchange (the transcript) is available.
 
-\smallskip
-\noindent\begin{tabularx}{\columnwidth}{@{}lYY@{}}\toprule
-\textbf{ID} & \textbf{Inference target} & \textbf{Test in this study} \\\midrule
-S1 & Current location & GPS from one packet \\
-S2 & Stopping place & Mean GPS in the final minute \\
-S3 & Travelled route & GPS at each tick from the full session \\
-S4 & User or vehicle linkability & Same route family across two sessions \\
-S5 & Next road segment & Choice of two outgoing edges \\
-S6 & Future destination & Choice of two destinations after a turn \\
-S7 & Query content or intent & Vary the request on a fixed trip \\
-S8 & Location inferred via a companion & Combine two aligned streams \\
-S9 & Starting location & First GPS from the full session \\
-S10 & Ending location & Last GPS from the full session \\\bottomrule
-\end{tabularx}\par\smallskip
+\smallskip\noindent\textbf{Location and route.}
+One packet gives an estimate of the current GPS position (S1). A longer
+sequence may reveal a stopping place (S2) or the route travelled, position by
+position (S3). For S2 the available proxy is the mean position in the final
+minute. The full session also lets us test inference of the starting point
+(S9) and endpoint (S10). These are our five main localization tasks.
 
-S1--S3 and S9--S10 form the main localization comparison. S2 measures a
-coordinate proxy for a stop. S4--S8 probe narrower questions under the labels
-available, including route-family association as a proxy for identity linkage.
+\smallskip\noindent\textbf{Linkage and prediction.}
+Could two sessions belong to the same person or vehicle (S4)? The data
+identify route families, so the test asks whether two sessions share a
+family. For prediction we distinguish two decisions on the road network.
+S5 asks which of two outgoing edges the user will take. S6 asks which of
+two destinations the user is heading for once a turn has been observed.
+
+\smallskip\noindent\textbf{Query content and companions.}
+For S7 we hold the trip fixed and change the request on the device to see
+whether its content changes the transcript. S8 considers another source of
+information available to the provider. Given two time-aligned query streams,
+how much does observing a companion help locate the user?

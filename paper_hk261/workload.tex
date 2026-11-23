@@ -1,9 +1,9 @@
-The surveyed studies use different outputs and observation windows. A common
-comparison needs the same time-stamped trip for scoring location estimates,
-the public transcript each method would produce on that trip, and a POI
-answer key for each local request. We generate paired route alternatives
-on the road network in SUMO, using public geometry to select eligible trips
-before scoring any defense. Replaying these trips across methods keeps the
-targets and service conditions comparable while allowing each method its own
-packet schedule. Related trips stay in one split to avoid training and testing
-on the same route family.
+Suppose one method sends a coordinate and another inserts two extra fake
+packets. An observer given the same number of packets may see different
+portions of the trip. We therefore run each method on the same trips and
+score it over the same time windows. GPS at each tick supplies the reference
+for localization. The POIs that satisfy the request at that position supply
+the reference for service quality. To obtain both, we generate paired route
+alternatives in SUMO on a common road map and match them to a POI catalogue.
+Public geometry determines trip eligibility before any defense is scored.
+Related trips stay together when we split route families.

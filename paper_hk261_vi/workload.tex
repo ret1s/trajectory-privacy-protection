@@ -1,9 +1,9 @@
-Các công trình khảo sát dùng dạng đầu ra và cửa sổ quan sát khác nhau. Muốn
-so sánh, ta cần cùng một chuyến đi có GPS theo thời gian để chấm sai số định
-vị, chuỗi trao đổi mà từng phương pháp tạo ra trên chuyến đó và đáp án POI
-tham chiếu cho từng yêu cầu riêng. Ta dùng SUMO sinh các cặp tuyến rẽ theo
-hai hướng trên mạng đường, chọn chuyến theo hình học công khai trước khi chấm
-điểm bảo vệ. Mỗi phương pháp chạy trên cùng các chuyến với lịch gửi gói riêng,
-nên mục tiêu suy luận và điều kiện dịch vụ có thể đối chiếu trực tiếp. Các
-chuyến cùng nhóm tuyến nằm trong cùng một tập để tránh dùng chung nhóm giữa
-huấn luyện và kiểm thử.
+Giả sử một phương pháp gửi một tọa độ, còn phương pháp khác chèn thêm hai gói
+giả. Nếu cho bên quan sát xem cùng số gói, họ có thể thấy hai đoạn hành trình
+dài khác nhau. Vì vậy, chúng tôi cho mỗi phương pháp chạy trên cùng chuyến
+đi và chấm theo cùng cửa sổ thời gian. GPS ở từng mốc là đáp án cho tác vụ
+định vị. Với tác vụ dịch vụ, đáp án là danh sách POI phù hợp với yêu cầu tại
+vị trí đó. Để có đồng thời hai loại đáp án, chúng tôi dùng SUMO sinh các cặp
+tuyến có nhánh rẽ trên cùng bản đồ và ghép với danh mục POI. Tuyến đủ điều
+kiện được chọn theo hình học công khai trước khi đánh giá phương pháp.
+Các chuyến cùng nhóm tuyến nằm trong cùng một tập khi chia dữ liệu.
