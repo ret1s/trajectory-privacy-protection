@@ -1,17 +1,19 @@
-\section{Supporting analysis -- Giải thích các thành phần}
-\subsection{Cache trên cùng output và provider tĩnh}
-Current giữ packet hiện tại; epoch60 giữ metadata trong đoạn 60 s; session tích lũy cả phiên.
-Các chế độ dùng cùng GPS/reference, không tạo Q mới. Đây là phép tách ảnh hưởng của bộ nhớ khỏi
-ảnh hưởng của privacy kernel.
+\section{Phân tích vai trò của từng thành phần}
+\subsection{Ảnh hưởng của bộ nhớ khi phản hồi dịch vụ cố định}
+Để tách vai trò của bộ nhớ, ta phát lại cùng chuỗi Q và cùng phản hồi của nhà cung cấp theo
+ba cách. Thiết bị có thể chỉ dùng gói vừa nhận (\emph{current}), gộp các gói thuộc cùng đoạn
+60 giây (\emph{epoch60}), hoặc giữ mọi địa điểm đã nhận từ đầu phiên (\emph{session}). Tọa độ
+và yêu cầu dùng để xếp hạng tại từng nhịp đều được giữ cố định.
 \input{generated/cache}
 
-GeoI-BQ tăng từ 96,780\% current lên 97,123\% epoch60 và 99,595\% session. Cache giúp bù việc
-không truy vấn trực tiếp GPS. Tuy nhiên, proof inclusion chỉ giữ ở cùng GPS/request và metadata
-hợp lệ. Di chuyển sang một vùng khác có thể làm reference đổi; thông tin giờ mở cửa/giá/status
-động có thể làm cache mất hiệu lực. Do đó kết quả session tĩnh không là chứng chỉ chất lượng
-dịch vụ online động mà không có thêm chính sách expiry/refresh.
+Recall của GeoI-BQ lần lượt là 96,780\%, 97,123\% và 99,595\%. Ví dụ, một trạm sạc phù hợp
+đã có trong gói trước nhưng vắng ở gói hiện tại vẫn có thể xuất hiện trong đáp án nếu thiết bị
+giữ bộ nhớ toàn phiên. Đây là cơ chế cải thiện mà phép phát lại trực tiếp kiểm tra. Nếu người
+dùng chuyển sang một khu vực mới, danh sách tham chiếu cũng thay đổi. Nếu trạm ngừng hoạt động,
+bản ghi cũ còn cần được cập nhật. Vì vậy, khi áp dụng kết quả cho dịch vụ có dữ liệu thay đổi,
+cần tính thêm thời hạn hiệu lực và chi phí làm mới thông tin.
 
-\subsection{Response depth và vai trò của GPS local}
+\subsection{Độ sâu phản hồi và vai trò của GPS trên thiết bị}
 Trên cùng Q/time và provider signatures, truncation L30 cho macro Recall 94,170\%, thấp hơn L60
 5,425 điểm phần trăm, CI95\% [3,486;7,527]. Radius chịu chênh lệch lớn nhất, khoảng 10,374 điểm
 phần trăm. Bảng chi tiết ở Phụ lục~\ref{app:support}; đây là replay/sensitivity có contract riêng,
@@ -64,7 +66,7 @@ dữ liệu, không là một arm mới được chạy. Nó cho Recall bằng 1
 client thực sự biết và được sử dụng toàn catalogue hợp lệ. Chi phí acquisition/setup/refresh
 chưa đo, nên không gán cost bằng 0 cho toàn hệ thống hoặc so trực tiếp với bytes của trial.
 
-\section{Discussion -- Độ tin cậy và phạm vi kết luận}\label{sec:discussion}
+\section{Độ tin cậy và phạm vi kết luận}\label{sec:discussion}
 \subsection{Mối quan hệ giữa chứng minh và benchmark}
 Lý thuyết trả lời một câu hỏi khác với accuracy của một attack: các phân phối transcript được
 phép khác nhau tới đâu khi private input đổi. Nếu một attacker mới mạnh hơn làm Hit100 tăng,

@@ -16,7 +16,7 @@ Its [six-page PDF](artifacts/papers/geoi_bq_hk261_vi_20261119_v1/manuscript.pdf)
 [Overleaf source ZIP](artifacts/papers/geoi_bq_hk261_vi_20261119_v1/latex_sources.zip)
 are available for author review; the English version remains unchanged.
 
-The [consolidated thesis (argument revision 16/11)](thesis/README.md) follows the agreed five-chapter
+The [consolidated Vietnamese thesis (23/11 revision)](thesis/README.md) follows the agreed five-chapter
 outline, with the final GeoI-BQ specification, full privacy/utility proof chain,
 paper-adaptation comparison and scoped S4–S8 supplement. See the
 [review guide](thesis/REVIEW_GUIDE.md) and [canonical PDF](artifacts/reports/graduation_thesis.pdf).

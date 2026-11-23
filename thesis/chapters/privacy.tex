@@ -1,10 +1,24 @@
-\section{Privacy analysis -- Bảo đảm cho toàn transcript}\label{sec:privacy}
+\section{Bảo đảm riêng tư cho toàn bộ phiên}\label{sec:privacy}
 Phân tích gồm bốn mệnh đề privacy chính. Mệnh đề thứ nhất bảo vệ một lần tạo Z; mệnh đề thứ
 hai đưa các lần kiểm tra/cập nhật vào cùng sổ chi phí. Mệnh đề thứ ba giới hạn mức điều chỉnh riêng
 của một đoạn Q; mệnh đề thứ tư hợp thành các đoạn. Sau cùng, định lý hậu xử lý nối hai nhánh vào
 chính transcript mà server nhìn thấy. Các định lý xác suất là phát biểu về kernel lý tưởng dưới
 giả thiết tương ứng ở Mục~\ref{sec:assumptions}, không phải tuyên bố toàn bộ binary mô phỏng đã được
 chứng nhận pure differential privacy.
+
+Để đọc chứng minh, hãy cố định hai quỹ đạo có thể có $X,X'$ cùng ngữ cảnh công khai. Chọn
+một sự kiện quan sát cụ thể, chẳng hạn khung đầu tiên nằm trong một vùng đã định và khung
+tiếp theo vẫn nằm trong vùng ấy. Câu hỏi là sự kiện này có thể xảy ra thường xuyên hơn bao
+nhiêu lần dưới $X$ so với dưới $X'$. Ta có thể đặt câu hỏi đó dù nhà cung cấp chưa biết
+quỹ đạo nào là thật. Khi một sự kiện gần như chỉ xuất hiện dưới một giả thuyết, quan sát nó
+sẽ là bằng chứng mạnh cho giả thuyết ấy.
+
+Chứng minh lần theo hai con đường đến cùng sự kiện. Con đường thứ nhất kiểm soát thông tin
+GPS đi vào lịch sử tham chiếu, sau đó dùng tính chất hậu xử lý để chuyển cận ra kênh truyền.
+Con đường thứ hai kiểm soát trực tiếp xác suất chọn từng đoạn truy vấn sau cùng một lịch sử
+công khai. Dù nhà cung cấp chỉ thấy $Q$, việc chứng minh cho $Z$ vẫn cần thiết để có cận thứ
+nhất, cận phản ánh khoảng cách giữa hai quỹ đạo. Khi cả hai lập luận đều áp dụng, cùng một
+tỷ số xác suất phải thỏa đồng thời cả hai bất đẳng thức.
 
 \subsection{Từ Geo-I một điểm tới đầu ra trên mạng đường}
 \begin{definition}[Geo-indistinguishability]

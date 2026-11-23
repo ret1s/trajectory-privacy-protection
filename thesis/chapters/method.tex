@@ -1,11 +1,19 @@
-\chapter{Proposed Method -- Phương pháp đề xuất}\label{ch:method}
+\chapter{Phương pháp đề xuất}\label{ch:method}
 Chương này đặc tả phiên bản tham chiếu GeoI-BQ v1, rồi phân tích privacy và utility của cùng phiên
 bản đó. Luồng chính là GPS $\rightarrow$ thông tin vị trí đã bảo vệ $\rightarrow$ belief $\rightarrow$
 đoạn Q $\rightarrow$ dịch vụ POI $\rightarrow$ xử lý đáp án tại local. Các bước lý thuyết được phát
 biểu trước benchmark để bảo đảm kết luận không phụ thuộc một attacker học cụ thể.
 
-\section{Problem formulation and assumptions}\label{sec:formulation}
-\subsection{Mạng đường, trajectory và nhu cầu dịch vụ}
+Có thể theo dõi một yêu cầu qua ba đối tượng. Tọa độ $x_t$ là nơi thiết bị thực sự đang đứng.
+Điểm $Z$ là tham chiếu ngẫu nhiên trên đường mà thiết bị được phép dùng để cập nhật phân phối
+ước lượng vị trí. Khung $Q$ là các tọa độ được gửi tới nhà cung cấp để tìm địa điểm. Nếu mục
+đích là tìm một trạm sạc ít làm thay đổi hành trình, thiết bị còn phải dùng đích đến riêng để
+xếp hạng các trạm nhận được. Vì vậy, một vị trí có thể hữu ích cho việc chọn truy vấn dù bản
+thân nó chưa phải địa điểm người dùng cần. Hai sơ đồ trong chương lần lượt chỉ ra ranh giới
+quan sát giữa thiết bị và máy chủ, rồi thứ tự các bước xử lý bên trong ranh giới đó.
+
+\section{Đặc tả bài toán và giả thiết}\label{sec:formulation}
+\subsection{Mạng đường, quỹ đạo và nhu cầu dịch vụ}
 Cho một mạng đường có hướng với tập trạng thái hữu hạn $V$. Mỗi trạng thái $v$ có tọa độ $a_v$ trong
 một hệ chiếu mét cố định. Hai lane khác nhau có thể trùng tọa độ; chúng vẫn là hai trạng thái cho
 việc chuyển tiếp. GPS thật $x_i$ không nhất thiết trùng đúng một $a_v$. Trong định lý Geo-I, khoảng
@@ -44,7 +52,7 @@ sau. Các nhãn lane đó thuộc hành động giả do mô hình sinh, không 
 Phân tích trên lịch sử mở rộng rồi chiếu xuống wire tránh giả định sai rằng tọa độ xác định duy nhất
 toàn bộ trạng thái chuyển tiếp.
 
-\subsection{Attacker và ranh giới bảo vệ}
+\subsection{Bên suy luận và ranh giới bảo vệ}
 Attacker là LSP hoặc bên có cùng quyền quan sát. Nó biết thuật toán, tham số công khai, mạng đường
 và có thể lưu toàn transcript. Định lý không giả định attacker chỉ dùng một snapshot, chỉ biết kNN
 hoặc không biết lịch phát thật. Hai traces $X,X'$ là phép so sánh của cơ chế; attacker không cần biết
@@ -124,7 +132,7 @@ các giả thiết support/kernel/provider tương ứng; floor utility còn c�
 Mục~\ref{sec:utility}. Catalogue lớn, dữ liệu live hay trường thông tin chưa biết không được dùng
 như lời giải thích cho trial tĩnh khi chúng chưa được mô hình hoá và kiểm tra.
 
-\section{System architecture -- Vị trí mô hình trong hệ thống}
+\section{Vị trí mô hình trong hệ thống}
 Hình~\ref{fig:system} phân biệt thiết bị tin cậy và LBS server. Cảm biến cung cấp GPS cho lớp bảo vệ
 và cho local ranking. Privacy/planner tạo các tọa độ Q để lấy dữ liệu; server trả POI theo request
 chung. Thiết bị giữ nhu cầu thật để chọn đáp án từ những metadata đã nhận.
@@ -141,7 +149,7 @@ Geo-I lý tưởng nhưng chất lượng lấy POI bị gắn với một query
 từ GPS, cũng có thể xây dựng cơ chế đúng; khi đó phải phân tích trực tiếp toàn joint kernel và các
 lần lặp theo thời gian. Hai tầng ở đây giúp phân vai và kiểm soát các điều kiện thiết kế.
 
-\section{Model architecture and workflow}\label{sec:model-workflow}
+\section{Kiến trúc mô hình và trình tự xử lý}\label{sec:model-workflow}
 Hình~\ref{fig:model} tổ chức phương pháp thành năm lớp vận hành. Trong mỗi lớp có các thao tác logic
 riêng: bảo vệ/cập nhật vị trí, ước lượng trạng thái, tạo thư viện và chọn đoạn, phát khung, rồi hợp và
 xử lý POI. Server không quan sát belief hoặc quyết định fresh/reuse. Đường phản hồi từ cache tới
@@ -169,7 +177,7 @@ cover giữ payload purpose/category thật ở local. Union/cache và ranking d
 án mà không tạo một lần phát GPS mới. Mỗi thiết kế sẽ được nối với mệnh đề tương ứng ở
 Mục~\ref{sec:privacy} và~\ref{sec:utility}.
 
-\subsection{Clock, bộ nhớ và cấu hình tham chiếu}
+\subsection{Lịch quan sát, bộ nhớ và cấu hình tham chiếu}
 Một đoạn kéo dài 60 giây với các khung ở offset 0, 20, 40 s. Lần chọn đoạn tiếp theo ở offset 60 s.
 Lớp bảo vệ dùng GPS mới tối thiểu cách nhau 60 s và chỉ khi dự toán cap cho phép. GPS local phục vụ
 xếp hạng có thể được đọc theo nhu cầu ứng dụng; không suy từ pacing bảo vệ rằng tổng số GNSS reads
@@ -199,7 +207,7 @@ POI unique. Prototype có catalogue 418 POI, nên union có thể bão hòa; đ�
 thích Recall cao. Planner sử dụng portfolio beam 24, novelty/long-range weights 4 và travel scale
 60 s. Các tham số là cấu hình đã đóng băng, không là tối ưu phổ quát được chứng minh.
 
-\section{Algorithm specification -- Đặc tả thuật toán}\label{sec:algorithm}
+\section{Đặc tả thuật toán}\label{sec:algorithm}
 \subsection{REM trên miền đường công khai}
 Với $u>0$ và cùng $V$, cơ chế lấy mẫu trạng thái và ánh xạ sang tọa độ:
 \begin{align}
@@ -211,7 +219,7 @@ Các trạng thái gần GPS có trọng số lớn hơn, nhưng mọi trạng t
 tính chất của \emph{toàn phân phối} khi thay input. Cũng không có bước planar Laplace rồi mới map vào
 REM trong đặc tả này. Hệ số $1/2$ chia độ lệch giữa tử số và normalizer trong chứng minh.
 
-\subsection{Noisy reuse và cap từng phiên}
+\subsection{Kiểm tra tái sử dụng có nhiễu và ngân sách từng phiên}
 Sau Z đầu, tại mốc được phép đọc, với tham chiếu cũ $h$, đặt
 \begin{equation}
 D_t=\mathbf1\{\|x_t-h\|_2+\xi_t>\theta\},\qquad
@@ -246,7 +254,7 @@ của cận thô là $C_s\le\log(R_*)/d_*$. Công thức cho phép suy ra $u=C_s
 Luận văn không khẳng định cấu hình 0,23 đã được chọn từ một yêu cầu rủi ro như vậy ngay từ đầu, hoặc
 là một bán kính nhiễu. Đó là cap hiệu lực của cấu hình tham chiếu.
 
-\subsection{Belief từ lịch sử đã bảo vệ}
+\subsection{Ước lượng phân phối vị trí từ lịch sử đã bảo vệ}
 Trên các trạng thái đại diện $s$, bắt đầu bằng prior công khai. Dự đoán và cập nhật:
 \begin{align}
 b_t^-(s)&=\sum_r b_{t-1}(r)T_{\Delta t}(r,s),\label{eq:belief-prediction}\\
@@ -266,7 +274,7 @@ belief và một mô hình chuyển tiếp theo thời gian; nó không được
 người thật. Privacy của kernel Q chỉ cần score bị chặn. Sai số belief có ý nghĩa riêng ở phần chuyển
 sang utility thực, nơi không được tự đặt sai số bằng 0.
 
-\subsection{Thư viện đoạn, điểm số và lấy mẫu integer}
+\subsection{Thư viện đoạn, điểm số và lấy mẫu bằng số nguyên}
 Một action $A_a$ gồm ba khung $Q_a^{(0)},Q_a^{(1)},Q_a^{(2)}$, mỗi khung có $K$ slots. Đường chuyển
 tiếp của các slot phải khả thi trên mạng có hướng từ fake state trước. Public search/portfolio và
 fallback đứng yên tạo thư viện $\mathcal A_j(\mathcal H_{j-1})$. Không dùng GPS/Z/belief để cắt bỏ
@@ -300,7 +308,7 @@ Chọn một integer đều trên $[0,\sum_aW_a)$ rồi dò cumulative weights c
 Điều này tách sai số tính score trước lượng tử hóa khỏi việc lấy mẫu PMF, nhưng vẫn cần nguồn bit
 đều mới; một PRNG dùng trong mô phỏng không tự là chứng chỉ entropy thông tin lý thuyết.
 
-\subsection{Phát khung, hợp POI và local ranking}
+\subsection{Phát khung, hợp nhất địa điểm và xếp hạng trên thiết bị}
 Sau khi lấy mẫu, commit cả đoạn, counter và ledger trước khi gửi khung đầu. Các khung 20/40 s dùng
 đoạn đã lưu; retry dùng lại bản tin. Request hỏi mọi loại POI với cùng L60 ở mỗi Q. Server không
 nhận purpose/radius/destination thật qua giao diện này.
@@ -343,7 +351,7 @@ $\varepsilon_{Q,1}=1/2$, ta có $\alpha=1/5$, $\mu=1/2$, nên $p=(0{,}55;0{,}45)
 Đoạn hữu ích hơn được ưu tiên nhưng đoạn kia vẫn có probability dương. Đây là ví dụ tính toán,
 không thay cho chứng minh hoặc điểm benchmark.
 
-\subsection{Ví dụ nhiều bước từ output đã lưu}
+\subsection{Ví dụ nhiều bước từ một chuyến đã lưu}
 Chọn cố định family TEST đầu theo ID, \path{cache-029}, trip/draw đầu, không chọn theo score.
 Bảng~\ref{tab:sample} hiển thị GPS tương đối so với lúc bắt đầu, Z nội bộ, Q1 và số POI unique trong
 cache. Q2--Q5 vẫn có trong packet; tọa độ trong bảng làm tròn, artifact giữ đủ precision.

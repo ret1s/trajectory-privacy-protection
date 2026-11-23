@@ -1,5 +1,5 @@
-\chapter{Experiments and Analysis -- Thực nghiệm và phân tích}\label{ch:experiments}
-\section{Evaluation framework and metrics}
+\chapter{Thực nghiệm và phân tích}\label{ch:experiments}
+\section{Khung đánh giá và các thước đo}
 Đánh giá trả lời ba câu hỏi: \textbf{RQ1}, transcript hạn chế suy luận vị trí đến đâu trong mô hình đã khai báo;
 \textbf{RQ2}, đáp án dịch vụ còn hữu ích đến đâu; và \textbf{RQ3}, đánh đổi đó cần bao nhiêu truy vấn/dữ liệu.
 Cận lý thuyết không phụ thuộc vào một attacker học cụ thể; benchmark chỉ kiểm tra các attacker hữu hạn trên workload này.
@@ -63,7 +63,7 @@ $m$ nhãn mà cùng wire, conditional Bayes vulnerability là $1/m$. Các mốc 
 S8 đo Hit100/MAE ở cùng target/cutoff dưới bốn quyền quan sát và chênh lệch joint trừ target-only.
 Số quan sát tính cả hai kênh; không thay common time window bằng cùng số packets.
 
-\subsection{Mẫu số, missingness và bất định}
+\subsection{Mẫu số, dữ liệu thiếu và độ bất định}
 Các tác vụ mở rộng S4--S8 được đo riêng ở Mục~\ref{sec:extended-scenarios}, với target và nhóm phụ thuộc
 riêng. Hệ quả Bayes ở Mục~\ref{sec:privacy} vẫn có điều kiện trên kênh target. Không thay một nhãn
 identity người/xe chưa có ground truth bằng nhãn route-family chỉ để hoàn tất bảng.
@@ -73,7 +73,21 @@ không đồng nghĩa với failure hay một kết quả bằng 0. Các CI đi�
 chúng chưa bao gồm toàn bộ bất định của quá trình sinh bản đồ, chọn mô hình hoặc dữ liệu ngoài miền.
 
 
-\section{Dataset construction and environment}
+\section{Xây dựng dữ liệu và môi trường thực nghiệm}
+Giả sử hai phương pháp bảo vệ cùng một chuyến đi, trong đó chỉ một phương pháp chèn thêm
+gói giả giữa hai lần yêu cầu dịch vụ. Cho bên quan sát xem năm gói của mỗi phương pháp có
+thể vô tình cho họ xem hai khoảng hành trình dài khác nhau. Do đó mỗi tác vụ ở đây cố định
+cửa sổ theo thời gian, cho phép từng phương pháp giữ lịch gửi riêng và tính chi phí cho mọi
+gói phát sinh. Cách làm này đòi hỏi đồng bộ ba loại dữ liệu: GPS thật để chấm định vị, chuỗi
+công khai để làm đầu vào suy luận, và đáp án từ toàn danh mục tại đúng GPS để chấm dịch vụ.
+
+Thiết kế mô phỏng cho phép giữ cả ba loại dữ liệu trên cùng một chuyến cũng như lặp lại phép
+đo với một phương pháp khác. Khi hai đường rẽ có chung phần đầu, nếu đưa các chuyến cùng nhóm
+vào cả tập huấn luyện và kiểm thử, mô hình suy luận có thể nhận lại một cấu trúc tuyến quen
+thuộc. Vì vậy đơn vị chia tập và đơn vị lấy mẫu lại khi tính khoảng tin cậy là nhóm phụ thuộc
+được nêu cho từng tác vụ. Điều có thể rút ra từ thiết kế này là sự đánh đổi trên các chuyến
+đã xây dựng. Muốn đánh giá khả năng áp dụng ở địa bàn khác cần một tập chuyến độc lập.
+
 Workload dùng mạng đường có hướng SUMO~\cite{sumo}, các phiên di chuyển native và catalogue POI công khai trong
 repository, với dữ liệu bản đồ công khai được ghi nguồn theo OSM~\cite{osm}. Mỗi phiên giữ tọa độ/trạng thái đường, timestamp và reference POI riêng để đánh giá. Các ràng buộc
 scenario xác định \emph{target/cửa sổ suy luận}; không lựa chọn lại tuyến theo điểm privacy của mô hình.
@@ -107,7 +121,7 @@ Family split phục vụ fit/chọn attacker; cấu trúc bản đồ và worklo
 Catalogue nhỏ, đáp án tĩnh và session cache có thể làm Recall gần bão hòa; không suy rộng sang catalogue rất lớn,
 POI hết hạn hoặc dịch vụ cá nhân hóa chưa được mô hình hóa.
 
-\section{Comparison methods and protocol}
+\section{Phương pháp đối chứng và quy trình so sánh}
 \noindent\begin{tabularx}{\linewidth}{@{}P{3.4cm}P{3.6cm}Y@{}}\toprule
 \textbf{Phương pháp} & \textbf{Output} & \textbf{Cấu hình và fidelity}\\\midrule
 Raw GPS & Một GPS thật / tick & Control không bảo vệ, kiểm tra target có thể quan sát được.\\
@@ -135,27 +149,33 @@ Public clock đã biết nên fake timing không được xem là bí mật. S3 
 fake packets bổ sung vẫn ở trong observation window và cost.
 
 
-\section{Main results}
-\subsection{Privacy theo scenario}\label{sec:main-privacy}
+\section{Kết quả chính}
+\subsection{Kết quả định vị theo kịch bản}\label{sec:main-privacy}
 Mỗi ô là \textbf{Hit100 (\%) / MAE (m)}; chiều tốt cho bảo vệ là Hit thấp, MAE cao.
 Các con số là trung bình family TEST. CI đầy đủ ở Phụ lục~\ref{app:main-ci}.
 \begin{small}\input{generated/privacy}\end{small}
 
-Raw khôi phục các target với Hit100 100\% và sai số gần 0, xác nhận phép đo không che những target trực tiếp
-quan sát được. GeoI-BQ có Hit100 0--0,188\% và MAE khoảng 1,99--2,12 km; REM-Z trực tiếp còn Hit100
-5,833--37,500\%. Trong bank này, công bố Q-only từ thư viện public rộng giúp hạn chế định vị hơn công bố Z.
-Đây là \emph{quan sát thực nghiệm}; cận formal ở Chương~\ref{ch:method} không được suy ra từ MAE cao.
+Có thể đọc bảng theo hai chiều. Theo từng cột, GPS thật (Raw) giúp định vị trúng trong
+100 m ở 100\% trường hợp, với sai số gần bằng không. Đối chứng này xác nhận rằng đầu vào và
+mốc thời gian cho phép đo đúng mục tiêu. Khi máy chủ thấy trực tiếp điểm tham chiếu REM-Z,
+Hit100 còn 5,833--37,500\% tùy tác vụ. Khi máy chủ chỉ thấy các khung Q của GeoI-BQ, tỷ lệ
+này là 0--0,188\%, còn MAE khoảng 1,99--2,12 km. Phép so sánh cho biết kết quả của hai cách
+công bố dưới các bộ suy luận đã chọn. Cận cho mọi sự kiện transcript ở Chương~\ref{ch:method}
+đến từ chứng minh xác suất.
 
-Ba adaptation có utility rất cao nhưng target vẫn dễ định vị hơn. Fake-query thể hiện đặc biệt rõ việc phải
-đọc cả hai metrics: S1 có MAE 1.213 m nhưng Hit100 vẫn 53,387\%; khi nối cả cửa sổ S3 và biết public clock,
-Hit100 lên 98,790\%. Packet giả bổ sung không tự bảo đảm indistinguishability khi timing thật có thể nhận diện.
-Không suy từ kết quả adaptation rằng mọi bản triển khai gốc của paper đều có nhược điểm với cùng mức độ.
+Theo từng hàng, bản Fake-query* cho thấy vì sao cần cả hai chỉ số và hai cửa sổ quan sát.
+Ở S1, sai số trung bình tới 1.213 m, nhưng vẫn có 53,387\% lần đoán trúng trong 100 m.
+Một số sai số lớn có thể kéo trung bình lên trong khi nhiều lần khác vẫn định vị đúng.
+Ở S3, bên quan sát có cả chuỗi và biết lịch dịch vụ. Hit100 lên tới 98,790\% và MAE giảm
+còn 13,3 m. Trong phép thử này, các gói chèn thêm gây khó cho suy luận ở từng thời điểm
+nhiều hơn so với khi bên quan sát có thể nối các lần gửi theo thời gian.
 
-S2 chỉ là proxy tọa độ cuối cửa sổ; S9/S10 biết mốc đầu/cuối. Không gọi các số này là đã xác nhận stop semantics,
-identity người/xe hoặc prediction tương lai. S1 và S3 có thể bằng nhau khi selection chọn cùng kiểu estimator;
-không vì vậy mà hai threat có cùng ý nghĩa.
+S2 dùng tọa độ trung bình cuối cửa sổ. Ở S9 và S10, bên quan sát biết mốc đầu và cuối
+phiên. S1 và S3 có thể cho cùng điểm nếu quy trình lựa chọn chọn cùng kiểu bộ ước lượng,
+dù quyền quan sát của hai tác vụ khác nhau. Những giới hạn này cần được giữ khi diễn giải
+bất kỳ tỷ lệ định vị nào trong bảng.
 
-\subsection{Utility theo từng purpose và CI}
+\subsection{Chất lượng dịch vụ theo mục đích và khoảng tin cậy}
 Session cache; mọi giá trị là Recall@5 (\%), app vẫn trả toàn danh sách phù hợp.
 \begin{small}\input{generated/utility}\end{small}
 GeoI-BQ đạt \textbf{\PrimaryRecall\%}, CI95\% macro \PrimaryCI\%.
@@ -168,7 +188,7 @@ CI tuyệt đối từng purpose và chênh lệch theo tất cả controls đư
 không chỉ chọn so sánh có lợi.
 
 
-\subsection{Đánh đổi privacy--utility--cost}
+\subsection{Đánh đổi giữa riêng tư, chất lượng dịch vụ và chi phí}
 \begin{figure}[htbp]\centering
 \includegraphics[width=\linewidth]{figures/privacy_utility_cost.pdf}
 \caption{So sánh trên cùng cohort. Trái: S3 Hit100 thấp hơn có lợi cho privacy. Phải: reply-index JSON KB/phiên;

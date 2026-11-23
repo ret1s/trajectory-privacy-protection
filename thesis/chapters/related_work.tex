@@ -1,4 +1,4 @@
-\chapter{Related Work -- Nghiên cứu liên quan}\label{ch:related}
+\chapter{Nghiên cứu liên quan}\label{ch:related}
 Chương này phân tích những hướng liên quan theo nhiệm vụ và output contract. Danh mục phương pháp
 gần đây giữ cửa sổ khảo sát đã chốt 28/10/2023--28/10/2026; tám công trình được
 khảo sát có công bố đầu tiên đã xác định trong giai đoạn 2024--2026. Geo-I và các nguồn lý thuyết cũ
@@ -134,16 +134,19 @@ quyết định chọn Q thành một cận cho transcript có trạng thái. Th
 đáp án dịch vụ thực nhận, trong khi nhu cầu thật giữ ở local. Thứ ba, đánh giá cần thống nhất target,
 cửa sổ và cost giữa các output contracts, đồng thời vẫn giữ metrics gốc khi có thể áp dụng đúng.
 
-Một bộ metrics bổ sung vì thế không có nghĩa thay thế mọi metrics của paper. ASR của tập chứa điểm
-thật đòi posterior và định nghĩa nguồn; EIE của point estimator gần với MAE định vị; DER xét chất
-lượng dummy; JSD xét fidelity phân bố offline; CoP gắn với tác vụ dịch vụ cụ thể. Chương thực nghiệm
-sẽ nêu cả khả năng tính và lý do N/A thay vì đổi tên các đại lượng đó thành một score chung.
+Có thể thấy khó khăn này ngay ở câu hỏi “điểm nào trong gói là GPS thật?”. Với phương pháp gửi
+một điểm thật cùng các điểm giả, bộ đánh giá biết chỉ mục thành viên thật nên có thể chấm câu
+trả lời. Với GeoI-BQ, năm điểm gửi đi đều là vị trí truy hồi. Buộc bên quan sát chọn một trong
+năm điểm sẽ bỏ qua khả năng họ đoán một tọa độ nằm giữa các điểm đó. Một phép so sánh dùng
+được cho cả hai trường hợp là cho phép ước lượng một tọa độ bất kỳ từ dữ liệu quan sát, rồi
+đo khoảng cách tới GPS thật ở cùng thời điểm.
 
-GeoI-BQ được định vị như một phương pháp client-side có đặc tả và phân tích toàn transcript, với
-kernel chọn đoạn có cận riêng và một luồng phục vụ nhiều nhu cầu local. Đối chiếu chính dùng ba
-adaptation online phù hợp, còn các công trình chưa có reproduction cùng contract giữ vai trò
-related work. Cách định vị này cho phép đánh giá một đóng góp có phạm vi rõ mà không đòi mọi paper
-phải giải cùng toàn bộ mười scenario.
+Cách đặt câu hỏi này cũng giải thích lựa chọn hai lớp thước đo. Lớp thứ nhất so sánh các
+phương pháp trên một mục tiêu chung như định vị hoặc truy hồi địa điểm phù hợp. Lớp thứ hai
+giữ ý nghĩa của phép đo gốc khi có đủ đầu vào, chẳng hạn sai lệch chi phí đi lại cho một tọa
+độ thay thế. Chất lượng phân phối của một bộ quỹ đạo công bố ngoại tuyến vẫn cần tiêu chí
+riêng. Từ phân tích đó, luận văn chọn ba phương pháp có đầu ra trực tuyến để xây dựng bản
+đối chứng và mô tả riêng những thành phần đã phải thay thế khi triển khai.
 
 Cụ thể, REM/dự đoán riêng tư, hậu xử lý và composition là nền tảng kế thừa; Geo-I kết hợp dummy
 và lựa chọn local đã có tiền lệ ở EV querying. Luận văn phân tích policy chọn \emph{đoạn} với

@@ -1,8 +1,16 @@
-\section{Utility analysis -- Từ planner tới đáp án dịch vụ}\label{sec:utility}
+\section{Phân tích chất lượng từ khâu chọn truy vấn đến đáp án dịch vụ}\label{sec:utility}
 Privacy không phụ thuộc việc attacker benchmark có mạnh hay không. Utility lại cần kiểm tra rằng
 những Q được phép phát thực sự lấy về metadata hữu ích cho GPS và nhu cầu hiện tại. Vì vậy phần
 này phân biệt điểm lập kế hoạch, chất lượng ứng viên thực nhận và chất lượng đáp án người dùng.
 Không đồng nhất ba đại lượng chỉ vì đều nằm trong $[0,1]$.
+
+Xét một chuyến đi mà trạm sạc thuận đường nhất nằm ngay bên kia dải phân cách. Một khung truy
+vấn có thể lấy về nhiều trạm ở gần theo đường chim bay nhưng bỏ sót trạm có lối vào đúng chiều.
+Khi ấy bộ lập kế hoạch có thể cho điểm cao, trong khi danh sách trên thiết bị lại thiếu phần
+tử đứng đầu đáp án tham chiếu. Chuỗi phân tích dưới đây đi qua đúng ba bước của tình huống đó.
+Trước tiên ta xét việc đổi phân phối chọn đoạn làm thay đổi điểm kỳ vọng thế nào. Tiếp theo ta
+xác định những địa điểm nào trong đáp án tham chiếu đã thực sự có trong bộ nhớ. Cuối cùng ta
+nêu điều kiện để sai số của điểm đại diện còn cho phép chặn chất lượng dịch vụ tại GPS thật.
 
 \subsection{Gain của centered kernel và điều kiện chuyển sang utility thật}
 Giữ một history và trạng thái local cố định. Với $r_a\in[0,1]$ là actual utility có điều kiện nếu

@@ -27,39 +27,35 @@ Giảng viên hướng dẫn: & TS. Phan Trọng Nhân
 
 \chapter*{Tóm tắt}
 \addcontentsline{toc}{chapter}{Tóm tắt}
-Chuỗi yêu cầu LBS có thể cho phép nhà cung cấp suy luận vị trí và đường đi. Bảo đảm một điểm chưa
-mô tả lượng thông tin tích lũy cả phiên; việc đối chiếu nghiên cứu còn khó do output, attacker,
-dữ liệu và metrics khác nhau.
+Khi một người dùng tìm địa điểm nhiều lần trên đường đi, nhà cung cấp có thể kết hợp tọa độ,
+thời điểm và thứ tự các truy vấn để suy ra hành trình. Luận văn xem toàn bộ chuỗi trao đổi
+trong một phiên là đối tượng cần bảo vệ. Mười kịch bản S1--S10 xác định điều bên quan sát
+muốn suy ra và thông tin mà họ được phép sử dụng. Chất lượng dịch vụ được đánh giá theo các
+địa điểm phù hợp mà người dùng thực sự nhận được tại vị trí thật.
 
-Luận văn hệ thống hóa các mục tiêu thành S1--S10 và đề xuất phương pháp GeoI-BQ v1 dựa trên
-Geo-indistinguishability. Thiết bị dùng REM và noisy reuse để duy trì điểm tham chiếu Z trên mạng đường,
-từ đó cập nhật belief gần đúng. Belief điều chỉnh một phân phối chọn đoạn Q có support chung và cận
-tiết lộ riêng. Mỗi đoạn gồm ba khung được chọn chung rồi phát theo lịch; nhu cầu thật được giữ ở local
-để lọc và sắp xếp các POI đã truy hồi.
+Phương pháp GeoI-BQ v1 dùng cơ chế hàm mũ trên mạng đường để tạo điểm tham chiếu thỏa
+geo-indistinguishability. Một phép kiểm tra có nhiễu quyết định khi nào cần cập nhật tham
+chiếu. Từ lịch sử đã bảo vệ, thiết bị ước lượng phân phối vị trí để chọn một đoạn gồm ba
+khung truy vấn. Các khung được gửi theo lịch công khai. Thiết bị hợp nhất các địa điểm
+nhận về, lọc và xếp hạng theo nhu cầu riêng của người dùng.
 
-Phân tích gồm bốn mệnh đề nối cơ chế REM, phép kiểm tra tái sử dụng, kernel chọn đoạn và hợp thành
-nhiều đoạn. Dưới các giả thiết được công bố, toàn transcript có cận likelihood ratio theo khoảng cách
-trajectory và cận riêng của kênh Q. Các kết quả utility tách gain điểm lập kế hoạch, tính đơn điệu của
-cache tại cùng nhu cầu và cận so với chính sách nền phù hợp; chuyển sang chất lượng thực cần điều kiện
-về proxy, belief và provider. Kernel lý tưởng được phân biệt với sampler số thực và khả năng phục hồi
-trạng thái của prototype chưa được chứng nhận đầy đủ.
+Bốn mệnh đề liên kết lần lượt phép tạo tham chiếu, quyết định tái sử dụng, phân phối chọn
+đoạn và việc công bố nhiều đoạn. Với các giả thiết về miền hỗ trợ chung, ngân sách, trạng
+thái phiên và phản hồi của nhà cung cấp, ta thu được cận tỷ số xác suất cho toàn bộ chuỗi
+quan sát. Cận này giới hạn mức thay đổi suy luận so với thông tin bên quan sát có từ trước.
+Phân tích chất lượng dịch vụ chỉ ra điều kiện để mức tăng điểm lập kế hoạch chuyển thành
+mức tăng chất lượng thật, cùng vai trò của bộ nhớ địa điểm tại thiết bị.
 
-Phần bổ sung nối cận transcript với Hit theo độ tập trung prior, hợp thành nhiều kênh và minh hoạ
-utility bằng ví dụ hữu tỷ. Prototype dùng public reference đầy đủ khớp provider tĩnh; phép đo
-đánh giá ứng viên thực nhận, chưa chứng minh sự cần thiết của online queries khi catalogue đã có.
+Thực nghiệm trên 48 nhóm tuyến mô phỏng so sánh GeoI-BQ với ba bản điều chỉnh từ các
+nghiên cứu liên quan, GPS thật và phương án gửi trực tiếp tham chiếu REM. Trong tập kiểm
+thử, năm tác vụ định vị chính có Hit100 từ 0 đến 0,188\%. Recall@5 trung bình toàn phiên
+đạt \PrimaryRecall\%, với khoảng tin cậy 95\% \PrimaryCI\%, đổi lại 155 lượt truy vấn tọa
+độ mỗi 600 giây. Danh mục tĩnh gần bão hòa ngay ở gói đầu và phương án nền công khai có
+Recall nhỉnh hơn. Kết luận thực nghiệm vì vậy gắn với quyền truy cập dữ liệu, nhóm tuyến
+và các mô hình suy luận đã đánh giá.
 
-Thực nghiệm đối chiếu với ba adaptation đã audit từ paper, kèm Raw GPS và REM-Z, trên cùng cohort
-48 family tổng hợp. Các attacker học trên TRAIN, chọn trên SELECTION và đánh giá trên TEST; CI tính
-theo nhóm phụ thuộc. GeoI-BQ đạt macro session Recall@5 \PrimaryRecall\%, CI95\% \PrimaryCI\%, thấp hơn các adaptation khoảng 0,4 điểm phần trăm, đồng thời có Hit100 thấp hơn trong các phép thử
-S1--S3/S9--S10 của bank đang xét. Phương pháp sử dụng 155 truy vấn tọa độ mỗi phiên 600 giây.
-
-Đánh giá bổ sung xét nhóm tuyến S4, hai lựa chọn tương lai S5/S6, payload S7 và kênh tương quan S8;
-giữ cả Raw thiếu tín hiệu, attacker fusion mạnh hơn và giới hạn do Raw side information. Đóng góp
-là thiết kế/phân tích có điều kiện cho transcript và protocol privacy--utility--cost tái lập;
-chưa chứng nhận deployment hoặc danh tính người/xe.
-
-\noindent\textbf{Từ khóa:} trajectory privacy, Geo-indistinguishability, REM, truy vấn liên tục,
-POI, hợp thành, đánh giá đối chứng.
+\noindent\textbf{Từ khóa:} riêng tư quỹ đạo, geo-indistinguishability, mạng đường,
+truy vấn liên tục, địa điểm, hợp thành xác suất.
 
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}

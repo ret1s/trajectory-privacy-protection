@@ -1,27 +1,27 @@
-\chapter{Introduction -- Giới thiệu}\label{ch:introduction}
+\chapter{Giới thiệu}\label{ch:introduction}
 \section{Bối cảnh và động lực nghiên cứu}
-Dịch vụ dựa trên vị trí (Location-based Services, LBS) sử dụng thông tin không gian để hỗ trợ những
-nhu cầu như tìm quán ăn, trạm sạc, cơ sở y tế hoặc địa điểm phù hợp trên đường đi. Khi người dùng di
-chuyển, một yêu cầu đơn lẻ thường không đủ: thiết bị tiếp tục hỏi dữ liệu mới, nhận phản hồi và cập
-nhật đáp án. Chuỗi tương tác này tạo ra một transcript có tọa độ, thứ tự và thời gian. Nhà cung cấp
-không chỉ quan sát nơi một yêu cầu được gửi, mà còn có thể kết hợp nhiều yêu cầu với bản đồ và kiến
-thức sẵn có về chuyển động.
+Giả sử một người đang đi xe và muốn tìm trạm sạc thuận đường. Thiết bị biết tọa độ hiện tại,
+đích đến và vị trí các trạm đã tìm được. Nhà cung cấp dịch vụ dựa trên vị trí (LBS) chỉ cần
+nhận một truy vấn để trả về các trạm trong vùng lân cận. Vì vậy, điện thoại có thể hỏi từ một
+vị trí thay thế, rồi dùng GPS thật để xếp hạng kết quả ngay trên thiết bị. Nếu chỉ xét lần hỏi
+đầu tiên, ta dễ đi đến kết luận rằng việc giấu tọa độ thật đã giải quyết được bài toán.
 
-Trajectory có tính tương quan: các điểm thuộc cùng một hành trình phải phù hợp với mạng đường,
-thời gian di chuyển và hoạt động của người dùng. Một điểm chưa đủ rõ có thể trở nên dễ suy luận khi
-đặt cạnh các điểm trước và sau nó. Nghiên cứu về tính duy nhất của dấu vết di chuyển cũng cho thấy
-thông tin không gian--thời gian có thể mang tín hiệu nhận dạng mạnh trong một số tập dữ liệu
-\cite{mobilityunique}. Kết quả đó tạo động lực cho nghiên cứu riêng tư, nhưng không được sử dụng để
-mặc định rằng mọi trajectory tổng hợp đều đại diện đầy đủ cho danh tính người thật.
+Tình huống thay đổi khi người dùng tiếp tục hành trình. Một tọa độ truy vấn có thể phù hợp với
+cả hai nhánh đường ở một ngã rẽ. Hai mươi giây sau, có thể chỉ một nhánh còn cho phép xe tới
+gần vùng truy vấn kế tiếp với tốc độ hợp lý. Ví dụ này minh họa loại thông tin mà thứ tự và
+thời gian có thể cung cấp, kể cả khi từng tọa độ quan sát được còn mơ hồ. Nghiên cứu về tính
+đặc trưng của dấu vết di chuyển cũng ghi nhận khả năng phân biệt người dùng từ một số ít quan sát
+không gian và thời gian trong dữ liệu thực~\cite{mobilityunique}.
 
-Trong bối cảnh này, thêm một điểm nhiễu là một thao tác kỹ thuật; điều cần giải thích là mức thông
-tin mà \emph{cả quá trình sử dụng dịch vụ} có thể tiết lộ. Geo-indistinguishability (Geo-I) đưa ra một
-cách phát biểu bảo đảm theo xác suất và khoảng cách vị trí \cite{geoi}. Tuy nhiên, một hệ thống online
-còn có các quyết định tạo mới/tái sử dụng thông tin, chọn điểm truy vấn, gửi nhiều khung và sử dụng
-cache. Muốn đưa ra bảo đảm cho hệ thống, cần phân tích những quyết định đó trong một mô hình chung.
+Từ đó, luận văn đặt ra hai câu hỏi gắn liền với cùng một chuyến đi. Khi nhà cung cấp xem
+\emph{toàn bộ chuỗi trao đổi trong phiên} (transcript), quan sát ấy giúp họ phân biệt hai
+hành trình khả dĩ đến mức nào? Sau khi thiết bị lọc các địa điểm nhận được, người dùng còn tìm
+thấy những trạm sạc phù hợp với yêu cầu ban đầu đến đâu? Geo-indistinguishability (Geo-I) cung
+cấp công cụ để trả lời câu hỏi thứ nhất bằng một cận xác suất~\cite{geoi}. Với câu hỏi thứ hai,
+ta cần biết cả danh mục địa điểm, mạng đường và quy tắc xác định đáp án đúng tại GPS thật.
 
 \section{Các vấn đề nghiên cứu}
-\subsection{Từ snapshot đến transcript nhiều bước}
+\subsection{Từ một tọa độ đến chuỗi trao đổi toàn phiên}
 Một cơ chế có thể tạo đầu ra khó phân biệt ở từng lần gửi nhưng vẫn tích lũy thông tin khi được gọi
 nhiều lần. Attacker có thể khai thác chuỗi vị trí, tốc độ và quan hệ reachability. Quyết định cập nhật
 hay giữ một điểm tham chiếu cũng dựa trên GPS; bỏ qua quyết định đó trong accounting có thể làm cận
@@ -50,25 +50,46 @@ attacker phải suy luận và cách tính metrics. Chẳng hạn, một metric 
 không áp dụng nguyên dạng khi cơ chế không đưa GPS thật vào tập Q. JSD của dữ liệu tổng hợp cũng
 không đo cùng tác vụ với lỗi định vị online \cite{semantic,fake,dpfetc,sok}.
 
-Luận văn không khẳng định toàn lĩnh vực không có dataset hay metrics chung. Nhận định có giới hạn
-là những công trình được khảo sát chưa cung cấp một protocol trực tiếp dùng chung cho các output và
-mục tiêu đang xét. Vì vậy, cần xây dựng workload có kiểm soát, khai báo attacker và giữ hai lớp đo:
-metrics chung theo tác vụ, cùng metrics gốc khi đầu vào/định nghĩa tương thích. Những metrics quen
-thuộc như MAE hay Recall không được gọi là công thức mới của luận văn.
+Trong phạm vi các công trình được khảo sát, quy trình công bố kết quả chưa cho phép đặt các
+dạng đầu ra và mục tiêu trên vào một phép so sánh trực tiếp. Để làm được điều đó, ta cần một tập
+chuyến có cùng điều kiện dịch vụ, mô tả rõ quyền quan sát của bên suy luận và chấm cùng một mục
+tiêu ở cùng một thời điểm. Luận văn dùng hai lớp thước đo. Lớp chung gồm các đại lượng quen thuộc
+như sai số định vị trung bình và độ thu hồi địa điểm. Lớp thứ hai dùng phép đo gốc của từng
+nghiên cứu khi có đủ dữ liệu đầu vào và có thể giữ đúng định nghĩa ban đầu.
 
 \section{Hệ thống hóa mục tiêu bảo vệ}
-Luận văn sử dụng mười scenario để làm rõ \emph{target suy luận}, thay vì xem mọi nguy cơ là một score
-privacy duy nhất. S1--S3 xét vị trí hiện tại, nơi dừng và đường đã đi; S4 xét liên kết người/thiết bị/
-phương tiện qua các quan sát; S5/S6 xét cạnh kế tiếp và đích tương lai; S7 xét nội dung hoặc ý định
-truy vấn; S8 xét thông tin tương quan từ người đi cùng; S9/S10 xét điểm đầu và cuối phiên.
+Mỗi kịch bản gắn một thông tin cần bảo vệ với một quyền quan sát. Việc đoán vị trí hiện tại
+từ một gói tin và việc đoán lại chính vị trí ấy sau khi xem cả chuyến là hai phép thử khác nhau.
+Luận văn tổ chức mười kịch bản theo ba câu hỏi sau.
 
-S1--S3/S9--S10 là thực nghiệm chính; S4--S8 được đánh giá theo target và dữ liệu thực sự có.
-Proxy nhóm tuyến và hai phiên căn clock được tách khỏi danh tính người/xe và quan sát đồng hành thực tế.
+\paragraph{Người dùng đã ở đâu?}
+S1 xét vị trí tại thời điểm phát một gói. S3 cho phép xem toàn bộ phiên rồi tái dựng vị trí
+ở từng mốc thời gian. S9 và S10 dùng cùng quyền quan sát như S3, nhưng chỉ chấm hai tọa độ có
+ý nghĩa riêng là điểm xuất phát và điểm kết thúc. S2 hướng đến nơi dừng. Dữ liệu thử nghiệm
+chỉ cho phép dùng tọa độ trung bình trong phút cuối làm đại lượng đại diện. Suy luận một
+địa chỉ có ý nghĩa như nhà riêng hoặc nơi làm việc sẽ cần nhãn về hoạt động của người dùng.
+Năm kịch bản này tạo thành phép so sánh định vị chính ở Chương~\ref{ch:experiments}.
 
-Workload SUMO và catalogue POI tạo điều kiện giữ cùng bản đồ, lịch và đáp án tham chiếu giữa các
-phương pháp. Các giả thiết sinh dữ liệu và việc chia family cần được khai báo để hiểu các con số.
-Chi tiết construction, metrics và coverage được đặt ở Chương~\ref{ch:experiments}, sau khi bài toán
-và phương pháp đã được đặc tả.
+\paragraph{Có thể liên kết hay dự đoán chuyến đi đến đâu?}
+S4 xét liệu hai phiên có thể được gắn với cùng người hoặc cùng phương tiện. Hai đích suy luận
+này cần nhãn riêng vì một người có thể đổi xe, và một xe có thể được nhiều người sử dụng.
+Trong mô phỏng ta chỉ biết hai chuyến có thuộc cùng nhóm tuyến. S5 và S6 xét hai quyết định khác
+nhau. Trước một ngã rẽ, S5 yêu cầu chọn đoạn đường kế tiếp. Với S6, sau khi đã quan sát tín hiệu
+rẽ, bên quan sát chọn một trong hai đích đến đã biết. Thời điểm cắt chuỗi quan sát quyết định
+tín hiệu nào có thể được sử dụng để dự đoán.
+
+\paragraph{Nhu cầu dịch vụ và người đi cùng cung cấp thêm thông tin gì?}
+Ở S7, giữ nguyên hành trình rồi đổi yêu cầu trên thiết bị cho phép kiểm tra nội dung nào đi ra
+ngoài qua truy vấn. Một người đang đi về phía bệnh viện vẫn có thể bị suy đoán ý định từ tuyến
+đường. Phép thử giữ nguyên hành trình chỉ cô lập phần tiết lộ trực tiếp do thay đổi yêu cầu.
+Ở S8, bên quan sát có thêm chuỗi truy vấn của một người đi cùng. Ta so khả năng định vị khi
+chỉ thấy một luồng với khả năng định vị khi thấy hai luồng đã căn theo thời gian. Giá trị
+của phép so sánh này phụ thuộc vào mức tương quan giữa hai hành trình và thông tin mà người
+đi cùng công bố.
+
+Các kịch bản xác định trước thông tin cần chấm, cửa sổ quan sát và dữ liệu tham chiếu. Cùng
+một chuyến SUMO vì thế có thể dùng để chấm nhiều tác vụ. Chương~\ref{ch:experiments} mô tả
+cách chia dữ liệu theo nhóm tuyến, nhãn nào có sẵn và trường hợp nào chỉ có thể đánh giá một phần.
 
 \section{Hướng giải quyết và câu hỏi nghiên cứu}
 GeoI-BQ v1 duy trì một điểm tham chiếu Z bằng cơ chế trên mạng đường dựa trên Geo-I và một phép kiểm

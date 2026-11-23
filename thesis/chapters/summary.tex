@@ -1,75 +1,70 @@
-\chapter{Summary -- Kết luận}\label{ch:summary}
-Luận văn xem trajectory privacy như một bài toán bảo vệ transcript dịch vụ theo thời gian. Một
-tọa độ giả ở từng thời điểm chưa đủ: quyền quan sát cả chuỗi, quyết định cập nhật và tương quan
-giữa các đầu ra đều cần được đặc tả. Đồng thời, utility được đánh giá bằng đáp án POI người dùng
-thực nhận thay vì chỉ độ lệch giữa GPS và tọa độ phát.
+\chapter{Kết luận}\label{ch:summary}
+Luận văn bắt đầu từ hai phía của cùng một giao dịch. Nhà cung cấp quan sát một chuỗi yêu cầu và có
+thể kết hợp chúng để suy luận đường đi. Người dùng cần danh sách địa điểm phù hợp với vị trí và
+mục đích hiện tại. GeoI-BQ tách hai vai trò này bằng cách bảo vệ lịch sử vị trí trên thiết bị,
+chọn các vị trí truy vấn theo lịch công khai và xếp hạng địa điểm tại thiết bị.
 
 \section{Trả lời các câu hỏi nghiên cứu}
-\textbf{RQ1 -- Bảo đảm privacy toàn transcript.} GeoI-BQ v1 nối REM/noisy reuse với một prospective
-cap cho private GPS và một guard riêng cho lựa chọn đoạn Q. Trên miền/support chung và các giả thiết
-kernel, clock, ledger, provider đã nêu, chuỗi Q có tỷ số likelihood không quá $R_n\le e^{\Gamma_Q}$;
-với $\Gamma_Q=1$, cận toàn thời lượng nhỏ hơn 2,437372. Nhánh Geo-I lý tưởng cho cận theo metric
-trajectory; khi cả hai nhánh hợp lệ có thể lấy minimum của chúng. Đây là giới hạn mức transcript
-làm thay đổi khả năng phân biệt/suy luận, không là chứng minh attacker không thể biết vị trí.
+\paragraph{RQ1. Quan sát cả phiên giúp phân biệt hai quỹ đạo đến mức nào?}
+Dưới các giả thiết ở Mục~\ref{sec:assumptions}, mức thay đổi xác suất của cùng một sự kiện trên
+transcript chịu hai cận. Cận thứ nhất phụ thuộc khoảng cách giữa hai quỹ đạo và ngân sách đọc GPS
+của phiên. Cận thứ hai phụ thuộc lịch phân bổ cho việc chọn đoạn truy vấn, với tỷ số tối đa
+$R_n\le e^{\Gamma_Q}$. Khi $\Gamma_Q=1$, cận chặt hơn từ tích các hệ số nhỏ hơn 2,437372 cho
+mọi độ dài phiên. Khi thỏa cả hai nhóm giả thiết, ta lấy cận nhỏ hơn cho cùng sự kiện quan sát.
 
-Hệ quả theo độ tập trung prior nối cận với Hit trong một bán kính của estimator bất kỳ; hệ quả
-nhiều kênh dùng các cận có điều kiện và tích tỷ số. Chúng không cần giả định các GPS độc lập, nhưng
-cần cùng context/side information, prior hợp lệ và điều kiện channel sau conditioning. Cận 70,91\%
-của một phiên không được dùng nguyên cho joint hai phiên.
+Ý nghĩa của con số này phụ thuộc vào thông tin ban đầu. Nếu bên quan sát đang cân nhắc đúng hai
+giả thuyết có cùng xác suất, riêng transcript của một phiên chỉ có thể đẩy xác suất hậu nghiệm
+của một giả thuyết lên dưới 70,91\%. Khi ghép hai phiên hoặc quan sát thêm người đi cùng, cần
+kiểm tra điều kiện của từng kênh sau khi đã biết kênh kia. Xác suất định vị thực tế còn phụ thuộc
+vào mức tập trung của phân phối vị trí ban đầu.
 
-\textbf{RQ2 -- Utility và các điều kiện cần.} Centered kernel có gain không âm trên planning score,
-còn actual utility gain phụ thuộc covariance/proxy calibration. Union/cache và local ranking giữ
-được các reference POI đã truy hồi tại cùng GPS/request khi metadata hợp lệ. Phân tích toàn history
-cho cận utility so matched public base bằng conditional expectation, không dùng IID. Floor chuyển
-sang GPS thật vẫn cần bound sai số và provider completeness. Những điều kiện chưa chứng nhận không
-được đặt bằng không trong kết luận.
+\paragraph{RQ2. Điểm lập kế hoạch liên hệ thế nào với chất lượng dịch vụ?}
+Phân phối chọn đoạn có thể tăng kỳ vọng của chính điểm dùng để lập kế hoạch. Mức tăng chất lượng
+thật lại phụ thuộc vào hiệp phương sai giữa điểm đó và chất lượng của từng hành động. Ví dụ
+hữu hạn ở Mục~\ref{sec:utility} cho thấy hai mức tăng có thể trái dấu. Sau khi nhận phản hồi,
+mỗi địa điểm thuộc đáp án tham chiếu mà thiết bị đã thu được đều có thể được nhận diện khi dùng
+cùng quy tắc lọc, thứ tự xếp hạng và dữ liệu hợp lệ. Đó là lý do bộ nhớ giúp tăng độ phủ tại cùng
+GPS và cùng yêu cầu. Một cận dưới tại GPS thực tế còn cần cận sai số của phân phối vị trí và điểm
+đại diện. Thực nghiệm chưa hiệu chuẩn các sai số này trên người dùng thật.
 
-Ví dụ hữu hạn cho một floor không rỗng và cả counterexample score gain dương nhưng actual gain âm.
-Đó là minh hoạ đã kiểm chứng đại số, không phải chứng nhận calibration ngoài thực địa. Trên trial,
-public base $\Gamma_Q=0$ có Recall cao hơn bản thích nghi; thiết kế đóng góp một họ policy có
-accounting, chưa chứng minh mọi private adaptation đều cần thiết.
+\paragraph{RQ3. Người dùng đánh đổi gì để giảm khả năng bị định vị?}
+Với 20 nhóm tuyến kiểm thử, GeoI-BQ đạt Recall@5 toàn phiên \PrimaryRecall\%
+(khoảng tin cậy 95\% \PrimaryCI\%). Trên năm tác vụ định vị chính, tỷ lệ đoán trúng trong
+100 m nằm trong khoảng 0--0,188\% với các bộ suy luận đã đánh giá. So với ba bản điều chỉnh
+từ nghiên cứu liên quan, tỷ lệ này thấp hơn, còn Recall thấp hơn khoảng 0,4 điểm phần trăm.
+Mỗi phiên 600 giây dùng 155 lượt truy vấn theo tọa độ. Chi phí ấy cần được đọc cùng chất lượng
+dịch vụ, nhất là khi so với phương pháp chỉ gửi một tọa độ mỗi nhịp.
 
-\textbf{RQ3 -- Trade-off thực nghiệm.} Trong controlled comparison với ba adaptation đã audit từ
-paper và Raw/REM-Z controls, GeoI-BQ đạt session Recall@5 99,595\%, CI95\% [99,224;99,903]. Các
-coordinate tasks S1--S3/S9--S10 có Hit100 0--0,188\% dưới bank đã chọn, thấp hơn các adaptation trong
-trial, đổi lại dùng 155 point queries mỗi phiên và utility thấp hơn khoảng 0,4 điểm phần trăm so
-ba adaptation. Các con số không chứng minh mọi original paper implementation hoặc mọi attacker
-đều thua, và không là generalization ngoài cohort.
+Ngay gói đầu, thiết bị đã thu được trung bình khoảng 91\% danh mục tĩnh. Phương án nền công khai
+$\Gamma_Q=0$ còn đạt Recall nhỉnh hơn bản thích nghi. Do đó, dữ liệu hiện tại ủng hộ khả năng
+truy hồi địa điểm bằng các điểm Q, trong khi lợi ích riêng của việc điều chỉnh lựa chọn theo
+phân phối vị trí vẫn cần được kiểm tra ở điều kiện khác. Trong các phiên đã thử, ngân sách đọc
+GPS chưa bao giờ cạn. Chất lượng sau thời điểm phải ngừng quan sát mới vẫn là câu hỏi mở.
 
-Audit thông tin bổ sung xác nhận packet đầu đã nhận khoảng 91\% catalogue tĩnh. Prototype đồng
-thời có reference/reply context đầy đủ để lập kế hoạch; do đó readout là quality theo received-mask
-contract, chưa chứng minh ưu thế online khi client đã biết toàn catalogue. Cửa sổ 600 s cũng chưa
-kiểm tra utility sau khi cap dừng private reads. Hai giới hạn này là điều kiện diễn giải kết quả.
+\section{Đóng góp}
+Về bài toán, luận văn xác định cho từng kịch bản S1--S10 đại lượng cần suy ra, thời điểm nhà cung
+cấp được quan sát và dữ liệu cần có để chấm kết quả. Cách làm này cho phép đối chiếu những phương
+pháp phát một tọa độ, một tập điểm hoặc nhiều gói khác lịch. Các phép đo gốc được giữ ở nơi có đủ
+đầu vào để diễn giải chúng.
 
-\section{Đóng góp thực sự của bản hiện tại}
-Thứ nhất, luận văn hệ thống hóa targets, output contracts và một protocol đánh giá bổ sung giữa
-các cơ chế khác dạng. MAE, Recall và bootstrap là kiến thức kế thừa; đóng góp là cách ghép target,
-window, aggregation, cost và failure accounting thành một phép đối chiếu kiểm tra được.
-
-Thứ hai, phương pháp tách protected reference khỏi public query action, quản lý noisy reuse theo
-phiên và chọn chung đoạn Q bằng kernel bị chặn có integer representation. Các chứng minh liên kết
-từ thành phần đến transcript và nêu rõ điều kiện của suy luận Bayes cũng như utility. Không quy
-đóng góp thành việc tạo thêm nhiễu hoặc phát minh lại Geo-I.
-
-Thứ ba, artifact chứa main comparison, các tác vụ S4--S8 có scope riêng, bảng CIs/selected attackers,
-source pins và verifier. Quá trình sửa attacker S8 được giữ để kết quả có thể bị kiểm tra và phản
-biện. Đây là bằng chứng bổ sung cho thiết kế, không thay cho các giả thiết toán học.
+Về phương pháp, luận văn nối quyết định giữ hay đổi tham chiếu với ngân sách GPS của cả phiên,
+đồng thời đặt giới hạn cho mức điều chỉnh xác suất chọn từng đoạn Q. Bốn mệnh đề giải thích vì sao
+các bước cục bộ dẫn tới cận cho chuỗi trao đổi mà nhà cung cấp thực sự nhìn thấy. Về thực nghiệm,
+bộ so sánh lưu dữ liệu tham chiếu, kết quả từng phương án, khoảng tin cậy và phép kiểm tra cho
+cả những trường hợp cho kết quả bất lợi. Đối chứng Raw trong S5 là một ví dụ. Khi ngay cả GPS
+thật cũng chưa giúp dự đoán nhánh rẽ tốt hơn mức ngẫu nhiên, điểm thấp của bên suy luận chưa đủ
+để ghi nhận hiệu quả cho cơ chế bảo vệ.
 
 \section{Giới hạn và hướng phát triển}
-Ưu tiên tiếp theo là chứng nhận sampler upstream/restore toàn state và nguồn randomness; sau đó
-đánh giá trên cohort/bản đồ mới và catalogue lớn/động với latency, bytes metadata đầy đủ và energy
-thực đo. Matched public base đang có utility tốt hơn trên cohort hiện tại, nên cần xác định điều
-kiện nào private adaptation thực sự đáng chi phí thay vì mặc định $\Gamma=1$ tối ưu.
+Để tiến gần hơn đến triển khai, cần kiểm tra sai số số học của cơ chế không gian, nguồn bit
+ngẫu nhiên và việc khôi phục đầy đủ trạng thái sau gián đoạn. Đối với chất lượng dịch vụ, một
+thử nghiệm tiếp theo có thể dùng danh mục lớn, thay đổi theo thời gian và chỉ cấp cho thiết bị
+dữ liệu thực sự có trước truy vấn. Khi ấy có thể đo chi phí lấy mới và cập nhật thông tin cùng
+độ trễ, dung lượng phản hồi đầy đủ và năng lượng. So sánh với phương án nền trên địa bàn mới và
+trên chuyến dài hơn sẽ cho biết khi nào việc thích nghi theo vị trí đáng với chi phí của nó.
 
-Đối với hệ thống online, ưu tiên phân tách public design proxy khỏi metadata hiện hành thật sự
-chưa có ở thiết bị; đánh giá acquisition/setup/refresh cùng một control có quyền truy cập tương ứng.
-Không thể dùng một payload live chưa được đo để biện minh hồi tố cho trial catalogue tĩnh.
-
-Identity người/xe cần nhãn vật lý và task riêng; route-family association chưa đủ. S5 cần cadence
-và positive control phù hợp; S6 cần lựa chọn/historical context đa dạng hơn. S7 cần đo route-correlated
-intent ngoài payload, S8 cần dữ liệu tương quan thực và phân tích joint channels/multiple sessions.
-Các hướng đó mở rộng phạm vi đã có, không được trình bày như kết quả hoàn thành trong bản này.
-
-Bản hiện tại cung cấp một cơ sở thống nhất để review: kiến trúc/đặc tả trước, chứng minh có điều kiện
-tiếp theo, rồi benchmark cùng protocol và kết luận tương xứng. Từ đó có thể chỉnh sửa diễn giải,
-củng cố chứng nhận triển khai và xác nhận ngoài miền mà vẫn giữ nền tảng Geo-I của phương pháp.
+Liên kết người và liên kết phương tiện cần hai loại nhãn thực địa khác nhau. Với S5 và S6, thời
+điểm quan sát và số lựa chọn cần phản ánh mức đa dạng của tuyến thực. Với S7, bước tiếp theo là
+đo ý định có thể suy từ hành trình dù nội dung yêu cầu ở lại trên thiết bị. Với S8, cần dữ liệu
+đồng hành thực và phân tích hợp thành cho nhiều kênh. Những hướng này xuất phát từ ranh giới
+giữa đại lượng đã chứng minh, mục tiêu mô phỏng đã đo và dữ liệu còn thiếu.

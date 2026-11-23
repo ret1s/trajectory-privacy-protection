@@ -1,4 +1,4 @@
-# Luận văn hợp nhất — revision lập luận 16/11/2026
+# Luận văn hợp nhất — bản tiếng Việt ngày 23/11/2026
 
 [main.tex](main.tex) là nguồn LaTeX chính; PDF review nằm tại
 [graduation_thesis.pdf](../artifacts/reports/graduation_thesis.pdf).
@@ -79,7 +79,7 @@ python -m experiments.validate_thesis_consolidated_20261109
 ```
 
 Render mọi trang vào `build/thesis/render/page-01.png`…; chỉ dùng `--visual-reviewed`
-sau khi xem bản cuối. Receipt hiện tại lưu tại `thesis/validation_20261116.json`; receipt 09/11 giữ nguyên như lịch sử.
+sau khi xem bản cuối. Biên bản kiểm tra hiện tại ở `thesis/validation_20261123.json`. Các biên bản ngày 09/11 và 16/11 ghi lại phiên bản tương ứng.
 
 Checker benchmark read-only:
 
