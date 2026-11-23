@@ -1,23 +1,29 @@
 % Nguồn canonical: luận văn hợp nhất ngày 09/11/2026.
 % Từ repo root: python -m experiments.export_thesis_consolidated_20261109 --check
 % Biên dịch từ thesis/: tectonic --keep-logs --outdir ../build/thesis main.tex
-\documentclass[12pt,a4paper,oneside]{book}
+\documentclass[11pt,a4paper,oneside]{book}
 \usepackage{fontspec}
 \setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
-\usepackage[left=30mm,right=20mm,top=20mm,bottom=40mm,headheight=15pt]{geometry}
+\usepackage[left=30mm,right=20mm,top=23mm,bottom=27mm,headheight=14pt,headsep=6mm,footskip=11mm]{geometry}
 \usepackage{amsmath,amssymb,amsthm,graphicx,booktabs,longtable,tabularx,array,ragged2e,enumitem,setspace,microtype,xcolor,tikz,fancyhdr,caption,xurl,needspace}
 \usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc,decorations.pathreplacing}
 \definecolor{ink}{HTML}{183A45}\definecolor{teal}{HTML}{087F7A}\definecolor{blue}{HTML}{405F8A}\definecolor{gray}{HTML}{56656B}
-\usepackage[Bjornstrup]{fncychap}
+\usepackage{titlesec}
 \setsansfont{texgyreheros}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
-\usepackage{etoolbox}
-% Keep the template's raised chapter number inside the text margin.
-\patchcmd{\DOCH}{\addtolength{\py}{-10pt}}{}{}{\PackageError{thesis}{Chapter number alignment failed}{}}
 \usepackage[hidelinks,unicode]{hyperref}
-\setstretch{1.5}
-\setlength{\parindent}{1.05cm}\setlength{\parskip}{3pt}\setlength{\emergencystretch}{2em}
-\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.12}
-\setlist{leftmargin=1.5em,itemsep=2pt,topsep=4pt}
+\titleformat{\chapter}[display]
+  {\normalfont\sffamily\bfseries\fontsize{17}{21}\selectfont}
+  {\small\mdseries\chaptertitlename~\thechapter}{3pt}{}[\vspace{3pt}\titlerule]
+\titlespacing*{\chapter}{0pt}{0pt}{14pt}
+\titleformat{\section}{\large\bfseries}{\thesection}{.65em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{.65em}{}
+\titlespacing*{\section}{0pt}{11pt plus 2pt minus 2pt}{4pt}
+\titlespacing*{\subsection}{0pt}{8pt plus 2pt minus 1pt}{3pt}
+\setstretch{1.18}
+\raggedbottom
+\setlength{\parindent}{1.5em}\setlength{\parskip}{2pt}\setlength{\emergencystretch}{2em}
+\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.10}
+\setlist{leftmargin=1.5em,itemsep=1pt,topsep=3pt}
 \newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
 \newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
 \renewcommand{\tabularxcolumn}[1]{>{\RaggedRight\arraybackslash}p{#1}}
@@ -37,7 +43,7 @@
 \newcommand{\Var}{\operatorname{Var}}
 \newcommand{\Cov}{\operatorname{Cov}}
 \newcommand{\NA}{\textnormal{N/A}}
-\captionsetup{font=small,labelfont=bf,justification=centering}
+\captionsetup{font=small,labelfont=bf,justification=raggedright,singlelinecheck=true,skip=5pt}
 \pagestyle{fancy}\fancyhf{}
 \fancyhead[L]{\ifnum\value{chapter}>0 \chaptername~\thechapter\fi}
 \fancyfoot[C]{\thepage}
@@ -59,7 +65,8 @@
 \input{chapters/scenario_results}
 \input{chapters/discussion}
 \input{chapters/summary}
-\begin{small}\setstretch{1.15}\fancyhead[L]{Tài liệu tham khảo}\raggedright\begin{thebibliography}{99}
+\clearpage
+\begin{small}\singlespacing\fancyhead[L]{Tài liệu tham khảo}\raggedright\begin{thebibliography}{99}\setlength{\itemsep}{2pt}\setlength{\parsep}{0pt}
 \addcontentsline{toc}{chapter}{Tài liệu tham khảo}
 \input{generated/references}
 \end{thebibliography}\clearpage\end{small}

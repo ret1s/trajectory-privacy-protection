@@ -7,7 +7,7 @@ nhà trường phê duyệt hoặc chứng nhận deployment.
 
 ## Định dạng luận văn
 
-Bản dựng dùng mẫu từ luận văn cũ của học viên. Bìa có khung, logo Bách khoa và thông tin thạc sĩ hiện tại. Sau bìa là lời cam đoan, lời cảm ơn, tóm tắt, Abstract và các danh mục. Phần chính dùng lớp sách A4 một mặt 12 pt, giãn dòng 1,5, tiêu đề chương Bjornstrup và lề trái/phải/trên/dưới lần lượt 30/20/20/40 mm theo thiết lập sau bìa của mẫu. Tệp nguồn bìa là [cover.tex](chapters/cover.tex). ZIP cũ chỉ dùng làm tham chiếu ở máy cá nhân.
+Bản dựng dùng mẫu từ luận văn cũ của học viên. Bìa có khung, logo Bách khoa và thông tin thạc sĩ hiện tại. Sau bìa là lời cam đoan, lời cảm ơn, tóm tắt, Abstract và các danh mục. Bản đọc A4 một mặt dùng phông TeX Gyre Termes 11 pt, giãn dòng 1,18 và lề trái/phải/trên/dưới lần lượt 30/20/23/27 mm. Tiêu đề chương dùng TeX Gyre Heros 17 pt, có đường kẻ mảnh và nhãn chương hoặc phụ lục. Tệp nguồn bìa là [cover.tex](chapters/cover.tex). ZIP cũ chỉ dùng làm tham chiếu ở máy cá nhân.
 
 ## Cấu trúc đã chốt
 
