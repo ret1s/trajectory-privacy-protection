@@ -1,10 +1,5 @@
 \section{Introduction}\label{sec:intro}
-Suppose a traveller looks up a nearby place. The phone can send a substitute
-coordinate and use its actual GPS position to rank the replies. If the
-traveller keeps moving and searching, the provider sees where each query
-originated and when it arrived. Several roads may fit a single packet. Far
-fewer routes may fit the packets in their observed order. The distinctiveness
-of mobility traces makes this a practical concern~\cite{mobilityunique}.
+Map services help travellers find routes and nearby places. Repeated trips ending near a hospital could invite inferences about a person's health or routine, even if the traveller is visiting a relative. The distinctiveness of mobility traces makes this concern relevant across repeated queries~\cite{mobilityunique}.
 
 How much does the exchange over an entire trip help the provider distinguish
 two possible trajectories? Geo-indistinguishability (Geo-I) gives a starting
@@ -29,12 +24,9 @@ GeoI-BQ maintains a protected reference on the road network. From the reference
 history the device estimates a location distribution (belief) and uses it to
 choose the next query segment. We make three contributions.
 \begin{itemize}
-\item A road-aware policy with separate budgets for GPS observations and the
-choice of query segments to publish.
-\item A session-wide disclosure bound, its implications for an observer with
-prior information, and conditions for service-quality guarantees.
-\item A six-method comparison on common tasks, with uncertainty, costs and
-applicable source metrics.
+\item A common framework that specifies each inference target, the history visible to the observer and the reference used for evaluation.
+\item A Geo-I-based segment policy with a session disclosure bound and conditions for service quality.
+\item A six-method comparison on common tasks, with uncertainty, costs and applicable source metrics.
 \end{itemize}
 In the experiment the device already holds the complete static catalogue,
 and the public base achieves slightly higher Recall than private adaptation.

@@ -4,7 +4,7 @@ Hãy dùng file này như bản nháp bạn gửi GVHD. Bạn có thể viết t
 
 Mở [25 câu trả lời mẫu theo bản thảo hiện tại](GOC_NHIN_TAC_GIA_MAU.md) cạnh phiếu này để đối chiếu theo cùng số mục.
 
-Mỗi ô **Bản viết của tôi** dành cho lời của bạn. Các câu hỏi phía trên gợi ý những quyết định mà người khác khó viết thay bạn. Phần công thức, chứng minh, trích dẫn, định nghĩa phép đo, số liệu và khoảng tin cậy đã có trong bản thảo. Bạn có thể dẫn tên bảng hoặc tên mệnh đề ngay giữa đoạn đang viết, tôi sẽ nối lại đúng nguồn khi biên tập.
+**Bản suy diễn để tác giả duyệt.** Bốn ý đã chốt là rủi ro từ lịch sử đi lại, ưu tiên chứng minh theo xác suất, đọc benchmark như bằng chứng thực nghiệm có phạm vi, và xem khung kịch bản là đóng góp chính. Những ví dụ, lựa chọn paper và thiết kế thí nghiệm dưới đây là cách biên tập từ bốn ý ấy; phần xác nhận cá nhân ở 6.3 dành cho tác giả. Các câu hỏi phía trên gợi ý những quyết định mà người khác khó viết thay bạn. Phần công thức, chứng minh, trích dẫn, định nghĩa phép đo, số liệu và khoảng tin cậy đã có trong bản thảo. Bạn có thể dẫn tên bảng hoặc tên mệnh đề ngay giữa đoạn đang viết, tôi sẽ nối lại đúng nguồn khi biên tập.
 
 | Phần để điền | Nơi dùng trong luận văn | Nơi dùng trong paper |
 |---|---|---|
@@ -27,7 +27,7 @@ Bản hiện tại mở bằng ví dụ tìm trạm sạc. Bạn có muốn dùn
 
 **Bản viết của tôi — cảnh mở đầu**
 
-> …
+> Tôi dùng bản đồ để chọn đường hoặc tìm địa điểm khi đang di chuyển. Một yêu cầu chỉ đường giúp ích ngay lúc đó, nhưng lịch sử các yêu cầu có thể kể một câu chuyện khác. Giả sử một người nhiều lần tới khu vực bệnh viện. Người quan sát có thể phỏng đoán về sức khỏe, dù người dùng cũng có thể làm việc gần đó hoặc tới thăm người thân.
 
 ### 1.2. Khoảnh khắc một truy vấn trở thành bài toán quỹ đạo
 
@@ -35,7 +35,7 @@ Tiếp tục chính câu chuyện trên thêm hai lần gửi. Sau lần đầu,
 
 **Bản viết của tôi — điều thay đổi khi quan sát nhiều lần**
 
-> …
+> Một gói gần ngã rẽ có thể phù hợp với cả hai nhánh. Gói kế tiếp xuất hiện ở vùng chỉ một nhánh dễ tới trong khoảng thời gian ấy. Điều thay đổi trước tiên là trọng lượng của từng giả thuyết trong mắt người quan sát. Đó là lý do tôi muốn bảo vệ cả quá trình di chuyển.
 
 ### 1.3. Bạn đặt ranh giới cho bài toán ở đâu?
 
@@ -43,7 +43,7 @@ Hãy phát biểu bài toán như khi thầy hỏi “em bảo vệ ai, trước
 
 **Bản viết của tôi — phát biểu bài toán và giả định quan trọng nhất**
 
-> …
+> Tôi xét nhà cung cấp nhìn thấy tọa độ truy vấn theo thứ tự, thời gian và phản hồi trong một phiên. GPS thật, tham chiếu và nhu cầu thật nằm trên thiết bị. Nếu bên quan sát đã biết thói quen của người dùng, câu hỏi vẫn còn là phiên này bổ sung bao nhiêu bằng chứng. Các chuyến lặp lại là động lực nghiên cứu; cận cho nhiều phiên cần hợp thành riêng.
 
 ### 1.4. Chất lượng dịch vụ có ý nghĩa gì đối với người dùng này?
 
@@ -51,7 +51,7 @@ Thử mô tả hai POI mà thứ tự “gần nhất” và “ít vòng đư�
 
 **Bản viết của tôi — tiêu chuẩn của một câu trả lời hữu ích**
 
-> …
+> Người đang lái xe có thể ưu tiên một nhà thuốc nằm ngay chiều đi dù một nhà thuốc bên kia dải phân cách ở gần hơn. Tôi chấm các địa điểm thu được theo yêu cầu thật tại GPS thật. Làm các gói truy vấn khó dùng để định vị chỉ có ích cho ứng dụng nếu người dùng vẫn có ứng viên phù hợp.
 
 ### 1.5. Vì sao cần đặt lại cách đánh giá và tự xây dựng dữ liệu?
 
@@ -59,7 +59,7 @@ Hãy kể một lần bạn thử đọc hai kết quả nghiên cứu cạnh nh
 
 **Bản viết của tôi — vướng mắc khi đối chiếu, dữ liệu cần có, lý do chọn mô phỏng**
 
-> …
+> Nếu gói chứa một GPS thật cùng dummy thì có thể chấm việc chọn đúng thành viên. Nếu tất cả tọa độ đều dùng để truy hồi, bên quan sát có thể đoán một điểm nằm ngoài gói. Khung chung vì thế phải xuất phát từ điều cần suy ra. Mô phỏng cho tôi cả GPS chuẩn để chấm định vị lẫn mạng đường, thời gian và danh mục để dựng đáp án dịch vụ trên cùng chuyến.
 
 Ở Chương 1, chừng nào người đọc đã hiểu vì sao cần dữ liệu có kiểm soát thì bạn có thể dừng. Tên bộ sinh, cách chia nhóm tuyến và cách chọn bên suy luận dành cho mục 4 của phiếu. Nếu nhận xét về việc thiếu quy trình chung, hãy cho biết bạn rút ra nhận xét ấy từ nhóm công trình nào.
 
@@ -69,7 +69,7 @@ Hãy thử giới thiệu các kịch bản qua câu hỏi người quan sát mu
 
 **Bản viết của tôi — giới thiệu phạm vi và lý do chia nhóm**
 
-> …
+> Tôi dùng các kịch bản để xác định quyền quan sát và câu hỏi suy luận trước khi chọn metric. S1 và S3 có thể hỏi về cùng vị trí nhưng đối thủ có một gói hoặc cả phiên. S1–S3/S9–S10 có mục tiêu tọa độ để đối chiếu; các kịch bản còn lại đòi hỏi nhãn liên kết, đích tương lai, nội dung hoặc kênh quan sát phụ.
 
 ### 1.7. Câu hỏi nghiên cứu nào dẫn đến lựa chọn Geo-I?
 
@@ -77,13 +77,13 @@ Bản hiện tại có ba câu hỏi. Hãy viết lại từng câu theo cách b
 
 | Ý cần giữ | Cách tôi đặt câu hỏi | Vì sao tôi cần biết câu trả lời |
 |---|---|---|
-| RQ1 · Mức phân biệt giữa hai hành trình khi quan sát cả phiên | … | … |
-| RQ2 · Điều kiện để lựa chọn truy vấn mang lại đáp án tốt ở GPS thật | … | … |
-| RQ3 · Đánh đổi riêng tư, chất lượng và chi phí so với các đối chứng | … | … |
+| RQ1 · Mức phân biệt giữa hai hành trình khi quan sát cả phiên | Transcript giúp phân biệt hai hành trình tới đâu? | Độc lập với bộ suy luận cụ thể trong phạm vi định lý. |
+| RQ2 · Điều kiện để lựa chọn truy vấn mang lại đáp án tốt ở GPS thật | Khi nào chọn Q đem lại đủ POI ở GPS thật? | Điểm đại diện và chất lượng thật có thể khác nhau. |
+| RQ3 · Đánh đổi riêng tư, chất lượng và chi phí so với các đối chứng | Phải đánh đổi gì trên cùng tác vụ? | Đọc riêng tư cùng chất lượng và chi phí. |
 
 **Câu chuyển của tôi — từ câu hỏi sang hướng giải quyết**
 
-> …
+> Geo-I cho phép so xác suất của cùng một quan sát giữa hai GPS. Tôi dùng nguyên lý này để xây cận cho những gì máy chủ thấy suốt một phiên, đồng thời kiểm tra xem đáp án POI còn tốt đến đâu.
 
 ### 1.8. Bạn nhận phần đóng góp nào là của mình?
 
@@ -91,13 +91,13 @@ Nếu một độc giả đã biết Geo-I và các phép đo như MAE, họ cò
 
 | Thứ tự tôi chọn | Việc cụ thể tôi muốn nhận là đóng góp | Nền tảng kế thừa | Định lý, sơ đồ, bảng hoặc dữ liệu làm căn cứ |
 |---|---|---|---|
-| 1 | … | … | … |
-| 2 | … | … | … |
-| 3, nếu cần | … | … | … |
+| 1 | Khung chung về mục tiêu, quyền quan sát và dữ liệu chấm. | Các mục tiêu riêng tư và phép đo đã có. | Chương 1, 2 và bảng theo scenario. |
+| 2 | Thiết kế và phân tích cả transcript. | Geo-I, phép thử riêng tư, hợp thành và hậu xử lý. | Chương 3. |
+| 3, nếu cần | Đối chiếu có thể lặp lại. | Ba adaptation, Raw và REM-Z. | Chương 4. |
 
 **Đoạn kết phần mở đầu của tôi.** Nếu độc giả chỉ đọc thêm một chương sau Introduction, bạn muốn họ đọc chương nào trước và với câu hỏi gì trong đầu?
 
-> …
+> Tôi muốn người đọc xem khung kịch bản trước, rồi đọc Chương 3 với câu hỏi: các quyết định riêng lẻ của thiết bị dẫn đến bảo đảm cho đúng chuỗi mà đối thủ được thấy như thế nào?
 
 <a id="nghien-cuu"></a>
 
@@ -109,11 +109,11 @@ Chọn hai bài bạn thực sự muốn trao đổi, có thể vì một bài c
 
 **Bài thứ nhất — tên, điều tôi học được, điểm tôi đi tiếp**
 
-> …
+> Gợi ý từ bản thảo: Geo-I của Andrés và cộng sự cho một tiêu chuẩn xác suất để giải thích điều quan sát viên có thể phân biệt. Phần cần làm thêm là đưa tiêu chuẩn ấy qua cơ chế trên đường, những lần đọc GPS và chuỗi truy vấn có trạng thái.
 
 **Bài thứ hai — tên, điều tôi học được, điểm tôi đi tiếp**
 
-> …
+> Gợi ý thứ hai: Fake-query insertion giúp thấy sự khác biệt giữa một tập tọa độ và lịch sử nhiều gói có thời điểm gửi. Vì vậy phép so sánh của tôi phải cho đối thủ xem cùng cửa sổ thời gian và đếm đủ gói giả.
 
 ### 2.2. Đoạn tổng hợp sau bảng nên dẫn sang phương pháp thế nào?
 
@@ -121,7 +121,7 @@ Giả sử có người đề nghị dùng nguyên bộ đo của một bài đ�
 
 **Bản viết của tôi — đoạn kết Chương 2**
 
-> …
+> Tôi giữ phép đo gốc ở nơi đầu ra và dữ liệu cho phép, ví dụ sai lệch chi phí di chuyển của TransProtect*. Với các dạng gói khác nhau, tôi bổ sung một tác vụ chung: cho đối thủ đoán tọa độ bất kỳ và so với GPS ở cùng mốc. Cách này cho phép bổ sung phương pháp mới mà vẫn biết đang so cái gì.
 
 <a id="phuong-phap"></a>
 
@@ -133,11 +133,11 @@ Giả sử có người đề nghị dùng nguyên bộ đo của một bài đ�
 
 **Khi chỉ vào sơ đồ hệ thống, tôi sẽ nói**
 
-> …
+> Thiết bị nhận GPS và yêu cầu người dùng. Máy chủ chỉ cần các tọa độ để tìm POI rồi trả về ứng viên. Việc lọc và xếp hạng diễn ra tại thiết bị; chính yêu cầu riêng có thể đổi mà dạng truy vấn gửi đi vẫn giống nhau.
 
 **Khi chuyển sang sơ đồ thuật toán, tôi sẽ nói**
 
-> …
+> Z giúp thiết bị quản lý điều đã biết về vị trí và chi phí mỗi lần cập nhật. Belief biểu diễn các trạng thái còn khả dĩ từ lịch sử đã bảo vệ. Từ đó ta lấy mẫu một đoạn Q có ích cho truy hồi và có cận riêng cho việc công bố. Một khung có năm tọa độ truy vấn, với GPS thật không bắt buộc là thành viên.
 
 ### 3.2. Quyết định thiết kế nào cần giải thích bằng một chuyến đi?
 
@@ -145,7 +145,7 @@ Giả sử có người đề nghị dùng nguyên bộ đo của một bài đ�
 
 **Bản viết của tôi — mốc tôi chọn, phương án tôi cân nhắc, lý do quyết định**
 
-> …
+> Ở giây 180 của mẫu cache-029, phép thử giữ Z, chi phí tích lũy lên 6 đơn vị và khung Q mới vẫn được gửi. Máy chủ thấy khung và giờ gửi; thiết bị mới biết nó vừa giữ tham chiếu. Trường hợp này cho thấy vì sao nên tách quyết định cập nhật vị trí khỏi quyết định chọn nơi truy hồi.
 
 ### 3.3. Trực giác nào nối bốn mệnh đề riêng tư?
 
@@ -153,14 +153,14 @@ Giả sử có người đề nghị dùng nguyên bộ đo của một bài đ�
 
 | Bước trong lập luận | Câu hỏi để bạn diễn giải | Cách tôi nói |
 |---|---|---|
-| Tạo Z trên mạng đường | Điều gì bảo đảm hai điểm thật gần nhau có thể sinh cùng một Z với xác suất đủ gần nhau? Vì sao chọn Z nằm trên đường vẫn cần một lập luận riêng? | … |
-| Giữ hoặc đổi Z | Nếu quyết định ấy đọc GPS, điều gì về chuyển động có thể ảnh hưởng đến những lần công bố sau? Vì sao tính cả quyết định này vào ngân sách phiên? | … |
-| Chọn một đoạn Q | Cùng một lịch sử công khai, hai belief có thể ưu tiên các đoạn khác nhau. Việc giữ cùng tập đoạn khả dĩ và giới hạn thay đổi xác suất có ý nghĩa gì? | … |
-| Công bố nhiều đoạn | Nếu chuyến đi dài hơn dự kiến, vì sao việc mỗi lần chọn chỉ tiết lộ ít vẫn chưa đủ để kết luận cho cả chuyến? | … |
+| Tạo Z trên mạng đường | Điều gì bảo đảm hai điểm thật gần nhau có thể sinh cùng một Z với xác suất đủ gần nhau? Vì sao chọn Z nằm trên đường vẫn cần một lập luận riêng? | Hai GPS gần nhau làm trọng số và mẫu số của REM thay đổi có giới hạn trên cùng miền đường. |
+| Giữ hoặc đổi Z | Nếu quyết định ấy đọc GPS, điều gì về chuyển động có thể ảnh hưởng đến những lần công bố sau? Vì sao tính cả quyết định này vào ngân sách phiên? | Kiểm tra giữ hay đổi dùng GPS nên phải tính cả chi phí phép thử, ngay cả khi giữ. |
+| Chọn một đoạn Q | Cùng một lịch sử công khai, hai belief có thể ưu tiên các đoạn khác nhau. Việc giữ cùng tập đoạn khả dĩ và giới hạn thay đổi xác suất có ý nghĩa gì? | Một thư viện chung và mức điều chỉnh có cận giúp cùng đoạn ấy luôn khả dĩ dưới các belief được so. |
+| Công bố nhiều đoạn | Nếu chuyến đi dài hơn dự kiến, vì sao việc mỗi lần chọn chỉ tiết lộ ít vẫn chưa đủ để kết luận cho cả chuyến? | Nhân các tỷ số có điều kiện qua từng đoạn; lịch phân bổ có tổng hữu hạn cho cận toàn phiên. |
 
 **Đoạn diễn giải sau định lý.** Giả sử nhà cung cấp cân nhắc hai hành trình có xác suất ban đầu bằng nhau. Trong cấu hình đang xét, dưới giả thiết của định lý, cận hậu nghiệm cho một giả thuyết sau khi xem chuỗi trao đổi của một phiên là khoảng 70,91%. Bạn sẽ giải thích con số này thế nào nếu hội đồng hỏi “đó có phải tỷ lệ đoán đúng vị trí của mọi người dùng không?”. Điều gì thay đổi nếu nhà cung cấp biết trước người này thường đi một tuyến nhất định?
 
-> …
+> Hai cận cho cùng transcript đến từ lịch sử GPS đã bảo vệ và từ kênh chọn Q. Với hai giả thuyết ngang nhau, dưới các giả thiết của phiên, cận posterior khoảng 70,91% nói về mức độ phiên trao đổi có thể làm nghiêng lựa chọn giữa hai hành trình. Với prior đã lệch hoặc có kênh phụ, phải xét lại odds ban đầu hoặc mô hình quan sát.
 
 ### 3.4. Chứng minh chất lượng dịch vụ giúp trả lời điều gì?
 
@@ -168,7 +168,7 @@ Có ba thời điểm để kể câu chuyện: thiết bị *dự kiến* một
 
 **Bản viết của tôi — ví dụ và câu chuyển sang đánh giá**
 
-> …
+> Một đoạn Q có thể có điểm dự kiến cao nhưng bỏ sót địa điểm ở nhánh mà xe thực sự đi. Cache chỉ giúp nếu có bản ghi hợp lệ, áp dụng cùng bộ lọc và thứ tự xếp hạng với đáp án tham chiếu. Lập luận toán học cho biết cần điều kiện gì; Recall@5 kiểm tra đáp án ở GPS thật trong dữ liệu.
 
 <a id="thuc-nghiem"></a>
 
@@ -180,11 +180,11 @@ Quay lại khó khăn đã nêu ở mục 1.5. Bây giờ hãy nói cụ thể t
 
 **Bản viết của tôi — quyết định quan trọng nhất khi thiết kế phép thử và lý do**
 
-> …
+> Tôi giữ cùng mục tiêu và cùng khoảng thời gian quan sát. Năm gói của một phương pháp chèn thêm gói giả có thể chỉ tương ứng một phần ngắn của chuyến. Ép cùng số gói sẽ vô tình thay đổi độ dài lịch sử.
 
 **Điều mô phỏng cho phép tôi kiểm soát; khía cạnh thực tế còn thiếu**
 
-> …
+> Mô phỏng đồng bộ GPS tham chiếu, transcript và POI. Chia 48 nhóm tuyến theo 20/8/20 giúp tách nguồn chuyến giữa các bước huấn luyện, chọn và kiểm thử. Kết quả trên nhóm tuyến này còn cần được đánh giá lại trên dữ liệu độc lập.
 
 ### 4.2. Kết quả định vị nào thuyết phục bạn nhất?
 
@@ -192,11 +192,11 @@ Với Fake-query insertion*, tỷ lệ đoán trúng trong 100 m là 53,387% ở
 
 **Tôi đọc hai cột/hai hàng này như sau**
 
-> …
+> Khi gửi trực tiếp Z, Hit100 ở S1 là 18,522%; khi dùng các khung Q, con số còn 0,188%. Ở S10, hai con số lần lượt là 35% và 0%. Còn với Fake-query insertion*, từ một gói sang cả cửa sổ, Hit100 tăng từ 53,387% lên 98,790%. Quyền xem lịch sử có thể thay đổi đáng kể kết quả của cùng một phương pháp.
 
 **Nếu được phản biện kết luận của chính mình, tôi sẽ hỏi**
 
-> …
+> Tôi muốn biết kết quả thay đổi ra sao nếu bộ suy luận khai thác lịch sử tốt hơn. Đối chứng REM-Z và GeoI-BQ khác cả số tọa độ lẫn cơ chế công bố. Những con số này ủng hộ thiết kế chung, còn đóng góp riêng của belief cần so với một cơ chế cũng gửi Q.
 
 ### 4.3. Bạn có chấp nhận đánh đổi chất lượng và chi phí này không?
 
@@ -204,7 +204,7 @@ GeoI-BQ đạt Recall@5 toàn phiên 99,595%, thấp hơn ba bản điều chỉ
 
 **Bản viết của tôi — đánh đổi dưới góc nhìn người dùng và người vận hành**
 
-> …
+> Recall@5 của GeoI-BQ là 99,595%, với 31 gói chứa 155 lượt truy vấn tọa độ trong 600 giây. So với REM-Z, Recall giảm 0,105 điểm phần trăm; khoảng tin cậy ghép cặp bao gồm 0. Tôi xem đây là đánh đổi khả quan trên workload đã thử. Với ứng dụng thật cần biết thêm độ trễ và hậu quả của việc bỏ sót một POI quan trọng.
 
 ### 4.4. Kết quả bất lợi nào làm bạn thay đổi cách viết về mô hình?
 
@@ -212,7 +212,7 @@ Ngay gói đầu, thiết bị đã thu được trung bình khoảng 91% danh m
 
 **Điều tôi từng kỳ vọng, điều tôi quan sát được, và kết luận tôi chọn**
 
-> …
+> Nền công khai có Recall 99,711%, nhỉnh hơn bản thích nghi 99,595% trên cohort này. Gói đầu đã thu gần 91% danh mục tĩnh. Tôi tin vào khả năng giới hạn tiết lộ khi thích nghi; số liệu hiện có chưa cho thấy thích nghi giúp tăng Recall. Nếu thử lợi ích online, nên dùng danh mục động với thông tin mới chỉ phía máy chủ biết.
 
 ### 4.5. Mỗi kịch bản bổ sung cho phép bạn phát biểu đến đâu?
 
@@ -220,11 +220,11 @@ Ngay gói đầu, thiết bị đã thu được trung bình khoảng 91% danh m
 
 | Kịch bản | Điểm cần cân nhắc | Kết luận của tôi và bằng chứng còn thiếu |
 |---|---|---|
-| S4 · Liên kết phiên | Nhãn hiện có cho biết hai chuyến có cùng nhóm tuyến. Muốn phân biệt danh tính người với danh tính xe cần quan sát thêm gì? | … |
-| S5 · Nhánh đường sắp đi | Trước điểm rẽ, ngay cả GPS thật cũng chỉ đạt 50% trong phép chọn hai nhánh. Phép thử này cho biết gì về độ khó của dự đoán? | … |
-| S6 · Đích tương lai | Sau điểm rẽ, GPS thật đạt 100%, GeoI-BQ đạt 50,83% khi chọn giữa hai đích đã biết. Vì sao kết quả có ý nghĩa khác S5? | … |
-| S7 · Nội dung yêu cầu | Cố định hành trình rồi đổi nhu cầu tại thiết bị giúp kiểm tra kiểu tiết lộ nào? Ý định nào vẫn có thể tương quan với hành trình? | … |
-| S8 · Người đi cùng | Khi thêm kênh GPS thật đã căn thời gian trong mô phỏng, kết quả thay đổi ra sao? Bạn cần dữ liệu gì để bàn về hai người đồng hành thực tế? | … |
+| S4 · Liên kết phiên | Nhãn hiện có cho biết hai chuyến có cùng nhóm tuyến. Muốn phân biệt danh tính người với danh tính xe cần quan sát thêm gì? | Kết quả đo liên kết nhóm tuyến; cần nhãn riêng cho người và phương tiện. |
+| S5 · Nhánh đường sắp đi | Trước điểm rẽ, ngay cả GPS thật cũng chỉ đạt 50% trong phép chọn hai nhánh. Phép thử này cho biết gì về độ khó của dự đoán? | Đối chứng yếu trước ngã rẽ nên điểm thấp khó quy cho bảo vệ. |
+| S6 · Đích tương lai | Sau điểm rẽ, GPS thật đạt 100%, GeoI-BQ đạt 50,83% khi chọn giữa hai đích đã biết. Vì sao kết quả có ý nghĩa khác S5? | Sau rẽ, chọn giữa hai đích đã biết: 100% với Raw và 50,83% với GeoI-BQ. |
+| S7 · Nội dung yêu cầu | Cố định hành trình rồi đổi nhu cầu tại thiết bị giúp kiểm tra kiểu tiết lộ nào? Ý định nào vẫn có thể tương quan với hành trình? | Nhu cầu thật ở thiết bị; ý định tương quan với tuyến vẫn có thể được suy luận. |
+| S8 · Người đi cùng | Khi thêm kênh GPS thật đã căn thời gian trong mô phỏng, kết quả thay đổi ra sao? Bạn cần dữ liệu gì để bàn về hai người đồng hành thực tế? | Kênh người đi cùng phát GPS thật có thể chi phối kết quả; cần dữ liệu đồng hành thực. |
 
 ### 4.6. Chứng minh và benchmark hỗ trợ nhau ở đâu?
 
@@ -232,7 +232,7 @@ Giả sử một thành viên hội đồng nói: “Kết quả định vị th
 
 **Câu trả lời đầy đủ tôi muốn đưa ra**
 
-> …
+> Em đồng ý dữ liệu và bộ suy luận ảnh hưởng đến kết quả benchmark. Em dựa vào chứng minh để nói về phân phối transcript dưới các giả thiết đã nêu, và dựa vào thí nghiệm để nói về sai số định vị hay chất lượng POI quan sát được. Nếu có bộ suy luận tốt hơn em sẽ đo lại; nếu nó có thêm thông tin, em còn phải kiểm tra cận nào áp dụng cho kênh mới.
 
 <a id="ket-luan"></a>
 
@@ -244,13 +244,13 @@ Giả sử một thành viên hội đồng nói: “Kết quả định vị th
 
 | Câu hỏi | Câu trả lời theo lời tôi | Bằng chứng tôi chọn | Phạm vi áp dụng |
 |---|---|---|---|
-| RQ1 · Riêng tư cả phiên | … | … | … |
-| RQ2 · Chất lượng dịch vụ | … | … | … |
-| RQ3 · Đánh đổi thực nghiệm | … | … | … |
+| RQ1 · Riêng tư cả phiên | Có cận cho mức transcript làm thay đổi khả năng phân biệt hai hành trình. | Định lý toàn phiên. | Cùng ngữ cảnh, miền hỗ trợ, trạng thái và kênh công khai hợp lệ. |
+| RQ2 · Chất lượng dịch vụ | Chất lượng tại GPS thật phụ thuộc độ phủ và sự phù hợp của điểm lập kế hoạch. | Phân tích cache/xếp hạng và bảng Recall. | Dữ liệu POI hợp lệ và cùng quy tắc xếp hạng. |
+| RQ3 · Đánh đổi thực nghiệm | Các bộ suy luận đã thử khó định vị từ Q hơn; chất lượng cao có chi phí truy vấn. | Bảng Hit100/MAE, Recall và chi phí. | Cohort mô phỏng và bộ suy luận được đánh giá. |
 
 **Đoạn kết tôi muốn viết.** Quay lại người dùng ở 1.1. Họ có thể kỳ vọng điều gì từ phương pháp trong điều kiện đã thử? Theo bạn, ý nghĩa của công trình đối với người tiếp tục nghiên cứu bài toán này là gì?
 
-> …
+> Tôi muốn để lại một khung mà người làm tiếp có thể bổ sung kịch bản hoặc bộ suy luận rồi xác định ngay điều gì được quan sát, cái gì phải đoán và dùng dữ liệu nào để chấm. GeoI-BQ là một phương pháp cụ thể có thể phân tích và kiểm tra trong khung ấy.
 
 ### 5.2. Nếu tiếp tục đề tài, bạn sẽ kiểm tra điều gì đầu tiên?
 
@@ -258,7 +258,7 @@ Chọn giới hạn ảnh hưởng lớn nhất tới kết luận *theo đánh 
 
 **Giới hạn tôi ưu tiên, phép kiểm tra tôi đề xuất, kết quả có thể làm tôi đổi ý**
 
-> …
+> Tôi ưu tiên nghiên cứu thêm các mô hình suy luận. Có thể cố định dữ liệu công bố, mục tiêu và ngân sách, sau đó thay lượng lịch sử hoặc thông tin phụ mà bên quan sát được phép dùng. Tôi sẽ bắt đầu bằng nhóm tuyến độc lập và đối chứng GPS thật. Nếu một đối thủ hợp lệ định vị tốt hơn, tôi sẽ cập nhật kết luận thực nghiệm và kiểm tra lại phạm vi giả thiết.
 
 <a id="bien-tap"></a>
 
@@ -270,16 +270,16 @@ Sau khi điền các chương, hãy thử viết một đoạn ngắn theo mạc
 
 **Tóm tắt theo lời tôi**
 
-> …
+> Dịch vụ bản đồ hữu ích nhưng lịch sử các yêu cầu có thể tiết lộ thói quen và nơi thường lui tới. Luận văn tổ chức những rủi ro đó thành các kịch bản có mục tiêu, cửa sổ quan sát và đáp án tham chiếu rõ ràng. Trong khung này, GeoI-BQ dùng tham chiếu đã bảo vệ và các đoạn truy vấn có giới hạn tiết lộ để truy hồi POI. Định lý xét cả phiên; trên năm tác vụ định vị đã thử, Hit100 là 0–0,188%, Recall@5 toàn phiên 99,595% với 155 lượt truy vấn tọa độ mỗi 600 giây.
 
 ### 6.2. Điều gì cần được giữ khi cô đọng thành bài báo?
 
 Luận văn có thể kể trọn quá trình suy nghĩ. Trong paper sáu trang, chỗ dành cho ví dụ và thảo luận ít hơn. Hãy đánh dấu đoạn nào ở trên bạn thấy đặc biệt đúng giọng mình; luận điểm nào nhất thiết xuất hiện trong cả hai bản; chi tiết nào chỉ cần ở luận văn. Nếu muốn giữ nguyên một cụm tiếng Việt khi trao đổi với GVHD, ghi nó ở đây cùng ý nghĩa bạn muốn giữ khi dịch.
 
-- Câu hoặc đoạn tôi muốn giữ nguyên trong luận văn — …
-- Ý nhất thiết giữ khi biên tập bài báo Việt và Anh — …
-- Ví dụ hoặc thảo luận dành riêng cho luận văn — …
-- Thuật ngữ hoặc lối diễn đạt tôi muốn dùng nhất quán — …
+- Câu hoặc đoạn tôi muốn giữ nguyên trong luận văn — Mỗi kịch bản bắt đầu từ điều người quan sát muốn suy ra.
+- Ý nhất thiết giữ khi biên tập bài báo Việt và Anh — Khung kịch bản, bảo đảm toán học có điều kiện, bằng chứng thực nghiệm và chi phí.
+- Ví dụ hoặc thảo luận dành riêng cho luận văn — Ví dụ giây 180 và chi tiết diễn giải từng kịch bản bổ sung.
+- Thuật ngữ hoặc lối diễn đạt tôi muốn dùng nhất quán — Tham chiếu đã bảo vệ (Z), đoạn truy vấn (Q), toàn bộ chuỗi trao đổi trong phiên (transcript).
 
 ### 6.3. Lời cảm ơn và lời cam đoan
 
@@ -287,10 +287,10 @@ Luận văn có thể kể trọn quá trình suy nghĩ. Trong paper sáu trang,
 
 **Lời cảm ơn theo lời tôi**
 
-> …
+> Chờ tác giả xác nhận trải nghiệm và lời cảm ơn muốn giữ.
 
 **Điều tôi muốn chỉnh hoặc tự xác nhận trong lời cam đoan**
 
-> …
+> Chờ tác giả tự rà và xác nhận trước khi nộp.
 
 Khi gửi lại, bạn chỉ cần chỉ ra những mục đã viết xong. Tôi sẽ dùng chính lời của bạn để biên tập luận văn và rút phần tương ứng cho paper Việt/Anh. Chỗ nào trong bản nháp còn là giả thuyết hoặc vượt quá phạm vi bằng chứng, tôi sẽ giữ dấu hỏi để bạn quyết định.

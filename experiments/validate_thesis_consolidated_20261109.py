@@ -32,7 +32,7 @@ def read(path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--visual-reviewed', action='store_true')
-    parser.add_argument('--receipt', type=Path, default=HERE/'validation_20261123.json')
+    parser.add_argument('--receipt', type=Path, default=HERE/'validation_20261125.json')
     args = parser.parse_args()
     tables, constants, bibliography, sources = build.generated()
     assert len(tables) == 26
@@ -154,7 +154,7 @@ def main():
               ROOT/'experiments/audit_thesis_arguments_20261116.py',
               ROOT/'tests/test_thesis_argument_audit_20261116.py'}
     files |= set((ROOT/'artifacts/analysis/thesis_arguments_20261116_v1').glob('*'))
-    result = dict(schema='consolidated-masters-thesis-validation-v2',date='2026-11-23',
+    result = dict(schema='consolidated-masters-thesis-validation-v2',date='2026-11-25',
         page_count=pages, main_chapters=5, appendix_chapters=4, citations=17,
         generated_tables=26, main_privacy_cells=30, additional_tasks_v1=66,
         joint_fusion_tasks_v2=24, main_release_pins_verified=108,

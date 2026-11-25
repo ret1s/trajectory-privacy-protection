@@ -1,11 +1,5 @@
 \section{Giới thiệu}\label{sec:intro}
-Một người đang đi trên đường muốn tìm một địa điểm gần mình. Điện thoại có
-thể gửi truy vấn từ một tọa độ thay thế rồi dùng GPS thật để chọn kết quả.
-Nếu người đó tiếp tục di chuyển và tìm kiếm, nhà cung cấp sẽ thấy cả chuỗi
-tọa độ cùng thời điểm gửi. Từng gói có thể phù hợp với nhiều con đường.
-Khi đặt các gói theo thứ tự thời gian, có thể chỉ còn vài tuyến hợp lý.
-Tính đặc trưng của dấu vết di chuyển khiến khả năng suy luận này đáng
-quan tâm~\cite{mobilityunique}.
+Dịch vụ bản đồ giúp tìm đường và địa điểm trong lúc di chuyển. Nếu nhiều chuyến thường kết thúc gần một bệnh viện, bên quan sát có thể phỏng đoán về sức khỏe hoặc thói quen dù người dùng chỉ tới thăm người thân. Tính đặc trưng của dấu vết di chuyển làm rủi ro này đáng quan tâm~\cite{mobilityunique}.
 
 Câu hỏi chúng tôi đặt ra là sau cả chuyến đi, chuỗi trao đổi ấy giúp nhà
 cung cấp phân biệt hai quỹ đạo thật đến mức nào? Geo-indistinguishability
@@ -29,12 +23,9 @@ GeoI-BQ giữ điểm tham chiếu đã bảo vệ trên mạng đường. Từ 
 tham chiếu, thiết bị ước lượng một phân phối vị trí (belief) để chọn cả đoạn
 truy vấn kế tiếp. Nghiên cứu có ba đóng góp.
 \begin{itemize}
-\item Thiết kế cơ chế xét mạng đường với hai ngân sách riêng cho quan sát GPS
-và cho việc chọn đoạn truy vấn để công bố.
-\item Suy ra cận tiết lộ cho toàn bộ phiên, diễn giải cận theo thông tin có
-trước của bên quan sát và xác định điều kiện bảo đảm chất lượng dịch vụ.
-\item Đối chiếu sáu phương án theo cùng tác vụ, kèm khoảng tin cậy, chi phí
-và các phép đo gốc áp dụng được.
+\item Một khung mô tả từng kịch bản theo mục tiêu suy luận, lịch sử được quan sát và dữ liệu tham chiếu để chấm.
+\item Một cơ chế truy vấn theo đoạn dựa trên Geo-I, với cận tiết lộ cả phiên và điều kiện bảo đảm chất lượng dịch vụ.
+\item Đối chiếu sáu phương án trên cùng tác vụ, có khoảng tin cậy, chi phí và các thước đo gốc áp dụng được.
 \end{itemize}
 Trong thử nghiệm, thiết bị đã có toàn bộ danh mục tĩnh và phương án nền
 công khai đạt Recall nhỉnh hơn cơ chế thích nghi. Hai điều kiện này ảnh hưởng

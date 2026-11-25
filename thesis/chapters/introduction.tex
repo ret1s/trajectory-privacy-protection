@@ -1,10 +1,11 @@
 \chapter{Giới thiệu}\label{ch:introduction}
 \section{Bối cảnh và động lực nghiên cứu}
-Giả sử một người đang đi xe và muốn tìm trạm sạc thuận đường. Thiết bị biết tọa độ hiện tại,
-đích đến và vị trí các trạm đã tìm được. Nhà cung cấp dịch vụ dựa trên vị trí (LBS) chỉ cần
-nhận một truy vấn để trả về các trạm trong vùng lân cận. Vì vậy, điện thoại có thể hỏi từ một
-vị trí thay thế, rồi dùng GPS thật để xếp hạng kết quả ngay trên thiết bị. Nếu chỉ xét lần hỏi
-đầu tiên, ta dễ đi đến kết luận rằng việc giấu tọa độ thật đã giải quyết được bài toán.
+Dịch vụ bản đồ giúp người dùng tìm đường, trạm sạc hay nhà thuốc ngay trong lúc di chuyển.
+Điều đáng quan tâm là những yêu cầu phục vụ một nhu cầu tức thời có thể để lại một lịch sử
+lâu hơn nhu cầu ấy. Chẳng hạn, nếu nhiều chuyến thường kết thúc gần một bệnh viện, bên quan
+sát có thể phỏng đoán về thói quen hoặc sức khỏe của người dùng. Người đó cũng có thể làm việc
+gần bệnh viện hoặc đến thăm người thân. Rủi ro xuất hiện ngay khi lịch sử di chuyển làm một
+cách giải thích trở nên đáng tin hơn, dù mục đích thật của chuyến đi vẫn chưa được xác nhận.
 
 Tình huống thay đổi khi người dùng tiếp tục hành trình. Một tọa độ truy vấn có thể phù hợp với
 cả hai nhánh đường ở một ngã rẽ. Hai mươi giây sau, có thể chỉ một nhánh còn cho phép xe tới
@@ -16,7 +17,7 @@ không gian và thời gian trong dữ liệu thực~\cite{mobilityunique}.
 Từ đó, luận văn đặt ra hai câu hỏi gắn liền với cùng một chuyến đi. Khi nhà cung cấp xem
 \emph{toàn bộ chuỗi trao đổi trong phiên} (transcript), quan sát ấy giúp họ phân biệt hai
 hành trình khả dĩ đến mức nào? Sau khi thiết bị lọc các địa điểm nhận được, người dùng còn tìm
-thấy những trạm sạc phù hợp với yêu cầu ban đầu đến đâu? Geo-indistinguishability (Geo-I) cung
+thấy những địa điểm phù hợp với yêu cầu ban đầu đến đâu? Geo-indistinguishability (Geo-I) cung
 cấp công cụ để trả lời câu hỏi thứ nhất bằng một cận xác suất~\cite{geoi}. Với câu hỏi thứ hai,
 ta cần biết cả danh mục địa điểm, mạng đường và quy tắc xác định đáp án đúng tại GPS thật.
 
@@ -119,7 +120,7 @@ Mục~\ref{sec:data-access}.
 
 \section{Các đóng góp chính}
 \begin{enumerate}
-\item \textbf{Đặc tả bài toán và đánh giá theo contract.} Luận văn tổ chức S1--S10, phân biệt thông tin
+\item \textbf{Khung chung cho các kịch bản suy luận.} Luận văn tổ chức S1--S10, phân biệt thông tin
 riêng/công khai và quyền quan sát; xây dựng protocol cho những output khác nhau và giữ trường hợp
 không áp dụng, failure, confidence interval cùng cost.
 \item \textbf{Thiết kế phương pháp và phân tích toàn transcript.} Phương pháp nối REM/noisy reuse,
