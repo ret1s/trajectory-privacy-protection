@@ -2,6 +2,8 @@
 
 Hãy dùng file này như bản nháp bạn gửi GVHD. Bạn có thể viết thành đoạn hoàn chỉnh, ghi lại một cuộc trao đổi có thật, phác một ví dụ, hoặc để hai cách diễn đạt cạnh nhau khi còn phân vân. Viết bằng tiếng Việt, dài tùy ý. Những câu bạn muốn giữ nguyên có thể đặt trong ngoặc kép. Nếu một ý mới là dự đoán, ghi thêm “tôi nghĩ vậy vì…” và điều gì sẽ giúp kiểm tra nó.
 
+Mở [25 câu trả lời mẫu theo bản thảo hiện tại](GOC_NHIN_TAC_GIA_MAU.md) cạnh phiếu này để đối chiếu theo cùng số mục.
+
 Mỗi ô **Bản viết của tôi** dành cho lời của bạn. Các câu hỏi phía trên gợi ý những quyết định mà người khác khó viết thay bạn. Phần công thức, chứng minh, trích dẫn, định nghĩa phép đo, số liệu và khoảng tin cậy đã có trong bản thảo. Bạn có thể dẫn tên bảng hoặc tên mệnh đề ngay giữa đoạn đang viết, tôi sẽ nối lại đúng nguồn khi biên tập.
 
 | Phần để điền | Nơi dùng trong luận văn | Nơi dùng trong paper |
