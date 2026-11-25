@@ -33,6 +33,8 @@
 
 ### Bảng đọc paper để dùng khi vấn đáp
 
+Dùng [tài liệu ôn paper, diễn tiến bài toán và thực tế triển khai](ON_PAPER_VA_BOI_CANH.md) cho A04–A07, D05 và E05. Tài liệu có hồ sơ đọc sâu, nguồn gốc của 17 trích dẫn, AnotherMe và các ví dụ sản phẩm để tập so sánh.
+
 Với ba đối chứng chính, đọc hình phương pháp và phần đánh giá của **bài gốc** trước khi mở bảng luận văn. Ghi bốn ý cho mỗi bài: đầu ra máy chủ nhận, mục tiêu bảo vệ, cách tác giả đo, và thành phần luận văn đã thay. Có thể tra liên kết bản gốc ở [danh mục tài liệu](generated/references.tex) và đối chiếu ở [bảng khảo sát](generated/related.tex).
 
 | Công trình | Điều phải tự giải thích được |
