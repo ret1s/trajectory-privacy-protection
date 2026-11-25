@@ -1,133 +1,45 @@
-\chapter{CIs và attacker của so sánh chính}\label{app:main-ci}
-Các bảng dưới mở rộng bảng chính, không tạo trial mới. CI95\% theo 20 TEST families, 10.000
-bootstrap replicates; các draws/trips được gộp trong family trước resampling. Hit100 và MAE chọn
-model riêng trên SELECTION. Việc hai số trong một ô đến từ hai estimators không phải ensemble
-được chọn sau TEST.
-\section{Privacy: toàn bộ khoảng tin cậy}
+\chapter{Khoảng tin cậy và mô hình suy luận trong thí nghiệm chính}\label{app:main-ci}
+Mỗi nhóm tuyến có nhiều chuyến và mỗi chuyến có thể được lấy mẫu nhiều lần. Để tính khoảng tin cậy 95\%, các quan sát được gộp trong từng nhóm trước khi lấy mẫu lại 10.000 lần trên 20 nhóm tuyến của tập kiểm tra. Với mỗi phương pháp và kịch bản, mô hình đạt Hit100 tốt nhất và mô hình có MAE thấp nhất được chọn riêng trên tập lựa chọn. Do đó, hai kết quả trong cùng một hàng có thể đến từ hai bộ ước lượng khác nhau.
+\section{Độ chính xác khi suy luận vị trí}
 \input{generated/privacy_ci}
-\section{Utility: CI theo purpose và chênh lệch}
+\section{Chất lượng truy hồi theo mục đích tìm kiếm}
 \input{generated/utility_ci}
 \input{generated/purpose_deltas}
-\section{Toàn bộ selected attackers}
-Tên model giữ đúng artifact để tra lại feature/selector. Đối với method Q-only, Z nội bộ không
-thuộc attacker input. Shadow models là mô hình do protocol huấn luyện trên TRAIN, không phải
-attack implementation được tuyên bố lấy nguyên từ paper nguồn.
+\section{Bộ ước lượng được chọn cho từng kịch bản}
+Bảng sau ghi cách suy ra vị trí từ các tọa độ công khai. Chẳng hạn, trọng tâm là trung bình các tọa độ trong một lần gửi. Với các phép ngoại suy ở đầu hoặc cuối chuyến, cần xác định thêm cách nối các điểm qua thời gian và số quan sát dùng để khớp đường thẳng. Các bộ ước lượng có học chỉ dùng dữ liệu huấn luyện. Nếu phương pháp chỉ công bố Q, bộ ước lượng không được thấy Z.
 \input{generated/main_selected}
 
 \chapter{Chi tiết các tác vụ bổ sung}\label{app:extended}
-\section{S5: hai pha causal và calibration}
-Accuracy chọn đúng candidate edge; Brier/log loss theo probability lớp 1. Native edge first occurrence
-phải ở tương lai so cutoff. Raw chance ở cả hai pha là hạn chế của observability trong readout này.
+\section{S5: dự đoán nhánh đường trước và trong lúc rẽ}
+Độ chính xác cho biết tỷ lệ chọn đúng nhánh trong hai nhánh có thể đi. Điểm Brier và mất mát logarit cho biết xác suất gán cho lựa chọn đó có phù hợp với kết quả quan sát hay không. Lần đầu xe đi vào cạnh đường cần đoán phải nằm sau thời điểm dự đoán. Ngay cả khi có GPS thật, độ chính xác vẫn gần mức đoán ngẫu nhiên ở cả hai pha. Khi bản thân dữ liệu quan sát đã ít phân biệt được hai nhánh, riêng tác vụ này khó cho thấy mức bảo vệ tăng thêm.
 \input{generated/s5_full}
-\section{S6: tất cả pha và sai số đích}
-Ba pha là trước fork, cửa sổ rẽ và tick gửi đầu từ cửa sổ rẽ trở đi. Arrival đích thật sau cutoff;
-không dùng cả chuyến hoàn tất như observation rồi gọi bài toán đó là dự đoán tương lai.
+\section{S6: dự đoán điểm đến ở ba thời điểm}
+Ba thời điểm quan sát nằm trước ngã rẽ, trong cửa sổ rẽ và ở lần gửi đầu tiên tính từ cửa sổ rẽ trở đi. Trong cả ba trường hợp, xe chỉ đến đích sau khi người quan sát đã đưa ra dự đoán.
 \input{generated/s6_full}
-\section{S8 V2: CIs, paired deltas và số quan sát}
-Delta là view trừ target-only. Hit delta dùng điểm phần trăm, MAE delta dùng mét. Resampling theo
-10 two-family blocks giữ dependence của unrelated partner. CI [0;0] khi mọi hit đều 0 không là
-cận xác suất rủi ro bằng 0.
+\section{S8: tác động của kênh quan sát thứ hai}
+Chênh lệch được tính so với khi chỉ quan sát người dùng mục tiêu. Đơn vị là điểm phần trăm đối với Hit100 và mét đối với MAE. Khoảng tin cậy được tính bằng cách lấy mẫu lại 10 khối, mỗi khối gồm hai nhóm tuyến, để giữ quan hệ phụ thuộc khi ghép với một người đi tuyến khác. Nếu mọi lần đo đều trượt, khoảng [0;0] chỉ mô tả mẫu đã quan sát; xác suất định vị thành công trong thực tế vẫn có thể lớn hơn 0.
 \input{generated/s8_full}
 \input{generated/s8_cost}
-\section{Selected attackers của GeoI-BQ trong supplement}
-\path{curve_min} dùng khoảng cách từ Q tới hình dạng rẽ public với temperature chốt trong bank.
-Một selected estimator là kết quả của bank hữu hạn, không là Bayes-optimality certificate.
+\section{Bộ ước lượng trong các tác vụ bổ sung của GeoI-BQ}
+Ở S5 và S6, một cách phân biệt hai nhánh là đo khoảng cách từ các điểm Q tới hình dạng công khai của từng nhánh rẽ. Tham số nhiệt độ điều chỉnh mức chênh lệch xác suất giữa hai lựa chọn. Bảng ghi các bộ ước lượng được chọn theo từng tác vụ. Một bộ ước lượng khác ngoài các phương án đã thử vẫn có thể suy luận tốt hơn.
 \input{generated/selected}
 
-\chapter{Ablation và độ sâu phản hồi}\label{app:support}
-\section{Ablation nội bộ, tách khỏi paper comparison}
-Bảng dùng protocol nội bộ 14/10. Service-cover, initial-only, local explore và public base là
-controls giải thích cơ chế, không là tên các phương pháp mới từ literature. Bảng chính Chương 4
-mới là phép đối chiếu ba paper adaptations dưới protocol đã công bố.
+\chapter{Ảnh hưởng của cách chọn Q và độ sâu phản hồi}\label{app:support}
+\section{Vai trò của từng thành phần khi chọn Q}
+Để xem việc chọn Q theo thông tin vị trí đã bảo vệ đóng góp bao nhiêu, thí nghiệm ngày 14/10 lần lượt thay đổi cách chọn tọa độ và giữ lại các thành phần còn lại theo cùng giao thức. Các hàng trong bảng dưới là những cấu hình nội bộ. Phép đối chiếu với ba phương pháp từ tài liệu nghiên cứu nằm ở Chương~\ref{ch:experiments}.
 \input{generated/ablation}
-Public base có Recall cao hơn $\Gamma=1$ trong cohort này. Không suy từ gain planning score rằng
-mọi actual utility cần tăng, hoặc sửa defense để đảo chiều số liệu.
-\section{Truncation response depth trên cùng Q/time}
-L60 là response depth thực tế của main release. Truncation L30 giữ Q/time nhưng giảm POI entries.
-Delta L60--L30 có CI ghép theo family trong protocol hỗ trợ; không là chênh lệch privacy.
+Trên các tuyến đã xét, cách chỉ dùng thông tin công khai đạt Recall cao hơn cấu hình $\Gamma=1$. Kết quả này minh họa sự khác biệt giữa điểm dùng để chọn đoạn Q và chất lượng của danh sách địa điểm cuối cùng.
+\section{Khi giảm số địa điểm trong mỗi phản hồi}
+Dịch vụ trả tối đa 60 địa điểm mỗi loại tại mỗi tọa độ. Để đo ảnh hưởng của độ sâu phản hồi, thí nghiệm giữ nguyên tọa độ và thời điểm gửi, rồi chỉ lấy 30 địa điểm đầu. Khoảng tin cậy cho chênh lệch L60--L30 được tính theo cặp trên cùng nhóm tuyến.
 \input{generated/depth_sensitivity}
 
-\chapter{Nguồn, cấu hình và tái lập}\label{app:repro}
-\section{Bản chính, snapshot và phân vai nguồn}
-Canonical source là \path{thesis/main.tex}; PDF review là
-\path{artifacts/reports/graduation_thesis.pdf}. Bản trước consolidation được giữ trong
-\path{thesis/notes/snapshots/main_before_consolidation_20261109.tex} và archive PDF tương ứng.
-Các report 28/10 và 09/11 không bị ghi đè. Nguồn số liệu của bản luận văn là:
-\begin{enumerate}
-\item \path{artifacts/benchmarks/paper_comparison_20261028_v1/}: main six-arm trial, metrics gốc,
-costs và attacker choices; 30 method--scenario cells.
-\item \path{artifacts/benchmarks/remaining_scenarios_20261109_v1/}: 66 tác vụ bổ sung, gồm audit S7
-và S8 V1. Targets còn thiếu ground truth được giữ N/A.
-\item \path{artifacts/benchmarks/s8_fusion_20261109_v2/}: 24 tasks với attacker fusion; giữ cả
-SELECTION predictions và initial verifier failure.
-\item \path{configs/geo_i_bq_v1.json}: release 108 pins; outputs proposed kế thừa
-\path{main_depth_20261014_v1}, không lấy mẫu lại trong consolidation.
-\item \path{docs/research/2026-10-14_geoi_bq_mathematical_foundation.md}: đặc tả chứng minh;
-adversarial audit và mathematical completion receipts lưu riêng trong \path{docs/reviews/}.
-\end{enumerate}
+\chapter{Phạm vi dữ liệu và cách đối chiếu kết quả}\label{app:repro}
+\section{Nguồn của các phép so sánh}
+Thí nghiệm chính đối chiếu sáu phương pháp trên năm tác vụ định vị, cho 30 cặp phương pháp và kịch bản. Mỗi phương pháp được chấm trên cùng nhóm tuyến và cửa sổ thời gian. Với GeoI-BQ, các điểm Q và thời điểm gửi đã được cố định trước khi đối chiếu; cùng một chuỗi được dùng để tính độ riêng tư, chất lượng tìm kiếm và chi phí.
 
-Exporter của luận văn xác thực các source hashes, xuất bảng/hình và lưu
-\path{thesis/generated/sources.json}. Nó không fit attacker, sửa GPS, sinh Q hoặc ghi lại benchmark.
-Các foundations cũ được dẫn riêng; literature evidence giữ cửa sổ khảo sát 28/10/2023--28/10/2026.
-Không cập nhật trạng thái công bố một preprint sau mốc khảo sát mà không audit nguồn mới.
-
-Revision lập luận 16/11 giữ nguyên các benchmark trên và bổ sung
-\path{artifacts/analysis/thesis_arguments_20261116_v1/}: audit masks, ledger, aggregation và control
-thông tin offline có điều kiện. Module \path{evaluation/argument_bounds_20261116.py} duyệt ví dụ
-hữu tỷ cho posterior events, tập suy luận do estimator chọn, joint channels và utility. Receipt
-mới không ghi đè certificate toán học 14/10 hoặc validation luận văn 09/11.
-
-\section{Coverage và failure trong so sánh chính}
-Mỗi arm hoàn tất 120/120 TEST trip-draws. Coverage dưới đây chỉ là trạng thái thực thi của trial,
-không là phần trăm các mục tiêu privacy đã được giải quyết. Runtime failure và target N/A có ý
-nghĩa riêng như đã định nghĩa ở Chương~\ref{ch:experiments}.
+Đánh giá bổ sung gồm 66 tác vụ, trong đó có phép kiểm tra nội dung truy vấn ở S7 và lần đánh giá đầu tiên ở S8. Riêng S8 có thêm 24 tác vụ để xét những cách kết hợp thông tin từ hai người dùng. Khi thiếu nhãn thực tế để chấm một mục tiêu, kết quả được ghi là N/A. Các thí nghiệm về độ sâu phản hồi và về cách chọn Q trả lời những câu hỏi riêng. Mỗi chênh lệch được tính trong phạm vi thí nghiệm có chung điều kiện so sánh.
+\section{Số chuyến được đánh giá}
+Cả sáu phương pháp đều hoàn tất 120 trên 120 lượt đánh giá trong tập kiểm tra. Con số này cho biết có bao nhiêu quan sát để tính các chỉ số. Mức bảo vệ còn phụ thuộc vào người quan sát thấy gì và họ có thể suy ra vị trí chính xác đến đâu.
 \input{generated/coverage}
-
-\section{Lệnh kiểm tra và dựng lại}
-Từ repo root, dùng Python environment có \path{requirements-paper-comparison.txt} và
-\path{thesis/requirements.txt}. Các lệnh dưới là read-only đối với benchmark đã lưu:
-\begin{quote}\small\ttfamily\raggedright
-python -m experiments.check\_paper\_comparison\_20261028\\
-python -m experiments.verify\_remaining\_scenarios\_20261109\\
-python -m experiments.check\_s8\_fusion\_20261109\\
-python -m experiments.verify\_geoi\_bq\_mathematics\_20261014 --check\\
-python -m experiments.export\_thesis\_consolidated\_20261109 --check
-\end{quote}
-Kiểm chứng revision hiện tại:
-\begin{quote}\small\ttfamily\raggedright
-python -m experiments.audit\_thesis\_arguments\_20261116 --check\\
-python -m evaluation.argument\_bounds\_20261116\\
-python -m unittest tests.test\_argument\_bounds\_20261116\\
-python -m unittest tests.test\_thesis\_argument\_audit\_20261116
-\end{quote}
-Để xuất lại bảng/hình, bỏ \texttt{--check} ở exporter cuối; không bỏ check bằng cách gọi runner
-sinh benchmark. Sau đó, từ \path{thesis/}:
-\begin{quote}\small\ttfamily\raggedright
-tectonic --keep-logs --outdir ../build/thesis main.tex
-\end{quote}
-Sau khi kiểm tra layout, PDF được đặt vào đường dẫn canonical và chạy validator luận văn từ repo root:
-\begin{quote}\small\ttfamily\raggedright
-python -m experiments.validate\_thesis\_consolidated\_20261109
-\end{quote}
-Kiểm tra source/table/receipt không thay được việc xem PDF: cần render và xem mọi trang, kiểm tra
-equations, ngắt bảng, glyph tiếng Việt và links mục lục. Validator lưu các kiểm tra thực hiện được;
-visual review được ghi riêng sau khi đã xem bản cuối.
-
-\section{Những trường hợp kiểm chứng cần đọc đúng}
-Frozen verifier S8 V2 gốc giữ một gate yêu cầu selected Raw-partner Hit100 100\% cho mọi arm.
-Failure đầu ở \path{verification_failures/initial_gate.json} được bảo tồn. Checker độc lập
-\path{experiments/check_s8_fusion_20261109.py} xác thực available direct-partner control đạt 100\%
-và selected score 98,33\% ở TransProtect*; không sửa predictions. Không chạy write-once verifier
-để ghi đè dấu vết này.
-
-Các finite graph oracles kiểm tra support, lane reachability, normalization, mọi prefix budget,
-mixture/emission và integer PMF. Chứng minh đại số áp cho mọi input thỏa giả thiết; finite oracles
-chỉ kiểm tra triển khai trên miền đã duyệt. Float sampler, entropy thực và full upstream restore
-vẫn giữ đúng mức chứng nhận đã trình bày ở Chương~\ref{ch:method}.
-
-\section{Tách bằng chứng lịch sử khỏi kết quả hợp nhất}
-Repository còn các report/datasets phát triển trước release, pilot continual, response-depth và
-diagnostics ứng dụng. Chúng giải thích lịch sử nghiên cứu nhưng không được xếp cạnh main trial như
-cùng protocol. Các module \path{thesis/current_*.tex} cũ còn lưu để tra cứu; bản canonical mới
-không import chúng. Mục đích của consolidation là một mạch lập luận và một evidence map nhất quán,
-không cộng mọi score từng có thành một tuyên bố mạnh hơn phạm vi dữ liệu.
+\section{Đọc hai kết quả đối chứng ở S8}
+Khi người đi cùng công bố GPS thật, lấy trọng tâm tọa độ trên kênh đó cho Hit100 bằng 100\% trong điều kiện thí nghiệm. Ban đầu, tiêu chí kiểm tra yêu cầu mọi mô hình được chọn cũng phải đạt mức này. Kết quả của TransProtect* cho thấy điều kiện ấy quá mạnh. Một bộ ước lượng khác đồng hạng trên tập lựa chọn được dùng để đánh giá và đạt 98,33\% trên tập kiểm tra. Đối chiếu lại từng dự đoán xác nhận cả hai giá trị. Khi đánh giá rủi ro tiết lộ, phép đọc trực tiếp cho thấy thông tin mà kênh thứ hai thực sự cung cấp, kể cả khi mô hình được chọn chưa tận dụng hết thông tin đó.

@@ -14,43 +14,19 @@ bản ghi cũ còn cần được cập nhật. Vì vậy, khi áp dụng kết 
 cần tính thêm thời hạn hiệu lực và chi phí làm mới thông tin.
 
 \subsection{Độ sâu phản hồi và vai trò của GPS trên thiết bị}
-Trên cùng Q/time và provider signatures, truncation L30 cho macro Recall 94,170\%, thấp hơn L60
-5,425 điểm phần trăm, CI95\% [3,486;7,527]. Radius chịu chênh lệch lớn nhất, khoảng 10,374 điểm
-phần trăm. Bảng chi tiết ở Phụ lục~\ref{app:support}; đây là replay/sensitivity có contract riêng,
-không là một lần cải thiện privacy hoặc một thử nghiệm thành phố mới.
+Khi giữ nguyên vị trí và thời điểm gửi, lấy 30 địa điểm đầu thay vì 60 làm Recall trung bình giảm 5,425 điểm phần trăm, còn 94,170\% (khoảng tin cậy 95\% của mức giảm là [3,486; 7,527]). Tác động lớn nhất nằm ở truy vấn theo bán kính, với mức giảm khoảng 10,374 điểm phần trăm. Phụ lục~\ref{app:support} trình bày chi tiết theo mục đích tìm kiếm.
 
-Một correction metadata đã đổi nhãn request nguồn cũ từ L30 sang L60 để khớp callback thực tế.
-Nó không thay Q/time, reply masks, Recall hoặc độ dài bytes trong main trial. Cấu hình trình bày
-hiện tại ghi L60 mỗi category/tọa độ; không nối score của L30 cũ với score mới thành một comparison
-cùng cấu hình. Source hashes và verifier ghi lại correction này.
+Ở thí nghiệm chính, máy chủ trả tối đa 60 địa điểm cho mỗi loại tại mỗi tọa độ (L60). Bản ghi mô tả ban đầu ghi nhầm L30. Độ sâu được xác định lại từ phản hồi thực tế; tọa độ, thời điểm gửi, lượng dữ liệu và các giá trị Recall đều được tính trên chính những phản hồi đó. Phép so sánh ở đoạn trên mới là phép đo tác động của việc giảm độ sâu xuống L30.
 
-GPS local dùng đánh giá/ranking tại grid 20 s; lớp bảo vệ chỉ đưa private information mới vào
-upstream theo pacing tối thiểu 60 s và cap. Vì vậy ít protected reads không đồng nghĩa điện thoại
-chỉ bật GNSS từng ấy lần, cũng không chứng minh tiết kiệm pin. Đây là ranh giới giữa quan sát
-của server và nhu cầu local, không phải một thí nghiệm năng lượng.
+Thiết bị dùng GPS để xếp hạng địa điểm mỗi 20 s. Riêng bước cập nhật thông tin vị trí cho cơ chế bảo vệ phải cách lần đọc trước ít nhất 60 s và còn đủ ngân sách. Hai tần suất phục vụ hai việc khác nhau. Muốn biết cơ chế có tiết kiệm pin hay không, cần đo thời gian hoạt động của bộ thu GNSS trên thiết bị.
 
-\subsection{Ablation public base và thích nghi theo belief}\label{sec:belief-attribution}
-Bảng ablation nội bộ ngày 14/10 giữ cùng frozen release ở Phụ lục~\ref{app:support}. Matched public
-base $\Gamma=0$ đạt macro 99,711\%, cao hơn GeoI-BQ $\Gamma=1$ là 99,595\% trên workload này.
-Service-cover đạt 100\% nhưng là control retrieval nội bộ, không phải một paper đối chứng.
+\subsection{Việc chọn Q theo vị trí ước lượng đóng góp bao nhiêu?}\label{sec:belief-attribution}
+Trong thí nghiệm ở Phụ lục~\ref{app:support}, cách chọn Q chỉ theo thông tin công khai ($\Gamma=0$) đạt Recall trung bình 99,711\%. Khi cho phép dùng thêm phân phối vị trí ước lượng ($\Gamma=1$), GeoI-BQ đạt 99,595\%. Chênh lệch theo cặp là $-0{,}116$ điểm phần trăm, với khoảng tin cậy 95\% là $[-0{,}253;-0{,}006]$. Phương án đối chứng chuyên phục vụ truy hồi (service-cover) đạt 100\% trong cùng thí nghiệm nội bộ.
 
-Readout nguồn ghi chênh lệch primary trừ public base là khoảng $-0{,}116$ điểm phần trăm, CI95\%
-$[-0{,}253;-0{,}006]$. Khoảng này hỗ trợ chiều bất lợi cho adaptation trên cohort đang xét; nó
-không là kết luận public base luôn tốt hơn trên mọi workload. Public base cần được xem là control
-để kiểm tra sự cần thiết của thích nghi, không chỉ là một hàng giải thích phụ.
+Hai cấu hình giải đáp một câu hỏi thiết kế. Với $\Gamma=0$ và cùng thông tin công khai, phân phối chọn Q độc lập với vị trí riêng. Với $\Gamma=1$, mô hình có thể ưu tiên các đoạn truy vấn phù hợp với vị trí ước lượng, trong giới hạn tiết lộ đã chứng minh. Điểm ưu tiên cao hơn chỉ có ích cho người dùng nếu đoạn đó tìm thêm được địa điểm phù hợp. Trên danh mục đang xét, số liệu nghiêng nhẹ về cách chọn chỉ theo thông tin công khai. Giá trị của việc thích nghi với vị trí cần được đánh giá tiếp ở những nơi có nhiều địa điểm hơn hoặc danh mục thay đổi theo thời gian.
 
-Kết quả đó phù hợp với định lý utility: gain score không bắt buộc actual Recall gain. $\Gamma=0$
-loại private adaptation của Q khi context cố định; vì thế nó cũng có Q-channel independence mạnh
-hơn. Cohort này \textbf{chưa chứng minh belief adaptation cần thiết hoặc $\Gamma=1$ tối ưu}.
-Thiết kế đề xuất cho phép bounded adaptation có accounting, còn giá trị thực tế của adaptation
-trong catalogue lớn/động cần được xác nhận. Không thay baseline sau khi nhìn TEST để che kết quả này.
-
-\subsection{Audit saturation và miền vận hành chưa được kiểm tra}\label{sec:argument-audit}
-Một audit read-only sau review đối chiếu lại toàn bộ masks và ledger của 120 TEST draws, xác thực
-108 frozen pins và các source receipts. Nó không sinh GPS/Q, fit attacker, đổi cấu hình hoặc
-ghi lại main benchmark. Kết quả trong Bảng~\ref{tab:argument-audit} cho thấy ngay packet đầu đã
-nhận trung bình khoảng 91\% catalogue, cuối phiên khoảng 99,49\%. Recall gần bão hoà vì vậy chưa
-phân biệt rõ giá trị riêng của belief với một public-cover policy.
+\subsection{Khi danh mục địa điểm gần như đã được truy hồi hết}\label{sec:argument-audit}
+Vì sao hai cách chọn Q khác nhau vẫn có thể đạt Recall gần bằng nhau? Khi đối chiếu các địa điểm đã nhận trong 120 lần đánh giá trên tập kiểm tra, ngay gói đầu tiên đã chứa trung bình khoảng 91\% danh mục. Đến cuối phiên, tỷ lệ này đạt khoảng 99,49\% (Bảng~\ref{tab:argument-audit}). Khi phần lớn địa điểm đã có trên thiết bị, việc chọn đoạn Q theo phân phối vị trí ước lượng còn ít cơ hội cải thiện đáp án so với cách chỉ dùng thông tin công khai.
 
 \input{../artifacts/analysis/thesis_arguments_20261116_v1/argument_audit}
 
@@ -90,51 +66,19 @@ cung cấp tín hiệu trong một cutoff cụ thể. S8 V2 cho thấy một ban
 Vì vậy attacker selection phải công khai, giữ loss-specific models và không trình bày số lớn ở MAE
 như một chứng chỉ attacker tối ưu đã thất bại.
 
-\subsection{Validity của dữ liệu và utility gần bão hòa}
-Chia family tránh một dạng leakage giữa các chuyến cùng nhóm, nhưng bản đồ/cohort đã được xem trong
-quá trình phát triển. TRAIN/SELECTION/TEST không biến nó thành một geography holdout độc lập. Native
-SUMO phản ánh những ràng buộc giao thông của mạng đã xây, chưa đại diện hành vi người thật, quyết định
-POI hay nhãn người/xe. Bootstrap family/block đo resampling của số nhóm hữu hạn đang có, không đo
-tất cả nguồn domain shift.
+\subsection{Phạm vi của dữ liệu mô phỏng}
+Việc tách các nhóm tuyến giúp tránh đưa những chuyến cùng nguồn vào cả tập huấn luyện và tập kiểm tra. Tuy vậy, cả ba tập vẫn thuộc một khu vực đã được dùng trong quá trình phát triển. Khoảng tin cậy mô tả biến thiên giữa các nhóm hiện có. Khả năng áp dụng sang thành phố khác, hành vi chọn địa điểm của người thật và việc nhận diện từng cá nhân hoặc phương tiện cần dữ liệu độc lập.
 
-Catalogue có 418 POI và sáu categories. K5 nhân L60 mỗi category có thể trả tối đa 1.800 entries trước
-dedup ở một packet, nên coverage và session cache dễ gần bão hòa. Đây là lời giải thích quan trọng
-cho Recall gần 100\%, không chỉ là đặc tính của planner. Nếu API cho tải toàn catalogue hợp lệ một
-lần với cost chấp nhận được, client có thể giảm nhu cầu periodic coordinate queries; lợi thế của
-planner khi đó phải được đánh giá lại theo chính contract đó. Không ghép số từ một diagnostic bulk
-khác cohort/cấu hình vào bảng chính để chứng minh ưu thế.
+Danh mục có 418 địa điểm thuộc sáu loại. Một lần gửi năm tọa độ, mỗi tọa độ lấy tối đa 60 địa điểm mỗi loại, có thể nhận tới 1.800 mục trước khi loại trùng. Vì vậy, Recall cao còn phản ánh quy mô danh mục so với lượng dữ liệu trả về. Như đã phân tích ở Mục~\ref{sec:data-access}, mô phỏng cho phép dùng toàn bộ danh mục để lập kế hoạch, sau đó mới giới hạn đáp án ở những địa điểm thực nhận. Để đánh giá giá trị của truy vấn trực tuyến, cần một thiết bị chỉ có dữ liệu ban đầu và một dịch vụ nắm thông tin mới, chẳng hạn trạm sạc vừa ngừng hoạt động. Nếu có thể tải cả danh mục với chi phí chấp nhận được, cần tính cả chi phí tải và cập nhật khi đối chiếu hai cách phục vụ.
 
-Vấn đề còn nằm ở quyền truy cập của prototype: public reference/reply được nạp đầy đủ để lập
-kế hoạch và xếp hạng, không chỉ ở giả thuyết provider có một API bulk. Phân vai ở
-Mục~\ref{sec:data-access} phải được giữ khi diễn giải: trial hiện kiểm tra acquisition theo
-received-mask trong một thế giới tham chiếu biết trước. Muốn chứng minh giá trị của truy vấn
-online, cần tách proxy offline khỏi metadata hiện hành thật sự chưa có ở thiết bị và đo đúng
-contract mới. Không thể dùng một nhu cầu dữ liệu live chưa được đánh giá để giải thích hồi tố
-toàn bộ lợi ích của static benchmark.
+Sai số định vị lớn cũng phụ thuộc vào độ rộng của tập đoạn Q khả dụng so với phạm vi các tuyến đã đi. Một phép thử ở địa bàn mới cần cố định trước tập tuyến, danh mục và cách tính đáp án tham chiếu.
 
-Privacy MAE lớn cũng phụ thuộc public library rộng so với route workload. Công bố sự khác nhau này
-giúp phân biệt guard lý thuyết với lợi ích do geometry hiện tại. Một nghiên cứu tiếp theo cần catalogue
-lớn/động hơn, reference đầy đủ và những family mới chốt trước khi đánh giá.
+\subsection{Giới hạn khi triển khai trên thiết bị}
+Độ chính xác số của phép lấy mẫu, chất lượng nguồn ngẫu nhiên và việc khôi phục trạng thái sau khi khởi động lại đều ảnh hưởng đến bảo đảm của một phiên. Nhà cung cấp còn có thể nhận ra người dùng qua tài khoản, địa chỉ IP, kích thước gói tin, thao tác chọn địa điểm hoặc thời điểm mở và đóng phiên. Khi liên kết nhiều phiên hoặc nhiều người đi cùng, cần xét thêm thông tin thu được từ sự liên kết ấy.
 
-\subsection{Giới hạn triển khai và tài nguyên}
-Float Geo-I, entropy nguồn random và full-state restore là những điều kiện thực thi còn phải kiểm
-chứng trước deployment có cam kết. Header/account/IP, kích thước payload không được giữ cố định,
-click feedback và private start/stop timing có thể tạo kênh khác. Finite cap của một phiên không
-xóa composition qua nhiều phiên liên kết hoặc qua người tương quan.
+Chi phí đã đo gồm số truy vấn, số mục trả về và dung lượng biểu diễn các chỉ mục bằng JSON. Độ trễ mạng, giá dịch vụ, kích thước siêu dữ liệu ngoài thực tế và điện năng tiêu thụ trên điện thoại chưa được đo đồng thời. GeoI-BQ và REM-Z dùng lại chuỗi truy vấn đã tạo nên thí nghiệm cũng chưa so sánh được thời gian sinh tọa độ của hai phương pháp.
 
-Chi phí hiện báo là counts và serialized index JSON. Metadata thực, network latency, server billing,
-GNSS duty cycle và năng lượng chưa có phép đo đồng bộ. BQ/REM-Z được replay nên không có generation
-timing cùng trial. Các giới hạn này không làm mất giá trị của counts đã kiểm chứng, nhưng ngăn kết
-luận phương pháp nhanh hơn/rẻ hơn trên thiết bị người dùng.
+\subsection{Đối chiếu kết quả thực nghiệm}
+Phép kiểm tra độc lập đối chiếu 392.832 giá trị chất lượng dịch vụ, 600 điểm riêng tư tính theo nhóm tuyến, 528 giá trị chi phí theo chuyến và 5.456 đoạn quan sát tính từ đầu phiên của GeoI-BQ. Tổng cộng có 104.168 truy vấn theo tọa độ trên tất cả phương pháp và các tập dữ liệu. Với tác vụ dự đoán, thời điểm cắt chuỗi quan sát được kiểm tra để bảo đảm mọi dự đoán chỉ dùng thông tin đã có lúc đó. Với các phương pháp chèn truy vấn giả, cả truy vấn thật lẫn truy vấn giả đều được tính vào chi phí.
 
-\subsection{Kiểm chứng tái lập và failure accounting}
-Main verifier kiểm tra độc lập 392.832 ô utility, 600 family-level privacy scores, 528 native-cost
-trip values, 5.456 proposed prefixes và tổng 104.168 point queries trên toàn các split/arms.
-Supplement kiểm tra split/block, future cutoffs, selectors, predictions, CIs và mọi fake packet.
-Kết quả failure gate S8 ban đầu được giữ bên cạnh checker sửa điều kiện kiểm tra, không ghi đè
-predictions. Cả ba benchmark folders và 108 frozen release pins được xác thực trước xuất bảng.
-
-Quy trình này không biến dữ liệu đã xem thành dữ liệu mới hoặc làm mọi sai số biến mất. Nó bảo đảm
-người review có thể đi từ kết luận về đúng con số, task, output và source dùng để tính. Trong luận
-văn, đây là cơ sở để giới hạn contribution ở một phương pháp có đặc tả rõ, chuỗi chứng minh có điều
-kiện và một đánh giá thực nghiệm có thể kiểm tra.
+Các phép đối chiếu giúp truy ngược một điểm số về đúng nhóm tuyến, thời điểm và thông tin người quan sát được phép thấy. Đó cũng là phạm vi trong đó các kết quả thực nghiệm hỗ trợ cho lập luận của luận văn.

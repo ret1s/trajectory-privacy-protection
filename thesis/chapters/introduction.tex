@@ -120,15 +120,10 @@ Mục~\ref{sec:data-access}.
 
 \section{Các đóng góp chính}
 \begin{enumerate}
-\item \textbf{Khung chung cho các kịch bản suy luận.} Luận văn tổ chức S1--S10, phân biệt thông tin
-riêng/công khai và quyền quan sát; xây dựng protocol cho những output khác nhau và giữ trường hợp
-không áp dụng, failure, confidence interval cùng cost.
-\item \textbf{Thiết kế phương pháp và phân tích toàn transcript.} Phương pháp nối REM/noisy reuse,
-belief và kernel chọn chung đoạn Q có ngân sách tổng hữu hạn; phân tích privacy và utility nêu rõ
-giả thiết cũng như quan hệ giữa bảo đảm lý tưởng và prototype.
-\item \textbf{Thực nghiệm có thể tái lập.} So sánh chính dùng ba adaptation đã audit từ paper, kèm
-Raw GPS và REM-Z; các phép đo mở rộng giữ target phù hợp và quá trình tăng cường attacker S8.
-Bảng/hình được xuất từ artifact đã xác thực, không điều chỉnh defense để tìm kết quả thuận lợi.
+\item \textbf{Khung chung cho các kịch bản suy luận.} Với mỗi kịch bản từ S1 đến S10, luận văn xác định người quan sát biết gì, muốn suy ra điều gì và phép đo nào trả lời được câu hỏi đó. Nhờ vậy, có thể so sánh cả những phương pháp công bố các dạng tọa độ khác nhau.
+\item \textbf{Phương pháp bảo vệ cả chuỗi truy vấn.} GeoI-BQ tách việc đọc GPS để cập nhật điểm tham chiếu khỏi việc chọn tọa độ gửi đi. Phân tích toán học chỉ ra lượng thông tin cả chuỗi truy vấn có thể tiết lộ trong một phiên, cùng các điều kiện để chuỗi đó vẫn tìm được địa điểm phù hợp.
+\item \textbf{Đối chiếu trên cùng chuyến đi.} Luận văn so sánh GeoI-BQ với ba phương pháp được triển khai theo nghiên cứu đã công bố, cùng hai mốc tham chiếu là gửi GPS thật và gửi trực tiếp điểm REM-Z. Kết quả được đọc theo cả sai số suy luận vị trí, chất lượng tìm địa điểm và chi phí truy vấn. Riêng S8 được đánh giá thêm khi người quan sát có thể kết hợp hai chuỗi truy vấn.
+
 \end{enumerate}
 
 Geo-I, dự đoán riêng tư, hợp thành và hậu xử lý là kiến thức kế thừa \cite{geoi,predictive,dworkroth}.

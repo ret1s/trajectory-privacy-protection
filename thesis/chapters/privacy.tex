@@ -214,7 +214,7 @@ Với $\Gamma_Q=1$, phép tính hữu tỷ và chặn phần đuôi cho cận to
 R_\infty<2{,}437372<e.
 \label{eq:r-infinite}
 \end{equation}
-Receipt kiểm chứng lưu cách làm tròn ra ngoài; đây không phải suy luận từ một số thực làm tròn
+Phép tính bằng phân số làm tròn cận trên theo chiều tăng; đây không phải suy luận từ một số thực làm tròn
 thành cận chính xác. Các allowance hữu tỷ triển khai không vượt lịch đã công bố. Khi $j$ lớn,
 $\alpha_j\to0$, phân phối tiến gần public base. Đây là trade-off của finite disclosure budget:
 không thể đồng thời kết luận luôn thích nghi mạnh và vẫn giữ nguyên guard hữu hạn cho mọi chuyến dài.
@@ -374,15 +374,8 @@ luôn có utility cao hơn $\Gamma=0$. Lợi ích đó cần điều kiện cali
 riêng. Việc giữ Geo-I/REM làm upstream của họ phương pháp không thay kết luận độc lập của nhánh
 Q khi $\Gamma=0$; lớp Geo-I vẫn có phạm vi spatial/accounting riêng như đã nêu.
 
-\subsection{Phạm vi kiểm chứng của mã và chứng minh}\label{sec:proof-implementation}
-Phép kiểm chứng hữu hạn duyệt các graph nhỏ để đối chiếu normalization, likelihood inequalities,
-common support, directed paths, mọi prefix allowance và integer PMF. Receipt số học hữu tỷ xác nhận
-các cận vô hạn và các bất đẳng thức đại số. Những kiểm tra này hỗ trợ liên kết mã--định lý; chúng
-không thay thế chứng minh tổng quát bằng một cuộc thử nhiều seeds.
+\subsection{Từ cơ chế lý tưởng đến mô phỏng}\label{sec:proof-implementation}
 
-Còn hai điều kiện triển khai quan trọng. Thứ nhất, REM/noisy test số thực hiện có chưa được chứng
-nhận support và rounding theo pure Geo-I cho mọi input; finite precision có thể tạo lỗ hổng
-likelihood ratio~\cite{mironov}. Thứ hai, ledger Q đã có persistence nhưng phục hồi toàn upstream
-state sau restart vẫn là trách nhiệm của caller và chưa có chứng nhận toàn deployment. Vì thế
-luận văn giữ riêng kernel lý tưởng, kiểm chứng module và phạm vi simulator. Không lấy điểm attacker
-thấp để tuyên bố hai điều kiện này đã tự được giải quyết.
+Trên những mạng đường nhỏ, ta có thể liệt kê hết các khả năng để kiểm tra tổng xác suất, tỷ số xác suất, tập đầu ra chung và tính khả thi của từng đoạn đường có hướng. Ngân sách cũng được đối chiếu sau mỗi lần gửi. Các phép tính bằng phân số cho phép kiểm tra cận của tích vô hạn mà vẫn kiểm soát chiều làm tròn. Chứng minh tổng quát ở trên giải thích vì sao các cận tiếp tục đúng ngoài những ví dụ đã liệt kê, khi các giả thiết vẫn được thỏa mãn.
+
+Có hai điểm cần lưu ý khi áp dụng kết quả này. Thứ nhất, phép lấy mẫu REM và phép thử giữ điểm trong mô phỏng dùng số dấu phẩy động. Sai số làm tròn có thể làm thay đổi tỷ số xác suất~\cite{mironov}; bảo đảm Geo-I thuần túy ở độ chính xác hữu hạn chưa được xác lập cho mọi đầu vào. Thứ hai, bộ đếm ngân sách chọn Q được lưu qua lần khởi động lại. Để cận của cả phiên còn hiệu lực, thiết bị còn phải khôi phục đúng trạng thái của lớp đọc GPS và điểm tham chiếu. Điều kiện thứ hai này vẫn cần được kiểm tra khi triển khai trên thiết bị thực.

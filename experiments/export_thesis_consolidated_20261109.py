@@ -66,7 +66,7 @@ TABLES={
  'related':('Tổng hợp nghiên cứu: cơ chế, output, scenario, metrics và fidelity','related'),
  'ablation':('Ablation nội bộ ngày 14/10, tách khỏi đối chiếu paper','ablation'),
  'depth_sensitivity':('Truncation L30 so với L60 trên cùng Q/time','depth'),
- 'sample_trace':('Một prefix nhiều bước cố định từ family cache-029','sample'),
+ 'sample_trace':('Từ vị trí thật đến các địa điểm nhận được trong 180 giây đầu của chuyến minh họa','sample'),
 }
 EXTRA={
  's4':('Liên kết phiên S4 ở mức route-family proxy','s4'),
@@ -75,7 +75,7 @@ EXTRA={
  's7':('S7: độ phân biệt payload có điều kiện trong common wrapper','s7'),
  's8':(r'S8 với attacker fusion: Hit100 (\%) / MAE (m)','s8'),
  'fusion':('S8 protected-partner: V1 và vòng attacker fusion V2','fusion'),
- 'selected':('Attacker được chọn cho GeoI-BQ trong đánh giá bổ sung','extra-selected'),
+ 'selected':('Các bộ ước lượng được chọn khi đánh giá GeoI-BQ trên các tác vụ bổ sung','extra-selected'),
  's5_full':('Tất cả pha S5, xác suất dự đoán và CI','s5-full'),
  's6_full':('Tất cả pha S6, xác suất dự đoán và sai số đích','s6-full'),
  's8_full':('S8 V2: CI và chênh lệch ghép theo block','s8-full'),
@@ -129,25 +129,70 @@ def figures():
                                   metadata={'CreationDate':None,'ModDate':None});plt.close(fig)
 
 
+# Display names describe the estimators while the benchmark retains their original IDs.
+ESTIMATOR_LABELS = {
+    'centroid': 'Trọng tâm',
+    'median': 'Trung vị theo từng tọa độ',
+    'query_prior': 'Điểm có xác suất tiên nghiệm cao nhất',
+    'shadow_tree': 'Hồi quy Extra Trees (64 cây)',
+    'shadow_prior_median': 'Trung vị vị trí trên tập huấn luyện',
+    'geometry_nearest_prior_median': 'Trung vị vị trí trên tập huấn luyện (nhóm ghép hình học)',
+    'viterbi_motion': 'Viterbi theo chuyển động',
+    'public_boundary_viterbi_ols2': 'Viterbi theo chuyển động, ngoại suy từ 2 mốc',
+    'observed_slots_slot4_endpoint': 'Điểm thứ 5 ở lần gửi tại biên quan sát',
+    'observed_slots_slot4_ols2_boundary': 'Điểm thứ 5 theo thứ tự gửi, ngoại suy từ 2 mốc',
+    'extra_trees96@0.5': 'Extra Trees (96 cây, ngưỡng 0,5)',
+    'curve_min_0.02': 'Khoảng cách nhỏ nhất tới nhánh rẽ (nhiệt độ 0,02)',
+    'learned_knn5': 'Hồi quy 5 láng giềng gần nhất',
+    'partner_centroid': 'Trọng tâm trên kênh người đi cùng',
+    'target_only_knn5': '5 láng giềng gần nhất, chỉ dùng kênh mục tiêu',
+}
+for count in (2, 3, 6):
+    ESTIMATOR_LABELS[f'geometry_nearest_slot0_ols{count}_boundary'] = (
+        f'Quỹ đạo thứ nhất sau ghép hình học, ngoại suy từ {count} mốc'
+    )
+
+
+def supplementary_estimators():
+    tasks = {t['task']: t for t in read(SUPPLEMENT.B1/'results.json')['tasks']}
+    joint = {t['task']: t for t in read(SUPPLEMENT.B2/'results.json')['tasks']}
+    rows = []
+    for key, label in [('S4--geoi_bq', 'S4, liên kết phiên'),
+                       ('S5--turn_window--geoi_bq', 'S5, lúc rẽ'),
+                       ('S6--post_turn--geoi_bq', 'S6, sau rẽ')]:
+        rows.append([label, ESTIMATOR_LABELS[tasks[key]['selected']]])
+    for view, label in zip(SUPPLEMENT.VIEWS, ['Chỉ mục tiêu', 'Kênh đã bảo vệ',
+                                              'Kênh GPS thật', 'Người khác tuyến']):
+        choice = joint[f'S8--{view}--geoi_bq']['selected']
+        hit, mae = (ESTIMATOR_LABELS[choice[metric]] for metric in ('hit100', 'mae'))
+        rows.append(['S8, ' + label, f'Hit100 và MAE: {hit}' if hit == mae
+                     else f'Hit100: {hit}. MAE: {mae}.'])
+    return PAPER.table('P{3cm}X', ('Tác vụ', 'Bộ ước lượng được chọn'), rows)
+
+
 def generated():
     one,c1,bib,p1=PAPER.generated();two,c2,p2=SUPPLEMENT.generated();out={}
     for name,text in one.items():
         if name == 'native.tex':
             # The old table's EIE-like error is our S3 bank's MAE, not VehiTrack reproduction.
             text = text.replace('EIE S3 (m)', 'MAE S3 (m)')
+        if name == 'related.tex':
+            text = text.replace('chưa có comparator đã audit trong repo',
+                                'chưa đánh giá trực tiếp trên cùng tác vụ')
         cap,label=TABLES[name[:-4]]
         out[name]=longtable(text,cap,label,'footnotesize' if name in ('related.tex','privacy_ci.tex','sample_trace.tex') else 'small')
     for name,text in two.items():
+        if name == 'selected.tex':
+            text = supplementary_estimators()
         cap,label=EXTRA[name[:-4]]
         out[name]=longtable(text,cap,label,'footnotesize' if name in ('s6_full.tex','s8_full.tex') else 'small')
     primary=read(PAPER.BENCH/'results.json')
     selected=[]
     for task in primary['attackers']:
-        def wrap(s):return r'\path{'+s+'}'
         label=PAPER.LABELS[PAPER.METHODS.index(task['method'])]
-        selected.append([label,task['scenario'],wrap(task['selected_attacker']['hit100']),wrap(task['selected_attacker']['mae'])])
-    raw=PAPER.table('P{3.1cm}P{.7cm}XX',('Phương pháp','S','Attacker Hit100','Attacker MAE'),selected)
-    out['main_selected.tex']=longtable(raw,'Toàn bộ attacker thực sự được chọn trong trial chính','main-selected','footnotesize')
+        selected.append([label,task['scenario'],ESTIMATOR_LABELS[task['selected_attacker']['hit100']],ESTIMATOR_LABELS[task['selected_attacker']['mae']]])
+    raw=PAPER.table('P{3.1cm}P{.7cm}XX',('Phương pháp','S','Theo Hit100','Theo MAE'),selected)
+    out['main_selected.tex']=longtable(raw,'Bộ ước lượng vị trí được chọn theo từng phương pháp và từng kịch bản','main-selected','footnotesize')
     years={'semantic':2026,'fake':2026,'ev':2024,'cpcrok':2025,'dpfetc':2025,'ptppm':2025}
     lines=[]
     for line in bib.splitlines():

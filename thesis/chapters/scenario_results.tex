@@ -68,10 +68,8 @@ Một tác vụ S6 dùng sáu chuyến lịch sử đã bảo vệ chưa chạy 
 không dùng native lịch sử chưa bảo vệ để lấp vào như cùng contract.
 
 \subsection{S7: kiểm tra payload có điều kiện}
-Giữ cùng GPS/Q, clock và provider; thay bốn purposes nhân sáu categories tại local. Kiểm tra
-\path{SessionCoverClient} thực qua provider probe trả reply rỗng cố định; actual frozen reply-mask
-signatures được xác thực riêng. Đây là audit interface/payload, không chạy lại utility POI hoặc
-huấn luyện một natural-intent attacker.
+Nếu hai người đi cùng một tuyến nhưng một người tìm nhà thuốc còn người kia tìm quán ăn, máy chủ có nhận được hai yêu cầu khác nhau không? Để kiểm tra riêng nội dung gửi đi, thí nghiệm giữ nguyên GPS, các điểm Q, lịch gửi và nhà cung cấp, rồi lần lượt thay bốn mục đích tìm kiếm và sáu loại địa điểm trên thiết bị. Dịch vụ thử nghiệm luôn trả về cùng một phản hồi rỗng để cô lập bước gửi yêu cầu. Các tập địa điểm thực sự nhận được trong thí nghiệm chính được đối chiếu riêng. Phép thử này đo khả năng phân biệt nội dung yêu cầu; chất lượng tìm địa điểm và khả năng đoán ý định từ tuyến đi là hai câu hỏi khác.
+
 \input{generated/s7}
 
 Cả 1.056 streams đều có wire bằng nhau, tương ứng 25.344 counterfactuals. Với prior cân bằng,
@@ -124,11 +122,7 @@ V2 được chốt sau readout V1 và chọn trên SELECTION: đây là post-V1 
 \label{fig:fusion}
 \end{figure}
 
-Verifier V2 ban đầu đặt gate selected Raw-partner Hit100 phải bằng 100\% ở mọi arm. Một fusion
-estimator có tie tốt trên SELECTION chỉ đạt 98,33\% ở TransProtect* TEST; available
-\path{partner_centroid} vẫn đạt 100\%. Giữ failure gốc và dùng checker độc lập kiểm tra cả available
-control lẫn selected score. Không sửa predictions hoặc defense để thỏa gate sai. Chi tiết replay
-ở Phụ lục~\ref{app:repro}.
+Khi kênh thứ hai cung cấp GPS thật, người quan sát có thể lấy trực tiếp tâm các tọa độ trên kênh này và đạt Hit100 bằng 100\%. Ở TransProtect*, một bộ ước lượng kết hợp đồng hạng trên tập lựa chọn được chọn để đánh giá và chỉ đạt 98,33\% trên tập kiểm tra. Hai con số trả lời hai câu hỏi khác nhau: thông tin công khai cho phép làm tốt đến đâu với phép đọc trực tiếp, và mô hình được chọn trước đạt bao nhiêu trên dữ liệu kiểm tra. Phụ lục~\ref{app:repro} giải thích cách đối chiếu hai phép đo.
 
 \subsection{Tổng hợp mức hoàn thành theo scenario}
 \begin{longtable}{@{}P{1cm}P{5.0cm}P{9.4cm}@{}}

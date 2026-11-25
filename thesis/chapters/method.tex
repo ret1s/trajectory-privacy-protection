@@ -89,25 +89,22 @@ Một phiên có cùng token/ledger. Restart tiếp tục phiên đó; mở nhi�
 riêng. Những giả thiết này được dùng có chọn lọc: cận Q có thể đúng dù upstream không thỏa Geo-I,
 nhưng cận không gian và minimum của hai cận cần nhánh upstream hợp lệ.
 
-\subsection{Quyền truy cập dữ liệu: thiết kế offline và thiết bị vận hành}\label{sec:data-access}
-Tính công khai của một bảng không đồng nghĩa thiết bị đã tải bảng đó, và cũng không chứng minh thiết
-bị cần tiếp tục truy vấn. Cần phân biệt ba vai trò:
+\subsection{Thiết bị biết gì về các địa điểm?}\label{sec:data-access}
+Khi đánh giá một dịch vụ tìm địa điểm, có hai câu hỏi dễ lẫn với nhau. Thiết bị biết những địa điểm nào để chọn vị trí gửi truy vấn? Sau khi truy vấn, thiết bị được dùng những địa điểm nào để trả lời người dùng?
+
 \begin{center}\small
-\begin{tabularx}{\linewidth}{@{}P{3.2cm}YY@{}}\toprule
-Vai trò & Dữ liệu được dùng & Điều cần hiểu đúng\\\midrule
-Thiết kế/evaluator offline & Catalogue đầy đủ, đồ thị và reference/reply signatures để xây policy và chấm điểm &
-Có thể dùng một thế giới tham chiếu đầy đủ, nhưng không gọi đó là metadata mà client chưa biết.\\
-Client của prototype & Public context đầy đủ được nạp để lập kế hoạch; tập ứng viên trả lời bị giới hạn bởi replies đã nhận &
-Recall đo theo hợp đồng tập đã nhận. Mã hiện tại chưa cách ly kho tham chiếu khỏi dữ liệu vận hành.\\
-LBS provider & Trả metadata theo Q và common cover request &
-Trong trial tĩnh, provider khớp public reply context; chưa đo chênh lệch với catalogue live.\\\bottomrule
+\begin{tabularx}{\linewidth}{@{}P{3.3cm}YY@{}}\toprule
+Vai trò & Thông tin có thể dùng & Mục đích\\\midrule
+Thiết kế và đánh giá & Toàn bộ danh mục địa điểm, mạng đường và phản hồi dự kiến của dịch vụ &
+Xây dựng các phương án truy vấn và tính đáp án tham chiếu tại GPS thật.\\
+Thiết bị trong mô phỏng & Danh mục đầy đủ khi lập kế hoạch; các địa điểm đã nhận khi trả lời &
+Chọn đoạn Q, sau đó lọc và xếp hạng những địa điểm mà dịch vụ thực sự trả về.\\
+Nhà cung cấp dịch vụ & Các tọa độ Q và yêu cầu truy vấn chung &
+Trả thông tin địa điểm theo danh mục cố định của thí nghiệm.\\\bottomrule
 \end{tabularx}
 \end{center}
 
-Trong factory tham chiếu, \path{core/research_release.py} nạp cả \texttt{reference} và
-\texttt{reply}, xây portfolio từ catalogue đó và gắn bộ xếp hạng lên pipeline. Vì vậy luận văn
-không giả định sai rằng prototype chỉ biết toạ độ của những POI đã nhận. Các masks trong phép đo
-quy định POI nào được phép xuất hiện trong đáp án, không phải cơ chế ngăn mã truy cập dữ liệu.
+Sự phân biệt này quyết định cách đọc Recall@5. Một nhà thuốc có thể đã nằm trong danh mục dùng để lập kế hoạch. Nếu nhà thuốc đó chưa xuất hiện trong bất kỳ phản hồi nào, thiết bị vẫn phải loại nó khi lập danh sách cho người dùng. Thí nghiệm nhờ vậy đo được những truy vấn đã gửi tìm lại được bao nhiêu địa điểm phù hợp. Để kết luận thiết bị thực sự cần hỏi máy chủ, còn phải xét nó đã có những dữ liệu nào từ trước.
 
 \begin{proposition}[Giới hạn thông tin của tác vụ catalogue tĩnh]\label{prop:offline-information}
 Nếu thiết bị đã có catalogue hiện hành đầy đủ, các trường cần cho bộ lọc/order, đồ thị cost và
@@ -239,7 +236,7 @@ $M=\lfloor C_s/u\rfloor$ là số đơn vị có thể dùng. Với $c_i\in\{0,1
 Filter dự toán nhánh đắt nhất trước private read để giữ bất đẳng thức tại mọi prefix. Công thức
 không cần biết trước độ dài route hoặc thời lượng; không hứa giữ khả năng thích nghi khi cap đã hết.
 
-Code tham chiếu dùng một cách tham số hoá cap qua $B,H_{\rm cfg}$:
+Trong cấu hình thực nghiệm, ngân sách mỗi phiên được xác định từ $B,H_{\rm cfg}$:
 \begin{equation}
 u=\frac{B}{2H_{\rm cfg}},\qquad M=2H_{\rm cfg}-1,\qquad C_s=Mu.
 \label{eq:budget-config}
@@ -352,9 +349,8 @@ $\varepsilon_{Q,1}=1/2$, ta có $\alpha=1/5$, $\mu=1/2$, nên $p=(0{,}55;0{,}45)
 không thay cho chứng minh hoặc điểm benchmark.
 
 \subsection{Ví dụ nhiều bước từ một chuyến đã lưu}
-Chọn cố định family TEST đầu theo ID, \path{cache-029}, trip/draw đầu, không chọn theo score.
-Bảng~\ref{tab:sample} hiển thị GPS tương đối so với lúc bắt đầu, Z nội bộ, Q1 và số POI unique trong
-cache. Q2--Q5 vẫn có trong packet; tọa độ trong bảng làm tròn, artifact giữ đủ precision.
+Ví dụ dùng chuyến đầu và lần lấy mẫu đầu của nhóm tuyến có mã nhỏ nhất trong tập kiểm tra. Quy tắc này chọn chuyến độc lập với kết quả bảo vệ. Bảng~\ref{tab:sample} ghi độ dời so với GPS ban đầu, điểm tham chiếu nội bộ Z và số địa điểm khác nhau đã nhận. Mỗi lần gửi gồm năm điểm Q; bảng ghi tọa độ đã làm tròn của điểm thứ nhất để người đọc theo dõi qua từng mốc.
+
 \input{generated/sample_trace}
 
 Ở 20/40 s, mô hình phát các khung còn lại mà không đọc bảo vệ GPS mới. 60/120 s tạo Z mới với tổng

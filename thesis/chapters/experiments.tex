@@ -88,17 +88,11 @@ thuộc. Vì vậy đơn vị chia tập và đơn vị lấy mẫu lại khi t�
 được nêu cho từng tác vụ. Điều có thể rút ra từ thiết kế này là sự đánh đổi trên các chuyến
 đã xây dựng. Muốn đánh giá khả năng áp dụng ở địa bàn khác cần một tập chuyến độc lập.
 
-Workload dùng mạng đường có hướng SUMO~\cite{sumo}, các phiên di chuyển native và catalogue POI công khai trong
-repository, với dữ liệu bản đồ công khai được ghi nguồn theo OSM~\cite{osm}. Mỗi phiên giữ tọa độ/trạng thái đường, timestamp và reference POI riêng để đánh giá. Các ràng buộc
-scenario xác định \emph{target/cửa sổ suy luận}; không lựa chọn lại tuyến theo điểm privacy của mô hình.
-Các family gom những chuyến liên quan để tránh rò rỉ giữa TRAIN và TEST do cùng cấu trúc nguồn.
-Nguồn \texttt{cache\_fresh\_native\_20261012\_v2} được sinh bằng SUMO bước 1 s trên mạng native đã lưu:
-đề xuất các cặp nhánh đường có đích cách ít nhất 600 m, giới hạn tuyến 4 km, kiểm tra overlap edge-set
-và cân bằng tốc độ công khai 6/8 m/s giữa các split. Lọc eligibility dựa trên geometry/calibration công khai,
-không đọc score defense. Nguồn đầy đủ có 48 family, 384 native trips tám ngày và 249.984 FCD fixes; mỗi native trip có 651 fixes.
-Mạng native được biên dịch từ geometry đã lưu, không được gọi là bản sao chính xác mọi lane/intersection của mạng Beijing nguồn.
-Trial hiện tại dùng hai phiên ngày 7/8 của mỗi family, giữ cửa sổ 600 s và stop cuối;
-không sinh cohort mới hoặc sửa sample. Source generator và hashes đi kèm artifact nguồn.
+Các chuyến đi được mô phỏng bằng SUMO~\cite{sumo}, với bước thời gian một giây trên mạng đường có hướng dựng từ hình học bản đồ đã lưu. Nguồn bản đồ là OpenStreetMap~\cite{osm}. Mạng mô phỏng giữ hình dạng đường ở khu vực nghiên cứu tại Bắc Kinh; mức độ trùng khớp của từng làn và nút giao với thực địa chưa được xác nhận. Ở mỗi thời điểm, bộ dữ liệu ghi vị trí, trạng thái trên đường và thời gian. Đáp án tìm địa điểm tại GPS thật được giữ riêng để chấm chất lượng dịch vụ.
+
+Để có những chuyến giống nhau ở đoạn đầu nhưng khác nhau về sau, quá trình tạo dữ liệu chọn các cặp nhánh có đích cách nhau ít nhất 600 m, giới hạn chiều dài tuyến ở 4 km và kiểm tra phần đường trùng nhau. Các chuyến có liên hệ được xếp cùng một nhóm tuyến trước khi chia tập. Hai mức tốc độ 6 và 8 m/s được cân bằng giữa các tập. Tiêu chí chọn tuyến dựa trên hình học và các điều kiện hiệu chỉnh đã định trước. Vì vậy, điểm riêng tư của phương pháp không ảnh hưởng đến việc một chuyến được đưa vào đánh giá.
+
+Bộ dữ liệu gồm 48 nhóm tuyến với 384 chuyến trong tám ngày. Mỗi chuyến có 651 lần ghi vị trí, tổng cộng 249.984 quan sát. Thí nghiệm chính dùng hai chuyến của mỗi nhóm ở ngày thứ bảy và thứ tám, xét cửa sổ 600 s có điểm dừng cuối chuyến.
 
 \noindent\begin{tabularx}{\linewidth}{@{}P{4.2cm}Y@{}}\toprule
 \textbf{Thành phần} & \textbf{Thiết lập}\\\midrule
@@ -135,19 +129,11 @@ Fake-query insertion* & Tập real/dummy + fake packets & K5; tối đa hai fake
 Giữ những cơ chế có thể audit; thay predictor/data được công bố rõ. Không ép các epsilon hoặc K khác bản chất
 thành ``cùng mức privacy''. AnotherMe offline và DLS/RDG lịch sử không là đối chứng online gần đây.
 
-\textbf{Attacker bank.} Cùng họ geometry/history, \textbf{ExtraTrees (64 trees)}~\cite{extratrees}, \textbf{kNN-1/kNN-5} và prior;
-endpoint thêm ordered/geometry-linked sequences. Fit trên TRAIN, chọn riêng từng method/scenario/loss trên
-SELECTION bằng mean+SE cho MAE hoặc mean$-$SE cho Hit, rồi đánh giá TEST. Đây là attacker kiểm thử của ta,
-không phải tuyên bố lấy nguyên attacker của paper. Feature API chỉ nhận coordinates/timestamps;
-không nhận Z nội bộ của proposed, belief, cờ real/fake, khóa hay chỉ mục evaluator.
-Đối với GeoI-BQ, selector chính thực tế chọn \textbf{centroid} cho Hit100 ở cả năm scenarios; MAE
-S1--S3 chọn \textbf{shadow\_prior\_median}, endpoint chọn \textbf{geometry\_nearest\_prior\_median}.
-Vì vậy, dù bank có mô hình học mạnh hơn, readout này chưa chứng minh một attacker gần Bayes-optimal đã thất bại.
-Danh sách 30 lựa chọn thực tế được giữ ở Phụ lục~\ref{app:main-ci}.
+\textbf{Người quan sát ước lượng vị trí như thế nào?} Thí nghiệm xét các cách ước lượng từ hình học và lịch sử di chuyển, hồi quy bằng \textbf{Extra Trees} (64 cây)~\cite{extratrees}, hồi quy bằng \textbf{k láng giềng gần nhất} ($k=1$ hoặc $5$) và dự đoán theo phân phối tiên nghiệm. Để ước lượng điểm đầu hoặc cuối, người quan sát còn có thể nối các điểm giữa hai lần gửi theo thứ tự công bố hoặc theo khoảng cách hình học. Họ thấy tọa độ và thời điểm gửi. Điểm Z nội bộ, phân phối vị trí trên thiết bị và nhãn phân biệt điểm thật với điểm giả được giữ kín.
 
-Public clock đã biết nên fake timing không được xem là bí mật. S3 tái dựng tại đúng timestamp GPS;
-fake packets bổ sung vẫn ở trong observation window và cost.
+Các mô hình được huấn luyện trên TRAIN. Với mỗi cặp phương pháp và kịch bản, tập SELECTION dùng để chọn mô hình có MAE trung bình cộng một sai số chuẩn thấp nhất, hoặc Hit100 trung bình trừ một sai số chuẩn cao nhất. Sau bước đó mới đánh giá trên TEST. Với GeoI-BQ, cả năm kịch bản đều chọn trọng tâm các tọa độ cho Hit100. Với MAE, cả hai nhóm mô hình được chọn đều dự đoán trung vị vị trí học từ dữ liệu huấn luyện: S1--S3 dùng bộ ước lượng chung, còn S9--S10 chọn bộ ước lượng này trong nhóm ghép điểm theo hình học. Kết quả cho thấy những phép suy luận đã thử làm được đến đâu; một người quan sát có thông tin ban đầu tốt hơn vẫn có thể đoán chính xác hơn. Phụ lục~\ref{app:main-ci} ghi đủ 30 lựa chọn.
 
+Lịch gửi được xem là công khai. Ở S3, vị trí được chấm tại đúng thời điểm ghi GPS. Các truy vấn giả gửi xen giữa vẫn thuộc chuỗi người quan sát nhìn thấy và vẫn được tính vào chi phí.
 
 \section{Kết quả chính}
 \subsection{Kết quả định vị theo kịch bản}\label{sec:main-privacy}

@@ -110,7 +110,7 @@ biến ngoài action, tower property cho
 Lặp lại từ $L_0=1$. Vì $\E_W L_n=1$, Cauchy--Schwarz cho
 $\TV(P_n,W_n)=\frac12\E_W|L_n-1|\le\frac12\sqrt{\E_WL_n^2-1}$.
 Bất đẳng thức cho $h\in[0,1]$ là tính chất của TV. Phần đuôi của tích vô hạn được chặn bằng tổng
-hội tụ của $\alpha_j^2/4$; receipt hữu tỷ xác nhận cận làm tròn ra ngoài 0,0553.
+hội tụ của $\alpha_j^2/4$; tính bằng phân số rồi làm tròn lên cho cận trên 0,0553.
 \end{proof}
 
 Có thể chọn $h$ là Recall trung bình phiên, Recall của một purpose, hoặc tỷ lệ đáp án trong một
@@ -185,9 +185,7 @@ chưa được chứng nhận, nên giữ nguyên trạng thái chưa biết. T�
 Định lý~\ref{thm:utility-session} là cận \emph{sai khác so matched public base}, không cung cấp một
 mức Recall tuyệt đối nếu utility của base chưa được bảo đảm.
 
-Các phép tính dùng phân số chính xác trong \path{evaluation/argument_bounds_20261116.py}, gồm
-cả phản ví dụ gain actual âm. Oracle hữu hạn kiểm tra ví dụ/đại số, không thay thế chứng minh tổng
-quát, không chạy lại defense và không nâng cấp calibration thực địa thành giả thiết đã chứng nhận.
+Các giá trị trong ví dụ được tính bằng phân số chính xác. Cũng có thể chọn một ví dụ mà điểm dùng để lập kế hoạch tăng nhưng chất lượng truy hồi thực tế giảm. Vì vậy, muốn dùng cận này cho một dịch vụ cụ thể, cần đo sai số giữa điểm dự kiến và kết quả người dùng nhận được.
 
 \subsection{S7: request giữ tại local và điều không được suy rộng}
 Nếu đổi $\psi$ nhưng giữ GPS, context, randomness, Q và provider law như nhau, request wrapper
@@ -204,11 +202,11 @@ giao diện có điều kiện này.
 \toprule Kết quả & Giả thiết thiết yếu & Cơ chế/kiểm chứng và phạm vi\\\midrule\endhead
 \bottomrule\endfoot
 REM, MĐ~\ref{prop:rem} & Miền chung; metric; sampler lý tưởng &
-\path{benchmark/engines/budgeted.py}; oracle nhỏ kiểm tra tỷ số. Float implementation chưa là pure-Geo-I certificate.\\
+Liệt kê các đầu ra trên mạng đường nhỏ và kiểm tra tỷ số xác suất. Phép lấy mẫu bằng số dấu phẩy động chưa có bảo đảm Geo-I thuần túy cho mọi đầu vào.\\
 Reuse/cap, MĐ~\ref{prop:reuse} & Test riêng tư; dự toán trước GPS; restore đầy đủ &
 Noisy reuse và ledger upstream; kiểm tra mọi prefix/nhánh trên graph nhỏ. Full upstream restart cần caller bảo đảm.\\
 Đoạn Q, MĐ~\ref{prop:q} & Common library/masses; score chặn; bit đều mới &
-\path{benchmark/finite_query_kernel.py}; integer weights, support/path checks. PRNG mô phỏng không thay chứng chỉ randomness.\\
+Dùng trọng số nguyên để lấy mẫu. Kiểm tra tập đoạn Q chung và khả năng đi tiếp trên mạng đường. Mô phỏng dùng bộ sinh số giả ngẫu nhiên; định lý giả thiết nguồn bit đều.\\
 Hit theo prior, HQ~\ref{cor:hit-prior} & Prior/side information hợp lệ; channel cùng context &
 Cận estimator bất kỳ và trung bình nhiều ticks. Độ tập trung prior thực chưa được chứng nhận.\\
 Joint channels, HQ~\ref{cor:joint-channels} & Cận đúng tại mọi conditional prefix; randomness phù hợp &
@@ -220,7 +218,7 @@ Score/centered kernel; kiểm tra đại số. Gain score không được đổi
 Cache, MĐ~\ref{prop:cache} & Metadata hợp lệ; cùng GPS/request/order &
 Union/ID-dedup và local ranking; replay reply masks. Không áp cho metadata hết hạn/thiếu trường.\\
 Utility phiên, ĐL~\ref{thm:utility-session} & Matched base và cùng conditional laws &
-Receipt TV/tích vô hạn; $\Gamma=0$ ablation hỗ trợ. Không so mọi paper bằng cận này.\\
+Cận khoảng cách biến phân được tính từ tích vô hạn; $\Gamma=0$ ablation hỗ trợ. Không so mọi paper bằng cận này.\\
 Floor actual, \eqref{eq:floor-transfer} & Sai số có điều kiện và replies đúng signatures &
 Public table certificate tách conditional transfer. Sai số thực địa chưa được chứng nhận.\\
 \end{longtable}\endgroup
