@@ -3,7 +3,7 @@
 Bản chính: [PDF](../artifacts/reports/graduation_thesis.pdf), [LaTeX](main.tex).
 Nội dung theo năm chương đã chốt; các báo cáo cũ còn nguyên.
 
-Trước khi nộp, đọc và xác nhận lời cam đoan, sau đó chỉnh [lời cảm ơn](chapters/frontmatter.tex) theo trải nghiệm hướng dẫn của chính bạn.
+Trước khi nộp, đọc và xác nhận lời cam đoan, sau đó chỉnh [đoạn cảm ơn cuối Lời tựa](chapters/frontmatter.tex) theo trải nghiệm hướng dẫn của chính bạn.
 
 ## Tự biên tập theo từng chương
 

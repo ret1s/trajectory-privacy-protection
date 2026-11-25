@@ -2,6 +2,22 @@
 \input{chapters/cover}
 \frontmatter
 \hypersetup{pageanchor=true}
+\prelimheading{Lời tựa}
+Khi tìm một nhà thuốc trên bản đồ, tôi quan tâm đến việc có thể ghé nơi nào thuận đường.
+Nhìn từ phía nhà cung cấp dịch vụ, cùng lượt tìm kiếm ấy lại cho biết một điều khác:
+người dùng có thể đang ở đâu. Nếu các lần tìm kiếm được lưu lại theo thứ tự, liệu một
+người chỉ nhìn thấy những vị trí đã làm mờ vẫn có thể đoán được đường đi và những nơi
+người dùng thường lui tới? Câu hỏi ấy là điểm xuất phát của luận văn này.
+
+Tôi tiếp cận bài toán từ phía người quan sát. Với mỗi tình huống, tôi xác định điều họ
+muốn suy ra, phần hành trình họ được phép nhìn thấy và dữ liệu có thể dùng để kiểm tra
+phỏng đoán. Cách đặt câu hỏi đó cũng giúp tôi nhìn lại phía người dùng: sau khi bảo vệ
+quỹ đạo, điện thoại còn tìm được những địa điểm phù hợp với nhu cầu ban đầu hay không?
+
+Tôi xin cảm ơn thầy Phan Trọng Nhân đã hướng dẫn tôi trong quá trình thực hiện luận văn.
+Những trao đổi với thầy về cách so sánh các phương pháp và cách đánh giá chất lượng
+dịch vụ đã giúp tôi xác định rõ hơn câu hỏi nghiên cứu và phạm vi của từng kết luận.
+
 \prelimheading{Lời cam đoan}
 Tôi chịu trách nhiệm về nội dung luận văn và cách trình bày các kết quả nghiên cứu
 trong bản nộp. Các ý tưởng kế thừa, dữ liệu sử dụng và phương pháp đối chứng được
@@ -9,11 +25,6 @@ dẫn nguồn trong luận văn. Đối với các phương pháp được đi�
 trình bày rõ phần điều chỉnh và phạm vi diễn giải kết quả.
 \par\vspace{1.5cm}
 \hfill\begin{tabular}{c}Học viên\\[1.6cm]Ngô Minh Hạnh\end{tabular}
-
-\prelimheading{Lời cảm ơn}
-Tôi xin cảm ơn thầy Phan Trọng Nhân đã hướng dẫn tôi trong quá trình thực hiện luận văn.
-Những trao đổi với thầy về cách so sánh các phương pháp và cách đánh giá chất lượng
-dịch vụ đã giúp tôi xác định rõ hơn câu hỏi nghiên cứu và phạm vi của từng kết luận.
 
 \prelimheading{Tóm tắt}
 Khi một người dùng tìm địa điểm nhiều lần trên đường đi, nhà cung cấp có thể kết hợp tọa độ,
@@ -45,39 +56,6 @@ và các mô hình suy luận đã đánh giá.
 
 \noindent\textbf{Từ khóa:} riêng tư quỹ đạo, geo-indistinguishability, mạng đường,
 truy vấn liên tục, địa điểm, hợp thành xác suất.
-
-\prelimheading{Abstract}
-Location-based services require spatial information to answer user requests, while a provider may
-aggregate repeated queries to infer locations and trajectories. A guarantee for a single release is
-insufficient to characterize the disclosure of a complete interaction. Comparisons are further
-complicated by heterogeneous output contracts, datasets, adversaries and utility measurements.
-
-This thesis specifies GeoI-BQ v1, a Geo-indistinguishability-based client-side mechanism. A road
-exponential mechanism and a private reuse test maintain a protected anchor. An approximate belief
-guides a bounded distribution over road-feasible query segments. Each segment jointly commits three
-frames, while actual request filtering and POI ranking remain local. Four privacy propositions yield
-a conditional end-to-end transcript bound. Utility analysis distinguishes planning-score gains,
-cache/ranking properties, matched-public-base comparisons and conditions for transfer to actual
-service quality. Ideal kernels, numerical implementation and trusted state restoration are explicitly
-distinguished.
-
-A controlled study compares three audited paper adaptations, Raw GPS and direct REM-anchor release
-on the same previously inspected 48-family synthetic cohort. Attacks are trained and selected on
-separate splits, with grouped confidence intervals. GeoI-BQ achieves 99.595\% macro session Recall@5
-with a 95\% interval of [99.224; 99.903]\%, approximately 0.4 percentage points below the adaptations,
-and lower localization Hit100 in the tested attack bank. It issues 155 coordinate queries per
-600-second session. Supplementary tasks cover route-family session association, causal two-choice
-forecasting, conditional payload identifiability and aligned correlated-channel observations.
-Results retain weak positive controls and stronger fusion attacks rather than claiming universal
-scenario coverage. The contributions are a scoped full-transcript mechanism and analysis, and a
-reproducible privacy--utility--cost evaluation; they do not certify the prototype as a complete
-deployment or establish real-person/vehicle anonymity.
-
-Additional corollaries connect the transcript bound to arbitrary-estimator localization through
-prior concentration and to conditional multi-channel composition. Exact finite examples clarify
-utility transfer. The prototype uses a complete public reference matching its static provider;
-its received-candidate evaluation does not establish the necessity of online queries when that
-catalogue is already locally available, or service quality after the Geo-I cap prevents new reads.
 
 \clearpage
 \begingroup\small\setstretch{1.05}\setlength{\parskip}{0pt}\tableofcontents\endgroup
