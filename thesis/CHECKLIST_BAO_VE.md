@@ -1,5 +1,7 @@
 # Checklist ôn và bảo vệ luận văn GeoI-BQ
 
+**Bắt đầu ôn từ ngày 26/11** với [bản review luận văn, lộ trình và bộ câu hỏi theo chủ đề](on_tap/README.md). Dùng các ô bên dưới để ghi tiến độ.
+
 **Hạn nộp 14/12/2026. Mục tiêu đến hết ngày 14 là 32/40 việc (80%). Tám việc đào sâu còn lại dành cho 15–20/12.** Nếu buổi bảo vệ diễn ra một đến hai tuần sau ngày nộp, khoảng dự kiến là 21–28/12; cập nhật khi có lịch chính thức. Phần cốt lõi đã gồm một buổi bảo vệ thử để bạn sẵn sàng ngay cả khi lịch đến sớm.
 
 **Cách đánh dấu.** Với một mục kiến thức, đóng tài liệu, nói thành tiếng trong 60–90 giây, rồi mở lại đúng hình, bảng hoặc mệnh đề để kiểm tra. Chỉ tích khi bạn tự giải thích được *vì sao* và trả lời được một câu hỏi nối tiếp. Với mục vẽ, tính, tập nói hoặc nộp, đánh dấu khi đã làm ra sản phẩm ghi trong dòng đó. Mỗi ô tính một việc; tỷ lệ này đo tiến độ ôn tập, thời gian cho từng việc có thể khác nhau.
